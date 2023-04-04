@@ -1,0 +1,16 @@
+<SCRIPT LANGUAGE="VBScript" RUNAT="Server">
+Sub Application_OnStart
+End Sub
+
+Sub Application_OnEnd
+
+End Sub
+
+Sub Session_OnStart
+	Application("db") = "Provider=SQLOLEDB;SERVER=gisarangbang.krei.co.kr;Uid=sarangbang;Pwd=ruddls-5496472;Database=sarangbang;network library="
+	Application("db") = "Provider=SQLOLEDB;SERVER=localhost;Uid=sarangbang;Pwd=ruddls-5496472;Database=sarangbang;network library="
+End Sub
+
+Sub Session_OnEnd
+End Sub
+</SCRIPT>

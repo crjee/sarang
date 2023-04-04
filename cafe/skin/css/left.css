@@ -1,0 +1,654 @@
+
+
+#Left {
+	position:relative;
+	float:left;
+	width:180px;
+}
+
+#Left li{
+	position:relative;
+	float:left;
+}
+
+#Left li.shortcut{
+	position:relative;
+	float:left;
+	margin-top:10px;
+}
+
+#Left li.leftlink{
+	position:relative;
+	float:left;
+	margin-top:5px;
+}
+
+#Left li.leftbanner{
+	position:relative;
+	float:left;
+	margin-top:3px;
+	margin-left:22px;
+}
+
+/*mono_01 menu*/
+#LeftInfo {
+	float:left;
+	text-align:center;
+	border:2px solid #c9c7c7;
+	border-radius:6px;
+}
+
+#LeftInfo li{
+	float:left;
+	width:176px;
+}
+
+#LeftInfo li.top{
+	float:left;
+	height:8px;
+	background:url(/cafe/skin/img/left/box_top.png) no-repeat;
+}
+
+#LeftInfo li.bottom{
+	float:left;
+	height:8px;
+	background:url(/cafe/skin/img/left/box_bottom.png) no-repeat;
+}
+
+#infobox{
+	float:left;
+	position:relative;
+	margin:0;
+	width:176px;
+}
+
+#infobox ul{
+	
+}
+
+#infobox li{
+	position:relative;
+	float:left;
+	height:34px;
+	border-bottom:1px solid #dadada;	
+	background:none;
+	padding:0 9px;
+	font-size:11px;
+	text-align:left;
+	font-weight:bold;
+	line-height:30px;
+}
+
+#infobox li.blank{
+	position:relative;
+	float:left;
+	width:154px;
+	height:58px;
+	border-bottom:1px solid #dadada;	
+	background:none;
+	padding:0 9px;
+	font-size:11px;
+	text-align:left;
+	font-weight:nomal;
+	display:inline;
+	overflow:hidden;
+}
+
+#infobox li.blank #twoline{
+	position:relative;
+	height:31px;
+	background:none;
+	font-size:11px;
+	font-weight:normal;
+	text-align:center;
+	display:inline;
+}
+
+#infobox li.blank #twoline ul{
+	clear:both;
+	margin:0;
+	padding:0;
+}
+
+#infobox li.blank #twoline li{
+	position:relative;
+	width:59px;
+	border:none;
+	margin:0 auto;
+	text-align:center;
+	line-height:20px;
+	margin:10px 0;
+	font-weight:inherit !important;
+	color:#a3a3a3;
+}
+
+#infobox li.message{
+	position:relative;
+	float:left;
+	width:154px;
+	padding:0 9px;
+	font-size:11px;
+	text-align:left;
+	font-weight:inherit !important;
+	color:#a3a3a3;
+	border:none!important;
+	line-height:30px;
+}
+
+#infobox li.btn{
+	position:relative;
+	float:left;
+	width:154px;
+	background:none;
+	border:none!important;
+	padding:0 9px 10px 9px;
+}
+
+#LeftList {
+	position:relative;
+	float:left;
+	margin-top:10px;
+	text-align:center;
+	border:2px solid #c9c7c7;
+	border-radius:6px;
+}
+
+#LeftList li{
+	float:left;
+	width:176px;
+	float:left;
+	font-size:14px;
+/*	color:#666666;*/
+	color:#000;
+}
+
+#LeftList li.top{
+	float:left;
+	height:5px;
+	background:url(/cafe/skin/img/left/listbox_top.png) no-repeat;
+}
+
+#LeftList li.bottom{
+	float:left;
+	height:10px;
+	background:url(/cafe/skin/img/left/listbox_bottom.png) no-repeat;
+}
+
+#LeftListBox {
+	position:relative;
+	float:left;
+	text-align:center;
+	width:178px;
+	margin-left:1px;
+}
+
+#LeftListBox li{
+	position:relative;
+	float:left;
+	height:21px;
+/*	width:140px; */
+	width:131px;
+	font-size:14px;
+	text-align:left;
+	line-height:20px;
+	padding-left:38px;
+	background:url(/cafe/skin/img/left/ico_01.png) left no-repeat;
+	cursor:pointer;
+}
+
+#LeftListBox li:hover{
+	background:url(/cafe/skin/img/left/ico_01.png) left no-repeat #ebebeb;
+	line-height:20px;
+}
+
+#LeftListBox li.title01{
+	position:relative;
+	float:left;
+	height:28px;
+	width:154px;
+	font-size:14px;
+	text-align:left;
+	font-weight:bold;
+	line-height:28px;
+	margin-bottom:10px;
+	margin-left:4px;
+	margin-top:6px;
+	padding-left:10px;
+	background:#c9c7c7;
+	border:1px solid #c9c7c7;
+	border-radius:4px;
+}
+
+#LeftListBox li.title02{
+	position:relative;
+	float:left;
+	height:28px;
+	width:154px;
+	font-size:14px;
+	text-align:left;
+	font-weight:bold;
+	line-height:30px;
+	margin:10px 0 10px 4px;
+	padding-left:10px;
+	background:#c9c7c7;
+	border:1px solid #c9c7c7;
+	border-radius:4px;
+}
+
+#LeftListBox li.line{
+	position:relative;
+	float:left;
+	height:1px;
+	width:140px;
+	margin:5px 0;
+	background:none;
+	border-bottom:1px solid #f1f1f1;
+}
+
+/* momo2 menu */
+#LeftInfo2 {
+	float:left;
+	text-align:center;
+	border:2px solid #c9c7c7;
+	border-radius:6px;
+}
+
+#LeftInfo2 li{
+	float:left;
+	width:176px;
+	display:inline;
+}
+
+#infobox2{
+	clear:both
+	float:left;
+	position:relative;
+}
+
+#infobox2 ul{
+	
+}
+
+#infobox2 li{
+	float:left;
+	height:34px;
+	width:160px;
+	border-bottom:1px solid #dadada;	
+	background:none;
+	padding:0 9px;
+	font-size:11px;
+	text-align:left;
+	font-weight:bold;
+	line-height:30px;
+}
+
+#infobox2 li.blank{
+	float:left;
+	width:160px;
+	height:58px;
+	border-bottom:1px solid #dadada;	
+	background:none;
+	padding:0 9px;
+	font-size:11px;
+	text-align:left;
+	font-weight:nomal;
+	display:inline;
+	overflow:hidden;
+}
+
+#infobox2 li.blank #twoline{
+	clear:both;
+	height:31px;
+	background:none;
+	font-size:11px;
+	font-weight:normal;
+	text-align:center;
+	display:inline;
+}
+
+#infobox2 li.blank #twoline ul{
+	clear:both;
+	margin:0;
+	padding:0;
+}
+
+#infobox2 li.blank #twoline li{
+	width:59px;
+	border:none;
+	margin:0 auto;
+	text-align:center;
+	line-height:20px;
+	margin:10px 0;
+	font-weight:inherit !important;
+}
+
+#infobox2 li.message{
+	clear:both;
+	float:left;
+	width:154px;
+	padding:0 9px;
+	font-size:11px;
+	text-align:left;
+	font-weight:inherit !important;
+	border:none!important;
+	line-height:30px;
+}
+
+#infobox2 li.btn{
+	position:relative;
+	float:left;
+	width:154px;
+	background:none;
+	border:none!important;
+	padding:0 9px 10px 9px;
+}
+
+#LeftList2 {
+	position:relative;
+	float:left;
+	width:176px;
+	margin-top:10px;
+	text-align:center;
+	border:2px solid #c9c7c7;
+	border-radius:6px;
+}
+
+#LeftList2 li{
+	float:left;
+	width:180px;
+	float:left;
+	font-size:14px;
+}
+
+#LeftListBox2 {
+	position:relative;
+	float:left;
+	width:178px;
+	text-align:center;
+}
+
+#LeftListBox2 li{
+	position:relative;
+	float:left;
+/*	width:139px; */
+	width:130px;
+	height:21px;
+	font-size:14px;
+	text-align:left;
+	line-height:20px;
+	padding-left:38px;
+	background:url(/cafe/skin/img/left/ico_01.png) left no-repeat;
+	cursor:pointer;
+}
+
+#LeftListBox2 li:link{
+	line-height:20px;
+}
+
+#LeftListBox2 li:hover{
+	background:url(/cafe/skin/img/left/ico_01.png) left no-repeat #ebebeb;
+	line-height:20px;
+}
+
+#LeftListBox2 li:active{
+	line-height:20px;
+}
+
+#LeftListBox li:visited{
+	line-height:20px;
+}
+
+#LeftListBox2 li.title01{
+	position:relative;
+	float:left;
+	height:30px;
+	width:166px;
+	font-size:14px;
+	text-align:left;
+	font-weight:bold;
+	line-height:28px;
+	margin-bottom:10px;
+	padding-left:10px;
+	background:#e9e9e9;
+	border-bottom:1px solid #c9c7c7;
+}
+
+#LeftListBox2 li.title02{
+	position:relative;
+	float:left;
+	height:30px;
+	width:166px;
+	font-size:14px;
+	text-align:left;
+	font-weight:bold;
+	line-height:30px;
+	margin:10px 0;
+	padding-left:10px;
+	background:#e9e9e9;
+	border-bottom:1px solid #c9c7c7;
+	border-top:1px solid #c9c7c7;
+}
+
+#LeftListBox2 li.line{
+	position:relative;
+	float:left;
+	height:1px;
+	width:140px;
+	margin:5px 0;
+	background:none;
+	border-bottom:1px solid #c9c7c7;
+}
+
+#LeftListBox2 li.blank{
+	background:none;
+	height:10px;
+}
+
+/*simple_02*/
+#LeftInfo3 {
+	float:left;
+	height:221px;
+	text-align:center;
+}
+
+#LeftInfo3 li{
+	float:left;
+	width:180px;
+	height:215px;
+	display:inline;
+}
+
+#infobox3{
+	clear:both;
+	float:left;
+	position:relative;
+	border-top:2px solid #c9c7c7;
+	border-bottom:1px solid #c9c7c7;
+}
+
+#infobox3 ul{
+	
+}
+
+#infobox3 li{
+	float:left;
+	height:34px;
+	border-bottom:1px solid #c9c7c7;	
+	background:none;
+	padding:0 9px;
+	font-size:11px;
+	text-align:left;
+	font-weight:bold;
+	line-height:30px;
+}
+
+#infobox3 li.blank{
+	float:left;
+	width:162px;
+	height:58px;
+	border-bottom:1px solid #c9c7c7;	
+	background:none;
+	padding:0 9px;
+	font-size:11px;
+	text-align:left;
+	font-weight:nomal;
+	display:inline;
+	overflow:hidden;
+}
+
+#infobox3 li.blank #twoline{
+	clear:both;
+	height:31px;
+	background:none;
+	font-size:11px;
+	font-weight:normal;
+	text-align:center;
+	display:inline;
+}
+
+#infobox3 li.blank #twoline ul{
+	clear:both;
+	margin:0;
+	padding:0;
+}
+
+#infobox3 li.blank #twoline li{
+	width:59px;
+	border:none;
+	margin:0 auto;
+	text-align:center;
+	line-height:20px;
+	margin:10px 0;
+	font-weight:inherit !important;
+}
+
+#infobox3 li.message{
+	clear:both;
+	float:left;
+	width:154px;
+	padding:0 9px;
+	font-size:11px;
+	text-align:left;
+	font-weight:inherit !important;
+	border:none!important;
+	line-height:30px;
+}
+
+#infobox3 li.btn{
+	position:relative;
+	float:left;
+	width:154px;
+	background:none;
+	border:none!important;
+	padding:0 9px 10px 9px;
+}
+
+#LeftList3 {
+	position:relative;
+	float:left;
+	width:180px;
+	margin-top:10px;
+	text-align:center;
+}
+
+#LeftList3 li{
+	float:left;
+	width:180px;
+	float:left;
+	font-size:14px;
+}
+
+#LeftListBox3 {
+	position:relative;
+	float:left;
+	width:180px;
+	text-align:center;
+	margin-left:1px;
+	border-top:1px solid #c9c7c7;
+	border-bottom:1px solid #c9c7c7;
+}
+#LeftListBox3 li{
+	position:relative;
+	float:left;
+	width:132px;
+	height:21px;
+	font-size:14px;
+	text-align:left;
+	line-height:20px;
+	padding-left:38px;
+	background:url(/cafe/skin/img/left/ico_01.png) left no-repeat;
+	cursor:pointer;
+	/*
+	position:relative;
+	padding:5px 0 5px 30px;
+	font-size:14px;
+	text-align:left;
+	background:url(/cafe/skin/img/left/ico_01.png) no-repeat -7px 5px;
+	box-sizing:border-box;
+	*/
+}
+
+#LeftListBox3 li:link{
+	line-height:20px;
+}
+
+#LeftListBox3 li:hover{
+	background:url(/cafe/skin/img/left/ico_01.png) left no-repeat #ebebeb;
+	line-height:20px;
+}
+
+#LeftListBox3 li:active{
+	line-height:20px;
+}
+
+#LeftListBox3 li:visited{
+	line-height:20px;
+}
+
+#LeftListBox3 li.title01{
+	position:relative;
+	float:left;
+	height:30px;
+	width:170px;
+	font-size:14px;
+	text-align:left;
+	font-weight:bold;
+	line-height:30px;
+	margin-bottom:10px;
+	padding-left:10px;
+	background:#e9e9e9;
+	border-top:1px solid #c9c7c7;
+	border-bottom:1px solid #c9c7c7;
+}
+
+#LeftListBox3 li.title02{
+	position:relative;
+	float:left;
+	height:30px;
+	width:170px;
+	font-size:14px;
+	text-align:left;
+	font-weight:bold;
+	line-height:30px;
+	margin:10px 0;
+	padding-left:10px;
+	background:none;
+	background:#e9e9e9;
+	border-bottom:1px solid #c9c7c7;
+	border-top:1px solid #c9c7c7;
+}
+
+#LeftListBox3 li.line{
+	position:relative;
+	float:left;
+	height:1px;
+	width:1380x;
+	margin:5px 0;
+	background:none;
+	border-bottom:1px solid #c9c7c7;
+}
+
+#LeftListBox3 li.blank{
+	background:none;
+	height:10px;
+}

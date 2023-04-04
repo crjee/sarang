@@ -1,0 +1,141 @@
+﻿<?
+include_once("./_common.php");
+include_once("./_head.php");
+
+?>
+<script language='javascript' src='/~AsaProgram/library/js/common.js'></script>
+<script language='javascript' src='/~AsaProgram/library/js/check.js'></script>
+<script language='javascript' id='getType'></script>
+<script language='javascript'>
+<!--//
+	/*
+	* 전송 시 폼 값 체크
+	*/
+	function _sendCheck(frmName)
+	{
+		var frm = eval('document.' + frmName);
+		if(isInputField(frm.LGD_BUYER,   '회원사 명를 입력해 주세요'))
+		{
+			//frm.id_pay_total_price.value = frm.price.value;
+			//alert("www= "+frm.LGD_AMOUNT.value);
+			if (frm.LGD_AMOUNT.value > 10000000)
+			{
+				alert('총 결제금액이 1천만원을 넘을 수 없습니다.');
+				return;
+			}
+			else if (frm.LGD_AMOUNT.value < 200000)
+			{
+				alert('총 결제금액 20만원 이상 입력하셔야 합니다.');
+				return;
+			}
+			frm.submit();
+		}
+	}
+
+	function selectReload(val)
+	{
+		selectService(val);
+		return;
+		document.reload_form.service_name.value = val;
+		document.reload_form.submit();
+	}
+//-->
+</script>
+
+<table border="0" cellspacing="0" cellpadding="0">
+<!-- 타이틀 -->
+<tr>
+	<td>
+		<table border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td><img src="image/title1.gif" border="0" alt=""></td>
+			<td background="image/titlebg.gif" width="598" height="40" align="right">
+				<table border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td><img src="image/home.gif" border="0" alt=""></td>
+					<td style="padding:0px 0px 0px 0px;font-size:12px;color:#4d4a46">&nbsp;&nbsp;Home > 결제하기 > <font color="#02427e"><b>카드결제</b></font></td>
+				</tr>
+				</table>
+			</td>
+		</tr>				
+		</table>
+	</td>
+</tr>
+<!-- /타이틀 -->
+<tr>
+	<td height="50"></td>
+</tr>
+<!-- 내용 -->
+<!--################################################################################-->
+<!--아래는 결제단 소스작업2012-05-23 Lee-->
+<tr><td align="center"><font>
+<a name="map_02"></a>
+<TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+<TBODY>
+<TR>
+<TD>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<IMG src="http://support.asadal.com/image//money/charge_title03.gif"></TD></TR>
+<TR>
+<TD style="LINE-HEIGHT: 120%"><!--font-->
+<OL class=style2>
+<P><STRONG><BR>신용카드는 안전한 인터넷 쇼핑을 위해 ISP, 안심클릭 등의 안전한 결제 서비스를 제공합니다.</STRONG><BR>ISP, 안심클릭 등을 통해 인증하지 않는 그 외 모든 카드는 결제 시 입력하신 카드정보를 통해 인증절차를 거치게 됩니다. <BR>(카드정보는 암호화 처리되어 안전한 거래를 보장합니다.) </P></OL></TD></TR></TBODY></TABLE>
+
+<table border="0" cellpadding="0" cellspacing="0" width="700" style="margin-top:5px">
+<tr>
+	<td width="20"></td>
+	<td width="700" align="center">
+
+		<table border="0" cellpadding="0" cellspacing="0" width="700" align='center'>
+		<tr>
+			<td align='center'>
+				<table align="center" border="0" width="700" cellpadding="0" cellspacing="3" bgcolor="#ECF4F8">
+				<tr>
+					<td align='center'>
+
+						<table align="center" border="0" width="700" cellpadding="4" cellspacing="1" bgcolor="#A9BBEF">
+						<form method='post' id="LGD_PAYINFO" name="LGD_PAYINFO" action='payreq.php'>
+						<!--상점아이디(t를 제외한 아이디)-->
+						<input type="hidden" name="CST_MID" value="gibds6472"/>
+						<!--서비스,테스트-->
+						<input type="hidden" name="CST_PLATFORM" value="service"/>
+						<!--상점 주문번호 (주문번호 생성규칙 by lee. value="gibds_<?=date('YmdHis')?>_<?=substr(microtime(),2,4)?>"-->
+						<input type="hidden" name="LGD_OID" value="gibds_<?=date('YmdHis')?>_<?=substr(microtime(),2,4)?>"/> <!--value=gibds_38947829302-->
+						<input type="hidden" name="LGD_PRODUCTINFO" value="렛츠_경인 거래정보망"/>
+						<tr bgcolor="#ffffff">
+							<td align="center" bgcolor="#EAF4FB">&nbsp;&nbsp;<font color="#5579E0"><b>회원사 명</b></font></td>
+							<td><input type=text name="LGD_BUYER" size=60 value=""/></td>
+							<td>예) 홍길동</td>
+						</tr>
+						<tr bgcolor="#ffffff">
+							<td align="center" bgcolor="#EAF4FB">&nbsp;&nbsp;<font color="#5579E0"><b>결제금액</b></font></td>
+							<td colspan="2"><input type="text" name="LGD_AMOUNT" size="15" maxlength="7" value="0" style="text-align='right'"> ※ 20만원 이상 입력, 숫자만 입력하세요.</td>
+						</tr>
+						<tr bgcolor="#ffffff" align="center">
+							<td colspan="3">
+								<a href="javascript:_sendCheck('LGD_PAYINFO');"><img src="http://support.asadal.com/image/common/s_payment_bt.gif" border="0"></a>&nbsp;
+								<a href="javascript:document.cardFrm.reset();"><img src="http://support.asadal.com/image/common/s_payment_bt2.gif" border="0"></a>
+							</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		</table>
+
+	</td>
+</tr>
+</table>
+
+<!-- 결제 모듈 END -->
+<!--################################################################################-->
+<tr>
+	<td height="150"></td>
+</tr>
+<!--내용끝-->
+<tr>
+	<td></td>
+</tr>
+<!-- /내용 -->
+</table>
+<?php include "./_tail.php";?>

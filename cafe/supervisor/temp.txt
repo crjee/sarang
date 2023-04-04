@@ -1,0 +1,1009 @@
+
+
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>회원 관리 > 관리자</title>
+	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
+	<script src="/common/js/jquery-3.6.0.min.js"></script>
+	<script src="/common/js/jquery-ui.min.js"></script>
+	<script src="/common/js/slick.min.js"></script>
+	<script src="/common/js/common.js"></script>
+</head>
+<body class="sa">
+	<div id="wrap">
+		<header id="adm_head">
+			<h1><a href="/">RETS 경인<sub>전체관리</sub></a></h1>
+		</header>
+		<nav id="adm_nav">
+			<div class="adm_person adm_person_sa">
+				<div class="adm_person_box">
+					<span>어서오세요! 관리자님</span>
+				</div>
+			</div>
+			<ul class="adm_tree_menu side_menu_alone">
+				<li><a href="/?" class="adm_tree_link">메인으로</a></li>
+				<li><a href="member_list.asp" class="adm_tree_link">회원관리</a></li>
+				<li><a href="cafe_list.asp" class="adm_tree_link">사랑방관리</a></li>
+				<li><a href="banner_list.asp" class="adm_tree_link">배너관리</a></li>
+				<li><a href="vote_manage.html" class="adm_tree_link">설문조사</a></li>
+				<li><a href="add_manage.html" class="adm_tree_link">광고/제휴문의</a></li>
+				<li><a href="post_manage.html" class="adm_tree_link">게시글중단요청</a></li>
+			</ul>
+
+		</nav>
+			<script>
+				function testCheck(){
+					var chckType = document.getElementsByName('cafe_id');
+					var j = 0;
+					for(i = 0; i < chckType.length; i++){
+						if (chckType[i].checked == true){
+							j++;
+						}
+					}
+
+					if(j == 0){
+						alert("사랑방을 선택하세요!");
+						return false;
+					}
+					return true;
+				}
+
+				function goUnion(){
+					if(!testCheck()) return;
+					var f = document.search_form;
+					f.target="ifrm"
+					f.action="cafe_union_exec.asp"
+					f.submit();
+				}
+
+				function goActivity(){
+					if(!testCheck()) return;
+					var f = document.search_form;
+					f.target="ifrm"
+					f.action="cafe_activity_exec.asp"
+					f.submit();
+				}
+
+				function setColor(i){
+					eval("tr_"+i+".style.background='#ffffcc'")
+				}
+
+				function goSearch(){
+					var f = document.search_form;
+					f.page.value = 1;
+					f.submit();
+				}
+
+				function MovePage(page){
+					var f = document.search_form;
+					f.page.value = page;
+					f.submit();
+				}
+			</script>
+		<main id="adm_body">
+			<div class="adm_page_tit">
+				<h2 class="h2">사랑방 관리</h2>
+			</div>
+			<div class="adm_cont">
+				<div class="status_box clearBoth">
+					<span class="floatL">총 사랑방 <strong class="f_weight_m f_skyblue">113</strong>개</span>
+					<span class="floatR">
+						<input type="checkbox" checked="checked" class="inp_check" /><label for="t1"><em class="hide">선택</em></label>
+						선택된 사랑방을
+						<button type="button" class="btn btn_c_s btn_s" onclick="goUnion()">연합회 변경</button>
+						<button type="button" class="btn btn_c_s btn_s" onclick="goActivity()">사랑방차단 또는 해제</button>합니다.
+					</span>
+				</div>
+				<div class="search_box clearBoth">
+				<form name="search_form" method="post">
+				<input type="hidden" name="page" value="1">
+					<div class="floatL">
+						<select name="cafe_type" class="sel w_auto">
+							<option value="all">사랑방종류</option>
+							<option value="C" >사랑방</option>
+							<option value="U" >연합회</option>
+						</select>
+						<select name="open_yn" class="sel w_auto">
+							<option value="">공개옵션</option>
+							<option value="Y" >공개</option>
+							<option value="N" >비공개</option>
+						</select>
+						<select name="sch_type" class="sel w_auto">
+							<option value="all">사랑방전체</option>
+							<option value="cf.cafe_name" >사랑방명</option>
+							<option value="cf.cafe_id" >경로</option>
+						</select>
+						<input class="inp w300p" type="text" name="sch_word" value="" onkeyDown='javascript:{if(event.keyCode==13) goSearch();}'>
+						<button class="btn btn_c_a btn_s" type="button" onclick="goSearch()">검색</button>
+					</div>
+					<div class="floatR">
+						<span class="mr5">출력수</span>
+						<select class="sel w100p" id="pagesize" name="pagesize" onchange="goSearch()">
+							<option value=""></option>
+							<option value="20" selected>20</option>
+							<option value="50" >50</option>
+							<option value="100" >100</option>
+						</select>
+					</div>
+				</form>
+				</div>
+				<div class="tb tb_form_1">
+				<form name="form" target="ifrm" method="post">
+					<table class="tb_fixed">
+						<colgroup>
+							<col class="w5" />
+							<col class="w20" />
+							<col class="w10" />
+							<col class="w10" />
+							<col class="w10" />
+							<col class="" />
+							<col class="w10" />
+							<col class="w10" />
+							<col class="w10" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col"><input type="checkbox" id="" name="" class="inp_check" /><label for=""><em class="hide">전체선택</em></label></th>
+								<th scope="col">사랑방명</th>
+								<th scope="col">사랑방아이디</th>
+								<th scope="col">사랑방지기</th>
+								<th scope="col">회원수</th>
+								<th scope="col">연합회</th>
+								<th scope="col">개설일</th>
+								<th scope="col">상태</th>
+								<th scope="col">외부미노출</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<tr id="tr_1">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_kagong" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_kagong">가부회</a></td>
+								<td class="algC">ic_kagong</td>
+								<td class="algC">
+
+										&nbsp;최인호
+								</td>
+								<td class="algC">23</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_kagong" value="">
+
+									<select id="union_id_ic_kagong" name="union_id_ic_kagong" class="sel w_auto" onchange="setColor('1')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" >김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2008-01-09</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_2">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_galsan" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_galsan">갈산회</a></td>
+								<td class="algC">ic_galsan</td>
+								<td class="algC">
+
+										&nbsp;김성용
+								</td>
+								<td class="algC">16</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_galsan" value="">
+
+									<select id="union_id_ic_galsan" name="union_id_ic_galsan" class="sel w_auto" onchange="setColor('2')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" >김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2009-03-11</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_3">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="kp_geolpo" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=kp_geolpo">걸포회</a></td>
+								<td class="algC">kp_geolpo</td>
+								<td class="algC">
+
+										&nbsp;양아진
+										&nbsp;이명춘
+										&nbsp;이성은
+										&nbsp;조영숙
+								</td>
+								<td class="algC">32</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_kp_geolpo" value="">
+
+									<select id="union_id_kp_geolpo" name="union_id_kp_geolpo" class="sel w_auto" onchange="setColor('3')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" >김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2021-11-10</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_4">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_keumdanara" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_keumdanara">검단신도시아라회</a></td>
+								<td class="algC">ic_keumdanara</td>
+								<td class="algC">
+
+										&nbsp;진우영
+								</td>
+								<td class="algC">156</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_keumdanara" value="">
+
+									<select id="union_id_ic_keumdanara" name="union_id_ic_keumdanara" class="sel w_auto" onchange="setColor('4')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" >김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2021-07-14</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_5">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_saebitkdwd" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_saebitkdwd">검단신도시원당회</a></td>
+								<td class="algC">ic_saebitkdwd</td>
+								<td class="algC">
+
+										&nbsp;김지선
+										&nbsp;오경희
+										&nbsp;조상묵
+								</td>
+								<td class="algC">24</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_saebitkdwd" value="">
+
+									<select id="union_id_ic_saebitkdwd" name="union_id_ic_saebitkdwd" class="sel w_auto" onchange="setColor('5')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" >김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2015-11-17</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_6">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_uwondang" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_uwondang">검단신도시회</a></td>
+								<td class="algC">ic_uwondang</td>
+								<td class="algC">
+
+										&nbsp;신철옥
+								</td>
+								<td class="algC">5</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_uwondang" value="">
+
+									<select id="union_id_ic_uwondang" name="union_id_ic_uwondang" class="sel w_auto" onchange="setColor('6')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" >김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2008-10-14</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_7">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_keumdansa" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_keumdansa">검단중앙회</a></td>
+								<td class="algC">ic_keumdansa</td>
+								<td class="algC">
+
+								</td>
+								<td class="algC">0</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_keumdansa" value="">
+
+									<select id="union_id_ic_keumdansa" name="union_id_ic_keumdansa" class="sel w_auto" onchange="setColor('7')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" >김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2008-09-30</td>
+								<td class="algC">
+<font color='red'>차단</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_8">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="kimpo" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=kimpo">검단회</a></td>
+								<td class="algC">kimpo</td>
+								<td class="algC">
+
+										&nbsp;양근식
+										&nbsp;정명숙
+										&nbsp;조은서
+								</td>
+								<td class="algC">40</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_kimpo" value="">
+
+									<select id="union_id_kimpo" name="union_id_kimpo" class="sel w_auto" onchange="setColor('8')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" >김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2003-09-17</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_9">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_keumam" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_keumam">검암회</a></td>
+								<td class="algC">ic_keumam</td>
+								<td class="algC">
+
+										&nbsp;고은주
+										&nbsp;홍연수
+								</td>
+								<td class="algC">12</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_keumam" value="">
+
+									<select id="union_id_ic_keumam" name="union_id_ic_keumam" class="sel w_auto" onchange="setColor('9')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" >김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2008-12-23</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_10">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_bumbak" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_bumbak">경기기본</a></td>
+								<td class="algC">ic_bumbak</td>
+								<td class="algC">
+
+								</td>
+								<td class="algC">0</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_bumbak" value="">
+
+									<select id="union_id_ic_bumbak" name="union_id_ic_bumbak" class="sel w_auto" onchange="setColor('10')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" >김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2015-11-17</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_11">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_gyegong4u" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_gyegong4u">계공4U</a></td>
+								<td class="algC">ic_gyegong4u</td>
+								<td class="algC">
+
+								</td>
+								<td class="algC">24</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_gyegong4u" value="">
+
+									<select id="union_id_ic_gyegong4u" name="union_id_ic_gyegong4u" class="sel w_auto" onchange="setColor('11')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" >김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2017-05-23</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_12">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_gyeyang" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_gyeyang">계양구</a></td>
+								<td class="algC">ic_gyeyang</td>
+								<td class="algC">
+
+								</td>
+								<td class="algC">0</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_gyeyang" value="">
+
+									<select id="union_id_ic_gyeyang" name="union_id_ic_gyeyang" class="sel w_auto" onchange="setColor('12')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" >김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2008-05-09</td>
+								<td class="algC">
+<font color='red'>차단</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_13">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_gojungyeon" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_gojungyeon">고중연</a></td>
+								<td class="algC">ic_gojungyeon</td>
+								<td class="algC">
+
+								</td>
+								<td class="algC">0</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_gojungyeon" value="">
+
+									<select id="union_id_ic_gojungyeon" name="union_id_ic_gojungyeon" class="sel w_auto" onchange="setColor('13')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" >김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2013-07-18</td>
+								<td class="algC">
+<font color='red'>차단</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_14">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_kochang" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_kochang">고창회</a></td>
+								<td class="algC">ic_kochang</td>
+								<td class="algC">
+
+										&nbsp;심민섭
+								</td>
+								<td class="algC">14</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_kochang" value="hankangnewcity">
+
+									<select id="union_id_ic_kochang" name="union_id_ic_kochang" class="sel w_auto" onchange="setColor('14')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" selected>한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" >김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2008-11-10</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_15">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_gochon" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_gochon">고촌회</a></td>
+								<td class="algC">ic_gochon</td>
+								<td class="algC">
+
+										&nbsp;김나경
+										&nbsp;김미경
+										&nbsp;지창열
+								</td>
+								<td class="algC">69</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_gochon" value="u_kimpojihoi">
+
+									<select id="union_id_ic_gochon" name="union_id_ic_gochon" class="sel w_auto" onchange="setColor('15')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" selected>김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2009-03-19</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_16">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_gurae" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_gurae">구래마산친목회</a></td>
+								<td class="algC">ic_gurae</td>
+								<td class="algC">
+
+										&nbsp;박영미
+										&nbsp;박희정
+										&nbsp;이봉재
+										&nbsp;조준형
+								</td>
+								<td class="algC">98</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_gurae" value="u_kimpojihoi">
+
+									<select id="union_id_ic_gurae" name="union_id_ic_gurae" class="sel w_auto" onchange="setColor('16')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" selected>김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2004-06-03</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_17">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_hangang" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_hangang">구래지구회</a></td>
+								<td class="algC">ic_hangang</td>
+								<td class="algC">
+
+								</td>
+								<td class="algC">3</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_hangang" value="u_kimpojihoi">
+
+									<select id="union_id_ic_hangang" name="union_id_ic_hangang" class="sel w_auto" onchange="setColor('17')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" selected>김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2012-11-28</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_18">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_kilju" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_kilju">길주회</a></td>
+								<td class="algC">ic_kilju</td>
+								<td class="algC">
+
+								</td>
+								<td class="algC">42</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_kilju" value="">
+
+									<select id="union_id_ic_kilju" name="union_id_ic_kilju" class="sel w_auto" onchange="setColor('18')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" >중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" >김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2008-02-15</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_19">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="u_kimpojihoi" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=u_kimpojihoi">김포시지회</a></td>
+								<td class="algC">u_kimpojihoi</td>
+								<td class="algC">
+
+								</td>
+								<td class="algC">180</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_u_kimpojihoi" value="">
+
+									<font color="blue">연합회</font>
+									<input type="hidden" name="union_id" value="">
+
+								</td>
+								<td class="algC">2009-03-25</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+							<tr id="tr_20">
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="ic_ggumyeonwha" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><a href="/cafe/main.asp?cafe_id=ic_ggumyeonwha">꿈.연화회</a></td>
+								<td class="algC">ic_ggumyeonwha</td>
+								<td class="algC">
+
+										&nbsp;이순우
+										&nbsp;이은화
+								</td>
+								<td class="algC">12</td>
+								<td class="algC">
+									<input type="hidden" name="old_union_id_ic_ggumyeonwha" value="jungdong">
+
+									<select id="union_id_ic_ggumyeonwha" name="union_id_ic_ggumyeonwha" class="sel w_auto" onchange="setColor('20')">
+
+										<option value="">연합회를 선택하세요</option>
+
+										<option value="rnavi" >부동산네비</option>
+
+										<option value="hankangnewcity" >한강신도시공인중개사연합회</option>
+
+										<option value="jungdong" selected>중동신도시부동산연합회</option>
+
+										<option value="jangunit" >장안구연합회</option>
+
+										<option value="u_kimpojihoi" >김포시지회</option>
+
+									</select>
+
+								</td>
+								<td class="algC">2009-03-11</td>
+								<td class="algC">
+<font color='blue'>정상</font>
+								</td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">노출</button></td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+실행시간1 : 0.36719 (초)<br>
+				<iframe id="ifrm" name="ifrm" style="display:none"></iframe>
+				<div class="btn_box algR">
+					<a href="#n" class="btn btn_c_a btn_n" onclick="lyp('lypp_adm_member')">사랑방개설</a>
+					<a href="#n" class="btn btn_c_n btn_n">삭제</a>
+				</div>
+				</form>
+					<div class="pagenation">
+						<button type="button" class="btn f_awesome btnPrev" onclick="Javascript:MovePage(1);"><em><<</em></button>
+
+						<button type="button" class="btn f_awesome btnPrev"><em>이전</em></button>
+<button type="button" onclick="MovePage(1);" title="1 Page" class="on">1</button><button type="button" onclick="MovePage(2);" title="2 Page" class="">2</button><button type="button" onclick="MovePage(3);" title="3 Page" class="">3</button><button type="button" onclick="MovePage(4);" title="4 Page" class="">4</button><button type="button" onclick="MovePage(5);" title="5 Page" class="">5</button><button type="button" onclick="MovePage(6);" title="6 Page" class="">6</button>
+						<button type="button" class="btn f_awesome btnNext"><em>다음</em></button>
+
+						<button type="button" class="btn f_awesome btnNext" onclick="Javascript:MovePage(6);"><em>>></em></button>
+					</div>
+
+			</div>
+		</main>
+		<footer id="adm_foot"></footer>
+	</div>
+	<!-- 사랑방 개설 : s -->
+	<script>
+		function Checkfm(f){
+			if(f.cafe_check.value=='N'){
+				alert('중복된 사랑방 아이디 입니다')
+				return false
+			}
+			if(f.skin_id.value==''){
+				alert('스킨이 선택되지 않았습니다')
+				return false
+			}
+		}
+
+		function cafe_find(cafe_id){
+			ifrm.location.href='cafe_search.asp?cafe_id='+cafe_id
+		}
+	</script>
+	<aside class="lypp lypp_adm_default lypp_adm_group">
+		<header class="lypp_head">
+			<h2 class="h2">사랑방 개설</h2>
+			<span class="posR"><button type="button" class="btn btn_close"><em>닫기</em></button></span>
+		</header>
+		<div class="adm_cont">
+			<form id="crtInfo" name="crtInfo" method="post" onSubmit="return Checkfm(this)" target="ifrm" action="cafe_write_exec.asp">
+			<div class="tb tb_form_1">
+				<table class="tb_input">
+					<colgroup>
+						<col class="w15" />
+						<col class="w35" />
+						<col class="w15" />
+						<col class="w35" />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th scope="row">사랑방 아이디</th>
+							<td colspan="3">
+								<input type="hidden" value="N" name="cafe_check">
+								<input type="text" id="cafe_id" name="cafe_id" class="inp" required onkeyup="cafe_find(this.value)">
+								<span id="msg"></span>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">사랑방 이름</th>
+							<td colspan="3">
+								<input type="text" id="" name="" class="inp w50" />
+								<span class="dp_inline ml10">한글, 영문, 숫자, 기호만 입력해 주세요.</span>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">사랑방 분류</th>
+							<td>
+								<span class="">
+									<input type="radio" id="cafe_type" name="cafe_type" value="C" class="inp_radio" required />
+									<label for="cafe_type"><em>일반</em></label>
+								</span>
+								<span class="ml10">
+									<input type="radio" id="cafe_type" name="cafe_type" value="U" class="inp_radio" required />
+									<label for=""><em>연합회</em></label>
+								</span>
+							</td>
+							<th scope="row">공개여부</th>
+							<td>
+								<span class="">
+									<input type="radio" id="open_yn" name="open_yn" value="N" class="inp_radio" required />
+									<label for=""><em>공개</em></label>
+								</span>
+								<span class="ml10">
+									<input type="radio" id="open_yn" name="open_yn" value="Y" checked class="inp_radio" required />
+									<label for=""><em>비공개</em></label>
+								</span>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">가입 방식</th>
+							<td colspan="3">
+								<span class="">
+									<input type="radio" id="reg_type" name="reg_type" value="0" checked class="inp_radio" required />
+									<label for=""><em>바로가입</em></label>
+								</span>
+								<span class="ml10">
+									<input type="radio" id="reg_type" name="reg_type" value="0" class="inp_radio" required />
+									<label for=""><em>비공개</em></label>
+								</span>
+								<span class="ml20 va_middle">비공개 사랑방은 운영진의 초대 또는 가입조건 퀴즈를 풀어야 가입할 수 있습니다.</span>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">사랑방스킨</th>
+							<td colspan="3">
+								<select id="skin_id" name="skin_id" class="sel w100p" required>
+									<option value="">스킨선택</option>
+									<option value="skin_01">#스킨 1</option>
+									<option value="skin_02">#스킨 2</option>
+									<option value="skin_03">#스킨 3</option>
+								</select>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="btn_box algC">
+				<button type="submit" class="btn btn_n">확인</button>
+				<button type="reset" class="btn btn_n">취소</button>
+			</div>
+			</form>
+		</div>
+	</aside>
+	<!-- //사랑방 개설 : e -->
+</body>
+</html>

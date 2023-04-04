@@ -1,0 +1,156 @@
+@charset "euc-kr";
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+/*폰트 기본설정은 돋음체입니다. 폰트 추가는 여기로 하시면 됩니다.*/
+* {
+	margin:0;
+	padding:0;
+}
+
+html, body {
+	height:100%;
+	margin:0;
+	padding:0:
+	scrollbar-face-color:#ffffff;
+	scrollbar-shadow-color:#ffffff;
+	scrollbar-highlight-color:#249CD4;
+	scrollbar-3dlight-color:#ffffff;
+	scrollbar-darkshadow-color:#249CD4;
+	scrollbar-track-color:#ffffff;
+	scrollbar-arrow-color:#249CD4;
+}
+
+div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, sub, sup, tt, var,
+u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+/*수정 b, strong, caption, tbody, tfoot, thead, tr, th, td,*/
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 14px;
+	font: inherit; 
+/*	vertical-align:middle; */
+	list-style:none;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+body {
+	line-height: 1;
+	font-family: tahoma, '돋움', Arial, Helvetica, sans-serif;
+/*	font-size:12px; */
+	font-size:14px;
+/*	color:#666666; */
+	color:#000;
+}
+
+ol, ul {
+	list-style: none;
+	font-size:0px;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+a:link {color:#000;text-decoration:none;}
+a:visited {color:#000;text-decoration:none;}
+a:hover {color:#000;text-decoration:none;}
+a:active {color:#000;text-decoration:none;}
+
+.right {
+	float:right;
+}
+
+.right111 {
+	float:right;
+	margin-top:5px;
+}
+
+* {
+	font-family: tahoma, '돋움', Arial, Helvetica, sans-serif;
+}
+
+#LblockHeader {
+	position:relative;
+	width:1190px;
+	height: 115px;
+	left:10px;
+	border-bottom:1px solid #d7d7d7;
+}
+
+#LblockContainer {
+	position:relative;
+	float:left;
+	width:1200px;
+	min-height: 100%;
+	top: 15px;
+	margin:0 auto;
+	display:inline;
+}
+
+* html #LblockContainer {
+	height: 100%;
+}
+
+#LblockContainer #Content {
+	width:1200px;
+	min-height: 100%;
+	margin:0 auto;
+	overflow:hidden;
+}
+
+#LblockLeft {
+	float:left;
+	width:180px;
+	margin-left:10px;
+	overflow:hidden;
+}
+
+#LblockCenter {
+	float:left;
+	width:800px;
+	margin-left:25px;
+	overflow:hidden;
+}
+
+#LblockRight {
+	float:right;
+	width:160px;
+	overflow:hidden;
+}
+
+#LblockFooter {
+	position:relative;
+	float:left;
+/*	font-size:12px; */
+	font-size:14px;
+	top:30px;
+	left:10px;
+	height: 86px;
+	width: 1190px;
+	margin:0 auto;
+	border-top:1px solid #000;
+	text-align:center;
+	padding:30px 0;
+	line-height:24px;
+}
+

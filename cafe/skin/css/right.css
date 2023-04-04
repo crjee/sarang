@@ -1,0 +1,14 @@
+
+
+#Right {
+	position:relative;
+	width:160px;
+	margin:0 auto
+}
+
+#Right li{
+	position:relative;
+	width:150px;
+	border:1px solid #dedede;
+	margin-bottom:5px;
+}

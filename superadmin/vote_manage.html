@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+	<meta charset="euc-kr">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>설문관리 > 관리자</title>
+	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
+	<script src="/common/js/jquery-3.6.0.min.js"></script>
+	<script src="/common/js/jquery-ui.min.js"></script>
+	<script src="/common/js/slick.min.js"></script>
+	<script src="/common/js/common.js"></script>
+</head>
+<body class="sa">
+	<div id="wrap">
+		<header id="adm_head">
+			<h1><a href="/">RETS 경인<sub>전체관리</sub></a></h1>
+		</header>
+		<nav id="adm_nav">
+			<div class="adm_person adm_person_sa">
+				<div class="adm_person_box">
+					<span>어서오세요! 경인님</span>
+				</div>
+			</div>
+			<ul class="adm_tree_menu side_menu_alone">
+				<li><a href="./member_manage.html" class="adm_tree_link">회원관리</a></li>
+				<li><a href="./group_manage.html" class="adm_tree_link">사랑방관리</a></li>
+				<li><a href="./banner_manage.html" class="adm_tree_link">배너관리</a></li>
+				<li><a href="./vote_manage.html" class="adm_tree_link">설문조사</a></li>
+				<li><a href="./add_manage.html" class="adm_tree_link">광고/제휴문의</a></li>
+				<li><a href="./post_manage.html" class="adm_tree_link">게시글중단요청</a></li>
+			</ul>
+		</nav>
+		<main id="adm_body">
+			<div class="adm_page_tit">
+				<h2 class="h2">설문조사</h2>
+			</div>
+			<div class="adm_cont">
+				<div class="adm_menu_manage">
+					<div class="tb tb_form_1">
+						<table class="tb_fixed">
+							<colgroup>
+								<col class="w5" />
+								<col class="w_remainder" />
+								<col class="w_remainder" />
+								<col class="w10" />
+								<col class="w15" />
+								<col class="w10" />
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col"><input type="checkbox" id="" name="" class="inp_check" /><label for=""><em class="hide">전체선택</em></label></th>
+									<th scope="col">제목</th>
+									<th scope="col">결과</th>
+									<th scope="col">참여인원</th>
+									<th scope="col">기간</th>
+									<th scope="col">설정</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="algC"><input type="checkbox" id="" name="" class="inp_check" /><label for=""><em class="hide">선택</em></label></td>
+									<td class="algL"><a href="#n">2022년 회장선출</a></td>
+									<td class="algL">
+										<ul class="list_option">
+											<li class="pl10">[0%] 홍길동</li>
+											<li class="pl10">[0%] 홍길동</li>
+											<li class="pl10">[0%] 홍길동</li>
+										</ul>
+									</td>
+									<td class="algC">2,500명</td>
+									<td class="algC">2022-04-01 ~ 2022-05-30</td>
+									<td class="algC">
+										<button type="button" class="btn btn_c_a btn_s" onclick="lyp('lypp_adm_vote')">수정</button>
+										<button type="button" class="btn btn_c_a btn_s">마감</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="btn_box algR">
+						<a href="#n" class="btn btn_c_a btn_n" onclick="lyp('lypp_adm_vote')">등록</a>
+						<a href="#n" class="btn btn_c_n btn_n">삭제</a>
+					</div>
+				</div>
+			</div>
+		</main>
+		<footer id="adm_foot"></footer>
+	</div>
+	<!-- 설문 등록 : s -->
+	<aside class="lypp lypp_adm_default lypp_adm_vote">
+		<header class="lypp_head">
+			<h2 class="h2">설문조사 수정</h2>
+			<span class="posR"><button type="button" class="btn btn_close"><em>닫기</em></button></span>
+		</header>
+		<div class="adm_cont">
+			<div class="mb10">
+				<input type="checkbox" id="" name="" class="inp_check" /><label for=""><em>대표자 인증사용</em></label>
+			</div>
+			<div class="tb tb_form_1">
+				<table class="tb_input">
+					<colgroup>
+						<col class="w15" />
+						<col class="w_remainder" />
+						<col class="w15" />
+						<col class="w20" />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th scope="row">제목</th>
+							<td colspan="3">
+								<input type="text" id="" name="" class="inp" />
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">노출기간</th>
+							<td>
+								<span class="">
+									<select id="" name="" class="sel w_auto">
+										<option value="">년도</option>
+									</select>
+								</span>
+								<span class="">
+									<select id="" name="" class="sel w_auto">
+										<option value="">월</option>
+									</select>
+								</span>
+								<span class="">
+									<select id="" name="" class="sel w_auto">
+										<option value="">일</option>
+									</select>
+								</span>
+								<span class="">~</span>
+								<span class="">
+									<select id="" name="" class="sel w_auto">
+										<option value="">년도</option>
+									</select>
+								</span>
+								<span class="">
+									<select id="" name="" class="sel w_auto">
+										<option value="">월</option>
+									</select>
+								</span>
+								<span class="">
+									<select id="" name="" class="sel w_auto">
+										<option value="">일</option>
+									</select>
+								</span>
+							</td>
+							<th scope="row">문항</th>
+							<td>
+								<select id="" name="" class="sel">
+									<option value="">갯수선택</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">질문</th>
+							<td colspan="3">
+								<ul class="list_option">
+									<li>
+										<span class="head">질문1</span>
+										<input type="text" id="" name="" class="inp" />
+									</li>
+									<li>
+										<span class="head">질문2</span>
+										<input type="text" id="" name="" class="inp" />
+									</li>
+									<li>
+										<span class="head">질문3</span>
+										<input type="text" id="" name="" class="inp" />
+									</li>
+									<li>
+										<span class="head">질문4</span>
+										<input type="text" id="" name="" class="inp" />
+									</li>
+								</ul>
+								
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="btn_box algC">
+				<a href="#n" class="btn btn_n">확인</a>
+				<a href="#n" class="btn btn_n">취소</a>
+			</div>
+		</div>
+	</aside>
+	<!-- //설문 등록 : e -->
+</body>
+</html>

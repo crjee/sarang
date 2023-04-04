@@ -1,0 +1,4 @@
+﻿<%
+	Session.abandon
+	Response.Redirect "/"
+%>

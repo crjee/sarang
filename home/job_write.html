@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+	<meta charset="euc-kr">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>채용보기 : GI</title>
+	<link rel="stylesheet" type="text/css" href="/common/css/styles.css">
+	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
+
+	<script src="/common/js/jquery-3.6.0.min.js"></script>
+	<script src="/common/js/jquery-ui.min.js"></script>
+	<script src="/common/js/slick.min.js"></script>
+	<script src="/common/js/sticky.js"></script>
+	<script src="/common/js/common.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<header id="header">
+			<div class="header_inner">
+				<div class="header_cont">
+					<h1><a href="/"><img src="/common/img/common/logo.svg" alt="" /></a></h1>
+					<div class="search_box">
+						<label for="">전체검색</label>
+						<input type="text" id="" name="" placeholder="검색어를 입력하세요" class="" />
+						<button type="button" class="f_awesome"><em>검색</em></button>
+					</div>
+					<ul class="top_btn_box">
+						<li><a href="#n">로그인</a></li>
+						<li><a href="#n">회원가입</a></li>
+					</ul>
+				</div>
+				<div class="header_banner">
+					<div class="banners"><a href="#n"><img src="/common/img/banner/head_top_banner_1.jpg" alt="" /></a></div>
+					<div class="banners"><a href="#n"><img src="/common/img/banner/head_top_banner_2.gif" alt="" /></a></div>
+					<div class="banners"><a href="#n"><img src="/common/img/banner/head_top_banner_3.jpg" alt="" /></a></div>
+					<div class="banners"><a href="#n"><img src="/common/img/banner/head_top_banner_1.jpg" alt="" /></a></div>
+					<div class="banners"><a href="#n"><img src="/common/img/banner/head_top_banner_2.gif" alt="" /></a></div>
+					<div class="banners"><a href="#n"><img src="/common/img/banner/head_top_banner_3.jpg" alt="" /></a></div>
+					<div class="banners"><a href="#n"><img src="/common/img/banner/head_top_banner_1.jpg" alt="" /></a></div>
+				</div>
+			</div>
+		</header>
+		<nav id="nav_gnb">
+			<ul class="nav">
+				<li class="on"><a href="#n">부동산이야기</a></li>
+				<li><a href="#n">분양소식</a></li>
+				<li><a href="#n">부동산뉴스</a></li>
+				<li><a href="#n">내집구하기</a></li>
+				<li><a href="#n">금융정보</a></li>
+				<li><a href="#n">인테리어</a></li>
+				<li><a href="#n">부동산구인구직</a></li>
+			</ul>
+		</nav>		
+		<main id="main" class="main">
+			<div class="container">
+				<div class="cont_tit">
+					<h2 class="h2">채용 등록</h2>
+				</div>
+				<div class="view_cont">
+					<input type="checkbox" id="" name="" class="inp_checkbox" />
+					<label for="">공지로 지정</label>
+
+					<div class="tb mt10">
+						<table class="tb_input tb_fixed">
+							<colgroup>
+								<col class="w110p">
+								<col class="w_remainder">
+								<col class="w110p">
+								<col class="w_remainder">
+							</colgroup>
+							<tbody>
+								<tr>
+									<th scope="row"><label for="">채용제목<span class="required">필수</span></label></th>
+									<td colspan="3">
+										<input type="text" id="" name="" class="inp w70" />
+										<span class="ml10">0/200</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="view_cont">
+					<h4 class="f_awesome h4">자격조건</h4>
+					<div class="tb">
+						<table class="tb_input tb_fixed">
+							<colgroup>
+								<col class="w110p">
+								<col class="w_remainder">
+								<col class="w110p">
+								<col class="w_remainder">
+							</colgroup>
+							<tbody>
+								<tr>
+									<th scope="row"><label for="">담당업무<span class="required">필수</span></label></th>
+									<td>
+										<input type="text" id="" name="" class="inp" />
+									</td>
+									<th scope="row">연령</th>
+									<td>
+										<span class=""><input type="radio" id="" name="" class="inp_radio" /><label for=""><em>무관</em></label></span>
+										<span class="ml10"><input type="radio" id="" name="" class="inp_radio" /><label for=""><em>연령제한</em></label></span>
+										<span class="ml10"><label for="" class="hide">시작연령</label><input type="text" id="" name="" class="inp w70p" /> 세</span>
+										<span class="ml5 mr5">~</span>
+										<span class=""><label for="" class="hide">종료연령</label><input type="text" id="" name="" class="inp w70p" /> 세</span>
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">성별</th>
+									<td>
+										<span class=""><input type="radio" id="" name="" class="inp_radio" /><label for=""><em>무관</em></label></span>
+										<span class="ml10"><input type="radio" id="" name="" class="inp_radio" /><label for=""><em>남</em></label></span>
+										<span class="ml10"><input type="radio" id="" name="" class="inp_radio" /><label for=""><em>녀</em></label></span>
+									</td>
+									<th scope="row">경력</th>
+									<td>
+										<select id="" name="" title="경력" class="sel w_remainder">
+											<option value="">선택하세요</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">관련자격증</th>
+									<td>
+										<span class=""><input type="radio" id="" name="" class="inp_radio" /><label for=""><em>필수</em></label></span>
+										<span class="ml10"><input type="radio" id="" name="" class="inp_radio" /><label for=""><em>무관</em></label></span>
+									</td>
+									<th scope="row"><label for="">근무지역</label></th>
+									<td>
+										<input type="text" id="" name="" class="inp" />
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="view_cont">
+					<h4 class="f_awesome h4">문의 및 접수 방법</h4>
+					<div class="tb">
+						<table class="tb_input tb_fixed">
+							<colgroup>
+								<col class="w110p">
+								<col class="w_remainder">
+								<col class="w110p">
+								<col class="w_remainder">
+							</colgroup>
+							<tbody>
+								<tr>
+									<th scope="row"><label for="">중개업소명<span class="required">필수</span></label></th>
+									<td>
+										<input type="text" id="" name="" class="inp" />
+									</td>
+									<th scope="row"><label for="">담당자명<span class="required">필수</span></label></th>
+									<td>
+										<input type="text" id="" name="" class="inp" />
+									</td>
+								</tr>
+								<tr>
+									<th scope="row"><label for="">연락처<span class="required">필수</span></label></th>
+									<td>
+										<input type="text" id="" name="" class="inp" />
+									</td>
+									<th scope="row"><label for="">팩스</label></th>
+									<td>
+										<input type="text" id="" name="" class="inp" />
+									</td>
+								</tr>
+								<tr>
+									<th scope="row"><label for="">이메일</label></th>
+									<td>
+										<input type="text" id="" name="" class="inp" />
+									</td>
+									<th scope="row"><label for="">홈페이지</label></th>
+									<td>
+										<input type="text" id="" name="" class="inp" />
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">접수방법</th>
+									<td>
+										<span class=""><input type="checkbox" id="" name="" class="inp_check" /><label for=""><em>이메일</em></label></span>
+										<span class="ml10"><input type="radio" id="" name="" class="inp_check" /><label for=""><em>팩스</em></label></span>
+										<span class="ml10"><input type="radio" id="" name="" class="inp_check" /><label for=""><em>우편</em></label></span>
+										<span class="ml10"><input type="radio" id="" name="" class="inp_check" /><label for=""><em>방문</em></label></span>
+									</td>
+									<th scope="row">마감일</th>
+									<td>
+										<span class="">
+											<select id="" name="" title="" class="sel w100p">
+												<option value="">선택하세요</option>
+											</select>
+										</span>
+										<span class="ml5 mr5">-</span>
+										<span class="">
+											<select id="" name="" title="" class="sel w100p">
+												<option value="">선택하세요</option>
+											</select>
+										</span>
+										<span class="ml5 mr5">-</span>
+										<span class="">
+											<select id="" name="" title="" class="sel w100p">
+												<option value="">선택하세요</option>
+											</select>
+										</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="view_cont">
+					<h4 class="f_awesome h4">모집요강</h4>
+					<div class="mt10">
+						<div class="editor"></div>
+					</div>
+				</div>
+				
+				<div class="btn_box">
+					<a href="#n" class="btn btn_c_a btn_n">확인</a>
+					<a href="#n" class="btn btn_c_n btn_n">취소</a>					
+				</div>
+			</div>
+		</main>
+		<footer id="footer">
+			<div class="foot_inner foot_inner_ext">
+				<ul class="foot_btn">
+					<li><a href="#n">회사소개</a></li>
+					<li><a href="#n">이용약관</a></li>
+					<li><a href="#n">개인정보처리방침</a></li>
+					<li><a href="#n">광고/제휴문의</a></li>
+					<li><a href="#n">게시중단요청</a></li>
+				</ul>
+			</div>
+			<div class="foot_inner">
+				<ul class="foot_info">
+					<li><em class="hide">회사명</em>(주)경인네트워크</li>
+					<li><em class="">대표자</em>윤종모</li>
+					<li><em class="">사업자번호</em>122-81-82524</li>
+					<li><em class="">통신판매업신고번호</em>제2010-인천계양-0223호</li>
+				</ul>
+				<p class="foot_address">
+					Copyright &copy; 2004~2022 경인네트워크. All rights reserved.
+				</p>
+			</div>
+		</footer>
+	</div>
+	<script src="/build/ckeditor.js"></script>
+	<script>
+		ClassicEditor
+			.create( document.querySelector( '.editor' ), {
+				licenseKey: '',
+			})
+			.then( editor => {
+				window.editor = editor;
+			})
+			.catch( error => {
+				console.error( error );
+			});
+	</script>
+</body>
+</html>
