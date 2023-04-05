@@ -191,31 +191,10 @@
 									<input type="text" id="link" name="link" class="inp" value="<%=link%>">
 								</td>
 							</tr>
-							<tr>
-								<th scope="row" class="add_files">
-									첨부파일
-									<div class="dp_inline">
-										<button type="button" class="btn btn_inp_add" onclick="addAttach()"><em>추가</em></button>
-										<button type="button" class="btn btn_inp_del" onclick="delAttach()"><em>삭제</em></button>
-									</div>
-								</th>
-								<td>
-									<ul>
-										<li class="stxt">
-											<input type="file" class="inp" name="file_name">
-										</li>
 <%
-	For i = 2 To 10
+	com_seq = board_seq
 %>
-										<li class="stxt" id="attachDiv<%=i%>" style="display:none">
-											<input type="file" class="inp" name="file_name">
-										</li>
-<%
-	Next
-%>
-									</ul>
-								</td>
-							</tr>
+<!--#include virtual="/include/attach_inc.asp"-->
 						</tbody>
 					</table>
 				</div>
@@ -232,23 +211,6 @@
 </body>
 </html>
 
-<script>
-function addAttach(){
-	var attachCnt = Number(document.all.attachCnt.value);
-	if (attachCnt < 10)
-	{
-		document.all.attachCnt.value = ++attachCnt;
-		for(i=2;i<=attachCnt;i++){
-			eval("attachDiv"+i+".style.display='block'")
-		}
-	}
-}
-function delAttach(){
-	var attachCnt = document.all.attachCnt.value;
-	eval("attachDiv"+attachCnt+".style.display='none'");
-	document.all.attachCnt.value = Number(attachCnt)-1;
-}
-</script>
 <script>
 	var oEditors = [];
 

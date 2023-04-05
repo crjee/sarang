@@ -314,6 +314,18 @@
 %>
 						<li class="orange">새로고침시 에디터 내용은 유지되지 않습니다.</li>
 					</div>
+					<table class="tb_input tb_fixed mt10">
+						<colgroup>
+							<col class="w200p">
+							<col class="w_remainder">
+						</colgroup>
+						<tbody>
+<%
+	com_seq = job_seq
+%>
+<!--#include virtual="/include/attach_inc.asp"-->
+						</tbody>
+					</table>
 				</div>
 				<div class="btn_box">
 					<button type="submit" class="btn btn_c_a btn_n" tabindex=26>등록</button>
@@ -328,24 +340,6 @@
 </body>
 </html>
 
-
-			<script>
-			function addAttach(){
-				var attachCnt = Number(document.all.attachCnt.value);
-				if (attachCnt < 10)
-				{
-					document.all.attachCnt.value = ++attachCnt;
-					for(i=2;i<=attachCnt;i++){
-						eval("attachDiv"+i+".style.display='block'")
-					}
-				}
-			}
-			function delAttach(){
-				var attachCnt = document.all.attachCnt.value;
-				eval("attachDiv"+attachCnt+".style.display='none'");
-				document.all.attachCnt.value = Number(attachCnt)-1;
-			}
-			</script>
 			<script>
 				var oEditors = [];
 

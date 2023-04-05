@@ -12,7 +12,7 @@
 	If Session("user_id") = "" Then
 %>
 						<li><a href="/login_form.asp">로그인</a></li>
-						<li><a href="#n">회원가입</a></li>
+						<li><a href="/home/agree_form.asp">회원가입</a></li>
 <%
 	Else
 %>

@@ -87,12 +87,14 @@
 .tb { position:relative; border-top:1px solid #333; }
 .tb table { width:100%; border-collapse:collapse; }
 .tb table.tb_fixed { table-layout:fixed; }
-.tb table th, .tb table td { padding:10px; line-height:1.5; border:1px solid #ddd; border-right:0; }
+.tb table th, .tb table td { padding:10px; line-height:1.5; border:1px solid #ddd; border-right:0; text-overflow:ellipsis; white-space:nowrap; overflow:hidden; }
 .tb table th { font-weight:500; background:#f4f4f4; }
 .tb table thead + tbody tr:nth-of-type(even) td { background:#f9f9f9; }
 .tb table thead tr th:nth-of-type(1) { border-left:0; }
 .tb table tbody tr td:nth-of-type(1) { border-left:0; }
 .tb table .td_nodata { padding:100px 0; text-align:center; }
+.tb table .nowrap { text-overflow:ellipsis; white-space:nowrap; overflow:hidden; border:1px solid red; }
+
 
 .tb .tb_input tbody tr th { border-left:0; }
 .tb .tb_input th { text-align:left; }

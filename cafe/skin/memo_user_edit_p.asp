@@ -240,7 +240,7 @@
 		<div id="Contents_Popuptitle">회원선택</div>
 		<div id="Contents_PopupCont">
 			<div id="Contents_PopupContLeft">
-				<form name="input_form" method="post" action="memo_user.asp">
+				<form name="input_form" method="post" action="memo_user_edit_p.asp">
 				<input type="hidden" name="opt_value" value="<%=request("opt_value")%>">
 				<input type="hidden" name="opt_text" value="<%=request("opt_text")%>">
 				<div id="Contents_PopupContLefttitle">

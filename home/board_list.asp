@@ -236,7 +236,7 @@
 	Else
 %>
 								<tr>
-									<td colspan="100">등록된 글이 없습니다.</td>
+									<td colspan="100" class="td_nodata">등록된 글이 없습니다.</td>
 								</tr>
 <%
 	End If

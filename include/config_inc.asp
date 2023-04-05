@@ -3,14 +3,6 @@
 	Response.Charset="euc-kr"
 	StartTime=Timer()
 	Dim Conn
-Dim top_yn_arr(20, 30)  
-Dim subject_arr(20, 30)  
-Dim subject_s_arr(20, 30)  
-Dim comment_arr(20, 30)  
-Dim credt_arr(20, 30)  
-Dim url_arr(20, 30)  
-Dim sum_cnt_arr(30)  
-
 
 	'################ Database¼³Á¤ #################
 	Function DBOpen()

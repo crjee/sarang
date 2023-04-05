@@ -92,10 +92,9 @@
 		sql = sql & "   from cf_memo mm "
 		sql = sql & "  inner join cf_member frmi on frmi.user_id = mm.fr_user "
 		sql = sql & "  inner join cf_member tomi on tomi.user_id = mm.to_user "
-		sql = sql & "  where mm.to_user = '" & user_id & "' "
-		sql = sql & "    and mm.to_stat <> 'Y' "
+		sql = sql & "  where mm.to_stat <> 'Y' "
 		sql = sql & "  order by mm.memo_seq desc "
-	else
+	Else
 		b1 = "btn btn-default"
 		b2 = "btn btn-primary"
 

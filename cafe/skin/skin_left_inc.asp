@@ -21,7 +21,7 @@
 					<ul class="group_list">
 						<li><em>회원수</em> <strong><%=FormatNumber(member_cnt,0)%></strong></li>
 						<li><em>방문수</em> <strong><%=FormatNumber(visit_cnt,0)%></strong></li>
-						<li><em>쪽지함</em> <strong><%=memo_cnt%></strong></li>
+						<li><em>쪽지함</em> <strong><a href="/cafe/skin/memo_list.asp" class="orange3"><%=memo_cnt%>개</a></strong></li>
 					</ul>
 					<div class="search_box">
 						<label for="">전체검색</label>
@@ -30,14 +30,14 @@
 					</div>
 					<button class="btn btn_c_s btn_n" type="button" onclick="javascripit:document.location.href='/cafe/manager/cafe_info_edit.asp'"><%=cafe_type_nm%> 관리</button>
 					<a href="#n" class="btn btn_c_a btn_n ux_btn_wrt">카페글쓰기</a>
-                    <div class="wrt_group_box">
-                        <div class="btn_box">
-                            <a href="#n" class="">공지사항 글쓰기</a>
-                            <a href="#n" class="">공지사항 글쓰기</a>
-                            <a href="#n" class="">공지사항 글쓰기</a>
-                            <a href="#n" class="">공지사항 글쓰기</a>
-                        </div>
-                    </div>
+					<div class="wrt_group_box">
+						<div class="btn_box">
+							<a href="#n" class="">공지사항 글쓰기</a>
+							<a href="#n" class="">공지사항 글쓰기</a>
+							<a href="#n" class="">공지사항 글쓰기</a>
+							<a href="#n" class="">공지사항 글쓰기</a>
+						</div>
+					</div>
 				</div>
 				<ul class="nav">
 <%

@@ -204,31 +204,6 @@
 									<input type="text" id="link" name="link" class="inp" value="<%=link%>">
 								</td>
 							</tr>
-							<tr>
-								<th scope="row" class="add_files">
-									첨부파일
-									<div class="dp_inline">
-										<button type="button" class="btn btn_inp_add" onclick="addAttach()"><em>추가</em></button>
-										<button type="button" class="btn btn_inp_del" onclick="delAttach()"><em>삭제</em></button>
-									</div>
-								</th>
-								<td>
-									<ul class="add_files_inp">
-										<li class="stxt">
-											<input type="file" class="inp" name="file_name">
-										</li>
-<%
-	For i = 2 To 10
-%>
-										<li class="stxt" id="attachDiv<%=i%>" style="display:none">
-											<input type="file" class="inp" name="file_name">
-										</li>
-<%
-	Next
-%>
-									</ul>
-								</td>
-							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -237,28 +212,15 @@
 					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='story_list.asp?menu_seq=<%=menu_seq%>'"><em>취소</em></button>
 				</div>
 				</form>
-				<script>
-				function addAttach(){
-					var attachCnt = Number(document.all.attachCnt.value);
-					if (attachCnt < 10)
-					{
-						document.all.attachCnt.value = ++attachCnt;
-						for(i=2;i<=attachCnt;i++){
-							eval("attachDiv"+i+".style.display='block'")
-						}
-					}
-				}
-				function delAttach(){
-					var attachCnt = document.all.attachCnt.value;
-					eval("attachDiv"+attachCnt+".style.display='none'");
-					document.all.attachCnt.value = Number(attachCnt)-1;
-				}
-				</script>
+			</div>
+<!--#include virtual="/home/home_right_inc.asp"-->
+		</main>
+<!--#include virtual="/home/home_footer_inc.asp"-->
+	</div>
+</body>
+</html>
 				<script>
 					var oEditors = [];
-
-					// 추가 글꼴 목록
-					//var aAdditionalFontSet = [["MS UI Gothic", "MS UI Gothic"], ["Comic Sans MS", "Comic Sans MS"],["TEST","TEST"]];
 
 					nhn.husky.EZCreator.createInIFrame({
 						oAppRef: oEditors,
@@ -299,13 +261,6 @@
 						} catch(e) {alert(e)}
 					}
 				</script>
-			</div>
-<!--#include virtual="/home/home_right_inc.asp"-->
-		</main>
-<!--#include virtual="/home/home_footer_inc.asp"-->
-	</div>
-</body>
-</html>
 <script>
 	function fc_chk_byte(frm_nm, ari_max, cnt_view) { 
 	//	var frm = document.regForm;

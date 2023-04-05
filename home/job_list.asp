@@ -163,7 +163,7 @@
 						</form>
 					</div>
 					<div class="tb">
-						<table>
+						<table class="tb_fixed">
 							<colgroup>
 								<col class="w_auto" />
 								<col class="w10" />
@@ -217,7 +217,7 @@
 	Else
 %>
 								<tr>
-									<td colspan="100">등록된 글이 없습니다.</td>
+									<td colspan="100" class="td_nodata">등록된 글이 없습니다.</td>
 								</tr>
 <%
 	End If
