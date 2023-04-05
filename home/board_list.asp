@@ -53,9 +53,9 @@
 	If pagesize = "" Then pagesize = 20
 
 	page = Request("page")
-	If page = "" then page = 1
+	If page = "" Then page = 1
 
-	If sch_word <> "" then
+	If sch_word <> "" Then
 		If sch_type = "all" Then
 			kword = " and (cb.subject like '%" & sch_word & "%' or cb.agency like '%" & sch_word & "%' or cb.contents like '%" & sch_word & "%') "
 		Else
