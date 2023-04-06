@@ -4,6 +4,7 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
+	checkCafePage(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -25,38 +26,18 @@
 		<main id="main" class="main">
 			<div class="container">
 <%
-	menu_seq  = Request("menu_seq")
 	page      = Request("page")
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
 	all_yn    = Request("all_yn")
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	Set rs2 = Server.CreateObject ("ADODB.Recordset")
-
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	Else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-		editor_yn = rs("editor_yn")
-		write_auth = rs("write_auth")
-		reply_auth = rs("reply_auth")
-		read_auth = rs("read_auth")
-	End If
-	rs.close
-
 	nsale_seq = Request("nsale_seq")
 
 	Call setViewCnt(menu_type, nsale_seq)
+
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs2 = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select cb.* "
@@ -106,47 +87,47 @@
 	End If
 %>
 			<script>
-				function goPrint(){
+				function goPrint() {
 					var initBody;
-					window.onbeforeprint = function(){
+					window.onbeforeprint = function() {
 						initBody = document.body.innerHTML;
 						document.body.innerHTML =  document.getElementById('print_area').innerHTML;
 					};
-					window.onafterprint = function(){
+					window.onafterprint = function() {
 						document.body.innerHTML = initBody;
 					};
 					window.print();
 				}
 
-				function goList(){
+				function goList() {
 					document.search_form.action = "/home/nsale_list.asp"
 					document.search_form.submit();
 				}
-				function goReply(){
+				function goReply() {
 					document.search_form.action = "/home/nsale_reply.asp"
 					document.search_form.submit();
 				}
-				function goModify(){
+				function goModify() {
 					try{
 						document.search_form.action = "/home/nsale_modify.asp"
 						document.search_form.submit();
-					}catch(e){
+					} catch(e) {
 						alert(e)
 					}
 				}
-				function goDelete(){
+				function goDelete() {
 					document.search_form.action = "/home/com_waste_exec.asp"
 					document.search_form.submit();
 				}
-				function goNotice(){
+				function goNotice() {
 					document.search_form.action = "/home/com_top_exec.asp"
 					document.search_form.submit();
 				}
-				function goSuggest(){
+				function goSuggest() {
 					document.search_form.action = "/home/com_suggest_exec.asp"
 					document.search_form.submit();
 				}
-				function goMove(){
+				function goMove() {
 					document.open_form.action = "/win_open_exec.asp"
 					document.open_form.target = "hiddenfrm";
 					document.open_form.submit();

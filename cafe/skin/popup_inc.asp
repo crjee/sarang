@@ -23,8 +23,8 @@
 
 			if len(Request.Cookies(popup_key))="0" or Request.Cookies(popup_key)<>"ok" Then
 %>
-	var openwin<%=i%> = window.open('/cafe/skin/popup_view.asp?cafe_id=<%=cafe_id%>&popup_key=<%=popup_key%>&menu_seq=<%=menu_seq%>&popup_num=<%=popup_num%>&user_id=<%=session("user_id")%>&ipin=<%=ipin%>', 'open<%=i%>', 'width=450px,height=350px,left=<%=p_left%>,top=<%=p_top%>,resizable=yes');
-	setTimeout(function(){
+	var openwin<%=i%> = window.open('/cafe/skin/popup_view_p.asp?cafe_id=<%=cafe_id%>&popup_key=<%=popup_key%>&menu_seq=<%=menu_seq%>&popup_num=<%=popup_num%>&user_id=<%=session("user_id")%>&ipin=<%=ipin%>', 'open<%=i%>', 'width=450px,height=350px,left=<%=p_left%>,top=<%=p_top%>,resizable=yes');
+	setTimeout(function() {
 		openwin<%=i%>.focus()
 	}, 500);
 
@@ -33,7 +33,7 @@
 				If (popup_cnt > 3 And i = 2) or (popup_cnt = 3 And i = 3) Then
 					p_top = p_top + 390
 					p_left = 170
-				else
+				Else
 					p_left = p_left + 460
 				End If
 
@@ -63,10 +63,10 @@
 
 			popup_key = "notice_seq_" & notice_seq
 
-			if len(Request.Cookies(popup_key))="0" or Request.Cookies(popup_key)<>"ok" Then
+			If len(Request.Cookies(popup_key))="0" or Request.Cookies(popup_key)<>"ok" Then
 %>
-	var opennotice<%=i%> = window.open('/cafe/skin/popup_view.asp?notice_seq=<%=notice_seq%>&popup_key=<%=popup_key%>&user_id=<%=session("user_id")%>&ipin=<%=ipin%>', 'notice<%=i%>', 'width=450px,height=350px,left=<%=p_left%>,top=<%=p_top%>,resizable=yes');
-	setTimeout(function(){
+	var opennotice<%=i%> = window.open('/cafe/skin/popup_view_p.asp?notice_seq=<%=notice_seq%>&popup_key=<%=popup_key%>&user_id=<%=session("user_id")%>&ipin=<%=ipin%>', 'notice<%=i%>', 'width=450px,height=350px,left=<%=p_left%>,top=<%=p_top%>,resizable=yes');
+	setTimeout(function() {
 		opennotice<%=i%>.focus()
 	}, 500);
 
@@ -75,13 +75,12 @@
 				If (popup_cnt > 3 And i = 2) or (popup_cnt = 3 And i = 3) Then
 					p_top = p_top + 380
 					p_left = 0
-				else
+				Else
 					p_left = p_left + 460
 				End If
 
 				i = i + 1
 			End If
-
 			rs.MoveNext
 		Loop
 	End If
@@ -89,21 +88,17 @@
 
 	Set rs = nothing
 %>
-	function resetPop(){
-		if (open1 && openwin1)
-		{
+	function resetPop() {
+		if (open1 && openwin1) {
 			openwin1.close();
 		}
-		if (open2 && openwin2)
-		{
+		if (open2 && openwin2) {
 			openwin2.close();
 		}
-		if (open3 && openwin3)
-		{
+		if (open3 && openwin3) {
 			openwin3.close();
 		}
-		if (open4 && openwin4)
-		{
+		if (open4 && openwin4) {
 			openwin4.close();
 		}
 	}

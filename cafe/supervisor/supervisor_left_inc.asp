@@ -10,7 +10,7 @@
 				<li><a href="banner_list.asp" class="adm_tree_link">배너 관리</a></li>
 				<li><a href="vote_manage.html" class="adm_tree_link">설문 관리</a></li>
 				<li><a href="add_manage.html" class="adm_tree_link">광고/제휴문의</a></li>
-				<li><a href="post_manage.html" class="adm_tree_link">게시글중단요청</a></li>
+				<li><a href="reqdel_list.asp" class="adm_tree_link">게시글중단요청</a></li>
 				<li><a href="menu_list.asp" class="adm_tree_link">메뉴관리</a></li>
 				<li><a href="" class="adm_tree_link">탭메뉴관리</a></li>
 				<li><a href="main_list.asp" class="adm_tree_link">메인관리</a></li>

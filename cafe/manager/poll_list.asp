@@ -16,7 +16,7 @@
 	sql = sql & "       ,cf_poll_ans b "
 	sql = sql & "  where a.poll_seq = b.poll_seq "
 	sql = sql & "    and a.cafe_id = '" & cafe_id & "' "
-	sql = sql & "  order by credt desc "
+	sql = sql & "  order by a.credt desc "
 
 	row.Open Sql, conn, 3, 1
 
@@ -240,7 +240,7 @@
 	For i = 1 To 31
 		If Len(i)=1 Then i = "0" & i
 %>
-									<option value="<%=i%>" <%=if3(Trim(Mid(sdate,9,2))=trim(i) Then  Response.write "selected" %>><%=i%></option>
+									<option value="<%=i%>" <%=if3(Trim(Mid(sdate,9,2))=trim(i),"selected","") %>><%=i%></option>
 <%
 	Next
 %>
@@ -251,7 +251,7 @@
 <%
 	For i = 2016 To year(date) + 1
 %>
-									<option value="<%=i%>" <%=if3(Trim(Left(edate,4))=cstr(i) Then  Response.write "selected" %>><%=i%></option>
+									<option value="<%=i%>" <%=if3(Trim(Left(edate,4))=cstr(i),"selected","") %>><%=i%></option>
 <%
 	Next
 %>
@@ -262,7 +262,7 @@
 	For i = 1 To 12
 		If Len(i)=1 Then i = "0" & i
 %>
-									<option value="<%=i%>" <%=if3(Trim(Mid(edate,6,2))=Trim(i) Then  Response.write "selected" %>><%=i%></option>
+									<option value="<%=i%>" <%=if3(Trim(Mid(edate,6,2))=Trim(i),"selected","") %>><%=i%></option>
 <%
 	Next
 %>
@@ -273,7 +273,7 @@
 	For i = 1 To 31
 		If Len(i)=1 Then i = "0" & i
 %>
-									<option value="<%=i%>" <%=if3(Trim(Mid(edate,9,2))=trim(i) Then  Response.write "selected" %>><%=i%></option>
+									<option value="<%=i%>" <%=if3(Trim(Mid(edate,9,2))=trim(i),"selected","") %>><%=i%></option>
 <%
 	Next
 %>
@@ -324,13 +324,13 @@
 </html>
 	<script>
 
-	function ques_cnt(v){
-		for(var i=1;i<=v;i++){
+	function ques_cnt(v) {
+		for (var i=1;i<=v;i++) {
 			obj = "quess"+i;
 			eval(obj+".style").display='block';
 		}
 
-		for(j=i;j<=10;j++){
+		for (j=i;j<=10;j++) {
 			obj = "quess"+j;
 			eval(obj+".style").display='none';
 		}
@@ -340,14 +340,14 @@
 
 	<script>
 
-	function onRegi(){
+	function onRegi() {
 		$("#regi_form")[0].reset();
 		$("#task").val("ins");
 		document.getElementById("regTitle").innerText = "등록";
 		lyp('lypp_adm_vote');
 	}
 
-	function onEdit(poll_seq){
+	function onEdit(poll_seq) {
 		$("#regi_form")[0].reset();
 		$("#task").val("upd")
 		document.getElementById("regTitle").innerText = "수정";
@@ -359,7 +359,7 @@
 			$.ajax({
 				type: "POST",
 				dataType: "json",
-				url: "/cafe/manager/poll_ajax_view.asp",
+				url: "/cafe/manager/poll_view_ajax.asp",
 				data: {"poll_seq":poll_seq},
 				success: function(xmlData) {
 					if (xmlData.TotalCnt > 0) {
@@ -384,13 +384,13 @@
 							$("#ey").val(xmlData.ResultList[i].ey);
 							$("#em").val(xmlData.ResultList[i].em);
 							$("#ed").val(xmlData.ResultList[i].ed);
-							if(xmlData.ResultList[i].rprsv_cert_use_yn == "Y")
+							if (xmlData.ResultList[i].rprsv_cert_use_yn == "Y")
 							$("#rprsv_cert_use_y").prop('checked',true);
-							if(xmlData.ResultList[i].rprsv_cert_use_yn == "N")
+							if (xmlData.ResultList[i].rprsv_cert_use_yn == "N")
 							$("#rprsv_cert_use_n").prop('checked',true);
-							if(xmlData.ResultList[i].ddln_yn == "Y")
+							if (xmlData.ResultList[i].ddln_yn == "Y")
 							$("#ddln_yn_y").prop('checked',true);
-							if(xmlData.ResultList[i].ddln_yn == "N")
+							if (xmlData.ResultList[i].ddln_yn == "N")
 							$("#ddln_yn_n").prop('checked',true);
 							ques_cnt(xmlData.ResultList[i].count);
 						}
@@ -399,30 +399,30 @@
 						alert("해당 설문이 없습니다");
 					}
 				},
-				complete : function(){
+				complete : function() {
 				},
 				error : function(xmlData) {
 					alert("ERROR");
 				}
 			});
 		}
-		catch (e){
+		catch (e) {
 			alert(e);
 		}
 	}
 
-		function MovePage(page){
+		function MovePage(page) {
 			document.search_form.page.value = page;
 			document.search_form.submit();
 		}
 
-		function goSearch(){
+		function goSearch() {
 			try {
 				var f = document.search_form;
 				f.page.value = 1;
 				f.submit();
 			}
-			catch (e){
+			catch (e) {
 				alert(e);
 			}
 		}

@@ -1,55 +1,8 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
-	cafe_mb_level = getUserLevel(cafe_id)
-	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
-	If toInt(write_auth) > toInt(cafe_mb_level) Then
-		Response.Write "<script>alert('쓰기 권한이없습니다');history.back()</script>"
-		Response.End
-	End If
-
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-
-	sql = ""
-	sql = sql & " select isnull(daily_cnt,9999) as daily_cnt "
-	sql = sql & "       ,inc_del_yn "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & Request("menu_seq")  & "' "
-	rs.Open Sql, conn, 3, 1
-	daily_cnt = rs("daily_cnt")
-	inc_del_yn = rs("inc_del_yn")
-	rs.close
-
-	If daily_cnt < "9999" Then
-		If inc_del_yn = "N" Then
-			sql = ""
-			sql = sql & " select count(menu_seq) as write_cnt "
-			sql = sql & "   from cf_board "
-			sql = sql & "  where menu_seq = '" & Request("menu_seq")  & "' "
-			sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-			sql = sql & "    and agency = '" & session("agency")  & "' "
-			sql = sql & "    and convert(varchar(10), credt, 120) = '" & date & "' "
-			rs.Open Sql, conn, 3, 1
-			write_cnt = rs("write_cnt")
-			rs.close
-		Else
-			sql = ""
-			sql = sql & " select count(wl.menu_seq) as write_cnt "
-			sql = sql & "   from cf_write_log wl "
-			sql = sql & "   left join cf_member cm on cm.user_id = wl.user_id "
-			sql = sql & "  where wl.menu_seq = '" & Request("menu_seq")  & "' "
-			sql = sql & "    and wl.cafe_id = '" & cafe_id  & "' "
-			sql = sql & "    and cm.agency = '" & session("agency")  & "' "
-			sql = sql & "    and convert(varchar(10), wl.credt, 120) = '" & date & "' "
-			rs.Open Sql, conn, 3, 1
-			write_cnt = rs("write_cnt")
-			rs.close
-		End If
-
-		If cint(write_cnt) >= cint(daily_cnt) Then
-			Response.Write "<script>alert('1일 등록 갯수 " & daily_cnt & "개를 초과 하였습니다');history.back()</script>"
-			Response.End
-		End If
-	End If
+	checkCafePage(cafe_id)
+	checkWriteAuth(cafe_id)
+	checkDailyCount(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -72,28 +25,10 @@
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
 			<div class="container">
 <%
-	menu_seq = Request("menu_seq")
-
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-		editor_yn = rs("editor_yn")
-		write_auth = rs("write_auth")
-		reply_auth = rs("reply_auth")
-		read_auth = rs("read_auth")
-	End If
-	rs.close
+	Set rs = Server.CreateObject ("ADODB.Recordset")
 
 	link = "http://"
+
 	sql = ""
 	sql = sql & " select * "
 	sql = sql & "   from cf_temp_board "
@@ -102,7 +37,7 @@
 	sql = sql & "    and user_id = '" & user_id  & "' "
 	rs.Open Sql, conn, 3, 1
 
-	If not rs.EOF Then
+	If Not rs.EOF Then
 		msgonly "임시 저장된 내용이 있습니다."
 		top_yn   = rs("top_yn")
 		link     = rs("link")
@@ -219,7 +154,7 @@
 			bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
 			bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
 			//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
-			fOnBeforeUnload : function(){
+			fOnBeforeUnload : function() {
 				var f = document.form;
 				if (f.temp.value == "Y" && f.subject.value != "")
 				{
@@ -232,7 +167,7 @@
 				}
 			}
 		}, //boolean
-		fOnAppLoad : function(){
+		fOnAppLoad : function() {
 			//예제 코드
 			//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
 		},
@@ -264,7 +199,7 @@
 		var ls_one_char = ""; // 한글자씩 검사한다 
 		var ls_str2 = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다. 
 
-		for(i=0; i< li_str_len; i++) { 
+		for (i=0; i< li_str_len; i++) { 
 		// 한글자추출 
 			ls_one_char = ls_str.charAt(i); 
 
@@ -278,20 +213,20 @@
 			} 
 
 			// 전체 크기가 li_max를 넘지않으면 
-			if(li_byte <= li_max) { 
+			if (li_byte <= li_max) { 
 				li_len = i + 1; 
 			} 
 		} 
 
 		// 전체길이를 초과하면 
-		if(li_byte > li_max) { 
+		if (li_byte > li_max) { 
 			alert( li_max + "byte 글자를 초과 입력할수 없습니다. \n 초과된 내용은 자동으로 삭제 됩니다. "); 
 			ls_str2 = ls_str.substr(0, li_len);
 			frm_nm.value = ls_str2; 
 
 			li_str_len = ls_str2.length; // 전체길이 
 			li_byte = 0; // 한글일경우는 2 그밗에는 1을 더함 
-			for(i=0; i< li_str_len; i++) { 
+			for (i=0; i< li_str_len; i++) { 
 			// 한글자추출 
 				ls_one_char = ls_str2.charAt(i); 
 
@@ -305,7 +240,7 @@
 				} 
 			} 
 		} 
-		if (cnt_view != ""){
+		if (cnt_view != "") {
 			var inner_form = eval("document.all."+ cnt_view) 
 			inner_form.innerHTML = li_byte ;		//frm.txta_Memo.value.length;
 		}

@@ -4,8 +4,9 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
-%>
-<%
+	checkCafePage(cafe_id)
+	checkWriteAuth(cafe_id)
+
 	ScriptTimeOut = 5000
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
@@ -15,63 +16,9 @@
 	' 전체 파일의 크기를 50MB 이하로 제한.
 	uploadform.TotalLen = 50*1024*1024
 
-	menu_seq  = uploadform("menu_seq")
 	page      = uploadform("page")
 	sch_type  = uploadform("sch_type")
 	sch_word  = uploadform("sch_word")
-
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-
-	sql = ""
-	sql = sql & " select menu_type "
-	sql = sql & "       ,isnull(daily_cnt,9999) as daily_cnt "
-	sql = sql & "       ,inc_del_yn "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	Else
-		daily_cnt = rs("daily_cnt")
-		inc_del_yn = rs("inc_del_yn")
-		menu_type = rs("menu_type")
-	End If
-	rs.close
-
-	If daily_cnt < "9999" Then
-		If inc_del_yn = "N" Then
-			sql = ""
-			sql = sql & " select count(menu_seq) as write_cnt "
-			sql = sql & "   from cf_story "
-			sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-			sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-			sql = sql & "    and agency = '" & session("agency")  & "' "
-			sql = sql & "    and convert(varchar(10),credt,120) = '" & date & "' "
-			rs.Open Sql, conn, 3, 1
-			write_cnt = rs("write_cnt")
-			rs.close
-		Else
-			sql = ""
-			sql = sql & " select count(wl.menu_seq) as write_cnt "
-			sql = sql & "   from cf_write_log wl "
-			sql = sql & "   left join cf_member cm on cm.user_id = wl.user_id "
-			sql = sql & "  where wl.menu_seq = '" & menu_seq  & "' "
-			sql = sql & "    and wl.cafe_id = '" & cafe_id  & "' "
-			sql = sql & "    and cm.agency = '" & session("agency")  & "' "
-			sql = sql & "    and convert(varchar(10),wl.credt,120) = '" & date & "' "
-			rs.Open Sql, conn, 3, 1
-			write_cnt = rs("write_cnt")
-			rs.close
-		End If
-
-		If cint(write_cnt) >= cint(daily_cnt) Then
-			Response.Write "<script>alert('1일 등록 갯수 " & daily_cnt & "개를 초과 하였습니다');history.back()</script>"
-			Response.End
-		End If
-	End If
-	
-	Set rs = Nothing
 
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
 	Set fso = CreateObject("Scripting.FileSystemObject")
@@ -258,7 +205,7 @@
 	var expire = new Date();
 	expire.setDate(expire.getDate() + cDay);
 	cookies = cName + '=' + escape(cValue) + '; path=/ '; // 한글 깨짐을 막기위해 escape(cValue)를 합니다.
-	if(typeof cDay != 'undefined') cookies += ';expires=' + expire.toGMTString() + ';';
+	if (typeof cDay != 'undefined') cookies += ';expires=' + expire.toGMTString() + ';';
 	document.cookie = cookies;
 
 	alert("입력 되었습니다.");

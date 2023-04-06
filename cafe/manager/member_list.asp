@@ -365,48 +365,48 @@
 </html>
 
 	<script>
-		function testCheck(){
+		function testCheck() {
 			var chckType = document.getElementsByName('user_id');
 			var j = 0;
-			for(i = 0; i < chckType.length; i++){
-				if (chckType[i].checked == true){
+			for (i = 0; i < chckType.length; i++) {
+				if (chckType[i].checked == true) {
 					j++;
 				}
 			}
 
-			if(j == 0){
+			if (j == 0) {
 				alert("회원을 선택하세요!");
 				return false;
 			}
 			return true;
 		}
-		function goLevel(){
-			if(!testCheck()) return;
+		function goLevel() {
+			if (!testCheck()) return;
 			var f = document.form;
 			var f2 = document.form2;
 			f.cafe_mb_level.value = f2.cafe_mb_level.value
 			f.action="member_level_exec.asp"
 			f.submit()
 		}
-		function goActivity(){
-			if(!testCheck()) return;
+		function goActivity() {
+			if (!testCheck()) return;
 			var f = document.form;
 			f.action="member_activity_exec.asp"
 			f.submit()
 		}
 
-		function MovePage(page){
+		function MovePage(page) {
 			document.search_form.page.value = page;
 			document.search_form.submit();
 		}
 
-		function goSearch(){
+		function goSearch() {
 			try {
 				var f = document.search_form;
 				f.page.value = 1;
 				f.submit();
 			}
-			catch (e){
+			catch (e) {
 				alert(e);
 			}
 		}
@@ -421,7 +421,7 @@
 				img.height = tt[1];
 				img.alt = "클릭하시면 원본이미지를 보실수있습니다.";
 
-				if(aL){
+				if (aL) {
 					// 자동링크 on
 					img.onclick = function() {
 						wT = Math.ceil((screen.width - tt[2])/2.6);
@@ -444,39 +444,39 @@
 					img.style.cursor = "hand";
 				}
 			}
-			Else {
-					img.onclick = function(){
+			else {
+					img.onclick = function() {
 						alert("현재이미지가 원본 이미지입니다.");
 					}
 			}
 		}
 
-		function imgRsize(img, rW, rH){
+		function imgRsize(img, rW, rH) {
 			var iW = img.width;
 			var iH = img.height;
 			var g = new Array;
-			if(iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
+			if (iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
 				g[0] = iW;
 				g[1] = iH;
 			}
-			Else {
-				if(img.width > img.height) { // 원크기 가로가 세로보다 크면
+			else {
+				if (img.width > img.height) { // 원크기 가로가 세로보다 크면
 					g[0] = rW;
 					g[1] = Math.ceil(img.height * rW / img.width);
 				}
-				Else if(img.width < img.height) { //원크기의 세로가 가로보다 크면
+				else if (img.width < img.height) { //원크기의 세로가 가로보다 크면
 					g[0] = Math.ceil(img.width * rH / img.height);
 					g[1] = rH;
 				}
-				Else {
+				else {
 					g[0] = rW;
 					g[1] = rH;
 				}
-				if(g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
+				if (g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
 					g[0] = rW;
 					g[1] = Math.ceil(img.height * rW / img.width);
 				}
-				if(g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
+				if (g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
 					g[0] = Math.ceil(img.width * rH / img.height);
 					g[1] = rH;
 				}

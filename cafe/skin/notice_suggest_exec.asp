@@ -1,5 +1,7 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
+	menu_type = "notice"
+
 	page      = request("page")
 	sch_type  = request("sch_type")
 	sch_word  = request("sch_word")

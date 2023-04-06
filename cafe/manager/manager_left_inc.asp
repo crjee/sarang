@@ -1,6 +1,3 @@
-<%
-	checkManager(cafe_id)
-%>
 			<div class="adm_person">
 				<div class="adm_person_box">
 					<span>어서오세요! <%=session("kname")%>님</span>

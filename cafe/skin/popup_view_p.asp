@@ -1,30 +1,16 @@
-<%s_pop="Y"%>
+<%
+	s_pop = "Y"
+%>
 <!--#include virtual="/include/config_inc.asp"-->
 <%
-	cafe_id = Request("cafe_id")
-	menu_seq = Request("menu_seq")
 	popup_num = Request("popup_num")
 	notice_seq = Request("notice_seq")
 	popup_key = Request("popup_key")
 
 	set rs = server.createobject("adodb.recordset")
 
-	If notice_seq = "" then
-		sql = ""
-		sql = sql  & " select * "
-		sql = sql  & "   from cf_menu "
-		sql = sql  & "  where menu_seq = '" & menu_seq  & "'  "
-		sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-		rs.Open Sql, conn, 3, 1
-
-		If rs.EOF Then
-			msggo "정상적인 사용이 아닙니다.",""
-		Else
-			menu_type = rs("menu_type")
-			menu_name = rs("menu_name")
-			cafe_id = rs("cafe_id")
-		End If
-		rs.close
+	If notice_seq = "" Then
+		checkCafePage(cafe_id)
 
 		sql = ""
 		sql = sql  & " select * "
@@ -40,7 +26,6 @@
 		rs.Open sql, Conn, 1
 		menu_name = "경인네트웍스 전체공지"
 	End If
-
 
 	If rs.eof Then
 %>

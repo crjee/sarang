@@ -4,6 +4,8 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
+	checkCafePage(cafe_id)
+
 	pageUrl = "http://" & request.servervariables("HTTP_HOST") & request.servervariables("HTTP_URL") & "?menu_seq=" & Request("menu_seq") & "&story_seq=" & Request("story_seq")
 %>
 <!DOCTYPE html>
@@ -25,36 +27,17 @@
 		<main id="main" class="sub">
 			<div class="container">
 <%
-	menu_seq  = Request("menu_seq")
 	page      = Request("page")
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
 	all_yn    = Request("all_yn")
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	Else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-		editor_yn = rs("editor_yn")
-		write_auth = rs("write_auth")
-		reply_auth = rs("reply_auth")
-		read_auth = rs("read_auth")
-	End If
-	rs.close
-
 	story_seq = Request("story_seq")
 
 	Call setViewCnt(menu_type, story_seq)
+
+	Set rs = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select cb.* "
@@ -65,87 +48,87 @@
 	rs.Open Sql, conn, 3, 1
 %>
 			<script type="text/javascript">
-				function goPrint(){
+				function goPrint() {
 					var initBody;
-					window.onbeforeprint = function(){
+					window.onbeforeprint = function() {
 						initBody = document.body.innerHTML;
 						document.body.innerHTML =  document.getElementById('print_area').innerHTML;
 					};
-						window.onafterprint = function(){
+						window.onafterprint = function() {
 						document.body.innerHTML = initBody;
 					};
 					window.print();
 				}
 
-				function goList(){
-					document.search_form.action = "/cafe/skin/story_list.asp"
+				function goList() {
+					document.search_form.action = "/home/story_list.asp"
 					document.search_form.submit();
 				}
-				function goReply(){
-					document.search_form.action = "/cafe/skin/story_reply.asp"
+				function goReply() {
+					document.search_form.action = "/home/story_reply.asp"
 					document.search_form.submit();
 				}
-				function goModify(){
-					document.search_form.action = "/cafe/skin/story_modify.asp"
+				function goModify() {
+					document.search_form.action = "/home/story_modify.asp"
 					document.search_form.submit();
 				}
-				function goDelete(){
-					document.search_form.action = "/cafe/skin/com_waste_exec.asp"
+				function goDelete() {
+					document.search_form.action = "/home/com_waste_exec.asp"
 					document.search_form.submit();
 				}
-				function goNotice(){
-					document.search_form.action = "/cafe/skin/com_top_exec.asp"
+				function goNotice() {
+					document.search_form.action = "/home/com_top_exec.asp"
 					document.search_form.submit();
 				}
-				function goSuggest(){
-					document.search_form.action = "/cafe/skin/com_suggest_exec.asp"
+				function goSuggest() {
+					document.search_form.action = "/home/com_suggest_exec.asp"
 					document.search_form.submit();
 				}
-				function goMove(){
+				function goMove() {
 					document.open_form.action = "/win_open_exec.asp"
 					document.open_form.target = "hiddenfrm";
 					document.open_form.submit();
 				}
-				function copySubject(){
+				function copySubject() {
 					try{
 						str = document.getElementById("subject").innerText;
-						if (window.clipboardData){
+						if (window.clipboardData) {
 								window.clipboardData.setData("Text", str)
 								alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 						}
-						Else if (window.navigator.clipboard){
+						else if (window.navigator.clipboard) {
 								window.navigator.clipboard.writeText(str).Then(() => {
 									alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 								});
 						}
-						Else{
+						else {
 							temp = prompt("해당 제목을 복사하십시오.", str);
 						}
-					}catch(e){
+					} catch(e) {
 						alert(e)
 					}
 				}
-				function copyUrl(){
+				function copyUrl() {
 					try{
-						if (window.clipboardData){
+						if (window.clipboardData) {
 								window.clipboardData.setData("Text", "<%=pageUrl%>")
 								alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 						}
-						Else if (window.navigator.clipboard){
+						else if (window.navigator.clipboard) {
 								window.navigator.clipboard.writeText("<%=pageUrl%>").Then(() => {
 									alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 								});
 						}
-						Else{
+						else {
 							temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
 						}
-					}catch(e){
+					} catch(e) {
 						alert(e)
 					}
 				}
 			</script>
 			<form name="open_form" method="post">
-			<input type="hidden" name="open_url" value="/cafe/skin/com_move_edit_p.asp?com_seq=<%=story_seq%>&menu_seq=<%=menu_seq%>&cafe_id=<%=cafe_id%>">
+			<input type="hidden" name="open_url" value="/home/com_move_edit_p.asp?com_seq=<%=story_seq%>&menu_seq=<%=menu_seq%>&cafe_id=<%=cafe_id%>">
 			<input type="hidden" name="open_name" value="com_move">
 			<input type="hidden" name="open_specs" value="width=340, height=310, left=150, top=150">
 			</form>
@@ -204,7 +187,7 @@
 	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
 	If toInt(write_auth) <= toInt(cafe_mb_level) Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="location.href='/cafe/skin/story_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="location.href='/home/story_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 <%
 	End If
 %>
@@ -243,18 +226,18 @@
 				If fileExt = "pdf" Then
 %>
 					<%If i > 0 Then%><br><%End If%>
-					<a href="<%=uploadUrl & rs2("file_name")%>" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+					<a href="<%=uploadUrl & rs2("file_name")%>" class="file"><img src="/home/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 				Else
 %>
 					<%If i > 0 Then%><br><%End If%>
-					<a href="/download_exec.asp?menu_type=<%=menu_type%>&file_name=<%=rs2("file_name")%>" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+					<a href="/download_exec.asp?menu_type=<%=menu_type%>&file_name=<%=rs2("file_name")%>" class="file"><img src="/home/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 				End If
 			Else
 %>
 					<%If i > 0 Then%><br><%End If%>
-					<a href="javascript:alert('파일이 존재하지 않습니다,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+					<a href="javascript:alert('파일이 존재하지 않습니다,')" class="file"><img src="/home/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 			End If
 
@@ -272,23 +255,23 @@
 
 	If link <> "" Then
 %>
-					<p class="file"><a href="<%=link%>" target="_blink" id="linkTxt"><%=link_txt%></a>&nbsp;<img src="/cafe/skin/img/inc/copy.png" style="cursor:hand" id="linkBtn"/></p>
+					<p class="file"><a href="<%=link%>" target="_blink" id="linkTxt"><%=link_txt%></a>&nbsp;<img src="/home/img/inc/copy.png" style="cursor:hand" id="linkBtn"/></p>
 <script>
-	document.getElementById("linkBtn").onclick = function(){
+	document.getElementById("linkBtn").onclick = function() {
 		try{
-			if (window.clipboardData){
+			if (window.clipboardData) {
 					window.clipboardData.setData("Text", "<%=link%>")
 					alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 			}
-			Else if (window.navigator.clipboard){
+			else if (window.navigator.clipboard) {
 					window.navigator.clipboard.writeText("<%=link%>").Then(() => {
 						alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 					});
 			}
-			Else{
+			else {
 				temp = prompt("해당 URL을 복사하십시오.", "<%=link%>");
 			}
-		}catch(e){
+		} catch(e) {
 			alert(e)
 		}
 	};
@@ -308,7 +291,7 @@
 <%
 	com_seq = story_seq
 %>
-<!--#include virtual="/cafe/skin/com_comment_list_inc.asp"-->
+<!--#include virtual="/home/com_comment_list_inc.asp"-->
 			</div>
 <!--#include virtual="/home/home_right_inc.asp"-->
 		</main>

@@ -1,5 +1,7 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
+	checkCafePage(cafe_id)
+
 	old_menu_seq = Request.Form("menu_seq")
 	menu_seq = Request.Form("menu_seq")
 	com_seq = Request("com_seq")
@@ -12,23 +14,6 @@
 	Set fso = CreateObject("Scripting.FileSystemObject")
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 	Set rs2 = Server.CreateObject ("ADODB.Recordset")
-
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-		cafe_id   = rs("cafe_id")
-	End If
-	rs.close
-
 
 	' 자신글과 답글 조회
 	sql = ""

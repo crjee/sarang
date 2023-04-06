@@ -1,9 +1,11 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
+	menu_type = "notice"
+
+	menu_type = "notice"
 	notice_seq = Request("notice_seq")
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	on Error Resume Next
+	On Error Resume Next
 	Conn.BeginTrans
 	Set BeginTrans = Conn
 	CntError = 0
@@ -14,10 +16,8 @@
 		Response.Write "<script>alert('선택된 게시글이 없습니다');</script>"
 		Response.end
 	Else
-
 		If cafe_mb_level > 5 Then
-
-			for i=1 to Request("notice_seq").count
+			For i=1 To Request("notice_seq").count
 				notice_seq = Request("notice_seq")(i)
 
 				sql = ""
@@ -28,9 +28,7 @@
 				sql = sql & "  where notice_seq = '" & notice_seq & "' "
 				Conn.Execute(sql)
 			Next
-
 		End if
-
 	End if
 
 	If Err.Number = 0 Then

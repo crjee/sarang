@@ -1,5 +1,6 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
+	checkCafePage(cafe_id)
 	checkManager(cafe_id)
 %>
 <!DOCTYPE html>
@@ -24,28 +25,6 @@
 <%
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
-	menu_seq = Request("menu_seq")
-
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	Else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-		editor_yn = rs("editor_yn")
-		write_auth = rs("write_auth")
-		reply_auth = rs("reply_auth")
-		read_auth = rs("read_auth")
-	End If
-	rs.close
 
 	pagesize = Request("pagesize")
 	If pagesize = "" Then pagesize = 20
@@ -61,7 +40,9 @@
 		End If
 	Else
 		kword = ""
-	End IF
+	End If
+
+	Set rs = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select count(board_seq) cnt "
@@ -100,21 +81,21 @@
 	End If
 %>
 			<script>
-				function MovePage(page){
+				function MovePage(page) {
 					var f = document.search_form;
 					f.page.value = page;
 					f.action = "waste_board_list.asp"
 					f.submit();
 				}
 
-				function goView(board_seq){
+				function goView(board_seq) {
 					var f = document.search_form;
 					f.board_seq.value = board_seq;
 					f.action = "waste_board_view.asp"
 					f.submit()
 				}
 
-				function goSearch(){
+				function goSearch() {
 					var f = document.search_form;
 					f.page.value = 1;
 					f.submit();
@@ -152,7 +133,7 @@
 						<form name="list_form" method="post">
 						<input type="hidden" name="menu_type" value="<%=menu_type%>">
 						<input type="hidden" name="smode">
-						<table>
+						<table class="tb_fixed">
 							<colgroup>
 								<col class="w5" />
 								<col class="w_auto" />
@@ -266,7 +247,7 @@
 	Else
 %>
 								<tr>
-									<td colspan="100">등록된 글이 없습니다.</td>
+									<td colspan="6">등록된 글이 없습니다.</td>
 								</tr>
 <%
 	End If

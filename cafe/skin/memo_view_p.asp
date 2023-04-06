@@ -1,4 +1,4 @@
-<!--#include virtual="/ipin_exec_inc.asp"-->
+<!--#include virtual="/ipin_inc.asp"-->
 <!--#include virtual="/include/config_inc.asp"-->
 <%
 	memo_seq = Request("memo_seq")

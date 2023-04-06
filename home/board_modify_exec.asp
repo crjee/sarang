@@ -1,32 +1,16 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
+	checkCafePage(cafe_id)
+
 	ScriptTimeOut = 5000
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
 	uploadform.DefaultPath = uploadFolder
 
-	menu_seq  = uploadform("menu_seq")
 	page      = uploadform("page")
 	pagesize  = uploadform("pagesize")
 	sch_type  = uploadform("sch_type")
 	sch_word  = uploadform("sch_word")
-
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	Else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-	End If
-	rs.close
-	Set rs = Nothing
 
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
 	uploadform.DefaultPath = uploadFolder

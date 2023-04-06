@@ -17,5 +17,5 @@
 %>
 <script>
 	var <%=ipin%> = window.open("<%=open_url%>","<%=open_name%>","<%=open_specs%>");
-	setTimeout(function(){<%=ipin%>.focus()}, 500);
+	setTimeout(function() {<%=ipin%>.focus()}, 500);
 </script>

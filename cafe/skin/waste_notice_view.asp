@@ -1,6 +1,8 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
 	Call checkAdmin()
+
+	menu_type = "notice"
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -22,7 +24,6 @@
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
 			<div class="container">
 <%
-	menu_type = "notice"
 	page      = Request("page")
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
@@ -43,16 +44,16 @@
 	rs.Open Sql, conn, 3, 1
 %>
 			<script type="text/javascript">
-				function goList(){
+				function goList() {
 					document.search_form.action = "/cafe/skin/waste_notice_list.asp"
 					document.search_form.submit();
 				}
-				function goRestore(){
+				function goRestore() {
 					document.search_form.action = "/cafe/skin/waste_com_exec.asp"
 					document.search_form.task.value = "restore";
 					document.search_form.submit();
 				}
-				function goDelete(){
+				function goDelete() {
 					document.search_form.action = "/cafe/skin/waste_com_exec.asp"
 					document.search_form.task.value = "delete";
 					document.search_form.submit();

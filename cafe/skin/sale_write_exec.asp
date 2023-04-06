@@ -1,5 +1,9 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
+	checkCafePage(cafe_id)
+	checkWriteAuth(cafe_id)
+	checkDailyCount(cafe_id)
+
 	ScriptTimeOut = 5000
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & "sale\"
@@ -15,54 +19,6 @@
 	sch_word  = uploadform("sch_word")
 
 	Set rs = server.createobject("adodb.recordset")
-
-	sql = ""
-	sql = sql & " select isnull(daily_cnt,9999) as daily_cnt "
-	sql = sql & "       ,inc_del_yn "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	Else
-		daily_cnt = rs("daily_cnt")
-		inc_del_yn = rs("inc_del_yn")
-	End If
-	rs.close
-
-	If daily_cnt < "9999" Then
-		If inc_del_yn = "N" Then
-			sql = ""
-			sql = sql & " select count(menu_seq) as write_cnt "
-			sql = sql & "   from cf_sale "
-			sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-			sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-			sql = sql & "    and agency = '" & session("agency")  & "' "
-			sql = sql & "    and convert(varchar(10),credt,120) = '" & date & "' "
-			rs.Open Sql, conn, 3, 1
-			write_cnt = rs("write_cnt")
-			rs.close
-		Else
-			sql = ""
-			sql = sql & " select count(wl.menu_seq) as write_cnt "
-			sql = sql & "   from cf_write_log wl "
-			sql = sql & "   left join cf_member cm on cm.user_id = wl.user_id "
-			sql = sql & "  where wl.menu_seq = '" & menu_seq  & "' "
-			sql = sql & "    and wl.cafe_id = '" & cafe_id  & "' "
-			sql = sql & "    and cm.agency = '" & session("agency")  & "' "
-			sql = sql & "    and convert(varchar(10),wl.credt,120) = '" & date & "' "
-			rs.Open Sql, conn, 3, 1
-			write_cnt = rs("write_cnt")
-			rs.close
-		End If
-
-		If cint(write_cnt) >= cint(daily_cnt) Then
-			Response.Write "<script>alert('1일 등록 갯수 " & daily_cnt & "개를 초과 하였습니다');history.back()</script>"
-			Response.End
-		End If
-	End If
 
 	sale_seq = uploadform("sale_seq")
 	group_num = uploadform("group_num")
@@ -110,15 +66,12 @@
 	new_seq = getSeq("cf_sale")
 
 	If group_num = "" Then ' 새글
-
 		parent_seq = ""
 		sale_num = getNum("sale", cafe_id, menu_seq)
 		group_num = sale_num
 		level_num = 0
 		step_num = 0
-
 	Else ' 답글
-
 		parent_seq = sale_seq
 		level_num = level_num + 1
 

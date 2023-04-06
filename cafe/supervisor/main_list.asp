@@ -152,10 +152,10 @@
 			ifrm.location.href='page/main_edit.asp?menu_seq='+menu_seq+'&home_num='+home_num
 		}
 
-		$(document).on("mousedown",".adm_select_tree_nav ul li button",function(e){
+		$(document).on("mousedown",".adm_select_tree_nav ul li button",function(e) {
 			menu_seq = $(this).attr("menuSeq");
 			home_num = $(this).attr("value");
-			if (home_num == "0"){
+			if (home_num == "0") {
 				ifrm.location.href='about:blank';
 			}
 			else
@@ -169,7 +169,7 @@
 			start : function (event, ui) {
 				try {
 				}
-				catch (e){
+				catch (e) {
 					alert(e);
 				}
 			},
@@ -180,7 +180,7 @@
 						document.getElementById('emptyMenu').outerHTML = "";
 					}
 				}
-				catch (e){
+				catch (e) {
 					alert(e);
 				}
 			},
@@ -193,7 +193,7 @@
 				try {
 					ifrm.location.href='page/main_edit.asp?menu_seq='+menu_seq+'&home_num='+home_num
 				}
-				catch (e){
+				catch (e) {
 					alert(e);
 				}
 			},
@@ -207,8 +207,8 @@
 		$("#ifrm").height($(window).height())
 	})
 
-	$(function(){
-		$("iframe.iframe").load(function(){ //iframe 컨텐츠가 로드 된 후에 호출됩니다.
+	$(function() {
+		$("iframe.iframe").load(function() { //iframe 컨텐츠가 로드 된 후에 호출됩니다.
 			var frame = $(this).get(0);
 			var doc = (frame.contentDocument) ? frame.contentDocument : frame.contentWindow.document;
 			$(this).height(doc.body.scrollHeight+ 100);

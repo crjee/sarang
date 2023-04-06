@@ -1,23 +1,25 @@
-<% ' If cafe_ad_level = "10" Then extime("center 실행시간") %>
+<%
+'	OPTION Explicit
+'	Dim cafe_id
+'	Dim cafe_mb_level
+'	Dim uploadUrl
+'	Dim ConfigAttachedFileURL
+'	Dim sql
+'	Dim conn
+'	Dim skin_idx
+'	Dim user_level_str
+'	Set Conn = Server.CreateObject("ADODB.Connection")
+'	Conn.Open Application("db")
+'	Dim member_cnt
+'	Dim visit_cnt
+'	Dim memo_cnt
+%>
 			<nav id="nav_gnb" class="group_nav dsc_<%=Right(skin_idx, 1)%>">
 				<div class="group_area">
 					<div class="group_box">
 						<p><strong><%=session("agency")%></strong>님 안녕하세요</p>
 						<span class="icon"><%=user_level_str%></span>
 					</div>
-<%
-	If cafe_mb_level = 10 Then
-		cafe_type = getonevalue("cafe_type", "cf_cafe", "where cafe_id = '" & cafe_id & "'")
-
-		If cafe_type = "C" Then
-			cafe_type_nm = "사랑방"
-		Else
-			cafe_type_nm = "연합회"
-		End If
-%>
-<%
-	End If
-%>
 					<ul class="group_list">
 						<li><em>회원수</em> <strong><%=FormatNumber(member_cnt,0)%></strong></li>
 						<li><em>방문수</em> <strong><%=FormatNumber(visit_cnt,0)%></strong></li>
@@ -28,7 +30,21 @@
 						<input type="text" id="" name="" placeholder="검색어를 입력하세요" class="" />
 						<button type="button" class="f_awesome"><em>검색</em></button>
 					</div>
-					<button class="btn btn_c_s btn_n" type="button" onclick="javascripit:document.location.href='/cafe/manager/cafe_info_edit.asp'"><%=cafe_type_nm%> 관리</button>
+<%
+	Dim left_cafe_type
+	Dim left_cafe_type_nm
+
+	If cafe_mb_level = 10 Then
+		left_cafe_type = getonevalue("cafe_type", "cf_cafe", "where cafe_id = '" & cafe_id & "'")
+
+		If left_cafe_type = "C" Then
+			left_cafe_type_nm = "사랑방"
+		Else
+			left_cafe_type_nm = "연합회"
+		End If
+	End If
+%>
+					<button class="btn btn_c_s btn_n" type="button" onclick="javascripit:document.location.href='/cafe/manager/cafe_info_edit.asp'"><%=left_cafe_type_nm%> 관리</button>
 					<a href="#n" class="btn btn_c_a btn_n ux_btn_wrt">카페글쓰기</a>
 					<div class="wrt_group_box">
 						<div class="btn_box">
@@ -41,7 +57,18 @@
 				</div>
 				<ul class="nav">
 <%
-	Set left_rs = Server.CreateObject ("ADODB.Recordset")
+	Dim leftRs
+	Dim left_menu_type
+	Dim left_menu_name
+	Dim left_menu_seq 
+	Dim left_hidden_yn
+	Dim left_new_cnt
+	Dim left_slen
+	Dim left_left_add_style
+	Dim left_ms
+	Dim left_mc
+
+	Set leftRs = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select menu_type "
@@ -56,103 +83,93 @@
 	sql = sql & "    and hidden_yn <> 'Y'"
 	End If
 	sql = sql & "  order by menu_num asc "
-	left_rs.Open sql, conn, 3, 1
+	leftRs.Open sql, conn, 3, 1
 
-	Do Until left_rs.eof
-		menu_type = left_rs("menu_type")
-		menu_name = left_rs("menu_name")
-		menu_seq  = left_rs("menu_seq")
-		hidden_yn = left_rs("hidden_yn")
-		new_cnt   = left_rs("new_cnt")
-		menu_name = Replace(menu_name, " & amp;"," & ")
+	Do Until leftRs.eof
+		left_menu_type = leftRs("menu_type")
+		left_menu_name = leftRs("menu_name")
+		left_menu_seq  = leftRs("menu_seq")
+		left_hidden_yn = leftRs("hidden_yn")
+		left_new_cnt   = leftRs("new_cnt")
+		left_menu_name = Replace(left_menu_name, " & amp;"," & ")
 
-		If hidden_yn = "Y" Then
-			If new_cnt = 0 Then
-				slen = 7
+		If left_hidden_yn = "Y" Then
+			If left_new_cnt = 0 Then
+				left_slen = 7
 			Else
-				slen = 6
+				left_slen = 6
 			End If
 			
-			If Len(Replace(menu_name,",","")) >= slen Then
-				add_style = "height:30px;line-height:15px;padding-top:2px;"
+			If Len(Replace(left_menu_name,",","")) >= left_slen Then
+				left_add_style = "height:30px;line-height:15px;padding-top:2px;"
 			Else
-				add_style = ""
+				left_add_style = ""
 			End If
 		Else
-			If new_cnt = 0 Then
-				slen = 9
+			If left_new_cnt = 0 Then
+				left_slen = 9
 			Else
-				slen = 8
+				left_slen = 8
 			End If
 		End If
 
-		If menu_type = "group" Then
+		If left_menu_type = "group" Then
 			group_cnt = group_cnt + 1
 			If group_cnt > 2 Then group_cnt = 2
 %>
-					<li class="menu_tit"><%=menu_name%></li>
+					<li class="menu_tit"><%=left_menu_name%></li>
 <%
-		ElseIf menu_type = "division" Then
+		ElseIf left_menu_type = "division" Then
 %>
 					<li></li>
 <%
 		Else
-			If menu_name ="-" Then
+			If left_menu_name ="-" Then
 				menu_name_str = "<hr></hr>"
 			Else
-				menu_type = Trim(menu_type)
+				left_menu_type = Trim(left_menu_type)
 
-				If hidden_yn = "Y" then
-					ms = "<font color=red>[숨김]</font>"
+				If left_hidden_yn = "Y" then
+					left_ms = "<font color=red>[숨김]</font>"
 				Else
-					ms = ""
+					left_ms = ""
 				End If
 
-				If instr("notice,board,news,pds,album,sale,job",menu_type) Then
-
-					If new_cnt = 0 Then
-						nc = ""
+				If instr("notice,board,news,pds,album,sale,job", left_menu_type) Then
+					If left_new_cnt = 0 Then
+						left_nc = ""
 					Else
-						nc = "<img src='/cafe/skin/img/btn/new.png' align='absmiddle'>"'[" & n("cnt") & "]"
+						left_nc = "<img src='/cafe/skin/img/btn/new.png' align='absmiddle'>"'[" & n("cnt") & "]"
 					End if
 
-					menu_name_str = "<a href='/cafe/skin/" & menu_type & "_list.asp?menu_seq=" & menu_seq & "'>" & ms & " " & menu_name & " " & nc & "</a>"
-
-				ElseIf menu_type = "land" Then
-
-					menu_name_str = "<a href='/cafe/skin/land_list.asp?menu_seq=" & menu_seq & "'>" & ms & " " & menu_name & " </a>"
-
-				ElseIf menu_type = "member" Then
-
-					menu_name_str = "<a href='/cafe/skin/member_list.asp?menu_seq=" & menu_seq & "'>" & ms & " " & menu_name & " </a>"
-
-				ElseIf menu_type = "memo" Then
-
-					menu_name_str = "<a href='/cafe/skin/memo_write.asp?menu_seq=" & menu_seq & "'>" & ms & " " & menu_name & " </a>"
-
+					left_menu_name_str = "<a href='/cafe/skin/" & left_menu_type & "_list.asp?menu_seq=" & left_menu_seq & "'>" & left_ms & " " & left_menu_name & " " & left_nc & "</a>"
+				ElseIf left_menu_type = "land" Then
+					left_menu_name_str = "<a href='/cafe/skin/land_list.asp?menu_seq=" & left_menu_seq & "'>" & left_ms & " " & left_menu_name & " </a>"
+				ElseIf left_menu_type = "member" Then
+					left_menu_name_str = "<a href='/cafe/skin/member_list.asp?menu_seq=" & left_menu_seq & "'>" & left_ms & " " & left_menu_name & " </a>"
+				ElseIf left_menu_type = "memo" Then
+					left_menu_name_str = "<a href='/cafe/skin/memo_write.asp?menu_seq=" & left_menu_seq & "'>" & left_ms & " " & left_menu_name & " </a>"
 				Else
-
-					menu_name_str = "<a href='/cafe/skin/page_view.asp?menu_seq=" & menu_seq & "'>" & ms & " " & menu_name & " </a>"
-
+					left_menu_name_str = "<a href='/cafe/skin/page_view.asp?menu_seq=" & left_menu_seq & "'>" & left_ms & " " & left_menu_name & " </a>"
 				End if
 			End If
 
-			If CStr(request("menu_seq")) = CStr(menu_seq) then
+			If CStr(request("menu_seq")) = CStr(left_menu_seq) then
 %>
-					<!-- <li style="<%=add_style%>background:url(/cafe/skin/img/left/ico_01.png) left no-repeat #ebebeb;"><%=menu_name_str%></li> -->
-					<li class="current_link"><%=menu_name_str%></li>
+					<!-- <li style="<%=left_add_style%>background:url(/cafe/skin/img/left/ico_01.png) left no-repeat #ebebeb;"><%=left_menu_name_str%></li> -->
+					<li class="current_link"><%=left_menu_name_str%></li>
 <%
 			Else
 %>
-					<li style="<%=add_style%>"><%=menu_name_str%></li>
+					<li style="<%=left_add_style%>"><%=left_menu_name_str%></li>
 <%
 			End If
 		End If
 
-		left_rs.MoveNext
+		leftRs.MoveNext
 	Loop
-	left_rs.close
-	Set left_rs = nothing
+	leftRs.close
+	Set leftRs = nothing
 'If session("user_id") = "crjee" Then extime("left 실행시간")
 %>
 				</ul>

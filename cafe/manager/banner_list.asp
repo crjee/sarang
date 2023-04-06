@@ -278,7 +278,7 @@
 		}
 	}
 
-	$("#file_name").change(function(){
+	$("#file_name").change(function() {
 		readURL(this,'#file_img')
 	})
 
@@ -286,7 +286,7 @@
 		$("#file_img").attr('src', "")
 	})
 
-	function onRegi(){
+	function onRegi() {
 		$("#regi_form")[0].reset();
 		$("#task").val("ins");
 		$("#file_img").attr('src', "")
@@ -295,7 +295,7 @@
 		lyp('lypp_adm_banner');
 	}
 
-	function onEdit(banner_seq){
+	function onEdit(banner_seq) {
 		$("#regi_form")[0].reset();
 		$("#task").val("upd")
 		$("#file_img").attr('src', "")
@@ -309,7 +309,7 @@
 			$.ajax({
 				type: "POST",
 				dataType: "json",
-				url: "/cafe/manager/banner_ajax_view.asp",
+				url: "/cafe/manager/banner_view_ajax.asp",
 				data: {"banner_seq":banner_seq},
 				success: function(xmlData) {
 					if (xmlData.TotalCnt > 0) {
@@ -326,9 +326,9 @@
 							//alert(xmlData.ResultList[i].subject);
 							$("#subject").val(xmlData.ResultList[i].subject);
 							//alert(xmlData.ResultList[i].open_yn);
-							if(xmlData.ResultList[i].open_yn == "Y")
+							if (xmlData.ResultList[i].open_yn == "Y")
 							$("#open_y").prop('checked',true);
-							if(xmlData.ResultList[i].open_yn == "N")
+							if (xmlData.ResultList[i].open_yn == "N")
 							$("#open_n").prop('checked',true);
 							//alert(xmlData.ResultList[i].link);
 							$("#link").val(xmlData.ResultList[i].link);
@@ -342,14 +342,14 @@
 						alert("해당 배너가 없습니다");
 					}
 				},
-				complete : function(){
+				complete : function() {
 				},
 				error : function(xmlData) {
 					alert("ERROR");
 				}
 			});
 		}
-		catch (e){
+		catch (e) {
 			alert(e);
 		}
 	}

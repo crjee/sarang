@@ -1,39 +1,41 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
-	menu_seq  = Request("menu_seq")
 	page      = Request("page")
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
+	If menu_seq <> "" then
+		sql = ""
+		sql = sql & " select * "
+		sql = sql & "   from cf_menu "
+		sql = sql & "  where menu_seq = '"& menu_seq &"' "
+		sql = sql & "    and cafe_id = '"& cafe_id &"' "
+		rs.Open Sql, conn, 3, 1
 
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
+		If rs.EOF Then
+			msggo "정상적인 사용이 아닙니다.",""
+		else
+			menu_type = rs("menu_type")
+			menu_name = rs("menu_name")
+		End If
+		rs.close
+	Else
+		menu_type = "notice"
 	End If
-	rs.close
 
 	com_seq = Request(menu_type & "_seq")
 
-	'on Error Resume Next
+	On Error Resume Next
 	Conn.BeginTrans
 	Set BeginTrans = Conn
 	CntError = 0
 
 	cafe_mb_level = getUserLevel(cafe_id)
 	If cafe_mb_level >= 6 Then ' 사랑방지기 이면 삭제
+		Call waste_content(menu_type, com_seq)
+	Else
+		Set rs = Server.CreateObject ("ADODB.Recordset")
 
-		call waste_content(menu_type, com_seq)
-
-	else
 		sql = ""
 		sql = sql & " select * "
 		sql = sql & "   from cf_" & menu_type & " "
@@ -42,14 +44,14 @@
 		rs.Open Sql, conn, 3, 1
 
 		If Not rs.eof Then ' 글작성자 이면 삭제
-
-			call waste_content(menu_type, com_seq)
-
+			Call waste_content(menu_type, com_seq)
 		Else ' 글작성자 아니면
 			Response.Write "<script>alert('권한이없습니다');history.back();</script>"
 			Response.End
-		End if
+		End If
 
+		rs.close
+		Set rs = Nothing
 	End If
 
 	If Err.Number = 0 Then

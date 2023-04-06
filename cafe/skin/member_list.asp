@@ -1,11 +1,7 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
-	cafe_mb_level = getUserLevel(cafe_id)
-	read_auth = getonevalue("read_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
-	If toInt(read_auth) > toInt(cafe_mb_level) Then
-		Response.Write "<script>alert('읽기 권한이없습니다');history.back();</script>"
-		Response.end
-	End If
+	checkCafePage(cafe_id)
+	checkReadAuth(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -29,29 +25,6 @@
 <%
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
-	menu_seq = Request("menu_seq")
-
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-		list_info = rs("list_info")
-	End If
-	rs.close
-
-	sch_type = Request("sch_type")
-	sch_word = Request("sch_word")
-	menu_seq = Request("menu_seq")
-	page_type = Request("page_type")
 
 	PageSize = Request("PageSize")
 	If PageSize = "" Then PageSize = 20
@@ -97,6 +70,8 @@
 
 	oword = " Order By " & sort & " " & ascdesc
 
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
 	sql = sql & " select  "
 	sql = sql & "        cm.user_id "
@@ -115,12 +90,10 @@
 	sql = sql & "  where cm.cafe_id = '" & cafe_id & "' "
 	sql = sql & kword
 	sql = sql & oword
-
-	Set rs = Server.CreateObject ("ADODB.Recordset")
 	rs.Open Sql, conn, 3, 1
-
 	rs.PageSize = PageSize
 	RecordCount = 0 ' 자료가 없을때
+
 	If Not rs.EOF Then
 		RecordCount = rs.recordcount
 	End If
@@ -138,25 +111,25 @@
 	End If
 %>
 			<script>
-				function MovePage(page){
+				function MovePage(page) {
 					document.all.page.value = page;
 					document.search_form.submit();
 				}
 
-				function goSearch(){
+				function goSearch() {
 					document.all.page.value = 1;
 					document.search_form.submit();
 				}
 
-				function goSort(field){
+				function goSort(field) {
 
-					if(document.all.sort.value == field){
-						if(document.all.ascdesc.value == "asc")
+					if (document.all.sort.value == field) {
+						if (document.all.ascdesc.value == "asc")
 							document.all.ascdesc.value = "desc";
 						else
 							document.all.ascdesc.value = "asc";
 					}
-					else{
+					else {
 						document.all.ascdesc.value = "asc";
 					}
 
@@ -173,7 +146,7 @@
 						img.height = tt[1];
 						img.alt = "클릭하시면 원본이미지를 보실수있습니다.";
 
-						if(aL){
+						if (aL) {
 							// 자동링크 on
 							img.onclick = function() {
 								wT = Math.ceil((screen.width - tt[2])/2.6);
@@ -197,26 +170,26 @@
 						}
 					}
 					else {
-							img.onclick = function(){
+							img.onclick = function() {
 								alert("현재이미지가 원본 이미지입니다.");
 							}
 					}
 				}
 
-				function imgRsize(img, rW, rH){
+				function imgRsize(img, rW, rH) {
 					var iW = img.width;
 					var iH = img.height;
 					var g = new Array;
-					if(iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
+					if (iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
 						g[0] = iW;
 						g[1] = iH;
 					}
 					else {
-						if(img.width > img.height) { // 원크기 가로가 세로보다 크면
+						if (img.width > img.height) { // 원크기 가로가 세로보다 크면
 							g[0] = rW;
 							g[1] = Math.ceil(img.height * rW / img.width);
 						}
-						else if(img.width < img.height) { //원크기의 세로가 가로보다 크면
+						else if (img.width < img.height) { //원크기의 세로가 가로보다 크면
 							g[0] = Math.ceil(img.width * rH / img.height);
 							g[1] = rH;
 						}
@@ -224,11 +197,11 @@
 							g[0] = rW;
 							g[1] = rH;
 						}
-						if(g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
+						if (g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
 							g[0] = rW;
 							g[1] = Math.ceil(img.height * rW / img.width);
 						}
-						if(g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
+						if (g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
 							g[0] = Math.ceil(img.width * rH / img.height);
 							g[1] = rH;
 						}
@@ -247,7 +220,6 @@
 					<div class="search_box algR">
 						<form name="search_form" id="search_form" method="post" onsubmit="MovePage(1)">
 						<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-						<input type="hidden" name="page_type" value="<%=page_type%>">
 						<input type="hidden" name="page" value="<%=page%>">
 						<input type="hidden" name="sort" value="<%=sort%>">
 						<input type="hidden" name="ascdesc" value="<%=ascdesc%>">
@@ -276,7 +248,7 @@
 						<form name="list_form" method="post">
 						<input type="hidden" name="menu_type" value="<%=menu_type%>">
 						<input type="hidden" name="smode">
-						<table>
+						<table class="tb_fixed">
 							<colgroup>
 								<%If instr(list_info, "agency") then%>     <col class="w10" /><%End if%>
 								<%If instr(list_info, "kname") then%>      <col class="w10" /><%End if%>
@@ -286,14 +258,6 @@
 								<%If instr(list_info, "fax") then%>        <col class="w10" /><%End if%>
 								<%If instr(list_info, "interphone") then%> <col class="w10" /><%End if%>
 								<%If instr(list_info, "addr") then%>       <col class="w_auto" /><%End if%>
-								
-								
-								
-								
-								
-								
-								
-								
 							</colgroup>
 							<thead>
 								<tr>
@@ -316,26 +280,29 @@
 		Do Until rs.EOF Or i > rs.PageSize
 %>
 								<tr>
-							<!-- <td><%=rs("user_id")%></td> -->
-<%If instr(list_info, "agency") Or instr(list_info, "picture") then%>
+<%
+			If instr(list_info, "agency") Or instr(list_info, "picture") Then
+%>
 									<td><%=rs("agency")%>
 <%
-	If rs("picture") <> "" Then
+				If rs("picture") <> "" Then
 %>
 										<img src="<%=uploadUrl & rs("picture")%>" id="profile" name="profile" onLoad="Rsize(this, 20, 20, 1)" style="cursor:hand;border:1px solid #e5e5e5;" title="중개업소사진">
 <%
-	End if
+				End if
 %>
 									</td>
-<%End if%>
-							<%If instr(list_info, "kname") then%>      <td class="algC"><%=rs("kname")%></td><%End if%>
-							<%If instr(list_info, "license") then%>    <td class="algC"><%=rs("license")%></td><%End if%>
-							<%If instr(list_info, "phone") then%>      <td class="algC"><%=rs("phone")%></td><%End if%>
-							<%If instr(list_info, "mobile") then%>     <td class="algC"><%=rs("mobile")%></td><%End if%>
-							<%If instr(list_info, "fax") then%>        <td class="algC"><%=rs("fax")%></td><%End if%>
-							<%If instr(list_info, "interphone") then%> <td class="algC"><%=rs("interphone")%></td><%End if%>
-							<%If instr(list_info, "addr") then%>       <td><%=rs("addr1")%> <%=rs("addr2")%></td><%End if%>
-						</tr>
+<%
+			End If
+%>
+									<%If instr(list_info, "kname") then%>      <td class="algC"><%=rs("kname")%></td><%End if%>
+									<%If instr(list_info, "license") then%>    <td class="algC"><%=rs("license")%></td><%End if%>
+									<%If instr(list_info, "phone") then%>      <td class="algC"><%=rs("phone")%></td><%End if%>
+									<%If instr(list_info, "mobile") then%>     <td class="algC"><%=rs("mobile")%></td><%End if%>
+									<%If instr(list_info, "fax") then%>        <td class="algC"><%=rs("fax")%></td><%End if%>
+									<%If instr(list_info, "interphone") then%> <td class="algC"><%=rs("interphone")%></td><%End if%>
+									<%If instr(list_info, "addr") then%>       <td><%=rs("addr1")%> <%=rs("addr2")%></td><%End if%>
+								</tr>
 <%
 			i = i + 1
 			rs.MoveNext
@@ -343,9 +310,11 @@
 			If level_num = 0 Then
 				j = j - 1
 			End If
-		loop
+%>
+								</tr>
+<%
+		Loop
 	End If
-
 	rs.close
 	Set rs = nothing
 %>

@@ -4,14 +4,8 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
-%>
-<%
-	cafe_mb_level = getUserLevel(cafe_id)
-	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
-	If toInt(write_auth) > toInt(cafe_mb_level) Then
-		Response.Write "<script>alert('수정 권한이없습니다');history.back()</script>"
-		Response.End
-	End If
+	checkCafePage(cafe_id)
+	checkModifyAuth(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -66,34 +60,14 @@
 		<main id="main" class="main">
 			<div class="container">
 <%
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-
 	page      = Request("page")
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
-	menu_seq  = Request("menu_seq")
-
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-		editor_yn = rs("editor_yn")
-		write_auth = rs("write_auth")
-		reply_auth = rs("reply_auth")
-		read_auth = rs("read_auth")
-	End If
-	rs.close
 
 	nsale_seq = Request("nsale_seq")
+
+	Set rs = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select * "
@@ -366,7 +340,7 @@
 							bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
 							bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
 							//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
-							fOnBeforeUnload : function(){
+							fOnBeforeUnload : function() {
 								var f = document.form;
 								if (f.temp.value == "Y" && f.subject.value != "")
 								{
@@ -378,7 +352,7 @@
 								}
 							}
 						}, //boolean
-						fOnAppLoad : function(){
+						fOnAppLoad : function() {
 							//예제 코드
 							//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
 						},

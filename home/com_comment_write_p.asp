@@ -1,15 +1,16 @@
-<!--#include virtual="/ipin_exec_inc.asp"-->
+<!--#include virtual="/ipin_inc.asp"-->
 <%
 	freePage = True
 %>
 <!--#include virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
-%>
-<%
-	Set rs = Server.CreateObject ("ADODB.Recordset")
+	checkCafePage(cafe_id)
 
 	menu_seq = Request("menu_seq")
+
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
 	sql = sql & " select * "
 	sql = sql & "   from cf_menu "
@@ -19,7 +20,7 @@
 
 	If rs.EOF Then
 		msggo "정상적인 사용이 아닙니다.",""
-	else
+	Else
 		menu_type = rs("menu_type")
 		menu_name = rs("menu_name")
 		cafe_id = rs("cafe_id")
@@ -81,7 +82,7 @@ function fc_chk_byte(frm_nm, ari_max, cnt_view) {
 	var ls_one_char = ""; // 한글자씩 검사한다 
 	var ls_str2 = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다. 
 
-	for(i=0; i< li_str_len; i++) { 
+	for (i=0; i< li_str_len; i++) { 
 	// 한글자추출 
 		ls_one_char = ls_str.charAt(i); 
 
@@ -95,20 +96,20 @@ function fc_chk_byte(frm_nm, ari_max, cnt_view) {
 		} 
 
 		// 전체 크기가 li_max를 넘지않으면 
-		if(li_byte <= li_max) { 
+		if (li_byte <= li_max) { 
 			li_len = i + 1; 
 		} 
 	} 
 
 	// 전체길이를 초과하면 
-	if(li_byte > li_max) { 
+	if (li_byte > li_max) { 
 		alert( li_max + "byte 글자를 초과 입력할수 없습니다. \n 초과된 내용은 자동으로 삭제 됩니다. "); 
 		ls_str2 = ls_str.substr(0, li_len);
 		frm_nm.value = ls_str2; 
 
 		li_str_len = ls_str2.length; // 전체길이 
 		li_byte = 0; // 한글일경우는 2 그밗에는 1을 더함 
-		for(i=0; i< li_str_len; i++) { 
+		for (i=0; i< li_str_len; i++) { 
 		// 한글자추출 
 			ls_one_char = ls_str2.charAt(i); 
 
@@ -122,7 +123,7 @@ function fc_chk_byte(frm_nm, ari_max, cnt_view) {
 			} 
 		} 
 	} 
-	if (cnt_view != ""){
+	if (cnt_view != "") {
 		var inner_form = eval("document.all."+ cnt_view) 
 		inner_form.innerHTML = li_byte ;		//frm.txta_Memo.value.length;
 	}

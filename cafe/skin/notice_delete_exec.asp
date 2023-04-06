@@ -1,6 +1,8 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
+	checkAdmin(cafe_id)
+
+	menu_type = "notice"
 
 	page      = request("page")
 	sch_type  = request("sch_type")
@@ -10,7 +12,7 @@
 
 	notice_seq = Request("notice_seq")
 
-	'on Error Resume Next
+	On Error Resume Next
 	Conn.BeginTrans
 	Set BeginTrans = Conn
 	CntError = 0

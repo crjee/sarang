@@ -1,5 +1,6 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
+	checkCafePage(cafe_id)
 	checkManager(cafe_id)
 %>
 <!DOCTYPE html>
@@ -31,7 +32,6 @@
 	sql = sql & "  where user_id = '" & session("user_id") & "' "
 	Conn.Execute(sql)
 
-	menu_seq  = Request("menu_seq")
 	page      = Request("page")
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
@@ -39,29 +39,11 @@
 	self_yn   = Request("self_yn")
 	all_yn    = Request("all_yn")
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-		editor_yn = rs("editor_yn")
-		write_auth = rs("write_auth")
-		reply_auth = rs("reply_auth")
-		read_auth = rs("read_auth")
-	End If
-	rs.close
-
 	job_seq = Request("job_seq")
 
 	Call setViewCnt(menu_type, job_seq)
+
+	Set rs = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select cj.* "
@@ -76,29 +58,37 @@
 	subject = rs("subject")
 	work    = rs("work")
 	age     = rs("age")
+
 	If age = "" Or age = "0" Then
 		age = "무관"
-	End if
+	End If
+
 	sex    = rs("sex")
+
 	If sex = "" Then
 		sex = "무관"
-	elseIf sex = "M" Then
+	ElseIf sex = "M" Then
 		sex = "남자"
-	elseIf sex = "W" Then
+	ElseIf sex = "W" Then
 		sex = "여자"
-	End if
+	End If
+
 	work_year  = rs("work_year")
+
 	If work_year = "" Then
 		work_year = "무관"
-	else
+	Else
 		work_year = work_year
-	End if
+	End If
+
 	certify    = rs("certify")
+
 	If certify = "Y" Then
 		certify = "필수"
-	else
+	Else
 		certify = "무관"
-	End if
+	End If
+
 	work_place = rs("work_place")
 	agency     = rs("agency")
 	person     = rs("person")
@@ -113,16 +103,16 @@
 	user_id    = rs("user_id")
 %>
 			<script type="text/javascript">
-				function goList(){
+				function goList() {
 					document.search_form.action = "/cafe/skin/waste_job_list.asp"
 					document.search_form.submit();
 				}
-				function goRestore(){
+				function goRestore() {
 					document.search_form.action = "/cafe/skin/waste_com_exec.asp"
 					document.search_form.task.value = "restore";
 					document.search_form.submit();
 				}
-				function goDelete(){
+				function goDelete() {
 					document.search_form.action = "/cafe/skin/waste_com_exec.asp"
 					document.search_form.task.value = "delete";
 					document.search_form.submit();

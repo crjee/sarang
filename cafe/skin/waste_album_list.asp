@@ -1,5 +1,6 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
+	checkCafePage(cafe_id)
 	checkManager(cafe_id)
 %>
 <!DOCTYPE html>
@@ -24,29 +25,6 @@
 <%
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
-	menu_seq = Request("menu_seq")
-
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	Set rs2 = Server.CreateObject ("ADODB.Recordset")
-
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	else
-		menu_type  = rs("menu_type")
-		menu_name  = rs("menu_name")
-		editor_yn  = rs("editor_yn")
-		write_auth = rs("write_auth")
-		reply_auth = rs("reply_auth")
-		read_auth  = rs("read_auth")
-	End If
-	rs.close
 
 	pagesize = Request("pagesize")
 	If pagesize = "" Then pagesize = 20
@@ -64,6 +42,9 @@
 		kword = ""
 	End IF
 
+	Set rs = Server.CreateObject("ADODB.Recordset")
+	Set rs2 = Server.CreateObject("ADODB.Recordset")
+
 	sql = ""
 	sql = sql & " select * "
 	sql = sql & "       ,convert(varchar(10), credt, 120) credt_txt "
@@ -75,9 +56,9 @@
 	sql = sql & kword
 	sql = sql & "  order by group_num desc,step_num asc "
 	rs.Open Sql, conn, 3, 1
-
 	rs.PageSize = PageSize
 	RecordCount = 0 ' 자료가 없을때
+
 	If Not rs.EOF Then
 		RecordCount = rs.recordcount
 	End If
@@ -95,21 +76,21 @@
 	End If
 %>
 			<script>
-				function MovePage(page){
+				function MovePage(page) {
 					var f = document.search_form;
 					f.page.value = page;
 					f.action = "waste_album_list.asp"
 					f.submit();
 				}
 
-				function goView(album_seq){
+				function goView(album_seq) {
 					var f = document.search_form;
 					f.album_seq.value = album_seq;
 					f.action = "waste_album_view.asp"
 					f.submit();
 				}
 
-				function goSearch(){
+				function goSearch() {
 					var f = document.search_form;
 					f.page.value = 1;
 					f.submit();
@@ -155,6 +136,7 @@
 	i = 1
 	j = 0
 	line_item = 4
+
 	If Not rs.EOF Then
 		Do Until rs.EOF Or i > rs.PageSize
 			album_seq = rs("album_seq")
@@ -172,14 +154,14 @@
 
 			sql = ""
 			sql = sql & " select top 1 * "
-			sql = sql & "   from cf_album_attach "
+			sql = sql & "   from cf_waste_album_attach "
 			sql = sql & "  where album_seq = '" & album_seq & "' "
 			sql = sql & "  order by album_seq "
 			rs2.Open Sql, conn, 3, 1
 
 			If Not rs2.EOF Then
 %>
-									<span class="photos"><a href="javascript: goView('<%=album_seq%>')"><img src="<%=fileUrl%>" border="0" /></a></span>
+									<span class="photos"><a href="javascript: goView('<%=album_seq%>')"><img src="<%=uploadUrl & rs2("file_name")%>" border="0" /></a></span>
 <%
 			Else
 %>

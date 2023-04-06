@@ -213,7 +213,7 @@
 		$('#picture').click()
 	})
 
-	$(window).load(function(){
+	$(window).load(function() {
 		function readURL(input,obj) {
 			if (input.files && input.files[0]) {
 				var reader = new FileReader()
@@ -226,12 +226,12 @@
 			}
 		}
 
-		$("#picture").change(function(){
+		$("#picture").change(function() {
 			readURL(this,'#profile')
 		})
 	})
 
-	function picture_del(){
+	function picture_del() {
 		document.all.profile.src='';
 		document.all.picture.value = '';
 		document.all.del.value = 'Y';

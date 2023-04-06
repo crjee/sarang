@@ -64,7 +64,6 @@
 												<label for="NT1"><em>기본형</em></label>
 											</span>
 										</td>
-										<td rowspan="6"></th>
 									</tr>
 									<tr>
 										<td>
@@ -150,7 +149,7 @@
 <!--
 	$('#del').click(function() {
 		msg="삭제하시겠습니까?"
-		if(confirm(msg)){
+		if (confirm(msg)) {
 			document.location.href='../main_del_exec.asp?menu_seq=<%=menu_seq%>';
 		}
 	})

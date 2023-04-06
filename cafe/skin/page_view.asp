@@ -1,4 +1,7 @@
 <!--#include virtual="/include/config_inc.asp"-->
+<%
+	checkCafePage(cafe_id)
+%>
 <!DOCTYPE html>
 <html lang="kr">
 <head>

@@ -51,7 +51,7 @@
 	sql = ""
 	sql = sql & " update cf_menu                                                      "
 	sql = sql & "    set home_num = 0                                                 "
-	sql = sql & "  where cafe_id = '" & cafe_id & "'                                      "
+	sql = sql & "  where cafe_id = '" & cafe_id & "'                                  "
 	sql = sql & "    and hidden_yn = 'Y'                                              "
 	sql = sql & " ;                                                                   "
 	sql = sql & " update t1                                                           "

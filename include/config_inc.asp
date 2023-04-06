@@ -4,6 +4,23 @@
 	StartTime=Timer()
 	Dim Conn
 
+	Dim cafe_id
+	Dim menu_seq
+	menu_seq = Request("menu_seq")
+	Dim menu_type
+	Dim menu_name
+	Dim editor_yn
+	Dim write_auth
+	Dim reply_auth
+	Dim read_auth
+	Dim cafe_mb_level
+	Dim cafe_ad_level
+
+	Dim daily_cnt
+	Dim write_cnt
+	Dim inc_del_yn
+	Dim list_info
+
 	'################ Database설정 #################
 	Function DBOpen()
 		Set Conn = Server.CreateObject("ADODB.Connection")
@@ -46,13 +63,13 @@
 	End If
 
 	If Session("cafe_id") <> "" Then
-		Dim cafe_id : cafe_id = Session("cafe_id")
+		cafe_id = Session("cafe_id")
 	End If
 
 	Dim user_id : user_id = Session("user_id")
 
-	Dim cafe_ad_level : cafe_ad_level = Session("cafe_ad_level")
-	Dim cafe_mb_level
+	cafe_ad_level = Session("cafe_ad_level")
+
 	Function getUserLevel(cafe_id)
 
 		cafe_mb_level = "0"
@@ -60,7 +77,7 @@
 		If Session("cafe_ad_level") = "10" Then
 			cafe_mb_level = "10"
 		Else
-			set fn_rs = server.createobject("adodb.recordset")
+			Set fn_rs = server.createobject("adodb.recordset")
 			sql = ""
 			sql = sql & " select cafe_mb_level "
 			sql = sql & "   from cf_cafe_member cm "
@@ -108,7 +125,7 @@
 		sql = sql & "  using (select '" & seq_name & "' as col) src "
 		sql = sql & "     on (tbl.seq_name = src.col) "
 		sql = sql & "   when matched Then "
-		sql = sql & " update set seq_value = isnull(seq_value,0) + 1 "
+		sql = sql & " update Set seq_value = isnull(seq_value,0) + 1 "
 		sql = sql & "           ,modid = '" & Session("user_id")  & "' "
 		sql = sql & "           ,moddt = getdate() "
 		sql = sql & "   when not matched Then "
@@ -149,7 +166,127 @@
 	If s_pop <> "Y" And cafe_id <> "" Then
 		Call checkMember(cafe_id)
 	End If
+
+	Sub checkCafePage(ByVal cafe_id)
+		If menu_seq = "" Then
+			On Error Resume Next
+			Set uploadform = Server.CreateObject("DEXT.FileUpload")
+			menu_seq = uploadform("menu_seq")
+			Set uploadform = Nothing
+		End If
+
+		Set funcRs = server.createobject("adodb.recordset")
+		sql = ""
+		sql = sql & " select * "
+		sql = sql & "       ,isnull(daily_cnt,9999) as daily_cnt "
+		sql = sql & "   from cf_menu "
+		sql = sql & "  where menu_seq = '" & menu_seq & "' "
+		sql = sql & "    and cafe_id  = '" & cafe_id  & "' "
+		funcRs.Open Sql, Conn, 3, 1
+
+		If funcRs.Eof Then
+			msggo "정상적인 사용이 아닙니다.",""
+		Else
+			menu_type  = funcRs("menu_type")
+			menu_name  = funcRs("menu_name")
+			editor_yn  = funcRs("editor_yn")
+			write_auth = funcRs("write_auth")
+			reply_auth = funcRs("reply_auth")
+			read_auth  = funcRs("read_auth")
+			daily_cnt  = funcRs("daily_cnt")
+			inc_del_yn = funcRs("inc_del_yn")
+			list_info  = funcRs("list_info")
+		End If
+		funcRs.close
+		Set funcRs = Nothing
+	End Sub
 	
+	Sub checkReadAuth(ByVal cafe_id)
+		cafe_mb_level = getUserLevel(cafe_id)
+		read_auth = getonevalue("read_auth","cf_menu","where menu_seq = '" & menu_seq & "'")
+
+		If toInt(read_auth) > toInt(cafe_mb_level) Then
+			Response.Write "<script>alert('읽기 권한이없습니다');history.back()</script>"
+			Response.End
+		End If
+	End Sub
+	
+	Sub checkWriteAuth(ByVal cafe_id)
+		cafe_mb_level = getUserLevel(cafe_id)
+		write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & menu_seq & "'")
+
+		If toInt(write_auth) > toInt(cafe_mb_level) Then
+			Response.Write "<script>alert('쓰기 권한이없습니다');history.back()</script>"
+			Response.End
+		End If
+	End Sub
+	
+	Sub checkModifyAuth(ByVal cafe_id)
+		cafe_mb_level = getUserLevel(cafe_id)
+		write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & menu_seq & "'")
+
+		If toInt(write_auth) > toInt(cafe_mb_level) Then
+			Response.Write "<script>alert('수정 권한이없습니다');history.back()</script>"
+			Response.End
+		End If
+	End Sub
+	
+	Sub checkReplyAuth(ByVal cafe_id)
+		cafe_mb_level = getUserLevel(cafe_id)
+		reply_auth = getonevalue("reply_auth","cf_menu","where menu_seq = '" & menu_seq & "'")
+
+		If toInt(reply_auth) > toInt(cafe_mb_level) Then
+			Response.Write "<script>alert('답변 권한이없습니다');history.back()</script>"
+			Response.End
+		End If
+	End Sub
+	
+	Sub checkDailyCount(ByVal cafe_id)
+		Set funcRs = server.createobject("adodb.recordset")
+
+		If daily_cnt < "9999" Then
+			If inc_del_yn = "N" Then
+				sql = ""
+				sql = sql & " select count(menu_seq) as write_cnt "
+				sql = sql & "   from cf_board "
+				sql = sql & "  where menu_seq = '" & menu_seq  & "' "
+				sql = sql & "    and cafe_id = '" & cafe_id  & "' "
+				sql = sql & "    and agency = '" & session("agency")  & "' "
+				sql = sql & "    and convert(varchar(10), credt, 120) = '" & date & "' "
+				funcRs.Open Sql, conn, 3, 1
+				write_cnt = funcRs("write_cnt")
+				funcRs.close
+			Else
+				sql = ""
+				sql = sql & " select count(wl.menu_seq) as write_cnt "
+				sql = sql & "   from cf_write_log wl "
+				sql = sql & "   left join cf_member cm on cm.user_id = wl.user_id "
+				sql = sql & "  where wl.menu_seq = '" & menu_seq  & "' "
+				sql = sql & "    and wl.cafe_id = '" & cafe_id  & "' "
+				sql = sql & "    and cm.agency = '" & session("agency")  & "' "
+				sql = sql & "    and convert(varchar(10), wl.credt, 120) = '" & date & "' "
+				funcRs.Open Sql, conn, 3, 1
+				write_cnt = funcRs("write_cnt")
+				funcRs.close
+			End If
+
+			If cint(write_cnt) >= cint(daily_cnt) Then
+				Response.Write "<script>alert('1일 등록 갯수 " & daily_cnt & "개를 초과 하였습니다');history.back()</script>"
+				Response.End
+			End If
+		End If
+
+		Set funcRs = Nothing
+	End Sub
+
+	Sub checkMemoSendAuth(ByVal cafe_id)
+		cafe_mb_level = getUserLevel(cafe_id)
+		If cafe_mb_level < 2 Then
+			Response.Write "<script>alert('쪽지를 보내려면 정회원부터 가능합니다');history.back();</script>"
+			Response.End
+		End If
+	End Sub
+
 	Sub checkMember(cafe_id)
 		If getUserLevel(cafe_id) = 0 Then
 			If isnull(Session("mycafe")) Or Session("mycafe") <> cafe_id Then
@@ -181,7 +318,7 @@
 		If Session("view_seq") <> com_seq Then
 			sql = ""
 			sql = sql & " update cf_" & menu_type & " "
-			sql = sql & "    set view_cnt = isnull(view_cnt,0) + 1 "
+			sql = sql & "    Set view_cnt = isnull(view_cnt,0) + 1 "
 			sql = sql & "       ,modid = '" & Session("user_id") & "' "
 			sql = sql & "       ,moddt = getdate() "
 			sql = sql & "  where " & menu_type & "_seq = '" & com_seq & "' "
@@ -214,7 +351,7 @@
 		DIM strCombo
 		DIM a,b
 
-		set funcRs = server.createobject("adodb.recordset")
+		Set funcRs = server.createobject("adodb.recordset")
 		funcSQL = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
 		funcRs.Open funcSQL, Conn, 1
 
@@ -265,7 +402,7 @@
 		DIM strRadio
 		DIM a,b
 
-		set funcRs = server.createobject("adodb.recordset")
+		Set funcRs = server.createobject("adodb.recordset")
 		funcSQL = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
 		funcRs.Open funcSQL, Conn, 1
 		strRadio = vbCrLf
@@ -304,7 +441,7 @@
 		DIM strCheckBox
 		DIM a,b
 
-		set funcRs = server.createobject("adodb.recordset")
+		Set funcRs = server.createobject("adodb.recordset")
 		funcSQL = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
 		funcRs.Open funcSQL, Conn, 1
 		strCheckBox = vbCrLf
@@ -341,7 +478,7 @@
 		DIM strCheckBox
 		DIM a,b
 
-		set funcRs = server.createobject("adodb.recordset")
+		Set funcRs = server.createobject("adodb.recordset")
 		funcSQL = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
 		funcRs.Open funcSQL, Conn, 1
 		strCheckBox = vbCrLf
@@ -423,13 +560,13 @@
 
 
 '/*-------------------------------------------------------------*/
-'/*----- 	한 데이타 가져오기
+'/*-----	한 데이타 가져오기
 '/*-------------------------------------------------------------*/
 	function getOneValue(field,table,refstr)
 		DIM funcSQL
 		DIM funcRs
 
-		set funcRs = server.createobject("adodb.recordset")
+		Set funcRs = server.createobject("adodb.recordset")
 		funcSQL = "select " & field & " from " & table & " " & refstr
 
 		funcRs.open funcSQL, conn, 1, 1
@@ -443,7 +580,7 @@
 		funcRs.close
 	end function
 '/*-------------------------------------------------------------*/
-'/*----- 	메시지 보이기
+'/*-----	메시지 보이기
 '/*-------------------------------------------------------------*/
 	sub MsgOnly(str)
 		Response.write "<script LANGUAGE=JAVAscript>" & vbcrlf
@@ -477,7 +614,7 @@
 	end sub
 
 '/*-------------------------------------------------------------*/
-'/*----- 	숫자를 임의의 자릿수로 0 추가해서 출력
+'/*-----	숫자를 임의의 자릿수로 0 추가해서 출력
 '/*-------------------------------------------------------------*/
 	function numc(val, c_len)
 		DIM i, temp, t_len
@@ -546,7 +683,7 @@
 	Dim arr_seq()
 	sub del_comment(menu_type, com_seq)
 
-		set funcRs = server.createobject("adodb.recordset")
+		Set funcRs = server.createobject("adodb.recordset")
 
 		' 모든 댓글 조회
 		sql = ""
@@ -605,7 +742,7 @@
 
 			sql = ""
 			sql = sql & " update cf_" & menu_type & " "
-			sql = sql & "    set comment_cnt = (select count(*) from cf_" & menu_type & "_comment where " & menu_type & "_seq = '" & arr_seq(i) & "') "
+			sql = sql & "    Set comment_cnt = (select count(*) from cf_" & menu_type & "_comment where " & menu_type & "_seq = '" & arr_seq(i) & "') "
 			sql = sql & "       ,modid = '" & Session("user_id") & "' "
 			sql = sql & "       ,moddt = getdate() "
 			sql = sql & "  where " & menu_type & "_seq = " & arr_seq(i) & " "
@@ -619,7 +756,7 @@
 		' 모든 첨부 삭제
 		sql = ""
 		sql = sql & " update cf_" & menu_type & "_attach "
-		sql = sql & "    set restoreid = '" & session("user_id") & "' "
+		sql = sql & "    Set restoreid = '" & session("user_id") & "' "
 		sql = sql & "       ,restoredt = getdate() "
 		sql = sql & "       ,modid = '" & Session("user_id") & "' "
 		sql = sql & "       ,moddt = getdate() "
@@ -641,7 +778,7 @@
 		' 모든 댓글 삭제
 		sql = ""
 		sql = sql & " update cf_" & menu_type & "_comment "
-		sql = sql & "    set restoreid = '" & session("user_id") & "' "
+		sql = sql & "    Set restoreid = '" & session("user_id") & "' "
 		sql = sql & "       ,restoredt = getdate() "
 		sql = sql & "       ,modid = '" & Session("user_id") & "' "
 		sql = sql & "       ,moddt = getdate() "
@@ -663,7 +800,7 @@
 		' 부모글 삭제 업데이트
 		sql = ""
 		sql = sql & " update cf_" & menu_type & " "
-		sql = sql & "    set parent_del_yn = 'Y' "
+		sql = sql & "    Set parent_del_yn = 'Y' "
 		sql = sql & "       ,modid = '" & Session("user_id") & "' "
 		sql = sql & "       ,moddt = getdate() "
 		sql = sql & "  where parent_seq = '" & com_seq  & "' "
@@ -672,7 +809,7 @@
 		' 본글 삭제
 		sql = ""
 		sql = sql & " update cf_" & menu_type & " "
-		sql = sql & "    set restoreid = '" & session("user_id") & "' "
+		sql = sql & "    Set restoreid = '" & session("user_id") & "' "
 		sql = sql & "       ,restoredt = getdate() "
 		sql = sql & "       ,modid = '" & Session("user_id") & "' "
 		sql = sql & "       ,moddt = getdate() "
@@ -694,7 +831,7 @@
 		' 공지글 수 업데이트
 		sql = ""
 		sql = sql & " update cf_menu "
-		sql = sql & "    set top_cnt = (select count(*) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
+		sql = sql & "    Set top_cnt = (select count(*) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
 		sql = sql & "       ,last_date = (select max(credt) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "') "
 		sql = sql & "       ,modid = '" & Session("user_id") & "' "
 		sql = sql & "       ,moddt = getdate() "
@@ -708,7 +845,7 @@
 		' 모든 첨부 복원
 		sql = ""
 		sql = sql & " update cf_waste_" & menu_type & "_attach "
-		sql = sql & "    set delid = '" & session("user_id") & "' "
+		sql = sql & "    Set delid = '" & session("user_id") & "' "
 		sql = sql & "       ,deldt = getdate() "
 		sql = sql & "       ,modid = '" & Session("user_id") & "' "
 		sql = sql & "       ,moddt = getdate() "
@@ -728,7 +865,7 @@
 		' 부모글 삭제 업데이트
 		sql = ""
 		sql = sql & " update cf_" & menu_type & " "
-		sql = sql & "    set parent_del_yn = 'N' "
+		sql = sql & "    Set parent_del_yn = 'N' "
 		sql = sql & "       ,modid = '" & Session("user_id") & "' "
 		sql = sql & "       ,moddt = getdate() "
 		sql = sql & "  where parent_seq = '" & com_seq  & "' "
@@ -737,7 +874,7 @@
 		' 본글 복원
 		sql = ""
 		sql = sql & " update cf_waste_" & menu_type & " "
-		sql = sql & "    set delid = '" & session("user_id") & "' "
+		sql = sql & "    Set delid = '" & session("user_id") & "' "
 		sql = sql & "       ,deldt = getdate() "
 		sql = sql & "       ,modid = '" & Session("user_id") & "' "
 		sql = sql & "       ,moddt = getdate() "
@@ -757,7 +894,7 @@
 		' 모든 댓글 복원
 		sql = ""
 		sql = sql & " update cf_waste_" & menu_type & "_comment "
-		sql = sql & "    set delid = '" & session("user_id") & "' "
+		sql = sql & "    Set delid = '" & session("user_id") & "' "
 		sql = sql & "       ,deldt = getdate() "
 		sql = sql & "       ,modid = '" & Session("user_id") & "' "
 		sql = sql & "       ,moddt = getdate() "
@@ -777,7 +914,7 @@
 		' 공지글 수 업데이트
 		sql = ""
 		sql = sql & " update cf_menu "
-		sql = sql & "    set top_cnt = (select count(*) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
+		sql = sql & "    Set top_cnt = (select count(*) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
 		sql = sql & "       ,last_date = (select max(credt) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "') "
 		sql = sql & "       ,modid = '" & Session("user_id") & "' "
 		sql = sql & "       ,moddt = getdate() "
@@ -790,7 +927,7 @@
 	ReDim attach_file(1)
 	sub delete_content(menu_type, com_seq)
 
-		set funcRs = server.createobject("adodb.recordset")
+		Set funcRs = server.createobject("adodb.recordset")
 
 		sql = ""
 		sql = sql & " select file_name "
@@ -849,14 +986,14 @@
 	End Function
 	
 	Function getImgYN(path)
-		set objImage = server.CreateObject("DEXT.ImageProc")
+		Set objImage = server.CreateObject("DEXT.ImageProc")
 
 		if true = objImage.SetSourceFile(path) Then
 			getImgYN = "Y"
 		Else
 			getImgYN = "N"
 		End If
-		set objImage = nothing
+		Set objImage = nothing
 	End Function
 %>
 

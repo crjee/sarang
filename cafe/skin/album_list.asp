@@ -1,12 +1,7 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
-	cafe_mb_level = getUserLevel(cafe_id)
-	read_auth = getonevalue("read_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
-
-	If toInt(read_auth) > toInt(cafe_mb_level) Then
-		Response.Write "<script>alert('읽기 권한이없습니다');history.back();</script>"
-		Response.end
-	End If
+	checkCafePage(cafe_id)
+	checkReadAuth(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -30,29 +25,6 @@
 <%
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
-	menu_seq = Request("menu_seq")
-
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	Set rs2 = Server.CreateObject ("ADODB.Recordset")
-
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	else
-		menu_type  = rs("menu_type")
-		menu_name  = rs("menu_name")
-		editor_yn  = rs("editor_yn")
-		write_auth = rs("write_auth")
-		reply_auth = rs("reply_auth")
-		read_auth  = rs("read_auth")
-	End If
-	rs.close
 
 	pagesize = Request("pagesize")
 	If pagesize = "" Then pagesize = 20
@@ -70,6 +42,9 @@
 		kword = ""
 	End IF
 
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs2 = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
 	sql = sql & " select * "
 	sql = sql & "       ,convert(varchar(10), credt, 120) credt_txt "
@@ -79,7 +54,7 @@
 	sql = sql & "    and level_num = 0 "
 	sql = sql & kword
 	sql = sql & "  order by group_num desc,step_num asc "
-	rs.Open Sql, conn, 3, 1
+	rs.Open sql, conn, 3, 1
 
 	rs.PageSize = PageSize
 	RecordCount = 0 ' 자료가 없을때
@@ -100,21 +75,21 @@
 	End If
 %>
 			<script>
-				function MovePage(page){
+				function MovePage(page) {
 					var f = document.search_form;
 					f.page.value = page;
 					f.action = "album_list.asp"
 					f.submit();
 				}
 
-				function goView(album_seq){
+				function goView(album_seq) {
 					var f = document.search_form;
 					f.album_seq.value = album_seq;
 					f.action = "album_view.asp"
 					f.submit();
 				}
 
-				function goSearch(){
+				function goSearch() {
 					var f = document.search_form;
 					f.page.value = 1;
 					f.submit();
@@ -131,20 +106,20 @@
 					}
 				}
 
-				function imgRsize(img, rW, rH){
+				function imgRsize(img, rW, rH) {
 					var iW = img.width;
 					var iH = img.height;
 					var g = new Array;
-					if(iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
+					if (iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
 						g[0] = iW;
 						g[1] = iH;
 					}
 					else {
-						if(img.width > img.height) { // 원크기 가로가 세로보다 크면
+						if (img.width > img.height) { // 원크기 가로가 세로보다 크면
 							g[0] = rW;
 							g[1] = Math.ceil(img.height * rW / img.width);
 						}
-						else if(img.width < img.height) { //원크기의 세로가 가로보다 크면
+						else if (img.width < img.height) { //원크기의 세로가 가로보다 크면
 							g[0] = Math.ceil(img.width * rH / img.height);
 							g[1] = rH;
 						}
@@ -152,11 +127,11 @@
 							g[0] = rW;
 							g[1] = rH;
 						}
-						if(g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
+						if (g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
 							g[0] = rW;
 							g[1] = Math.ceil(img.height * rW / img.width);
 						}
-						if(g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
+						if (g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
 							g[0] = Math.ceil(img.width * rH / img.height);
 							g[1] = rH;
 						}

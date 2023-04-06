@@ -1,4 +1,6 @@
 <!--#include virtual="/include/config_inc.asp"-->
+<%
+%>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -20,37 +22,37 @@
 			<div class="container">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 			<script>
-				function goDel(){
-					if(!testCheck()) return;
+				function goDel() {
+					if (!testCheck()) return;
 					var f = document.list_form;
 					f.action = "memo_del_exec.asp";
 					f.submit()
 				}
 
-				function goAll(){
+				function goAll() {
 					var chckType = document.getElementsByName('memo_seq');
-					for(i = 0; i < chckType.length; i++){
+					for (i = 0; i < chckType.length; i++) {
 						chckType[i].checked = true;
 					}
 				}
 
-				function testCheck(){
+				function testCheck() {
 					var chckType = document.getElementsByName('memo_seq');
 					var j = 0;
-					for(i = 0; i < chckType.length; i++){
-						if (chckType[i].checked == true){
+					for (i = 0; i < chckType.length; i++) {
+						if (chckType[i].checked == true) {
 							j++;
 						}
 					}
 
-					if(j == 0){
+					if (j == 0) {
 						alert("회원을 선택하세요!");
 						return false;
 					}
 					return true;
 				}
 
-				function goView(memo_seq){
+				function goView(memo_seq) {
 					document.open_form.action = "/win_open_exec.asp"
 					document.open_form.target = "hiddenfrm";
 					document.open_form.open_url.value = "/cafe/skin/memo_view_p.asp?memo_seq="+memo_seq;
@@ -64,6 +66,7 @@
 			</form>
 <%
 	memo_receive_yn = Request("memo_receive_yn")
+
 	If memo_receive_yn = "" Then
 		memo_receive_yn = getonevalue("memo_receive_yn", "cf_member", "where user_id = '" & user_id & "' ")
 	Else
@@ -78,6 +81,8 @@
 
 	stype = Request("stype")
 	If stype = "" Then stype = "i"
+
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	If stype = "i" Then
 		b1 = "btn btn-primary"
@@ -112,7 +117,6 @@
 		sql = sql & "  order by mm.memo_seq desc "
 	End If
 
-	Set rs = Server.CreateObject("ADODB.Recordset")
 	rs.open sql, Conn, 3
 	memo_cnt = rs.recordcount
 %>
@@ -123,18 +127,15 @@
 					<div class="search_box algR">
 						<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 						<input type="hidden" name="page" value="<%=page%>">
-						<input type="hidden" name="board_seq">
-						<input type="hidden" name="notice_seq">
-
 						<button class="btn btn_c_a btn_s" type="button" onclick="goAll()">전체선택</button>
 						<button class="btn btn_c_a btn_s" type="button" onclick="goDel()">선택삭제</button>
 						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/memo_list.asp?menu_seq=<%=menu_seq%>&stype=<%=stype%>&memo_receive_yn=<%=if3(memo_receive_yn="N","Y","N")%>'"><%=if3(memo_receive_yn="N","수신허용","수신거부")%></button>
-						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/memo_write.asp'">쪽지보내기</button>
+						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/memo_write.asp?menu_seq=<%=menu_seq%>'">쪽지보내기</button>
 					</div>
 					<div class="tb">
 						<form name="list_form" method="post">
 						<input type="hidden" name="stype" value="<%=stype%>">
-						<table>
+						<table class="tb_fixed">
 							<colgroup>
 								<col class="w5" />
 								<col class="w10" />

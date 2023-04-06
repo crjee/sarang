@@ -45,7 +45,7 @@
 				</div>
 				<div class="">
 					<div class="tb">
-						<table>
+						<table class="tb_fixed">
 							<colgroup>
 								<col class="w5" />
 								<col class="w_auto" />

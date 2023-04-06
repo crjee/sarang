@@ -1,25 +1,9 @@
-<!--#include virtual="/ipin_exec_inc.asp"-->
+<!--#include virtual="/ipin_inc.asp"-->
 <!--#include virtual="/include/config_inc.asp"-->
 <%
-	menu_seq = Request("menu_seq")
-	cafe_id = Request("cafe_id")
+	checkCafePage(cafe_id)
 
 	Set rs = Server.CreateObject ("ADODB.Recordset")
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-		cafe_id = rs("cafe_id")
-	End If
-	rs.close
 
 	com_seq = Request("com_seq")
 %>

@@ -180,10 +180,10 @@
 			ifrm.location.href='page/menu_edit.asp?menu_seq='+menu_seq+'&menu_type='+menu_type
 		}
 
-		$(document).on("mousedown",".adm_select_tree_nav ul li button",function(e){
+		$(document).on("mousedown",".adm_select_tree_nav ul li button",function(e) {
 			menu_seq = $(this).attr("menuSeq");
 			menu_type = $(this).attr("value");
-			if (menu_seq == "0"){
+			if (menu_seq == "0") {
 				ifrm.location.href='about:blank';
 			}
 			else
@@ -196,7 +196,7 @@
 		try {
 			temp = document.getElementById('menu_handle1').innerHTML
 		}
-		catch (e){
+		catch (e) {
 			alert(e);
 		}
 
@@ -206,7 +206,7 @@
 				try {
 					this.innerHTML = temp;
 				}
-				catch (e){
+				catch (e) {
 					alert(e);
 				}
 			},
@@ -214,7 +214,7 @@
 				try {
 					this.innerHTML = temp;
 				}
-				catch (e){
+				catch (e) {
 					alert(e);
 				}
 			},
@@ -225,7 +225,7 @@
 		$(".menu_handle").sortable({
 			stop : function (event, ui) {
 				try {
-					if (menu_type == "division"){
+					if (menu_type == "division") {
 						ifrm.location.href='about:blank';
 					}
 					else
@@ -233,7 +233,7 @@
 						ifrm.location.href='page/menu_edit.asp?menu_seq='+menu_seq+'&menu_type='+menu_type
 					}
 				}
-				catch (e){
+				catch (e) {
 					alert(e);
 				}
 			},
@@ -247,8 +247,8 @@
 		$("#ifrm").height($(window).height())
 	})
 
-	$(function(){
-		$("iframe.iframe").load(function(){ //iframe 컨텐츠가 로드 된 후에 호출됩니다.
+	$(function() {
+		$("iframe.iframe").load(function() { //iframe 컨텐츠가 로드 된 후에 호출됩니다.
 			var frame = $(this).get(0);
 			var doc = (frame.contentDocument) ? frame.contentDocument : frame.contentWindow.document;
 			$(this).height(doc.body.scrollHeight+ 100);

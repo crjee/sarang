@@ -4,6 +4,7 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
+	checkCafePage(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -24,38 +25,14 @@
 <%
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
-	menu_seq = Request("menu_seq")
-
-'If session("user_id") = "crjee" Then extime("cf_menu 실행시간")
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-'If session("user_id") = "crjee" Then extime("cf_menu 실행시간")
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-		page_type = rs("page_type")
-		editor_yn = rs("editor_yn")
-		write_auth = rs("write_auth")
-		reply_auth = rs("reply_auth")
-		read_auth = rs("read_auth")
-	End If
-	rs.close
 
 	pagesize = Request("pagesize")
 	If pagesize = "" Then pagesize = 20
 
 	page = Request("page")
-	If page = "" then page = 1
+	If page = "" Then page = 1
 
-	If sch_word <> "" then
+	If sch_word <> "" Then
 		If sch_type = "all" Then
 			kword = " and (cb.subject like '%" & sch_word & "%' or cb.agency like '%" & sch_word & "%' or cb.contents like '%" & sch_word & "%') "
 		Else
@@ -66,6 +43,7 @@
 	End IF
 
 	Set rs = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
 	sql = sql & " select land_seq        "
 	sql = sql & "       ,land_url        "
@@ -122,6 +100,9 @@
 		Loop
 	Else
 %>
+								<tr>
+									<td colspan="3" class="td_nodata">등록된 글이 없습니다.</td>
+								</tr>
 <%
 	End If
 	rs.close

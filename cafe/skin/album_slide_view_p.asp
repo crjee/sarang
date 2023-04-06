@@ -1,4 +1,4 @@
-<!--#include virtual="/ipin_exec_inc.asp"-->
+<!--#include virtual="/ipin_inc.asp"-->
 <!--#include virtual="/include/config_inc.asp"-->
 <%
 	uploadUrl = ConfigAttachedFileURL & "album/"
@@ -7,17 +7,25 @@
 
 	arr_image = ""
 
-	Set fd = Conn.Execute("select * from cf_album_attach where album_seq = '" & album_seq & "' ")
-	Do Until fd.eof
+	Set rs = Server.CreateObject ("ADODB.Recordset")
 
-		if arr_image = "" Then
-		arr_image = fd("file_name")
+	sql = ""
+	sql = sql & " select * "
+	sql = sql & "   from cf_album_attach "
+	sql = sql & "  where album_seq = '" & album_seq & "' "
+	rs.Open Sql, conn, 3, 1
+
+	Do Until rs.eof
+		If arr_image = "" Then
+			arr_image = rs("file_name")
 		Else
-		arr_image =  arr_image & ":" & fd("file_name")
+			arr_image =  arr_image & ":" & rs("file_name")
 		End If
 
-		fd.MoveNext
-	loop
+		rs.MoveNext
+	Loop
+	rs.close
+	Set rs = Nothing
 %>
 <html>
 <head>
@@ -33,23 +41,19 @@
 	g_mimg = 1;
 	g_ImageTable = new Array();
 
-	function ChangeImage(fFwd)
-	{
-		if (fFwd)
-		{
+	function ChangeImage(fFwd) {
+		if (fFwd) {
 			if (++g_iimg == g_imax)
 				g_iimg = 1;
 		}
-		Else
-		{
+		else {
 			if (g_iimg > 1)
 				g_iimg--;
 		}//if
 		Update();
 	}//function ChangeImage
 
-	function Update()
-	{
+	function Update() {
 		document.all._Ath_Slide.src = g_ImageTable[g_iimg][0];
 		if (g_iimg == g_mimg)
 		{
@@ -62,8 +66,7 @@
 		//document.all._Ath_Img_N.innerHTML = g_imax;
 	}//function Update
 
-	function Play()
-	{
+	function Play() {
 		if (!g_fPlayMode) g_fPlayMode = !g_fPlayMode;
 		if (g_fPlayMode)
 		{
@@ -72,14 +75,12 @@
 		}//if
 	}//function Play
 
-	function Stop()
-	{
+	function Stop() {
 		if (g_fPlayMode) g_fPlayMode = !g_fPlayMode;
 		btnPrev.disabled = btnPlay.disabled = btnNext.disabled = false;
 	}//function Stop
 
-	function OnImgLoad()
-	{
+	function OnImgLoad() {
 		if (g_fPlayMode)
 		{
 			if (g_iimg != g_mimg)
@@ -87,31 +88,26 @@
 		}//if
 	}//function OnImgLoad
 
-	function Tick()
-	{
+	function Tick() {
 		if (g_fPlayMode)
 			Next();
 	}//function Tick
 
-	function Prev()
-	{
+	function Prev() {
 		ChangeImage(false);
 	}//function Prev
 
-	function Next()
-	{
+	function Next() {
 		ChangeImage(true);
 	}//function Next
 
-	function main()
-	{
+	function main() {
 		Update();
 	}//function main
 
 	sl_list = "<%=arr_image%>";
 	sl_arr = sl_list.split(":");
-	for (var i = 0; i < sl_arr.length; i++)
-	{
+	for (var i = 0; i < sl_arr.length; i++) {
 		g_ImageTable[g_mimg++] = new Array("<%=uploadUrl%>" + sl_arr[i], "");
 	}//for
 	g_imax = g_mimg--;
@@ -119,7 +115,6 @@
 	g_dwTimeOutSec = 3;
 
 	window.onload = Play;
-
 
 	function Rsize(img, ww, hh, aL) {
 		var tt = imgRsize(img, ww, hh);
@@ -131,7 +126,7 @@
 			img.height = tt[1];
 			img.alt = "클릭하시면 원본이미지를 보실수있습니다.";
 
-			if(aL){
+			if (aL) {
 				// 자동링크 on
 				img.onclick = function() {
 					wT = Math.ceil((screen.width - tt[2])/2.6);
@@ -148,39 +143,39 @@
 				img.style.cursor = "hand";
 			}
 		}
-		Else {
-				img.onclick = function(){
+		else {
+				img.onclick = function() {
 					alert("현재이미지가 원본 이미지입니다.");
 				}
 		}
 	}
 
-	function imgRsize(img, rW, rH){
+	function imgRsize(img, rW, rH) {
 		var iW = img.width;
 		var iH = img.height;
 		var g = new Array;
-		if(iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
+		if (iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
 			g[0] = iW;
 			g[1] = iH;
 		}
-		Else {
-			if(img.width > img.height) { // 원크기 가로가 세로보다 크면
+		else {
+			if (img.width > img.height) { // 원크기 가로가 세로보다 크면
 				g[0] = rW;
 				g[1] = Math.ceil(img.height * rW / img.width);
 			}
-			Else if(img.width < img.height) { //원크기의 세로가 가로보다 크면
+			else if (img.width < img.height) { //원크기의 세로가 가로보다 크면
 				g[0] = Math.ceil(img.width * rH / img.height);
 				g[1] = rH;
 			}
-			Else {
+			else {
 				g[0] = rW;
 				g[1] = rH;
 			}
-			if(g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
+			if (g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
 				g[0] = rW;
 				g[1] = Math.ceil(img.height * rW / img.width);
 			}
-			if(g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
+			if (g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
 				g[0] = Math.ceil(img.width * rH / img.height);
 				g[1] = rH;
 			}

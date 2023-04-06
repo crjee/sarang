@@ -1,12 +1,12 @@
 <script language="JavaScript">
 <!--
 	// ÄíÅ° »ý¼º
-	function setCookie(name, value, d){
-		document.cookie = name+'='+escape(value)+'; path=/'+(d?'; expires='+(function(t){t.setDate(t.getDate()+d);return t})(new Date).toGMTString():'');
+	function setCookie(name, value, d) {
+		document.cookie = name+'='+escape(value)+'; path=/'+(d?'; expires='+(function(t) {t.setDate(t.getDate()+d);return t})(new Date).toGMTString():'');
 	}
 
 	// ÄíÅ° °¡Á®¿À±â
-	function getCookie(name){
+	function getCookie(name) {
 		name = new RegExp(name + '=([^;]*)');
 		return name.test(document.cookie) ? unescape(RegExp.$1) : '';
 	}

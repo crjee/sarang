@@ -27,6 +27,8 @@
 	If menu_name <> "-" Then
 		If menu_type = "land" Then
 			menu_type = "group"
+		Elseif menu_type = "story" Or menu_type = "nsale" Then
+			menu_type = "board"
 		Elseif menu_type = "memo" Or menu_type = "poll" Then
 			menu_type = "page"
 		Else
@@ -34,5 +36,7 @@
 		End If
 	End If
 
-	Server.Execute(menu_type & "_edit.asp")
+	If menu_type <> "" Then
+		Server.Execute(menu_type & "_edit.asp")
+	End If
 %>

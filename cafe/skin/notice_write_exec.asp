@@ -2,6 +2,8 @@
 <%
 	Call checkAdmin()
 
+	menu_type = "notice"
+
 	ScriptTimeOut = 5000
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & "notice\"
@@ -166,7 +168,7 @@
 	var expire = new Date();
 	expire.setDate(expire.getDate() + cDay);
 	cookies = cName + '=' + escape(cValue) + '; path=/ '; // 한글 깨짐을 막기위해 escape(cValue)를 합니다.
-	if(typeof cDay != 'undefined') cookies += ';expires=' + expire.toGMTString() + ';';
+	if (typeof cDay != 'undefined') cookies += ';expires=' + expire.toGMTString() + ';';
 	document.cookie = cookies;
 
 	alert("입력 되었습니다.");

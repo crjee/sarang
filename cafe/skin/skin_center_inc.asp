@@ -1,7 +1,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script type="text/javascript" src="/cafe/jquery.vticker-min.js"></script>
 <script type="text/javascript">
-	$(function(){
+	$(function() {
 		try {
 			$('#dv_rolling').vTicker({
 				// 스크롤 속도(default: 700)
@@ -20,7 +20,7 @@
 				direction: 'up'
 			});
 		}
-		catch (e){
+		catch (e) {
 		}
 	});
 </script>

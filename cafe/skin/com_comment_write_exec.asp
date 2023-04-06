@@ -1,24 +1,10 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-
-	menu_seq = Request("menu_seq")
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-'	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-	End If
-	rs.close
+	checkCafePage(cafe_id)
 
 	comment_seq = Request("comment_seq")
+
+	Set rs = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select * "

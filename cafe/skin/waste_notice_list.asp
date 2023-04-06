@@ -1,6 +1,8 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
 	Call checkAdmin()
+
+	menu_type = "notice"
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -47,9 +49,9 @@
 	sql = sql & " select count(notice_seq) cnt "
 	sql = sql & "   from cf_waste_notice "
 	sql = sql & kword
-
 	rs.Open sql, conn, 3, 1
 	RecordCount = 0 ' 자료가 없을때
+
 	If Not rs.EOF Then
 		RecordCount = rs("cnt")
 	End If
@@ -73,26 +75,23 @@
 	Else
 		PageCount = Int(RecordCount / pagesize) + 1
 	End If
-
-	If Not (rs.EOF And rs.BOF) Then
-	End If
 %>
 			<script>
-				function MovePage(page){
+				function MovePage(page) {
 					var f = document.search_form;
 					f.page.value = page;
 					f.action = "waste_notice_list.asp"
 					f.submit();
 				}
 
-				function goView(notice_seq){
+				function goView(notice_seq) {
 					var f = document.search_form;
 					f.notice_seq.value = notice_seq;
 					f.action = "waste_notice_view.asp"
 					f.submit()
 				}
 
-				function goSearch(){
+				function goSearch() {
 					var f = document.search_form;
 					f.page.value = 1;
 					f.submit();
@@ -128,7 +127,7 @@
 						<form name="list_form" method="post">
 						<input type="hidden" name="menu_type" value="<%=menu_type%>">
 						<input type="hidden" name="smode">
-						<table>
+						<table class="tb_fixed">
 							<colgroup>
 								<col class="w5" />
 								<col class="w_auto" />
@@ -239,7 +238,7 @@
 	Else
 %>
 								<tr>
-									<td colspan="100">등록된 글이 없습니다.</td>
+									<td colspan="6">등록된 글이 없습니다.</td>
 								</tr>
 <%
 	End If

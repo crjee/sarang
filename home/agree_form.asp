@@ -121,7 +121,7 @@
 	$("#agree_all").on("click", function() {
 		try{
 			var radios = $(":radio[value='Y']");
-			for(var i = 0; i < radios.length; i++) {
+			for (var i = 0; i < radios.length; i++) {
 				var $this = $(radios[i]);
 				$this.prop("checked", $("#agree_all").prop("checked"));
 			}
@@ -130,9 +130,9 @@
 
 	function submitContents(elClickedObj) {
 		var radios = $(":radio[value='Y']");
-		for(var i = 0; i < radios.length; i++) {
+		for (var i = 0; i < radios.length; i++) {
 			var $this = $(radios[i]);
-			if(!$this.is(":checked")) {
+			if (!$this.is(":checked")) {
 				alert('반드시 동의해야 합니다.');
 				$this.focus();
 				return false;

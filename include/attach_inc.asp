@@ -1,19 +1,19 @@
 							<tr>
 								<script>
-								function addAttach(){
+								function addAttach() {
 									try{
 										var attachCnt = Number($("#attachCnt").val());
-										if (attachCnt <= 10){
+										if (attachCnt <= 10) {
 											$("#attachCnt").val(++attachCnt) ;
-											for(i=2;i<attachCnt;i++){
+											for (i=2;i<attachCnt;i++) {
 												eval("attachDiv"+i+".style.display='block'")
 											}
 										}
-									}catch(e){
+									} catch(e) {
 										alert(e)
 									}
 								}
-								function delAttach(){
+								function delAttach() {
 									var attachCnt = $("#attachCnt").val();
 									eval("attachDiv"+attachCnt+".style.display='none'");
 									$("#attachCnt").val(Number(attachCnt)-1);

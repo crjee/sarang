@@ -1,4 +1,9 @@
 <!--#include virtual="/include/config_inc.asp"-->
+<%
+	menu_type = "notice"
+
+	pageUrl = "http://" & request.servervariables("HTTP_HOST") & request.servervariables("HTTP_URL") & "?menu_seq=" & Request("menu_seq") & "&notice_seq=" & Request("notice_seq")
+%>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -19,8 +24,6 @@
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
 			<div class="container">
 <%
-	pageUrl = "http://" & request.servervariables("HTTP_HOST") & request.servervariables("HTTP_URL") & "?menu_seq=" & Request("menu_seq") & "&notice_seq=" & Request("notice_seq")
-
 	ipin = getRndStr(10)
 	sql = ""
 	sql = sql & " update cf_member "
@@ -36,11 +39,11 @@
 	sch_word  = Request("sch_word")
 	all_yn    = Request("all_yn")
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-
 	notice_seq = Request("notice_seq")
 
 	Call setViewCnt("notice", notice_seq)
+
+	Set rs = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select cb.* "
@@ -53,6 +56,7 @@
 			<form name="search_form" method="post">
 			<input type="hidden" name="sch_type" value="<%=sch_type%>">
 			<input type="hidden" name="sch_word" value="<%=sch_word%>">
+			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 			<input type="hidden" name="all_yn" value="<%=all_yn%>">
 			<input type="hidden" name="page" value="<%=page%>">
 			<input type="hidden" name="pagesize" value="<%=pagesize%>">
@@ -112,7 +116,6 @@
 				</div>
 				<div class="wrt_file_box"><!-- 첨부파일영역 추가 crjee -->
 <%
-	menu_type = "notice"
 	uploadUrl = ConfigAttachedFileURL & "notice/"
 	uploadFolder = ConfigAttachedFileFolder & "notice\"
 
@@ -183,80 +186,81 @@
 </html>
 
 	<script>
-		function goPrint(){
+		function goPrint() {
 			var initBody;
-			window.onbeforeprint = function(){
+			window.onbeforeprint = function() {
 				initBody = document.body.innerHTML;
 				document.body.innerHTML =  document.getElementById('print_area').innerHTML;
 			};
-				window.onafterprint = function(){
+				window.onafterprint = function() {
 				document.body.innerHTML = initBody;
 			};
 			window.print();
 		}
 
-		function goList(){
+		function goList() {
 			document.search_form.action = "/cafe/skin/notice_list.asp"
 			document.search_form.submit();
 		}
-		function goReply(){
+		function goReply() {
 			document.search_form.action = "/cafe/skin/notice_reply.asp"
 			document.search_form.submit();
 		}
-		function goModify(){
+		function goModify() {
 			document.search_form.action = "/cafe/skin/notice_modify.asp"
 			document.search_form.submit();
 		}
-		function goDelete(){
+		function goDelete() {
 			document.search_form.action = "/cafe/skin/notice_delete_exec.asp"
+			document.search_form.action = "/cafe/skin/com_waste_exec.asp"
 			document.search_form.submit();
 		}
-		function goPopup(){
+		function goPopup() {
 			document.search_form.action = "/cafe/skin/notice_pop_exec.asp"
 			document.search_form.submit();
 		}
-		function goNotice(){
+		function goNotice() {
 			document.search_form.action = "/cafe/skin/notice_top_exec.asp"
 			document.search_form.submit();
 		}
-		function goSuggest(){
+		function goSuggest() {
 			document.search_form.action = "/cafe/skin/notice_suggest_exec.asp"
 			document.search_form.submit();
 		}
-		function copyUrl(){
+		function copyUrl() {
 			try{
-				if (window.clipboardData){
+				if (window.clipboardData) {
 						window.clipboardData.setData("Text", "<%=pageUrl%>")
 						alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 				}
-				else if (window.navigator.clipboard){
+				else if (window.navigator.clipboard) {
 						window.navigator.clipboard.writeText("<%=pageUrl%>").Then(() => {
 							alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 						});
 				}
-				else{
+				else {
 					temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
 				}
-			}catch(e){
+			} catch(e) {
 				alert(e)
 			}
 		}
 
-		document.getElementById("linkBtn").onclick = function(){
+		document.getElementById("linkBtn").onclick = function() {
 			try{
-				if (window.clipboardData){
+				if (window.clipboardData) {
 						window.clipboardData.setData("Text", "<%=link%>")
 						alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 				}
-				else if (window.navigator.clipboard){
+				else if (window.navigator.clipboard) {
 						window.navigator.clipboard.writeText("<%=link%>").then(() => {
 							alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 						});
 				}
-				else{
+				else {
 					temp = prompt("해당 URL을 복사하십시오.", "<%=link%>");
 				}
-			}catch(e){
+			} catch(e) {
 				alert(e)
 			}
 		};

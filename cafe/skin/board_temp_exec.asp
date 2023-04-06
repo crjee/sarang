@@ -1,5 +1,7 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
+	checkCafePage(cafe_id)
+
 	ScriptTimeOut = 5000
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
@@ -13,27 +15,6 @@
 	page      = uploadform("page")
 	sch_type  = uploadform("sch_type")
 	sch_word  = uploadform("sch_word")
-
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-
-	sql = ""
-	sql = sql & " select menu_type "
-	sql = sql & "       ,isnull(daily_cnt,9999) as daily_cnt "
-	sql = sql & "       ,inc_del_yn "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	Else
-		daily_cnt = rs("daily_cnt")
-		inc_del_yn = rs("inc_del_yn")
-		menu_type = rs("menu_type")
-	End If
-	rs.close
-	Set rs = Nothing
 
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
 	uploadform.DefaultPath = uploadFolder
@@ -126,7 +107,7 @@
 	var expire = new Date();
 	expire.setDate(expire.getDate() + cDay);
 	cookies = cName + '=' + escape(cValue) + '; path=/ '; // 한글 깨짐을 막기위해 escape(cValue)를 합니다.
-	if(typeof cDay != 'undefined') cookies += ';expires=' + expire.toGMTString() + ';';
+	if (typeof cDay != 'undefined') cookies += ';expires=' + expire.toGMTString() + ';';
 	document.cookie = cookies;
 
 //	alert("입력 되었습니다.");

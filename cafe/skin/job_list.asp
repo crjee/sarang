@@ -1,11 +1,7 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
-	cafe_mb_level = getUserLevel(cafe_id)
-	read_auth = getonevalue("read_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
-	If toInt(read_auth) > toInt(cafe_mb_level) Then
-		Response.Write "<script>alert('읽기 권한이없습니다');history.back()</script>"
-		Response.End
-	End If
+	checkCafePage(cafe_id)
+	checkReadAuth(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -29,29 +25,8 @@
 <%
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
-	menu_seq = Request("menu_seq")
 	self_yn  = Request("self_yn")
 	all_yn   = Request("all_yn")
-
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	else
-		menu_type  = rs("menu_type")
-		menu_name  = rs("menu_name")
-		editor_yn  = rs("editor_yn")
-		write_auth = rs("write_auth")
-		reply_auth = rs("reply_auth")
-		read_auth  = rs("read_auth")
-	End If
-	rs.close
 
 	pagesize = Request("pagesize")
 	If pagesize = "" Then pagesize = 20
@@ -69,6 +44,8 @@
 		kword = ""
 	End IF
 
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
 	sql = sql & " select count(job_seq) cnt "
 	sql = sql & "   from cf_job cb          "
@@ -80,9 +57,9 @@
 	sql = sql & "    and user_id = '" & session("user_id") & "' "
 	End If
 	sql = sql & kword
-
 	rs.Open sql, conn, 3, 1
 	RecordCount = 0 ' 자료가 없을때
+
 	If Not rs.EOF Then
 		RecordCount = rs("cnt")
 	End If
@@ -128,26 +105,23 @@
 	Else
 		PageCount = Int(RecordCount / pagesize) + 1
 	End If
-
-	If Not (rs.EOF And rs.BOF) Then
-	End If
 %>
 			<script>
-				function MovePage(page){
+				function MovePage(page) {
 					var f = document.search_form;
 					f.page.value = page;
 					f.action = "job_list.asp"
 					f.submit();
 				}
 
-				function goView(job_seq){
+				function goView(job_seq) {
 					var f = document.search_form;
 					f.job_seq.value = job_seq;
 					f.action = "job_view.asp"
 					f.submit()
 				}
 
-				function goSearch(){
+				function goSearch() {
 					var f = document.search_form;
 					f.page.value = 1;
 					f.submit();
@@ -184,6 +158,12 @@
 		End If
 	End If
 
+	If cafe_ad_level = 10 Then
+%>
+						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/waste_job_list.asp?menu_seq=<%=menu_seq%>'">휴지통</button>
+<%
+	End If
+
 	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
 						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/job_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
@@ -210,7 +190,7 @@
 							<label for="all_yn"><em>전체보기</em></label>
 						</span>
 						<script>
-							function goAll(){
+							function goAll() {
 								var f = document.search_form;
 								f.action = "job_list.asp"
 								f.page.value = 1;
@@ -237,7 +217,7 @@
 						<form name="list_form" method="post">
 						<input type="hidden" name="menu_type" value="<%=menu_type%>">
 						<input type="hidden" name="smode">
-						<table>
+						<table class="tb_fixed">
 							<colgroup>
 								<col class="w_auto" />
 								<col class="w10" />
@@ -334,7 +314,7 @@
 	Else
 %>
 								<tr>
-									<td colspan="100">등록된 글이 없습니다.</td>
+									<td colspan="5">등록된 글이 없습니다.</td>
 								</tr>
 <%
 	End If

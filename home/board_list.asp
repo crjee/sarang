@@ -4,6 +4,7 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
+	checkCafePage(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -26,7 +27,7 @@
 	sch_word = Request("sch_word")
 	menu_seq = Request("menu_seq")
 
-'If session("user_id") = "crjee" Then extime("cf_menu 실행시간")
+'If session("user_id") = "crjee" Then extime("cf_menu ?�행?�간")
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 	sql = ""
 	sql = sql & " select * "
@@ -34,10 +35,10 @@
 	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
 	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
 	rs.Open Sql, conn, 3, 1
-'If session("user_id") = "crjee" Then extime("cf_menu 실행시간")
+'If session("user_id") = "crjee" Then extime("cf_menu ?�행?�간")
 
 	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
+		msggo "?�상?�인 ?�용???�닙?�다.",""
 	Else
 		menu_type = rs("menu_type")
 		menu_name = rs("menu_name")
@@ -73,7 +74,7 @@
 	sql = sql & kword
 	rs.Open sql, conn, 3, 1
 
-	RecordCount = 0 ' 자료가 없을때
+	RecordCount = 0 ' ?�료가 ?�을??
 	If Not rs.EOF Then
 		RecordCount = rs("cnt")
 	End If
@@ -120,7 +121,7 @@
 	sql = sql & "  order by group_num desc, step_num asc "
 	rs.Open sql, conn, 3, 1
 
-	' 전체 페이지 수 얻기
+	' ?�체 ?�이지 ???�기
 	If RecordCount/pagesize = Int(RecordCount/pagesize) Then
 		PageCount = Int(RecordCount / pagesize)
 	Else
@@ -148,20 +149,20 @@
 <%
 	End If
 
-	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
+	If write_auth <= cafe_mb_level Then ' 글?�기 권한
 %>
-						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/home/board_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/home/board_write.asp?menu_seq=<%=menu_seq%>'">글?�기</button>
 <%
 	End If
 %>
 						<select id="sch_type" name="sch_type" class="sel w100p">
-							<option value="all">전체</option>
-							<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>제목</option>
-							<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>글쓴이</option>
-							<option value="cb.contents" <%=if3(sch_type="cb.contents","selected","")%>>내용</option>
+							<option value="all">?�체</option>
+							<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>?�목</option>
+							<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>글?�이</option>
+							<option value="cb.contents" <%=if3(sch_type="cb.contents","selected","")%>>?�용</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w300p">
-						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검??/button>
 						</form>
 					</div>
 					<div class="tb">
@@ -175,11 +176,11 @@
 							</colgroup>
 							<thead>
 								<tr>
-									<th scope="col">번호</th>
-									<th scope="col">제목</th>
-									<th scope="col">작성자</th>
-									<th scope="col">작성일</th>
-									<th scope="col">조회</th>
+									<th scope="col">��ȣ</th>
+									<th scope="col">����</th>
+									<th scope="col">�ۼ���</th>
+									<th scope="col">�ۼ���</th>
+									<th scope="col">��ȸ</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -189,13 +190,13 @@
 			comment_cnt = rs("comment_cnt")
 			subject = rs("subject")
 			If isnull(subject) Or isempty(subject) Or Len(subject) = 0 Then
-				subject = "제목없음"
+				subject = "?�목?�음"
 			End if
 
 			parent_del_yn = rs("parent_del_yn")
 
 			If parent_del_yn = "Y" Then
-				subject = "*원글이 삭제된 답글* " & subject
+				subject = "*?��?????��???��?* " & subject
 			End if
 			subject_s = rmid(subject, 40, "..")
 %>
@@ -226,7 +227,7 @@
 			End if
 %>
 									</td>
-									<td class="algC">운영자</td>
+									<td class="algC"></td>
 									<td class="algC"><%=rs("credt_txt")%></td>
 									<td class="algC"><%=rs("view_cnt")%></td>
 								</tr>
@@ -236,7 +237,7 @@
 	Else
 %>
 								<tr>
-									<td colspan="100" class="td_nodata">등록된 글이 없습니다.</td>
+									<td colspan="5" class="td_nodata">��ϵ� ���� �����ϴ�.</td>
 								</tr>
 <%
 	End If
@@ -257,31 +258,31 @@
 </html>
 
 <script>
-	function MovePage(page){
+	function MovePage(page) {
 		var f = document.search_form;
 		f.page.value = page;
 		f.action = "board_list.asp"
 		f.submit();
 	}
 
-	function goView(board_seq, no){
+	function goView(board_seq, no) {
 		try{
 			var f = document.search_form;
 			f.board_seq.value = board_seq;
-			if (no == 0){
+			if (no == 0) {
 			f.notice_seq.value = board_seq;
 			f.action = "notice_view.asp"
 			}
-			else{
+			else {
 			f.action = "board_view.asp"
 			}
 			f.submit()
-		}catch(e){
+		} catch(e) {
 			alert(e)
 		}
 	}
 
-	function goSearch(){
+	function goSearch() {
 		var f = document.search_form;
 		f.page.value = 1;
 		f.submit();

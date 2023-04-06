@@ -98,49 +98,49 @@
 <!--#include virtual="/cafe/supervisor/supervisor_left_inc.asp"-->
 		</nav>
 			<script>
-				function testCheck(){
+				function testCheck() {
 					var chckType = document.getElementsByName('cafe_id');
 					var j = 0;
-					for(i = 0; i < chckType.length; i++){
-						if (chckType[i].checked == true){
+					for (i = 0; i < chckType.length; i++) {
+						if (chckType[i].checked == true) {
 							j++;
 						}
 					}
 
-					if(j == 0){
+					if (j == 0) {
 						alert("사랑방을 선택하세요!");
 						return false;
 					}
 					return true;
 				}
 
-				function goUnion(){
-					if(!testCheck()) return;
+				function goUnion() {
+					if (!testCheck()) return;
 					var f = document.search_form;
 					f.target="hiddenfrm"
 					f.action="cafe_union_exec.asp"
 					f.submit();
 				}
 
-				function goActivity(){
-					if(!testCheck()) return;
+				function goActivity() {
+					if (!testCheck()) return;
 					var f = document.search_form;
 					f.target="hiddenfrm"
 					f.action="cafe_activity_exec.asp"
 					f.submit();
 				}
 
-				function setColor(i){
+				function setColor(i) {
 					eval("tr_"+i+".style.background='#ffffcc'")
 				}
 
-				function goSearch(){
+				function goSearch() {
 					var f = document.search_form;
 					f.page.value = 1;
 					f.submit();
 				}
 
-				function MovePage(page){
+				function MovePage(page) {
 					var f = document.search_form;
 					f.page.value = page;
 					f.submit();
@@ -179,7 +179,7 @@
 							<option value="cf.cafe_name" <%=if3(sch_type="cf.cafe_name","selected","")%>>사랑방명</option>
 							<option value="cf.cafe_id" <%=if3(sch_type="cf.cafe_id","selected","")%>>경로</option>
 						</select>
-						<input class="inp w300p" type="text" name="sch_word" value="<%=sch_word%>" onkeyDown='javascript:{if(event.keyCode==13) goSearch();}'>
+						<input class="inp w300p" type="text" name="sch_word" value="<%=sch_word%>" onkeyDown='javascript:{if (event.keyCode==13) goSearch();}'>
 						<button class="btn btn_c_a btn_s" type="button" onclick="goSearch()">검색</button>
 					</div>
 					<div class="floatR">
@@ -355,18 +355,18 @@
 	</div>
 	<!-- 사랑방 개설 : s -->
 	<script>
-		function Checkfm(f){
-			if(f.cafe_check.value=='N'){
+		function Checkfm(f) {
+			if (f.cafe_check.value=='N') {
 				alert('중복된 사랑방 아이디 입니다')
 				return false
 			}
-			if(f.skin_id.value==''){
+			if (f.skin_id.value=='') {
 				alert('스킨이 선택되지 않았습니다')
 				return false
 			}
 		}
 
-		function cafe_find(cafe_id){
+		function cafe_find(cafe_id) {
 			hiddenfrm.location.href='cafe_find_exec.asp?cafe_id='+cafe_id
 		}
 	</script>

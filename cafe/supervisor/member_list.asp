@@ -88,91 +88,91 @@
 <!--#include virtual="/cafe/supervisor/supervisor_left_inc.asp"-->
 		</nav>
 			<script>
-				function testCheck(){
+				function testCheck() {
 					try {
 						var chckType = document.getElementsByName('chk_user');
 						var j = 0;
-						for(i = 0; i < chckType.length; i++){
-							if (chckType[i].checked == true){
+						for (i = 0; i < chckType.length; i++) {
+							if (chckType[i].checked == true) {
 								j++;
 							}
 						}
 
-						if(j == 0){
+						if (j == 0) {
 							alert("회원을 선택하세요!");
 							return false;
 						}
 						return true;
 					}
-					catch (e){
+					catch (e) {
 						alert(e);
 					}
 				}
 
-				function goLevel(){
+				function goLevel() {
 					try {
-						if(!testCheck()) return;
+						if (!testCheck()) return;
 						var f = document.form;
 						f.action="member_level_exec.asp";
 						f.submit();
 					}
-					catch (e){
+					catch (e) {
 						alert(e);
 					}
 				}
 
-				function goActivity1(){
+				function goActivity1() {
 					try {
-						if(!testCheck()) return;
+						if (!testCheck()) return;
 						var f = document.form;
 						f.action="member_activity1_exec.asp"
 						f.submit();
 					}
-					catch (e){
+					catch (e) {
 						alert(e);
 					}
 				}
 
-				function goActivity2(){
+				function goActivity2() {
 					try {
-						if(!testCheck()) return;
+						if (!testCheck()) return;
 						var f = document.form;
 						f.action="member_activity2_exec.asp"
 						f.submit();
 					}
-					catch (e){
+					catch (e) {
 						alert(e);
 					}
 				}
 
-				function setColor(i){
+				function setColor(i) {
 					try {
 						document.getElementById("sp_"+i).innerText = "변경됨";
 						document.getElementById("tr_"+i).style.background = "#ffffcc";
 					}
-					catch (e){
+					catch (e) {
 						alert(e);
 					}
 				}
 
-				function MovePage(page){
+				function MovePage(page) {
 					try {
 						var f = document.search_form;
 						f.page.value = page;
 						f.submit();
 					}
-					catch (e){
+					catch (e) {
 						alert(e);
 					}
 				}
 
-				function goSearch(){
+				function goSearch() {
 					try {
 						var f = document.search_form;
 						f.page.value = 1;
 						f.submit();
 					}
-					catch (e){
+					catch (e) {
 						alert(e);
 					}
 				}
@@ -187,7 +187,7 @@
 						img.height = tt[1];
 						img.alt = "클릭하시면 원본이미지를 보실수있습니다.";
 
-						if(aL){
+						if (aL) {
 							// 자동링크 on
 							img.onclick = function() {
 								wT = Math.ceil((screen.width - tt[2])/2.6);
@@ -210,39 +210,39 @@
 							img.style.cursor = "hand";
 						}
 					}
-					Else {
-							img.onclick = function(){
+					else {
+							img.onclick = function() {
 								alert("현재이미지가 원본 이미지입니다.");
 							}
 					}
 				}
 
-				function imgRsize(img, rW, rH){
+				function imgRsize(img, rW, rH) {
 					var iW = img.width;
 					var iH = img.height;
 					var g = new Array;
-					if(iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
+					if (iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
 						g[0] = iW;
 						g[1] = iH;
 					}
-					Else {
-						if(img.width > img.height) { // 원크기 가로가 세로보다 크면
+					else {
+						if (img.width > img.height) { // 원크기 가로가 세로보다 크면
 							g[0] = rW;
 							g[1] = Math.ceil(img.height * rW / img.width);
 						}
-						Else if(img.width < img.height) { //원크기의 세로가 가로보다 크면
+						else if (img.width < img.height) { //원크기의 세로가 가로보다 크면
 							g[0] = Math.ceil(img.width * rH / img.height);
 							g[1] = rH;
 						}
-						Else {
+						else {
 							g[0] = rW;
 							g[1] = rH;
 						}
-						if(g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
+						if (g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
 							g[0] = rW;
 							g[1] = Math.ceil(img.height * rW / img.width);
 						}
-						if(g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
+						if (g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
 							g[0] = Math.ceil(img.width * rH / img.height);
 							g[1] = rH;
 						}
@@ -282,7 +282,7 @@
 							<option value="mb.kname" <%=if3(sch_type="mb.kname","selected","")%>>이름</option>
 							<option value="cc.cafe_name" <%=if3(sch_type="cc.cafe_name","selected","")%>>사랑방</option>
 						</select>
-						<input class="inp w300p" type="text" name="sch_word" value="<%=sch_word%>" onkeyDown='javascript:{if(event.keyCode==13) goSearch();}'>
+						<input class="inp w300p" type="text" name="sch_word" value="<%=sch_word%>" onkeyDown='javascript:{if (event.keyCode==13) goSearch();}'>
 						<button class="btn btn_c_a btn_s" type="button" onclick="goSearch()">검색</button>
 					</div>
 					<div class="floatR">
@@ -352,11 +352,11 @@
 								<td class="algC"><%=kname%>(<a href="/ex2.asp?userid=<%=user_id%>"><%=user_id%></a>)</td>
 								<td class="algC"><%=agency%>
 <%
-	If picture <> "" Then
+			If picture <> "" Then
 %>
 									<img src="<%=uploadUrl & picture%>" id="profile" name="profile" onLoad="Rsize(this, 20, 20, 1)" style="cursor:hand;border:1px solid #e5e5e5;" title="중개업소사진">
 <%
-	End If
+			End If
 %>
 								</td>
 								<td class="algC"><%=phone%></td>
@@ -364,13 +364,19 @@
 									<select name="cafe_id_<%=user_id%>" class="sel w_auto" onchange="setColor('<%=i%>')">
 										<option value=""></option>
 <%
-			Set cafe = Conn.Execute("select * from cf_cafe order by cafe_name")
-			Do Until cafe.eof
+			sql = ""
+			sql = sql & " select * "
+			sql = sql & "   from cf_cafe "
+			sql = sql & "  order by cafe_name"
+			rs2.open Sql, conn, 3, 1
+
+			Do Until rs2.eof
 %>
-										<option value="<%=cafe("cafe_id")%>" <%=if3(cafe("cafe_id")=cafe_id,"selected","") %>><%=cafe("cafe_name")%></option>
+												<option value="<%=rs2("cafe_id")%>" <%=if3(rs2("cafe_id")=cafe_id,"selected","") %>><%=rs2("cafe_name")%></option>
 <%
-				cafe.MoveNext
+				rs2.MoveNext
 			Loop
+			rs2.close
 %>
 									</select>
 									&nbsp;
@@ -422,17 +428,25 @@
 								<td class="algC"><%=email%></td>
 								<td class="algC">
 <%
-			Set r = Conn.Execute("select * from cf_admin where user_id='" & user_id & "'")
-			rlink = "member_root_exec.asp?user_id=" & user_id
-			If Not r.eof Then
+			sql = ""
+			sql = sql & " select * "
+			sql = sql & "   from cf_admin "
+			sql = sql & "  where user_id = '" & user_id & "' "
+			rs2.open Sql, conn, 3, 1
+
+			rlink = "member_root_exec.asp?user_id="&user_id
+			If Not rs2.eof Then
 %>
-									<button type="button" class="btn btn_c_s btn_s" onclick="location.href='<%=rlink%>'">권한취소</button>
+											<button type="button" class="btn btn_c_s btn_s" onclick="hiddenfrm.location.href='member_root_exec.asp?user_id=<%=user_id&%>'">권한취소</button>
+											<a target="ifrm" href="member_root_exec.asp?user_id=<%=user_id&%>" class="btn btn-danger btn-xs" style="height:18px;">권한취소</a>
 <%
 			Else
 %>
-									<button type="button" class="btn btn_c_s btn_s" onclick="location.href='<%=rlink%>'">권한주기</button>
+											<button type="button" class="btn btn_c_s btn_s" onclick="hiddenfrm.location.href='member_root_exec.asp?user_id=<%=user_id&%>'">권한주기</button>
+											<a target="ifrm" href="member_root_exec.asp?user_id=<%=user_id&%>" class="btn btn-info btn-xs" style="height:18px;">권한주기</a>
 <%
 			End If
+			rs2.close
 %>
 								</td>
 								<td class="algC"><%=post_cnt%></td>
@@ -458,21 +472,21 @@
 	</div>
 	<!-- 회원 등록 : s -->
 	<script>
-		function Checkfm(f){
-			if(f.cafe_check.value=='N'){
+		function Checkfm(f) {
+			if (f.cafe_check.value=='N') {
 				alert('중복된 사랑방 아이디 입니다')
 				return false
 			}
 		}
 
-		function setHost(){
+		function setHost() {
 			var fo = document.crtInfo;
 			fo.email2.value = crtInfo.n_hosts.value;
 			fo.email2.readOnly = (fo.n_hosts.value ? true : false);
 		}
 
-		function member_find(user_id){
-			hiddenfrm.location.href='member_find_exec.asp?user_id='+user_id
+		function member_find(user_id) {
+			hiddenfrm.location.href = 'member_find_exec.asp?user_id='+user_id
 		}
 	</script>
 	<aside class="lypp lypp_adm_default lypp_adm_member">

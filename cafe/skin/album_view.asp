@@ -1,11 +1,7 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
-	cafe_mb_level = getUserLevel(cafe_id)
-	read_auth = getonevalue("read_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
-	If toInt(read_auth) > toInt(cafe_mb_level) Then
-		Response.Write "<script>alert('읽기 권한이없습니다');history.back()</script>"
-		Response.End
-	End If
+	checkCafePage(cafe_id)
+	checkReadAuth(cafe_id)
 
 	pageUrl = "http://" & request.servervariables("HTTP_HOST") & request.servervariables("HTTP_URL") & "?menu_seq=" & Request("menu_seq") & "&album_seq=" & Request("album_seq")
 %>
@@ -29,31 +25,12 @@
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
 			<div class="container">
 <%
-	menu_seq  = Request("menu_seq")
 	page      = Request("page")
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
 
 	Set rs = Server.CreateObject ("ADODB.Recordset")
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-		editor_yn = rs("editor_yn")
-		write_auth = rs("write_auth")
-		reply_auth = rs("reply_auth")
-		read_auth = rs("read_auth")
-	End If
-	rs.close
 
 	album_seq = Request("album_seq")
 
@@ -83,7 +60,7 @@
 						img.height = tt[1];
 						img.alt = "클릭하시면 원본이미지를 보실수있습니다.";
 
-						if(aL){
+						if (aL) {
 							// 자동링크 on
 							img.onclick = function() {
 								wT = Math.ceil((screen.width - tt[2])/2.6);
@@ -107,26 +84,26 @@
 						}
 					}
 					else {
-							img.onclick = function(){
+							img.onclick = function() {
 								alert("현재이미지가 원본 이미지입니다.");
 							}
 					}
 				}
 
-				function imgRsize(img, rW, rH){
+				function imgRsize(img, rW, rH) {
 					var iW = img.width;
 					var iH = img.height;
 					var g = new Array;
-					if(iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
+					if (iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
 						g[0] = iW;
 						g[1] = iH;
 					}
 					else {
-						if(img.width > img.height) { // 원크기 가로가 세로보다 크면
+						if (img.width > img.height) { // 원크기 가로가 세로보다 크면
 							g[0] = rW;
 							g[1] = Math.ceil(img.height * rW / img.width);
 						}
-						else if(img.width < img.height) { //원크기의 세로가 가로보다 크면
+						else if (img.width < img.height) { //원크기의 세로가 가로보다 크면
 							g[0] = Math.ceil(img.width * rH / img.height);
 							g[1] = rH;
 						}
@@ -134,11 +111,11 @@
 							g[0] = rW;
 							g[1] = rH;
 						}
-						if(g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
+						if (g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
 							g[0] = rW;
 							g[1] = Math.ceil(img.height * rW / img.width);
 						}
-						if(g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
+						if (g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
 							g[0] = Math.ceil(img.width * rH / img.height);
 							g[1] = rH;
 						}
@@ -150,64 +127,64 @@
 					return g;
 				}
 
-				function goPrint(){
+				function goPrint() {
 					var initBody;
-					window.onbeforeprint = function(){
+					window.onbeforeprint = function() {
 						initBody = document.body.innerHTML;
 						document.body.innerHTML =  document.getElementById('CenterContents').innerHTML;
 					};
-					window.onafterprint = function(){
+					window.onafterprint = function() {
 						document.body.innerHTML = initBody;
 					};
 					window.print();
 				}
 
-				function goList(){
+				function goList() {
 					document.search_form.action = "/cafe/skin/album_list.asp"
 					document.search_form.submit();
 				}
 
-				function goReply(){
+				function goReply() {
 					document.search_form.action = "/cafe/skin/album_reply.asp"
 					document.search_form.submit();
 				}
 
-				function goModify(){
+				function goModify() {
 					document.search_form.action = "/cafe/skin/album_modify.asp"
 					document.search_form.submit();
 				}
 
-				function goDelete(){
+				function goDelete() {
 					document.search_form.action = "/cafe/skin/com_waste_exec.asp"
 					document.search_form.submit();
 				}
 
-				function goSuggest(){
+				function goSuggest() {
 					document.search_form.action = "/cafe/skin/com_suggest_exec.asp"
 					document.search_form.submit();
 				}
 
-				function goSlide(){
+				function goSlide() {
 					document.open_form.action = "/win_open_exec.asp"
 					document.open_form.target = "hiddenfrm";
 					document.open_form.submit();
 				}
 
-				function copyUrl(){
+				function copyUrl() {
 					try{
-						if (window.clipboardData){
+						if (window.clipboardData) {
 								window.clipboardData.setData("Text", "<%=pageUrl%>")
 								alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 						}
-						else if (window.navigator.clipboard){
+						else if (window.navigator.clipboard) {
 								window.navigator.clipboard.writeText("<%=pageUrl%>").then(() => {
 									alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 								});
 						}
-						else{
+						else {
 							temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
 						}
-					}catch(e){
+					} catch(e) {
 						alert(e)
 					}
 				}
@@ -277,21 +254,21 @@
 %>
 						<p class="file"><a href="<%=link%>" target="_blink" id="linkTxt"><%=link_txt%></a>&nbsp;<img src="/cafe/skin/img/inc/copy.png" style="cursor:hand" id="linkBtn"/></p>
 <script>
-	document.getElementById("linkBtn").onclick = function(){
+	document.getElementById("linkBtn").onclick = function() {
 		try{
-			if (window.clipboardData){
+			if (window.clipboardData) {
 					window.clipboardData.setData("Text", "<%=link%>")
 					alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 			}
-			else if (window.navigator.clipboard){
+			else if (window.navigator.clipboard) {
 					window.navigator.clipboard.writeText("<%=link%>").then(() => {
 						alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 					});
 			}
-			else{
+			else {
 				temp = prompt("해당 URL을 복사하십시오.", "<%=link%>");
 			}
-		}catch(e){
+		} catch(e) {
 			alert(e)
 		}
 	};

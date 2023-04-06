@@ -128,7 +128,7 @@
 			$('#cafe_img').click()
 		})
 
-		$(window).load(function(){
+		$(window).load(function() {
 			function readURL(input,obj) {
 				if (input.files && input.files[0]) {
 					var reader = new FileReader()
@@ -141,12 +141,12 @@
 				}
 			}
 
-			$("#cafe_img").change(function(){
+			$("#cafe_img").change(function() {
 				readURL(this,'#profile')
 			})
 		})
 
-		function cafe_img_del(){
+		function cafe_img_del() {
 			document.all.profile.src='';
 			document.all.cafe_img.value = '';
 		}

@@ -4,6 +4,7 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
+	checkCafePage(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -24,30 +25,6 @@
 <%
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
-	menu_seq = Request("menu_seq")
-
-'If session("user_id") = "crjee" Then extime("cf_menu 실행시간")
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-'If session("user_id") = "crjee" Then extime("cf_menu 실행시간")
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-		page_type = rs("page_type")
-		editor_yn = rs("editor_yn")
-		write_auth = rs("write_auth")
-		reply_auth = rs("reply_auth")
-		read_auth = rs("read_auth")
-	End If
-	rs.close
 
 	pagesize = Request("pagesize")
 	If pagesize = "" Then pagesize = 20
@@ -65,6 +42,8 @@
 		kword = ""
 	End IF
 
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
 	sql = sql & " select count(nsale_seq) cnt "
 	sql = sql & "   from cf_nsale "
@@ -72,8 +51,8 @@
 	sql = sql & "    and menu_seq = '" & menu_seq & "' "
 	sql = sql & kword
 	rs.Open sql, conn, 3, 1
-
 	RecordCount = 0 ' 자료가 없을때
+
 	If Not rs.EOF Then
 		RecordCount = rs("cnt")
 	End If
@@ -208,7 +187,7 @@
 	Else
 %>
 								<tr>
-									<td colspan="100">등록된 글이 없습니다.</td>
+									<td colspan="5" class="td_nodata">등록된 글이 없습니다.</td>
 								</tr>
 <%
 	End If
@@ -228,31 +207,31 @@
 </body>
 </html>
 <script>
-	function MovePage(page){
+	function MovePage(page) {
 		var f = document.search_form;
 		f.page.value = page;
 		f.action = "nsale_list.asp"
 		f.submit();
 	}
 
-	function goView(nsale_seq, no){
+	function goView(nsale_seq, no) {
 		try{
 			var f = document.search_form;
 			f.nsale_seq.value = nsale_seq;
-			if (no == 0){
+			if (no == 0) {
 			f.notice_seq.value = nsale_seq;
 			f.action = "notice_view.asp"
 			}
-			else{
+			else {
 			f.action = "nsale_view.asp"
 			}
 			f.submit()
-		}catch(e){
+		} catch(e) {
 			alert(e)
 		}
 	}
 
-	function goSearch(){
+	function goSearch() {
 		var f = document.search_form;
 		f.page.value = 1;
 		f.submit();

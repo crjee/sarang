@@ -4,8 +4,9 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
-%>
-<%
+	checkCafePage(cafe_id)
+	checkWriteAuth(cafe_id)
+
 	ScriptTimeOut = 5000
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
@@ -15,7 +16,6 @@
 	' 전체 파일의 크기를 50MB 이하로 제한.
 	uploadform.TotalLen = 50*1024*1024
 
-	menu_seq  = uploadform("menu_seq")
 	page      = uploadform("page")
 	sch_type  = uploadform("sch_type")
 	sch_word  = uploadform("sch_word")
@@ -246,7 +246,7 @@
 	var expire = new Date();
 	expire.setDate(expire.getDate() + cDay);
 	cookies = cName + '=' + escape(cValue) + '; path=/ '; // 한글 깨짐을 막기위해 escape(cValue)를 합니다.
-	if(typeof cDay != 'undefined') cookies += ';expires=' + expire.toGMTString() + ';';
+	if (typeof cDay != 'undefined') cookies += ';expires=' + expire.toGMTString() + ';';
 	document.cookie = cookies;
 
 	alert("입력 되었습니다.");

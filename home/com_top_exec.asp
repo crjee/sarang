@@ -4,28 +4,9 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
-%>
-<%
-	menu_seq = Request("menu_seq")
-	com_seq = Request("com_seq")
+	checkCafePage(cafe_id)
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-	End If
-	rs.close
-
-	on Error Resume Next
+	On Error Resume Next
 	Conn.BeginTrans
 	Set BeginTrans = Conn
 	CntError = 0
@@ -36,10 +17,8 @@
 		Response.Write "<script>alert('선택된 게시글이 없습니다');</script>"
 		Response.end
 	Else
-
 		If cafe_mb_level > 5 Then
-
-			for i=1 to Request("com_seq").count
+			For i=1 To Request("com_seq").count
 				com_seq = Request("com_seq")(i)
 
 				sql = ""
@@ -58,9 +37,7 @@
 				sql = sql & "  where menu_seq = '" & menu_seq & "' "
 				Conn.Execute(sql)
 			Next
-
 		End if
-
 	End if
 
 	If Err.Number = 0 Then
