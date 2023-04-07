@@ -39,115 +39,131 @@
 <%
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 	Set rs2 = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
-	sql = sql & " select *                       "
-	sql = sql & "   from sys_cd                  "
-	sql = sql & "  where CD_NM = 'pst_rgn_se_cd' "
-	sql = sql & "    and USE_YN = 'Y'            "
-	sql = sql & "  order by CD_SN asc            "
+	sql = sql & " select cmn_cd                                               "
+	sql = sql & "       ,cd_nm                                                "
+	sql = sql & "   from cf_code                                              "
+	sql = sql & "  where up_cd_id = (select cd_id                             "
+	sql = sql & "                          from cf_code                       "
+	sql = sql & "                         where up_cd_id = 'CD0000000000'     "
+	sql = sql & "                           and cmn_cd = 'pst_rgn_se_cd'      "
+	sql = sql & "                           and del_yn = 'N'                  "
+	sql = sql & "                           and use_yn = 'Y'                  "
+	sql = sql & "                       )                                     "
+	sql = sql & "    and del_yn = 'N'                                         "
+	sql = sql & "    and use_yn = 'Y'                                         "
+	sql = sql & "  order by cd_sn                                             "
 	rs.open Sql, conn, 3, 1
+			Response.write sql
+
 	i = 1
-	Do Until rs.eof
-		CMN_CD  = rs("CMN_CD")
-		CD_EXPL = rs("CD_EXPL")
+	If Not rs.eof Then
+		Do Until rs.eof
+			cmn_cd = rs("cmn_cd")
+			cd_nm  = rs("cd_nm")
 %>
-								<li class="<%=if3(i=1,"on","")%>"><a href="#tab_cont<%=i%>"><em><%=CD_EXPL%></em></a></li>
+								<li class="<%=if3(i=1,"on","")%>"><a href="#tab_cont<%=i%>"><em><%=cd_nm%></em></a></li>
 <%
-		rs.MoveNext
-		i = i + 1
-	Loop
+			rs.MoveNext
+			i = i + 1
+		Loop
+	End If
 %>
 							</ul>
 							<span class="posR"><a href="/home/story_list.asp">more</a></span>
 						</div>
 <%
-	rs.Movefirst
-	i = 1
-	Do Until rs.eof
-		CMN_CD  = rs("CMN_CD")
-		CD_EXPL = rs("CD_EXPL")
+	If Not rs.eof Then
+		rs.Movefirst
+		i = 1
+		Do Until rs.eof
+			cmn_cd = rs("cmn_cd")
+			cd_nm  = rs("cd_nm")
 
-		sql = ""
-		sql = sql & " select top 5 * "
-		sql = sql & " from ( "
-		sql = sql & " select 1 as seq "
-		sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
-		sql = sql & "       ,subject "
-		sql = sql & "       ,comment_cnt "
-		sql = sql & "       ,story_seq "
-		sql = sql & "       ,group_num "
-		sql = sql & "       ,step_num "
-		sql = sql & "   from cf_story "
-		sql = sql & "  where cafe_id  = 'home' "
-		sql = sql & "    and pst_rgn_se_cd = '" & CMN_CD & "' "
-		sql = sql & "    and step_num = 0 "
-		sql = sql & "    and top_yn = 'Y' "
-		sql = sql & "  union all "
-		sql = sql & " select top 5 "
-		sql = sql & "        2 as seq "
-		sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
-		sql = sql & "       ,subject "
-		sql = sql & "       ,comment_cnt "
-		sql = sql & "       ,story_seq "
-		sql = sql & "       ,group_num "
-		sql = sql & "       ,step_num "
-		sql = sql & "   from cf_story "
-		sql = sql & "  where cafe_id  = 'home' "
-		sql = sql & "    and pst_rgn_se_cd = '" & CMN_CD & "' "
-		sql = sql & "    and step_num = 0 "
-		sql = sql & "    and isnull(top_yn,'') <> 'Y' "
-		sql = sql & "  order by seq, group_num desc, step_num asc "
-		sql = sql & " ) aa "
-		sql = sql & " order by seq, group_num desc, step_num asc "
-		rs2.Open Sql, conn, 3, 1
+			sql = ""
+			sql = sql & " select top 5 * "
+			sql = sql & " from ( "
+			sql = sql & " select 1 as seq "
+			sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
+			sql = sql & "       ,subject "
+			sql = sql & "       ,comment_cnt "
+			sql = sql & "       ,story_seq "
+			sql = sql & "       ,group_num "
+			sql = sql & "       ,step_num "
+			sql = sql & "   from cf_story "
+			sql = sql & "  where cafe_id  = 'home' "
+			sql = sql & "    and pst_rgn_se_cd = '" & cmn_cd & "' "
+			sql = sql & "    and step_num = 0 "
+			sql = sql & "    and top_yn = 'Y' "
+			sql = sql & "  union all "
+			sql = sql & " select top 5 "
+			sql = sql & "        2 as seq "
+			sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
+			sql = sql & "       ,subject "
+			sql = sql & "       ,comment_cnt "
+			sql = sql & "       ,story_seq "
+			sql = sql & "       ,group_num "
+			sql = sql & "       ,step_num "
+			sql = sql & "   from cf_story "
+			sql = sql & "  where cafe_id  = 'home' "
+			sql = sql & "    and pst_rgn_se_cd = '" & cmn_cd & "' "
+			sql = sql & "    and step_num = 0 "
+			sql = sql & "    and isnull(top_yn,'') <> 'Y' "
+			sql = sql & "  order by seq, group_num desc, step_num asc "
+			sql = sql & " ) aa "
+			sql = sql & " order by seq, group_num desc, step_num asc "
+			Response.write sql
+			rs2.Open Sql, conn, 3, 1
 %>
 						<div id="tab_cont<%=i%>" class="tab_cont <%=if3(i=1,"on","")%>">
 							<div class="latest_box">
 <%
-		If Not rs2.eof Then
+			If Not rs2.eof Then
 %>
 								<ul class="latest_1">
 <%
-			Do Until rs2.eof
-				seq           = rs2("seq")
-				credt_txt     = rs2("credt_txt")
-				subject       = rs2("subject")
-				comment_cnt   = rs2("comment_cnt")
-				story_seq     = rs2("story_seq")
-				pst_rgn_se_cd = rs2("story_seq")
-				If comment_cnt > 0 Then
-					comment_txt = "(" & comment_cnt & ")"
-				Else
-					comment_txt = ""
-				End If
-				view_url = "/home/story_view.asp?story_seq=" & story_seq & "&menu_seq=1951"
+				Do Until rs2.eof
+					seq           = rs2("seq")
+					credt_txt     = rs2("credt_txt")
+					subject       = rs2("subject")
+					comment_cnt   = rs2("comment_cnt")
+					story_seq     = rs2("story_seq")
+					pst_rgn_se_cd = rs2("story_seq")
+					If comment_cnt > 0 Then
+						comment_txt = "(" & comment_cnt & ")"
+					Else
+						comment_txt = ""
+					End If
+					view_url = "/home/story_view.asp?story_seq=" & story_seq & "&menu_seq=1951"
 %>
 									<li>
 										<a href="<%=view_url%>"><span class="text"><%=subject%></span></a>
 										<span class="posr"><%=credt_txt%></span>
 									</li>
 <%
-				i = i + 1
-				rs2.MoveNext
-			Loop
+					i = i + 1
+					rs2.MoveNext
+				Loop
 %>
 								</ul>
 <%
-		Else
+			Else
 %>
 								<div class="nodata">
 									<span class="txt">데이터가 없습니다.</span>
 								</div>
 <%
-		End If
-		rs2.close
-		rs.MoveNext
-		i = i + 1
+			End If
+			rs2.close
 %>
 							</div>
 						</div>
 <%
-	Loop
+			i = i + 1
+			rs.MoveNext
+		Loop
+	End If
 	rs.close
 	Set rs = Nothing
 %>
@@ -172,6 +188,7 @@
 					</div>
 				</div>
 <!--#include virtual="/home/home_center_inc.asp"-->
+			</div>
 <!--#include virtual="/home/home_right_inc.asp"-->
 		</main>
 <!--#include virtual="/home/home_footer_inc.asp"-->

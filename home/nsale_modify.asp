@@ -155,18 +155,18 @@
 	sql = ""
 	sql = sql & " select *                         "
 	sql = sql & "   from sys_cd                    "
-	sql = sql & "  where CD_NM = 'nsale_rgn_cd' "
+	sql = sql & "  where cd_nm = 'nsale_rgn_cd' "
 	sql = sql & "    and USE_YN = 'Y'              "
-	sql = sql & "  order by CD_SN asc              "
+	sql = sql & "  order by cd_sn asc              "
 	rs.open Sql, conn, 3, 1
 
 	Do Until rs.eof
-		CMN_CD  = rs("CMN_CD")
-		CD_EXPL = rs("CD_EXPL")
+		cmn_cd  = rs("cmn_cd")
+		cd_nm = rs("cd_nm")
 %>
 									<span class="">
-										<input type="radio" id="nsale_rgn_cd_<%=CMN_CD%>" name="nsale_rgn_cd" value="<%=CMN_CD%>" <%=if3(nsale_rgn_cd=CMN_CD,"checked","")%> class="inp_radio">
-										<label for="nsale_rgn_cd_<%=CMN_CD%>"><em><%=CD_EXPL%></em></label>
+										<input type="radio" id="nsale_rgn_cd_<%=cmn_cd%>" name="nsale_rgn_cd" value="<%=cmn_cd%>" <%=if3(nsale_rgn_cd=cmn_cd,"checked","")%> class="inp_radio">
+										<label for="nsale_rgn_cd_<%=cmn_cd%>"><em><%=cd_nm%></em></label>
 									</span>
 <%
 		rs.MoveNext
@@ -185,20 +185,28 @@
 								<td>
 <%
 	sql = ""
-	sql = sql & " select *                       "
-	sql = sql & "   from sys_cd                  "
-	sql = sql & "  where CD_NM = 'cmpl_se_cd'    "
-	sql = sql & "    and USE_YN = 'Y'            "
-	sql = sql & "  order by CD_SN asc            "
+	sql = sql & " select cmn_cd                                               "
+	sql = sql & "       ,cd_nm                                                "
+	sql = sql & "   from cf_code                                              "
+	sql = sql & "  where up_cd_id = (select cd_id                     "
+	sql = sql & "                          from cf_code                       "
+	sql = sql & "                         where up_cd_id = 'CD0000000000' "
+	sql = sql & "                           and cmn_cd = 'cmpl_se_cd'         "
+	sql = sql & "                           and del_yn = 'N'                  "
+	sql = sql & "                           and use_yn = 'Y'                  "
+	sql = sql & "                       )                                     "
+	sql = sql & "    and del_yn = 'N'                                         "
+	sql = sql & "    and use_yn = 'Y'                                         "
+	sql = sql & "  order by cd_sn                                             "
 	rs.open Sql, conn, 3, 1
 
 	Do Until rs.eof
-		CMN_CD  = rs("CMN_CD")
-		CD_EXPL = rs("CD_EXPL")
+		cmn_cd = rs("cmn_cd")
+		cd_nm  = rs("cd_nm")
 %>
 									<span class="">
-										<input type="radio" id="cmpl_se_cd_<%=CMN_CD%>" name="cmpl_se_cd" value="<%=CMN_CD%>" <%=if3(cmpl_se_cd=CMN_CD,"checked","")%> class="inp_radio">
-										<label for="cmpl_se_cd_<%=CMN_CD%>"><em><%=CD_EXPL%></em></label>
+										<input type="radio" id="cmpl_se_cd_<%=cmn_cd%>" name="cmpl_se_cd" value="<%=cmn_cd%>" <%=if3(cmpl_se_cd=cmn_cd,"checked","")%> class="inp_radio">
+										<label for="cmpl_se_cd_<%=cmn_cd%>"><em><%=cd_nm%></em></label>
 									</span>
 <%
 		rs.MoveNext
@@ -210,20 +218,28 @@
 								<td>
 <%
 	sql = ""
-	sql = sql & " select *                       "
-	sql = sql & "   from sys_cd                  "
-	sql = sql & "  where CD_NM = 'nsale_stts_cd' "
-	sql = sql & "    and USE_YN = 'Y'            "
-	sql = sql & "  order by CD_SN asc            "
+	sql = sql & " select cmn_cd                                               "
+	sql = sql & "       ,cd_nm                                                "
+	sql = sql & "   from cf_code                                              "
+	sql = sql & "  where up_cd_id = (select cd_id                             "
+	sql = sql & "                          from cf_code                       "
+	sql = sql & "                         where up_cd_id = 'CD0000000000'     "
+	sql = sql & "                           and cmn_cd = 'nsale_stts_cd'      "
+	sql = sql & "                           and del_yn = 'N'                  "
+	sql = sql & "                           and use_yn = 'Y'                  "
+	sql = sql & "                       )                                     "
+	sql = sql & "    and del_yn = 'N'                                         "
+	sql = sql & "    and use_yn = 'Y'                                         "
+	sql = sql & "  order by cd_sn                                             "
 	rs.open Sql, conn, 3, 1
 
 	Do Until rs.eof
-		CMN_CD  = rs("CMN_CD")
-		CD_EXPL = rs("CD_EXPL")
+		cmn_cd  = rs("cmn_cd")
+		cd_nm = rs("cd_nm")
 %>
 									<span class="">
-										<input type="radio" id="cmpl_se_cd_<%=CMN_CD%>" name="nsale_stts_cd" value="<%=CMN_CD%>" <%=if3(nsale_stts_cd=CMN_CD,"checked","")%> class="inp_radio">
-										<label for="cmpl_se_cd_<%=CMN_CD%>"><em><%=CD_EXPL%></em></label>
+										<input type="radio" id="cmpl_se_cd_<%=cmn_cd%>" name="nsale_stts_cd" value="<%=cmn_cd%>" <%=if3(nsale_stts_cd=cmn_cd,"checked","")%> class="inp_radio">
+										<label for="cmpl_se_cd_<%=cmn_cd%>"><em><%=cd_nm%></em></label>
 									</span>
 <%
 		rs.MoveNext

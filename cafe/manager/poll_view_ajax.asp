@@ -31,25 +31,8 @@
 			count   = rs("count")  : If count < 1 Then count = ques_cnt
 			sdate   = rs("sdate")
 			edate   = rs("edate")
-			rprsv_cert_use_yn   = rs("rprsv_cert_use_yn")
+			rprsv_cert_use_yn = rs("rprsv_cert_use_yn")
 			ddln_yn   = rs("ddln_yn")
-			If InStr(sdate, "-") Then
-				arrSdate = Split(sdate, "-")
-				If IsArray(arrSdate) Then
-					sy = arrSdate(0)
-					sm = arrSdate(1)
-					sd = arrSdate(2)
-				End If
-			End If
-
-			If InStr(edate, "-") Then
-				arrEdate = Split(edate, "-")
-				If IsArray(arrEdate) Then
-					ey = arrEdate(0)
-					em = arrEdate(1)
-					ed = arrEdate(2)
-				End If
-			End If
 
 			strReturnJson = strReturnJson & "{"
 			strReturnJson = strReturnJson & """poll_seq"":""" & poll_seq & ""","
@@ -67,12 +50,8 @@
 			strReturnJson = strReturnJson & """count"":"""   & count   & ""","
 			strReturnJson = strReturnJson & """rprsv_cert_use_yn"":"""   & rprsv_cert_use_yn   & ""","
 			strReturnJson = strReturnJson & """ddln_yn"":"""   & ddln_yn   & ""","
-			strReturnJson = strReturnJson & """sy"":""" & sy & ""","
-			strReturnJson = strReturnJson & """sm"":""" & sm & ""","
-			strReturnJson = strReturnJson & """sd"":""" & sd & ""","
-			strReturnJson = strReturnJson & """ey"":""" & ey & ""","
-			strReturnJson = strReturnJson & """em"":""" & em & ""","
-			strReturnJson = strReturnJson & """ed"":""" & ed & """"
+			strReturnJson = strReturnJson & """sdate"":""" & sdate & ""","
+			strReturnJson = strReturnJson & """edate"":""" & edate & """"
 			strReturnJson = strReturnJson & "}"
 
 			rs.MoveNext

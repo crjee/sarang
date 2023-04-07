@@ -40,17 +40,41 @@
 	Set rs2 = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
+	sql = sql & "  with cd1                                                      "
+	sql = sql & "    as (                                                        "
+	sql = sql & "        select cmn_cd                                           "
+	sql = sql & "              ,cd_nm                                            "
+	sql = sql & "          from cf_code                                          "
+	sql = sql & "         where up_cd_id = (select cd_id                         "
+	sql = sql & "                                 from cf_code                   "
+	sql = sql & "                                where up_cd_id = 'CD0000000000' "
+	sql = sql & "                                  and cmn_cd = 'nsale_rgn_cd'   "
+	sql = sql & "                              )                                 "
+	sql = sql & "       )                                                        "
+	sql = sql & " ,     cd2                                                      "
+	sql = sql & "    as (                                                        "
+	sql = sql & "        select cmn_cd                                           "
+	sql = sql & "              ,cd_nm                                            "
+	sql = sql & "          from cf_code                                          "
+	sql = sql & "         where up_cd_id = (select cd_id                         "
+	sql = sql & "                                 from cf_code                   "
+	sql = sql & "                                where up_cd_id = 'CD0000000000' "
+	sql = sql & "                                  and cmn_cd = 'cmpl_se_cd'     "
+	sql = sql & "                              )                                 "
+	sql = sql & "       )                                                        "
 	sql = sql & " select cb.* "
-	sql = sql & "       ,cm.phone as tel_no "
+	sql = sql & "       ,cd1.cd_nm as nsale_rgn_cd_txt "
+	sql = sql & "       ,cd2.cd_nm as cmpl_se_cd_txt "
 	sql = sql & "   from cf_nsale cb "
-	sql = sql & "   left join cf_member cm on cm.user_id = cb.user_id "
+	sql = sql & "   left join cd1 on cd1.cmn_cd = cb.nsale_rgn_cd "
+	sql = sql & "   left join cd2 on cd2.cmn_cd = cb.cmpl_se_cd "
 	sql = sql & "  where nsale_seq = '" & nsale_seq & "' "
 	rs.Open Sql, conn, 3, 1
 
 	If Not rs.eof Then
 		subject                = rs("subject")
 		open_yn                = rs("open_yn")
-		nsale_rgn_cd        = rs("nsale_rgn_cd")
+		nsale_rgn_cd           = rs("nsale_rgn_cd")
 		nsale_addr             = rs("nsale_addr")
 		cmpl_se_cd             = rs("cmpl_se_cd")
 		nsale_stts_cd          = rs("nsale_stts_cd")
@@ -84,6 +108,8 @@
 		user_id                = rs("user_id")
 		level_num              = rs("level_num")
 		nsale_num              = rs("nsale_num")
+		nsale_rgn_cd_txt       = rs("nsale_rgn_cd_txt")
+		cmpl_se_cd_txt         = rs("cmpl_se_cd_txt")
 	End If
 %>
 			<script>
@@ -173,8 +199,6 @@
 					<button class="btn btn_c_n btn_n" type="button" onclick="location.href='/home/nsale_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 <%
 	End If
-
-	cd_expl_txt = getonevalue("CD_EXPL","sys_cd","where CD_NM = 'cmpl_se_cd' and CMN_CD = '" & cmpl_se_cd & "'")
 %>
 					<!-- <a href="#n" class="btn btn_c_n btn_n" onclick="goPrev()">이전글</a> -->
 					<!-- <a href="#n" class="btn btn_c_n btn_n" onclick="goNext()">다음글</a> -->
@@ -182,7 +206,7 @@
 					<a href="#n" class="btn btn_c_a btn_n" onclick="goPrint()">인쇄</a>
 				</div>
 				<div class="view_head">
-					<h3 class="h3"><span class="milestone">분양계획</span> [<%=cd_expl_txt%>]<%=subject%></h3>
+					<h3 class="h3"><span class="milestone">분양계획</span> [<%=cmpl_se_cd_txt%>]<%=subject%></h3>
 					<div class="wrt_info_box posR">
 						<ul>
 							<li><span>작성자</span><strong><%=subject%></strong></li>
@@ -235,6 +259,10 @@
 										<col class="w30" />
 									</colgroup>
 									<tbody>
+										<tr>
+											<th scope="row">분양지역</th>
+											<td colspan="3"><%=nsale_rgn_cd_txt%></td>
+										</tr>
 										<tr>
 											<th scope="row">분양주소</th>
 											<td colspan="3"><%=nsale_addr%></td>

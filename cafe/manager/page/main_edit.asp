@@ -53,81 +53,82 @@
 							<table class="tb_input tb_fixed">
 								<colgroup>
 									<col class="w120p" />
+									<col class="w120p" />
+									<col class="w_remainder" />
 									<col class="w_remainder" />
 								</colgroup>
 								<tbody>
 									<tr>
-										<th scope="row" rowspan="2">텍스트형</th>
+										<th scope="row" rowspan="2">텍스트</th>
+										<th scope="row">2단</th>
 										<td>
 											<span class="">
 												<input type="radio" id="NT1" name="list_type" value="NT1" <%=if3(wide_yn&list_type="NT1","checked","")%> class="inp_radio" />
-												<label for="NT1"><em>기본형</em></label>
+												<label for="NT1"><em>리스트형</em></label>
 											</span>
 										</td>
+										<td rowspan="6"></th>
 									</tr>
 									<tr>
+										<th scope="row">와이드</th>
 										<td>
 											<span class="">
 												<input type="radio" id="YT1" name="list_type" value="YT1" <%=if3(wide_yn&list_type="YT1","checked","")%> class="inp_radio" />
-												<label for="YT1"><em>와이드형</em></label>
+												<label for="YT1"><em>리스트형</em></label>
 											</span>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row" rowspan="2">앨범형</th>
+										<th scope="row" rowspan="2">앨범</th>
+										<th>2단</th>
 										<td>
 											<span class="">
 												<input type="radio" id="NA1" name="list_type" value="NA1" <%=if3(wide_yn&list_type="NA1","checked","")%> class="inp_radio" />
-												<label for="NA1"><em>기본 우측형</em></label>&nbsp;&nbsp;&nbsp;&nbsp;
+												<label for="NA1"><em>슬라이드형</em></label>
 											</span>
-											<span class="ml20">
+											<span class="">
 												<input type="radio" id="NA2" name="list_type" value="NA2" <%=if3(wide_yn&list_type="NA2","checked","")%> class="inp_radio" />
-												<label for="NA2"><em> 좌측형</em></label>
-											</span>
-											<span class="ml20">
-												<input type="radio" id="NA3" name="list_type" value="NA3" <%=if3(wide_yn&list_type="NA3","checked","")%> class="inp_radio" />
-												<label for="NA3"><em> 슬라이드형</em></label>
-											</span>
-											<span class="ml20">
-												<input type="radio" id="NA4" name="list_type" value="NA4" <%=if3(wide_yn&list_type="NA4","checked","")%> class="inp_radio" />
-												<label for="NA4"><em> 탭슬라이드형</em></label>
+												<label for="NA2"><em>탭 슬라이드형</em></label>
 											</span>
 										</td>
 									</tr>
 									<tr>
+										<th scope="row">와이드</th>
 										<td>
 											<span class="">
 												<input type="radio" id="YA1" name="list_type" value="YA1" <%=if3(wide_yn&list_type="YA1","checked","")%> class="inp_radio" />
-												<label for="YA1"><em>와이드 우측형</em></label>
+												<label for="YA1"><em>슬라이드형</em></label>
 											</span>
-											<span class="ml20">
+											<span class="">
 												<input type="radio" id="YA2" name="list_type" value="YA2" <%=if3(wide_yn&list_type="YA2","checked","")%> class="inp_radio" />
-												<label for="YA2"><em> 좌측형</em></label>
-											</span>
-											<span class="ml20">
-												<input type="radio" id="YA3" name="list_type" value="YA3" <%=if3(wide_yn&list_type="YA3","checked","")%> class="inp_radio" />
-												<label for="YA3"><em> 슬라이드형</em></label>
-											</span>
-											<span class="ml20">
-												<input type="radio" id="YA4" name="list_type" value="YA4" <%=if3(wide_yn&list_type="YA4","checked","")%> class="inp_radio" />
-												<label for="YA4"><em> 탭슬라이드형</em></label>
+												<label for="YA2"><em>탭 슬라이드형</em></label>
 											</span>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row" rowspan="2">카드형</th>
+										<th scope="row" rowspan="2">카드</th>
+										<th scope="row">2단</th>
 										<td>
 											<span class="">
 												<input type="radio" id="NC1" name="list_type" value="NC1" <%=if3(wide_yn&list_type="NC1","checked","")%> class="inp_radio" />
-												<label for="NC1"><em>기본형</em></label>
+												<label for="NC1"><em>좌측 이미지형</em></label>
+											</span>
+											<span class="">
+												<input type="radio" id="NC2" name="list_type" value="NC2" <%=if3(wide_yn&list_type="NC2","checked","")%> class="inp_radio" />
+												<label for="NC2"><em>우측 이미지형</em></label>
 											</span>
 										</td>
 									</tr>
 									<tr>
+										<th scope="row">와이드</th>
 										<td>
 											<span class="">
 												<input type="radio" id="YC1" name="list_type" value="YC1" <%=if3(wide_yn&list_type="YC1","checked","")%> class="inp_radio" />
-												<label for="YC1"><em>와이드형</em></label>
+												<label for="YC1"><em>좌측 이미지형</em></label>
+											</span>
+											<span class="">
+												<input type="radio" id="YC2" name="list_type" value="YC2" <%=if3(wide_yn&list_type="YC2","checked","")%> class="inp_radio" />
+												<label for="YC2"><em>우측 이미지형</em></label>
 											</span>
 										</td>
 									</tr>

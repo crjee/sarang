@@ -61,21 +61,29 @@
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
-	sql = sql & " select *                       "
-	sql = sql & "   from sys_cd                  "
-	sql = sql & "  where CD_NM = 'pst_rgn_se_cd' "
-	sql = sql & "    and use_yn = 'Y'            "
-	sql = sql & "  order by CD_SN                "
+	sql = sql & " select cmn_cd                                               "
+	sql = sql & "       ,cd_nm                                                "
+	sql = sql & "   from cf_code                                              "
+	sql = sql & "  where up_cd_id = (select cd_id                             "
+	sql = sql & "                          from cf_code                       "
+	sql = sql & "                         where up_cd_id = 'CD0000000000'     "
+	sql = sql & "                           and cmn_cd = 'pst_rgn_se_cd'      "
+	sql = sql & "                           and del_yn = 'N'                  "
+	sql = sql & "                           and use_yn = 'Y'                  "
+	sql = sql & "                       )                                     "
+	sql = sql & "    and del_yn = 'N'                                         "
+	sql = sql & "    and use_yn = 'Y'                                         "
+	sql = sql & "  order by cd_sn                                             "
 	rs.Open Sql, conn, 3, 1
 
 	If Not rs.EOF Then
 		Do Until rs.EOF
-			CMN_CD  = rs("CMN_CD")
-			CD_EXPL = rs("CD_EXPL")
+			cmn_cd = rs("cmn_cd")
+			cd_nm  = rs("cd_nm")
 %>
 									<span class="">
-										<input type="radio" id="pst_rgn_se_cd_<%=CMN_CD%>" name="pst_rgn_se_cd" class="inp_radio" value="<%=CMN_CD%>" <%=if3(InStr(pst_rgn_se_cd, CMN_CD)>0,"checked","")%> required />
-										<label for="pst_rgn_se_cd_<%=CMN_CD%>"><em><%=CD_EXPL%></em></label>
+										<input type="radio" id="pst_rgn_se_cd_<%=cmn_cd%>" name="pst_rgn_se_cd" class="inp_radio" value="<%=cmn_cd%>" <%=if3(InStr(pst_rgn_se_cd, cmn_cd)>0,"checked","")%> required />
+										<label for="pst_rgn_se_cd_<%=cmn_cd%>"><em><%=cd_nm%></em></label>
 									</span>
 <%
 			rs.MoveNext

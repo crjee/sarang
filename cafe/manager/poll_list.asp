@@ -50,6 +50,28 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+<!-- 달력 시작 -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script>
+	$.datepicker.setDefaults({
+		dateFormat: 'yy-mm-dd',
+		prevText: '이전 달',
+		nextText: '다음 달',
+		monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+		monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+		dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+		dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+		dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+		showMonthAfterYear: true,
+		yearSuffix: '년'
+	});
+
+	$( function() {
+		$("#sdate").datepicker();
+		$("#edate").datepicker();
+	} );
+</script>
+<!-- 달력 끝 -->
 </head>
 <body>
 	<div id="wrap">
@@ -106,7 +128,7 @@
 <%
 	i = 1
 	If Not row.EOF Then
-		Do Until row.EOF OR i > row.PageSize
+		Do Until row.EOF Or i > row.PageSize
 %>
 								<tr>
 									<td class="algL"><%=row("subject")%></td>
@@ -213,71 +235,8 @@
 						<tr>
 							<th scope="row">설문기간</th>
 							<td>
-								<select id="sy" name="sy" required class="sel w_auto">
-									<option value="">년도</option>
-<%
-	For i = 2016 To year(date) + 1
-%>
-									<option value="<%=i%>" <%=If3(Trim(Left(sdate,4))=cstr(i),"selected","") %>><%=i%></option>
-<%
-	Next
-%>
-								</select>
-								<select id="sm" name="sm" required class="sel w_auto">
-									<option value="">월</option>
-<%
-	For i = 1 To 12
-		If Len(i)=1 Then i = "0" & i
-%>
-									<option value="<%=i%>" <%=If3(Trim(Mid(sdate,6,2))=Trim(i),"selected""") %>><%=i%></option>
-<%
-	Next
-%>
-								</select>
-								<select id="sd" name="sd" required class="sel w_auto">
-									<option value="">일</option>
-<%
-	For i = 1 To 31
-		If Len(i)=1 Then i = "0" & i
-%>
-									<option value="<%=i%>" <%=if3(Trim(Mid(sdate,9,2))=trim(i),"selected","") %>><%=i%></option>
-<%
-	Next
-%>
-								</select>
-								~
-								<select id="ey" name="ey" required class="sel w_auto">
-									<option value="">년도</option>
-<%
-	For i = 2016 To year(date) + 1
-%>
-									<option value="<%=i%>" <%=if3(Trim(Left(edate,4))=cstr(i),"selected","") %>><%=i%></option>
-<%
-	Next
-%>
-								</select>
-								<select id="em" name="em" required class="sel w_auto">
-									<option value="">월</option>
-<%
-	For i = 1 To 12
-		If Len(i)=1 Then i = "0" & i
-%>
-									<option value="<%=i%>" <%=if3(Trim(Mid(edate,6,2))=Trim(i),"selected","") %>><%=i%></option>
-<%
-	Next
-%>
-								</select>
-								<select id="ed" name="ed" required class="sel w_auto">
-									<option value="">일</option>
-<%
-	For i = 1 To 31
-		If Len(i)=1 Then i = "0" & i
-%>
-									<option value="<%=i%>" <%=if3(Trim(Mid(edate,9,2))=trim(i),"selected","") %>><%=i%></option>
-<%
-	Next
-%>
-								</select>
+								<input type="text" id="sdate" name="sdate" class="inp" /><br>
+								<input type="text" id="edate" name="edate" class="inp" />
 							</td>
 						</tr>
 						<tr>
@@ -298,8 +257,8 @@
 						</tr>
 <%
 	For i = 1 To 10
-	j = i
-	If Len(j)=1 then j = "0" & i
+		j = i
+		If Len(j)=1 then j = "0" & i
 %>
 						<tr id="quess<%=i%>" style="display:none">
 							<th scope="row">질문 <%=j%></th>
@@ -320,6 +279,7 @@
 			</form>
 		</div>
 	</aside>
+	<iframe id="hiddenfrm" name="hiddenfrm" style="display:"></iframe>
 </body>
 </html>
 	<script>
@@ -335,10 +295,6 @@
 			eval(obj+".style").display='none';
 		}
 	}
-	</script>
-	<iframe id="hiddenfrm" name="hiddenfrm" style="display:"></iframe>
-
-	<script>
 
 	function onRegi() {
 		$("#regi_form")[0].reset();
@@ -364,7 +320,6 @@
 				success: function(xmlData) {
 					if (xmlData.TotalCnt > 0) {
 						for (i=0; i<xmlData.TotalCnt; i++) {
-							//alert(xmlData.ResultList[i].poll_seq);
 							$("#poll_seq").val(xmlData.ResultList[i].poll_seq);
 							$("#subject").val(xmlData.ResultList[i].subject);
 							$("#ques01").val(xmlData.ResultList[i].ques01);
@@ -378,12 +333,8 @@
 							$("#ques09").val(xmlData.ResultList[i].ques09);
 							$("#ques10").val(xmlData.ResultList[i].ques10);
 							$("#count").val(xmlData.ResultList[i].count);
-							$("#sy").val(xmlData.ResultList[i].sy);
-							$("#sm").val(xmlData.ResultList[i].sm);
-							$("#sd").val(xmlData.ResultList[i].sd);
-							$("#ey").val(xmlData.ResultList[i].ey);
-							$("#em").val(xmlData.ResultList[i].em);
-							$("#ed").val(xmlData.ResultList[i].ed);
+							$("#sdate").val(xmlData.ResultList[i].sdate);
+							$("#edate").val(xmlData.ResultList[i].edate);
 							if (xmlData.ResultList[i].rprsv_cert_use_yn == "Y")
 							$("#rprsv_cert_use_y").prop('checked',true);
 							if (xmlData.ResultList[i].rprsv_cert_use_yn == "N")
@@ -411,19 +362,19 @@
 		}
 	}
 
-		function MovePage(page) {
-			document.search_form.page.value = page;
-			document.search_form.submit();
-		}
+	function MovePage(page) {
+		document.search_form.page.value = page;
+		document.search_form.submit();
+	}
 
-		function goSearch() {
-			try {
-				var f = document.search_form;
-				f.page.value = 1;
-				f.submit();
-			}
-			catch (e) {
-				alert(e);
-			}
+	function goSearch() {
+		try {
+			var f = document.search_form;
+			f.page.value = 1;
+			f.submit();
 		}
+		catch (e) {
+			alert(e);
+		}
+	}
 	</script>

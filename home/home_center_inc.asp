@@ -1,36 +1,10 @@
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script type="text/javascript" src="/cafe/jquery.vticker-min.js"></script>
-<script type="text/javascript">
-	$(function() {
-		try {
-			$('#dv_rolling').vTicker({
-				// 스크롤 속도(default: 700)
-				speed: 1000,
-				// 스크롤 사이의 대기시간(default: 4000)
-				pause: 2000,
-				// 스크롤 애니메이션
-				animation: 'fade',
-				// 마우스 over 일때 멈출 설정
-				mousePause: true,
-				// 한번에 보일 리스트수(default: 2)
-				showItems: 5,
-				// 스크롤 컨테이너 높이(default: 0)
-				height: 0,
-				// 아이템이 움직이는 방향, up/down (default: up)
-				direction: 'up'
-			});
-		}
-		catch (e) {
-		}
-	});
-</script>
-
 				<div class="main_frm_flex mff_block_1">
 <%
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 	Set rs2 = Server.CreateObject ("ADODB.Recordset")
 	Set rs3 = Server.CreateObject ("ADODB.Recordset")
 	Dim arrLst(), arrRgn()
+
 	sql = ""
 	sql = sql & " select menu_type                                           "
 	sql = sql & "       ,menu_name                                           "
@@ -100,6 +74,10 @@
 		Else
 			land_id = ""
 		End If
+
+		If home_cnt = "0" Then
+			home_cnt = "5"
+		End If
 %>
 					<div class="<%=odd_even_class%>"><!-- main_frm_a : 와이드전체, main_frm_l : 2단 -->
 						<div class="latest_box">
@@ -119,32 +97,43 @@
 							</header>
 							<div class="tb main_rolling" id="<%=land_id%>">
 <%
-		If list_type = "A2" Then
+		If list_type = "A2" Then ' 탭정보 확인
 %>
 								<div class="slide_cate">
 									<a href="#tab_n_cont1" class="on">전체</a>
 <%
 			sql = ""
-			sql = sql & " select *                       "
-			sql = sql & "   from sys_cd                  "
-			sql = sql & "  where CD_NM = 'pst_rgn_se_cd' "
-			sql = sql & "    and USE_YN = 'Y'            "
-			sql = sql & "  order by CD_SN asc            "
+			sql = sql & " select cmn_cd                                               "
+			sql = sql & "       ,cd_nm                                                "
+			sql = sql & "   from cf_code                                              "
+			sql = sql & "  where up_cd_id = (select cd_id                             "
+			sql = sql & "                          from cf_code                       "
+			sql = sql & "                         where up_cd_id = 'CD0000000000'     "
+			sql = sql & "                           and cmn_cd = 'pst_rgn_se_cd'      "
+			sql = sql & "                           and del_yn = 'N'                  "
+			sql = sql & "                           and use_yn = 'Y'                  "
+			sql = sql & "                       )                                     "
+			sql = sql & "    and del_yn = 'N'                                         "
+			sql = sql & "    and use_yn = 'Y'                                         "
+			sql = sql & "  order by cd_sn                                             "
 			rs2.open Sql, conn, 3, 1
 			j = 2
 			ReDim arrLst(rs2.recordCount+1)
 			ReDim arrRgn(rs2.recordCount+1)
-			Do Until rs2.eof
-				CMN_CD  = rs2("CMN_CD")
-				CD_EXPL = rs2("CD_EXPL")
-				arrLst(j) = CMN_CD
-				arrRgn(j) = CD_EXPL
+
+			If Not rs2.eof Then
+				Do Until rs2.eof
+					cmn_cd = rs2("cmn_cd")
+					cd_nm  = rs2("cd_nm")
+					arrLst(j) = cmn_cd
+					arrRgn(j) = cd_nm
 %>
-									<a href="#tab_n_cont<%=j%>" class="<%=if3(j=1,"on","")%>"><%=CD_EXPL%></a>
+									<a href="#tab_n_cont<%=j%>" class="<%=if3(j=1,"on","")%>"><%=cd_nm%></a>
 <%
-				rs2.MoveNext
-				j = j + 1
-			Loop
+					rs2.MoveNext
+					j = j + 1
+				Loop
+			End If
 			rs2.close
 %>
 								</div>
@@ -154,9 +143,7 @@
 			ReDim arrRgn(1)
 		End If
 
-
 		For li = 1 To UBound(arrLst)
-
 			sql = ""
 			sql = sql & " select * "
 			sql = sql & " from ( "
@@ -191,7 +178,7 @@
 			sql = sql & "    and nsale_rgn_cd = '" & arrLst(li) & "' "
 			End If
 			sql = sql & "    and step_num = 0 "
-	'		sql = sql & "    and top_yn = 'Y' "
+			sql = sql & "    and top_yn = 'Y' "
 			sql = sql & "  union all "
 			sql = sql & " select top " & home_cnt  & " "
 			sql = sql & "        2 as seq "
@@ -225,7 +212,7 @@
 			sql = sql & "    and nsale_rgn_cd = '" & arrLst(li) & "' "
 			End If
 			sql = sql & "    and step_num = 0 "
-	'		sql = sql & "    and isnull(top_yn,'') <> 'Y' "
+			sql = sql & "    and isnull(top_yn,'') <> 'Y' "
 			If menu_type = "board" Then
 			sql = sql & "  order by seq, group_num desc, step_num asc "
 			Else
@@ -274,6 +261,7 @@
 					Else
 						comment_txt = ""
 					End If
+
 					view_url = "/home/" & menu_type & "_view.asp?" & menu_type & "_seq=" & rs2(menu_type & "_seq") & "&menu_seq=" & menu_seq
 
 					If list_type = "T1" Or list_type = "T2" Then
@@ -407,3 +395,30 @@
 	rs.close
 	Set rs = Nothing
 %>
+				</div>
+				<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+				<script type="text/javascript" src="/cafe/jquery.vticker-min.js"></script>
+				<script type="text/javascript">
+					$(function() {
+						try {
+							$('#dv_rolling').vTicker({
+								// 스크롤 속도(default: 700)
+								speed: 1000,
+								// 스크롤 사이의 대기시간(default: 4000)
+								pause: 2000,
+								// 스크롤 애니메이션
+								animation: 'fade',
+								// 마우스 over 일때 멈출 설정
+								mousePause: true,
+								// 한번에 보일 리스트수(default: 2)
+								showItems: 5,
+								// 스크롤 컨테이너 높이(default: 0)
+								height: 0,
+								// 아이템이 움직이는 방향, up/down (default: up)
+								direction: 'up'
+							});
+						}
+						catch (e) {
+						}
+					});
+				</script>

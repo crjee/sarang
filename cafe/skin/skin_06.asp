@@ -21,10 +21,10 @@
 		<main id="main" class="sub">
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
 			<div class="container">
+<!--#include virtual="/cafe/skin/skin_banner_inc.asp"-->
 <!--#include virtual="/cafe/skin/skin_center_inc.asp"-->
 			</div>
-			<!--// 우측 배너 -->
-			<!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
+<!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
 		</main>
 <!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
 	</div>

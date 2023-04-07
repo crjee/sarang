@@ -17,8 +17,8 @@
 	ques09 = Request("ques09")
 	ques10 = Request("ques10")
 	count = Request("count")
-	sdate = Request("sy") & "-" & Request("sm") & "-" & Request("sd")
-	edate = Request("ey") & "-" & Request("em") & "-" & Request("ed")
+	sdate = Request("sdate")
+	edate = Request("edate")
 	rprsv_cert_use_yn   = Request("rprsv_cert_use_yn")
 	ddln_yn   = Request("ddln_yn")
 

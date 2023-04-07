@@ -43,7 +43,6 @@
 				If i = 1 Then
 					Set objImage = server.CreateObject("DEXT.ImageProc")
 					If true = objImage.SetSourceFile(uploadform.TempFilePath) Then
-
 						width  = objImage.ImageWidth
 						height = objImage.ImageHeight
 
