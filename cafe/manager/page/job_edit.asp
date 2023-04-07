@@ -68,10 +68,6 @@
 													<select id="write_auth" name="write_auth" class="sel w_auto">
 														<option value="1" <%=if3(write_auth = "1","selected","") %>>준회원</option>
 														<option value="2" <%=if3(write_auth = "2","selected","") %>>정회원</option>
-														<option value="3" <%=if3(write_auth = "3","selected","") %>>우수회원</option>
-														<option value="4" <%=if3(write_auth = "4","selected","") %>>특별회원</option>
-														<option value="5" <%=if3(write_auth = "5","selected","") %>>게시판지기</option>
-														<option value="6" <%=if3(write_auth = "6","selected","") %>>운영자</option>
 														<option value="10" <%=if3(write_auth = "10","selected","") %>>사랑방지기</option>
 													</select>
 												</li>
@@ -80,10 +76,6 @@
 													<select id="reply_auth" name="reply_auth" class="sel w_auto">
 														<option value="1" <%=if3(reply_auth = 1,"selected","") %>>준회원</option>
 														<option value="2" <%=if3(reply_auth = 2,"selected","") %>>정회원</option>
-														<option value="3" <%=if3(reply_auth = 3,"selected","") %>>우수회원</option>
-														<option value="4" <%=if3(reply_auth = 4,"selected","") %>>특별회원</option>
-														<option value="5" <%=if3(reply_auth = 5,"selected","") %>>게시판지기</option>
-														<option value="6" <%=if3(reply_auth = 6,"selected","") %>>운영자</option>
 														<option value="10" <%=if3(reply_auth = 10,"selected","") %>>사랑방지기</option>
 													</select>
 												</li>
@@ -92,10 +84,6 @@
 													<select id="read_auth" name="read_auth" class="sel w_auto">
 														<option value="1" <%=if3(read_auth = 1,"selected","") %>>준회원</option>
 														<option value="2" <%=if3(read_auth = 2,"selected","") %>>정회원</option>
-														<option value="3" <%=if3(read_auth = 3,"selected","") %>>우수회원</option>
-														<option value="4" <%=if3(read_auth = 4,"selected","") %>>특별회원</option>
-														<option value="5" <%=if3(read_auth = 5,"selected","") %>>게시판지기</option>
-														<option value="6" <%=if3(read_auth = 6,"selected","") %>>운영자</option>
 														<option value="10" <%=if3(read_auth = 10,"selected","") %>>사랑방지기</option>
 													</select>
 												</li>

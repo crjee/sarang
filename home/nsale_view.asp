@@ -50,7 +50,7 @@
 	If Not rs.eof Then
 		subject                = rs("subject")
 		open_yn                = rs("open_yn")
-		nsale_rgn_se_cd        = rs("nsale_rgn_se_cd")
+		nsale_rgn_cd        = rs("nsale_rgn_cd")
 		nsale_addr             = rs("nsale_addr")
 		cmpl_se_cd             = rs("cmpl_se_cd")
 		nsale_stts_cd          = rs("nsale_stts_cd")

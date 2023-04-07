@@ -109,7 +109,7 @@
 	End If
 
 	open_yn                = uploadform("open_yn")
-	nsale_rgn_se_cd        = uploadform("nsale_rgn_se_cd")
+	nsale_rgn_cd        = uploadform("nsale_rgn_cd")
 	nsale_addr             = uploadform("nsale_addr")
 	cmpl_se_cd             = uploadform("cmpl_se_cd")
 	nsale_stts_cd          = uploadform("nsale_stts_cd")
@@ -128,7 +128,7 @@
 	sql = sql & " insert into cf_nsale( "
 	sql = sql & "        subject                "
 	sql = sql & "       ,open_yn                "
-	sql = sql & "       ,nsale_rgn_se_cd        "
+	sql = sql & "       ,nsale_rgn_cd        "
 	sql = sql & "       ,nsale_addr             "
 	sql = sql & "       ,cmpl_se_cd             "
 	sql = sql & "       ,nsale_stts_cd          "
@@ -163,7 +163,7 @@
 	sql = sql & "      ) values( "
 	sql = sql & "        '" & subject                & "' "
 	sql = sql & "       ,'" & open_yn                & "' "
-	sql = sql & "       ,'" & nsale_rgn_se_cd        & "' "
+	sql = sql & "       ,'" & nsale_rgn_cd        & "' "
 	sql = sql & "       ,'" & nsale_addr             & "' "
 	sql = sql & "       ,'" & cmpl_se_cd             & "' "
 	sql = sql & "       ,'" & nsale_stts_cd          & "' "

@@ -120,7 +120,7 @@
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">면적</th>
+								<th scope="row">면적(평)</th>
 								<td>
 									<input type="text" class="inp" tabindex=4 name="area" value="<%=area%>" />
 								</td>
@@ -154,7 +154,7 @@
 								<td>
 									<input type="text" class="inp" tabindex=10 name="traffic" value="<%=traffic%>" />
 								</td>
-								<th scope="row">용도</th>
+								<th scope="row">목적 및 용도</th>
 								<td>
 									<input type="text" class="inp" tabindex=11 name="purpose" value="<%=purpose%>" />
 								</td>

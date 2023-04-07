@@ -54,7 +54,7 @@
 			<h1><a href="/">RETS 경인<sub>전체관리</sub></a></h1>
 		</header>
 		<nav id="adm_nav">
-<!--#include virtual="/cafe/supervisor/supervisor_left_inc.asp"-->
+<!--#include virtual="/cafe/admin/admin_left_inc.asp"-->
 		</nav>
 		<main id="adm_body">
 			<div class="adm_page_tit">

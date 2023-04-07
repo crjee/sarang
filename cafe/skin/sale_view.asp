@@ -255,7 +255,7 @@
 									<td><%=bargain%></td>
 								</tr>
 								<tr>
-									<th scope="row">면적</th>
+									<th scope="row">면적(평)</th>
 									<td><%=area%></td>
 									<th scope="row">해당층/총층</th>
 									<td><%=floor%></td>
@@ -275,7 +275,7 @@
 								<tr>
 									<th scope="row">대중교통</th>
 									<td><%=traffic%></td>
-									<th scope="row">용도</th>
+									<th scope="row">목적 및 용도</th>
 									<td><%=purpose%></td>
 								</tr>
 								<tr>

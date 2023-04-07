@@ -76,6 +76,7 @@
 	agency     = rs("agency")
 	person     = rs("person")
 	tel_no     = rs("tel_no")
+	mbl_telno  = rs("mbl_telno")
 	fax_no     = rs("fax_no")
 	email      = rs("email")
 	homepage   = rs("homepage")
@@ -264,8 +265,8 @@
 								<tr>
 									<th scope="row">중개업소명</th>
 									<td><%=agency%></td>
-									<th scope="row">담당자명</th>
-									<td><%=person%></td>
+									<th scope="row">휴대전화번호</th>
+									<td><%=mbl_telno%></td>
 								</tr>
 								<tr>
 									<th scope="row">연락처</th>
@@ -274,16 +275,20 @@
 									<td><%=fax_no%></td>
 								</tr>
 								<tr>
+									<th scope="row">팩스</th>
+									<td><%=fax_no%></td>
 									<th scope="row">이메일</th>
 									<td><%=email%></td>
-									<th scope="row">홈페이지</th>
-									<td><%=homepage%></td>
 								</tr>
 								<tr>
+									<th scope="row">홈페이지</th>
+									<td><%=homepage%></td>
 									<th scope="row">접수방법</th>
 									<td><%=method%></td>
+								</tr>
+								<tr>
 									<th scope="row">마감일</th>
-									<td><%=end_date%></td>
+									<td colspan="3"><%=end_date%></td>
 								</tr>
 							</tbody>
 						</table>

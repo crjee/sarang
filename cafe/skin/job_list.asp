@@ -36,7 +36,7 @@
 
 	If sch_word <> "" then
 		If sch_type = "all" Then
-			kword = " and (cb.subject like '%" & sch_word & "%' or cb.creid like '%" & sch_word & "%' or cb.agency like '%" & sch_word & "%' or cb.contents like '%" & sch_word & "%') "
+			kword = " and (cj.subject like '%" & sch_word & "%' or cj.creid like '%" & sch_word & "%' or cj.agency like '%" & sch_word & "%' or cj.contents like '%" & sch_word & "%') "
 		Else
 			kword = " and " & sch_type & " like '%" & sch_word & "%' "
 		End If
@@ -48,7 +48,7 @@
 
 	sql = ""
 	sql = sql & " select count(job_seq) cnt "
-	sql = sql & "   from cf_job cb          "
+	sql = sql & "   from cf_job cj          "
 	sql = sql & "  where 1 = 1              "
 	If all_yn <> "Y" then
 	sql = sql & "    and end_date >= '" & date & "' "
@@ -72,27 +72,29 @@
 	sql = sql & "       ,agency "
 	sql = sql & "       ,parent_del_yn "
 	sql = sql & "       ,tel_no "
+	sql = sql & "       ,mbl_telno "
 	sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
-	sql = sql & "       ,convert(varchar(10), end_date, 120) as end_date_txt "
+	sql = sql & "       ,end_date "
 	sql = sql & "   from (select row_number() over( order by job_seq desc) as rownum "
-	sql = sql & "               ,cb.subject "
-	sql = sql & "               ,cb.job_seq "
-	sql = sql & "               ,cb.work_place "
-	sql = sql & "               ,cb.agency "
-	sql = sql & "               ,cb.credt "
-	sql = sql & "               ,cb.end_date "
-	sql = sql & "               ,cb.parent_del_yn "
-	sql = sql & "               ,cm.phone as tel_no "
-	sql = sql & "           from cf_job cb "
-	sql = sql & "           left join cf_member cm on cm.user_id = cb.user_id "
+	sql = sql & "               ,cj.subject "
+	sql = sql & "               ,cj.job_seq "
+	sql = sql & "               ,cj.work_place "
+	sql = sql & "               ,cj.agency "
+	sql = sql & "               ,cj.credt "
+	sql = sql & "               ,cj.end_date "
+	sql = sql & "               ,cj.parent_del_yn "
+	sql = sql & "               ,cj.tel_no "
+	sql = sql & "               ,cj.mbl_telno "
+	sql = sql & "           from cf_job cj "
+	sql = sql & "           left join cf_member cm on cm.user_id = cj.user_id "
 	sql = sql & "         where 1 = 1 "
 	If all_yn <> "Y" then
-	sql = sql & "           and cb.end_date >= '" & date & "' "
+	sql = sql & "           and cj.end_date >= '" & date & "' "
 	End If
 	If self_yn = "Y" then
-	sql = sql & "           and cb.user_id = '" & session("user_id") & "' "
+	sql = sql & "           and cj.user_id = '" & session("user_id") & "' "
 	End If
-	sql = sql & "           and isnull(cb.top_yn,'') <> 'Y' "
+	sql = sql & "           and isnull(cj.top_yn,'') <> 'Y' "
 	sql = sql & kword
 	sql = sql & "       ) a "
 	sql = sql & " where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & " "
@@ -172,9 +174,9 @@
 %>
 						<select id="sch_type" name="sch_type" class="sel w100p">
 							<option value="all">전체</option>
-							<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>제목</option>
-							<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>글쓴이</option>
-							<option value="cb.contents" <%=if3(sch_type="cb.contents","selected","")%>>내용</option>
+							<option value="cj.subject" <%=if3(sch_type="cj.subject","selected","")%>>제목</option>
+							<option value="cj.agency" <%=if3(sch_type="cj.agency","selected","")%>>글쓴이</option>
+							<option value="cj.contents" <%=if3(sch_type="cj.contents","selected","")%>>내용</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w200p">
 						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
@@ -211,7 +213,6 @@
 						</form>
 					</div>
 				</div>
-
 				<div class="mt10">
 					<div class="tb">
 						<form name="list_form" method="post">
@@ -240,15 +241,15 @@
 	Set rs2 = Server.CreateObject ("ADODB.Recordset")
 
 	sql =       ""
-	sql = sql & " select cb.subject "
+	sql = sql & " select cj.subject "
 	sql = sql & "       ,cm.phone as tel_no "
-	sql = sql & "       ,cb.job_seq "
-	sql = sql & "       ,cb.work_place "
-	sql = sql & "       ,cb.agency "
-	sql = sql & "       ,convert(varchar(10), cb.credt, 120) as credt_txt "
-	sql = sql & "       ,convert(varchar(10), cb.end_date, 120) as end_date_txt "
-	sql = sql & "   from cf_job cb "
-	sql = sql & "   left join cf_member cm on cm.user_id = cb.user_id "
+	sql = sql & "       ,cj.job_seq "
+	sql = sql & "       ,cj.work_place "
+	sql = sql & "       ,cj.agency "
+	sql = sql & "       ,convert(varchar(10), cj.credt, 120) as credt_txt "
+	sql = sql & "       ,end_date "
+	sql = sql & "   from cf_job cj "
+	sql = sql & "   left join cf_member cm on cm.user_id = cj.user_id "
 	sql = sql & "  where top_yn = 'Y' "
 	sql = sql & " order by job_seq desc "
 	rs2.Open Sql, conn, 3, 1
@@ -267,7 +268,7 @@
 									<td class="algC"><%=rs2("work_place")%></td>
 									<td class="algC"><a title="<%=rs2("tel_no")%>"><%=rs2("agency")%></a></td>
 									<td class="algC"><%=rs2("credt_txt")%></td>
-									<td class="algC"><%=rs2("end_date_txt")%></td>
+									<td class="algC"><%=rs2("end_date")%></td>
 								</tr>
 <%
 			rs2.MoveNext
@@ -306,7 +307,7 @@
 									<td class="algC"><%=rs("work_place")%></td>
 									<td class="algC"><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></td>
 									<td class="algC"><%=rs("credt_txt")%></td>
-									<td class="algC"><%=rs("end_date_txt")%></td>
+									<td class="algC"><%=rs("end_date")%></td>
 								</tr>
 <%
 			rs.MoveNext

@@ -35,6 +35,7 @@
 	If Not rs.EOF Then
 		agency = rs("agency")
 		tel_no = rs("phone")
+		mbl_telno = rs("mobile")
 		fax_no = rs("fax")
 	End If
 	rs.close
@@ -60,14 +61,15 @@
 		agency     = rs("agency")
 		person     = rs("person")
 		tel_no     = rs("tel_no")
+		mbl_telno  = rs("mbl_telno")
 		fax_no     = rs("fax_no")
 		email      = rs("email")
 		homepage   = rs("homepage")
 		method     = rs("method")
 		end_date   = rs("end_date")
-		contents  = rs("contents")
+		contents   = rs("contents")
 
-		arr_age   = split(age, "~")
+		arr_age = split(age, "~")
 		If ubound(arr_age) = 1 Then
 			age1 = arr_age(0)
 			age2 = arr_age(1)
@@ -208,36 +210,42 @@
 									</td>
 								</tr>
 								<tr>
-									<th scope="row">연락처<em class="required">필수입력</em></th>
+									<th scope="row">전화번호</th>
 									<td>
-										<input type="text" class="inp" tabindex=16 name="tel_no" value="<%=tel_no%>" required />
+										<input type="text" class="inp" tabindex=16 name="tel_no" value="<%=tel_no%>" />
 									</td>
+									<th scope="row">휴대전화번호<em class="required">필수입력</em></th>
+									<td>
+										<input type="text" class="inp" tabindex=17 name="mbl_telno" value="<%=mbl_telno%>" required />
+									</td>
+								</tr>
+								<tr>
 									<th scope="row">팩스</th>
 									<td>
-										<input type="text" class="inp" tabindex=17 name="fax_no" value="<%=fax_no%>" />
+										<input type="text" class="inp" tabindex=18 name="fax_no" value="<%=fax_no%>" />
 									</td>
-								</tr>
-								<tr>
 									<th class="end2">이메일</th>
 									<td>
-										<input type="text" class="inp" tabindex=18 name="email" value="<%=email%>" />
-									</td>
-									<th class="end2">홈페이지</th>
-									<td>
-										<input type="text" class="inp" tabindex=19 name="homepage" value="<%=homepage%>" />
+										<input type="text" class="inp" tabindex=19 name="email" value="<%=email%>" />
 									</td>
 								</tr>
 								<tr>
+									<th class="end2">홈페이지</th>
+									<td>
+										<input type="text" class="inp" tabindex=20 name="homepage" value="<%=homepage%>" />
+									</td>
 									<th class="end2">접수방법</th>
 									<td>
-										<input type="checkbox" class="checkbox" tabindex=20 value="이메일" name="method" <%=if3(instr(method,"이메일")>0,"checked","")%>>이메일
-										<input type="checkbox" class="checkbox" tabindex=21 value="팩스" name="method" <%=if3(instr(method,"팩스")>0,"checked","")%>>팩스
-										<input type="checkbox" class="checkbox" tabindex=22 value="우편" name="method" <%=if3(instr(method,"우편")>0,"checked","")%>>우편
-										<input type="checkbox" class="checkbox" tabindex=23 value="방문" name="method" <%=if3(instr(method,"방문")>0,"checked","")%>>방문
+										<input type="checkbox" class="checkbox" tabindex=21 value="이메일" name="method" <%=if3(instr(method,"이메일")>0,"checked","")%>>이메일
+										<input type="checkbox" class="checkbox" tabindex=22 value="팩스" name="method" <%=if3(instr(method,"팩스")>0,"checked","")%>>팩스
+										<input type="checkbox" class="checkbox" tabindex=23 value="우편" name="method" <%=if3(instr(method,"우편")>0,"checked","")%>>우편
+										<input type="checkbox" class="checkbox" tabindex=24 value="방문" name="method" <%=if3(instr(method,"방문")>0,"checked","")%>>방문
 									</td>
+								</tr>
+								<tr>
 									<th class="end2">마감일</th>
-									<td>
-										<input type="text" tabindex=24 id="end_date" name="end_date" value="<%=end_date%>" class="inp" />
+									<td colspan="3">
+										<input type="text" tabindex=25 id="end_date" name="end_date" value="<%=end_date%>" class="inp" />
 									</td>
 								</tr>
 							</tbody>

@@ -46,11 +46,9 @@
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
-	sql = sql & " select cj.* "
-	sql = sql & "       ,cm.phone as tel_no "
-	sql = sql & "   from cf_waste_job cj "
-	sql = sql & "   left join cf_member cm on cm.user_id = cj.user_id "
-	sql = sql & "  where job_seq = '" & job_seq & "' "
+	sql = sql & " select cj.*                                         "
+	sql = sql & "   from cf_waste_job cj                              "
+	sql = sql & "  where job_seq = '" & job_seq & "'                  "
 	rs.Open Sql, conn, 3, 1
 
 	top_yn  = rs("top_yn")
@@ -93,6 +91,7 @@
 	agency     = rs("agency")
 	person     = rs("person")
 	tel_no     = rs("tel_no")
+	mbl_telno  = rs("mbl_telno")
 	fax_no     = rs("fax_no")
 	email      = rs("email")
 	homepage   = rs("homepage")
@@ -203,22 +202,26 @@
 									<td><%=person%></td>
 								</tr>
 								<tr>
-									<th scope="row">연락처</th>
+									<th scope="row">전화번호</th>
 									<td><%=tel_no%></td>
+									<th scope="row">휴대전화번호</th>
+									<td><%=mbl_telno%></td>
+								</tr>
+								<tr>
 									<th scope="row">팩스</th>
 									<td><%=fax_no%></td>
-								</tr>
-								<tr>
 									<th scope="row">이메일</th>
 									<td><%=email%></td>
-									<th scope="row">홈페이지</th>
-									<td><%=homepage%></td>
 								</tr>
 								<tr>
+									<th scope="row">홈페이지</th>
+									<td><%=homepage%></td>
 									<th scope="row">접수방법</th>
 									<td><%=method%></td>
+								</tr>
+								<tr>
 									<th scope="row">마감일</th>
-									<td><%=end_date%></td>
+									<td colspan="3"><%=end_date%></td>
 								</tr>
 							</tbody>
 						</table>

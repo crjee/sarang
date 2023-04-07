@@ -95,7 +95,7 @@
 			<h1><a href="/">RETS 경인<sub>전체관리</sub></a></h1>
 		</header>
 		<nav id="adm_nav">
-<!--#include virtual="/cafe/supervisor/supervisor_left_inc.asp"-->
+<!--#include virtual="/cafe/admin/admin_left_inc.asp"-->
 		</nav>
 			<script>
 				function testCheck() {
@@ -170,7 +170,7 @@
 							<option value="U" <%=if3(cafe_type="U","selected","")%>>연합회</option>
 						</select>
 						<select name="open_yn" class="sel w_auto">
-							<option value="">공개옵션</option>
+							<option value="">공개여부</option>
 							<option value="Y" <%=if3(open_yn="Y","selected","")%>>공개</option>
 							<option value="N" <%=if3(open_yn="N","selected","")%>>비공개</option>
 						</select>

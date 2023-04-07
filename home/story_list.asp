@@ -4,7 +4,7 @@
 <!--#include virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
-	'checkCafePage(cafe_id)
+	checkCafePage(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">

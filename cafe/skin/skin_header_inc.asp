@@ -120,7 +120,7 @@
 <%
 	If Session("cafe_ad_level") = "10" Then
 %>
-						<li><a href="/cafe/supervisor/member_list.asp">관리자</a></li>
+						<li><a href="/cafe/admin/member_list.asp">관리자</a></li>
 						<li><a href="/cafe/main.asp?cafe_id=<%=session("mycafe")%>">처음으로</a></li>
 						<li><a href="/cafe/skin/my_info_edit.asp">내정보</a></li>
 <%

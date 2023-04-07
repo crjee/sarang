@@ -188,7 +188,7 @@
 			sql = sql & "    and end_date >= '" & date  & "' "
 			End If
 			If menu_type = "nsale" And arrLst(li) <> "" Then
-			sql = sql & "    and nsale_rgn_se_cd = '" & arrLst(li) & "' "
+			sql = sql & "    and nsale_rgn_cd = '" & arrLst(li) & "' "
 			End If
 			sql = sql & "    and step_num = 0 "
 	'		sql = sql & "    and top_yn = 'Y' "
@@ -222,7 +222,7 @@
 			sql = sql & "    and end_date >= '" & Date & "' "
 			End If
 			If menu_type = "nsale" And arrLst(li) <> "" Then
-			sql = sql & "    and nsale_rgn_se_cd = '" & arrLst(li) & "' "
+			sql = sql & "    and nsale_rgn_cd = '" & arrLst(li) & "' "
 			End If
 			sql = sql & "    and step_num = 0 "
 	'		sql = sql & "    and isnull(top_yn,'') <> 'Y' "

@@ -2,34 +2,29 @@
 <%
 	menu_seq = Request.Form("menu_seq")
 	top_yn = Request.Form("top_yn")
-	subject = Replace(Request.Form("subject") "
-	sql = sql & "       ,"'" "
-	sql = sql & "       ," & #39;")
+
+	subject = Replace(Request.Form("subject"),"'","&#39;")
 	work  = Request.Form("work")
 	age1  = Request.Form("age1")
 	age2  = Request.Form("age2")
-
-	If age1 <> "" Or age2 <> "" Then
-	age  = age1 & "~" & age2
-	End if
-	sex  = Request.Form("sex")
+	sex        = Request.Form("sex")
 	work_year  = Request.Form("work_year")
 	certify    = Request.Form("certify")
 	work_place = Request.Form("work_place")
-	agency  = Request.Form("agency")
-	person  = Request.Form("person")
-	tel_no  = Request.Form("tel_no")
-	fax_no  = Request.Form("fax_no")
-	email   = Request.Form("email")
-	homepage = Request.Form("homepage")
-	method   = Request.Form("method")
-	end_date1 = Request.Form("end_date1")
-	end_date2 = Request.Form("end_date2") : If Len(end_date2) = 1 Then end_date2 = "0" & end_date2
-	end_date3 = Request.Form("end_date3") : If Len(end_date3) = 1 Then end_date3 = "0" & end_date3
-	If end_date1 <> "" And end_date2 <> "" And end_date3 <> "" Then
-		end_date = end_date1 & "-" & end_date2 & "-" & end_date3
+	agency     = Request.Form("agency")
+	person     = Request.Form("person")
+	tel_no     = Request.Form("tel_no")
+	mbl_telno  = Request.Form("mbl_telno")
+	fax_no     = Request.Form("fax_no")
+	email      = Request.Form("email")
+	homepage   = Request.Form("homepage")
+	method     = Request.Form("method")
+	end_date   = Request.Form("end_date")
+	contents   = Request.Form("ir1")
+
+	If age1 <> "" Or age2 <> "" Then
+		age  = age1 & "~" & age2
 	End if
-	contents  = Request.Form("ir1")
 
 	on Error Resume Next
 	Conn.BeginTrans

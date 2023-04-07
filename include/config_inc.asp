@@ -300,9 +300,9 @@
 	End Sub
 
 	Sub checkManager(cafe_id)
-		cafe_ad_level = getUserLevel(cafe_id)
-		If isnull(cafe_ad_level) Or cafe_ad_level < 10 Then
-			Response.Write "<script>alert('접근권한이 없습니다(" & cafe_ad_level & ").');history.back();</script>"
+		cafe_mb_level = getUserLevel(cafe_id)
+		If isnull(cafe_mb_level) Or cafe_mb_level < 10 Then
+			Response.Write "<script>alert('접근권한이 없습니다(" & cafe_mb_level & ").');history.back();</script>"
 			Response.End
 		End If
 	End Sub

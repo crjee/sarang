@@ -188,8 +188,8 @@
 									<th scope="col">번호</th>
 									<th scope="col">매물제목</th>
 									<th scope="col">소재지</th>
-									<th scope="col">용도</th>
-									<th scope="col">면적</th>
+									<th scope="col">목적 및 용도</th>
+									<th scope="col">면적(평)</th>
 									<th scope="col">금액</th>
 									<th scope="col">등록일</th>
 									<th scope="col">등록자</th>

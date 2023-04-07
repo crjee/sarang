@@ -15,36 +15,33 @@
 	self_yn   = Request("self_yn")
 	all_yn    = Request("all_yn")
 
-	job_seq = Request.Form("job_seq")
-	top_yn = Request.Form("top_yn")
-	subject = Request.Form("subject")
-	work  = Request.Form("work")
-	age1  = Request.Form("age1")
-	age2  = Request.Form("age2")
+	job_seq    = Request.Form("job_seq")
+	top_yn     = Request.Form("top_yn")
+	subject    = Request.Form("subject")
+	work       = Request.Form("work")
+	age1       = Request.Form("age1")
+	age2       = Request.Form("age2")
+	sex        = Request.Form("sex")
+	work_year  = Request.Form("work_year")
+	certify    = Request.Form("certify")
+	work_place = Request.Form("work_place")
+	agency     = Request.Form("agency")
+	person     = Request.Form("person")
+	tel_no     = Request.Form("tel_no")
+	mbl_telno  = Request.Form("mbl_telno")
+	fax_no     = Request.Form("fax_no")
+	email      = Request.Form("email")
+	homepage   = Request.Form("homepage")
+	method     = Request.Form("method")
+	end_date   = Request.Form("end_date")
+	contents   = Request.Form("ir1")
 
 	If age1 <> "" Or age2 <> "" Then
-	age  = age1 & "~" & age2
+		age  = age1 & "~" & age2
 	End if
-	sex  = Request.Form("sex")
-	work_year  = Request.Form("work_year")
-	certify  = Request.Form("certify")
-	work_place  = Request.Form("work_place")
-	agency  = Request.Form("agency")
-	person  = Request.Form("person")
-	tel_no  = Request.Form("tel_no")
-	fax_no  = Request.Form("fax_no")
-	email  = Request.Form("email")
-	homepage  = Request.Form("homepage")
-	method  = Request.Form("method")
-	end_date1 = Request.Form("end_date1")
-	end_date2 = Request.Form("end_date2") : If Len(end_date2) = 1 Then end_date2 = "0" & end_date2
-	end_date3 = Request.Form("end_date3") : If Len(end_date3) = 1 Then end_date3 = "0" & end_date3
-	If end_date1 <> "" And end_date2 <> "" And end_date3 <> "" Then
-		end_date = end_date1 & "-" & end_date2 & "-" & end_date3
-	End if
-	contents  = Request.Form("ir1")
 
 	Set rs = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
 	sql = sql & " update cf_job "
 	sql = sql & "    set subject    = '" & subject & "' "
@@ -57,6 +54,7 @@
 	sql = sql & "       ,agency     = '" & agency & "' "
 	sql = sql & "       ,person     = '" & person & "' "
 	sql = sql & "       ,tel_no     = '" & tel_no & "' "
+	sql = sql & "       ,mbl_telno = '" & mbl_telno & "' "
 	sql = sql & "       ,fax_no     = '" & fax_no & "' "
 	sql = sql & "       ,email      = '" & email & "' "
 	sql = sql & "       ,homepage   = '" & homepage & "' "

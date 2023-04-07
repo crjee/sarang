@@ -113,7 +113,7 @@
 	sql = ""
 	sql = sql & " select *                       "
 	sql = sql & "   from sys_cd                  "
-	sql = sql & "  where CD_NM = 'nsale_rgn_se_cd'    "
+	sql = sql & "  where CD_NM = 'nsale_rgn_cd'    "
 	sql = sql & "    and USE_YN = 'Y'            "
 	sql = sql & "  order by CD_SN asc            "
 	rs.open Sql, conn, 3, 1
@@ -123,8 +123,8 @@
 		CD_EXPL = rs("CD_EXPL")
 %>
 									<span class="">
-										<input type="radio" id="nsale_rgn_se_cd_<%=CMN_CD%>" name="nsale_rgn_se_cd" value="<%=CMN_CD%>" <%=if3(nsale_rgn_se_cd,"checked","")%> class="inp_radio">
-										<label for="nsale_rgn_se_cd_<%=CMN_CD%>"><em><%=CD_EXPL%></em></label>
+										<input type="radio" id="nsale_rgn_cd_<%=CMN_CD%>" name="nsale_rgn_cd" value="<%=CMN_CD%>" <%=if3(nsale_rgn_cd,"checked","")%> class="inp_radio">
+										<label for="nsale_rgn_cd_<%=CMN_CD%>"><em><%=CD_EXPL%></em></label>
 									</span>
 <%
 		rs.MoveNext
@@ -180,8 +180,8 @@
 		CD_EXPL = rs("CD_EXPL")
 %>
 									<span class="">
-										<input type="radio" id="cmpl_se_cd_<%=CMN_CD%>" name="nsale_stts_cd" value="<%=CMN_CD%>" <%=if3(nsale_stts_cd=CMN_CD,"checked","")%> class="inp_radio">
-										<label for="cmpl_se_cd_<%=CMN_CD%>"><em><%=CD_EXPL%></em></label>
+										<input type="radio" id="nsale_stts_cd_<%=CMN_CD%>" name="nsale_stts_cd" value="<%=CMN_CD%>" <%=if3(nsale_stts_cd=CMN_CD,"checked","")%> class="inp_radio">
+										<label for="nsale_stts_cd_<%=CMN_CD%>"><em><%=CD_EXPL%></em></label>
 									</span>
 <%
 		rs.MoveNext

@@ -68,10 +68,6 @@
 													<select id="write_auth" name="write_auth" class="sel w_auto">
 														<option value="1" <%=if3(write_auth = "1","selected","") %>>준회원</option>
 														<option value="2" <%=if3(write_auth = "2","selected","") %>>정회원</option>
-														<option value="3" <%=if3(write_auth = "3","selected","") %>>우수회원</option>
-														<option value="4" <%=if3(write_auth = "4","selected","") %>>특별회원</option>
-														<option value="5" <%=if3(write_auth = "5","selected","") %>>게시판지기</option>
-														<option value="6" <%=if3(write_auth = "6","selected","") %>>운영자</option>
 														<option value="10" <%=if3(write_auth = "10","selected","") %>>사랑방지기</option>
 													</select>
 												</li>
@@ -80,10 +76,6 @@
 													<select id="reply_auth" name="reply_auth" class="sel w_auto">
 														<option value="1" <%=if3(reply_auth = 1,"selected","") %>>준회원</option>
 														<option value="2" <%=if3(reply_auth = 2,"selected","") %>>정회원</option>
-														<option value="3" <%=if3(reply_auth = 3,"selected","") %>>우수회원</option>
-														<option value="4" <%=if3(reply_auth = 4,"selected","") %>>특별회원</option>
-														<option value="5" <%=if3(reply_auth = 5,"selected","") %>>게시판지기</option>
-														<option value="6" <%=if3(reply_auth = 6,"selected","") %>>운영자</option>
 														<option value="10" <%=if3(reply_auth = 10,"selected","") %>>사랑방지기</option>
 													</select>
 												</li>
@@ -92,10 +84,6 @@
 													<select id="read_auth" name="read_auth" class="sel w_auto">
 														<option value="1" <%=if3(read_auth = 1,"selected","") %>>준회원</option>
 														<option value="2" <%=if3(read_auth = 2,"selected","") %>>정회원</option>
-														<option value="3" <%=if3(read_auth = 3,"selected","") %>>우수회원</option>
-														<option value="4" <%=if3(read_auth = 4,"selected","") %>>특별회원</option>
-														<option value="5" <%=if3(read_auth = 5,"selected","") %>>게시판지기</option>
-														<option value="6" <%=if3(read_auth = 6,"selected","") %>>운영자</option>
 														<option value="10" <%=if3(read_auth = 10,"selected","") %>>사랑방지기</option>
 													</select>
 												</li>
@@ -106,16 +94,15 @@
 										<th scope="row">양식설정</th>
 										<td>
 <%
-	Set form = Conn.Execute("select * from cf_com_form where menu_seq='" & menu_seq & "'")
-	If Not form.eof Then
+	Set form = Conn.Execute("select * from cf_com_form where menu_seq='"&menu_seq&"'")
+	If Not form.eof then
 %>
-											<input type="checkbox" id="frm" name="frm" class="" />
-											<label for="frm"><em>질문양식 사용</em></label>
-											<span class="ml10"><buton type="submit" class="btn btn_s btn_c_a" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식수정</buton></span>
+											<label><input type="checkbox">질문양식사용</label>
+											<button class="btn_4txt_sel" type="submit" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식수정</button>
 <%
 	Else
 %>
-											<span class="ml10"><buton type="submit" class="btn btn_s btn_c_a" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식등록</buton></span>
+											<button class="btn_4txt_sel" type="submit" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식등록</button>
 <%
 	End If
 %>
@@ -126,15 +113,6 @@
 										<td>
 											<input type="checkbox" id="hidden_yn" name="hidden_yn" value="Y" <%=if3(hidden_yn = "Y","checked","") %> class="" />
 											<label for=""><em>감추기</em></label>
-										</td>
-									</tr>
-									<tr>
-										<th scope="row">쓰기형식</th>
-										<td>
-											<select id="editor_yn" name="editor_yn" class="sel w_auto">
-												<option value="Y" <%=if3(editor_yn = "Y","selected","") %>>에디터</option>
-												<option value="N" <%=if3(editor_yn <> "Y","selected","") %>>텍스트</option>
-											</select>
 										</td>
 									</tr>
 									<tr>
@@ -149,25 +127,6 @@
 	Next
 %>
 											</select>
-										</td>
-									</tr>
-									<tr>
-										<th scope="row">1일 등록수</th>
-										<td>
-											<select id="daily_cnt" name="daily_cnt" class="sel w_auto">
-												<option value="9999">설정안함</option>
-												<option value='1' <%=If3(daily_cnt="1","selected","") %>>1</option>
-												<option value='2' <%=If3(daily_cnt="2","selected","") %>>2</option>
-												<option value='3' <%=If3(daily_cnt="3","selected","") %>>3</option>
-											</select>
-											<span class="ml20">
-												<input type="radio" id="inc_del_yn" name="inc_del_yn" value="Y" <%=if3(inc_del_yn="Y","checked","") %> class="" />
-												<label for=""><em>삭제건 포함</em></label>
-											</span>
-											<span class="ml10">
-												<input type="radio" id="inc_del_yn" name="inc_del_yn" value="N" <%=if3(inc_del_yn="N","checked","") %> class="" />
-												<label for=""><em>삭제건 미포함</em></label>
-											</span>
 										</td>
 									</tr>
 								</tbody>

@@ -31,7 +31,7 @@
 
 'http://gisarangbang.krei.co.kr/exdefault.asp?userid=DBB545&userpw=0xF667CC8E65823D5034D62AF6276741F8F890F36C8361FC4FED268DF84144CAA0
 	Set mem = Conn.Execute(sql)
-	if not mem.eof Then
+	If Not mem.eof Then
 	
 		If Trim(mem("stat")) = "Y" Then
 			stat = "Y"

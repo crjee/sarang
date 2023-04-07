@@ -81,6 +81,7 @@
 		agency     = rs("agency")
 		person     = rs("person")
 		tel_no     = rs("tel_no")
+		mbl_telno  = rs("mbl_telno")
 		fax_no     = rs("fax_no")
 		email      = rs("email")
 		homepage   = rs("homepage")
@@ -169,15 +170,14 @@
 										<input type="text" class="inp" tabindex=6 name="age2" value="<%=age2%>" style="width:40px" <%=If3(age="","disabled","")%>>세
 										<script>
 										function chkage(idx) {
-											if (idx == 0)
-											{
+											if (idx == 0) {
 												document.form.age1.disabled = true;
 												document.form.age2.disabled = true;
 												document.form.age1.value = "";
 												document.form.age2.value = "";
 												document.form.age1.required = false;
 												document.form.age2.required = false;
-											}else {
+											} else {
 												document.form.age1.disabled = false;
 												document.form.age2.disabled = false;
 												document.form.age1.required = true;
@@ -241,26 +241,30 @@
 									</td>
 								</tr>
 								<tr>
-									<th scope="row">연락처<em class="required">필수입력</em></th>
+									<th scope="row">전화번호</th>
 									<td>
 										<input type="text" class="inp" tabindex=16 name="tel_no" value="<%=tel_no%>" required />
 									</td>
+									<th scope="row">휴대전화번호<em class="required">필수입력</em></th>
+									<td>
+										<input type="text" class="inp" tabindex=17 name="mbl_telno" value="<%=mbl_telno%>" required />
+									</td>
+								</tr>
+								<tr>
 									<th scope="row">팩스</th>
 									<td>
 										<input type="text" class="inp" tabindex=17 name="fax_no" value="<%=fax_no%>" />
 									</td>
-								</tr>
-								<tr>
 									<th class="end2">이메일</th>
 									<td>
 										<input type="text" class="inp" tabindex=18 name="email" value="<%=email%>" />
 									</td>
+								</tr>
+								<tr>
 									<th class="end2">홈페이지</th>
 									<td>
 										<input type="text" class="inp" tabindex=19 name="homepage" value="<%=homepage%>" />
 									</td>
-								</tr>
-								<tr>
 									<th class="end2">접수방법</th>
 									<td>
 										<input type="checkbox" class="checkbox" tabindex=20 value="이메일" name="method" <%=if3(instr(method,"이메일")>0,"checked","")%>>이메일
@@ -268,8 +272,10 @@
 										<input type="checkbox" class="checkbox" tabindex=22 value="우편" name="method" <%=if3(instr(method,"우편")>0,"checked","")%>>우편
 										<input type="checkbox" class="checkbox" tabindex=23 value="방문" name="method" <%=if3(instr(method,"방문")>0,"checked","")%>>방문
 									</td>
+								</tr>
+								<tr>
 									<th class="end2">마감일</th>
-									<td>
+									<td colspan="3">
 										<input type="text" tabindex=24 id="end_date" name="end_date" value="<%=end_date%>" class="inp" />
 									</td>
 								</tr>
