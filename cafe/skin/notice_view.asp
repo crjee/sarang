@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	menu_type = "notice"
 
@@ -7,10 +8,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>��Ų-1 : GI</title>
+	<title>스킨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -68,53 +69,53 @@
 			<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
 			</form>
 				<div class="cont_tit">
-					<h2 class="h2">���γ�Ʈ���� ��ü���� ���뺸��</h2>
+					<h2 class="h2">경인네트웍스 전체공지 내용보기</h2>
 				</div>
 				<div class="btn_box view_btn">
 <%
 	If group_num = "" And reply_auth <= cafe_ad_level Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goReply()">���</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goReply()">답글</button>
 <%
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goModify()">����</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">����</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goModify()">수정</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">삭제</button>
 <%
 	If cafe_ad_level > 6 Then
 		If rs("step_num") = "0" Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goPopup()"><%=if3(rs("pop_yn")="Y","�˾�����","�˾�����")%></button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goNotice()"><%=if3(rs("top_yn")="Y","��������","��������")%></button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goPopup()"><%=if3(rs("pop_yn")="Y","팝업해제","팝업지정")%></button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goNotice()"><%=if3(rs("top_yn")="Y","공지해제","공지지정")%></button>
 <%
 		End If
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goSuggest()">��õ</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goPrint()">�μ�</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goSuggest()">추천</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goPrint()">인쇄</button>
 <%
-	If cafe_ad_level = "10" Then ' �۾��� ����
+	If cafe_ad_level = "10" Then ' 글쓰기 권한
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="location.href='/cafe/skin/notice_write.asp'">�۾���</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="location.href='/cafe/skin/notice_write.asp'">글쓰기</button>
 <%
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="copyUrl()">���ּҺ���</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">���</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="copyUrl()">글주소복사</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">목록</button>
 				</div>
-				<div id="print_area"><!-- ����Ʈ���� �߰� crjee -->
+				<div id="print_area"><!-- 프린트영역 추가 crjee -->
 				<div class="view_head">
 					<h3 class="h3" id="subject"><%=rs("subject")%></h3>
 					<div class="wrt_info_box">
 						<ul>
-							<li><span>�ۼ���</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
-							<li><span>��ȸ</span><strong><%=rs("view_cnt")%></strong></li>
-							<li><span>��õ</span><strong><%=rs("suggest_cnt")%></strong></li>
-							<li><span>����Ͻ�</span><strong><%=rs("credt")%></strong></li>
+							<li><span>작성자</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
+							<li><span>조회</span><strong><%=rs("view_cnt")%></strong></li>
+							<li><span>추천</span><strong><%=rs("suggest_cnt")%></strong></li>
+							<li><span>등록일시</span><strong><%=rs("credt")%></strong></li>
 						</ul>
 					</div>
 				</div>
-				<div class="wrt_file_box"><!-- ÷�����Ͽ��� �߰� crjee -->
+				<div class="wrt_file_box"><!-- 첨부파일영역 추가 crjee -->
 <%
 	uploadUrl = ConfigAttachedFileURL & "notice/"
 	uploadFolder = ConfigAttachedFileFolder & "notice\"
@@ -146,7 +147,7 @@
 			Else
 %>
 					<%If i > 0 Then%><br><%End If%>
-					<a href="javascript:alert('������ �������� �ʽ��ϴ�,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+					<a href="javascript:alert('파일이 존재하지 않습니다,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 			End If
 			
@@ -231,15 +232,15 @@
 			try{
 				if (window.clipboardData) {
 						window.clipboardData.setData("Text", "<%=pageUrl%>")
-						alert("�ش� ���ּҰ� ���� �Ǿ����ϴ�. Ctrl + v �Ͻø� �ٿ� �ֱⰡ �����մϴ�.");
+						alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 				}
 				else if (window.navigator.clipboard) {
 						window.navigator.clipboard.writeText("<%=pageUrl%>").Then(() => {
-							alert("�ش� ���ּҰ� ���� �Ǿ����ϴ�. Ctrl + v �Ͻø� �ٿ� �ֱⰡ �����մϴ�.");
+							alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 						});
 				}
 				else {
-					temp = prompt("�ش� ���ּҸ� �����Ͻʽÿ�.", "<%=pageUrl%>");
+					temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
 				}
 			} catch(e) {
 				alert(e)
@@ -250,15 +251,15 @@
 			try{
 				if (window.clipboardData) {
 						window.clipboardData.setData("Text", "<%=link%>")
-						alert("�ش� URL�� ���� �Ǿ����ϴ�. Ctrl + v �Ͻø� �ٿ� �ֱⰡ �����մϴ�.");
+						alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 				}
 				else if (window.navigator.clipboard) {
 						window.navigator.clipboard.writeText("<%=link%>").then(() => {
-							alert("�ش� URL�� ���� �Ǿ����ϴ�. Ctrl + v �Ͻø� �ٿ� �ֱⰡ �����մϴ�.");
+							alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 						});
 				}
 				else {
-					temp = prompt("�ش� URL�� �����Ͻʽÿ�.", "<%=link%>");
+					temp = prompt("해당 URL을 복사하십시오.", "<%=link%>");
 				}
 			} catch(e) {
 				alert(e)

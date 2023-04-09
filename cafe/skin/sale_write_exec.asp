@@ -1,17 +1,18 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkCafePage(cafe_id)
-	checkWriteAuth(cafe_id)
-	checkDailyCount(cafe_id)
-
 	ScriptTimeOut = 5000
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & "sale\"
 	uploadform.DefaultPath = uploadFolder
-	' ÇÏ³ªÀÇ ÆÄÀÏ Å©±â¸¦ 10MBÀÌÇÏ·Î Á¦ÇÑ.
+	' í•˜ë‚˜ì˜ íŒŒì¼ í¬ê¸°ë¥¼ 10MBì´í•˜ë¡œ ì œí•œ.
 	uploadform.MaxFileLen = 10*1024*1024
-	' ÀüÃ¼ ÆÄÀÏÀÇ Å©±â¸¦ 50MB ÀÌÇÏ·Î Á¦ÇÑ.
+	' ì „ì²´ íŒŒì¼ì˜ í¬ê¸°ë¥¼ 50MB ì´í•˜ë¡œ ì œí•œ.
 	uploadform.TotalLen = 50*1024*1024
+
+	checkCafePageUpload(cafe_id)
+	checkWriteAuth(cafe_id)
+	checkDailyCount(cafe_id)
 
 	menu_seq  = uploadform("menu_seq")
 	page      = uploadform("page")
@@ -45,7 +46,7 @@
 	For Each item In uploadform("file_name")
 		If item <> "" Then
 			IF item.FileLen > UploadForm.MaxFileLen Then
-				call msggo("ÆÄÀÏÀÇ Å©±â´Â " & CInt(uploadform.MaxFileLen/1024/1014) & "MB°¡ ³Ñ¾î¼­´Â ¾ÈµË´Ï´Ù","")
+				call msggo("íŒŒì¼ì˜ í¬ê¸°ëŠ” " & CInt(uploadform.MaxFileLen/1024/1014) & "MBê°€ ë„˜ì–´ì„œëŠ” ì•ˆë©ë‹ˆë‹¤","")
 				Set UploadForm = Nothing
 				Response.End
 			End If
@@ -65,13 +66,13 @@
 
 	new_seq = getSeq("cf_sale")
 
-	If group_num = "" Then ' »õ±Û
+	If group_num = "" Then ' ìƒˆê¸€
 		parent_seq = ""
 		sale_num = getNum("sale", cafe_id, menu_seq)
 		group_num = sale_num
 		level_num = 0
 		step_num = 0
-	Else ' ´ä±Û
+	Else ' ë‹µê¸€
 		parent_seq = sale_seq
 		level_num = level_num + 1
 
@@ -221,7 +222,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("ÀÔ·Â µÇ¾ú½À´Ï´Ù.");
+	alert("ì…ë ¥ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	parent.location.href='sale_list.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
 </script>
 <%
@@ -231,7 +232,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("¿À·ù°¡ “u»ıÇß½À´Ï´Ù.\n\n¿¡·¯³»¿ë : <%=Err.Description%>(<%=Err.Number%>)");
+	alert("ì˜¤ë¥˜ê°€ ë±”ìƒí–ˆìŠµë‹ˆë‹¤.\n\nì—ëŸ¬ë‚´ìš© : <%=Err.Description%>(<%=Err.Number%>)");
 </script>
 <%
 	End if

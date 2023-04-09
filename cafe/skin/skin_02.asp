@@ -1,11 +1,12 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>스킨-2 : GI</title>
+	<title>�뒪�궓-2 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>

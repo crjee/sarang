@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Call checkAdmin()
 	cafe_id = "home"
@@ -37,17 +38,17 @@
 	End Select
 
 	If cnt > 0 Then
-		msggo "ÇØ´ç ¸Ş´º¿¡ µî·ÏµÈ Á¤º¸°¡ ÀÖ¾î »èÁ¦ÇÒ ¼ö ¾ø½À´Ï´Ù.\n\n¸Ş´º°¨Ãß±â ±â´ÉÀ» ÀÌ¿ëÇÏ¼¼¿ä.", "preload"
+		msggo "í•´ë‹¹ ë©”ë‰´ì— ë“±ë¡ëœ ì •ë³´ê°€ ìˆì–´ ì‚­ì œí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n\në©”ë‰´ê°ì¶”ê¸° ê¸°ëŠ¥ì„ ì´ìš©í•˜ì„¸ìš”.", "preload"
 	End if
 
-	'¸Ş´º »èÁ¦
+	'ë©”ë‰´ ì‚­ì œ
 	sql = ""
 	sql = sql & " delete                           "
 	sql = sql & "   from cf_menu                   "
 	sql = sql & "  where menu_seq = '" & menu_seq & "' "
 	Conn.Execute(sql)
 
-	'¸ŞÀÎ¸Ş´º Ã³¸®
+	'ë©”ì¸ë©”ë‰´ ì²˜ë¦¬
 	sql = ""
 	sql = sql & " update cf_menu                                                      "
 	sql = sql & "    set home_num = 0                                                 "

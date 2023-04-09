@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
 
@@ -7,10 +8,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>ÆË¾÷°øÁö °ü¸® : °ü¸®ÀÚ</title>
+	<title>íŒì—…ê³µì§€ ê´€ë¦¬ : ê´€ë¦¬ìž</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -20,21 +21,21 @@
 <body>
 	<div id="wrap">
 		<header id="adm_head">
-			<h1><a href="/">RETS °æÀÎ<sub>»ç¶û¹æ °ü¸®</sub></a></h1>
+			<h1><a href="/">RETS ê²½ì¸<sub>ì‚¬ëž‘ë°© ê´€ë¦¬</sub></a></h1>
 		</header>
 		<nav id="adm_nav">
 <!--#include virtual="/cafe/manager/manager_left_inc.asp"-->
 		</nav>
 		<main id="adm_body">
 			<div class="adm_page_tit">
-				<h2 class="h2">ÆË¾÷°øÁö °ü¸®</h2>
+				<h2 class="h2">íŒì—…ê³µì§€ ê´€ë¦¬</h2>
 			</div>
 			<div class="adm_guide_message">
 				<ul>
-					<li>ÆË¾÷°øÁö¶õ °Ô½Ã¹°µé Áß ¿©·¯»ç¶÷µé°ú °øÀ¯ÇÏ°íÀÚ ÇÏ´Â ±ÛÀ» ÆË¾÷ÇüÅÂ·Î ¶ç¿öÁÖ´Â ±â´ÉÀ» ¸»ÇÕ´Ï´Ù.</li>
-					<li>¸ÕÀú °Ô½ÃÆÇÀ» ÁÂÃø¿¡¼­ ¼±ÅÃÇØÁÖ¼¼¿ä.</li>
-					<li>ÇØ´ç °Ô½ÃÆÇÀÇ °Ô½Ã±ÛÀÇ ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.</li>
-					<li>ÃÑ 4°³ÀÇ ÆË¾÷°øÁö¸¦ Áö¿øÇÏ¸ç, ÇÏ³ªÀÇ °Ô½ÃÆÇ¿¡¼­ ÃÖ´ë 4°³ÀÇ °Ô½Ã±ÛÀ» ¶ç¿ï ¼ö ÀÖ½À´Ï´Ù.</li>
+					<li>íŒì—…ê³µì§€ëž€ ê²Œì‹œë¬¼ë“¤ ì¤‘ ì—¬ëŸ¬ì‚¬ëžŒë“¤ê³¼ ê³µìœ í•˜ê³ ìž í•˜ëŠ” ê¸€ì„ íŒì—…í˜•íƒœë¡œ ë„ì›Œì£¼ëŠ” ê¸°ëŠ¥ì„ ë§í•©ë‹ˆë‹¤.</li>
+					<li>ë¨¼ì € ê²Œì‹œíŒì„ ì¢Œì¸¡ì—ì„œ ì„ íƒí•´ì£¼ì„¸ìš”.</li>
+					<li>í•´ë‹¹ ê²Œì‹œíŒì˜ ê²Œì‹œê¸€ì˜ ë²ˆí˜¸ë¥¼ ìž…ë ¥í•˜ì„¸ìš”.</li>
+					<li>ì´ 4ê°œì˜ íŒì—…ê³µì§€ë¥¼ ì§€ì›í•˜ë©°, í•˜ë‚˜ì˜ ê²Œì‹œíŒì—ì„œ ìµœëŒ€ 4ê°œì˜ ê²Œì‹œê¸€ì„ ë„ìš¸ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.</li>
 				</ul>
 			</div>
 			<div class="adm_cont">
@@ -66,10 +67,10 @@
 		End if
 %>
 							<tr>
-								<th scope="row"><%=i%> ¹øÂ°</th>
+								<th scope="row"><%=i%> ë²ˆì§¸</th>
 								<td>
 									<select id="menu_seq<%=i%>" name="menu_seq<%=i%>" class="sel">
-										<option value="">ÆË¾÷°øÁö¸¦ ¼±ÅÃÇÏ¼¼¿ä</option>
+										<option value="">íŒì—…ê³µì§€ë¥¼ ì„ íƒí•˜ì„¸ìš”</option>
 <%
 		sql = ""
 		sql = sql & " select * "
@@ -89,9 +90,9 @@
 %>
 									</select>
 								</td>
-								<th scope="row">°Ô½Ã±Û ¹øÈ£</th>
+								<th scope="row">ê²Œì‹œê¸€ ë²ˆí˜¸</th>
 								<td>
-									<input type="text" id="popup_num<%=i%>" name="popup_num<%=i%>" value="<%=popup_num%>" placeholder="°Ô½Ã±Û ¹øÈ£ ÀÔ·Â" class="inp">
+									<input type="text" id="popup_num<%=i%>" name="popup_num<%=i%>" value="<%=popup_num%>" placeholder="ê²Œì‹œê¸€ ë²ˆí˜¸ ìž…ë ¥" class="inp">
 								</td>
 							</tr>
 <%
@@ -101,7 +102,7 @@
 					</table>
 				</div>
 				<div class="btn_box algR">
-					<button class="btn btn_c_a btn_n" type="submit">È®ÀÎ</button>
+					<button class="btn btn_c_a btn_n" type="submit">í™•ì¸</button>
 				</div>
 				</form>
 			</div>

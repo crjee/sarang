@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Call checkAdmin()
 
@@ -21,9 +22,9 @@
 		sql = sql & "    and stat = 'Y' "
 		rs.open sql, Conn, 3, 1
 
-		If Not rs.eof Then ' ±âÁ¸ »ç¶û¹æ È¸¿øÀÌ¸é
+		If Not rs.eof Then ' ê¸°ì¡´ ì‚¬ë‘ë°© íšŒì›ì´ë©´
 			If cafe_mb_level <> CStr(rs("cafe_mb_level")) Then
-				' ÀÌÀü »ç¶û¹æ È÷½ºÅä¸® ÀúÀå
+				' ì´ì „ ì‚¬ë‘ë°© íˆìŠ¤í† ë¦¬ ì €ì¥
 				sql = ""
 				sql = sql & " insert into cf_cafe_member_history( "
 				sql = sql & "        cafe_id "
@@ -38,7 +39,7 @@
 				sql = sql & " select cafe_id "
 				sql = sql & "       ,user_id "
 				sql = sql & "       ,cafe_mb_level "
-				sql = sql & "       ,'»ç¶û¹æ µî±Şº¯°æ(°ü¸®ÀÚ)' "
+				sql = sql & "       ,'ì‚¬ë‘ë°© ë“±ê¸‰ë³€ê²½(ê´€ë¦¬ì)' "
 				sql = sql & "       ,stdate "
 				sql = sql & "       ,getdate() "
 				sql = sql & "       ,'" & Session("user_id") & "' "
@@ -48,7 +49,7 @@
 				sql = sql & "    and cafe_id = '" & cafe_id & "' "
 				Conn.Execute(sql)
 
-				' »ç¶û¹æ µî±Ş º¯°æ
+				' ì‚¬ë‘ë°© ë“±ê¸‰ ë³€ê²½
 				sql = ""
 				sql = sql & " update cf_cafe_member "
 				sql = sql & "    set cafe_mb_level = '" & cafe_mb_level & "' "
@@ -58,12 +59,12 @@
 				sql = sql & "    and cafe_id = '" & cafe_id & "' "
 				Conn.Execute(sql)
 
-				If Not(cafe_mb_level = "2" Or cafe_mb_level = "10") Then ' ¿¬ÇÕÈ¸Áö±â »èÁ¦
+				If Not(cafe_mb_level = "2" Or cafe_mb_level = "10") Then ' ì—°í•©íšŒì§€ê¸° ì‚­ì œ
 				End If
 			End If
 
 			If union_id <> "" Then
-				If union_mb_level = "10" Then ' ¿¬ÇÕÈ¸Áö±â
+				If union_mb_level = "10" Then ' ì—°í•©íšŒì§€ê¸°
 					sql = ""
 					sql = sql & " select * "
 					sql = sql & "   from cf_union_manager "
@@ -71,8 +72,8 @@
 					sql = sql & "    and union_id = '" & union_id & "' "
 					rs2.open sql, Conn, 3, 1
 
-					If rs2.eof Then ' ±âÁ¸ ¿¬ÇÕÈ¸Áö±â ¾Æ´Ï¸é
-						' ½Å±Ô ¿¬ÇÕÈ¸Áö±â µî·Ï
+					If rs2.eof Then ' ê¸°ì¡´ ì—°í•©íšŒì§€ê¸° ì•„ë‹ˆë©´
+						' ì‹ ê·œ ì—°í•©íšŒì§€ê¸° ë“±ë¡
 						sql = ""
 						sql = sql & " insert into cf_union_manager( "
 						sql = sql & "        union_id "
@@ -91,8 +92,8 @@
 						Conn.Execute(sql)
 					End If
 					rs2.close
-				Else ' ¿¬ÇÕÈ¸Áö±â ¾Æ´Ô
-					' ÀÌÀü ¿¬ÇÕÈ¸Áö±â È÷½ºÅä¸® ÀúÀå
+				Else ' ì—°í•©íšŒì§€ê¸° ì•„ë‹˜
+					' ì´ì „ ì—°í•©íšŒì§€ê¸° íˆìŠ¤í† ë¦¬ ì €ì¥
 					sql = ""
 					sql = sql & " insert into cf_union_manager_history( "
 					sql = sql & "        union_id "
@@ -107,7 +108,7 @@
 					sql = sql & " select union_id "
 					sql = sql & "       ,user_id "
 					sql = sql & "       ,union_mb_level "
-					sql = sql & "       ,'¿¬ÇÕÈ¸Áö±â »èÁ¦(°ü¸®ÀÚ)' "
+					sql = sql & "       ,'ì—°í•©íšŒì§€ê¸° ì‚­ì œ(ê´€ë¦¬ì)' "
 					sql = sql & "       ,stdate "
 					sql = sql & "       ,getdate() "
 					sql = sql & "       ,'" & Session("user_id") & "' "
@@ -117,7 +118,7 @@
 					sql = sql & "    and union_id = '" & union_id & "' "
 					Conn.Execute(sql)
 
-					' ±âÁ¸ ¿¬ÇÕÈ¸Áö±â »èÁ¦
+					' ê¸°ì¡´ ì—°í•©íšŒì§€ê¸° ì‚­ì œ
 					sql = ""
 					sql = sql & " delete cf_union_manager "
 					sql = sql & "  where user_id = '" & user_id & "' "
@@ -125,8 +126,8 @@
 					Conn.Execute(sql)
 				End If
 			End If
-		Else ' ±âÁ¸ »ç¶û¹æ È¸¿ø ¾Æ´Ï¸é
-			' ÀÌÀü »ç¶û¹æ È÷½ºÅä¸® ÀúÀå
+		Else ' ê¸°ì¡´ ì‚¬ë‘ë°© íšŒì› ì•„ë‹ˆë©´
+			' ì´ì „ ì‚¬ë‘ë°© íˆìŠ¤í† ë¦¬ ì €ì¥
 			sql = ""
 			sql = sql & " insert into cf_cafe_member_history( "
 			sql = sql & "        cafe_id "
@@ -141,7 +142,7 @@
 			sql = sql & " select cafe_id "
 			sql = sql & "       ,user_id "
 			sql = sql & "       ,cafe_mb_level "
-			sql = sql & "       ,'»ç¶û¹æº¯°æ(°ü¸®ÀÚ)' "
+			sql = sql & "       ,'ì‚¬ë‘ë°©ë³€ê²½(ê´€ë¦¬ì)' "
 			sql = sql & "       ,stdate "
 			sql = sql & "       ,getdate() "
 			sql = sql & "       ,'" & Session("user_id") & "' "
@@ -151,7 +152,7 @@
 			sql = sql & "    and cafe_id = (select cafe_id from cf_member where user_id = '" & user_id & "') "
 			Conn.Execute(sql)
 
-			' ÀÌÀü »ç¶û¹æ È¸¿øÁ¤º¸ »èÁ¦
+			' ì´ì „ ì‚¬ë‘ë°© íšŒì›ì •ë³´ ì‚­ì œ
 			sql = ""
 			sql = sql & " delete cf_cafe_member "
 			sql = sql & "  where user_id = '" & user_id & "' "
@@ -159,7 +160,7 @@
 			Conn.Execute(sql)
 
 			If cafe_id <> "" Then
-				' ½Å±Ô »ç¶û¹æ È¸¿øÁ¤º¸ °¡ÀÔ
+				' ì‹ ê·œ ì‚¬ë‘ë°© íšŒì›ì •ë³´ ê°€ì…
 				sql = ""
 				sql = sql & " insert into cf_cafe_member( "
 				sql = sql & "        cafe_id "
@@ -180,7 +181,7 @@
 				Conn.Execute(sql)
 			End If
 			
-			' ¿¬ÇÕÈ¸Áö±â È÷½ºÅä¸® ÀúÀå
+			' ì—°í•©íšŒì§€ê¸° íˆìŠ¤í† ë¦¬ ì €ì¥
 			sql = ""
 			sql = sql & " insert into cf_union_manager_history( "
 			sql = sql & "        union_id "
@@ -195,7 +196,7 @@
 			sql = sql & " select union_id "
 			sql = sql & "       ,user_id "
 			sql = sql & "       ,union_mb_level "
-			sql = sql & "       ,'¿¬ÇÕÈ¸Áö±â »èÁ¦(°ü¸®ÀÚ)' "
+			sql = sql & "       ,'ì—°í•©íšŒì§€ê¸° ì‚­ì œ(ê´€ë¦¬ì)' "
 			sql = sql & "       ,stdate "
 			sql = sql & "       ,getdate() "
 			sql = sql & "       ,'" & Session("user_id") & "' "
@@ -205,7 +206,7 @@
 			sql = sql & "    and union_id = '" & union_id & "' "
 			Conn.Execute(sql)
 
-			' ¿¬ÇÕÈ¸Áö±â È¸¿øÁ¤º¸ »èÁ¦
+			' ì—°í•©íšŒì§€ê¸° íšŒì›ì •ë³´ ì‚­ì œ
 			sql = ""
 			sql = sql & " delete cf_union_manager "
 			sql = sql & "  where user_id = '" & user_id & "' "
@@ -225,5 +226,5 @@
 	Set rs = nothing
 	Set rs2 = nothing
 
-	Response.Write "<script>alert('º¯°æµÇ¾ú½À´Ï´Ù.');parent.document.search_form.submit();</script>"
+	Response.Write "<script>alert('ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.');parent.document.search_form.submit();</script>"
 %>

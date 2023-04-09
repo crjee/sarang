@@ -1,3 +1,4 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	menu_type = Request("menu_type")
 	file_name = Request("file_name")
@@ -22,7 +23,7 @@
 	'response.end
 
 '    If fs.FileExists(file_path) Then
-         'ÆÄÀÏÀÌ ÀÖÀ»°æ¿ì ÆÄÀÏÀ» ½ºÆ®¸² ÇüÅÂ·Î ¿­¾î º¸³½´Ù.
+         'íŒŒì¼ì´ ìžˆì„ê²½ìš° íŒŒì¼ì„ ìŠ¤íŠ¸ë¦¼ í˜•íƒœë¡œ ì—´ì–´ ë³´ë‚¸ë‹¤.
 '         Response.ContentType = "application/octet-stream"
 '         Response.CacheControl = "public"
 '         Response.AddHeader "Content-Disposition","attachment;filename=" & file_name
@@ -35,8 +36,8 @@
 '         Stream.close
 '         Set Stream = nothing
 '     Else 
-'         'ÆÄÀÏÀÌ ¾øÀ» °æ¿ì...
-'         Response.Write "ÇØ´ç ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù."
+'         'íŒŒì¼ì´ ì—†ì„ ê²½ìš°...
+'         Response.Write "í•´ë‹¹ íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤."
 '     End If
      
 '     Set fs = Nothing

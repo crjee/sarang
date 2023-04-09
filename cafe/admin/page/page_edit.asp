@@ -1,17 +1,18 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>¸Þ´º °ü¸® : °ü¸®ÀÚ</title>
+	<title>ë©”ë‰´ ê´€ë¦¬ : ê´€ë¦¬ìž</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
-	<script type="text/javascript" src="/smart/js/HuskyEZCreator.js" charset="euc-kr"></script>
+	<script type="text/javascript" src="/smart/js/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <body>
 <%
@@ -68,7 +69,7 @@
 	If isnull(page_type) Then page_type = ""
 %>
 					<div class="adm_cont_tit">
-						<h4 class="h3 mt20 mb10"><%=menu_name%> ¼³Á¤</h4>
+						<h4 class="h3 mt20 mb10"><%=menu_name%> ì„¤ì •</h4>
 					</div>
 					<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
 					<input type="hidden" name="cafe_id" value="<%=cafe_id%>">
@@ -84,16 +85,16 @@
 								</colgroup>
 								<tbody>
 									<tr>
-										<th scope="row">ÀÌ¸§</th>
+										<th scope="row">ì´ë¦„</th>
 										<td>
 											<input type="text" id="menu_name" name="menu_name" value="<%=menu_name%>" class="inp">
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">¸Þ´º°¨Ãß±â</th>
+										<th scope="row">ë©”ë‰´ê°ì¶”ê¸°</th>
 										<td>
 											<input type="checkbox" id="hidden_yn" name="hidden_yn" value="Y" <%=if3(hidden_yn = "Y","checked","") %> class="" />
-											<label for=""><em>°¨Ãß±â</em></label>
+											<label for=""><em>ê°ì¶”ê¸°</em></label>
 										</td>
 									</tr>
 <%
@@ -109,18 +110,18 @@
 	ElseIf page_type = "2" Then
 %>
 									<tr>
-										<th scope="row">¼Ò°³±Û</th>
+										<th scope="row">ì†Œê°œê¸€</th>
 										<td>
 											<textarea name="ir1" id="ir1" style="width:630px;height:200px; display:none;"><%=introduction%></textarea>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">È¸Àå»çÁø</th>
+										<th scope="row">íšŒìž¥ì‚¬ì§„</th>
 										<td>
 <%
 		If picture <> "" Then
 %>
-											<input type="button" onclick="javascript:hiddenfrm.location.href='picture_exec.asp'" value="»èÁ¦"> <%=picture%>
+											<input type="button" onclick="javascript:hiddenfrm.location.href='picture_exec.asp'" value="ì‚­ì œ"> <%=picture%>
 <%
 		Else
 %>
@@ -131,7 +132,7 @@
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">È¸ÀåÀÎ»ç¸»</th>
+										<th scope="row">íšŒìž¥ì¸ì‚¬ë§</th>
 										<td>
 											<textarea name="ir12" id="ir12" style="width:820px;height:500px; display:none;"><%=greetings%></textarea>
 										</td>
@@ -161,9 +162,9 @@
 							</table>
 						</div>
 						<div class="btn_box algR">
-							<button type="submit" class="btn btn_c_a btn_n">ÀúÀå</button>
-							<button type="reset" class="btn btn_c_n btn_n">Ãë¼Ò</button>
-							<button type="button" class="btn btn_c_n btn_n" id="del">»èÁ¦</button>
+							<button type="submit" class="btn btn_c_a btn_n">ì €ìž¥</button>
+							<button type="reset" class="btn btn_c_n btn_n">ì·¨ì†Œ</button>
+							<button type="button" class="btn btn_c_n btn_n" id="del">ì‚­ì œ</button>
 						</div>
 						</form>
 						<script>
@@ -175,7 +176,7 @@
 <script LANGUAGE="JavaScript">
 <!--
 	$('#del').click(function() {
-		msg="»èÁ¦ÇÏ½Ã°Ú½À´Ï±î?"
+		msg="ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?"
 		if (confirm(msg)) {
 			document.location.href='../menu_del_exec.asp?menu_seq=<%=menu_seq%>';
 		}
@@ -197,7 +198,7 @@
 %>
 	var oEditors = [];
 
-// Ãß°¡ ±Û²Ã ¸ñ·Ï
+// ì¶”ê°€ ê¸€ê¼´ ëª©ë¡
 //var aAdditionalFontSet = [["MS UI Gothic", "MS UI Gothic"], ["Comic Sans MS", "Comic Sans MS"],["TEST","TEST"]];
 
 	nhn.husky.EZCreator.createInIFrame({
@@ -205,17 +206,17 @@
 		elPlaceHolder: "ir1",
 		sSkinURI: "/smart/SmartEditor2Skin.html",
 		htParams : {
-			bUseToolbar : true,				// Åø¹Ù »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-			bUseVerticalResizer : true,		// ÀÔ·ÂÃ¢ Å©±â Á¶Àý¹Ù »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-			bUseModeChanger : true,			// ¸ðµå ÅÇ(Editor | HTML | TEXT) »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-			//aAdditionalFontList : aAdditionalFontSet,		// Ãß°¡ ±Û²Ã ¸ñ·Ï
+			bUseToolbar : true,				// íˆ´ë°” ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+			bUseVerticalResizer : true,		// ìž…ë ¥ì°½ í¬ê¸° ì¡°ì ˆë°” ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+			bUseModeChanger : true,			// ëª¨ë“œ íƒ­(Editor | HTML | TEXT) ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+			//aAdditionalFontList : aAdditionalFontSet,		// ì¶”ê°€ ê¸€ê¼´ ëª©ë¡
 			fOnBeforeUnload : function() {
-				//alert("¿Ï·á!")
+				//alert("ì™„ë£Œ!")
 			}
 		}, //boolean
 		fOnAppLoad : function() {
-			//¿¹Á¦ ÄÚµå
-			//oEditors.getById["ir1"].exec("PASTE_HTML", ["·ÎµùÀÌ ¿Ï·áµÈ ÈÄ¿¡ º»¹®¿¡ »ðÀÔµÇ´Â textÀÔ´Ï´Ù."])
+			//ì˜ˆì œ ì½”ë“œ
+			//oEditors.getById["ir1"].exec("PASTE_HTML", ["ë¡œë”©ì´ ì™„ë£Œëœ í›„ì— ë³¸ë¬¸ì— ì‚½ìž…ë˜ëŠ” textìž…ë‹ˆë‹¤."])
 		},
 		fCreator: "createSEditor2"
 	})
@@ -228,17 +229,17 @@
 		elPlaceHolder: "ir12",
 		sSkinURI: "/smart/SmartEditor2Skin.html",
 		htParams : {
-			bUseToolbar : true,				// Åø¹Ù »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-			bUseVerticalResizer : true,		// ÀÔ·ÂÃ¢ Å©±â Á¶Àý¹Ù »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-			bUseModeChanger : true,			// ¸ðµå ÅÇ(Editor | HTML | TEXT) »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-			//aAdditionalFontList : aAdditionalFontSet,		// Ãß°¡ ±Û²Ã ¸ñ·Ï
+			bUseToolbar : true,				// íˆ´ë°” ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+			bUseVerticalResizer : true,		// ìž…ë ¥ì°½ í¬ê¸° ì¡°ì ˆë°” ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+			bUseModeChanger : true,			// ëª¨ë“œ íƒ­(Editor | HTML | TEXT) ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+			//aAdditionalFontList : aAdditionalFontSet,		// ì¶”ê°€ ê¸€ê¼´ ëª©ë¡
 			fOnBeforeUnload : function() {
-				//alert("¿Ï·á!")
+				//alert("ì™„ë£Œ!")
 			}
 		}, //boolean
 		fOnAppLoad : function() {
-			//¿¹Á¦ ÄÚµå
-			//oEditors.getById["ir1"].exec("PASTE_HTML", ["·ÎµùÀÌ ¿Ï·áµÈ ÈÄ¿¡ º»¹®¿¡ »ðÀÔµÇ´Â textÀÔ´Ï´Ù."])
+			//ì˜ˆì œ ì½”ë“œ
+			//oEditors.getById["ir1"].exec("PASTE_HTML", ["ë¡œë”©ì´ ì™„ë£Œëœ í›„ì— ë³¸ë¬¸ì— ì‚½ìž…ë˜ëŠ” textìž…ë‹ˆë‹¤."])
 		},
 		fCreator: "createSEditor2"
 	})
@@ -247,15 +248,15 @@
 %>
 
 	function submitContents(elClickedObj) {
-		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])	// ¿¡µðÅÍÀÇ ³»¿ëÀÌ textarea¿¡ Àû¿ëµË´Ï´Ù.
+		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])	// ì—ë””í„°ì˜ ë‚´ìš©ì´ textareaì— ì ìš©ë©ë‹ˆë‹¤.
 <%
 		If page_type = 2 then
 %>
-		oEditors.getById["ir12"].exec("UPDATE_CONTENTS_FIELD", [])	// ¿¡µðÅÍÀÇ ³»¿ëÀÌ textarea¿¡ Àû¿ëµË´Ï´Ù.
+		oEditors.getById["ir12"].exec("UPDATE_CONTENTS_FIELD", [])	// ì—ë””í„°ì˜ ë‚´ìš©ì´ textareaì— ì ìš©ë©ë‹ˆë‹¤.
 <%
 		End If
 %>
-		// ¿¡µðÅÍÀÇ ³»¿ë¿¡ ´ëÇÑ °ª °ËÁõÀº ÀÌ°÷¿¡¼­ document.getElementById("ir1").value¸¦ ÀÌ¿ëÇØ¼­ Ã³¸®ÇÏ¸é µË´Ï´Ù.
+		// ì—ë””í„°ì˜ ë‚´ìš©ì— ëŒ€í•œ ê°’ ê²€ì¦ì€ ì´ê³³ì—ì„œ document.getElementById("ir1").valueë¥¼ ì´ìš©í•´ì„œ ì²˜ë¦¬í•˜ë©´ ë©ë‹ˆë‹¤.
 
 		try {
 			elClickedObj.action = "page_exec.asp"

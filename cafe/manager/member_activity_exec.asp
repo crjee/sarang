@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
 
@@ -7,7 +8,7 @@
 		stat = getonevalue("stat","cf_cafe_member","where user_id = '" & user_id & "'")
 
 		If stat = "Y" Then
-			' ÀÌÀü»ç¶û¹æ È÷½ºÅä¸® ÀúÀå
+			' ì´ì „ì‚¬ë‘ë°© íˆìŠ¤í† ë¦¬ ì €ì¥
 			sql = ""
 			sql = sql & " insert into cf_cafe_member_history( "
 			sql = sql & "        cafe_id                      "
@@ -20,14 +21,14 @@
 			sql = sql & " select cafe_id                      "
 			sql = sql & "       ,user_id                      "
 			sql = sql & "       ,cafe_mb_level                "
-			sql = sql & "       ,'»ç¶û¹æÁ¤Áö(»ç¶û¹æÁö±â)'           "
+			sql = sql & "       ,'ì‚¬ë‘ë°©ì •ì§€(ì‚¬ë‘ë°©ì§€ê¸°)'           "
 			sql = sql & "       ,stdate                       "
 			sql = sql & "       ,getdate()                    "
 			sql = sql & "   from cf_cafe_member               "
 			sql = sql & "  where user_id = '" & user_id & "'  "
 			Conn.Execute(sql)
 
-			' »ç¶û¹æ È°µ¿Á¤Áö
+			' ì‚¬ë‘ë°© í™œë™ì •ì§€
 			sql = ""
 			sql = sql & " update cf_cafe_member "
 			sql = sql & "    set stat = 'N' "
@@ -37,7 +38,7 @@
 			Conn.Execute(sql)
 		Else
 
-			' »ç¶û¹æ È÷½ºÅä¸® ÀúÀå
+			' ì‚¬ë‘ë°© íˆìŠ¤í† ë¦¬ ì €ì¥
 			sql = ""
 			sql = sql & " insert into cf_cafe_member_history( "
 			sql = sql & "        cafe_id "
@@ -50,14 +51,14 @@
 			sql = sql & " select cafe_id  "
 			sql = sql & "       ,user_id  "
 			sql = sql & "       ,cafe_mb_level  "
-			sql = sql & "       ,'»ç¶û¹æÈ°µ¿(»ç¶û¹æÁö±â)'  "
+			sql = sql & "       ,'ì‚¬ë‘ë°©í™œë™(ì‚¬ë‘ë°©ì§€ê¸°)'  "
 			sql = sql & "       ,stdate "
 			sql = sql & "       ,getdate() "
 			sql = sql & "     from cf_cafe_member "
 			sql = sql & "    where user_id = '" & user_id & "' "
 			Conn.Execute(sql)
 
-			' »ç¶û¹æ È°µ¿Áß
+			' ì‚¬ë‘ë°© í™œë™ì¤‘
 			sql = ""
 			sql = sql & " update cf_cafe_member "
 			sql = sql & "    set stat = 'Y' "
@@ -69,5 +70,5 @@
 
 	next
 
-	Response.Write "<script>alert('º¯°æµÇ¾ú½À´Ï´Ù.');parent.document.search_form.submit();</script>"
+	Response.Write "<script>alert('ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.');parent.document.search_form.submit();</script>"
 %>

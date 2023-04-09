@@ -1,11 +1,12 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>¸Þ´º °ü¸® : °ü¸®ÀÚ</title>
+	<title>ë©”ë‰´ ê´€ë¦¬ : ê´€ë¦¬ìž</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -39,7 +40,7 @@
 	rs.close
 %>
 					<div class="adm_cont_tit">
-						<h4 class="h3 mt20 mb10"><%=menu_name%> ¼³Á¤</h4>
+						<h4 class="h3 mt20 mb10"><%=menu_name%> ì„¤ì •</h4>
 					</div>
 					<form name="form" method="post" action="com_exec.asp">
 					<input type="hidden" name="cafe_id" value="<%=cafe_id%>">
@@ -54,84 +55,84 @@
 								</colgroup>
 								<tbody>
 									<tr>
-										<th scope="row">ÀÌ¸§</th>
+										<th scope="row">ì´ë¦„</th>
 										<td>
 											<input type="text" id="menu_name" name="menu_name" value="<%=menu_name%>" class="inp">
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">±ÇÇÑ</th>
+										<th scope="row">ê¶Œí•œ</th>
 										<td>
 											<ul class="list_option">
 												<li class="">
-													<span class="head">¾²±â</span>
+													<span class="head">ì“°ê¸°</span>
 													<select id="write_auth" name="write_auth" class="sel w_auto">
-														<option value="1" <%=if3(write_auth = "1","selected","") %>>ÁØÈ¸¿ø</option>
-														<option value="2" <%=if3(write_auth = "2","selected","") %>>Á¤È¸¿ø</option>
-														<option value="10" <%=if3(write_auth = "10","selected","") %>>»ç¶û¹æÁö±â</option>
+														<option value="1" <%=if3(write_auth = "1","selected","") %>>ì¤€íšŒì›</option>
+														<option value="2" <%=if3(write_auth = "2","selected","") %>>ì •íšŒì›</option>
+														<option value="10" <%=if3(write_auth = "10","selected","") %>>ì‚¬ëž‘ë°©ì§€ê¸°</option>
 													</select>
 												</li>
 												<li class="">
-													<span class="head">´ñ±Û¾²±â</span>
+													<span class="head">ëŒ“ê¸€ì“°ê¸°</span>
 													<select id="reply_auth" name="reply_auth" class="sel w_auto">
-														<option value="1" <%=if3(reply_auth = 1,"selected","") %>>ÁØÈ¸¿ø</option>
-														<option value="2" <%=if3(reply_auth = 2,"selected","") %>>Á¤È¸¿ø</option>
-														<option value="10" <%=if3(reply_auth = 10,"selected","") %>>»ç¶û¹æÁö±â</option>
+														<option value="1" <%=if3(reply_auth = 1,"selected","") %>>ì¤€íšŒì›</option>
+														<option value="2" <%=if3(reply_auth = 2,"selected","") %>>ì •íšŒì›</option>
+														<option value="10" <%=if3(reply_auth = 10,"selected","") %>>ì‚¬ëž‘ë°©ì§€ê¸°</option>
 													</select>
 												</li>
 												<li class="">
-													<span class="head">ÀÐ±â</span>
+													<span class="head">ì½ê¸°</span>
 													<select id="read_auth" name="read_auth" class="sel w_auto">
-														<option value="1" <%=if3(read_auth = 1,"selected","") %>>ÁØÈ¸¿ø</option>
-														<option value="2" <%=if3(read_auth = 2,"selected","") %>>Á¤È¸¿ø</option>
-														<option value="10" <%=if3(read_auth = 10,"selected","") %>>»ç¶û¹æÁö±â</option>
+														<option value="1" <%=if3(read_auth = 1,"selected","") %>>ì¤€íšŒì›</option>
+														<option value="2" <%=if3(read_auth = 2,"selected","") %>>ì •íšŒì›</option>
+														<option value="10" <%=if3(read_auth = 10,"selected","") %>>ì‚¬ëž‘ë°©ì§€ê¸°</option>
 													</select>
 												</li>
 											</ul>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">¾ç½Ä¼³Á¤</th>
+										<th scope="row">ì–‘ì‹ì„¤ì •</th>
 										<td>
 <%
 	Set form = Conn.Execute("select * from cf_com_form where menu_seq='"&menu_seq&"'")
 	If Not form.eof then
 %>
-											<label><input type="checkbox">Áú¹®¾ç½Ä»ç¿ë</label>
-											<button class="btn_4txt_sel" type="submit" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">¾ç½Ä¼öÁ¤</button>
+											<label><input type="checkbox">ì§ˆë¬¸ì–‘ì‹ì‚¬ìš©</label>
+											<button class="btn_4txt_sel" type="submit" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">ì–‘ì‹ìˆ˜ì •</button>
 <%
 	Else
 %>
-											<button class="btn_4txt_sel" type="submit" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">¾ç½Äµî·Ï</button>
+											<button class="btn_4txt_sel" type="submit" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">ì–‘ì‹ë“±ë¡</button>
 <%
 	End If
 %>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">¸Þ´º°¨Ãß±â</th>
+										<th scope="row">ë©”ë‰´ê°ì¶”ê¸°</th>
 										<td>
 											<input type="checkbox" id="hidden_yn" name="hidden_yn" value="Y" <%=if3(hidden_yn = "Y","checked","") %> class="" />
-											<label for=""><em>°¨Ãß±â</em></label>
+											<label for=""><em>ê°ì¶”ê¸°</em></label>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">¾²±âÇü½Ä</th>
+										<th scope="row">ì“°ê¸°í˜•ì‹</th>
 										<td>
 											<select id="editor_yn" name="editor_yn" class="sel w_auto">
-												<option value="Y" <%=if3(editor_yn = "Y","selected","") %>>¿¡µðÅÍ</option>
-												<option value="N" <%=if3(editor_yn <> "Y","selected","") %>>ÅØ½ºÆ®</option>
+												<option value="Y" <%=if3(editor_yn = "Y","selected","") %>>ì—ë””í„°</option>
+												<option value="N" <%=if3(editor_yn <> "Y","selected","") %>>í…ìŠ¤íŠ¸</option>
 											</select>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">¸ÞÀÎ³ëÃâ°¹¼ö</th>
+										<th scope="row">ë©”ì¸ë…¸ì¶œê°¯ìˆ˜</th>
 										<td>
 											<select id="home_cnt" name="home_cnt" class="sel w_auto">
 <%
 	For i = 2 To 10
 %>
-												<option value="<%= i %>" <%=if3(home_cnt = i,"selected","") %>><%= i %>°³</option>
+												<option value="<%= i %>" <%=if3(home_cnt = i,"selected","") %>><%= i %>ê°œ</option>
 <%
 	Next
 %>
@@ -139,21 +140,21 @@
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">1ÀÏ µî·Ï¼ö</th>
+										<th scope="row">1ì¼ ë“±ë¡ìˆ˜</th>
 										<td>
 											<select id="daily_cnt" name="daily_cnt" class="sel w_auto">
-												<option value="9999">¼³Á¤¾ÈÇÔ</option>
+												<option value="9999">ì„¤ì •ì•ˆí•¨</option>
 												<option value='1' <%=If3(daily_cnt="1","selected","") %>>1</option>
 												<option value='2' <%=If3(daily_cnt="2","selected","") %>>2</option>
 												<option value='3' <%=If3(daily_cnt="3","selected","") %>>3</option>
 											</select>
 											<span class="ml20">
 												<input type="radio" id="inc_del_yn" name="inc_del_yn" value="Y" <%=if3(inc_del_yn="Y","checked","") %> class="" />
-												<label for=""><em>»èÁ¦°Ç Æ÷ÇÔ</em></label>
+												<label for=""><em>ì‚­ì œê±´ í¬í•¨</em></label>
 											</span>
 											<span class="ml10">
 												<input type="radio" id="inc_del_yn" name="inc_del_yn" value="N" <%=if3(inc_del_yn="N","checked","") %> class="" />
-												<label for=""><em>»èÁ¦°Ç ¹ÌÆ÷ÇÔ</em></label>
+												<label for=""><em>ì‚­ì œê±´ ë¯¸í¬í•¨</em></label>
 											</span>
 										</td>
 									</tr>
@@ -161,9 +162,9 @@
 							</table>
 						</div>
 						<div class="btn_box algR">
-							<button type="submit" class="btn btn_c_a btn_n">ÀúÀå</button>
-							<button type="reset" class="btn btn_c_n btn_n">Ãë¼Ò</button>
-							<button type="button" class="btn btn_c_n btn_n" id="del">»èÁ¦</button>
+							<button type="submit" class="btn btn_c_a btn_n">ì €ìž¥</button>
+							<button type="reset" class="btn btn_c_n btn_n">ì·¨ì†Œ</button>
+							<button type="button" class="btn btn_c_n btn_n" id="del">ì‚­ì œ</button>
 						</div>
 						</form>
 						<script>
@@ -174,7 +175,7 @@
 <script LANGUAGE="JavaScript">
 <!--
 	$('#del').click(function() {
-		msg="»èÁ¦ÇÏ½Ã°Ú½À´Ï±î?"
+		msg="ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?"
 		if (confirm(msg)) {
 			document.location.href='../menu_del_exec.asp?menu_seq=<%=menu_seq%>';
 		}

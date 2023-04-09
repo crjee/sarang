@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 	checkReadAuth(cafe_id)
@@ -6,10 +7,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>½ºÅ²-1 : GI</title>
+	<title>ìŠ¤í‚¨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -63,9 +64,9 @@
 	End if
 
 	If ascdesc = "asc" then
-		sort_chr = "¡é"
+		sort_chr = "â†“"
 	Else
-		sort_chr = "¡è"
+		sort_chr = "â†‘"
 	End If
 
 	oword = " Order By " & sort & " " & ascdesc
@@ -92,13 +93,13 @@
 	sql = sql & oword
 	rs.Open Sql, conn, 3, 1
 	rs.PageSize = PageSize
-	RecordCount = 0 ' ÀÚ·á°¡ ¾øÀ»¶§
+	RecordCount = 0 ' ìë£Œê°€ ì—†ì„ë•Œ
 
 	If Not rs.EOF Then
 		RecordCount = rs.recordcount
 	End If
 
-	' ÀüÃ¼ ÆäÀÌÁö ¼ö ¾ò±â
+	' ì „ì²´ í˜ì´ì§€ ìˆ˜ ì–»ê¸°
 	If RecordCount/PageSize = Int(RecordCount/PageSize) then
 		PageCount = Int(RecordCount / PageSize)
 	Else
@@ -140,25 +141,25 @@
 					var tt = imgRsize(img, ww, hh);
 					if (img.width > ww || img.height > hh) {
 
-						// °¡·Î³ª ¼¼·ÎÅ©±â°¡ Á¦ÇÑÅ©±âº¸´Ù Å©¸é
+						// ê°€ë¡œë‚˜ ì„¸ë¡œí¬ê¸°ê°€ ì œí•œí¬ê¸°ë³´ë‹¤ í¬ë©´
 						img.width = tt[0];
-						// Å©±âÁ¶Á¤
+						// í¬ê¸°ì¡°ì •
 						img.height = tt[1];
-						img.alt = "Å¬¸¯ÇÏ½Ã¸é ¿øº»ÀÌ¹ÌÁö¸¦ º¸½Ç¼öÀÖ½À´Ï´Ù.";
+						img.alt = "í´ë¦­í•˜ì‹œë©´ ì›ë³¸ì´ë¯¸ì§€ë¥¼ ë³´ì‹¤ìˆ˜ìˆìŠµë‹ˆë‹¤.";
 
 						if (aL) {
-							// ÀÚµ¿¸µÅ© on
+							// ìë™ë§í¬ on
 							img.onclick = function() {
 								wT = Math.ceil((screen.width - tt[2])/2.6);
-								// Å¬¶óÀÌ¾ğÆ® Áß¾Ó¿¡ ÀÌ¹ÌÁöÀ§Ä¡.
+								// í´ë¼ì´ì–¸íŠ¸ ì¤‘ì•™ì— ì´ë¯¸ì§€ìœ„ì¹˜.
 								wL = Math.ceil((screen.height - tt[3])/2.6);
 								var mm = window.open(img.src, "mm", 'width='+tt[2]+',height='+tt[3]+',top='+wT+',left='+wL);
 								var doc = mm.document;
 								try{
 									doc.body.style.margin = 0;
-									// ¸¶ÁøÁ¦°Å
+									// ë§ˆì§„ì œê±°
 									doc.body.style.cursor = "hand";
-									doc.title = "¿øº»ÀÌ¹ÌÁö";
+									doc.title = "ì›ë³¸ì´ë¯¸ì§€";
 								}
 								catch(err) {
 								}
@@ -171,7 +172,7 @@
 					}
 					else {
 							img.onclick = function() {
-								alert("ÇöÀçÀÌ¹ÌÁö°¡ ¿øº» ÀÌ¹ÌÁöÀÔ´Ï´Ù.");
+								alert("í˜„ì¬ì´ë¯¸ì§€ê°€ ì›ë³¸ ì´ë¯¸ì§€ì…ë‹ˆë‹¤.");
 							}
 					}
 				}
@@ -180,16 +181,16 @@
 					var iW = img.width;
 					var iH = img.height;
 					var g = new Array;
-					if (iW < rW && iH < rH) { // °¡·Î¼¼·Î°¡ Ãà¼ÒÇÒ °ªº¸´Ù ÀÛÀ» °æ¿ì
+					if (iW < rW && iH < rH) { // ê°€ë¡œì„¸ë¡œê°€ ì¶•ì†Œí•  ê°’ë³´ë‹¤ ì‘ì„ ê²½ìš°
 						g[0] = iW;
 						g[1] = iH;
 					}
 					else {
-						if (img.width > img.height) { // ¿øÅ©±â °¡·Î°¡ ¼¼·Îº¸´Ù Å©¸é
+						if (img.width > img.height) { // ì›í¬ê¸° ê°€ë¡œê°€ ì„¸ë¡œë³´ë‹¤ í¬ë©´
 							g[0] = rW;
 							g[1] = Math.ceil(img.height * rW / img.width);
 						}
-						else if (img.width < img.height) { //¿øÅ©±âÀÇ ¼¼·Î°¡ °¡·Îº¸´Ù Å©¸é
+						else if (img.width < img.height) { //ì›í¬ê¸°ì˜ ì„¸ë¡œê°€ ê°€ë¡œë³´ë‹¤ í¬ë©´
 							g[0] = Math.ceil(img.width * rH / img.height);
 							g[1] = rH;
 						}
@@ -197,24 +198,24 @@
 							g[0] = rW;
 							g[1] = rH;
 						}
-						if (g[0] > rW) { // ±¸ÇØÁø °¡·Î°ªÀÌ Ãà¼Ò °¡·Îº¸´Ù Å©¸é
+						if (g[0] > rW) { // êµ¬í•´ì§„ ê°€ë¡œê°’ì´ ì¶•ì†Œ ê°€ë¡œë³´ë‹¤ í¬ë©´
 							g[0] = rW;
 							g[1] = Math.ceil(img.height * rW / img.width);
 						}
-						if (g[1] > rH) { // ±¸ÇØÁø ¼¼·Î°ªÀÌ Ãà¼Ò ¼¼·Î°ª°¡·Îº¸´Ù Å©¸é
+						if (g[1] > rH) { // êµ¬í•´ì§„ ì„¸ë¡œê°’ì´ ì¶•ì†Œ ì„¸ë¡œê°’ê°€ë¡œë³´ë‹¤ í¬ë©´
 							g[0] = Math.ceil(img.width * rH / img.height);
 							g[1] = rH;
 						}
 					}
 
-					g[2] = img.width; // ¿ø»çÀÌÁî °¡·Î
-					g[3] = img.height; // ¿ø»çÀÌÁî ¼¼·Î
+					g[2] = img.width; // ì›ì‚¬ì´ì¦ˆ ê°€ë¡œ
+					g[3] = img.height; // ì›ì‚¬ì´ì¦ˆ ì„¸ë¡œ
 
 					return g;
 				}
 			</script>
 				<div class="cont_tit">
-					<h2 class="h2"><%=menu_name%>&nbsp;ÃÑ <%=FormatNumber(RecordCount,0)%>°ÇÀÇ Á¤º¸°¡ ÀÖ½À´Ï´Ù.</h2>
+					<h2 class="h2"><%=menu_name%>&nbsp;ì´ <%=FormatNumber(RecordCount,0)%>ê±´ì˜ ì •ë³´ê°€ ìˆìŠµë‹ˆë‹¤.</h2>
 				</div>
 				<div class="">
 					<div class="search_box algR">
@@ -224,16 +225,16 @@
 						<input type="hidden" name="sort" value="<%=sort%>">
 						<input type="hidden" name="ascdesc" value="<%=ascdesc%>">
 						<select id="sch_type" name="sch_type" class="sel w100p">
-							<option value="all">ÀüÃ¼</option>
-								<option value="all">ÀüÃ¼</option>
-								<option value="agency" <%=if3(sch_type="agency","selected","")%>>¾÷¼Ò¸í</option>
-								<option value="kname" <%=if3(sch_type="kname","selected","")%>>È¸¿ø¸í</option>
-								<option value="phone" <%=if3(sch_type="phone","selected","")%>>ÀüÈ­¹øÈ£</option>
-								<option value="mobile" <%=if3(sch_type="mobile","selected","")%>>ÇÚµåÆù¹øÈ£</option>
-								<option value="addr1" <%=if3(sch_type="addr1","selected","")%>>ÁÖ¼Ò</option>
+							<option value="all">ì „ì²´</option>
+								<option value="all">ì „ì²´</option>
+								<option value="agency" <%=if3(sch_type="agency","selected","")%>>ì—…ì†Œëª…</option>
+								<option value="kname" <%=if3(sch_type="kname","selected","")%>>íšŒì›ëª…</option>
+								<option value="phone" <%=if3(sch_type="phone","selected","")%>>ì „í™”ë²ˆí˜¸</option>
+								<option value="mobile" <%=if3(sch_type="mobile","selected","")%>>í•¸ë“œí°ë²ˆí˜¸</option>
+								<option value="addr1" <%=if3(sch_type="addr1","selected","")%>>ì£¼ì†Œ</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w300p">
-						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">°Ë»ö</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">ê²€ìƒ‰</button>
 						<select id="pagesize" name="pagesize" class="sel w100p" onchange="goSearch()">
 							<option value=""></option>
 							<option value="20" <%=if3(pagesize="20","selected","")%>>20</option>
@@ -261,14 +262,14 @@
 							</colgroup>
 							<thead>
 								<tr>
-								<%If instr(list_info, "agency") then%>     <th scope="col"><a href="javascript:goSort('agency')">»óÈ£</a><%=if3(sort="agency",sort_chr,"")%></th><%End if%>
-								<%If instr(list_info, "kname") then%>      <th scope="col"><a href="javascript:goSort('kname')">´ëÇ¥ÀÚ</a><%=if3(sort="kname",sort_chr,"")%></th><%End if%>
-								<%If instr(list_info, "license") then%>    <th scope="col"><a href="javascript:goSort('license')">Çã°¡¹øÈ£</a><%=if3(sort="license",sort_chr,"")%></th><%End if%>
-								<%If instr(list_info, "phone") then%>      <th scope="col"><a href="javascript:goSort('phone')">ÀüÈ­¹øÈ£</a><%=if3(sort="phone",sort_chr,"")%></th><%End if%>
-								<%If instr(list_info, "mobile") then%>     <th scope="col"><a href="javascript:goSort('mobile')">ÇÚµåÆù¹øÈ£</a><%=if3(sort="mobile",sort_chr,"")%></th><%End if%>
-								<%If instr(list_info, "fax") then%>        <th scope="col"><a href="javascript:goSort('fax')">ÆÑ½º¹øÈ£</a><%=if3(sort="fax",sort_chr,"")%></th><%End if%>
-								<%If instr(list_info, "interphone") then%> <th scope="col"><a href="javascript:goSort('interphone')">³»¼±¹øÈ£</a><%=if3(sort="interphone",sort_chr,"")%></th><%End if%>
-								<%If instr(list_info, "addr") then%>       <th><a href="javascript:goSort('addr1')">ÁÖ¼Ò</a><%=if3(sort="addr1",sort_chr,"")%></th><%End if%>
+								<%If instr(list_info, "agency") then%>     <th scope="col"><a href="javascript:goSort('agency')">ìƒí˜¸</a><%=if3(sort="agency",sort_chr,"")%></th><%End if%>
+								<%If instr(list_info, "kname") then%>      <th scope="col"><a href="javascript:goSort('kname')">ëŒ€í‘œì</a><%=if3(sort="kname",sort_chr,"")%></th><%End if%>
+								<%If instr(list_info, "license") then%>    <th scope="col"><a href="javascript:goSort('license')">í—ˆê°€ë²ˆí˜¸</a><%=if3(sort="license",sort_chr,"")%></th><%End if%>
+								<%If instr(list_info, "phone") then%>      <th scope="col"><a href="javascript:goSort('phone')">ì „í™”ë²ˆí˜¸</a><%=if3(sort="phone",sort_chr,"")%></th><%End if%>
+								<%If instr(list_info, "mobile") then%>     <th scope="col"><a href="javascript:goSort('mobile')">í•¸ë“œí°ë²ˆí˜¸</a><%=if3(sort="mobile",sort_chr,"")%></th><%End if%>
+								<%If instr(list_info, "fax") then%>        <th scope="col"><a href="javascript:goSort('fax')">íŒ©ìŠ¤ë²ˆí˜¸</a><%=if3(sort="fax",sort_chr,"")%></th><%End if%>
+								<%If instr(list_info, "interphone") then%> <th scope="col"><a href="javascript:goSort('interphone')">ë‚´ì„ ë²ˆí˜¸</a><%=if3(sort="interphone",sort_chr,"")%></th><%End if%>
+								<%If instr(list_info, "addr") then%>       <th><a href="javascript:goSort('addr1')">ì£¼ì†Œ</a><%=if3(sort="addr1",sort_chr,"")%></th><%End if%>
 								</tr>
 							</thead>
 							<tbody>
@@ -287,7 +288,7 @@
 <%
 				If rs("picture") <> "" Then
 %>
-										<img src="<%=uploadUrl & rs("picture")%>" id="profile" name="profile" onLoad="Rsize(this, 20, 20, 1)" style="cursor:hand;border:1px solid #e5e5e5;" title="Áß°³¾÷¼Ò»çÁø">
+										<img src="<%=uploadUrl & rs("picture")%>" id="profile" name="profile" onLoad="Rsize(this, 20, 20, 1)" style="cursor:hand;border:1px solid #e5e5e5;" title="ì¤‘ê°œì—…ì†Œì‚¬ì§„">
 <%
 				End if
 %>

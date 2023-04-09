@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 	checkMemoSendAuth(cafe_id)
@@ -6,16 +7,16 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>½ºÅ²-1 : GI</title>
+	<title>ìŠ¤í‚¨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
-	<script type="text/javascript" src="/smart/js/HuskyEZCreator.js" charset="euc-kr"></script>
+	<script type="text/javascript" src="/smart/js/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <body class="skin_type_1">
 	<div id="wrap" class="group">
@@ -28,7 +29,7 @@
 						if (obj.checked == true)
 						{
 							document.form.opt_value.value = "";
-							document.form.opt_text.value = "ÀüÃ¼È¸¿ø";
+							document.form.opt_text.value = "ì „ì²´íšŒì›";
 						}
 						else {
 							document.form.opt_value.value = "";
@@ -37,7 +38,7 @@
 					}
 				</script>
 				<div class="cont_tit">
-					<h2 class="h2"><%=menu_name%> µî·Ï</h2>
+					<h2 class="h2"><%=menu_name%> ë“±ë¡</h2>
 				</div>
 				<form name="form" method="post" onsubmit="return submitContents(this)">
 				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
@@ -50,20 +51,21 @@
 						</colgroup>
 						<tbody>
 							<tr>
-								<th scope="row">Á¦¸ñ</th>
+								<th scope="row">ì œëª©</th>
 								<td>
 									<input type="text" class="inp" id="subject" name="subject" value="<%=subject%>" maxlength="200" onKeyup="fc_chk_byte(this, 200, 'req_attnView');setCookie('subject',this.value,1)" required style="" />
 									<span id="req_attnView" name="req_attnView">0</span>/200
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">¹Ş´Â »ç¶÷</th>
+								<th scope="row">ë°›ëŠ” ì‚¬ëŒ</th>
 								<td>
 									<span class="mr10">
-										<button type="button" class="btn btn_c_n btn_s btn_long" onclick="goUser()">¹Ş´Â»ç¶÷ ¼±ÅÃ</button>
+										<!-- <button type="button" class="btn btn_c_n btn_s btn_long" onclick="goUser()">ë°›ëŠ”ì‚¬ëŒ ì„ íƒ</button> -->
+										<button type="button" class="btn btn_c_n btn_s btn_long" onclick="lyp('lypp_member')">ë°›ëŠ”ì‚¬ëŒ ì„ íƒ</button>
 									</span>
 									<span class="mr10">
-										<input type="checkbox" id="alluser" name="alluser" value="all" onclick="goAll(this)" class="inp_check"><label for="alluser"><em>ÀüÃ¼È¸¿ø</em></label>
+										<input type="checkbox" id="alluser" name="alluser" value="all" onclick="goAll(this)" class="inp_check"><label for="alluser"><em>ì „ì²´íšŒì›</em></label>
 									</span>
 								</td>
 							</tr>
@@ -75,12 +77,12 @@
 							<textarea name="ir1" id="ir1" style="width: 100%; height: 400px; display: none;"></textarea>
 						</div>
 					</div>
-					<p class="txt_guide_1 mt10">»õ·Î°íÄ§½Ã ¿¡µğÅÍ ³»¿ëÀº À¯ÁöµÇÁö ¾Ê½À´Ï´Ù.</p>
+					<p class="txt_guide_1 mt10">ìƒˆë¡œê³ ì¹¨ì‹œ ì—ë””í„° ë‚´ìš©ì€ ìœ ì§€ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.</p>
 				</div>
 				<div class="btn_box">
-					<!-- <button type="submit" class="btn btn_c_a btn_n btn_2txt_sel">È®ÀÎ</button> -->
-					<button type="submit" class="btn btn_c_a btn_n">µî·Ï</button>
-					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='job_list.asp?menu_seq=<%=menu_seq%>'"><em>Ãë¼Ò</em></button>
+					<!-- <button type="submit" class="btn btn_c_a btn_n btn_2txt_sel">í™•ì¸</button> -->
+					<button type="submit" class="btn btn_c_a btn_n">ë“±ë¡</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='job_list.asp?menu_seq=<%=menu_seq%>'"><em>ì·¨ì†Œ</em></button>
 				</div>
 				</form>
 
@@ -104,23 +106,23 @@
 					elPlaceHolder: "ir1",
 					sSkinURI: "/smart/SmartEditor2Skin.html",
 					htParams : {
-						bUseToolbar : true,				// Åø¹Ù »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-						bUseVerticalResizer : true,		// ÀÔ·ÂÃ¢ Å©±â Á¶Àı¹Ù »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-						bUseModeChanger : true,			// ¸ğµå ÅÇ(Editor | HTML | TEXT) »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-						//aAdditionalFontList : aAdditionalFontSet,		// Ãß°¡ ±Û²Ã ¸ñ·Ï
+						bUseToolbar : true,				// íˆ´ë°” ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+						bUseVerticalResizer : true,		// ì…ë ¥ì°½ í¬ê¸° ì¡°ì ˆë°” ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+						bUseModeChanger : true,			// ëª¨ë“œ íƒ­(Editor | HTML | TEXT) ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+						//aAdditionalFontList : aAdditionalFontSet,		// ì¶”ê°€ ê¸€ê¼´ ëª©ë¡
 						fOnBeforeUnload : function() {
-							//alert("¿Ï·á!");
+							//alert("ì™„ë£Œ!");
 						}
 					}, //boolean
 					fOnAppLoad : function() {
-						//¿¹Á¦ ÄÚµå
-						//oEditors.getById["ir1"].exec("PASTE_HTML", ["·ÎµùÀÌ ¿Ï·áµÈ ÈÄ¿¡ º»¹®¿¡ »ğÀÔµÇ´Â textÀÔ´Ï´Ù."]);
+						//ì˜ˆì œ ì½”ë“œ
+						//oEditors.getById["ir1"].exec("PASTE_HTML", ["ë¡œë”©ì´ ì™„ë£Œëœ í›„ì— ë³¸ë¬¸ì— ì‚½ì…ë˜ëŠ” textì…ë‹ˆë‹¤."]);
 					},
 					fCreator: "createSEditor2"
 				});
 
 				function pasteHTML() {
-					var sHTML = "<span style=color:#FF0000;>ÀÌ¹ÌÁöµµ °°Àº ¹æ½ÄÀ¸·Î »ğÀÔÇÕ´Ï´Ù.<\/span>";
+					var sHTML = "<span style=color:#FF0000;>ì´ë¯¸ì§€ë„ ê°™ì€ ë°©ì‹ìœ¼ë¡œ ì‚½ì…í•©ë‹ˆë‹¤.<\/span>";
 					oEditors.getById["ir1"].exec("PASTE_HTML", [sHTML]);
 				}
 
@@ -130,12 +132,12 @@
 				}
 
 				function submitContents(elClickedObj) {
-					oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);	// ¿¡µğÅÍÀÇ ³»¿ëÀÌ textarea¿¡ Àû¿ëµË´Ï´Ù.
+					oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);	// ì—ë””í„°ì˜ ë‚´ìš©ì´ textareaì— ì ìš©ë©ë‹ˆë‹¤.
 
-					// ¿¡µğÅÍÀÇ ³»¿ë¿¡ ´ëÇÑ °ª °ËÁõÀº ÀÌ°÷¿¡¼­ document.getElementById("ir1").value¸¦ ÀÌ¿ëÇØ¼­ Ã³¸®ÇÏ¸é µË´Ï´Ù.
+					// ì—ë””í„°ì˜ ë‚´ìš©ì— ëŒ€í•œ ê°’ ê²€ì¦ì€ ì´ê³³ì—ì„œ document.getElementById("ir1").valueë¥¼ ì´ìš©í•´ì„œ ì²˜ë¦¬í•˜ë©´ ë©ë‹ˆë‹¤.
 					try {
 						if (document.getElementById("ir1").value == "" || document.getElementById("ir1").value == "<p>&nbsp;</p>") {
-							alert("³»¿ëÀ» ÀÔ·ÂÇÏ¼¼¿ä");
+							alert("ë‚´ìš©ì„ ì…ë ¥í•˜ì„¸ìš”");
 							return;
 						}
 						elClickedObj.action = "memo_write_exec.asp";
@@ -145,7 +147,7 @@
 				}
 
 				function setDefaultFont() {
-					var sDefaultFont = "±Ã¼­";
+					var sDefaultFont = "ê¶ì„œ";
 					var nFontSize = 24;
 					oEditors.getById["ir1"].setDefaultFont(sDefaultFont, nFontSize);
 				}
@@ -156,59 +158,72 @@
 		</main>
 <!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
 	</div>
+
+	<!-- ë ˆì´ì–´ íŒì—… -->
+	<div class="lypp lypp_sarang lypp_member">
+		<header class="lypp_head">
+			<h2 class="h2">íšŒì› ì„ íƒ</h2>
+			<span class="posR">
+				<button type="button" class="btn btn_close"><em>ë‹«ê¸°</em></button>
+			</span>
+		</header>
+		<div class="adm_cont">
+ddd
+		</div>
+	</div>
 </body>
 </html>
 <script>
 
 function fc_chk_byte(frm_nm, ari_max, cnt_view) { 
 //	var frm = document.regForm;
-	var ls_str = frm_nm.value; // ÀÌº¥Æ®°¡ ÀÏ¾î³­ ÄÁÆ®·ÑÀÇ value °ª 
-	var li_str_len = ls_str.length; // ÀüÃ¼±æÀÌ 
+	var ls_str = frm_nm.value; // ì´ë²¤íŠ¸ê°€ ì¼ì–´ë‚œ ì»¨íŠ¸ë¡¤ì˜ value ê°’ 
+	var li_str_len = ls_str.length; // ì „ì²´ê¸¸ì´ 
 
-	// º¯¼öÃÊ±âÈ­ 
-	var li_max = ari_max; // Á¦ÇÑÇÒ ±ÛÀÚ¼ö Å©±â 
-	var i = 0; // for¹®¿¡ »ç¿ë 
-	var li_byte = 0; // ÇÑ±ÛÀÏ°æ¿ì´Â 2 ±×¹Ü¿¡´Â 1À» ´õÇÔ 
-	var li_len = 0; // substringÇÏ±â À§ÇØ¼­ »ç¿ë 
-	var ls_one_char = ""; // ÇÑ±ÛÀÚ¾¿ °Ë»çÇÑ´Ù 
-	var ls_str2 = ""; // ±ÛÀÚ¼ö¸¦ ÃÊ°úÇÏ¸é Á¦ÇÑÇÒ¼ö ±ÛÀÚÀü±îÁö¸¸ º¸¿©ÁØ´Ù. 
+	// ë³€ìˆ˜ì´ˆê¸°í™” 
+	var li_max = ari_max; // ì œí•œí•  ê¸€ììˆ˜ í¬ê¸° 
+	var i = 0; // forë¬¸ì— ì‚¬ìš© 
+	var li_byte = 0; // í•œê¸€ì¼ê²½ìš°ëŠ” 2 ê·¸ë°—ì—ëŠ” 1ì„ ë”í•¨ 
+	var li_len = 0; // substringí•˜ê¸° ìœ„í•´ì„œ ì‚¬ìš© 
+	var ls_one_char = ""; // í•œê¸€ìì”© ê²€ì‚¬í•œë‹¤ 
+	var ls_str2 = ""; // ê¸€ììˆ˜ë¥¼ ì´ˆê³¼í•˜ë©´ ì œí•œí• ìˆ˜ ê¸€ìì „ê¹Œì§€ë§Œ ë³´ì—¬ì¤€ë‹¤. 
 
 	for (i=0; i< li_str_len; i++) { 
-	// ÇÑ±ÛÀÚÃßÃâ 
+	// í•œê¸€ìì¶”ì¶œ 
 		ls_one_char = ls_str.charAt(i); 
 
-		// ÇÑ±ÛÀÌ¸é 2¸¦ ´õÇÑ´Ù. 
+		// í•œê¸€ì´ë©´ 2ë¥¼ ë”í•œë‹¤. 
 		if (escape(ls_one_char).length > 4) { 
 			li_byte += 2; 
 		} 
-		// ±×¹ÜÀÇ °æ¿ì´Â 1À» ´õÇÑ´Ù. 
+		// ê·¸ë°—ì˜ ê²½ìš°ëŠ” 1ì„ ë”í•œë‹¤. 
 		else { 
 			li_byte++; 
 		} 
 
-		// ÀüÃ¼ Å©±â°¡ li_max¸¦ ³ÑÁö¾ÊÀ¸¸é 
+		// ì „ì²´ í¬ê¸°ê°€ li_maxë¥¼ ë„˜ì§€ì•Šìœ¼ë©´ 
 		if (li_byte <= li_max) { 
 			li_len = i + 1; 
 		} 
 	} 
 
-	// ÀüÃ¼±æÀÌ¸¦ ÃÊ°úÇÏ¸é 
+	// ì „ì²´ê¸¸ì´ë¥¼ ì´ˆê³¼í•˜ë©´ 
 	if (li_byte > li_max) { 
-		alert( li_max + "byte ±ÛÀÚ¸¦ ÃÊ°ú ÀÔ·ÂÇÒ¼ö ¾ø½À´Ï´Ù. \n ÃÊ°úµÈ ³»¿ëÀº ÀÚµ¿À¸·Î »èÁ¦ µË´Ï´Ù. "); 
+		alert( li_max + "byte ê¸€ìë¥¼ ì´ˆê³¼ ì…ë ¥í• ìˆ˜ ì—†ìŠµë‹ˆë‹¤. \n ì´ˆê³¼ëœ ë‚´ìš©ì€ ìë™ìœ¼ë¡œ ì‚­ì œ ë©ë‹ˆë‹¤. "); 
 		ls_str2 = ls_str.substr(0, li_len);
 		frm_nm.value = ls_str2; 
 
-		li_str_len = ls_str2.length; // ÀüÃ¼±æÀÌ 
-		li_byte = 0; // ÇÑ±ÛÀÏ°æ¿ì´Â 2 ±×¹Ü¿¡´Â 1À» ´õÇÔ 
+		li_str_len = ls_str2.length; // ì „ì²´ê¸¸ì´ 
+		li_byte = 0; // í•œê¸€ì¼ê²½ìš°ëŠ” 2 ê·¸ë°—ì—ëŠ” 1ì„ ë”í•¨ 
 		for (i=0; i< li_str_len; i++) { 
-		// ÇÑ±ÛÀÚÃßÃâ 
+		// í•œê¸€ìì¶”ì¶œ 
 			ls_one_char = ls_str2.charAt(i); 
 
-			// ÇÑ±ÛÀÌ¸é 2¸¦ ´õÇÑ´Ù. 
+			// í•œê¸€ì´ë©´ 2ë¥¼ ë”í•œë‹¤. 
 			if (escape(ls_one_char).length > 4) { 
 				li_byte += 2; 
 			} 
-			// ±×¹ÜÀÇ °æ¿ì´Â 1À» ´õÇÑ´Ù. 
+			// ê·¸ë°—ì˜ ê²½ìš°ëŠ” 1ì„ ë”í•œë‹¤. 
 			else { 
 				li_byte++; 
 			} 

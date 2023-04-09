@@ -1,8 +1,9 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	stype = Request("stype")
 
-	for i = 1 to Request("memo_seq").count
+	For i = 1 to Request("memo_seq").count
 		memo_seq = Request("memo_seq")(i)
 		If stype = "o" Then
 			va = "fr_stat"
@@ -20,6 +21,6 @@
 	Next
 %>
 <script>
-	alert('»èÁ¦µÇ¾ú½À´Ï´Ù')
+	alert('ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤')
 	top.location.href='memo_list.asp?stype=<%=stype%>';
 </script>

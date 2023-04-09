@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Call checkAdmin()
 
@@ -16,7 +17,7 @@
 
 %>
 <script>
-	alert("º¯°æµÇ¾ú½À´Ï´Ù.");
+	alert("ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	parent.search_form.target = parent.window.name;
 	parent.search_form.action = "cafe_list.asp";
 	parent.search_form.submit();

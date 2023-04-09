@@ -1,6 +1,6 @@
-@charset "euc-kr";
+@charset "utf-8";
 
-/* ¸ÞÀÎ(ÀÎµ¦½º) */
+/* ë©”ì¸(ì¸ë±ìŠ¤) */
 .main_frm { position:relative; }
 .main_frm:after { display:block; content:""; clear:both; }
 .main_frm .main_frm_l { position:relative; float:left; }
@@ -39,7 +39,7 @@
 .main_quick_box li:nth-of-type(2) a .tit:before { content:"\e4e5"; }
 .main_quick_box li:nth-of-type(3) a .tit:before { content:"\f02d"; }
 
-/* ¼­ºê */
+/* ì„œë¸Œ */
 .visual_box { position:relative; min-height:100px; margin-bottom:30px; background:#f4f4f4; overflow:hidden; }
 .side_banner { position:absolute; right:0; top:0; transform:translateX(60px); }
 
@@ -63,22 +63,22 @@
 .sf_mix_1 .sub_frm_l .latest_box + .latest_box { margin-top:30px; }
 .sf_mix_1 .sub_frm_r { width:48%; }
 
-/* Á¦¸ñ */
+/* ì œëª© */
 .cont_tit { position:relative; margin-bottom:20px; padding-bottom:10px; border-bottom:1px solid #ddd; }
 .cont_tit:before { position:absolute; left:0; bottom:-2px; width:250px; height:2px; background:#000; content:""; }
 .cont_tit .posR { position:absolute; right:0; top:50%; transform:translateY(-50%); }
 
 .txt_point { position:relative; padding-left:20px; }
-.txt_point:before { position:absolute; left:0; content:"¡Ø"; }
+.txt_point:before { position:absolute; left:0; content:"â€»"; }
 
-/* °³ÀÎÁ¤º¸ ¼öÁý µ¿ÀÇ */
+/* ê°œì¸ì •ë³´ ìˆ˜ì§‘ ë™ì˜ */
 .agree_box { position:relative; }
 .agree_box > .h3 { margin-bottom:20px; }
 .agree_box > ul { padding:20px; background:#f9f9f9; overflow:hidden; }
 .agree_box > ul > li { position:relative; margin-bottom:10px; padding-left:14px; }
 .agree_box > ul > li:before { position:absolute; left:0; top:7px; width:3px; height:3px; border-radius:50%; background:#999; content:""; }
 
-/* ±Ûº¸±â ±Û¾´ÀÌ */
+/* ê¸€ë³´ê¸° ê¸€ì“´ì´ */
 .wrt_info_box { position:relative; padding:15px 0; border:1px solid #ddd; border-left:0; border-right:0; }
 .wrt_info_box ul { display:flex; flex-flow:row nowrap; width:100%; }
 .wrt_info_box ul > li { padding-right:10px; }
@@ -133,3 +133,9 @@
 .bbs_add_cont .bbs_add_cont_body .bac_box dd:nth-last-of-type(1) { border-bottom:0; }
 
 #sticky_test { position:fixed; right:0; top:0; }
+
+/* ì„¸ì…˜ë§Œë£Œ */
+.section_box { position:relative; text-align:center; line-height:1.5; }
+.section_box:before { position:absolute; display:block; left:50%; top:-63px; font-family:"Font Awesome 6 Free"; font-size:50px; color:#3dd1c0; font-weight:900; content:"\f1da"; transform:translateX(-50%); }
+.section_box p { font-size:20px; color:#333; }
+.section_box .btn { margin-top:20px; }

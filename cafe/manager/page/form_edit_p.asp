@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	menu_seq = Request("menu_seq")
 	Set rs = Conn.Execute("select * from cf_com_form where menu_seq='" & menu_seq & "'")
@@ -22,7 +23,7 @@
 <html>
 <head>
 <link href="/css/bootstrap.min.css" rel="stylesheet">
-<script type="text/javascript" src="/smart/js/HuskyEZCreator.js" charset="euc-kr"></script>
+<script type="text/javascript" src="/smart/js/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <body>
 
@@ -34,57 +35,57 @@ function docInsert(num) {
 }
 </script>
 
-<a href="javascript:" onclick="docInsert(1)">¾ç½Ä1</a> | <a href="javascript:" onclick="docInsert(2)">¾ç½Ä2</a> | <a href="javascript:" onclick="docInsert(3)">¾ç½Ä3</a>
+<a href="javascript:" onclick="docInsert(1)">ì–‘ì‹1</a> | <a href="javascript:" onclick="docInsert(2)">ì–‘ì‹2</a> | <a href="javascript:" onclick="docInsert(3)">ì–‘ì‹3</a>
 <form name="form" method="post" onsubmit="return submitContents(this)">
 <input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 <textarea name="ir1" id="ir1" style="width:100%;height:590px;display:none;" onkeyup="setCookie('ir1',this.value,1)">
 <%=form%>
 </textarea>
 <div style="text-align:center;padding:5px;">
-	<input type="submit" class="btn btn-primary" value="¾à½Äµî·Ï">
-	<input type="button" class="btn btn-default" value="Ã¢´Ý±â" onclick="window.close();">
+	<input type="submit" class="btn btn-primary" value="ì•½ì‹ë“±ë¡">
+	<input type="button" class="btn btn-default" value="ì°½ë‹«ê¸°" onclick="window.close();">
 </div>
 </form>
-<!-- ¾ç½Ä_1 -->
+<!-- ì–‘ì‹_1 -->
 <textarea id="board_template_1" style="display:none;">
 <blockquote>
 	<h1 style="color:#c84205; font-family:verdana; margin:0;">Hi</h1>
 	<p style="width:450px; color:#bababa; font-size:10pt; margin:0;">----------------------------------------------------------------</p>
-	<table cellpadding="0" cellspacing="0" border="0" width="100%" style="text-align:left; color:#999; font-size:9pt; font-family:±¼¸²,gulim;">
+	<table cellpadding="0" cellspacing="0" border="0" width="100%" style="text-align:left; color:#999; font-size:9pt; font-family:êµ´ë¦¼,gulim;">
 	<colgroup>
 		<col width="100" /><col />
 	</colgroup>
 	<tr style="height:30px;">
-		<th>- ÀÌ¸§</th>
-		<td style="color:#666;">±è´ÙÀ½</td>
+		<th>- ì´ë¦„</th>
+		<td style="color:#666;">ê¹€ë‹¤ìŒ</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>- ³ªÀÌ</th>
-		<td style="color:#666;">30 ¼¼</td>
+		<th>- ë‚˜ì´</th>
+		<td style="color:#666;">30 ì„¸</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>- º°¸í</th>
-		<td style="color:#666;">¿ø´õ¿ì¸Õ</td>
+		<th>- ë³„ëª…</th>
+		<td style="color:#666;">ì›ë”ìš°ë¨¼</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>- ¿¬¶ôÃ³</th>
+		<th>- ì—°ë½ì²˜</th>
 		<td style="color:#666;">02-1544-0580</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>- ÁÖ°ÅÁö</th>
-		<td style="color:#666;">¼­¿ï½Ã ¼­ÃÊ±¸ ¼­ÃÊµ¿ 1357-10 Ä«Ä«¿À</td>
+		<th>- ì£¼ê±°ì§€</th>
+		<td style="color:#666;">ì„œìš¸ì‹œ ì„œì´ˆêµ¬ ì„œì´ˆë™ 1357-10 ì¹´ì¹´ì˜¤</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>- º¸À¯Ä«¸Þ¶ó</th>
-		<td style="color:#666;">canon350d, fuji finefix, ÆæÅ¹½º¹Ì½´ÆÛ, sx-70</td>
+		<th>- ë³´ìœ ì¹´ë©”ë¼</th>
+		<td style="color:#666;">canon350d, fuji finefix, íŽœíƒìŠ¤ë¯¸ìŠˆí¼, sx-70</td>
 	</tr>
 	</table>
 	<div style="width:420px; margin-top:10px; background-color:#eee; padding:15px; height:90px; color:#666; font-size:8pt; line-height:160%;">
-		<b>¾È³çÇÏ¼¼¿ä~!</b><br />
-		»çÁøÂï´Â°Ç ÁÁ¾ÆÇÏÁö¸¸ »çÁø¿¡ ´ëÇÑ Áö½ÄÀÌ ¸¹Áö´Â ¾ÊÀº È«±æµ¿ÀÔ´Ï´Ù.<br />
-		»çÁøÀÇ ÀÌ·Ð¿¡ ´ëÇØ ¸¹ÀÌ ¾Ë°í, ¹è¿ì°í, °øÀ¯ÇÏ°í ½Í¾î¼­ »ç¶û¹æ¿¡ °¡ÀÔÇß½À´Ï´Ù.<br />
-		¾ÕÀ¸·Î ÀÌ°÷Àú°÷ ¸¹ÀÌ ´Ù´Ï¸é¼­ ¸¹Àº»çÁø ¿Ã¸±Å×´Ï ±â´ëÇØÁÖ¼¼¿ä.<br /><br />
-		°¨»çÇÏ°í ¹Ý°©½À´Ï´Ù~!!
+		<b>ì•ˆë…•í•˜ì„¸ìš”~!</b><br />
+		ì‚¬ì§„ì°ëŠ”ê±´ ì¢‹ì•„í•˜ì§€ë§Œ ì‚¬ì§„ì— ëŒ€í•œ ì§€ì‹ì´ ë§Žì§€ëŠ” ì•Šì€ í™ê¸¸ë™ìž…ë‹ˆë‹¤.<br />
+		ì‚¬ì§„ì˜ ì´ë¡ ì— ëŒ€í•´ ë§Žì´ ì•Œê³ , ë°°ìš°ê³ , ê³µìœ í•˜ê³  ì‹¶ì–´ì„œ ì‚¬ëž‘ë°©ì— ê°€ìž…í–ˆìŠµë‹ˆë‹¤.<br />
+		ì•žìœ¼ë¡œ ì´ê³³ì €ê³³ ë§Žì´ ë‹¤ë‹ˆë©´ì„œ ë§Žì€ì‚¬ì§„ ì˜¬ë¦´í…Œë‹ˆ ê¸°ëŒ€í•´ì£¼ì„¸ìš”.<br /><br />
+		ê°ì‚¬í•˜ê³  ë°˜ê°‘ìŠµë‹ˆë‹¤~!!
 	</div>
 	<div style="width:450px; margin-top:5px;">
 		<img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/tem_img01.jpg" width="450" height="300" border="0" />
@@ -96,71 +97,71 @@ function docInsert(num) {
 </blockquote>
 </textarea>
 
-<!-- ¾ç½Ä_2 -->
+<!-- ì–‘ì‹_2 -->
 <textarea id="board_template_2" style="display:none;">
 <blockquote>
 	<h1 style="font-family:verdana; margin:0; color:#666;">ORDER</h1>
 	<p style="width:583px; font-size:11pt; margin:5px 0; border-top:1px solid #666; height:1px; overflow:hidden;"></p>
-	<h4 style="margin:15px 0 10px; font-size:10pt; color:#666;">ÁÖ¹®ÀÚ Á¤º¸</h4>
-	<table cellpadding="0" cellspacing="0" border="0" width="100%" style="color:#666; font-size:9pt; font-family:±¼¸²,gulim;">
+	<h4 style="margin:15px 0 10px; font-size:10pt; color:#666;">ì£¼ë¬¸ìž ì •ë³´</h4>
+	<table cellpadding="0" cellspacing="0" border="0" width="100%" style="color:#666; font-size:9pt; font-family:êµ´ë¦¼,gulim;">
 	<colgroup>
 		<col width="110" /><col />
 	</colgroup>
 	<tr style="height:30px;">
-		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout01.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ÀÌ¸§</td>
-		<td style="color:#666;">±è´ÙÀ½</td>
+		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout01.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ì´ë¦„</td>
+		<td style="color:#666;">ê¹€ë‹¤ìŒ</td>
 	</tr>
 	<tr style="height:30px;">
-		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout01.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ¿µ¹®ÀÌ¸§</td>
+		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout01.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ì˜ë¬¸ì´ë¦„</td>
 		<td style="color:#666;">Kim Daum</td>
 	</tr>
 	<tr style="height:30px;">
-		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout01.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> »ç¶û¹æ´Ð³×ÀÓ</td>
+		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout01.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ì‚¬ëž‘ë°©ë‹‰ë„¤ìž„</td>
 		<td style="color:#666;">belle</td>
 	</tr>
 	<tr style="height:30px;">
-		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout01.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ¿ìÆí¹øÈ£</td>
+		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout01.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ìš°íŽ¸ë²ˆí˜¸</td>
 		<td style="color:#666;">471-898</td>
 	</tr>
 	<tr style="height:30px;">
-		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout01.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ¹è¼ÛÁöÁÖ¼Ò</td>
-		<td style="color:#666;">¼­¿ï½Ã ¼­ÃÊ±¸ ¼­ÃÊµ¿ 1357-10 Ä«Ä«¿À</td>
+		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout01.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ë°°ì†¡ì§€ì£¼ì†Œ</td>
+		<td style="color:#666;">ì„œìš¸ì‹œ ì„œì´ˆêµ¬ ì„œì´ˆë™ 1357-10 ì¹´ì¹´ì˜¤</td>
 	</tr>
 	<tr style="height:30px;">
-		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout01.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ¿¬¶ôÃ³</td>
+		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout01.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ì—°ë½ì²˜</td>
 		<td style="color:#666;">02-1544-0580</td>
 	</tr>
 	</table>
 	<p style="width:583px; font-size:11pt; margin:10px 0; border-top:1px dotted #666; height:1px; overflow:hidden;"></p>
-	<h4 style="margin:20px 0 10px; font-size:10pt; color:#666;">ÁÖ¹®³»¿ª</h4>
-	<table cellpadding="0" cellspacing="0" border="0" width="100%" style="color:#666; font-size:9pt; font-family:±¼¸²,gulim;">
+	<h4 style="margin:20px 0 10px; font-size:10pt; color:#666;">ì£¼ë¬¸ë‚´ì—­</h4>
+	<table cellpadding="0" cellspacing="0" border="0" width="100%" style="color:#666; font-size:9pt; font-family:êµ´ë¦¼,gulim;">
 	<colgroup>
 		<col width="110" /><col />
 	</colgroup>
 	<tr style="height:30px;">
-		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout02.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> Á¦Ç°ÀÌ¸§</td>
+		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout02.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ì œí’ˆì´ë¦„</td>
 		<td style="color:#666;">lkea BESTA Bench (beech)</td>
 	</tr>
 	<tr style="height:30px;">
-		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout02.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ¼îÇÎ¸ôÁÖ¼Ò</td>
+		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout02.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ì‡¼í•‘ëª°ì£¼ì†Œ</td>
 		<td style="color:#666;">http://www.ikea.com</td>
 	</tr>
 	<tr style="height:30px;">
-		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout02.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> »çÀÌÁî/¿ë·®</td>
+		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout02.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ì‚¬ì´ì¦ˆ/ìš©ëŸ‰</td>
 		<td style="color:#666;">-</td>
 	</tr>
 	<tr style="height:30px;">
-		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout02.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> »ö»ó/¼ö·®</td>
-		<td style="color:#666;">beech / 1°³</td>
+		<td><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout02.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ìƒ‰ìƒ/ìˆ˜ëŸ‰</td>
+		<td style="color:#666;">beech / 1ê°œ</td>
 	</tr>
 	<tr style="height:10px;"><td></td></tr>
 	<tr>
-		<td style="vertical-align:top;"><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout02.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ±âÅ¸¹®ÀÇ</td>
-		<td style="color:#666; vertical-align:top;">¹ÙÄû´Â ¹ÌÆ÷ÇÔÇÕ´Ï´Ù.<br/><br/>Å×ÀÌºí¿¡ ¾î¿ï¸®´Â ¿¹»Û ¼ÒÇ°µé ¼±¹°·Î ÁÖ¼¼¿ä~~~</td>
+		<td style="vertical-align:top;"><img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/blt_layout02.gif" width="6" height="6" alt="" style="margin-bottom:2px;" /> ê¸°íƒ€ë¬¸ì˜</td>
+		<td style="color:#666; vertical-align:top;">ë°”í€´ëŠ” ë¯¸í¬í•¨í•©ë‹ˆë‹¤.<br/><br/>í…Œì´ë¸”ì— ì–´ìš¸ë¦¬ëŠ” ì˜ˆìœ ì†Œí’ˆë“¤ ì„ ë¬¼ë¡œ ì£¼ì„¸ìš”~~~</td>
 	</tr>
 	</table>
 	<p style="width:583px; font-size:11pt; margin:20px 0; border-top:1px dotted #666; height:1px; overflow:hidden;"></p>
-	<h4 style="margin:15px 0 10px; font-size:10pt; color:#666;">Ã·ºÎ ÀÌ¹ÌÁö</h4>
+	<h4 style="margin:15px 0 10px; font-size:10pt; color:#666;">ì²¨ë¶€ ì´ë¯¸ì§€</h4>
 	<div style="width:583px; text-align:center;">
 		<img src="http://i1.daumcdn.net/cafeimg/cf_img2/bbs2/tem_img02.gif" width="583" height="112" alt="" />
 	</div>
@@ -169,108 +170,108 @@ function docInsert(num) {
 </blockquote>
 </textarea>
 
-<!-- ¾ç½Ä_3 -->
+<!-- ì–‘ì‹_3 -->
 <textarea id="board_template_3" style="display:none;">
 <blockquote>
 	<div style="width:664px; background:#e76048; padding:15px;">
 		<h1 style="margin:0; font-family:arial; font-weight:bold;"><span style="color:#000;">20Q</span><span style="color:#fff;">20A</span></h1>
-		<p style="margin:5px 0 0; font-size:8pt;">Àç¹ÌÀÖ´Â Áú¹®°ú ´äº¯À¸·Î ¼­·Î¿¡ ´ëÇØ¼­ ¾Ë¾Æº¾½Ã´Ù!</p>
+		<p style="margin:5px 0 0; font-size:8pt;">ìž¬ë¯¸ìžˆëŠ” ì§ˆë¬¸ê³¼ ë‹µë³€ìœ¼ë¡œ ì„œë¡œì— ëŒ€í•´ì„œ ì•Œì•„ë´…ì‹œë‹¤!</p>
 	</div>
-	<table cellpadding="0" cellspacing="0" border="0" width="664" style="margin-top:10px; color:#666; font-size:9pt; font-family:±¼¸²,gulim;">
+	<table cellpadding="0" cellspacing="0" border="0" width="664" style="margin-top:10px; color:#666; font-size:9pt; font-family:êµ´ë¦¼,gulim;">
 	<colgroup>
 		<col width="200" style="text-align:right; padding-right:20px; color:#c84205;" /><col style="color:#666;" />
 	</colgroup>
 	<tr style="height:30px;">
-		<th>ÀÌ¸§/³ªÀÌ/¼ºº° ?</th>
-		<td>±è´ÙÀ½/28/¿©ÀÚ</td>
+		<th>ì´ë¦„/ë‚˜ì´/ì„±ë³„ ?</th>
+		<td>ê¹€ë‹¤ìŒ/28/ì—¬ìž</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>ÇöÀç °ÅÁÖÁö¿ª ?</th>
-		<td>¼­¿ï½Ã ¼­ÃÊ±¸</td>
+		<th>í˜„ìž¬ ê±°ì£¼ì§€ì—­ ?</th>
+		<td>ì„œìš¸ì‹œ ì„œì´ˆêµ¬</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>ÇöÀç ÇÏ´ÂÀÏ ?</th>
-		<td>À¥µðÀÚÀÌ³Ê</td>
+		<th>í˜„ìž¬ í•˜ëŠ”ì¼ ?</th>
+		<td>ì›¹ë””ìžì´ë„ˆ</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>ÁÁ¾ÆÇÏ´Â ¾Ö¿Ïµ¿¹° ?</th>
-		<td>°í¾çÀÌ _È¥ÀÚµµ Àß³î¾Æ¼­ ±»ÀÌ ³î¾ÆÁÙ ÇÊ¿ä°¡ ¾øÀ¸´Ï±ñ.</td>
+		<th>ì¢‹ì•„í•˜ëŠ” ì• ì™„ë™ë¬¼ ?</th>
+		<td>ê³ ì–‘ì´ _í˜¼ìžë„ ìž˜ë†€ì•„ì„œ êµ³ì´ ë†€ì•„ì¤„ í•„ìš”ê°€ ì—†ìœ¼ë‹ˆê¹.</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>ÀÎ»ýÀÇ ÁÂ¿ì¸í ?</th>
-		<td>»ý°¢ÇÏ´Â´ë·Î ÀÌ·ç¾îÁø´Ù.</td>
+		<th>ì¸ìƒì˜ ì¢Œìš°ëª… ?</th>
+		<td>ìƒê°í•˜ëŠ”ëŒ€ë¡œ ì´ë£¨ì–´ì§„ë‹¤.</td>
 	</tr>
 	<tr>
 		<th><p style="font-size:11pt; margin:10px 0; border-top:1px dotted #666; height:1px; overflow:hidden;"></p></th>
 		<td></td>
 	</tr>
 	<tr style="height:30px;">
-		<th>·Î¶Ç¿¡ ´çÃ·µÈ´Ù¸é ?</th>
-		<td>¸ÕÀú °ñÇÁGTIÇÑ´ë »Ì¾Æ³õ°í »ý°¢À» ÇØºÁ¾ßÁö...</td>
+		<th>ë¡œë˜ì— ë‹¹ì²¨ëœë‹¤ë©´ ?</th>
+		<td>ë¨¼ì € ê³¨í”„GTIí•œëŒ€ ë½‘ì•„ë†“ê³  ìƒê°ì„ í•´ë´ì•¼ì§€...</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>¼ºÇü¼ö¼úÀ» ÇÑ´Ù¸é ?</th>
-		<td>ÄÚ!ÄÚ¸¸ ¹ÝµíÇØµµ ÀÎ»óÀÌ ´Þ¶óº¸ÀÎ´Ù´Âµ¥...</td>
+		<th>ì„±í˜•ìˆ˜ìˆ ì„ í•œë‹¤ë©´ ?</th>
+		<td>ì½”!ì½”ë§Œ ë°˜ë“¯í•´ë„ ì¸ìƒì´ ë‹¬ë¼ë³´ì¸ë‹¤ëŠ”ë°...</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>´Ù½Ã ÅÂ¾î³­´Ù¸é ?</th>
-		<td>Á» ´õ ÀÚ½Å°¨ÀÖ°Ô »ì¾ÆºÁ¾ßÁö...</td>
+		<th>ë‹¤ì‹œ íƒœì–´ë‚œë‹¤ë©´ ?</th>
+		<td>ì¢€ ë” ìžì‹ ê°ìžˆê²Œ ì‚´ì•„ë´ì•¼ì§€...</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>Áö±Ý ÃÖ°íÀÇ ¼Ò¿øÀº ?</th>
-		<td>»ìÀÌ ÀúÀý·Î ºüÁö´Â°Í. ¤¾¤¾;;</td>
+		<th>ì§€ê¸ˆ ìµœê³ ì˜ ì†Œì›ì€ ?</th>
+		<td>ì‚´ì´ ì €ì ˆë¡œ ë¹ ì§€ëŠ”ê²ƒ. ã…Žã…Ž;;</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>Áö±Ý ÃÖ°íÀÇ °ÆÁ¤Àº ?</th>
-		<td>Á¡½É¿¡ ¹» ¸ÔÀ¸·¯ °¥±î...</td>
+		<th>ì§€ê¸ˆ ìµœê³ ì˜ ê±±ì •ì€ ?</th>
+		<td>ì ì‹¬ì— ë­˜ ë¨¹ìœ¼ëŸ¬ ê°ˆê¹Œ...</td>
 	</tr>
 	<tr>
 		<th><p style="font-size:11pt; margin:10px 0; border-top:1px dotted #666; height:1px; overflow:hidden;"></p></th>
 		<td></td>
 	</tr>
 	<tr style="height:30px;">
-		<th>¿©À¯½Ã°£¿¡´Â ?</th>
-		<td>ÆçÆ®·Î ÀÛÀº ¼ÒÇ°¸¸µé±â.</td>
+		<th>ì—¬ìœ ì‹œê°„ì—ëŠ” ?</th>
+		<td>íŽ íŠ¸ë¡œ ìž‘ì€ ì†Œí’ˆë§Œë“¤ê¸°.</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>ÇÏ°í½ÍÀº ÀÏÀº ?</th>
-		<td>ÄþÆ®¸¦ ¹è¿ö¼­ ³ª¸¸ÀÇ ÀÛ¾÷½Ç ¸¸µé±â</td>
+		<th>í•˜ê³ ì‹¶ì€ ì¼ì€ ?</th>
+		<td>í€¼íŠ¸ë¥¼ ë°°ì›Œì„œ ë‚˜ë§Œì˜ ìž‘ì—…ì‹¤ ë§Œë“¤ê¸°</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>ÁÁ¾ÆÇÏ´Â ¿ä¸®´Â ?</th>
-		<td>±î¸£º¸³ª¶ó ½ºÆÄ°ÔÆ¼</td>
+		<th>ì¢‹ì•„í•˜ëŠ” ìš”ë¦¬ëŠ” ?</th>
+		<td>ê¹Œë¥´ë³´ë‚˜ë¼ ìŠ¤íŒŒê²Œí‹°</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>ÁÁ¾ÆÇÏ´Â ³ª¶ó´Â ?</th>
-		<td>¿µ±¹...ÇÑ¹øÂë °¡º¸°í½Í´Ù.</td>
+		<th>ì¢‹ì•„í•˜ëŠ” ë‚˜ë¼ëŠ” ?</th>
+		<td>ì˜êµ­...í•œë²ˆì¯¤ ê°€ë³´ê³ ì‹¶ë‹¤.</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>ÁÁ¾ÆÇÏ´Â Ã¥Àº ?</th>
-		<td>¿äÁòÀº ¹Ìµå¿¡ ºüÁ®¼­ Ã¥Àº ½Éµå··~</td>
+		<th>ì¢‹ì•„í•˜ëŠ” ì±…ì€ ?</th>
+		<td>ìš”ì¦˜ì€ ë¯¸ë“œì— ë¹ ì ¸ì„œ ì±…ì€ ì‹¬ë“œë ~</td>
 	</tr>
 	<tr>
 		<th><p style="font-size:11pt; margin:10px 0; border-top:1px dotted #666; height:1px; overflow:hidden;"></p></th>
 		<td></td>
 	</tr>
 	<tr style="height:30px;">
-		<th>¿äÁòÀÇ ÁÖµÈ °ü½É»ç´Â ?</th>
-		<td>LOSTÀÇ °á¸»</td>
+		<th>ìš”ì¦˜ì˜ ì£¼ëœ ê´€ì‹¬ì‚¬ëŠ” ?</th>
+		<td>LOSTì˜ ê²°ë§</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>ÀÚ½ÄÀ» ³º´Â´Ù¸é ?</th>
-		<td>¾Ö±³½º·¯¿î µþ°ú µëÁ÷ÇÑ ¾Æµé</td>
+		<th>ìžì‹ì„ ë‚³ëŠ”ë‹¤ë©´ ?</th>
+		<td>ì• êµìŠ¤ëŸ¬ìš´ ë”¸ê³¼ ë“¬ì§í•œ ì•„ë“¤</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>º¸¹°1È£ ?</th>
-		<td>Ã¤ÀºÀÌ!! ³ªÀÇ µþ</td>
+		<th>ë³´ë¬¼1í˜¸ ?</th>
+		<td>ì±„ì€ì´!! ë‚˜ì˜ ë”¸</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>Å¸ÀÓÄ¸½¶¿¡ ³Ö°í½ÍÀº ¹°°ÇÀº ?</th>
-		<td>°¡Á·µé »çÁø</td>
+		<th>íƒ€ìž„ìº¡ìŠì— ë„£ê³ ì‹¶ì€ ë¬¼ê±´ì€ ?</th>
+		<td>ê°€ì¡±ë“¤ ì‚¬ì§„</td>
 	</tr>
 	<tr style="height:30px;">
-		<th>ÈÄ¼Õ¿¡°Ô ³²±â°í ½ÍÀº¸»Àº ?</th>
-		<td>ÀÚ±â°¡ ÇÏ°í½ÍÀº ÀÏÀ» ÇÏ¸é¼­ »ì°í, ±×³ªÀÌ¿¡ ÇÒÀÏÀÌ ÀÖÀ¸´Ï ¿­½ÉÈ÷ »ì°Å¶ó</td>
+		<th>í›„ì†ì—ê²Œ ë‚¨ê¸°ê³  ì‹¶ì€ë§ì€ ?</th>
+		<td>ìžê¸°ê°€ í•˜ê³ ì‹¶ì€ ì¼ì„ í•˜ë©´ì„œ ì‚´ê³ , ê·¸ë‚˜ì´ì— í• ì¼ì´ ìžˆìœ¼ë‹ˆ ì—´ì‹¬ížˆ ì‚´ê±°ë¼</td>
 	</tr>
 	</table>
 	<p style="width:664px; font-size:11pt; margin:10px 0; border-top:3px solid #e76048; height:3px; overflow:hidden;"></p>
@@ -279,21 +280,21 @@ function docInsert(num) {
 
 <textarea id="yield_noti_template" name="noti_template" style="display:none;">
 <div style="padding: 5px 10px 10px 10px">
-	<h3 style="font: bold 14px µ¸¿ò, dotum; color: #6273e8; padding: 0; margin: 0;">»ç¶û¹æ ¾çµµ °øÁö</h3>
-	<div style="font: normal 12px ±¼¸², gulim, tahoma, sans-serif; line-height: 1.6; padding-top: 5px;">
-		¾È³çÇÏ¼¼¿ä? »ç¶û¹æÁö±âÀÔ´Ï´Ù.<br />
-		°³ÀÎÀûÀÎ »çÁ¤À¸·Î ÀÎÇØ ¾Æ·¡¿Í °°ÀÌ »ç¶û¹æÀ» ¾çµµÇÏ·Á°í ÇÕ´Ï´Ù.<br />
-		¾çµµ Àü, <strong>ÃÖ¼Ò 15ÀÏ°£ ÇØ´ç °øÁö</strong>¸¦ ÅëÇØ È¸¿ø ¿©·¯ºÐ²² ¾çµµ°ü·Ã ³»¿ëÀ» ¾È³»ÇØµå¸° ÈÄ,<br />
-		¾Æ·¡ ³¯Â¥¿¡ ¾çµµÃ³¸® µÉ ¿¹Á¤ÀÔ´Ï´Ù.<br /><br/>
+	<h3 style="font: bold 14px ë‹ì›€, dotum; color: #6273e8; padding: 0; margin: 0;">ì‚¬ëž‘ë°© ì–‘ë„ ê³µì§€</h3>
+	<div style="font: normal 12px êµ´ë¦¼, gulim, tahoma, sans-serif; line-height: 1.6; padding-top: 5px;">
+		ì•ˆë…•í•˜ì„¸ìš”? ì‚¬ëž‘ë°©ì§€ê¸°ìž…ë‹ˆë‹¤.<br />
+		ê°œì¸ì ì¸ ì‚¬ì •ìœ¼ë¡œ ì¸í•´ ì•„ëž˜ì™€ ê°™ì´ ì‚¬ëž‘ë°©ì„ ì–‘ë„í•˜ë ¤ê³  í•©ë‹ˆë‹¤.<br />
+		ì–‘ë„ ì „, <strong>ìµœì†Œ 15ì¼ê°„ í•´ë‹¹ ê³µì§€</strong>ë¥¼ í†µí•´ íšŒì› ì—¬ëŸ¬ë¶„ê»˜ ì–‘ë„ê´€ë ¨ ë‚´ìš©ì„ ì•ˆë‚´í•´ë“œë¦° í›„,<br />
+		ì•„ëž˜ ë‚ ì§œì— ì–‘ë„ì²˜ë¦¬ ë  ì˜ˆì •ìž…ë‹ˆë‹¤.<br /><br/>
 		<div style="background: #f9f9f9; padding: 10px;">
 		<ol>
-			<li><strong>¾çµµ ¿¹Á¤ÀÏ:</strong> $YIELDDT<br /><br /></li>
-			<li><strong>¾çµµ¹ÞÀ» È¸¿ø Á¤º¸</strong><br />
+			<li><strong>ì–‘ë„ ì˜ˆì •ì¼:</strong> $YIELDDT<br /><br /></li>
+			<li><strong>ì–‘ë„ë°›ì„ íšŒì› ì •ë³´</strong><br />
 				<div style="padding-left: 10px; line-height: 1.6;">
-				<strong>- ´Ð³×ÀÓ (ID):</strong> °Ü¿ïÇ®ÀÙ ($DAUMID)<br /><br />
+				<strong>- ë‹‰ë„¤ìž„ (ID):</strong> ê²¨ìš¸í’€ìžŽ ($DAUMID)<br /><br />
 				</div>
 			</li>
-			<li><strong>¾çµµ »çÀ¯: </strong>&nbsp;	</li>
+			<li><strong>ì–‘ë„ ì‚¬ìœ : </strong>&nbsp;	</li>
 		</ol>
 		</div>
 			</div>
@@ -302,16 +303,16 @@ function docInsert(num) {
 
 <textarea id="close_noti_template" name="noti_template" style="display:none;">
 <div style="padding: 5px 10px 10px 10px">
-	<h3 style="font: bold 14px µ¸¿ò, dotum; color: #6273e8; padding: 0; margin: 0;">»ç¶û¹æ Æó¼â °øÁö</h3>
-	<div style="font: normal 12px ±¼¸², gulim, tahoma, sans-serif; line-height: 1.6; padding-top: 5px;">
-		¾È³çÇÏ¼¼¿ä? »ç¶û¹æÁö±âÀÔ´Ï´Ù.<br />
-		°³ÀÎÀûÀÎ »çÁ¤À¸·Î ÀÎÇØ »ç¶û¹æÀ» Æó¼âÇÏ·Á°í ÇÕ´Ï´Ù.<br />
+	<h3 style="font: bold 14px ë‹ì›€, dotum; color: #6273e8; padding: 0; margin: 0;">ì‚¬ëž‘ë°© íì‡„ ê³µì§€</h3>
+	<div style="font: normal 12px êµ´ë¦¼, gulim, tahoma, sans-serif; line-height: 1.6; padding-top: 5px;">
+		ì•ˆë…•í•˜ì„¸ìš”? ì‚¬ëž‘ë°©ì§€ê¸°ìž…ë‹ˆë‹¤.<br />
+		ê°œì¸ì ì¸ ì‚¬ì •ìœ¼ë¡œ ì¸í•´ ì‚¬ëž‘ë°©ì„ íì‡„í•˜ë ¤ê³  í•©ë‹ˆë‹¤.<br />
 		<br />
-		ÇÊ¿äÇÏ½Å ÀÚ·á°¡ ÀÖÀ¸¸é  Æó¼â ¿¹Á¤ÀÏ Àü¿¡ ¹Ì¸® ÀúÀåÇØ ÁÖ¼¼¿ä.	<br /><br/>
+		í•„ìš”í•˜ì‹  ìžë£Œê°€ ìžˆìœ¼ë©´  íì‡„ ì˜ˆì •ì¼ ì „ì— ë¯¸ë¦¬ ì €ìž¥í•´ ì£¼ì„¸ìš”.	<br /><br/>
 
 		<div style="background: #f9f9f9; padding: 10px;">
 		<ul>
-			<li><strong>Æó¼â ¿¹Á¤ÀÏ:</strong> $CLOSEDT ÀÌÈÄ</li>
+			<li><strong>íì‡„ ì˜ˆì •ì¼:</strong> $CLOSEDT ì´í›„</li>
 		</ul>
 		</div>
 			</div>
@@ -320,30 +321,30 @@ function docInsert(num) {
 
 <textarea id="delegation_noti_template" name="noti_template" style="display:none;">
     <div style="padding: 5px 10px 10px 10px">
-        <h3 style="font: bold 14px µ¸¿ò, dotum; color: #6273e8; padding: 0; margin: 0;">»ç¶û¹æ À§ÀÓ °øÁö</h3>
-        <div style="font: normal 12px ±¼¸², gulim, tahoma, sans-serif; line-height: 1.6; padding-top: 5px;" id="delegationContent">
-            ¾È³çÇÏ¼¼¿ä? Çö »ç¶û¹æÁö±â°¡ 3°³¿ù ÀÌ»ó ºÎÀçÇÏ¿© Á¤»óÀûÀÎ »ç¶û¹æ Áö¼ÓÀÌ ºÒ°¡´ÉÇÏ´Ù°í ÆÇ´Ü,<br />
-            ¾Æ·¡ ±âÀçÇÏ´Â »çÀ¯¿Í °°ÀÌ »ç¶û¹æÁö±âÁ÷À» À§ÀÓ¹Þ¾Æ »ç¶û¹æÀ» ¿î¿µÇØ ³ª°¡°íÀÚ ÇÕ´Ï´Ù. <br />
-            À§ÀÓ Àü, ÃÖ¼Ò 15ÀÏ°£ ÇØ´ç °øÁö¸¦ ÅëÇØ È¸¿ø ¿©·¯ºÐ²² À§ÀÓ °ü·Ã ³»¿ëÀ» ¾È³»ÇØµå¸° µÚ Âù/¹Ý ÅõÇ¥¸¦ °ÅÄ¡°Ô µË´Ï´Ù. <br />
-            ÀÌ¶§ ÀüÃ¼ ÅõÇ¥ ¼ö ´ëºñ Âù¼º ºñÀ²ÀÌ 60% ÀÌ»óÀÏ °æ¿ì ¾Æ·¡ ³¯Â¥¿¡ À§ÀÓÃ³¸®µË´Ï´Ù.<br />
+        <h3 style="font: bold 14px ë‹ì›€, dotum; color: #6273e8; padding: 0; margin: 0;">ì‚¬ëž‘ë°© ìœ„ìž„ ê³µì§€</h3>
+        <div style="font: normal 12px êµ´ë¦¼, gulim, tahoma, sans-serif; line-height: 1.6; padding-top: 5px;" id="delegationContent">
+            ì•ˆë…•í•˜ì„¸ìš”? í˜„ ì‚¬ëž‘ë°©ì§€ê¸°ê°€ 3ê°œì›” ì´ìƒ ë¶€ìž¬í•˜ì—¬ ì •ìƒì ì¸ ì‚¬ëž‘ë°© ì§€ì†ì´ ë¶ˆê°€ëŠ¥í•˜ë‹¤ê³  íŒë‹¨,<br />
+            ì•„ëž˜ ê¸°ìž¬í•˜ëŠ” ì‚¬ìœ ì™€ ê°™ì´ ì‚¬ëž‘ë°©ì§€ê¸°ì§ì„ ìœ„ìž„ë°›ì•„ ì‚¬ëž‘ë°©ì„ ìš´ì˜í•´ ë‚˜ê°€ê³ ìž í•©ë‹ˆë‹¤. <br />
+            ìœ„ìž„ ì „, ìµœì†Œ 15ì¼ê°„ í•´ë‹¹ ê³µì§€ë¥¼ í†µí•´ íšŒì› ì—¬ëŸ¬ë¶„ê»˜ ìœ„ìž„ ê´€ë ¨ ë‚´ìš©ì„ ì•ˆë‚´í•´ë“œë¦° ë’¤ ì°¬/ë°˜ íˆ¬í‘œë¥¼ ê±°ì¹˜ê²Œ ë©ë‹ˆë‹¤. <br />
+            ì´ë•Œ ì „ì²´ íˆ¬í‘œ ìˆ˜ ëŒ€ë¹„ ì°¬ì„± ë¹„ìœ¨ì´ 60% ì´ìƒì¼ ê²½ìš° ì•„ëž˜ ë‚ ì§œì— ìœ„ìž„ì²˜ë¦¬ë©ë‹ˆë‹¤.<br />
             <br />
-            ÅõÇ¥°¡ °¡°áµÉ °æ¿ì ÃÖÁ¾ °ËÅä°¡ ÁøÇàµÇ¹Ç·Î, <br />
-            ÅõÇ¥Á¾·á ÈÄ ½ÇÁ¦ À§ÀÓÃ³¸®´Â ±Ù¹«ÀÏ ±âÁØÀ¸·Î 7~10ÀÏ Á¤µµ ´Ê¾îÁú ¼ö ÀÖ½À´Ï´Ù.<br />
+            íˆ¬í‘œê°€ ê°€ê²°ë  ê²½ìš° ìµœì¢… ê²€í† ê°€ ì§„í–‰ë˜ë¯€ë¡œ, <br />
+            íˆ¬í‘œì¢…ë£Œ í›„ ì‹¤ì œ ìœ„ìž„ì²˜ë¦¬ëŠ” ê·¼ë¬´ì¼ ê¸°ì¤€ìœ¼ë¡œ 7~10ì¼ ì •ë„ ëŠ¦ì–´ì§ˆ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.<br />
             <br />
-            (* ¹Ý´ë ºñÀ²ÀÌ 40% ÀÌ»óÀÏ °æ¿ì ÇØ´ç À§ÀÓ°ÇÀº ¹«»êµÇ¿À´Ï ÀÌ¿ë¿¡ Âü°í ºÎÅ¹µå¸³´Ï´Ù.)<br />
+            (* ë°˜ëŒ€ ë¹„ìœ¨ì´ 40% ì´ìƒì¼ ê²½ìš° í•´ë‹¹ ìœ„ìž„ê±´ì€ ë¬´ì‚°ë˜ì˜¤ë‹ˆ ì´ìš©ì— ì°¸ê³  ë¶€íƒë“œë¦½ë‹ˆë‹¤.)<br />
             <br /><br/>
 
             <div style="background: #f9f9f9; padding: 10px;">
                 <ul>
-                    <li><strong>À§ÀÓ ¿¹Á¤ÀÏ:</strong> </li>
-                    <li><strong>À§ÀÓ¹ÞÀ» È¸¿ø Á¤º¸</strong><br />
+                    <li><strong>ìœ„ìž„ ì˜ˆì •ì¼:</strong> </li>
+                    <li><strong>ìœ„ìž„ë°›ì„ íšŒì› ì •ë³´</strong><br />
                         <div style="padding-left: 10px; line-height: 1.6;">
-                            <strong>- ´Ð³×ÀÓ (ID):</strong>  ()<br />
-                            <strong>- »ç¶û¹æ °¡ÀÔÀÏ/¹æ¹®ÀÏ ¼ö:</strong><br />
-                            <strong>- ÀÛ¼º±Û ¼ö/ÀÛ¼º´ñ±Û :</strong><br /><br />
+                            <strong>- ë‹‰ë„¤ìž„ (ID):</strong>  ()<br />
+                            <strong>- ì‚¬ëž‘ë°© ê°€ìž…ì¼/ë°©ë¬¸ì¼ ìˆ˜:</strong><br />
+                            <strong>- ìž‘ì„±ê¸€ ìˆ˜/ìž‘ì„±ëŒ“ê¸€ :</strong><br /><br />
                         </div>
                     </li>
-                    <li><strong>À§ÀÓ¹Þ°íÀÚ ÇÏ´Â »çÀ¯:</strong>	</li>
+                    <li><strong>ìœ„ìž„ë°›ê³ ìž í•˜ëŠ” ì‚¬ìœ :</strong>	</li>
                 </ul>
             </div>
             <br />
@@ -358,7 +359,7 @@ function docInsert(num) {
 <script>
 var oEditors = [];
 
-// Ãß°¡ ±Û²Ã ¸ñ·Ï
+// ì¶”ê°€ ê¸€ê¼´ ëª©ë¡
 //var aAdditionalFontSet = [["MS UI Gothic", "MS UI Gothic"], ["Comic Sans MS", "Comic Sans MS"],["TEST","TEST"]];
 
 nhn.husky.EZCreator.createInIFrame({
@@ -366,17 +367,17 @@ nhn.husky.EZCreator.createInIFrame({
 	elPlaceHolder: "ir1",
 	sSkinURI: "/smart/SmartEditor2Skin.html",
 	htParams : {
-		bUseToolbar : true,				// Åø¹Ù »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-		bUseVerticalResizer : true,		// ÀÔ·ÂÃ¢ Å©±â Á¶Àý¹Ù »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-		bUseModeChanger : true,			// ¸ðµå ÅÇ(Editor | HTML | TEXT) »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-		//aAdditionalFontList : aAdditionalFontSet,		// Ãß°¡ ±Û²Ã ¸ñ·Ï
+		bUseToolbar : true,				// íˆ´ë°” ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+		bUseVerticalResizer : true,		// ìž…ë ¥ì°½ í¬ê¸° ì¡°ì ˆë°” ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+		bUseModeChanger : true,			// ëª¨ë“œ íƒ­(Editor | HTML | TEXT) ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+		//aAdditionalFontList : aAdditionalFontSet,		// ì¶”ê°€ ê¸€ê¼´ ëª©ë¡
 		fOnBeforeUnload : function() {
-			//alert("¿Ï·á!")
+			//alert("ì™„ë£Œ!")
 		}
 	}, //boolean
 	fOnAppLoad : function() {
-		//¿¹Á¦ ÄÚµå
-		//oEditors.getById["ir1"].exec("PASTE_HTML", ["·ÎµùÀÌ ¿Ï·áµÈ ÈÄ¿¡ º»¹®¿¡ »ðÀÔµÇ´Â textÀÔ´Ï´Ù."])
+		//ì˜ˆì œ ì½”ë“œ
+		//oEditors.getById["ir1"].exec("PASTE_HTML", ["ë¡œë”©ì´ ì™„ë£Œëœ í›„ì— ë³¸ë¬¸ì— ì‚½ìž…ë˜ëŠ” textìž…ë‹ˆë‹¤."])
 	},
 	fCreator: "createSEditor2"
 })

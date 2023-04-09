@@ -1,7 +1,8 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	freePage = True
 %>
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
 	checkCafePage(cafe_id)
@@ -17,7 +18,7 @@
 	rs.Open Sql, conn, 3, 1
 
 	If Not(user_id = rs("user_id") Or cafe_ad_level = 10) Then
-		Response.Write "<script>alert('´ñ±Û ÀÛ¼ºÀÚ°¡ ¾Æ´Õ´Ï´Ù');window.close();</script>"
+		Response.Write "<script>alert('ëŒ“ê¸€ ì‘ì„±ìê°€ ì•„ë‹™ë‹ˆë‹¤');window.close();</script>"
 		Response.end
 	End If
 	rs.close

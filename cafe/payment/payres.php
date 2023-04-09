@@ -7,7 +7,7 @@ include_once("./_head.php");
 <script language='javascript' id='getType'></script>
 
 <table border="0" cellspacing="0" cellpadding="0">
-<!-- Å¸ÀÌÆ² -->
+<!-- íƒ€ì´í‹€ -->
 <tr>
 	<td>
 		<table border="0" cellspacing="0" cellpadding="0">
@@ -17,7 +17,7 @@ include_once("./_head.php");
 				<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td><img src="image/home.gif" border="0" alt=""></td>
-					<td style="padding:0px 0px 0px 0px;font-size:12px;color:#4d4a46">&nbsp;&nbsp;Home > °áÁ¦ÇÏ±â > <font color="#02427e"><b>Ä«µå°áÁ¦</b></font></td>
+					<td style="padding:0px 0px 0px 0px;font-size:12px;color:#4d4a46">&nbsp;&nbsp;Home > ê²°ì œí•˜ê¸° > <font color="#02427e"><b>ì¹´ë“œê²°ì œ</b></font></td>
 				</tr>
 				</table>
 			</td>
@@ -25,27 +25,27 @@ include_once("./_head.php");
 		</table>
 	</td>
 </tr>
-<!-- /Å¸ÀÌÆ² -->
+<!-- /íƒ€ì´í‹€ -->
 <tr>
 	<td height="50"></td>
 </tr>
-<!-- ³»¿ë -->
+<!-- ë‚´ìš© -->
 <!--################################################################################-->
-<!--¾Æ·¡´Â °áÁ¦´Ü ¼Ò½ºÀÛ¾÷2012-05-23 Lee-->
+<!--ì•„ëž˜ëŠ” ê²°ì œë‹¨ ì†ŒìŠ¤ìž‘ì—…2012-05-23 Lee-->
 <?php
 
     /*
-     * [ÃÖÁ¾°áÁ¦¿äÃ» ÆäÀÌÁö(STEP2-2)]
+     * [ìµœì¢…ê²°ì œìš”ì²­ íŽ˜ì´ì§€(STEP2-2)]
      *
-     * LGÅÚ·¹ÄÞÀ¸·Î ºÎÅÍ ³»·Á¹ÞÀº LGD_PAYKEY(ÀÎÁõKey)¸¦ °¡Áö°í ÃÖÁ¾ °áÁ¦¿äÃ».(ÆÄ¶ó¹ÌÅÍ Àü´Þ½Ã POST¸¦ »ç¿ëÇÏ¼¼¿ä)
+     * LGí…”ë ˆì½¤ìœ¼ë¡œ ë¶€í„° ë‚´ë ¤ë°›ì€ LGD_PAYKEY(ì¸ì¦Key)ë¥¼ ê°€ì§€ê³  ìµœì¢… ê²°ì œìš”ì²­.(íŒŒë¼ë¯¸í„° ì „ë‹¬ì‹œ POSTë¥¼ ì‚¬ìš©í•˜ì„¸ìš”)
      */
 
-	$configPath = "/home/gibds.co.kr/www/payment/lgdacom"; //LGÅÚ·¹ÄÞ¿¡¼­ Á¦°øÇÑ È¯°æÆÄÀÏ("/conf/lgdacom.conf,/conf/mall.conf") À§Ä¡ ÁöÁ¤. 
+	$configPath = "/home/gibds.co.kr/www/payment/lgdacom"; //LGí…”ë ˆì½¤ì—ì„œ ì œê³µí•œ í™˜ê²½íŒŒì¼("/conf/lgdacom.conf,/conf/mall.conf") ìœ„ì¹˜ ì§€ì •. 
 
     /*
      *************************************************
-     * 1.ÃÖÁ¾°áÁ¦ ¿äÃ» - BEGIN
-     *  (´Ü, ÃÖÁ¾ ±Ý¾×Ã¼Å©¸¦ ¿øÇÏ½Ã´Â °æ¿ì ±Ý¾×Ã¼Å© ºÎºÐ ÁÖ¼®À» Á¦°Å ÇÏ½Ã¸é µË´Ï´Ù.)
+     * 1.ìµœì¢…ê²°ì œ ìš”ì²­ - BEGIN
+     *  (ë‹¨, ìµœì¢… ê¸ˆì•¡ì²´í¬ë¥¼ ì›í•˜ì‹œëŠ” ê²½ìš° ê¸ˆì•¡ì²´í¬ ë¶€ë¶„ ì£¼ì„ì„ ì œê±° í•˜ì‹œë©´ ë©ë‹ˆë‹¤.)
      *************************************************
      */
     $CST_PLATFORM               = $HTTP_POST_VARS["CST_PLATFORM"];
@@ -61,21 +61,21 @@ include_once("./_head.php");
     $xpay->Set("LGD_TXNAME", "PaymentByKey");
     $xpay->Set("LGD_PAYKEY", $LGD_PAYKEY);
     
-    //±Ý¾×À» Ã¼Å©ÇÏ½Ã±â ¿øÇÏ´Â °æ¿ì ¾Æ·¡ ÁÖ¼®À» Ç®¾î¼­ ÀÌ¿ëÇÏ½Ê½Ã¿ä.
-	//$DB_AMOUNT = "DB³ª ¼¼¼Ç¿¡¼­ °¡Á®¿Â ±Ý¾×"; //¹Ýµå½Ã À§º¯Á¶°¡ ºÒ°¡´ÉÇÑ °÷(DB³ª ¼¼¼Ç)¿¡¼­ ±Ý¾×À» °¡Á®¿À½Ê½Ã¿ä.
+    //ê¸ˆì•¡ì„ ì²´í¬í•˜ì‹œê¸° ì›í•˜ëŠ” ê²½ìš° ì•„ëž˜ ì£¼ì„ì„ í’€ì–´ì„œ ì´ìš©í•˜ì‹­ì‹œìš”.
+	//$DB_AMOUNT = "DBë‚˜ ì„¸ì…˜ì—ì„œ ê°€ì ¸ì˜¨ ê¸ˆì•¡"; //ë°˜ë“œì‹œ ìœ„ë³€ì¡°ê°€ ë¶ˆê°€ëŠ¥í•œ ê³³(DBë‚˜ ì„¸ì…˜)ì—ì„œ ê¸ˆì•¡ì„ ê°€ì ¸ì˜¤ì‹­ì‹œìš”.
 	//$xpay->Set("LGD_AMOUNTCHECKYN", "Y");
 	//$xpay->Set("LGD_AMOUNT", $DB_AMOUNT);
 	    
     /*
      *************************************************
-     * 1.ÃÖÁ¾°áÁ¦ ¿äÃ»(¼öÁ¤ÇÏÁö ¸¶¼¼¿ä) - END
+     * 1.ìµœì¢…ê²°ì œ ìš”ì²­(ìˆ˜ì •í•˜ì§€ ë§ˆì„¸ìš”) - END
      *************************************************
      */
 
     /*
-     * 2. ÃÖÁ¾°áÁ¦ ¿äÃ» °á°úÃ³¸®
+     * 2. ìµœì¢…ê²°ì œ ìš”ì²­ ê²°ê³¼ì²˜ë¦¬
      *
-     * ÃÖÁ¾ °áÁ¦¿äÃ» °á°ú ¸®ÅÏ ÆÄ¶ó¹ÌÅÍ´Â ¿¬µ¿¸Þ´º¾óÀ» Âü°íÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.
+     * ìµœì¢… ê²°ì œìš”ì²­ ê²°ê³¼ ë¦¬í„´ íŒŒë¼ë¯¸í„°ëŠ” ì—°ë™ë©”ë‰´ì–¼ì„ ì°¸ê³ í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤.
      */
  ?>
 
@@ -103,21 +103,21 @@ include_once("./_head.php");
 <?
 //setlocale(LC_CTYPE, 'ko_KR.utf8');
 	if ($xpay->TX()) {
-        //1)°áÁ¦°á°ú È­¸éÃ³¸®(¼º°ø,½ÇÆÐ °á°ú Ã³¸®¸¦ ÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.)
+        //1)ê²°ì œê²°ê³¼ í™”ë©´ì²˜ë¦¬(ì„±ê³µ,ì‹¤íŒ¨ ê²°ê³¼ ì²˜ë¦¬ë¥¼ í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤.)
         /*
-		echo "°áÁ¦¿äÃ»ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.  <br>";
+		echo "ê²°ì œìš”ì²­ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.  <br>";
         echo "TX Response_code = " . $xpay->Response_Code() . "<br>";
         echo "TX Response_msg = " . $xpay->Response_Msg() . "<p>";
 		
-        echo "°Å·¡¹øÈ£ : " . $xpay->Response("LGD_TID",0) . "<br>";
-        echo "»óÁ¡¾ÆÀÌµð : " . $xpay->Response("LGD_MID",0) . "<br>";
+        echo "ê±°ëž˜ë²ˆí˜¸ : " . $xpay->Response("LGD_TID",0) . "<br>";
+        echo "ìƒì ì•„ì´ë”” : " . $xpay->Response("LGD_MID",0) . "<br>";
         */
 
-		//echo "»óÁ¡ÁÖ¹®¹øÈ£ : " . $xpay->Response("LGD_OID",0) . "<br>";
+		//echo "ìƒì ì£¼ë¬¸ë²ˆí˜¸ : " . $xpay->Response("LGD_OID",0) . "<br>";
         /*
-		echo "°áÁ¦±Ý¾× : " . $xpay->Response("LGD_AMOUNT",0) . "<br>";
-        echo "°á°úÄÚµå : " . $xpay->Response("LGD_RESPCODE",0) . "<br>";
-        echo "°á°ú¸Þ¼¼Áö : " . $xpay->Response("LGD_RESPMSG",0) . "<p>";
+		echo "ê²°ì œê¸ˆì•¡ : " . $xpay->Response("LGD_AMOUNT",0) . "<br>";
+        echo "ê²°ê³¼ì½”ë“œ : " . $xpay->Response("LGD_RESPCODE",0) . "<br>";
+        echo "ê²°ê³¼ë©”ì„¸ì§€ : " . $xpay->Response("LGD_RESPMSG",0) . "<p>";
         
         $keys = $xpay->Response_Names();
         foreach($keys as $name) {
@@ -127,43 +127,43 @@ include_once("./_head.php");
         echo "<p>";
         
         if( "0000" == $xpay->Response_Code() ) {
-         	//ÃÖÁ¾°áÁ¦¿äÃ» °á°ú ¼º°ø DBÃ³¸®
-           	//echo "ÃÖÁ¾°áÁ¦¿äÃ» °á°ú ¼º°ø DBÃ³¸®ÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.<br>";
+         	//ìµœì¢…ê²°ì œìš”ì²­ ê²°ê³¼ ì„±ê³µ DBì²˜ë¦¬
+           	//echo "ìµœì¢…ê²°ì œìš”ì²­ ê²°ê³¼ ì„±ê³µ DBì²˜ë¦¬í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤.<br>";
 
-			$isDBOK = true; //DBÃ³¸® ½ÇÆÐ½Ã false·Î º¯°æÇØ ÁÖ¼¼¿ä.
+			$isDBOK = true; //DBì²˜ë¦¬ ì‹¤íŒ¨ì‹œ falseë¡œ ë³€ê²½í•´ ì£¼ì„¸ìš”.
 			if($isDBOK ) {
-				echo "Á¤»óÀûÀ¸·Î °áÁ¦°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù..<br><br>";
+				echo "ì •ìƒì ìœ¼ë¡œ ê²°ì œê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤..<br><br>";
 				echo "<meta http-equiv='Refresh' content=\"10;url='./index.htm'\">";
-				echo "10ÃÊÈÄ¿¡ °áÁ¦ÃÊ±âÈ­¸éÀ¸·Î ÀÌµ¿ÇÕ´Ï´Ù.<br>";
+				echo "10ì´ˆí›„ì— ê²°ì œì´ˆê¸°í™”ë©´ìœ¼ë¡œ ì´ë™í•©ë‹ˆë‹¤.<br>";
 			}
-            //ÃÖÁ¾°áÁ¦¿äÃ» °á°ú ¼º°ø DBÃ³¸® ½ÇÆÐ½Ã Rollback Ã³¸®
+            //ìµœì¢…ê²°ì œìš”ì²­ ê²°ê³¼ ì„±ê³µ DBì²˜ë¦¬ ì‹¤íŒ¨ì‹œ Rollback ì²˜ë¦¬
           	
           	if( !$isDBOK ) {
            		echo "<p>";
-           		$xpay->Rollback("»óÁ¡ DBÃ³¸® ½ÇÆÐ·Î ÀÎÇÏ¿© Rollback Ã³¸® [TID:" . $xpay->Response("LGD_TID",0) . ",MID:" . $xpay->Response("LGD_MID",0) . ",OID:" . $xpay->Response("LGD_OID",0) . "]");            		            		
+           		$xpay->Rollback("ìƒì  DBì²˜ë¦¬ ì‹¤íŒ¨ë¡œ ì¸í•˜ì—¬ Rollback ì²˜ë¦¬ [TID:" . $xpay->Response("LGD_TID",0) . ",MID:" . $xpay->Response("LGD_MID",0) . ",OID:" . $xpay->Response("LGD_OID",0) . "]");            		            		
             		
                 echo "TX Rollback Response_code = " . $xpay->Response_Code() . "<br>";
                 echo "TX Rollback Response_msg = " . $xpay->Response_Msg() . "<p>";
             		
                 if( "0000" == $xpay->Response_Code() ) {
-                  	echo "ÀÚµ¿Ãë¼Ò°¡ Á¤»óÀûÀ¸·Î ¿Ï·á µÇ¾ú½À´Ï´Ù.<br>";
+                  	echo "ìžë™ì·¨ì†Œê°€ ì •ìƒì ìœ¼ë¡œ ì™„ë£Œ ë˜ì—ˆìŠµë‹ˆë‹¤.<br>";
                 }else{
-          			echo "ÀÚµ¿Ãë¼Ò°¡ Á¤»óÀûÀ¸·Î Ã³¸®µÇÁö ¾Ê¾Ò½À´Ï´Ù.<br>";
+          			echo "ìžë™ì·¨ì†Œê°€ ì •ìƒì ìœ¼ë¡œ ì²˜ë¦¬ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.<br>";
                 }
           	}            	
         }else{
-          	//ÃÖÁ¾°áÁ¦¿äÃ» °á°ú ½ÇÆÐ DBÃ³¸®
-         	echo "ÃÖÁ¾°áÁ¦¿äÃ» °á°ú ½ÇÆÐ DBÃ³¸®ÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.<br>";            	            
+          	//ìµœì¢…ê²°ì œìš”ì²­ ê²°ê³¼ ì‹¤íŒ¨ DBì²˜ë¦¬
+         	echo "ìµœì¢…ê²°ì œìš”ì²­ ê²°ê³¼ ì‹¤íŒ¨ DBì²˜ë¦¬í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤.<br>";            	            
         }
 		  
     }else {
-        //2)API ¿äÃ»½ÇÆÐ È­¸éÃ³¸®
-        echo "°áÁ¦¿äÃ»ÀÌ ½ÇÆÐÇÏ¿´½À´Ï´Ù.  <br>";
+        //2)API ìš”ì²­ì‹¤íŒ¨ í™”ë©´ì²˜ë¦¬
+        echo "ê²°ì œìš”ì²­ì´ ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.  <br>";
         echo "TX Response_code = " . $xpay->Response_Code() . "<br>";
         echo "TX Response_msg = " . $xpay->Response_Msg() . "<p>";
             
-        //ÃÖÁ¾°áÁ¦¿äÃ» °á°ú ½ÇÆÐ DBÃ³¸®
-        echo "ÃÖÁ¾°áÁ¦¿äÃ» °á°ú ½ÇÆÐ DBÃ³¸®ÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.<br>";            	                        
+        //ìµœì¢…ê²°ì œìš”ì²­ ê²°ê³¼ ì‹¤íŒ¨ DBì²˜ë¦¬
+        echo "ìµœì¢…ê²°ì œìš”ì²­ ê²°ê³¼ ì‹¤íŒ¨ DBì²˜ë¦¬í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤.<br>";            	                        
     }
 ?>
 						
@@ -178,15 +178,15 @@ include_once("./_head.php");
 </tr>
 </table>
 
-<!-- °áÁ¦ ¸ðµâ END -->
+<!-- ê²°ì œ ëª¨ë“ˆ END -->
 <!--################################################################################-->
 <tr>
 	<td height="150"></td>
 </tr>
-<!--³»¿ë³¡-->
+<!--ë‚´ìš©ë-->
 <tr>
 	<td></td>
 </tr>
-<!-- /³»¿ë -->
+<!-- /ë‚´ìš© -->
 </table>
 <?php include "./_tail.php";?>

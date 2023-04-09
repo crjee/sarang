@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
 
@@ -37,7 +38,7 @@
 		sql = sql & "  where cafe_id = '" & cafe_id & "'"
 		Conn.Execute(sql)
 
-		msgonly "ÀúÀå µÇ¾ú½À´Ï´Ù."
+		msgonly "ì €ìž¥ ë˜ì—ˆìŠµë‹ˆë‹¤."
 	End If
 
 	Set conf = Conn.Execute("select * from cf_cafe where cafe_id = '" & cafe_id & "'")
@@ -45,10 +46,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>±âº»Á¤º¸ °ü¸® : »ç¶û¹æ °ü¸®</title>
+	<title>ê¸°ë³¸ì •ë³´ ê´€ë¦¬ : ì‚¬ëž‘ë°© ê´€ë¦¬</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -58,27 +59,27 @@
 <body>
 	<div id="wrap">
 		<header id="adm_head">
-			<h1><a href="/">RETS °æÀÎ<sub>»ç¶û¹æ °ü¸®</sub></a></h1>
+			<h1><a href="/">RETS ê²½ì¸<sub>ì‚¬ëž‘ë°© ê´€ë¦¬</sub></a></h1>
 		</header>
 		<nav id="adm_nav">
 <!--#include virtual="/cafe/manager/manager_left_inc.asp"-->
 		</nav>
 		<main id="adm_body">
 			<div class="adm_page_tit">
-				<h2 class="h2">°¡ÀÔÁ¤º¸/Á¶°Ç</h2>
+				<h2 class="h2">ê°€ìž…ì •ë³´/ì¡°ê±´</h2>
 			</div>
 			<div class="adm_cont">
 				<form method="post">
 				<div class="status_box clearBoth">
 					<span class="floatL">
-						<span class="f_weight_b mr10">°¡ÀÔµî±Þ¼³Á¤ :</span>
-						»ç¶û¹æ È¸¿ø°¡ÀÔ ½Ã
+						<span class="f_weight_b mr10">ê°€ìž…ë“±ê¸‰ì„¤ì • :</span>
+						ì‚¬ëž‘ë°© íšŒì›ê°€ìž… ì‹œ
 						<select id="reg_level" name="reg_level" class="sel w100p">
-							<option value="1" <%=if3(reg_level="1","selected","")%>>ÁØÈ¸¿ø</option>
-							<option value="2" <%=if3(reg_level="2","selected","")%>>Á¤È¸¿ø</option>
+							<option value="1" <%=if3(reg_level="1","selected","")%>>ì¤€íšŒì›</option>
+							<option value="2" <%=if3(reg_level="2","selected","")%>>ì •íšŒì›</option>
 						</select>
-						À¸·Î ÀÚµ¿ µî±Þ ¼³Á¤ÇÕ´Ï´Ù.
-						<button type="submit" class="btn btn_c_s btn_s">È®ÀÎ</button>
+						ìœ¼ë¡œ ìžë™ ë“±ê¸‰ ì„¤ì •í•©ë‹ˆë‹¤.
+						<button type="submit" class="btn btn_c_s btn_s">í™•ì¸</button>
 					</span>
 					<span class="floatR">
 					</span>
@@ -92,11 +93,11 @@
 						</colgroup>
 						<thead>
 							<tr>
-								<th scope="col">¹øÈ£</th>
-								<th scope="col">ÀÌ¸§(»óÈ£)</th>
-								<th scope="col">ÀüÈ­¹øÈ£</th>
-								<th scope="col">¼ÒÀçÁö</th>
-								<th scope="col">»óÅÂ</th>
+								<th scope="col">ë²ˆí˜¸</th>
+								<th scope="col">ì´ë¦„(ìƒí˜¸)</th>
+								<th scope="col">ì „í™”ë²ˆí˜¸</th>
+								<th scope="col">ì†Œìž¬ì§€</th>
+								<th scope="col">ìƒíƒœ</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -120,7 +121,7 @@
 								<td class="algC"><%=row("kname") & " (" & row("agency") & ")" %></td>
 								<td class="algC"><%=row("mobile")%></td>
 								<td class="algC"><%=row("addr1")%> <%=row("addr2")%></td>
-								<td class="algC"><input type="button" value="°¡ÀÔ½ÂÀÎ" onclick="ifrm.location.href='join_exec.asp?user_id=<%=row("user_id")%>'"></td>
+								<td class="algC"><input type="button" value="ê°€ìž…ìŠ¹ì¸" onclick="ifrm.location.href='join_exec.asp?user_id=<%=row("user_id")%>'"></td>
 							</tr>
 <%
 			i = i + 1
@@ -129,7 +130,7 @@
 	Else
 %>
 							<tr>
-								<td class="algC" colspan="5">°¡ÀÔ½ÅÃ»ÇÑ È¸¿øÀÌ ¾ø½À´Ï´Ù.</td>
+								<td class="algC" colspan="5">ê°€ìž…ì‹ ì²­í•œ íšŒì›ì´ ì—†ìŠµë‹ˆë‹¤.</td>
 							</tr>
 <%
 	End If

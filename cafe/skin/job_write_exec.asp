@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	menu_seq = Request.Form("menu_seq")
 	top_yn = Request.Form("top_yn")
@@ -104,7 +105,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("ÀÔ·Â µÇ¾ú½À´Ï´Ù.");
+	alert("ì…ë ¥ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	parent.location.href='job_list.asp?menu_seq=<%=menu_seq%>&cafe_id=<%=cafe_id%>';
 </script>
 <%
@@ -114,7 +115,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("¿À·ù°¡ “u»ıÇß½À´Ï´Ù.\n\n¿¡·¯³»¿ë : <%=Err.Description%>(<%=Err.Number%>)");
+	alert("ì˜¤ë¥˜ê°€ ë±”ìƒí–ˆìŠµë‹ˆë‹¤.\n\nì—ëŸ¬ë‚´ìš© : <%=Err.Description%>(<%=Err.Number%>)");
 </script>
 <%
 	End if

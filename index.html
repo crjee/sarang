@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Html</title>
@@ -13,7 +13,7 @@
 </head>
 <body>
 	<div id="wrap" class="listup_wrap">
-		<h1 class="h1 mb20">ÀÛ¾÷¸®½ºÆ®</h1>
+		<h1 class="h1 mb20">ì‘ì—…ë¦¬ìŠ¤íŠ¸</h1>
 
 		<div class="tb">
 			<table>
@@ -27,12 +27,12 @@
 				</colgroup>
 				<thead>
 					<tr>
-						<th>¹øÈ£</th>
-						<th>±¸ºĞ</th>
-						<th>È­¸é¸í</th>
-						<th>ÆÄÀÏ°æ·Î</th>
-						<th>ÆÄÀÏ°æ·Î(»õÃ¢)</th>
-						<th>³»¿ë</th>
+						<th>ë²ˆí˜¸</th>
+						<th>êµ¬ë¶„</th>
+						<th>í™”ë©´ëª…</th>
+						<th>íŒŒì¼ê²½ë¡œ</th>
+						<th>íŒŒì¼ê²½ë¡œ(ìƒˆì°½)</th>
+						<th>ë‚´ìš©</th>
 					</tr>
 				</thead>
 				<tbody class="page_list"></tbody>
@@ -44,76 +44,76 @@
 	<script>
 		$(document).ready(function(){
 			var result = [
-				{ divisions:"°øÅë", names:"±âº»Ç×¸ñ-1", path:"base_1.html", etc:"Ä®¶ó, ¼­Ã¼", version:"", ends:"" },
-				{ divisions:"°øÅë", names:"±âº»Ç×¸ñ-2", path:"base_2.html", etc:"Á¦¸ñ, ÅØ½ºÆ®", version:"", ends:"" },
-				{ divisions:"°øÅë", names:"±âº»Ç×¸ñ-3", path:"base_3.html", etc:"¹öÆ°, ÀÔ·ÂÆû, Å×ÀÌºí", version:"", ends:"" },
-				{ divisions:"°øÅë", names:"±âº»Ç×¸ñ-4", path:"base_4.html", etc:"»óÅÂ¿µ¿ª, °Ë»ö¿µ¿ª, ÆäÀÌÁö³×ÀÌ¼Ç", version:"", ends:"" },
-				{ divisions:"°øÅë", names:"±âº»Ç×¸ñ-5", path:"base_5.html", etc:"ÃÖ½Å±Û ÃßÃâ", version:"", ends:"" },
-				{ divisions:"°øÅë", names:"±âº»Ç×¸ñ-6", path:"base_6.html", etc:"ÅÇ", version:"", ends:"ok" },
+				{ divisions:"ê³µí†µ", names:"ê¸°ë³¸í•­ëª©-1", path:"base_1.html", etc:"ì¹¼ë¼, ì„œì²´", version:"", ends:"" },
+				{ divisions:"ê³µí†µ", names:"ê¸°ë³¸í•­ëª©-2", path:"base_2.html", etc:"ì œëª©, í…ìŠ¤íŠ¸", version:"", ends:"" },
+				{ divisions:"ê³µí†µ", names:"ê¸°ë³¸í•­ëª©-3", path:"base_3.html", etc:"ë²„íŠ¼, ì…ë ¥í¼, í…Œì´ë¸”", version:"", ends:"" },
+				{ divisions:"ê³µí†µ", names:"ê¸°ë³¸í•­ëª©-4", path:"base_4.html", etc:"ìƒíƒœì˜ì—­, ê²€ìƒ‰ì˜ì—­, í˜ì´ì§€ë„¤ì´ì…˜", version:"", ends:"" },
+				{ divisions:"ê³µí†µ", names:"ê¸°ë³¸í•­ëª©-5", path:"base_5.html", etc:"ìµœì‹ ê¸€ ì¶”ì¶œ", version:"", ends:"" },
+				{ divisions:"ê³µí†µ", names:"ê¸°ë³¸í•­ëª©-6", path:"base_6.html", etc:"íƒ­", version:"", ends:"ok" },
 
-				{ divisions:"°øÅë", names:"ÇÁ·¹ÀÓ-¿ÍÀÌµå", path:"frame.html", etc:"±âº» ÇÁ·¹ÀÓ ±¸Á¶ / ¿ÍÀÌµå ÇüÅÂ", version:"", ends:"" },
-				{ divisions:"°øÅë", names:"ÇÁ·¹ÀÓ-ÄÄÆÑÆ®", path:"frame_2.html", etc:"±âº» ÇÁ·¹ÀÓ ±¸Á¶ / ÄÄÆÑÆ® ÇüÅÂ / Áß¾ÓÁ¤·Ä", version:"", ends:"" },
-				{ divisions:"°øÅë", names:"ÇÁ·¹ÀÓ-¿ÍÀÌµå", path:"frame_3.html", etc:"±âº» ÇÁ·¹ÀÓ ±¸Á¶ / ¿ÍÀÌµå ÇüÅÂ / ÁÂÃøÁ¤·Ä", version:"", ends:"" },
-				{ divisions:"°øÅë", names:"ÇÁ·¹ÀÓ-ÄÄÆÑÆ®", path:"frame_4.html", etc:"±âº» ÇÁ·¹ÀÓ ±¸Á¶ / ÄÄÆÑÆ® ÇüÅÂ / ¿ìÃøÁ¤·Ä", version:"", ends:"ok" },
+				{ divisions:"ê³µí†µ", names:"í”„ë ˆì„-ì™€ì´ë“œ", path:"frame.html", etc:"ê¸°ë³¸ í”„ë ˆì„ êµ¬ì¡° / ì™€ì´ë“œ í˜•íƒœ", version:"", ends:"" },
+				{ divisions:"ê³µí†µ", names:"í”„ë ˆì„-ì»´íŒ©íŠ¸", path:"frame_2.html", etc:"ê¸°ë³¸ í”„ë ˆì„ êµ¬ì¡° / ì»´íŒ©íŠ¸ í˜•íƒœ / ì¤‘ì•™ì •ë ¬", version:"", ends:"" },
+				{ divisions:"ê³µí†µ", names:"í”„ë ˆì„-ì™€ì´ë“œ", path:"frame_3.html", etc:"ê¸°ë³¸ í”„ë ˆì„ êµ¬ì¡° / ì™€ì´ë“œ í˜•íƒœ / ì¢Œì¸¡ì •ë ¬", version:"", ends:"" },
+				{ divisions:"ê³µí†µ", names:"í”„ë ˆì„-ì»´íŒ©íŠ¸", path:"frame_4.html", etc:"ê¸°ë³¸ í”„ë ˆì„ êµ¬ì¡° / ì»´íŒ©íŠ¸ í˜•íƒœ / ìš°ì¸¡ì •ë ¬", version:"", ends:"ok" },
 
-				{ divisions:"°øÅë", names:"½ºÅ²-1", path:"skin_01.html", etc:"ÁÂÃø ³×ºñ°ÔÀÌ¼Ç ¿µ¿ª : Åõ¸í", version:"", ends:"" },
-				{ divisions:"°øÅë", names:"½ºÅ²-2", path:"skin_02.html", etc:"ÁÂÃø ³×ºñ°ÔÀÌ¼Ç ¿µ¿ª : ¾Æ¿ô¶óÀÎ", version:"", ends:"" },
-				{ divisions:"°øÅë", names:"½ºÅ²-3", path:"skin_03.html", etc:"ÁÂÃø ³×ºñ°ÔÀÌ¼Ç ¿µ¿ª : ¾Æ¿ô¶óÀÎ °î¼±", version:"", ends:"" },
-				{ divisions:"°øÅë", names:"½ºÅ²-4", path:"skin_04.html", etc:"ÁÂÃø ³×ºñ°ÔÀÌ¼Ç ¿µ¿ª : »óÇÏ 2´Ü ³ª´©±â", version:"", ends:"" },
-				{ divisions:"°øÅë", names:"½ºÅ²-5", path:"skin_05.html", etc:"ÁÂÃø ³×ºñ°ÔÀÌ¼Ç ¿µ¿ª : ¿ìÃø ¶óÀÎ", version:"", ends:"" },
-				{ divisions:"°øÅë", names:"½ºÅ²-6", path:"skin_06.html", etc:"ÁÂÃø ³×ºñ°ÔÀÌ¼Ç ¿µ¿ª : ¿ìÃø ¶óÀÎ", version:"", ends:"ok" },
+				{ divisions:"ê³µí†µ", names:"ìŠ¤í‚¨-1", path:"skin_01.html", etc:"ì¢Œì¸¡ ë„¤ë¹„ê²Œì´ì…˜ ì˜ì—­ : íˆ¬ëª…", version:"", ends:"" },
+				{ divisions:"ê³µí†µ", names:"ìŠ¤í‚¨-2", path:"skin_02.html", etc:"ì¢Œì¸¡ ë„¤ë¹„ê²Œì´ì…˜ ì˜ì—­ : ì•„ì›ƒë¼ì¸", version:"", ends:"" },
+				{ divisions:"ê³µí†µ", names:"ìŠ¤í‚¨-3", path:"skin_03.html", etc:"ì¢Œì¸¡ ë„¤ë¹„ê²Œì´ì…˜ ì˜ì—­ : ì•„ì›ƒë¼ì¸ ê³¡ì„ ", version:"", ends:"" },
+				{ divisions:"ê³µí†µ", names:"ìŠ¤í‚¨-4", path:"skin_04.html", etc:"ì¢Œì¸¡ ë„¤ë¹„ê²Œì´ì…˜ ì˜ì—­ : ìƒí•˜ 2ë‹¨ ë‚˜ëˆ„ê¸°", version:"", ends:"" },
+				{ divisions:"ê³µí†µ", names:"ìŠ¤í‚¨-5", path:"skin_05.html", etc:"ì¢Œì¸¡ ë„¤ë¹„ê²Œì´ì…˜ ì˜ì—­ : ìš°ì¸¡ ë¼ì¸", version:"", ends:"" },
+				{ divisions:"ê³µí†µ", names:"ìŠ¤í‚¨-6", path:"skin_06.html", etc:"ì¢Œì¸¡ ë„¤ë¹„ê²Œì´ì…˜ ì˜ì—­ : ìš°ì¸¡ ë¼ì¸", version:"", ends:"ok" },
 				
-				{ divisions:"°øÅë", names:"ÅÛÇÃ¸´-1", path:"templete_01.html", etc:"Áß¾Ó ÄÁÅÙÃ÷ ¿µ¿ª : ±âº»Çü / 4ºĞÇÒ", version:"", ends:"" },
-				{ divisions:"°øÅë", names:"ÅÛÇÃ¸´-2", path:"templete_02.html", etc:"Áß¾Ó ÄÁÅÙÃ÷ ¿µ¿ª : È¥ÇÕÇü / 3ºĞÇÒ", version:"", ends:"" },
-				{ divisions:"°øÅë", names:"ÅÛÇÃ¸´-3", path:"templete_03.html", etc:"Áß¾Ó ÄÁÅÙÃ÷ ¿µ¿ª : È¥ÇÕ-¼¼·ÎÇü / 3ºĞÇÒ", version:"", ends:"" },
-				{ divisions:"°øÅë", names:"ÅÛÇÃ¸´-4", path:"templete_04.html", etc:"Áß¾Ó ÄÁÅÙÃ÷ ¿µ¿ª : ¿ÍÀÌµåÇü / 2ºĞÇÒ", version:"", ends:"ok" },
+				{ divisions:"ê³µí†µ", names:"í…œí”Œë¦¿-1", path:"templete_01.html", etc:"ì¤‘ì•™ ì»¨í…ì¸  ì˜ì—­ : ê¸°ë³¸í˜• / 4ë¶„í• ", version:"", ends:"" },
+				{ divisions:"ê³µí†µ", names:"í…œí”Œë¦¿-2", path:"templete_02.html", etc:"ì¤‘ì•™ ì»¨í…ì¸  ì˜ì—­ : í˜¼í•©í˜• / 3ë¶„í• ", version:"", ends:"" },
+				{ divisions:"ê³µí†µ", names:"í…œí”Œë¦¿-3", path:"templete_03.html", etc:"ì¤‘ì•™ ì»¨í…ì¸  ì˜ì—­ : í˜¼í•©-ì„¸ë¡œí˜• / 3ë¶„í• ", version:"", ends:"" },
+				{ divisions:"ê³µí†µ", names:"í…œí”Œë¦¿-4", path:"templete_04.html", etc:"ì¤‘ì•™ ì»¨í…ì¸  ì˜ì—­ : ì™€ì´ë“œí˜• / 2ë¶„í• ", version:"", ends:"ok" },
 
-				{ divisions:"È¨", names:"·Î±×ÀÎ", path:"login.html", etc:"", version:"", ends:"" },
-				{ divisions:"È¨", names:"¸ŞÀÎ", path:"main.html", etc:"", version:"", ends:"" },
-				{ divisions:"È¨", names:"ºĞ¾ç¼Ò½Ä ¸®½ºÆ®", path:"share_news.html", etc:"", version:"", ends:"" },
-				{ divisions:"È¨", names:"ºĞ¾ç¼Ò½Ä ±Û¾²±â", path:"share_news_wrt.html", etc:"¿¡µğÅÍ °ø°£ Æ÷ÇÔ", version:"", ends:"" },
-				{ divisions:"È¨", names:"ºĞ¾ç¼Ò½Ä ±Ûº¸±â", path:"share_news_view.html", etc:"", version:"", ends:"" },
-				{ divisions:"È¨", names:"±¤°í/Á¦ÈŞ ¹®ÀÇ", path:"add_news_wrt.html", etc:"¿¡µğÅÍ °ø°£ Æ÷ÇÔ", version:"", ends:"" },
-				{ divisions:"È¨", names:"°Ô½Ã±Û Áß´Ü ¿äÃ»", path:"stop_wrt.html", etc:"¿¡µğÅÍ °ø°£ Æ÷ÇÔ", version:"", ends:"" },
-				{ divisions:"È¨", names:"°Ô½ÃÆÇ-¸®½ºÆ®", path:"bbs_list.html", etc:"", version:"", ends:"" },
-				{ divisions:"È¨", names:"°Ô½ÃÆÇ-ÀÛ¼ºÇÏ±â", path:"bbs_wrt.html", etc:"", version:"", ends:"" },
-				{ divisions:"È¨", names:"°Ô½ÃÆÇ-³»¿ëº¸±â", path:"bbs_view.html", etc:"´ñ±ÛÆ÷ÇÔ", version:"", ends:"" },
-				{ divisions:"È¨", names:"Ã¤¿ë-¸®½ºÆ®", path:"job_list.html", etc:"", version:"", ends:"" },
-				{ divisions:"È¨", names:"Ã¤¿ë-ÀÛ¼ºÇÏ±â", path:"job_write.html", etc:"", version:"", ends:"" },
-				{ divisions:"È¨", names:"Ã¤¿ë-³»¿ëº¸±â", path:"job_view.html", etc:"", version:"", ends:"" },
-				{ divisions:"È¨", names:"¾øÀ½ ¾Ù¹ü°Ô½ÃÆÇ-¸®½ºÆ®", path:"album_list.html", etc:"", version:"", ends:"" },
-				{ divisions:"È¨", names:"¾øÀ½ ¾Ù¹ü°Ô½ÃÆÇ-ÀÛ¼ºÇÏ±â", path:"album_wrt.html", etc:"", version:"", ends:"" },
-				{ divisions:"È¨", names:"¾øÀ½ ¾Ù¹ü°Ô½ÃÆÇ-³»¿ëº¸±â", path:"album_view.html", etc:"´ñ±ÛÆ÷ÇÔ", version:"", ends:"ok" },
+				{ divisions:"í™ˆ", names:"ë¡œê·¸ì¸", path:"login.html", etc:"", version:"", ends:"" },
+				{ divisions:"í™ˆ", names:"ë©”ì¸", path:"main.html", etc:"", version:"", ends:"" },
+				{ divisions:"í™ˆ", names:"ë¶„ì–‘ì†Œì‹ ë¦¬ìŠ¤íŠ¸", path:"share_news.html", etc:"", version:"", ends:"" },
+				{ divisions:"í™ˆ", names:"ë¶„ì–‘ì†Œì‹ ê¸€ì“°ê¸°", path:"share_news_wrt.html", etc:"ì—ë””í„° ê³µê°„ í¬í•¨", version:"", ends:"" },
+				{ divisions:"í™ˆ", names:"ë¶„ì–‘ì†Œì‹ ê¸€ë³´ê¸°", path:"share_news_view.html", etc:"", version:"", ends:"" },
+				{ divisions:"í™ˆ", names:"ê´‘ê³ /ì œíœ´ ë¬¸ì˜", path:"add_news_wrt.html", etc:"ì—ë””í„° ê³µê°„ í¬í•¨", version:"", ends:"" },
+				{ divisions:"í™ˆ", names:"ê²Œì‹œê¸€ ì¤‘ë‹¨ ìš”ì²­", path:"stop_wrt.html", etc:"ì—ë””í„° ê³µê°„ í¬í•¨", version:"", ends:"" },
+				{ divisions:"í™ˆ", names:"ê²Œì‹œíŒ-ë¦¬ìŠ¤íŠ¸", path:"bbs_list.html", etc:"", version:"", ends:"" },
+				{ divisions:"í™ˆ", names:"ê²Œì‹œíŒ-ì‘ì„±í•˜ê¸°", path:"bbs_wrt.html", etc:"", version:"", ends:"" },
+				{ divisions:"í™ˆ", names:"ê²Œì‹œíŒ-ë‚´ìš©ë³´ê¸°", path:"bbs_view.html", etc:"ëŒ“ê¸€í¬í•¨", version:"", ends:"" },
+				{ divisions:"í™ˆ", names:"ì±„ìš©-ë¦¬ìŠ¤íŠ¸", path:"job_list.html", etc:"", version:"", ends:"" },
+				{ divisions:"í™ˆ", names:"ì±„ìš©-ì‘ì„±í•˜ê¸°", path:"job_write.html", etc:"", version:"", ends:"" },
+				{ divisions:"í™ˆ", names:"ì±„ìš©-ë‚´ìš©ë³´ê¸°", path:"job_view.html", etc:"", version:"", ends:"" },
+				{ divisions:"í™ˆ", names:"ì—†ìŒ ì•¨ë²”ê²Œì‹œíŒ-ë¦¬ìŠ¤íŠ¸", path:"album_list.html", etc:"", version:"", ends:"" },
+				{ divisions:"í™ˆ", names:"ì—†ìŒ ì•¨ë²”ê²Œì‹œíŒ-ì‘ì„±í•˜ê¸°", path:"album_wrt.html", etc:"", version:"", ends:"" },
+				{ divisions:"í™ˆ", names:"ì—†ìŒ ì•¨ë²”ê²Œì‹œíŒ-ë‚´ìš©ë³´ê¸°", path:"album_view.html", etc:"ëŒ“ê¸€í¬í•¨", version:"", ends:"ok" },
 
-				{ divisions:"ÃÖ°í°ü¸®ÀÚ", names:"ÃÖ°í°ü¸®ÀÚ-È¸¿ø°ü¸®", path:"member_manage.html", etc:"", version:"", ends:"" },
-				{ divisions:"ÃÖ°í°ü¸®ÀÚ", names:"ÃÖ°í°ü¸®ÀÚ-»ç¶û¹æ°ü¸®", path:"group_manage.html", etc:"", version:"", ends:"" },
-				{ divisions:"ÃÖ°í°ü¸®ÀÚ", names:"ÃÖ°í°ü¸®ÀÚ-¹è³Ê°ü¸®", path:"banner_manage.html", etc:"", version:"", ends:"" },
-				{ divisions:"ÃÖ°í°ü¸®ÀÚ", names:"ÃÖ°í°ü¸®ÀÚ-¸Ş´º°ü¸®", path:"menu_manage.html", etc:"", version:"", ends:"" },
-				{ divisions:"ÃÖ°í°ü¸®ÀÚ", names:"[½Å±Ô] ÃÖ°í°ü¸®ÀÚ-¸ŞÀÎ³ëÃâ", path:"main_manage.html", etc:"", version:"new", ends:"" },
-				{ divisions:"ÃÖ°í°ü¸®ÀÚ", names:"[½Å±Ô¾øÀ½] ÃÖ°í°ü¸®ÀÚ-¼³¹®Á¶»ç", path:"vote_manage.html", etc:"", version:"new", ends:"" },
-				{ divisions:"ÃÖ°í°ü¸®ÀÚ", names:"[½Å±Ô] ÃÖ°í°ü¸®ÀÚ-±¤°í/Á¦ÈŞ ¹®ÀÇ¸®½ºÆ®", path:"add_manage.html", etc:"", version:"new", ends:"" },
-				{ divisions:"ÃÖ°í°ü¸®ÀÚ", names:"[½Å±Ô] ÃÖ°í°ü¸®ÀÚ-°Ô½Ã±ÛÁß´Ü¿äÃ»¸®½ºÆ®", path:"post_manage.html", etc:"", version:"new", ends:"ok" },
+				{ divisions:"ìµœê³ ê´€ë¦¬ì", names:"ìµœê³ ê´€ë¦¬ì-íšŒì›ê´€ë¦¬", path:"member_manage.html", etc:"", version:"", ends:"" },
+				{ divisions:"ìµœê³ ê´€ë¦¬ì", names:"ìµœê³ ê´€ë¦¬ì-ì‚¬ë‘ë°©ê´€ë¦¬", path:"group_manage.html", etc:"", version:"", ends:"" },
+				{ divisions:"ìµœê³ ê´€ë¦¬ì", names:"ìµœê³ ê´€ë¦¬ì-ë°°ë„ˆê´€ë¦¬", path:"banner_manage.html", etc:"", version:"", ends:"" },
+				{ divisions:"ìµœê³ ê´€ë¦¬ì", names:"ìµœê³ ê´€ë¦¬ì-ë©”ë‰´ê´€ë¦¬", path:"menu_manage.html", etc:"", version:"", ends:"" },
+				{ divisions:"ìµœê³ ê´€ë¦¬ì", names:"[ì‹ ê·œ] ìµœê³ ê´€ë¦¬ì-ë©”ì¸ë…¸ì¶œ", path:"main_manage.html", etc:"", version:"new", ends:"" },
+				{ divisions:"ìµœê³ ê´€ë¦¬ì", names:"[ì‹ ê·œì—†ìŒ] ìµœê³ ê´€ë¦¬ì-ì„¤ë¬¸ì¡°ì‚¬", path:"vote_manage.html", etc:"", version:"new", ends:"" },
+				{ divisions:"ìµœê³ ê´€ë¦¬ì", names:"[ì‹ ê·œ] ìµœê³ ê´€ë¦¬ì-ê´‘ê³ /ì œíœ´ ë¬¸ì˜ë¦¬ìŠ¤íŠ¸", path:"add_manage.html", etc:"", version:"new", ends:"" },
+				{ divisions:"ìµœê³ ê´€ë¦¬ì", names:"[ì‹ ê·œ] ìµœê³ ê´€ë¦¬ì-ê²Œì‹œê¸€ì¤‘ë‹¨ìš”ì²­ë¦¬ìŠ¤íŠ¸", path:"post_manage.html", etc:"", version:"new", ends:"ok" },
 
-				{ divisions:"¼Ò±×·ì", names:"¼Ò±×·ì ¸ŞÀÎ", path:"group.html", etc:"Ä®¶ó º¯°æ »ùÇÃ Æ÷ÇÔ", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì", names:"¼Ò±×·ì ¸ŞÀÎ", path:"group_1.html", etc:"±âº»Çü/4ºĞÇÒ", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì", names:"¼Ò±×·ì ¸ŞÀÎ", path:"group_2.html", etc:"È¥ÇÕÇü/3ºĞÇÒ", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì", names:"¼Ò±×·ì ¸ŞÀÎ", path:"group_3.html", etc:"È¥ÇÕ-¼¼·ÎÇü/3ºĞÇÒ", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì", names:"¼Ò±×·ì ¸ŞÀÎ", path:"group_4.html", etc:"¿ÍÀÌµåÇü/2ºĞÇÒ", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì", names:"ÀÏ¹İ°Ô½ÃÆÇ-¸®½ºÆ®", path:"bbs_list.html", etc:"", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì", names:"ÀÏ¹İ°Ô½ÃÆÇ-ÀÛ¼ºÇÏ±â", path:"bbs_wrt.html", etc:"", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì", names:"ÀÏ¹İ°Ô½ÃÆÇ-³»¿ëº¸±â", path:"bbs_view.html", etc:"´ñ±ÛÆ÷ÇÔ", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì", names:"¾Ù¹ü°Ô½ÃÆÇ-¸®½ºÆ®", path:"album_list.html", etc:"", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì", names:"¾Ù¹ü°Ô½ÃÆÇ-ÀÛ¼ºÇÏ±â", path:"album_wrt.html", etc:"", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì", names:"¾Ù¹ü°Ô½ÃÆÇ-³»¿ëº¸±â", path:"album_view.html", etc:"´ñ±ÛÆ÷ÇÔ", version:"", ends:"ok" },
+				{ divisions:"ì†Œê·¸ë£¹", names:"ì†Œê·¸ë£¹ ë©”ì¸", path:"group.html", etc:"ì¹¼ë¼ ë³€ê²½ ìƒ˜í”Œ í¬í•¨", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹", names:"ì†Œê·¸ë£¹ ë©”ì¸", path:"group_1.html", etc:"ê¸°ë³¸í˜•/4ë¶„í• ", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹", names:"ì†Œê·¸ë£¹ ë©”ì¸", path:"group_2.html", etc:"í˜¼í•©í˜•/3ë¶„í• ", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹", names:"ì†Œê·¸ë£¹ ë©”ì¸", path:"group_3.html", etc:"í˜¼í•©-ì„¸ë¡œí˜•/3ë¶„í• ", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹", names:"ì†Œê·¸ë£¹ ë©”ì¸", path:"group_4.html", etc:"ì™€ì´ë“œí˜•/2ë¶„í• ", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹", names:"ì¼ë°˜ê²Œì‹œíŒ-ë¦¬ìŠ¤íŠ¸", path:"bbs_list.html", etc:"", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹", names:"ì¼ë°˜ê²Œì‹œíŒ-ì‘ì„±í•˜ê¸°", path:"bbs_wrt.html", etc:"", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹", names:"ì¼ë°˜ê²Œì‹œíŒ-ë‚´ìš©ë³´ê¸°", path:"bbs_view.html", etc:"ëŒ“ê¸€í¬í•¨", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹", names:"ì•¨ë²”ê²Œì‹œíŒ-ë¦¬ìŠ¤íŠ¸", path:"album_list.html", etc:"", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹", names:"ì•¨ë²”ê²Œì‹œíŒ-ì‘ì„±í•˜ê¸°", path:"album_wrt.html", etc:"", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹", names:"ì•¨ë²”ê²Œì‹œíŒ-ë‚´ìš©ë³´ê¸°", path:"album_view.html", etc:"ëŒ“ê¸€í¬í•¨", version:"", ends:"ok" },
 
-				{ divisions:"¼Ò±×·ì°ü¸®ÀÚ", names:"±âº»Á¤º¸°ü¸®", path:"info_manage.html", etc:"", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì°ü¸®ÀÚ", names:"°¡ÀÔÁ¤º¸,Á¶°Ç", path:"join_manage.html", etc:"", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì°ü¸®ÀÚ", names:"¸Ş´º°ü¸®", path:"menu_manage.html", etc:"", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì°ü¸®ÀÚ", names:"ÆË¾÷°ü¸®", path:"popup_manage.html", etc:"", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì°ü¸®ÀÚ", names:"¹è³Ê°ü¸®", path:"banner_manage.html", etc:"", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì°ü¸®ÀÚ", names:"¸ŞÀÎ³ëÃâ", path:"main_manage.html", etc:"", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì°ü¸®ÀÚ", names:"¾øÀ½ È¸¿ø°ü¸®", path:"member_manage.html", etc:"", version:"", ends:"" },
-				{ divisions:"¼Ò±×·ì°ü¸®ÀÚ", names:"* ¼Ò±×·ì°ü¸®ÀÚ-¼³¹®Á¶»ç", path:"vote_manage.html", etc:"·¹ÀÌ¾îÆË¾÷ Æ÷ÇÔ", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹ê´€ë¦¬ì", names:"ê¸°ë³¸ì •ë³´ê´€ë¦¬", path:"info_manage.html", etc:"", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹ê´€ë¦¬ì", names:"ê°€ì…ì •ë³´,ì¡°ê±´", path:"join_manage.html", etc:"", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹ê´€ë¦¬ì", names:"ë©”ë‰´ê´€ë¦¬", path:"menu_manage.html", etc:"", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹ê´€ë¦¬ì", names:"íŒì—…ê´€ë¦¬", path:"popup_manage.html", etc:"", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹ê´€ë¦¬ì", names:"ë°°ë„ˆê´€ë¦¬", path:"banner_manage.html", etc:"", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹ê´€ë¦¬ì", names:"ë©”ì¸ë…¸ì¶œ", path:"main_manage.html", etc:"", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹ê´€ë¦¬ì", names:"ì—†ìŒ íšŒì›ê´€ë¦¬", path:"member_manage.html", etc:"", version:"", ends:"" },
+				{ divisions:"ì†Œê·¸ë£¹ê´€ë¦¬ì", names:"* ì†Œê·¸ë£¹ê´€ë¦¬ì-ì„¤ë¬¸ì¡°ì‚¬", path:"vote_manage.html", etc:"ë ˆì´ì–´íŒì—… í¬í•¨", version:"", ends:"" },
 			];
 			var output = "";
 			$.each(result,function(index,item){
@@ -125,19 +125,19 @@
 				output += "<td class='algC'>"+(index+1)+"</td>";
 				output += "<td class='algC'>"+item.divisions+"</td>";
 				output += "<td>"+item.names+"</td>";
-				if(item.divisions == "¼Ò±×·ì°ü¸®ÀÚ"){
+				if(item.divisions == "ì†Œê·¸ë£¹ê´€ë¦¬ì"){
 					output += "<td><a href='/admin/"+item.path+"' target='_self'>"+item.path+"</a></td>";	
 					output += "<td><a href='/admin/"+item.path+"' target='_blank'>"+item.path+"</a></td>";	
-				}else if(item.divisions == "ÃÖ°í°ü¸®ÀÚ"){
+				}else if(item.divisions == "ìµœê³ ê´€ë¦¬ì"){
 					output += "<td><a href='/superadmin/"+item.path+"' target='_self'>"+item.path+"</a></td>";	
 					output += "<td><a href='/superadmin/"+item.path+"' target='_blank'>"+item.path+"</a></td>";	
-				}else if(item.divisions == "°øÅë"){
+				}else if(item.divisions == "ê³µí†µ"){
 					output += "<td><a href='/base/"+item.path+"' target='_self'>"+item.path+"</a></td>";	
 					output += "<td><a href='/base/"+item.path+"' target='_blank'>"+item.path+"</a></td>";	
-				}else if(item.divisions == "È¨"){
+				}else if(item.divisions == "í™ˆ"){
 					output += "<td><a href='/home/"+item.path+"' target='_self'>"+item.path+"</a></td>";	
 					output += "<td><a href='/home/"+item.path+"' target='_blank'>"+item.path+"</a></td>";	
-				}else if(item.divisions == "¼Ò±×·ì"){
+				}else if(item.divisions == "ì†Œê·¸ë£¹"){
 					output += "<td><a href='/cafe/"+item.path+"' target='_self'>"+item.path+"</a></td>";	
 					output += "<td><a href='/cafe/"+item.path+"' target='_blank'>"+item.path+"</a></td>";	
 				}else{

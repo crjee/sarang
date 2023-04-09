@@ -1,7 +1,8 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	freePage = True
 %>
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
 	checkCafePage(cafe_id)
@@ -9,7 +10,7 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>GI</title>
@@ -57,7 +58,7 @@
 	sql = sql & kword
 	rs.Open sql, conn, 3, 1
 
-	RecordCount = 0 ' ÀÚ·á°¡ ¾øÀ»¶§
+	RecordCount = 0 ' ìë£Œê°€ ì—†ì„ë•Œ
 	If Not rs.EOF Then
 		RecordCount = rs("cnt")
 	End If
@@ -99,7 +100,7 @@
 	sql = sql & "  order by job_seq desc "
 	rs.Open Sql, conn, 3, 1
 
-	' ÀüÃ¼ ÆäÀÌÁö ¼ö ¾ò±â
+	' ì „ì²´ í˜ì´ì§€ ìˆ˜ ì–»ê¸°
 	If RecordCount/pagesize = Int(RecordCount/pagesize) then
 		PageCount = Int(RecordCount / pagesize)
 	Else
@@ -126,20 +127,20 @@
 <%
 	End If
 
-	If write_auth <= cafe_mb_level Then ' ±Û¾²±â ±ÇÇÑ
+	If write_auth <= cafe_mb_level Then ' ê¸€ì“°ê¸° ê¶Œí•œ
 %>
-						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/board_write.asp?menu_seq=<%=menu_seq%>'">±Û¾²±â</button>
+						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/board_write.asp?menu_seq=<%=menu_seq%>'">ê¸€ì“°ê¸°</button>
 <%
 	End If
 %>
 						<select id="sch_type" name="sch_type" class="sel w100p">
-							<option value="all">ÀüÃ¼</option>
-							<option value="cj.subject" <%=if3(sch_type="cj.subject","selected","")%>>Á¦¸ñ</option>
-							<option value="cj.agency" <%=if3(sch_type="cj.agency","selected","")%>>±Û¾´ÀÌ</option>
-							<option value="cj.contents" <%=if3(sch_type="cj.contents","selected","")%>>³»¿ë</option>
+							<option value="all">ì „ì²´</option>
+							<option value="cj.subject" <%=if3(sch_type="cj.subject","selected","")%>>ì œëª©</option>
+							<option value="cj.agency" <%=if3(sch_type="cj.agency","selected","")%>>ê¸€ì“´ì´</option>
+							<option value="cj.contents" <%=if3(sch_type="cj.contents","selected","")%>>ë‚´ìš©</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w300p">
-						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">°Ë»ö</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">ê²€ìƒ‰</button>
 						</form>
 					</div>
 					<div class="tb">
@@ -153,11 +154,11 @@
 							</colgroup>
 							<thead>
 								<tr>
-									<th scope="col">Ã¤¿ëÁ¦¸ñ</th>
-									<th scope="col">±Ù¹«Áö¿ª</th>
-									<th scope="col">Áß°³¾÷¼Ò</th>
-									<th scope="col">µî·ÏÀÏ</th>
-									<th scope="col">¸¶°¨ÀÏ</th>
+									<th scope="col">ì±„ìš©ì œëª©</th>
+									<th scope="col">ê·¼ë¬´ì§€ì—­</th>
+									<th scope="col">ì¤‘ê°œì—…ì†Œ</th>
+									<th scope="col">ë“±ë¡ì¼</th>
+									<th scope="col">ë§ˆê°ì¼</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -166,14 +167,14 @@
 		Do Until rs.EOF Or i > rs.pagesize
 			subject = rs("subject")
 			If isnull(subject) Or isempty(subject) Or Len(subject) = 0 Then
-				subject = "Á¦¸ñ¾øÀ½"
+				subject = "ì œëª©ì—†ìŒ"
 			End if
 			subject_s = rmid(subject, 40, "..")
 
 			parent_del_yn = rs("parent_del_yn")
 
 			If parent_del_yn = "Y" Then
-				subject = "*¿ø±ÛÀÌ »èÁ¦µÈ ´ä±Û* " & subject
+				subject = "*ì›ê¸€ì´ ì‚­ì œëœ ë‹µê¸€* " & subject
 			End if
 %>
 								<tr>
@@ -197,7 +198,7 @@
 	Else
 %>
 								<tr>
-									<td colspan="5" class="td_nodata">µî·ÏµÈ ±ÛÀÌ ¾ø½À´Ï´Ù.</td>
+									<td colspan="5" class="td_nodata">ë“±ë¡ëœ ê¸€ì´ ì—†ìŠµë‹ˆë‹¤.</td>
 								</tr>
 <%
 	End If

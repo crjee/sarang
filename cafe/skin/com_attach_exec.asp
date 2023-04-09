@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	attach_seq = Request("attach_seq")
 	ag = Request("ag")
@@ -94,7 +95,7 @@
 						rate = hrate
 					End If
 
-					'JPG Æ÷¸ËÀ¸·Î ÀúÀåÇØ¾ß ÇÔ
+					'JPG í¬ë§·ìœ¼ë¡œ ì €ìž¥í•´ì•¼ í•¨
 					thumbnail = "thumbnail_" & com_seq & "_" & filenameonly & ".jpg"
 
 					Call objImage.SaveasThumbnail(ConfigAttachedFileFolder & "thumbnail\" & thumbnail, objImage.ImageWidth/rate, objImage.ImageHeight/rate, false, true)
@@ -140,7 +141,7 @@
 		Set fso = Nothing
 %>
 <script>
-	alert("»èÁ¦ µÇ¾ú½À´Ï´Ù.");
+	alert("ì‚­ì œ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	str = '<input type="file" class="input" name="file_name" style="width:70%;">';
 <%
 	if ag = "1" Then
@@ -159,7 +160,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("¿À·ù°¡ “u»ýÇß½À´Ï´Ù.\n\n¿¡·¯³»¿ë : <%=Err.Description%>(<%=Err.Number%>)");
+	alert("ì˜¤ë¥˜ê°€ ë±”ìƒí–ˆìŠµë‹ˆë‹¤.\n\nì—ëŸ¬ë‚´ìš© : <%=Err.Description%>(<%=Err.Number%>)");
 </script>
 <%
 	End If

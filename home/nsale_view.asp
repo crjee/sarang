@@ -1,7 +1,8 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	freePage = True
 %>
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
 	checkCafePage(cafe_id)
@@ -9,10 +10,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>ºÐ¾ç¼Ò½Ä : GI</title>
+	<title>ë¶„ì–‘ì†Œì‹ : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -179,14 +180,14 @@
 			<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
 			</form>
 				<div class="cont_tit">
-					<h2 class="h2"><%=menu_name%> ³»¿ëº¸±â</h2>
+					<h2 class="h2"><%=menu_name%> ë‚´ìš©ë³´ê¸°</h2>
 				</div>
 				<div class="btn_box view_btn">
 <%
 	If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
 		If rs("step_num") = "0" Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goModify()">¼öÁ¤</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goModify()">ìˆ˜ì •</button>
 <%
 		End If
 	End If
@@ -196,23 +197,23 @@
 
 	If toInt(write_auth) <= toInt(cafe_mb_level) Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="location.href='/home/nsale_write.asp?menu_seq=<%=menu_seq%>'">±Û¾²±â</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="location.href='/home/nsale_write.asp?menu_seq=<%=menu_seq%>'">ê¸€ì“°ê¸°</button>
 <%
 	End If
 %>
-					<!-- <a href="#n" class="btn btn_c_n btn_n" onclick="goPrev()">ÀÌÀü±Û</a> -->
-					<!-- <a href="#n" class="btn btn_c_n btn_n" onclick="goNext()">´ÙÀ½±Û</a> -->
-					<a href="#n" class="btn btn_c_n btn_n" onclick="goList()">¸ñ·Ï</a>
-					<a href="#n" class="btn btn_c_a btn_n" onclick="goPrint()">ÀÎ¼â</a>
+					<!-- <a href="#n" class="btn btn_c_n btn_n" onclick="goPrev()">ì´ì „ê¸€</a> -->
+					<!-- <a href="#n" class="btn btn_c_n btn_n" onclick="goNext()">ë‹¤ìŒê¸€</a> -->
+					<a href="#n" class="btn btn_c_n btn_n" onclick="goList()">ëª©ë¡</a>
+					<a href="#n" class="btn btn_c_a btn_n" onclick="goPrint()">ì¸ì‡„</a>
 				</div>
 				<div class="view_head">
-					<h3 class="h3"><span class="milestone">ºÐ¾ç°èÈ¹</span> [<%=cmpl_se_cd_txt%>]<%=subject%></h3>
+					<h3 class="h3"><span class="milestone">ë¶„ì–‘ê³„íš</span> [<%=cmpl_se_cd_txt%>]<%=subject%></h3>
 					<div class="wrt_info_box posR">
 						<ul>
-							<li><span>ÀÛ¼ºÀÚ</span><strong><%=subject%></strong></li>
-							<li><span>Á¶È¸</span><strong><%=view_cnt%></strong></li>
-							<li><span>ÃßÃµ</span><strong><%=view_cnt%></strong></li>
-							<li><span>µî·ÏÀÏ½Ã</span><strong><%=credt%></strong></li>
+							<li><span>ìž‘ì„±ìž</span><strong><%=subject%></strong></li>
+							<li><span>ì¡°íšŒ</span><strong><%=view_cnt%></strong></li>
+							<li><span>ì¶”ì²œ</span><strong><%=view_cnt%></strong></li>
+							<li><span>ë“±ë¡ì¼ì‹œ</span><strong><%=credt%></strong></li>
 						</ul>
 					</div>
 					<div class="view_head_frame">
@@ -260,38 +261,38 @@
 									</colgroup>
 									<tbody>
 										<tr>
-											<th scope="row">ºÐ¾çÁö¿ª</th>
+											<th scope="row">ë¶„ì–‘ì§€ì—­</th>
 											<td colspan="3"><%=nsale_rgn_cd_txt%></td>
 										</tr>
 										<tr>
-											<th scope="row">ºÐ¾çÁÖ¼Ò</th>
+											<th scope="row">ë¶„ì–‘ì£¼ì†Œ</th>
 											<td colspan="3"><%=nsale_addr%></td>
 										</tr>
 										<tr>
-											<th scope="row">¸ðÁý°ø°íÀÏ</th>
+											<th scope="row">ëª¨ì§‘ê³µê³ ì¼</th>
 											<td><%=rect_notice_date%></td>
-											<th rowspan="2" scope="row">Ã»¾àÁ¢¼öÀÏ</th>
-											<td>1¼øÀ§ : <%=frst_receipt_acpt_date%></td>
+											<th rowspan="2" scope="row">ì²­ì•½ì ‘ìˆ˜ì¼</th>
+											<td>1ìˆœìœ„ : <%=frst_receipt_acpt_date%></td>
 										</tr>
 										<tr>
-											<th scope="row">´çÃ·¹ßÇ¥ÀÏ</th>
+											<th scope="row">ë‹¹ì²¨ë°œí‘œì¼</th>
 											<td><%=prize_anc_date%></td>
-											<td>2¼øÀ§ : <%=scnd_receipt_acpt_date%></td>
+											<td>2ìˆœìœ„ : <%=scnd_receipt_acpt_date%></td>
 										</tr>
 										<tr>
-											<th scope="row">°è¾à±â°£</th>
+											<th scope="row">ê³„ì•½ê¸°ê°„</th>
 											<td colspan="3"><%=cnt_st_date%> ~ <%=cnt_ed_date%></td>
 										</tr>
 										<tr>
-											<th scope="row">Àü¸Å±â°£</th>
+											<th scope="row">ì „ë§¤ê¸°ê°„</th>
 											<td colspan="3"><%=resale_st_date%> ~ <%=resale_ed_date%></td>
 										</tr>
 										<tr>
-											<th scope="row">ÀÔÁÖÀÏ</th>
+											<th scope="row">ìž…ì£¼ì¼</th>
 											<td colspan="3"><%=mvin_date%> ~</td>
 										</tr>
 										<tr>
-											<th scope="row">¸ðµ¨ÇÏ¿ì½º À§Ä¡</th>
+											<th scope="row">ëª¨ë¸í•˜ìš°ìŠ¤ ìœ„ì¹˜</th>
 											<td colspan="3"><%=mdl_house_addr%></td>
 										</tr>
 									</tbody>
@@ -302,7 +303,7 @@
 				</div>
 				<!-- 
 				<div class="view_cont">
-					<h4 class="f_awesome h4">´ÜÁö Á¤º¸ »ó¼¼ ³»¿ë</h4>
+					<h4 class="f_awesome h4">ë‹¨ì§€ ì •ë³´ ìƒì„¸ ë‚´ìš©</h4>
 					<div class="tb">
 						<table class="tb_input tb_fixed">
 							<colgroup>
@@ -317,24 +318,24 @@
 							</colgroup>
 							<tbody>
 								<tr>
-									<th scope="row">ÃÑ¼¼´ë¼ö</th>
+									<th scope="row">ì´ì„¸ëŒ€ìˆ˜</th>
 									<td>2,500</td>
-									<th scope="row">ÃÑµ¿¼ö</th>
+									<th scope="row">ì´ë™ìˆ˜</th>
 									<td>100</td>
-									<th scope="row">ÃÑÁÖÂ÷´ë¼ö</th>
+									<th scope="row">ì´ì£¼ì°¨ëŒ€ìˆ˜</th>
 									<td>5,500</td>
-									<th scope="row">°¡±¸´ç ÁÖÂ÷¼ö</th>
+									<th scope="row">ê°€êµ¬ë‹¹ ì£¼ì°¨ìˆ˜</th>
 									<td>3</td>
 								</tr>
 								<tr>
-									<th scope="row">ÃÖ°í/ÃÖÀúÃþ</th>
+									<th scope="row">ìµœê³ /ìµœì €ì¸µ</th>
 									<td>35</td>
-									<th scope="row">¸éÀûÁ¤º¸</th>
+									<th scope="row">ë©´ì ì •ë³´</th>
 									<td>5,500</td>
-									<th scope="row">°Ç¼³»ç</th>
-									<td>Çö´ë»ê¾÷°³¹ß</td>
-									<th scope="row">³­¹æ¹æ½Ä</th>
-									<td>Áö¿ª³­¹æ</td>
+									<th scope="row">ê±´ì„¤ì‚¬</th>
+									<td>í˜„ëŒ€ì‚°ì—…ê°œë°œ</td>
+									<th scope="row">ë‚œë°©ë°©ì‹</th>
+									<td>ì§€ì—­ë‚œë°©</td>
 								</tr>
 							</tbody>
 						</table>
@@ -342,17 +343,17 @@
 				</div>
 				 -->
 				<div class="view_cont">
-					<h4 class="f_awesome h4">ÀÔÁÖÀÚ ¸ðÁý°ø°í</h4>
+					<h4 class="f_awesome h4">ìž…ì£¼ìž ëª¨ì§‘ê³µê³ </h4>
 					<div class="tb">
 						<%=contents%>
 					</div>
 				</div>
 				
 				<div class="btn_box">
-					<a href="#n" class="btn btn_c_n btn_n">ÀÌÀü±Û</a>
-					<a href="#n" class="btn btn_c_n btn_n">´ÙÀ½±Û</a>
-					<a href="#n" class="btn btn_c_n btn_n">¸ñ·Ï</a>
-					<a href="#n" class="btn btn_c_a btn_n">ÀÎ¼â</a>
+					<a href="#n" class="btn btn_c_n btn_n">ì´ì „ê¸€</a>
+					<a href="#n" class="btn btn_c_n btn_n">ë‹¤ìŒê¸€</a>
+					<a href="#n" class="btn btn_c_n btn_n">ëª©ë¡</a>
+					<a href="#n" class="btn btn_c_a btn_n">ì¸ì‡„</a>
 				</div>
 			</div>
 <!--#include virtual="/home/home_right_inc.asp"-->

@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Call checkAdmin()
 
@@ -7,10 +8,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>½ºÅ²-1 : GI</title>
+	<title>ìŠ¤í‚¨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -73,26 +74,26 @@
 			<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
 			</form>
 				<div class="cont_tit">
-					<h2 class="h2"><font color="red">ÈÞÁöÅë °æÀÎ³×Æ®¿÷½º ÀüÃ¼°øÁö ³»¿ëº¸±â</font></h2>
+					<h2 class="h2"><font color="red">íœ´ì§€í†µ ê²½ì¸ë„¤íŠ¸ì›ìŠ¤ ì „ì²´ê³µì§€ ë‚´ìš©ë³´ê¸°</font></h2>
 				</div>
 				<div class="btn_box view_btn">
-					<button class="btn btn_c_n btn_n" type="button" onclick="goRestore()">º¹¿ø</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">»èÁ¦</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">¸ñ·Ï</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goRestore()">ë³µì›</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">ì‚­ì œ</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">ëª©ë¡</button>
 				</div>
-				<div id="print_area"><!-- ÇÁ¸°Æ®¿µ¿ª Ãß°¡ crjee -->
+				<div id="print_area"><!-- í”„ë¦°íŠ¸ì˜ì—­ ì¶”ê°€ crjee -->
 				<div class="view_head">
 					<h3 class="h3" id="subject"><%=rs("subject")%></h3>
 					<div class="wrt_info_box">
 						<ul>
-							<li><span>ÀÛ¼ºÀÚ</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
-							<li><span>Á¶È¸</span><strong><%=rs("view_cnt")%></strong></li>
-							<li><span>ÃßÃµ</span><strong><%=rs("suggest_cnt")%></strong></li>
-							<li><span>µî·ÏÀÏ½Ã</span><strong><%=rs("credt")%></strong></li>
+							<li><span>ìž‘ì„±ìž</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
+							<li><span>ì¡°íšŒ</span><strong><%=rs("view_cnt")%></strong></li>
+							<li><span>ì¶”ì²œ</span><strong><%=rs("suggest_cnt")%></strong></li>
+							<li><span>ë“±ë¡ì¼ì‹œ</span><strong><%=rs("credt")%></strong></li>
 						</ul>
 					</div>
 				</div>
-				<div class="wrt_file_box"><!-- Ã·ºÎÆÄÀÏ¿µ¿ª Ãß°¡ crjee -->
+				<div class="wrt_file_box"><!-- ì²¨ë¶€íŒŒì¼ì˜ì—­ ì¶”ê°€ crjee -->
 <%
 	uploadUrl = ConfigAttachedFileURL & menu_type & "/"
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
@@ -124,7 +125,7 @@
 			Else
 %>
 					<%If i > 0 Then%><br><%End If%>
-					<a href="javascript:alert('ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+					<a href="javascript:alert('íŒŒì¼ì´ ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 			End If
 			
@@ -142,7 +143,7 @@
 	
 	If link <> "" Then
 %>
-					<p class="file"><a href="<%=link%>" target="_blink"><%=link_txt%></a>&nbsp;<img src="/cafe/skin/img/inc/copy.png" style="cursor:hand" onclick="window.clipnoticeData.setData('Text','<%=link%>');alert('ÇØ´ç ±Û ÁÖ¼Ò°¡ º¹»çµÇ¾ú½À´Ï´Ù.\n\n Å°º¸µå¿¡ Ctrl + V ´©¸£°í ÀÌ¿ëÇÏ½Ê½Ã¿ä. ')"/></p>
+					<p class="file"><a href="<%=link%>" target="_blink"><%=link_txt%></a>&nbsp;<img src="/cafe/skin/img/inc/copy.png" style="cursor:hand" onclick="window.clipnoticeData.setData('Text','<%=link%>');alert('í•´ë‹¹ ê¸€ ì£¼ì†Œê°€ ë³µì‚¬ë˜ì—ˆìŠµë‹ˆë‹¤.\n\n í‚¤ë³´ë“œì— Ctrl + V ëˆ„ë¥´ê³  ì´ìš©í•˜ì‹­ì‹œìš”. ')"/></p>
 <%
 	End If
 %>

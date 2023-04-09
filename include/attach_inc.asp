@@ -20,10 +20,10 @@
 								}
 								</script>
 								<th scope="row" class="add_files">
-									梅何颇老
+									觳秬韺岇澕
 									<div class="dp_inline">
-										<button type="button" class="btn btn_inp_add" onclick="addAttach()"><em>眠啊</em></button>
-										<button type="button" class="btn btn_inp_del" onclick="delAttach()"><em>昏力</em></button>
+										<button type="button" class="btn btn_inp_add" onclick="addAttach()"><em>於旉皜</em></button>
+										<button type="button" class="btn btn_inp_del" onclick="delAttach()"><em>靷牅</em></button>
 									</div>
 								</th>
 								<td>
@@ -49,7 +49,7 @@
 			file_name  = rs("file_name")
 %>
 										<li class="stxt" id="attachDiv<%=i%>">
-											<input type="button" onclick="javascript:hiddenfrm.location.href='com_attach_exec.asp?menu_seq=<%=menu_seq%>&attach_seq=<%=attach_seq%>&ag=<%=i%>'" value="昏力"> <%=file_name%>
+											<input type="button" onclick="javascript:hiddenfrm.location.href='com_attach_exec.asp?menu_seq=<%=menu_seq%>&attach_seq=<%=attach_seq%>&ag=<%=i%>'" value="靷牅"> <%=file_name%>
 										</li>
 <%
 			i = i + 1

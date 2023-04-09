@@ -1,11 +1,11 @@
 <script language="JavaScript">
 <!--
-	// ÄíÅ° »ı¼º
+	// ì¿ í‚¤ ìƒì„±
 	function setCookie(name, value, d) {
 		document.cookie = name+'='+escape(value)+'; path=/'+(d?'; expires='+(function(t) {t.setDate(t.getDate()+d);return t})(new Date).toGMTString():'');
 	}
 
-	// ÄíÅ° °¡Á®¿À±â
+	// ì¿ í‚¤ ê°€ì ¸ì˜¤ê¸°
 	function getCookie(name) {
 		name = new RegExp(name + '=([^;]*)');
 		return name.test(document.cookie) ? unescape(RegExp.$1) : '';
@@ -49,19 +49,19 @@
 	cafe_mb_level = getUserLevel(cafe_id)
 	Select case cafe_mb_level
 		Case "0"
-			Response.Write "<script>alert('°ü¸®ÀÚ¿¡ ÀÇÇØ »ç¶û¹æ Á¢±ÙÀÌ Á¦ÇÑ µÇ¾ú½À´Ï´Ù.');top.location.href='/';</script>"
+			Response.Write "<script>alert('ê´€ë¦¬ìì— ì˜í•´ ì‚¬ë‘ë°© ì ‘ê·¼ì´ ì œí•œ ë˜ì—ˆìŠµë‹ˆë‹¤.');top.location.href='/';</script>"
 			Response.end
 		Case "1"
-			user_level_str = "ÁØÈ¸¿ø"
+			user_level_str = "ì¤€íšŒì›"
 		Case "2"
-			user_level_str = "Á¤È¸¿ø"
+			user_level_str = "ì •íšŒì›"
 		Case "10"
-			user_level_str = "¿î¿µÀÚ"
+			user_level_str = "ìš´ì˜ì"
 	End Select
 
 	Set header_rs = Server.CreateObject ("ADODB.Recordset")
 
-	' È¸¿ø¼ö
+	' íšŒì›ìˆ˜
 	sql = ""
 	sql = sql & " select count(cafe_id) as cnt "
 	sql = sql & "   from cf_cafe_member "
@@ -74,7 +74,7 @@
 	End If
 	header_rs.close
 
-	' ¹æ¹®ÀÚ¼ö, Ä«ÆäÀÌ¹ÌÁö
+	' ë°©ë¬¸ììˆ˜, ì¹´í˜ì´ë¯¸ì§€
 	sql = ""
 	sql = sql & " select visit_cnt "
 	sql = sql & "       ,cafe_img "
@@ -88,7 +88,7 @@
 	End If
 	header_rs.close
 
-	' ÂÊÁö¼ö
+	' ìª½ì§€ìˆ˜
 	sql = ""
 	sql = sql & " select count(to_user) as cnt "
 	sql = sql & "   from cf_memo "
@@ -113,52 +113,52 @@
 								var target = document.getElementById('zoom');
 								target.innerText = scale;
 							</script>
-							<button type="button" class="btn_enlar" onclick="zoomOut()"><em>Ãà¼Ò</em></button>
-							<button type="button" class="btn_nor" onclick="zoomDefault()"><em>±âº»</em></button>
-							<button type="button" class="btn_reduc" onclick="zoomIn()"><em>È®´ë</em></button>
+							<button type="button" class="btn_enlar" onclick="zoomOut()"><em>ì¶•ì†Œ</em></button>
+							<button type="button" class="btn_nor" onclick="zoomDefault()"><em>ê¸°ë³¸</em></button>
+							<button type="button" class="btn_reduc" onclick="zoomIn()"><em>í™•ëŒ€</em></button>
 						</li>
 <%
 	If Session("cafe_ad_level") = "10" Then
 %>
-						<li><a href="/cafe/admin/member_list.asp">°ü¸®ÀÚ</a></li>
-						<li><a href="/cafe/main.asp?cafe_id=<%=session("mycafe")%>">Ã³À½À¸·Î</a></li>
-						<li><a href="/cafe/skin/my_info_edit.asp">³»Á¤º¸</a></li>
+						<li><a href="/cafe/admin/member_list.asp">ê´€ë¦¬ì</a></li>
+						<li><a href="/cafe/main.asp?cafe_id=<%=session("mycafe")%>">ì²˜ìŒìœ¼ë¡œ</a></li>
+						<li><a href="/cafe/skin/my_info_edit.asp">ë‚´ì •ë³´</a></li>
 <%
 		If user_id <> "" Then
 %>
-						<li><a href="/logout_exec.asp">·Î±×¾Æ¿ô</a></li>
+						<li><a href="/logout_exec.asp">ë¡œê·¸ì•„ì›ƒ</a></li>
 <%
 		Else
 %>
-						<li><a href="/">·Î±×ÀÎ</a></li>
+						<li><a href="/">ë¡œê·¸ì¸</a></li>
 <%
 		End If
 		If skin_yn = "Y" Then
 %>
-						<li><a href="#n" class="btn_decotation">²Ù¹Ì±â</a></li>
+						<li><a href="#n" class="btn_decotation">ê¾¸ë¯¸ê¸°</a></li>
 <%
 		End If
 
 	ElseIf Session("cafe_mb_level") = "10" Then
 %>
-						<li><a href="/cafe/skin/my_info_edit.asp">³»Á¤º¸</a></li>
-						<li><a href="/cafe/main.asp?cafe_id=<%=session("mycafe")%>">Ã³À½À¸·Î</a></li>
-						<li><a href="/end_message_view.asp">·Î±×¾Æ¿ô</a></li>
+						<li><a href="/cafe/skin/my_info_edit.asp">ë‚´ì •ë³´</a></li>
+						<li><a href="/cafe/main.asp?cafe_id=<%=session("mycafe")%>">ì²˜ìŒìœ¼ë¡œ</a></li>
+						<li><a href="/end_message_view.asp">ë¡œê·¸ì•„ì›ƒ</a></li>
 <%
 		If skin_yn = "Y" Then
 %>
-						<li><a href="#n" class="btn_decotation">²Ù¹Ì±â</a></li>
+						<li><a href="#n" class="btn_decotation">ê¾¸ë¯¸ê¸°</a></li>
 <%
 		End If
 	Else
 %>
-						<li><a href="/cafe/skin/my_info_edit.asp">³»Á¤º¸</a></li>
-						<li><a href="/cafe/main.asp?cafe_id=<%=session("mycafe")%>">Ã³À½À¸·Î</a></li>
-						<li><a href="/end_message_view.asp">·Î±×¾Æ¿ô</a></li>
+						<li><a href="/cafe/skin/my_info_edit.asp">ë‚´ì •ë³´</a></li>
+						<li><a href="/cafe/main.asp?cafe_id=<%=session("mycafe")%>">ì²˜ìŒìœ¼ë¡œ</a></li>
+						<li><a href="/end_message_view.asp">ë¡œê·¸ì•„ì›ƒ</a></li>
 <%
 	End If
 %>
-						<li><a href="/home/main.asp">°æÀÎÈ¨</a></li>
+						<li><a href="/home/main.asp">ê²½ì¸í™ˆ</a></li>
 					</ul>
 				</div>
 				<div class="header_banner">

@@ -1,11 +1,12 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	user_id = Request("user_id")
 	Set rs = Conn.Execute("select count(*) as cnt from cf_member where user_id='" & user_id & "'")
-msgonly "<script>parent.msg.innerHTML='<font color=red>»ç¿ëÁßÀÎ È¸¿ø¾ÆÀÌµğ ÀÔ´Ï´Ù</font>';parent.document.all.member_check.value='N';</script>"
+msgonly "<script>parent.msg.innerHTML='<font color=red>ì‚¬ìš©ì¤‘ì¸ íšŒì›ì•„ì´ë”” ì…ë‹ˆë‹¤</font>';parent.document.all.member_check.value='N';</script>"
 	If rs("cnt") <> 0 Then
-		Response.Write "<script>parent.msg.innerHTML='<font color=red>»ç¿ëÁßÀÎ È¸¿ø¾ÆÀÌµğ ÀÔ´Ï´Ù</font>';parent.document.all.member_check.value='N';</script>"
+		Response.Write "<script>parent.msg.innerHTML='<font color=red>ì‚¬ìš©ì¤‘ì¸ íšŒì›ì•„ì´ë”” ì…ë‹ˆë‹¤</font>';parent.document.all.member_check.value='N';</script>"
 	Else
-		Response.Write "<script>parent.msg.innerHTML='<font color=blue>»ç¿ë°¡´ÉÇÑ È¸¿ø¾ÆÀÌµğ ÀÔ´Ï´Ù</font>';parent.document.all.member_check.value='Y';</script>"
+		Response.Write "<script>parent.msg.innerHTML='<font color=blue>ì‚¬ìš©ê°€ëŠ¥í•œ íšŒì›ì•„ì´ë”” ì…ë‹ˆë‹¤</font>';parent.document.all.member_check.value='Y';</script>"
 	End If
 %>

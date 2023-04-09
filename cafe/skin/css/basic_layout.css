@@ -1,6 +1,6 @@
-@charset "euc-kr";
+@charset "utf-8";
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
-/*ÆùÆ® ±âº»¼³Á¤Àº µ¸À½Ã¼ÀÔ´Ï´Ù. ÆùÆ® Ãß°¡´Â ¿©±â·Î ÇÏ½Ã¸é µË´Ï´Ù.*/
+/*í°íŠ¸ ê¸°ë³¸ì„¤ì •ì€ ë‹ìŒì²´ì…ë‹ˆë‹¤. í°íŠ¸ ì¶”ê°€ëŠ” ì—¬ê¸°ë¡œ í•˜ì‹œë©´ ë©ë‹ˆë‹¤.*/
 * {
 	margin:0;
 	padding:0;
@@ -27,7 +27,7 @@ small, strike, sub, sup, tt, var,
 u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
-/*¼öÁ¤ b, strong, caption, tbody, tfoot, thead, tr, th, td,*/
+/*ìˆ˜ì • b, strong, caption, tbody, tfoot, thead, tr, th, td,*/
 article, aside, canvas, details, embed, 
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
@@ -49,7 +49,7 @@ footer, header, hgroup, menu, nav, section {
 
 body {
 	line-height: 1;
-	font-family: tahoma, 'µ¸¿ò', Arial, Helvetica, sans-serif;
+	font-family: tahoma, 'ë‹ì›€', Arial, Helvetica, sans-serif;
 /*	font-size:12px; */
 	font-size:14px;
 /*	color:#666666; */
@@ -86,7 +86,7 @@ a:active {color:#000;text-decoration:none;}
 }
 
 * {
-	font-family: tahoma, 'µ¸¿ò', Arial, Helvetica, sans-serif;
+	font-family: tahoma, 'ë‹ì›€', Arial, Helvetica, sans-serif;
 }
 
 #LblockHeader {

@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkAdmin(cafe_id)
 
@@ -34,15 +35,15 @@
 	End If
 	Rs.close
 
-	' ¸ğµç Ã·ºÎ »èÁ¦
+	' ëª¨ë“  ì²¨ë¶€ ì‚­ì œ
 	sql = "delete cf_notice_attach where notice_seq = '" & notice_seq  & "' "
 	Conn.Execute(sql)
 
-	' ¸ğµç ´ñ±Û »èÁ¦
+	' ëª¨ë“  ëŒ“ê¸€ ì‚­ì œ
 	sql = "delete cf_notice_comment where notice_seq = '" & notice_seq  & "' "
 	Conn.Execute(sql)
 
-	' º»±Û »èÁ¦
+	' ë³¸ê¸€ ì‚­ì œ
 	sql = "delete cf_notice where notice_seq = '" & notice_seq  & "' "
 	Conn.Execute(sql)
 
@@ -64,7 +65,7 @@
 		End If
 %>
 <script>
-	alert("»èÁ¦ µÇ¾ú½À´Ï´Ù.");
+	alert("ì‚­ì œ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	parent.location.href='notice_list.asp?page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
 </script>
 <%
@@ -74,7 +75,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("¿À·ù°¡ “u»ıÇß½À´Ï´Ù.\n\n¿¡·¯³»¿ë : <%=Err.Description%>(<%=Err.Number%>)");
+	alert("ì˜¤ë¥˜ê°€ ë±”ìƒí–ˆìŠµë‹ˆë‹¤.\n\nì—ëŸ¬ë‚´ìš© : <%=Err.Description%>(<%=Err.Number%>)");
 </script>
 <%
 	End If

@@ -15,7 +15,6 @@
 	sql = sql & "       ,top_cnt                                             "
 	sql = sql & "       ,wide_yn                                             "
 	sql = sql & "       ,list_type                                           "
-	sql = sql & "       ,tab_use_yn                                          "
 	sql = sql & "   from cf_menu cm                                          "
 	sql = sql & "  where cafe_id = '" & cafe_id & "'                         "
 	sql = sql & "    and home_num != 0                                       "
@@ -26,16 +25,15 @@
 	i = 0
 	Do Until rs.eof
 		i = i + 1
-		menu_type  = rs("menu_type")
-		menu_name  = rs("menu_name")
-		page_type  = rs("page_type")
-		menu_seq   = rs("menu_seq")
-		home_num   = rs("home_num")
-		home_cnt   = rs("home_cnt")
-		top_cnt    = rs("top_cnt")
-		wide_yn    = rs("wide_yn")
-		list_type  = rs("list_type")
-		tab_use_yn = rs("tab_use_yn")
+		menu_type = rs("menu_type")
+		menu_name = rs("menu_name")
+		page_type = rs("page_type")
+		menu_seq  = rs("menu_seq")
+		home_num  = rs("home_num")
+		home_cnt  = rs("home_cnt")
+		top_cnt   = rs("top_cnt")
+		wide_yn   = rs("wide_yn")
+		list_type = rs("list_type")
 
 		' 와이드형 여부 sf_col_1 : 와이드, sf_col_2 : 2단
 		' 홀수 짝수(왼쪽 오른쪽) sub_frm_a : 와이드전체, sub_frm_l : 2단
@@ -99,46 +97,47 @@
 							</header>
 							<div class="tb main_rolling" id="<%=land_id%>">
 <%
-		If tab_use_yn = "Y" Then ' 탭정보 확인
+		If list_type = "A2" Then
+%>
+								<div class="slide_cate">
+									<a href="#tab_n_cont1" class="on">전체</a>
+<%
 			sql = ""
-			sql = sql & " select section_seq                   "
-			sql = sql & "       ,section_nm                    "
-			sql = sql & "       ,section_sn                    "
-			sql = sql & "   from cf_menu_section               "
-			sql = sql & "  where menu_seq = '" & menu_seq & "' "
-			sql = sql & "    and use_yn = 'Y'                  "
-			sql = sql & "  union all                           "
-			sql = sql & " select null as section_seq           "
-			sql = sql & "       ,'기타' as section_nm           "
-			sql = sql & "       ,999999999 as section_nm       "
-			sql = sql & "  order by section_sn                 "
+			sql = sql & " select cmn_cd                                               "
+			sql = sql & "       ,cd_nm                                                "
+			sql = sql & "   from cf_code                                              "
+			sql = sql & "  where up_cd_id = (select cd_id                             "
+			sql = sql & "                          from cf_code                       "
+			sql = sql & "                         where up_cd_id = 'CD0000000000'     "
+			sql = sql & "                           and cmn_cd = 'pst_rgn_se_cd'      "
+			sql = sql & "                           and del_yn = 'N'                  "
+			sql = sql & "                           and use_yn = 'Y'                  "
+			sql = sql & "                       )                                     "
+			sql = sql & "    and del_yn = 'N'                                         "
+			sql = sql & "    and use_yn = 'Y'                                         "
+			sql = sql & "  order by cd_sn                                             "
 			rs2.open Sql, conn, 3, 1
-
 			j = 2
 			ReDim arrLst(rs2.recordCount+1)
 			ReDim arrRgn(rs2.recordCount+1)
 
 			If Not rs2.eof Then
-%>
-								<div class="slide_cate">
-									<a href="#tab_n_cont1" class="on">전체</a>
-<%
 				Do Until rs2.eof
-					section_seq = rs2("section_seq")
-					section_nm  = rs2("section_nm")
-					arrLst(j) = section_seq
-					arrRgn(j) = section_nm
+					cmn_cd = rs2("cmn_cd")
+					cd_nm  = rs2("cd_nm")
+					arrLst(j) = cmn_cd
+					arrRgn(j) = cd_nm
 %>
-									<a href="#tab_n_cont<%=j%>" class="<%=if3(j=1,"on","")%>"><%=section_nm%></a>
+									<a href="#tab_n_cont<%=j%>" class="<%=if3(j=1,"on","")%>"><%=cd_nm%></a>
 <%
 					rs2.MoveNext
 					j = j + 1
 				Loop
+			End If
+			rs2.close
 %>
 								</div>
 <%
-			End If
-			rs2.close
 		Else
 			ReDim arrLst(1)
 			ReDim arrRgn(1)
@@ -152,7 +151,7 @@
 			sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
 			sql = sql & "       ,subject "
 			sql = sql & "       ,comment_cnt "
-			sql = sql & "       ," & menu_type & "_seq "
+			sql = sql & "       ," & menu_type  & "_seq "
 			sql = sql & "       ,group_num "
 			sql = sql & "       ,step_num "
 			If menu_type = "land" Then
@@ -177,8 +176,6 @@
 			End If
 			If menu_type = "nsale" And arrLst(li) <> "" Then
 			sql = sql & "    and nsale_rgn_cd = '" & arrLst(li) & "' "
-			ElseIf arrLst(li) <> "" Then
-			sql = sql & "    and section_seq = '" & arrLst(li) & "' "
 			End If
 			sql = sql & "    and step_num = 0 "
 			sql = sql & "    and top_yn = 'Y' "
@@ -198,7 +195,7 @@
 			sql = sql & "       ,frst_receipt_acpt_date  "
 			sql = sql & "       ,mvin_date  "
 			Else
-			sql = sql & "       ,convert(varchar(10), credt, 120) as frst_receipt_acpt_date  "
+			sql = sql & "       ,null frst_receipt_acpt_date  "
 			sql = sql & "       ,null mvin_date  "
 			End If
 			sql = sql & "   from cf_" & menu_type  & " "
@@ -213,8 +210,6 @@
 			End If
 			If menu_type = "nsale" And arrLst(li) <> "" Then
 			sql = sql & "    and nsale_rgn_cd = '" & arrLst(li) & "' "
-			ElseIf arrLst(li) <> "" Then
-			sql = sql & "    and section_seq = '" & arrLst(li) & "' "
 			End If
 			sql = sql & "    and step_num = 0 "
 			sql = sql & "    and isnull(top_yn,'') <> 'Y' "
@@ -231,12 +226,6 @@
 			End If
 			rs2.Open Sql, conn, 3, 1
 
-			If tab_use_yn = "Y" Then ' 탭정보 확인
-%>
-							<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>">
-<%
-			End If
-
 			If Not rs2.eof Then
 				If list_type = "T1" Or list_type = "T2" Then
 %>
@@ -248,7 +237,7 @@
 <%
 				ElseIf list_type = "A1" Or list_type = "A2" Then
 %>
-								<div class="tb">
+								<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>">
 									<div class="slide_2">
 										<div class="slide_in">
 <%
@@ -286,7 +275,7 @@
 %>
 									<li>
 <%
-						uploadUrl = ConfigAttachedFileURL & menu_type & "/"
+						uploadUrl = ConfigAttachedFileURL & "nsale/"
 
 						sql = ""
 						sql = sql & " select top 1 * "
@@ -314,7 +303,7 @@
 %>
 											<div class="c_wrap">
 <%
-						uploadUrl = ConfigAttachedFileURL & menu_type & "/"
+						uploadUrl = ConfigAttachedFileURL & "nsale/"
 
 						sql = ""
 						sql = sql & " select top 1 * "
@@ -334,21 +323,8 @@
 						End If
 						rs3.close
 %>
-												<a href="<%=view_url%>"><span class="text"><%=subject%></span></a>
-												<span class="posr">
-<%
-						If menu_type = "nsale" Then
-%>
-												<span title="분양일"><%=frst_receipt_acpt_date%></span> / <span title="입주일"><%=mvin_date%></span>
-<%
-						Else
-%>
-												<span title="작성일"><%=frst_receipt_acpt_date%></span></span>
-<%
-						End If
-%>
-
-												</span>
+												<a href="<%=view_url%>"><span class="text">단지명 : <%=subject%></span></a>
+												<span class="posr"><span title="분양일"><%=frst_receipt_acpt_date%></span> / <span title="입주일"><%=mvin_date%></span></span>
 											</div>
 <%
 					Else
@@ -406,12 +382,6 @@
 									</li>
 <%
 				End If
-			End If
-
-			If tab_use_yn = "Y" Then ' 탭정보 확인
-%>
-							</div>
-<%
 			End If
 			rs2.close
 		Next

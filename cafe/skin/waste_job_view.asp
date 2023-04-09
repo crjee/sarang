@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 	checkManager(cafe_id)
@@ -6,10 +7,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>½ºÅ²-1 : GI</title>
+	<title>ìŠ¤í‚¨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -58,23 +59,23 @@
 	age     = rs("age")
 
 	If age = "" Or age = "0" Then
-		age = "¹«°ü"
+		age = "ë¬´ê´€"
 	End If
 
 	sex    = rs("sex")
 
 	If sex = "" Then
-		sex = "¹«°ü"
+		sex = "ë¬´ê´€"
 	ElseIf sex = "M" Then
-		sex = "³²ÀÚ"
+		sex = "ë‚¨ì"
 	ElseIf sex = "W" Then
-		sex = "¿©ÀÚ"
+		sex = "ì—¬ì"
 	End If
 
 	work_year  = rs("work_year")
 
 	If work_year = "" Then
-		work_year = "¹«°ü"
+		work_year = "ë¬´ê´€"
 	Else
 		work_year = work_year
 	End If
@@ -82,9 +83,9 @@
 	certify    = rs("certify")
 
 	If certify = "Y" Then
-		certify = "ÇÊ¼ö"
+		certify = "í•„ìˆ˜"
 	Else
-		certify = "¹«°ü"
+		certify = "ë¬´ê´€"
 	End If
 
 	work_place = rs("work_place")
@@ -130,20 +131,20 @@
 			<input type="hidden" name="com_seq" value="<%=job_seq%>">
 			</form>
 				<div class="cont_tit">
-					<h2 class="h2"><font color="red">ÈŞÁöÅë <%=menu_name%> ³»¿ëº¸±â</font></h2>
+					<h2 class="h2"><font color="red">íœ´ì§€í†µ <%=menu_name%> ë‚´ìš©ë³´ê¸°</font></h2>
 				</div>
 				<div class="btn_box view_btn">
-					<button class="btn btn_c_n btn_n" type="button" onclick="goRestore()">º¹¿ø</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">»èÁ¦</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">¸ñ·Ï</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goRestore()">ë³µì›</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">ì‚­ì œ</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">ëª©ë¡</button>
 				</div>
 				<div class="view_head">
 					<h3 class="h3" id="subject"><%=subject%></h3>
 					<div class="wrt_info_box">
 						<ul>
-							<li><span>ÀÛ¼ºÀÚ</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
-							<li><span>Á¶È¸</span><strong><%=rs("view_cnt")%></strong></li>
-							<li><span>µî·ÏÀÏ½Ã</span><strong><%=rs("credt")%></strong></li>
+							<li><span>ì‘ì„±ì</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
+							<li><span>ì¡°íšŒ</span><strong><%=rs("view_cnt")%></strong></li>
+							<li><span>ë“±ë¡ì¼ì‹œ</span><strong><%=rs("credt")%></strong></li>
 						</ul>
 					</div>
 				</div>
@@ -151,7 +152,7 @@
 
 
 				<div class="view_cont">
-					<h4 class="f_awesome h4">ÀÚ°İÁ¶°Ç</h4>
+					<h4 class="f_awesome h4">ìê²©ì¡°ê±´</h4>
 					<div class="tb">
 						<table class="tb_input tb_fixed">
 							<colgroup>
@@ -162,21 +163,21 @@
 							</colgroup>
 							<tbody>
 								<tr>
-									<th scope="row">´ã´ç¾÷¹«</th>
+									<th scope="row">ë‹´ë‹¹ì—…ë¬´</th>
 									<td><%=work%></td>
-									<th scope="row">¿¬·É</th>
+									<th scope="row">ì—°ë ¹</th>
 									<td><%=age%></td>
 								</tr>
 								<tr>
-									<th scope="row">¼ºº°</th>
+									<th scope="row">ì„±ë³„</th>
 									<td><%=sex%></td>
-									<th scope="row">°æ·Â</th>
+									<th scope="row">ê²½ë ¥</th>
 									<td><%=work_year%></td>
 								</tr>
 								<tr>
-									<th scope="row">°ü·ÂÀÚ°İÁõ</th>
+									<th scope="row">ê´€ë ¥ìê²©ì¦</th>
 									<td><%=certify%></td>
-									<th scope="row">±Ù¹«Áö¿ª</th>
+									<th scope="row">ê·¼ë¬´ì§€ì—­</th>
 									<td><%=work_place%></td>
 								</tr>
 							</tbody>
@@ -185,7 +186,7 @@
 				</div>
 
 				<div class="view_cont">
-					<h4 class="f_awesome h4">¹®ÀÇ¹× Á¢¼ö¹æ¹ı</h4>
+					<h4 class="f_awesome h4">ë¬¸ì˜ë° ì ‘ìˆ˜ë°©ë²•</h4>
 					<div class="tb">
 						<table class="tb_input tb_fixed">
 							<colgroup>
@@ -196,31 +197,31 @@
 							</colgroup>
 							<tbody>
 								<tr>
-									<th scope="row">Áß°³¾÷¼Ò¸í</th>
+									<th scope="row">ì¤‘ê°œì—…ì†Œëª…</th>
 									<td><%=agency%></td>
-									<th scope="row">´ã´çÀÚ¸í</th>
+									<th scope="row">ë‹´ë‹¹ìëª…</th>
 									<td><%=person%></td>
 								</tr>
 								<tr>
-									<th scope="row">ÀüÈ­¹øÈ£</th>
+									<th scope="row">ì „í™”ë²ˆí˜¸</th>
 									<td><%=tel_no%></td>
-									<th scope="row">ÈŞ´ëÀüÈ­¹øÈ£</th>
+									<th scope="row">íœ´ëŒ€ì „í™”ë²ˆí˜¸</th>
 									<td><%=mbl_telno%></td>
 								</tr>
 								<tr>
-									<th scope="row">ÆÑ½º</th>
+									<th scope="row">íŒ©ìŠ¤</th>
 									<td><%=fax_no%></td>
-									<th scope="row">ÀÌ¸ŞÀÏ</th>
+									<th scope="row">ì´ë©”ì¼</th>
 									<td><%=email%></td>
 								</tr>
 								<tr>
-									<th scope="row">È¨ÆäÀÌÁö</th>
+									<th scope="row">í™ˆí˜ì´ì§€</th>
 									<td><%=homepage%></td>
-									<th scope="row">Á¢¼ö¹æ¹ı</th>
+									<th scope="row">ì ‘ìˆ˜ë°©ë²•</th>
 									<td><%=method%></td>
 								</tr>
 								<tr>
-									<th scope="row">¸¶°¨ÀÏ</th>
+									<th scope="row">ë§ˆê°ì¼</th>
 									<td colspan="3"><%=end_date%></td>
 								</tr>
 							</tbody>
@@ -228,7 +229,7 @@
 					</div>
 				</div>
 				<div class="view_cont">
-					<h4 class="f_awesome h4">¸ğÁı¿ä°­</h4>
+					<h4 class="f_awesome h4">ëª¨ì§‘ìš”ê°•</h4>
 				</div>
 				<div class="bbs_cont">
 					<%=rs("contents")%>

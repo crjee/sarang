@@ -1,17 +1,17 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>¸Þ´º °ü¸® : °ü¸®ÀÚ</title>
+	<title>ë©”ë‰´ ê´€ë¦¬ : ê´€ë¦¬ìž</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
-	<script type="text/javascript" src="/smart/js/HuskyEZCreator.js" charset="euc-kr"></script>
 </head>
 <body>
 <%
@@ -34,7 +34,7 @@
 	rs.close
 %>
 					<div class="adm_cont_tit">
-						<h4 class="h3 mt20 mb10"><%=menu_name%> ¼³Á¤</h4>
+						<h4 class="h3 mt20 mb10"><%=menu_name%> ì„¤ì •</h4>
 					</div>
 					<form name="form" method="post" action="com_exec.asp">
 					<input type="hidden" name="cafe_id" value="<%=cafe_id%>">
@@ -50,13 +50,13 @@
 								</colgroup>
 								<tbody>
 									<tr>
-										<th scope="row">ÀÌ¸§</th>
+										<th scope="row">ì´ë¦„</th>
 										<td>
 											<input type="text" id="menu_name" name="menu_name" value="<%=menu_name%>" class="inp">
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">¼Ò°³</th>
+										<th scope="row">ì†Œê°œ</th>
 										<td>
 											<input type="text" id="doc" name="doc" value="<%=doc%>" class="inp">
 										</td>
@@ -65,9 +65,9 @@
 							</table>
 						</div>
 						<div class="btn_box algR">
-							<button type="submit" class="btn btn_c_a btn_n">ÀúÀå</button>
-							<button type="reset" class="btn btn_c_n btn_n">Ãë¼Ò</button>
-							<button type="button" class="btn btn_c_n btn_n" id="del">»èÁ¦</button>
+							<button type="submit" class="btn btn_c_a btn_n">ì €ìž¥</button>
+							<button type="reset" class="btn btn_c_n btn_n">ì·¨ì†Œ</button>
+							<button type="button" class="btn btn_c_n btn_n" id="del">ì‚­ì œ</button>
 						</div>
 						</form>
 						<script>
@@ -78,7 +78,7 @@
 <script LANGUAGE="JavaScript">
 <!--
 	$('#del').click(function() {
-		msg="»èÁ¦ÇÏ½Ã°Ú½À´Ï±î?"
+		msg="ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?"
 		if (confirm(msg)) {
 			document.location.href='../menu_del_exec.asp?menu_seq=<%=menu_seq%>';
 		}

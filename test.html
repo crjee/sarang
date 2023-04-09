@@ -3,10 +3,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>��Ų-3 : GI</title>
+	<title>스킨-3 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -17,12 +17,12 @@
 	<div id="wrap" class="group">
 <script language="JavaScript">
 <!--
-	// ��Ű ����
+	// 쿠키 생성
 	function setCookie(name, value, d){
 		document.cookie = name+'='+escape(value)+'; path=/'+(d?'; expires='+(function(t){t.setDate(t.getDate()+d);return t})(new Date).toGMTString():'');
 	}
 
-	// ��Ű ��������
+	// 쿠키 가져오기
 	function getCookie(name){
 		name = new RegExp(name + '=([^;]*)');
 		return name.test(document.cookie) ? unescape(RegExp.$1) : '';
@@ -74,16 +74,16 @@
 								var target = document.getElementById('zoom');
 								target.innerText = scale;
 							</script>
-							<button type="button" class="btn_enlar" onclick="zoomOut()"><em>���</em></button>
-							<button type="button" class="btn_nor" onclick="zoomDefault()"><em>�⺻</em></button>
-							<button type="button" class="btn_reduc" onclick="zoomIn()"><em>Ȯ��</em></button>
+							<button type="button" class="btn_enlar" onclick="zoomOut()"><em>축소</em></button>
+							<button type="button" class="btn_nor" onclick="zoomDefault()"><em>기본</em></button>
+							<button type="button" class="btn_reduc" onclick="zoomIn()"><em>확대</em></button>
 						</li>
 
-						<li><a href="/cafe/supervisor/member_list.asp">������</a></li>
-						<li><a href="/cafe/main.asp?cafe_id=">ó������</a></li>
-						<li><a href="/cafe/skin/my_info.asp">������</a></li>
+						<li><a href="/cafe/supervisor/member_list.asp">관리자</a></li>
+						<li><a href="/cafe/main.asp?cafe_id=">처음으로</a></li>
+						<li><a href="/cafe/skin/my_info.asp">내정보</a></li>
 
-						<li><a href="/logout.asp">�α׾ƿ�</a></li>
+						<li><a href="/logout.asp">로그아웃</a></li>
 
 					</ul>
 				</div>
@@ -120,68 +120,68 @@
 			<nav id="nav_gnb" class="group_nav dsc_">
 				<div class="group_area">
 					<div class="group_box">
-						<p><strong>��������</strong>�� �ȳ��ϼ���</p>
-						<span class="icon">���</span>
+						<p><strong>경인정보</strong>님 안녕하세요</p>
+						<span class="icon">운영자</span>
 					</div>
 
 					<ul class="group_list">
-						<li><em>ȸ����</em> <strong>75</strong></li>
-						<li><em>�湮��</em> <strong>306,618</strong></li>
-						<li><em>������</em> <strong>0</strong></li>
+						<li><em>회원수</em> <strong>75</strong></li>
+						<li><em>방문수</em> <strong>306,618</strong></li>
+						<li><em>쪽지함</em> <strong>0</strong></li>
 					</ul>
 					<div class="search_box">
-						<label for="">��ü�˻�</label>
-						<input type="text" id="" name="" placeholder="�˻�� �Է��ϼ���" class="" />
-						<button type="button" class="f_awesome"><em>�˻�</em></button>
+						<label for="">전체검색</label>
+						<input type="text" id="" name="" placeholder="검색어를 입력하세요" class="" />
+						<button type="button" class="f_awesome"><em>검색</em></button>
 					</div>
-					<button class="btn btn_c_s btn_n" type="button" onclick="javascripit:document.location.href='/cafe/manager/cafe_info.asp'">����� ����</button>
-					<a href="#n" class="btn btn_c_a btn_n">ī��۾���</a>
+					<button class="btn btn_c_s btn_n" type="button" onclick="javascripit:document.location.href='/cafe/manager/cafe_info.asp'">사랑방 관리</button>
+					<a href="#n" class="btn btn_c_a btn_n">카페글쓰기</a>
 				</div>
 				<ul class="nav">
 
-					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=1947'> �Խ��� </a></li>
+					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=1947'> 게시판 </a></li>
 
-					<li style=""><a href='/cafe/skin/page_view.asp?menu_seq=1948'> ������ </a></li>
+					<li style=""><a href='/cafe/skin/page_view.asp?menu_seq=1948'> 조직도 </a></li>
 
-					<li style=""><a href='/cafe/skin/memo_write.asp?menu_seq=1949'> ���� </a></li>
+					<li style=""><a href='/cafe/skin/memo_write.asp?menu_seq=1949'> 쪽지 </a></li>
 
-					<li style=""><a href='/cafe/skin/page_view.asp?menu_seq=1950'> ������ </a></li>
+					<li style=""><a href='/cafe/skin/page_view.asp?menu_seq=1950'> 조직도 </a></li>
 
-					<li class="menu_tit">Ŀ�´�Ƽ</li>
+					<li class="menu_tit">커뮤니티</li>
 
-					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=68'> �������� </a></li>
+					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=68'> 공지사항 </a></li>
 
-					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=70'> �����Խ��� </a></li>
+					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=70'> 자유게시판 </a></li>
 
-					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=875'> ���ζ� </a></li>
+					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=875'> 구인란 </a></li>
 
-					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=771'> �ְ��˸��� </a></li>
+					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=771'> 애경사알림방 </a></li>
 
-					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=770'> �߰��ǹ� </a></li>
+					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=770'> 중개실무 </a></li>
 
-					<li style=""><a href='/cafe/skin/sale_list.asp?menu_seq=328'> �Ź����մϴ� </a></li>
+					<li style=""><a href='/cafe/skin/sale_list.asp?menu_seq=328'> 매물구합니다 </a></li>
 
-					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=874'> ȸ������ </a></li>
+					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=874'> 회원명단 </a></li>
 
-					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=902'> �ڷ�� </a></li>
+					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=902'> 자료실 </a></li>
 
-					<li style=""><a href='/cafe/skin/album_list.asp?menu_seq=1360'> �ٹ� </a></li>
+					<li style=""><a href='/cafe/skin/album_list.asp?menu_seq=1360'> 앨범 </a></li>
 
-					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=905'> �޸Ź� </a></li>
+					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=905'> 급매물 </a></li>
 
-					<li style=""><a href='/cafe/skin/job_list.asp?menu_seq=1335'> ä��Խ��� </a></li>
+					<li style=""><a href='/cafe/skin/job_list.asp?menu_seq=1335'> 채용게시판 </a></li>
 
-					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=1528'> �ε���׺� ��û���� </a></li>
+					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=1528'> 부동산네비 요청사항 </a></li>
 
-					<li class="menu_tit">�޴��׷�</li>
+					<li class="menu_tit">메뉴그룹</li>
 
-					<li style=""><a href='/cafe/skin/page_view.asp?menu_seq=1880'> ȸĢ </a></li>
+					<li style=""><a href='/cafe/skin/page_view.asp?menu_seq=1880'> 회칙 </a></li>
 
-					<li style=""><a href='/cafe/skin/page_view.asp?menu_seq=1881'> �Ұ�ssss </a></li>
+					<li style=""><a href='/cafe/skin/page_view.asp?menu_seq=1881'> 소개ssss </a></li>
 
-					<li style=""><a href='/cafe/skin/page_view.asp?menu_seq=1882'> ���� </a></li>
+					<li style=""><a href='/cafe/skin/page_view.asp?menu_seq=1882'> 명단 </a></li>
 
-					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=1883'> �ѹ�ȸ�� </a></li>
+					<li style=""><a href='/cafe/skin/board_list.asp?menu_seq=1883'> 총무회계 </a></li>
 
 				</ul>
 			</nav>
@@ -193,19 +193,19 @@
 	$(function(){
 		try {
 			$('#dv_rolling').vTicker({
-				// ��ũ�� �ӵ�(default: 700)
+				// 스크롤 속도(default: 700)
 				speed: 1000,
-				// ��ũ�� ������ ���ð�(default: 4000)
+				// 스크롤 사이의 대기시간(default: 4000)
 				pause: 2000,
-				// ��ũ�� �ִϸ��̼�
+				// 스크롤 애니메이션
 				animation: 'fade',
-				// ���콺 over �϶� ���� ����
+				// 마우스 over 일때 멈출 설정
 				mousePause: true,
-				// �ѹ��� ���� ����Ʈ��(default: 2)
+				// 한번에 보일 리스트수(default: 2)
 				showItems: 5,
-				// ��ũ�� �����̳� ����(default: 0)
+				// 스크롤 컨테이너 높이(default: 0)
 				height: 0,
-				// �������� �����̴� ����, up/down (default: up)
+				// 아이템이 움직이는 방향, up/down (default: up)
 				direction: 'up'
 			});
 		}
@@ -214,49 +214,49 @@
 	});
 </script>
 
-                <div class="sub_frm_flex "><!-- sf_col_1 : ���̵�, sf_col_2 : �Ϲ� -->
+                <div class="sub_frm_flex "><!-- sf_col_1 : 와이드, sf_col_2 : 일반 -->
 
 
-					<div class="sub_frm_a"><!-- sub_frm_a : ���̵���ü, sub_frm_l : 2������, sub_frm_r : 2�ܿ��� -->
+					<div class="sub_frm_a"><!-- sub_frm_a : 와이드전체, sub_frm_l : 2단좌측, sub_frm_r : 2단우측 -->
 						<div class="latest_box">
 							<header class="latest_box_head">
-								<h4 class="h4">��������</h4>
+								<h4 class="h4">공지사항</h4>
 								<span class="posR"><a href="/cafe/skin/board_list.asp?menu_seq=68">more</a></span>
 							</header>
 							<div class="tb" id="">
-								<ul class="latest_1"><!-- latest_1 : �ؽ�Ʈ, latest_2 : ī����, latest_2 latest_2_re : ī���, latest_3 : �ٹ��Ϲ�, latest_3 latest_3_ori : �ٹ����̵� -->
+								<ul class="latest_1"><!-- latest_1 : 텍스트, latest_2 : 카드좌, latest_2 latest_2_re : 카드우, latest_3 : 앨범일반, latest_3 latest_3_ori : 앨범와이드 -->
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/board_view.asp?board_seq=1196794&menu_seq=68"><span class="text">
-�ѿ�ȸ ����ȸ �����մϴ�(3)
+한울회 야유회 공지합니다(3)
 										</span></a>
 										<span class="posr">2022-10-10</span>
 									</li>
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/board_view.asp?board_seq=1183399&menu_seq=68"><span class="text">
-7�� ������ӿ� ���� �ȳ��Դϴ�(8)
+7월 정기모임에 관한 안내입니다(8)
 										</span></a>
 										<span class="posr">2022-06-16</span>
 									</li>
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/board_view.asp?board_seq=1181932&menu_seq=68"><span class="text">
-6�� �ѿ�ȸ ���ʸ��� �ı�..(3)
+6월 한울회 월례모임 후기..(3)
 										</span></a>
 										<span class="posr">2022-06-03</span>
 									</li>
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/board_view.asp?board_seq=1180466&menu_seq=68"><span class="text">
-6��2��(��) �ѿ�ȸ ������ʸ����� �˷��帳�ϴ�(9)
+6월2일(목) 한울회 정기월례모임을 알려드립니다(9)
 										</span></a>
 										<span class="posr">2022-05-23</span>
 									</li>
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/board_view.asp?board_seq=1180165&menu_seq=68"><span class="text">
-5�� 21����...�ѿ�ȸ ��°�� ����� �޹����Դϴ�~^^(2)
+5월 21일은...한울회 셋째주 토요일 휴무일입니다~^^(2)
 										</span></a>
 										<span class="posr">2022-05-20</span>
 									</li>
@@ -269,46 +269,46 @@
 				<!-- </div> -->
 
 
-					<div class="sub_frm_l"><!-- sub_frm_a : ���̵���ü, sub_frm_l : 2������, sub_frm_r : 2�ܿ��� -->
+					<div class="sub_frm_l"><!-- sub_frm_a : 와이드전체, sub_frm_l : 2단좌측, sub_frm_r : 2단우측 -->
 						<div class="latest_box">
 							<header class="latest_box_head">
-								<h4 class="h4">�ְ��˸���</h4>
+								<h4 class="h4">애경사알림방</h4>
 								<span class="posR"><a href="/cafe/skin/board_list.asp?menu_seq=771">more</a></span>
 							</header>
 							<div class="tb" id="">
-								<ul class="latest_1"><!-- latest_1 : �ؽ�Ʈ, latest_2 : ī����, latest_2 latest_2_re : ī���, latest_3 : �ٹ��Ϲ�, latest_3 latest_3_ori : �ٹ����̵� -->
+								<ul class="latest_1"><!-- latest_1 : 텍스트, latest_2 : 카드좌, latest_2 latest_2_re : 카드우, latest_3 : 앨범일반, latest_3 latest_3_ori : 앨범와이드 -->
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/board_view.asp?board_seq=1197950&menu_seq=771"><span class="text">
-���� �λ� �帳�ϴ�(1)
+감사 인사 드립니다(1)
 										</span></a>
 										<span class="posr">2022-10-17</span>
 									</li>
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/board_view.asp?board_seq=1196495&menu_seq=771"><span class="text">
-���� �帳�ϴ�.(2)
+감사 드립니다.(2)
 										</span></a>
 										<span class="posr">2022-10-07</span>
 									</li>
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/board_view.asp?board_seq=1196043&menu_seq=771"><span class="text">
-[�ΰ�] 7���� ��︲�ε��� �����ϴ�ǥ�� �þ�ӴϺ���(8)
+[부고] 7구역 어울림부동산 김은하대표님 시어머니별세(8)
 										</span></a>
 										<span class="posr">2022-10-05</span>
 									</li>
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/board_view.asp?board_seq=1194929&menu_seq=771"><span class="text">
-�Ƶ� ��ȥ ���� �λ� (2)
+아들 결혼 감사 인사 (2)
 										</span></a>
 										<span class="posr">2022-09-26</span>
 									</li>
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/board_view.asp?board_seq=1194086&menu_seq=771"><span class="text">
-4���� �����־� �����߰���繫�� ��������ǥ���� ��ȥ���� �˷��帳�ϴ�^^(10)
+4구역 부평주안 공인중개사사무소 권혁남대표님의 결혼식을 알려드립니다^^(10)
 										</span></a>
 										<span class="posr">2022-09-20</span>
 									</li>
@@ -321,46 +321,46 @@
 				<!-- </div> -->
 
 
-					<div class="sub_frm_a"><!-- sub_frm_a : ���̵���ü, sub_frm_l : 2������, sub_frm_r : 2�ܿ��� -->
+					<div class="sub_frm_a"><!-- sub_frm_a : 와이드전체, sub_frm_l : 2단좌측, sub_frm_r : 2단우측 -->
 						<div class="latest_box">
 							<header class="latest_box_head">
-								<h4 class="h4">�����Խ���</h4>
+								<h4 class="h4">자유게시판</h4>
 								<span class="posR"><a href="/cafe/skin/board_list.asp?menu_seq=70">more</a></span>
 							</header>
 							<div class="tb" id="">
-								<ul class="latest_1"><!-- latest_1 : �ؽ�Ʈ, latest_2 : ī����, latest_2 latest_2_re : ī���, latest_3 : �ٹ��Ϲ�, latest_3 latest_3_ori : �ٹ����̵� -->
+								<ul class="latest_1"><!-- latest_1 : 텍스트, latest_2 : 카드좌, latest_2 latest_2_re : 카드우, latest_3 : 앨범일반, latest_3 latest_3_ori : 앨범와이드 -->
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/board_view.asp?board_seq=1200924&menu_seq=70"><span class="text">
-�̷��ε��� �λ�帳�ϴ�~~^^�̷��ε��� �λ�帳�ϴ�~~^^
+미래부동산 인사드립니다~~^^미래부동산 인사드립니다~~^^
 										</span></a>
 										<span class="posr">2023-03-27</span>
 									</li>
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/board_view.asp?board_seq=1184272&menu_seq=70"><span class="text">
-6���� �泲�����߰���繫�� ������ ���ϵ帳�ϴ�^^(20)
+6구역 경남공인중개사사무소 개업을 축하드립니다^^(20)
 										</span></a>
 										<span class="posr">2022-06-23</span>
 									</li>
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/board_view.asp?board_seq=1172751&menu_seq=70"><span class="text">
-4���� �켺��������߰���繫�� ������ ���ϵ����^^(13)
+4구역 우성사랑공인중개사사무소 개업을 축하드려요^^(13)
 										</span></a>
 										<span class="posr">2022-03-25</span>
 									</li>
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/board_view.asp?board_seq=1166941&menu_seq=70"><span class="text">
-���� �ڿ����� Ư�� ������ ��û�ϼ���~^^(4)
+영세 자영업자 특별 지원금 신청하세요~^^(4)
 										</span></a>
 										<span class="posr">2022-02-07</span>
 									</li>
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/board_view.asp?board_seq=1165926&menu_seq=70"><span class="text">
-����ī�� �α��ι��(2)
+다음카페 로그인방법(2)
 										</span></a>
 										<span class="posr">2022-01-26</span>
 									</li>
@@ -373,14 +373,14 @@
 				<!-- </div> -->
 
 
-					<div class="sub_frm_l"><!-- sub_frm_a : ���̵���ü, sub_frm_l : 2������, sub_frm_r : 2�ܿ��� -->
+					<div class="sub_frm_l"><!-- sub_frm_a : 와이드전체, sub_frm_l : 2단좌측, sub_frm_r : 2단우측 -->
 						<div class="latest_box">
 							<header class="latest_box_head">
-								<h4 class="h4">�ٹ�</h4>
+								<h4 class="h4">앨범</h4>
 								<span class="posR"><a href="/cafe/skin/album_list.asp?menu_seq=1360">more</a></span>
 							</header>
 							<div class="tb" id="">
-								<ul class="latest_1"><!-- latest_1 : �ؽ�Ʈ, latest_2 : ī����, latest_2 latest_2_re : ī���, latest_3 : �ٹ��Ϲ�, latest_3 latest_3_ori : �ٹ����̵� -->
+								<ul class="latest_1"><!-- latest_1 : 텍스트, latest_2 : 카드좌, latest_2 latest_2_re : 카드우, latest_3 : 앨범일반, latest_3 latest_3_ori : 앨범와이드 -->
 
 								</ul>
 							</div>
@@ -390,39 +390,39 @@
 				<!-- </div> -->
 
 
-					<div class="sub_frm_a"><!-- sub_frm_a : ���̵���ü, sub_frm_l : 2������, sub_frm_r : 2�ܿ��� -->
+					<div class="sub_frm_a"><!-- sub_frm_a : 와이드전체, sub_frm_l : 2단좌측, sub_frm_r : 2단우측 -->
 						<div class="latest_box">
 							<header class="latest_box_head">
-								<h4 class="h4">�Ź����մϴ�</h4>
+								<h4 class="h4">매물구합니다</h4>
 								<span class="posR"><a href="/cafe/skin/sale_list.asp?menu_seq=328">more</a></span>
 							</header>
 							<div class="tb" id="">
-								<ul class="latest_1"><!-- latest_1 : �ؽ�Ʈ, latest_2 : ī����, latest_2 latest_2_re : ī���, latest_3 : �ٹ��Ϲ�, latest_3 latest_3_ori : �ٹ����̵� -->
+								<ul class="latest_1"><!-- latest_1 : 텍스트, latest_2 : 카드좌, latest_2 latest_2_re : 카드우, latest_3 : 앨범일반, latest_3 latest_3_ori : 앨범와이드 -->
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/sale_view.asp?sale_seq=29005&menu_seq=328"><span class="text">
-�ε����ڸ�
+부동산자리
 										</span></a>
 										<span class="posr">2021-03-15</span>
 									</li>
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/sale_view.asp?sale_seq=28364&menu_seq=328"><span class="text">
-�ε��� �ڸ� �Ӵ뱸�մϴ�.
+부동산 자리 임대구합니다.
 										</span></a>
 										<span class="posr">2020-11-05</span>
 									</li>
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/sale_view.asp?sale_seq=25503&menu_seq=328"><span class="text">
-����2�Ｑ ���մϴ�
+전세2억선 구합니다
 										</span></a>
 										<span class="posr">2019-09-09</span>
 									</li>
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/sale_view.asp?sale_seq=14203&menu_seq=328"><span class="text">
-ī�����ڸ� ����
+카센터자리 구함
 										</span></a>
 										<span class="posr">2017-02-20</span>
 									</li>
@@ -435,18 +435,18 @@
 				<!-- </div> -->
 
 
-					<div class="sub_frm_l"><!-- sub_frm_a : ���̵���ü, sub_frm_l : 2������, sub_frm_r : 2�ܿ��� -->
+					<div class="sub_frm_l"><!-- sub_frm_a : 와이드전체, sub_frm_l : 2단좌측, sub_frm_r : 2단우측 -->
 						<div class="latest_box">
 							<header class="latest_box_head">
-								<h4 class="h4">ȸ������</h4>
+								<h4 class="h4">회원명단</h4>
 								<span class="posR"><a href="/cafe/skin/board_list.asp?menu_seq=874">more</a></span>
 							</header>
 							<div class="tb" id="">
-								<ul class="latest_1"><!-- latest_1 : �ؽ�Ʈ, latest_2 : ī����, latest_2 latest_2_re : ī���, latest_3 : �ٹ��Ϲ�, latest_3 latest_3_ori : �ٹ����̵� -->
+								<ul class="latest_1"><!-- latest_1 : 텍스트, latest_2 : 카드좌, latest_2 latest_2_re : 카드우, latest_3 : 앨범일반, latest_3 latest_3_ori : 앨범와이드 -->
 
 									<li class="t_nowrap">
 										<a href="/cafe/skin/board_view.asp?board_seq=138198&menu_seq=874"><span class="text">
-ȸ������
+회원명단
 										</span></a>
 										<span class="posr">2015-09-04</span>
 									</li>
@@ -465,26 +465,26 @@
 		<footer id="footer">
 			<div class="foot_inner foot_inner_ext">
 				<ul class="foot_btn">
-					<li><a href="#n">ȸ��Ұ�</a></li>
-					<li><a href="#n">�̿���</a></li>
-					<li><a href="#n">��������ó����ħ</a></li>
-					<li><a href="#n">����/���޹���</a></li>
-					<li><a href="#n">�Խ��ߴܿ�û</a></li>
+					<li><a href="#n">회사소개</a></li>
+					<li><a href="#n">이용약관</a></li>
+					<li><a href="#n">개인정보처리방침</a></li>
+					<li><a href="#n">광고/제휴문의</a></li>
+					<li><a href="#n">게시중단요청</a></li>
 				</ul>
 			</div>
 			<div class="foot_inner">
 				<ul class="foot_info">
-					<li><em class="hide">ȸ���</em>(��)���γ�Ʈ��ũ</li>
-					<li><em class="">��ǥ��</em>������</li>
-					<li><em class="">����ڹ�ȣ</em>122-81-82524</li>
-					<li><em class="">����Ǹž��Ű���ȣ</em>��2010-��õ���-0223ȣ</li>
+					<li><em class="hide">회사명</em>(주)경인네트워크</li>
+					<li><em class="">대표자</em>윤종모</li>
+					<li><em class="">사업자번호</em>122-81-82524</li>
+					<li><em class="">통신판매업신고번호</em>제2010-인천계양-0223호</li>
 				</ul>
 				<p class="foot_address">
-					Copyright &copy; 2004~2022 ���γ�Ʈ��ũ. All rights reserved.
+					Copyright &copy; 2004~2022 경인네트워크. All rights reserved.
 				</p>
 			</div>
 		</footer>
-����ð� : 0.52734 (��)<br>
+실행시간 : 0.52734 (초)<br>
 	<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;width:1000;"></iframe>
 
 	</div>

@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Call checkAdmin()
 
@@ -38,10 +39,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>»ç¶û¹æ °ü¸® > °ü¸®ÀÚ</title>
+	<title>ì‚¬ëž‘ë°© ê´€ë¦¬ > ê´€ë¦¬ìž</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -51,14 +52,14 @@
 <body class="sa">
 	<div id="wrap">
 		<header id="adm_head">
-			<h1><a href="/">RETS °æÀÎ<sub>ÀüÃ¼°ü¸®</sub></a></h1>
+			<h1><a href="/">RETS ê²½ì¸<sub>ì „ì²´ê´€ë¦¬</sub></a></h1>
 		</header>
 		<nav id="adm_nav">
 <!--#include virtual="/cafe/admin/admin_left_inc.asp"-->
 		</nav>
 		<main id="adm_body">
 			<div class="adm_page_tit">
-				<h2 class="h2">¹è³Ê°ü¸®</h2>
+				<h2 class="h2">ë°°ë„ˆê´€ë¦¬</h2>
 			</div>
 			<div class="adm_cont">
 				<div class="adm_menu_manage">
@@ -75,13 +76,13 @@
 							</colgroup>
 							<thead>
 								<tr>
-									<th scope="col">¹øÈ£</th>
-									<th scope="col">±¸ºÐ</th>
-									<th scope="col">¹è³ÊÀÌ¹ÌÁö</th>
-									<th scope="col">Á¦¸ñ/¸µÅ©</th>
-									<th scope="col">µî·ÏÀÏ</th>
-									<th scope="col">°ø°³¿©ºÎ</th>
-									<th scope="col">¼³Á¤</th>
+									<th scope="col">ë²ˆí˜¸</th>
+									<th scope="col">êµ¬ë¶„</th>
+									<th scope="col">ë°°ë„ˆì´ë¯¸ì§€</th>
+									<th scope="col">ì œëª©/ë§í¬</th>
+									<th scope="col">ë“±ë¡ì¼</th>
+									<th scope="col">ê³µê°œì—¬ë¶€</th>
+									<th scope="col">ì„¤ì •</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -107,15 +108,15 @@
 	Do Until rs.eof
 		open_yn = rs("open_yn")
 		If open_yn = "Y" then
-			open_yn = "°ø°³"
+			open_yn = "ê³µê°œ"
 		Else
-			open_yn = "ºñ°ø°³"
+			open_yn = "ë¹„ê³µê°œ"
 		End If
 
 		If rs("banner_type") = "T" then
-			banner_type = "»ó´Ü"
+			banner_type = "ìƒë‹¨"
 		Else
-			banner_type = "¿À¸¥ÂÊ"
+			banner_type = "ì˜¤ë¥¸ìª½"
 		End if
 %>
 								<tr>
@@ -154,7 +155,7 @@
 									<td class="algC"><%=rs("credt")%></td>
 									<td class="algC"><%=open_yn%></td>
 									<td class="algC">
-										<button type="button" class="btn btn_c_a btn_s" onclick="lyp('lypp_adm_banner')">¼öÁ¤</button>
+										<button type="button" class="btn btn_c_a btn_s" onclick="lyp('lypp_adm_banner')">ìˆ˜ì •</button>
 									</td>
 								</tr>
 <%
@@ -172,11 +173,11 @@
 		</main>
 		<footer id="adm_foot"></footer>
 	</div>
-	<!-- ¹è³Ê µî·Ï : s -->
+	<!-- ë°°ë„ˆ ë“±ë¡ : s -->
 	<aside class="lypp lypp_adm_default lypp_adm_banner">
 		<header class="lypp_head">
-			<h2 class="h2">¹è³Ê µî·Ï</h2>
-			<span class="posR"><button type="button" class="btn btn_close"><em>´Ý±â</em></button></span>
+			<h2 class="h2">ë°°ë„ˆ ë“±ë¡</h2>
+			<span class="posR"><button type="button" class="btn btn_close"><em>ë‹«ê¸°</em></button></span>
 		</header>
 		<div class="adm_cont">
 			<form method="post" action="banner_exec.asp" enctype="multipart/form-data" target="hiddenfrm">
@@ -192,25 +193,25 @@
 					</colgroup>
 					<tbody>
 						<tr>
-							<th scope="row">Á¦¸ñ</th>
+							<th scope="row">ì œëª©</th>
 							<td colspan="3">
 								<input type="text" id="subject" name="subject" maxlength="100" required class="inp" />
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">ÆÄÀÏÁ¾·ù</th>
+							<th scope="row">íŒŒì¼ì¢…ë¥˜</th>
 							<td>
 								<select id="file_type" name="file_type" required class="sel w_auto">
-									<option value="I" <%=if3(file_type="I","selected","")%>>ÀÌ¹ÌÁö</option>
+									<option value="I" <%=if3(file_type="I","selected","")%>>ì´ë¯¸ì§€</option>
 								</select>
 							</td>
-							<th scope="row">¹è³Ê¼±ÅÃ</th>
+							<th scope="row">ë°°ë„ˆì„ íƒ</th>
 							<td>
 								<input type="file" id="file_name" name="file_name" class="inp" required />
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">¹è³ÊÀÌ¹ÌÁö</th>
+							<th scope="row">ë°°ë„ˆì´ë¯¸ì§€</th>
 							<td>
 <%
 	If file_type = "I" Then
@@ -224,32 +225,32 @@
 	End if
 %>
 							</td>
-							<th scope="row">¹è³Ê¸µÅ©</th>
+							<th scope="row">ë°°ë„ˆë§í¬</th>
 							<td>
 								<input type="text" id="link" name="link" class="inp" />
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">¹è³ÊÅ©±â</th>
+							<th scope="row">ë°°ë„ˆí¬ê¸°</th>
 							<td>
 								<span class="">
-									<label for="">°¡·Î</label>
+									<label for="">ê°€ë¡œ</label>
 									<input type="text" id="banner_width" name="banner_width" class="inp w100p" />
 								</span>
 								<span class="ml10">
-									<label for="">¼¼·Î</label>
+									<label for="">ì„¸ë¡œ</label>
 									<input type="text" id="banner_height" name="banner_height" class="inp w100p" />
 								</span>
 							</td>
-							<th scope="row">°ø°³¿©ºÎ</th>
+							<th scope="row">ê³µê°œì—¬ë¶€</th>
 							<td>
 								<span class="">
 									<input type="radio" id="open_yn" name="open_yn" value="Y" <%=if3(open_yn="Y","checked","")%> required class="inp_radio" />
-									<label for=""><em>°ø°³</em></label>
+									<label for=""><em>ê³µê°œ</em></label>
 								</span>
 								<span class="ml10">
 									<input type="radio" id="open_yn" name="open_yn" value="N" <%=if3(open_yn="N","checked","")%> required class="inp_radio" />
-									<label for=""><em>ºñ°ø°³</em></label>
+									<label for=""><em>ë¹„ê³µê°œ</em></label>
 								</span>
 							</td>
 						</tr>
@@ -257,13 +258,13 @@
 				</table>
 			</div>
 			<div class="btn_box algC">
-				<button type="submit" class="btn btn_n">È®ÀÎ</button>
-				<button type="reset" class="btn btn_n">Ãë¼Ò</button>
+				<button type="submit" class="btn btn_n">í™•ì¸</button>
+				<button type="reset" class="btn btn_n">ì·¨ì†Œ</button>
 			</div>
 			</form>
 		</div>
 	</aside>
-	<!-- //¹è³Ê µî·Ï : e -->
+	<!-- //ë°°ë„ˆ ë“±ë¡ : e -->
 	<iframe id="hiddenfrm" name="hiddenfrm" style="display:none"></iframe>
 	</body>
 </html>

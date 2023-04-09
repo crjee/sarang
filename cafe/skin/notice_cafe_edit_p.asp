@@ -1,13 +1,14 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <!--#include virtual="/ipin_inc.asp"-->
-<!--#include virtual="/include/config_inc.asp"-->
 <%
 	menu_type = "notice"
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="ko">
 <head>
-<meta charset="euc-kr" />
-<title>»ç¶û¹æ¼±ÅÃ</title>
+<meta charset="utf-8" />
+<title>ì‚¬ëž‘ë°©ì„ íƒ</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <link href="/cafe/skin/css/basic_layout.css" rel="stylesheet" type="text/css" />
@@ -17,7 +18,7 @@
 <Script Language="JavaScript">
 	ie4 = (document.all) ? true : false
 
-	// Ã¼Å©ÇÑ °ª
+	// ì²´í¬í•œ ê°’
 	function chk_confirm()
 	{
 		var hist_value;
@@ -52,13 +53,13 @@
 		}//if
 	}//function chk_confirm
 
-	//ÀüÃ¼»ç¶û¹æ Ã¼Å©
+	//ì „ì²´ì‚¬ëž‘ë°© ì²´í¬
 	function mem_chk(ele,cafe_id,cafe_name) //ok
 	{
 		(ele.checked == true) ? history_write(cafe_id,cafe_name) : history_remove(cafe_id);
 	}//function mem_chk
 
-	// º¸³»´ÂÀÌ ÀúÀå
+	// ë³´ë‚´ëŠ”ì´ ì €ìž¥
 	function history_write(listno,listname) //ok
 	{
 		var hist_value = input_form["opt_value"].value;
@@ -68,7 +69,7 @@
 		input_form["opt_text"].value = (hist_text == "") ? listname : hist_text + ", " + listname;
 	}//function history_write
 
-	// ÀúÀåµÈ º¸³»´ÂÀÌ »èÁ¦
+	// ì €ìž¥ëœ ë³´ë‚´ëŠ”ì´ ì‚­ì œ
 	function history_remove(listno) //ok
 	{
 		var hist_value = input_form["opt_value"].value;
@@ -101,7 +102,7 @@
 
 		if (opt_value == "")
 		{
-			alert("¹Þ´Â»ç¶û¹æÀ» ¼±ÅÃÇÏ½Ê½Ã¿À.");
+			alert("ë°›ëŠ”ì‚¬ëž‘ë°©ì„ ì„ íƒí•˜ì‹­ì‹œì˜¤.");
 			return false;
 		}//if
 
@@ -156,7 +157,7 @@
 			//opener.parent.form["opt_text"].value = opt_text;
 		}
 		else
-			alert("»èÁ¦ÇÒ »ç¶û¹æÀ» ¼±ÅÃÇÏ½Ê½Ã¿À.");
+			alert("ì‚­ì œí•  ì‚¬ëž‘ë°©ì„ ì„ íƒí•˜ì‹­ì‹œì˜¤.");
 	}//function select_remove
 
 	function deleteCategory() //ok
@@ -229,7 +230,7 @@
 	cnt = rs.recordcount
 %>
 	<div id="CenterPopup">
-		<div id="Contents_Popuptitle">»ç¶û¹æ¼±ÅÃ</div>
+		<div id="Contents_Popuptitle">ì‚¬ëž‘ë°©ì„ íƒ</div>
 		<div id="Contents_PopupCont">
 			<div id="Contents_PopupContLeft">
 				<form name="input_form" method="post" action="notice_cafe.asp">
@@ -237,7 +238,7 @@
 				<input type="hidden" name="opt_text" value="<%=request("opt_text")%>">
 				<div id="Contents_PopupContLefttitle">
 					<p class="margin10">
-						»ç¶û¹æ (<%=cnt%>)<br />
+						ì‚¬ëž‘ë°© (<%=cnt%>)<br />
 						<input type="hidden" name="cafe_id" value="<%=request("cafe_id")%>">
 						<input type="hidden" name="user_id" value="<%=request("user_id")%>">
 						<input type="hidden" name="ipin" value="<%=request("ipin")%>">
@@ -269,7 +270,7 @@
 			</div>
 			<div id="Contents_PopupContRight">
 				<div id="Contents_PopupContRighttitle">
-					<p class="margin12">¼±ÅÃ»ç¶û¹æ</p>
+					<p class="margin12">ì„ íƒì‚¬ëž‘ë°©</p>
 				</div>
 				<div id="Contents_PopupContRightIn" style="width:100%;height:380px;overflow:hidden">
 					<select name="get_mem" multiple style="width:100%; height:380px">
@@ -279,8 +280,8 @@
 		</div>
 
 		<p class="btn_center">
-			<button class="btn_2txt_sel" type="button" onclick="mem_submit()">È®ÀÎ</button>
-			<button class="btn_2txt" type="button" onclick="window.close()">´Ý±â</button>
+			<button class="btn_2txt_sel" type="button" onclick="mem_submit()">í™•ì¸</button>
+			<button class="btn_2txt" type="button" onclick="window.close()">ë‹«ê¸°</button>
 		</p>
 
 	</div>

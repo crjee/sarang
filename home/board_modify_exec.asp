@@ -1,7 +1,6 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkCafePage(cafe_id)
-
 	ScriptTimeOut = 5000
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
@@ -15,6 +14,8 @@
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
 	uploadform.DefaultPath = uploadFolder
 
+	checkCafePageUpload(cafe_id)
+
 	board_seq = uploadform("board_seq")
 	kname = uploadform("kname")
 	subject = uploadform("subject")
@@ -26,7 +27,7 @@
 	For Each item In uploadform("file_name")
 		If item <> "" Then
 			IF item.FileLen > UploadForm.MaxFileLen Then
-				call msggo("ÆÄÀÏÀÇ Å©±â´Â " & CInt(uploadform.MaxFileLen/1024/1014) & "MB°¡ ³Ñ¾î¼­´Â ¾ÈµË´Ï´Ù","")
+				call msggo("íŒŒì¼ì˜ í¬ê¸°ëŠ” " & CInt(uploadform.MaxFileLen/1024/1014) & "MBê°€ ë„˜ì–´ì„œëŠ” ì•ˆë©ë‹ˆë‹¤","")
 				Set UploadForm = Nothing
 				Response.End
 			End If
@@ -89,7 +90,7 @@
 <input type="hidden" name="board_seq" value="<%=board_seq%>">
 </form>
 <script>
-	alert("¼öÁ¤ µÇ¾ú½À´Ï´Ù.");
+	alert("ìˆ˜ì • ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	parent.location.href='board_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&board_seq=<%=board_seq%>';
 </script>
 

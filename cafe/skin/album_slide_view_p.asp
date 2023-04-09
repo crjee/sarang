@@ -1,5 +1,6 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <!--#include virtual="/ipin_inc.asp"-->
-<!--#include virtual="/include/config_inc.asp"-->
 <%
 	uploadUrl = ConfigAttachedFileURL & "album/"
 
@@ -29,8 +30,8 @@
 %>
 <html>
 <head>
-<title>ÀÌ¹ÌÁö ½½¶óÀÌµå ºä¾î</title>
-<meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+<title>ì´ë¯¸ì§€ ìŠ¬ë¼ì´ë“œ ë·°ì–´</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
 <body bgcolor="#FFFFFF" text="#000000" topmargin="0" leftmargin="0">
@@ -57,7 +58,7 @@
 		document.all._Ath_Slide.src = g_ImageTable[g_iimg][0];
 		if (g_iimg == g_mimg)
 		{
-			alert("½½¶óÀÌµå ¸¶Áö¸· ÀÌ¹ÌÁö ÀÔ´Ï´Ù.");
+			alert("ìŠ¬ë¼ì´ë“œ ë§ˆì§€ë§‰ ì´ë¯¸ì§€ ì…ë‹ˆë‹¤.");
 			g_fPlayMode = !g_fPlayMode;
 			btnPrev.disabled = btnPlay.disabled = btnNext.disabled = false;
 		}//if
@@ -120,32 +121,32 @@
 		var tt = imgRsize(img, ww, hh);
 		if (img.width > ww || img.height > hh) {
 
-			// °¡·Î³ª ¼¼·ÎÅ©±â°¡ Á¦ÇÑÅ©±âº¸´Ù Å©¸é
+			// ê°€ë¡œë‚˜ ì„¸ë¡œí¬ê¸°ê°€ ì œí•œí¬ê¸°ë³´ë‹¤ í¬ë©´
 			img.width = tt[0];
-			// Å©±âÁ¶Á¤
+			// í¬ê¸°ì¡°ì •
 			img.height = tt[1];
-			img.alt = "Å¬¸¯ÇÏ½Ã¸é ¿øº»ÀÌ¹ÌÁö¸¦ º¸½Ç¼öÀÖ½À´Ï´Ù.";
+			img.alt = "í´ë¦­í•˜ì‹œë©´ ì›ë³¸ì´ë¯¸ì§€ë¥¼ ë³´ì‹¤ìˆ˜ìˆìŠµë‹ˆë‹¤.";
 
 			if (aL) {
-				// ÀÚµ¿¸µÅ© on
+				// ìë™ë§í¬ on
 				img.onclick = function() {
 					wT = Math.ceil((screen.width - tt[2])/2.6);
-					// Å¬¶óÀÌ¾ğÆ® Áß¾Ó¿¡ ÀÌ¹ÌÁöÀ§Ä¡.
+					// í´ë¼ì´ì–¸íŠ¸ ì¤‘ì•™ì— ì´ë¯¸ì§€ìœ„ì¹˜.
 					wL = Math.ceil((screen.height - tt[3])/2.6);
 					var mm = window.open(img.src, "mm", 'width='+tt[2]+',height='+tt[3]+',top='+wT+',left='+wL);
 					var mm = window.open(img.src, "mm");
 					var doc = mm.document;
 					doc.body.style.margin = 0;
-					// ¸¶ÁøÁ¦°Å
+					// ë§ˆì§„ì œê±°
 					doc.body.style.cursor = "hand";
-					doc.title = "¿øº»ÀÌ¹ÌÁö";
+					doc.title = "ì›ë³¸ì´ë¯¸ì§€";
 				}
 				img.style.cursor = "hand";
 			}
 		}
 		else {
 				img.onclick = function() {
-					alert("ÇöÀçÀÌ¹ÌÁö°¡ ¿øº» ÀÌ¹ÌÁöÀÔ´Ï´Ù.");
+					alert("í˜„ì¬ì´ë¯¸ì§€ê°€ ì›ë³¸ ì´ë¯¸ì§€ì…ë‹ˆë‹¤.");
 				}
 		}
 	}
@@ -154,16 +155,16 @@
 		var iW = img.width;
 		var iH = img.height;
 		var g = new Array;
-		if (iW < rW && iH < rH) { // °¡·Î¼¼·Î°¡ Ãà¼ÒÇÒ °ªº¸´Ù ÀÛÀ» °æ¿ì
+		if (iW < rW && iH < rH) { // ê°€ë¡œì„¸ë¡œê°€ ì¶•ì†Œí•  ê°’ë³´ë‹¤ ì‘ì„ ê²½ìš°
 			g[0] = iW;
 			g[1] = iH;
 		}
 		else {
-			if (img.width > img.height) { // ¿øÅ©±â °¡·Î°¡ ¼¼·Îº¸´Ù Å©¸é
+			if (img.width > img.height) { // ì›í¬ê¸° ê°€ë¡œê°€ ì„¸ë¡œë³´ë‹¤ í¬ë©´
 				g[0] = rW;
 				g[1] = Math.ceil(img.height * rW / img.width);
 			}
-			else if (img.width < img.height) { //¿øÅ©±âÀÇ ¼¼·Î°¡ °¡·Îº¸´Ù Å©¸é
+			else if (img.width < img.height) { //ì›í¬ê¸°ì˜ ì„¸ë¡œê°€ ê°€ë¡œë³´ë‹¤ í¬ë©´
 				g[0] = Math.ceil(img.width * rH / img.height);
 				g[1] = rH;
 			}
@@ -171,18 +172,18 @@
 				g[0] = rW;
 				g[1] = rH;
 			}
-			if (g[0] > rW) { // ±¸ÇØÁø °¡·Î°ªÀÌ Ãà¼Ò °¡·Îº¸´Ù Å©¸é
+			if (g[0] > rW) { // êµ¬í•´ì§„ ê°€ë¡œê°’ì´ ì¶•ì†Œ ê°€ë¡œë³´ë‹¤ í¬ë©´
 				g[0] = rW;
 				g[1] = Math.ceil(img.height * rW / img.width);
 			}
-			if (g[1] > rH) { // ±¸ÇØÁø ¼¼·Î°ªÀÌ Ãà¼Ò ¼¼·Î°ª°¡·Îº¸´Ù Å©¸é
+			if (g[1] > rH) { // êµ¬í•´ì§„ ì„¸ë¡œê°’ì´ ì¶•ì†Œ ì„¸ë¡œê°’ê°€ë¡œë³´ë‹¤ í¬ë©´
 				g[0] = Math.ceil(img.width * rH / img.height);
 				g[1] = rH;
 			}
 		}
 
-		g[2] = img.width; // ¿ø»çÀÌÁî °¡·Î
-		g[3] = img.height; // ¿ø»çÀÌÁî ¼¼·Î
+		g[2] = img.width; // ì›ì‚¬ì´ì¦ˆ ê°€ë¡œ
+		g[3] = img.height; // ì›ì‚¬ì´ì¦ˆ ì„¸ë¡œ
 
 		return g;
 	}
@@ -197,12 +198,12 @@
 	</tr>
 	<tr>
 		<td style="padding:5pt" align="center">
-			<img src="/cafe/skin/img/btn/pic_bu11.gif" width="42" height="26" border="0" alt="ÀÌÀü »çÁø" onClick="Prev()" style="cursor:hand" name="btnPrev">
-			<img src="/cafe/skin/img/btn/pic_bu12.gif" width="42" height="26" border="0" alt="ÀÚµ¿½½¶óÀÌµå" onClick="Play()" style="cursor:hand" name="btnPlay">
-			<img src="/cafe/skin/img/btn/pic_bu13.gif" width="42" height="26" alt="ÁßÁö" border="0" onClick="Stop()" style="cursor:hand" name="btnStop">
-			<img src="/cafe/skin/img/btn/pic_bu14.gif" width="42" height="26" border="0" alt="´ÙÀ½»çÁø" onClick="Next()" style="cursor:hand" name="btnNext">
+			<img src="/cafe/skin/img/btn/pic_bu11.gif" width="42" height="26" border="0" alt="ì´ì „ ì‚¬ì§„" onClick="Prev()" style="cursor:hand" name="btnPrev">
+			<img src="/cafe/skin/img/btn/pic_bu12.gif" width="42" height="26" border="0" alt="ìë™ìŠ¬ë¼ì´ë“œ" onClick="Play()" style="cursor:hand" name="btnPlay">
+			<img src="/cafe/skin/img/btn/pic_bu13.gif" width="42" height="26" alt="ì¤‘ì§€" border="0" onClick="Stop()" style="cursor:hand" name="btnStop">
+			<img src="/cafe/skin/img/btn/pic_bu14.gif" width="42" height="26" border="0" alt="ë‹¤ìŒì‚¬ì§„" onClick="Next()" style="cursor:hand" name="btnNext">
 			&nbsp;
-			<img src="/cafe/skin/img/btn/pic_bu15.gif" width="42" height="26" border="0" alt="Ã¢´İ±â" onClick="window.close()" style="cursor:hand">
+			<img src="/cafe/skin/img/btn/pic_bu15.gif" width="42" height="26" border="0" alt="ì°½ë‹«ê¸°" onClick="window.close()" style="cursor:hand">
 		</td>
 	</tr>
 </table>

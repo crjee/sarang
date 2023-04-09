@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Call checkAdmin()
 
@@ -8,7 +9,7 @@
 		stat = getonevalue("stat","cf_cafe_member","where user_id = '" & user_id & "'")
 
 		If stat = "Y" Then
-			' ÀÌÀü»ç¶û¹æ È÷½ºÅä¸® ÀúÀå
+			' ì´ì „ì‚¬ë‘ë°© íˆìŠ¤í† ë¦¬ ì €ì¥
 			sql = ""
 			sql = sql & " insert into cf_cafe_member_history( "
 			sql = sql & "        cafe_id "
@@ -21,14 +22,14 @@
 			sql = sql & " select cafe_id "
 			sql = sql & "       ,user_id "
 			sql = sql & "       ,cafe_mb_level "
-			sql = sql & "       ,'È¸¿øÁ¤Áö(°ü¸®ÀÚ)' "
+			sql = sql & "       ,'íšŒì›ì •ì§€(ê´€ë¦¬ì)' "
 			sql = sql & "       ,stdate "
 			sql = sql & "       ,getdate() "
 			sql = sql & "   from cf_cafe_member "
 			sql = sql & "  where user_id = '" & user_id & "' "
 			Conn.Execute(sql)
 
-			' ÀÌÀü»ç¶û¹æ È°µ¿Á¤Áö
+			' ì´ì „ì‚¬ë‘ë°© í™œë™ì •ì§€
 			sql = ""
 			sql = sql & " update cf_cafe_member "
 			sql = sql & "    set stat = 'N' "
@@ -37,7 +38,7 @@
 			sql = sql & "  where user_id = '" & user_id & "' "
 			Conn.Execute(sql)
 
-			' È¸¿ø È°µ¿Á¤Áö
+			' íšŒì› í™œë™ì •ì§€
 			sql = ""
 			sql = sql & " update cf_member "
 			sql = sql & "    set stat = 'N' "
@@ -46,7 +47,7 @@
 			sql = sql & "  where user_id = '" & user_id & "' "
 			Conn.Execute(sql)
 		Else
-			' ÀÌÀü»ç¶û¹æ È÷½ºÅä¸® ÀúÀå
+			' ì´ì „ì‚¬ë‘ë°© íˆìŠ¤í† ë¦¬ ì €ì¥
 			sql = ""
 			sql = sql & " insert into cf_cafe_member_history( "
 			sql = sql & "        cafe_id "
@@ -59,14 +60,14 @@
 			sql = sql & " select cafe_id , "
 			sql = sql & "       ,user_id "
 			sql = sql & "       ,cafe_mb_level "
-			sql = sql & "       ,'È¸¿øÁ¤ÁöÇØÁ¦(°ü¸®ÀÚ)', "
+			sql = sql & "       ,'íšŒì›ì •ì§€í•´ì œ(ê´€ë¦¬ì)', "
 			sql = sql & "       ,stdate "
 			sql = sql & "       ,getdate() "
 			sql = sql & "  from cf_cafe_member "
 			sql = sql & " where user_id = '" & user_id & "' "
 			Conn.Execute(sql)
 
-			' ÀÌÀü»ç¶û¹æ È°µ¿Áß
+			' ì´ì „ì‚¬ë‘ë°© í™œë™ì¤‘
 			sql = ""
 			sql = sql & " update cf_cafe_member "
 			sql = sql & "    set stat = 'Y' "
@@ -75,7 +76,7 @@
 			sql = sql & "  where user_id = '" & user_id & "' "
 			Conn.Execute(sql)
 
-			' È¸¿ø È°µ¿Áß
+			' íšŒì› í™œë™ì¤‘
 			sql = ""
 			sql = sql & " update cf_member "
 			sql = sql & "    set stat = 'Y' "
@@ -86,5 +87,5 @@
 		End If
 	Next
 
-	Response.Write "<script>alert('º¯°æµÇ¾ú½À´Ï´Ù.');parent.document.search_form.submit();</script>"
+	Response.Write "<script>alert('ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.');parent.document.search_form.submit();</script>"
 %>

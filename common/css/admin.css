@@ -1,6 +1,6 @@
-@charset "euc-kr";
+@charset "utf-8";
 
-/* ·¹ÀÌ¾Æ¿ô */
+/* ë ˆì´ì•„ì›ƒ */
 #adm_head { position:absolute; left:0; top:0; width:100%; height:90px; background:#fff; border-bottom:1px solid #ddd; overflow:hidden; z-index:10; }
 #adm_nav { position:absolute; left:0; top:90px; bottom:50px; width:200px; background:#fff; border-right:1px solid #ddd; z-index:9; }
 #adm_body { position:absolute; left:201px; right:0; top:90px; bottom:50px; width:auto; min-width:1200px; height:auto; padding:20px; background:#fff; overflow-x:hidden; overflow-y:auto; z-index:8; }
@@ -48,7 +48,7 @@
 .adm_menu_manage .adm_menu_left { float:left; width:200px; }
 .adm_menu_manage .adm_menu_right { float:right; width:calc(100% - 220px); }
 
-.adm_menu_flex_manage { display:flex; flex-flow:row nowrap; align-items:left; }
+.adm_menu_flex_manage { display:flex; flex-flow:row nowrap; }
 .adm_menu_item { flex:1 0 0; padding:0 10px; border-left:1px solid #ddd; }
 .adm_menu_item_cont { flex:3 0 0; }
 .adm_menu_item:nth-of-type(1) { padding-left:0; border-left:0; }
@@ -90,6 +90,9 @@
 .adm_cont .list_option > li .head { position:absolute; display:inline-block; left:10px; top:50%; transform:translateY(-50%); }
 .adm_cont .list_option > li.none_pd { padding-left:initial; }
 
+.adm_cont .list_option_flex { display:flex; flex-flow:row nowrap; justify-content:space-between; align-items:center; }
+.adm_cont .list_option_flex li { flex:0; }
+
 .adm_cont .list_txt { margin-top:10px; }
 .adm_cont .list_txt > li { position:relative; margin-top:8px; padding-left:10px; }
 .adm_cont .list_txt > li:before { position:absolute; left:0; top:50%; width:4px; height:1px; background:#999; transform:translateY(-50%); content:""; }
@@ -98,7 +101,9 @@
 .adm_cont .logo { position:relative; display:inline-block; min-width:100px; min-height:100px; vertical-align:middle; border:1px solid #ddd; }
 .adm_cont .logo + input[type="file"] { display:inline-block; margin-left:10px; vertical-align:middle; }
 
-/* °ü¸®ÀÚ¿ë ·¹ÀÌ¾îÆË¾÷ */
+.adm_cont .itemBox { height:auto; margin-bottom:-1px; border:1px solid #ddd; overflow:hidden; }
+
+/* ê´€ë¦¬ììš© ë ˆì´ì–´íŒì—… */
 .lypp_adm_member { width:1100px; padding:30px; }
 .lypp_adm_group { width:1100px; padding:30px; }
 .lypp_adm_banner { width:1100px; padding:30px; }

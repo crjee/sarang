@@ -1,4 +1,4 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
 

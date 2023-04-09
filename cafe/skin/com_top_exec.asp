@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 	com_seq = Request("com_seq")
@@ -11,11 +12,11 @@
 	cafe_mb_level = getUserLevel(cafe_id)
 
 	If com_seq = "" Then
-		Response.Write "<script>alert('¼±ÅÃµÈ °Ô½Ã±ÛÀÌ ¾ø½À´Ï´Ù');</script>"
+		Response.Write "<script>alert('ì„ íƒëœ ê²Œì‹œê¸€ì´ ì—†ìŠµë‹ˆë‹¤');</script>"
 		Response.end
 	Else
 		If cafe_mb_level > 5 Then
-			for i=1 to Request("com_seq").count
+			For i=1 to Request("com_seq").count
 				com_seq = Request("com_seq")(i)
 
 				sql = ""
@@ -43,7 +44,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("Ã³¸® µÇ¾ú½À´Ï´Ù.");
+	alert("ì²˜ë¦¬ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	parent.location.href='<%=menu_type%>_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&<%=menu_type%>_seq=<%=com_seq%>';
 </script>
 <%
@@ -53,7 +54,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("¿À·ù°¡ “u»ıÇß½À´Ï´Ù.\n\n¿¡·¯³»¿ë : <%=Err.Description%>(<%=Err.Number%>)");
+	alert("ì˜¤ë¥˜ê°€ ë±”ìƒí–ˆìŠµë‹ˆë‹¤.\n\nì—ëŸ¬ë‚´ìš© : <%=Err.Description%>(<%=Err.Number%>)");
 	parent.location.href='<%=menu_type%>_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&<%=menu_type%>_seq=<%=com_seq%>';
 </script>
 <%

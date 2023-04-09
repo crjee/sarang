@@ -1,100 +1,100 @@
 <?php
     /*
-     * [»óÁ¡ °áÁ¦°á°úÃ³¸®(DB) ÆäÀÌÁö]
+     * [ìƒì  ê²°ì œê²°ê³¼ì²˜ë¦¬(DB) íŽ˜ì´ì§€]
      *
-     * 1) À§º¯Á¶ ¹æÁö¸¦ À§ÇÑ hashdata°ª °ËÁõÀº ¹Ýµå½Ã Àû¿ëÇÏ¼Å¾ß ÇÕ´Ï´Ù.
+     * 1) ìœ„ë³€ì¡° ë°©ì§€ë¥¼ ìœ„í•œ hashdataê°’ ê²€ì¦ì€ ë°˜ë“œì‹œ ì ìš©í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.
      *
      */
-    $LGD_RESPCODE            = $HTTP_POST_VARS["LGD_RESPCODE"];             // ÀÀ´äÄÚµå: 0000(¼º°ø) ±×¿Ü ½ÇÆÐ
-    $LGD_RESPMSG             = $HTTP_POST_VARS["LGD_RESPMSG"];              // ÀÀ´ä¸Þ¼¼Áö
-    $LGD_MID                 = $HTTP_POST_VARS["LGD_MID"];                  // »óÁ¡¾ÆÀÌµð
-    $LGD_OID                 = $HTTP_POST_VARS["LGD_OID"];                  // ÁÖ¹®¹øÈ£
-    $LGD_AMOUNT              = $HTTP_POST_VARS["LGD_AMOUNT"];               // °Å·¡±Ý¾×
-    $LGD_TID                 = $HTTP_POST_VARS["LGD_TID"];                  // LGÅÚ·¹ÄÞÀÌ ºÎ¿©ÇÑ °Å·¡¹øÈ£
-    $LGD_PAYTYPE             = $HTTP_POST_VARS["LGD_PAYTYPE"];              // °áÁ¦¼ö´ÜÄÚµå
-    $LGD_PAYDATE             = $HTTP_POST_VARS["LGD_PAYDATE"];              // °Å·¡ÀÏ½Ã(½ÂÀÎÀÏ½Ã/ÀÌÃ¼ÀÏ½Ã)
-    $LGD_HASHDATA            = $HTTP_POST_VARS["LGD_HASHDATA"];             // ÇØ½¬°ª
-    $LGD_FINANCECODE         = $HTTP_POST_VARS["LGD_FINANCECODE"];          // °áÁ¦±â°üÄÚµå(ÀºÇàÄÚµå)
-    $LGD_FINANCENAME         = $HTTP_POST_VARS["LGD_FINANCENAME"];          // °áÁ¦±â°üÀÌ¸§(ÀºÇàÀÌ¸§)
-    $LGD_ESCROWYN            = $HTTP_POST_VARS["LGD_ESCROWYN"];             // ¿¡½ºÅ©·Î Àû¿ë¿©ºÎ
-    $LGD_TIMESTAMP           = $HTTP_POST_VARS["LGD_TIMESTAMP"];            // Å¸ÀÓ½ºÅÆÇÁ
-    $LGD_ACCOUNTNUM          = $HTTP_POST_VARS["LGD_ACCOUNTNUM"];           // °èÁÂ¹øÈ£(¹«ÅëÀåÀÔ±Ý)
-    $LGD_CASTAMOUNT          = $HTTP_POST_VARS["LGD_CASTAMOUNT"];           // ÀÔ±ÝÃÑ¾×(¹«ÅëÀåÀÔ±Ý)
-    $LGD_CASCAMOUNT          = $HTTP_POST_VARS["LGD_CASCAMOUNT"];           // ÇöÀÔ±Ý¾×(¹«ÅëÀåÀÔ±Ý)
-    $LGD_CASFLAG             = $HTTP_POST_VARS["LGD_CASFLAG"];              // ¹«ÅëÀåÀÔ±Ý ÇÃ·¡±×(¹«ÅëÀåÀÔ±Ý) - 'R':°èÁÂÇÒ´ç, 'I':ÀÔ±Ý, 'C':ÀÔ±ÝÃë¼Ò
-    $LGD_CASSEQNO            = $HTTP_POST_VARS["LGD_CASSEQNO"];             // ÀÔ±Ý¼ø¼­(¹«ÅëÀåÀÔ±Ý)
-    $LGD_CASHRECEIPTNUM      = $HTTP_POST_VARS["LGD_CASHRECEIPTNUM"];       // Çö±Ý¿µ¼öÁõ ½ÂÀÎ¹øÈ£
-    $LGD_CASHRECEIPTSELFYN   = $HTTP_POST_VARS["LGD_CASHRECEIPTSELFYN"];    // Çö±Ý¿µ¼öÁõÀÚÁø¹ß±ÞÁ¦À¯¹« Y: ÀÚÁø¹ß±ÞÁ¦ Àû¿ë, ±×¿Ü : ¹ÌÀû¿ë
-    $LGD_CASHRECEIPTKIND     = $HTTP_POST_VARS["LGD_CASHRECEIPTKIND"];      // Çö±Ý¿µ¼öÁõ Á¾·ù 0: ¼Òµæ°øÁ¦¿ë , 1: ÁöÃâÁõºù¿ë
-	$LGD_PAYER     			 = $HTTP_POST_VARS["LGD_PAYER"];      			// ÀÔ±ÝÀÚ¸í
+    $LGD_RESPCODE            = $HTTP_POST_VARS["LGD_RESPCODE"];             // ì‘ë‹µì½”ë“œ: 0000(ì„±ê³µ) ê·¸ì™¸ ì‹¤íŒ¨
+    $LGD_RESPMSG             = $HTTP_POST_VARS["LGD_RESPMSG"];              // ì‘ë‹µë©”ì„¸ì§€
+    $LGD_MID                 = $HTTP_POST_VARS["LGD_MID"];                  // ìƒì ì•„ì´ë””
+    $LGD_OID                 = $HTTP_POST_VARS["LGD_OID"];                  // ì£¼ë¬¸ë²ˆí˜¸
+    $LGD_AMOUNT              = $HTTP_POST_VARS["LGD_AMOUNT"];               // ê±°ëž˜ê¸ˆì•¡
+    $LGD_TID                 = $HTTP_POST_VARS["LGD_TID"];                  // LGí…”ë ˆì½¤ì´ ë¶€ì—¬í•œ ê±°ëž˜ë²ˆí˜¸
+    $LGD_PAYTYPE             = $HTTP_POST_VARS["LGD_PAYTYPE"];              // ê²°ì œìˆ˜ë‹¨ì½”ë“œ
+    $LGD_PAYDATE             = $HTTP_POST_VARS["LGD_PAYDATE"];              // ê±°ëž˜ì¼ì‹œ(ìŠ¹ì¸ì¼ì‹œ/ì´ì²´ì¼ì‹œ)
+    $LGD_HASHDATA            = $HTTP_POST_VARS["LGD_HASHDATA"];             // í•´ì‰¬ê°’
+    $LGD_FINANCECODE         = $HTTP_POST_VARS["LGD_FINANCECODE"];          // ê²°ì œê¸°ê´€ì½”ë“œ(ì€í–‰ì½”ë“œ)
+    $LGD_FINANCENAME         = $HTTP_POST_VARS["LGD_FINANCENAME"];          // ê²°ì œê¸°ê´€ì´ë¦„(ì€í–‰ì´ë¦„)
+    $LGD_ESCROWYN            = $HTTP_POST_VARS["LGD_ESCROWYN"];             // ì—ìŠ¤í¬ë¡œ ì ìš©ì—¬ë¶€
+    $LGD_TIMESTAMP           = $HTTP_POST_VARS["LGD_TIMESTAMP"];            // íƒ€ìž„ìŠ¤íƒ¬í”„
+    $LGD_ACCOUNTNUM          = $HTTP_POST_VARS["LGD_ACCOUNTNUM"];           // ê³„ì¢Œë²ˆí˜¸(ë¬´í†µìž¥ìž…ê¸ˆ)
+    $LGD_CASTAMOUNT          = $HTTP_POST_VARS["LGD_CASTAMOUNT"];           // ìž…ê¸ˆì´ì•¡(ë¬´í†µìž¥ìž…ê¸ˆ)
+    $LGD_CASCAMOUNT          = $HTTP_POST_VARS["LGD_CASCAMOUNT"];           // í˜„ìž…ê¸ˆì•¡(ë¬´í†µìž¥ìž…ê¸ˆ)
+    $LGD_CASFLAG             = $HTTP_POST_VARS["LGD_CASFLAG"];              // ë¬´í†µìž¥ìž…ê¸ˆ í”Œëž˜ê·¸(ë¬´í†µìž¥ìž…ê¸ˆ) - 'R':ê³„ì¢Œí• ë‹¹, 'I':ìž…ê¸ˆ, 'C':ìž…ê¸ˆì·¨ì†Œ
+    $LGD_CASSEQNO            = $HTTP_POST_VARS["LGD_CASSEQNO"];             // ìž…ê¸ˆìˆœì„œ(ë¬´í†µìž¥ìž…ê¸ˆ)
+    $LGD_CASHRECEIPTNUM      = $HTTP_POST_VARS["LGD_CASHRECEIPTNUM"];       // í˜„ê¸ˆì˜ìˆ˜ì¦ ìŠ¹ì¸ë²ˆí˜¸
+    $LGD_CASHRECEIPTSELFYN   = $HTTP_POST_VARS["LGD_CASHRECEIPTSELFYN"];    // í˜„ê¸ˆì˜ìˆ˜ì¦ìžì§„ë°œê¸‰ì œìœ ë¬´ Y: ìžì§„ë°œê¸‰ì œ ì ìš©, ê·¸ì™¸ : ë¯¸ì ìš©
+    $LGD_CASHRECEIPTKIND     = $HTTP_POST_VARS["LGD_CASHRECEIPTKIND"];      // í˜„ê¸ˆì˜ìˆ˜ì¦ ì¢…ë¥˜ 0: ì†Œë“ê³µì œìš© , 1: ì§€ì¶œì¦ë¹™ìš©
+	$LGD_PAYER     			 = $HTTP_POST_VARS["LGD_PAYER"];      			// ìž…ê¸ˆìžëª…
 	
     /*
-     * ±¸¸ÅÁ¤º¸
+     * êµ¬ë§¤ì •ë³´
      */
-    $LGD_BUYER               = $HTTP_POST_VARS["LGD_BUYER"];                // ±¸¸ÅÀÚ
-    $LGD_PRODUCTINFO         = $HTTP_POST_VARS["LGD_PRODUCTINFO"];          // »óÇ°¸í
-    $LGD_BUYERID             = $HTTP_POST_VARS["LGD_BUYERID"];              // ±¸¸ÅÀÚ ID
-    $LGD_BUYERADDRESS        = $HTTP_POST_VARS["LGD_BUYERADDRESS"];         // ±¸¸ÅÀÚ ÁÖ¼Ò
-    $LGD_BUYERPHONE          = $HTTP_POST_VARS["LGD_BUYERPHONE"];           // ±¸¸ÅÀÚ ÀüÈ­¹øÈ£
-    $LGD_BUYEREMAIL          = $HTTP_POST_VARS["LGD_BUYEREMAIL"];           // ±¸¸ÅÀÚ ÀÌ¸ÞÀÏ
-    $LGD_BUYERSSN            = $HTTP_POST_VARS["LGD_BUYERSSN"];             // ±¸¸ÅÀÚ ÁÖ¹Î¹øÈ£
-    $LGD_PRODUCTCODE         = $HTTP_POST_VARS["LGD_PRODUCTCODE"];          // »óÇ°ÄÚµå
-    $LGD_RECEIVER            = $HTTP_POST_VARS["LGD_RECEIVER"];             // ¼öÃëÀÎ
-    $LGD_RECEIVERPHONE       = $HTTP_POST_VARS["LGD_RECEIVERPHONE"];        // ¼öÃëÀÎ ÀüÈ­¹øÈ£
-    $LGD_DELIVERYINFO        = $HTTP_POST_VARS["LGD_DELIVERYINFO"];         // ¹è¼ÛÁö
+    $LGD_BUYER               = $HTTP_POST_VARS["LGD_BUYER"];                // êµ¬ë§¤ìž
+    $LGD_PRODUCTINFO         = $HTTP_POST_VARS["LGD_PRODUCTINFO"];          // ìƒí’ˆëª…
+    $LGD_BUYERID             = $HTTP_POST_VARS["LGD_BUYERID"];              // êµ¬ë§¤ìž ID
+    $LGD_BUYERADDRESS        = $HTTP_POST_VARS["LGD_BUYERADDRESS"];         // êµ¬ë§¤ìž ì£¼ì†Œ
+    $LGD_BUYERPHONE          = $HTTP_POST_VARS["LGD_BUYERPHONE"];           // êµ¬ë§¤ìž ì „í™”ë²ˆí˜¸
+    $LGD_BUYEREMAIL          = $HTTP_POST_VARS["LGD_BUYEREMAIL"];           // êµ¬ë§¤ìž ì´ë©”ì¼
+    $LGD_BUYERSSN            = $HTTP_POST_VARS["LGD_BUYERSSN"];             // êµ¬ë§¤ìž ì£¼ë¯¼ë²ˆí˜¸
+    $LGD_PRODUCTCODE         = $HTTP_POST_VARS["LGD_PRODUCTCODE"];          // ìƒí’ˆì½”ë“œ
+    $LGD_RECEIVER            = $HTTP_POST_VARS["LGD_RECEIVER"];             // ìˆ˜ì·¨ì¸
+    $LGD_RECEIVERPHONE       = $HTTP_POST_VARS["LGD_RECEIVERPHONE"];        // ìˆ˜ì·¨ì¸ ì „í™”ë²ˆí˜¸
+    $LGD_DELIVERYINFO        = $HTTP_POST_VARS["LGD_DELIVERYINFO"];         // ë°°ì†¡ì§€
       
-	$LGD_MERTKEY = "c60c1fcbde71f8203dbb99db5d971d91";  //LGÅÚ·¹ÄÞ¿¡¼­ ¹ß±ÞÇÑ »óÁ¡Å°·Î º¯°æÇØ ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.
+	$LGD_MERTKEY = "c60c1fcbde71f8203dbb99db5d971d91";  //LGí…”ë ˆì½¤ì—ì„œ ë°œê¸‰í•œ ìƒì í‚¤ë¡œ ë³€ê²½í•´ ì£¼ì‹œê¸° ë°”ëžë‹ˆë‹¤.
 	
     $LGD_HASHDATA2 = md5($LGD_MID.$LGD_OID.$LGD_AMOUNT.$LGD_RESPCODE.$LGD_TIMESTAMP.$LGD_MERTKEY);
     
     /*
-     * »óÁ¡ Ã³¸®°á°ú ¸®ÅÏ¸Þ¼¼Áö
+     * ìƒì  ì²˜ë¦¬ê²°ê³¼ ë¦¬í„´ë©”ì„¸ì§€
      *
-     * OK  : »óÁ¡ Ã³¸®°á°ú ¼º°ø
-     * ±×¿Ü : »óÁ¡ Ã³¸®°á°ú ½ÇÆÐ
+     * OK  : ìƒì  ì²˜ë¦¬ê²°ê³¼ ì„±ê³µ
+     * ê·¸ì™¸ : ìƒì  ì²˜ë¦¬ê²°ê³¼ ì‹¤íŒ¨
      *
-     * ¡Ø ÁÖÀÇ»çÇ× : ¼º°ø½Ã 'OK' ¹®ÀÚÀÌ¿ÜÀÇ ´Ù¸¥¹®ÀÚ¿­ÀÌ Æ÷ÇÔµÇ¸é ½ÇÆÐÃ³¸® µÇ¿À´Ï ÁÖÀÇÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.
+     * â€» ì£¼ì˜ì‚¬í•­ : ì„±ê³µì‹œ 'OK' ë¬¸ìžì´ì™¸ì˜ ë‹¤ë¥¸ë¬¸ìžì—´ì´ í¬í•¨ë˜ë©´ ì‹¤íŒ¨ì²˜ë¦¬ ë˜ì˜¤ë‹ˆ ì£¼ì˜í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤.
      */
-    $resultMSG = "°áÁ¦°á°ú »óÁ¡ DBÃ³¸®(LGD_CASNOTEURL) °á°ú°ªÀ» ÀÔ·ÂÇØ ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.";
+    $resultMSG = "ê²°ì œê²°ê³¼ ìƒì  DBì²˜ë¦¬(LGD_CASNOTEURL) ê²°ê³¼ê°’ì„ ìž…ë ¥í•´ ì£¼ì‹œê¸° ë°”ëžë‹ˆë‹¤.";
 
     
-    if ( $LGD_HASHDATA2 == $LGD_HASHDATA ) { //ÇØ½¬°ª °ËÁõÀÌ ¼º°øÀÌ¸é
-        if ( "0000" == $LGD_RESPCODE ){ //°áÁ¦°¡ ¼º°øÀÌ¸é
+    if ( $LGD_HASHDATA2 == $LGD_HASHDATA ) { //í•´ì‰¬ê°’ ê²€ì¦ì´ ì„±ê³µì´ë©´
+        if ( "0000" == $LGD_RESPCODE ){ //ê²°ì œê°€ ì„±ê³µì´ë©´
         	if( "R" == $LGD_CASFLAG ) {
                 /*
-                 * ¹«ÅëÀå ÇÒ´ç ¼º°ø °á°ú »óÁ¡ Ã³¸®(DB) ºÎºÐ
-                 * »óÁ¡ °á°ú Ã³¸®°¡ Á¤»óÀÌ¸é "OK"
+                 * ë¬´í†µìž¥ í• ë‹¹ ì„±ê³µ ê²°ê³¼ ìƒì  ì²˜ë¦¬(DB) ë¶€ë¶„
+                 * ìƒì  ê²°ê³¼ ì²˜ë¦¬ê°€ ì •ìƒì´ë©´ "OK"
                  */    
-                //if( ¹«ÅëÀå ÇÒ´ç ¼º°ø »óÁ¡Ã³¸®°á°ú ¼º°ø ) 
+                //if( ë¬´í†µìž¥ í• ë‹¹ ì„±ê³µ ìƒì ì²˜ë¦¬ê²°ê³¼ ì„±ê³µ ) 
                 $resultMSG = "OK";   
         	}else if( "I" == $LGD_CASFLAG ) {
  	            /*
-    	         * ¹«ÅëÀå ÀÔ±Ý ¼º°ø °á°ú »óÁ¡ Ã³¸®(DB) ºÎºÐ
-        	     * »óÁ¡ °á°ú Ã³¸®°¡ Á¤»óÀÌ¸é "OK"
+    	         * ë¬´í†µìž¥ ìž…ê¸ˆ ì„±ê³µ ê²°ê³¼ ìƒì  ì²˜ë¦¬(DB) ë¶€ë¶„
+        	     * ìƒì  ê²°ê³¼ ì²˜ë¦¬ê°€ ì •ìƒì´ë©´ "OK"
             	 */    
-            	//if( ¹«ÅëÀå ÀÔ±Ý ¼º°ø »óÁ¡Ã³¸®°á°ú ¼º°ø ) 
+            	//if( ë¬´í†µìž¥ ìž…ê¸ˆ ì„±ê³µ ìƒì ì²˜ë¦¬ê²°ê³¼ ì„±ê³µ ) 
             	$resultMSG = "OK";
         	}else if( "C" == $LGD_CASFLAG ) {
  	            /*
-    	         * ¹«ÅëÀå ÀÔ±ÝÃë¼Ò ¼º°ø °á°ú »óÁ¡ Ã³¸®(DB) ºÎºÐ
-        	     * »óÁ¡ °á°ú Ã³¸®°¡ Á¤»óÀÌ¸é "OK"
+    	         * ë¬´í†µìž¥ ìž…ê¸ˆì·¨ì†Œ ì„±ê³µ ê²°ê³¼ ìƒì  ì²˜ë¦¬(DB) ë¶€ë¶„
+        	     * ìƒì  ê²°ê³¼ ì²˜ë¦¬ê°€ ì •ìƒì´ë©´ "OK"
             	 */    
-            	//if( ¹«ÅëÀå ÀÔ±ÝÃë¼Ò ¼º°ø »óÁ¡Ã³¸®°á°ú ¼º°ø ) 
+            	//if( ë¬´í†µìž¥ ìž…ê¸ˆì·¨ì†Œ ì„±ê³µ ìƒì ì²˜ë¦¬ê²°ê³¼ ì„±ê³µ ) 
             	$resultMSG = "OK";
         	}
-        } else { //°áÁ¦°¡ ½ÇÆÐÀÌ¸é
+        } else { //ê²°ì œê°€ ì‹¤íŒ¨ì´ë©´
             /*
-             * °Å·¡½ÇÆÐ °á°ú »óÁ¡ Ã³¸®(DB) ºÎºÐ
-             * »óÁ¡°á°ú Ã³¸®°¡ Á¤»óÀÌ¸é "OK"
+             * ê±°ëž˜ì‹¤íŒ¨ ê²°ê³¼ ìƒì  ì²˜ë¦¬(DB) ë¶€ë¶„
+             * ìƒì ê²°ê³¼ ì²˜ë¦¬ê°€ ì •ìƒì´ë©´ "OK"
              */  
-            //if( °áÁ¦½ÇÆÐ »óÁ¡Ã³¸®°á°ú ¼º°ø ) 
+            //if( ê²°ì œì‹¤íŒ¨ ìƒì ì²˜ë¦¬ê²°ê³¼ ì„±ê³µ ) 
             $resultMSG = "OK";     
         }
-    } else { //ÇØ½¬°ªÀÌ °ËÁõÀÌ ½ÇÆÐÀÌ¸é
+    } else { //í•´ì‰¬ê°’ì´ ê²€ì¦ì´ ì‹¤íŒ¨ì´ë©´
         /*
-         * hashdata°ËÁõ ½ÇÆÐ ·Î±×¸¦ Ã³¸®ÇÏ½Ã±â ¹Ù¶ø´Ï´Ù. 
+         * hashdataê²€ì¦ ì‹¤íŒ¨ ë¡œê·¸ë¥¼ ì²˜ë¦¬í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤. 
          */      
-        $resultMSG = "°áÁ¦°á°ú »óÁ¡ DBÃ³¸®(LGD_CASNOTEURL) ÇØ½¬°ª °ËÁõÀÌ ½ÇÆÐÇÏ¿´½À´Ï´Ù.";     
+        $resultMSG = "ê²°ì œê²°ê³¼ ìƒì  DBì²˜ë¦¬(LGD_CASNOTEURL) í•´ì‰¬ê°’ ê²€ì¦ì´ ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.";     
     }
     
     echo $resultMSG;

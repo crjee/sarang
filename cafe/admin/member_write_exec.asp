@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	member_seq    = Request.Form("member_seq")
 	user_id       = Request.Form("user_id")
@@ -81,7 +82,7 @@
 	Conn.Execute(sql)
 
 	If cafe_id <> "" Then
-		' ½Å±Ô »ç¶û¹æ È¸¿øÁ¤º¸ °¡ÀÔ
+		' ì‹ ê·œ ì‚¬ë‘ë°© íšŒì›ì •ë³´ ê°€ì…
 		sql = ""
 		sql = sql & " insert into cf_cafe_member( "
 		sql = sql & "        cafe_id "
@@ -104,23 +105,23 @@
 	End If
 
 	If Err.Number <> 0 Then
-		'// DB¸¦ ·Ñ¹é ÈÄ DB°´Ã¼ ¼Ò¸ê
+		'// DBë¥¼ ë¡¤ë°± í›„ DBê°ì²´ ì†Œë©¸
 		conn.RollbackTrans
 		conn.Close
 		Set conn = Nothing
 %>
 <script>
-	alert("¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.<%=Err.Description%>");
+	alert("ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.<%=Err.Description%>");
 </script>
 <%
 	Else
-		'// DB·Ñ Ä¿¹Ô ÈÄ DB°´Ã¼ ¼Ò¸ê
+		'// DBë¡¤ ì»¤ë°‹ í›„ DBê°ì²´ ì†Œë©¸
 		conn.CommitTrans
 		conn.Close
 		Set conn = Nothing
 %>
 <script>
-	alert("µî·ÏµÇ¾ú½À´Ï´Ù");
+	alert("ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤");
 	parent.location.href = 'member_list.asp';
 </script>
 <%

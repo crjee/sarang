@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	menu_seq = Request.Form("menu_seq")
 	form = Request.form("ir1")
@@ -12,7 +13,7 @@
 	Conn.Execute(sql)
 %>
 <script>
-	alert('¾ç½ÄÀÌ µî·ÏµÇ¾ú½À´Ï´Ù');
+	alert('ì–‘ì‹ì´ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤');
 	opener.location = 'form_edit_p.asp';
 	window.close();
 </script>

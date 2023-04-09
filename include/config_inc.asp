@@ -1,6 +1,9 @@
 <%
-	Response.ContentType="text/HTML"
-	Response.Charset="euc-kr"
+	Response.CharSet="utf-8"
+	Session.codepage="65001"
+	Response.codepage="65001"
+	Response.ContentType="text/html;charset=utf-8"
+
 	StartTime=Timer()
 	Dim Conn
 
@@ -21,7 +24,7 @@
 	Dim inc_del_yn
 	Dim list_info
 
-	'################ Database¼³Á¤ #################
+	'################ Databaseì„¤ì • #################
 	Function DBOpen()
 		Set Conn = Server.CreateObject("ADODB.Connection")
 		Conn.Open Application("db")
@@ -32,28 +35,31 @@
 		Set Conn = Nothing
 	End Function
 
-	'################ Upload Component ¼³Á¤ #################
-	'Dext¿Í »çÀÌÆ®°¶·°½Ã¸¸ Áö¿øÇÏ¸ç, ÀÌ¿ÜÀÇ Upload Component»ç¿ë½Ã¿¡´Â ¼Ò½º¸¦ ¼öÁ¤ÇÏ¼Å¾ß ÇÕ´Ï´Ù.
-	'DEXT Upload Component »ç¿ë½Ã : DEXT
-	'Site Galaxy »ç¿ë½Ã : SITE
+	'################ Upload Component ì„¤ì • #################
+	'Dextì™€ ì‚¬ì´íŠ¸ê°¤ëŸ­ì‹œë§Œ ì§€ì›í•˜ë©°, ì´ì™¸ì˜ Upload Componentì‚¬ìš©ì‹œì—ëŠ” ì†ŒìŠ¤ë¥¼ ìˆ˜ì •í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.
+	'DEXT Upload Component ì‚¬ìš©ì‹œ : DEXT
+	'Site Galaxy ì‚¬ìš©ì‹œ : SITE
 
 	ConfigComponent = "DEXT"
 
-	'################ À¥»çÀÌÆ® ÁÖ¼Ò ¼³Á¤ #################
+	'################ ì›¹ì‚¬ì´íŠ¸ ì£¼ì†Œ ì„¤ì • #################
 	ConfigURL = "http://" & Request.ServerVariables("HTTP_HOST") & "/"
 
-	'################ Ã·ºÎÆÄÀÏÀÌ ÀúÀåµÈ URL ¼³Á¤  #################
+	'################ ì²¨ë¶€íŒŒì¼ì´ ì €ì¥ëœ URL ì„¤ì •  #################
 	ConfigAttachedFileURL = "http://gisarangbang.krei.co.kr/uploads/"
-	ConfigAttachedFileURL = "http://localhost/uploads/" ' crjee ¼öÁ¤
+	ConfigAttachedFileURL = "http://localhost/uploads/" ' crjee ìˆ˜ì •
 	ConfigAttachedFileURL = ConfigURL & "uploads/"
-	'################ À¥»çÀÌÆ® ·çÆ® Àı´ë°æ·Î ¼³Á¤ #################
+	ConfigEditorFileURL = ConfigURL & "/smart/uploads/"  ' crjee ìˆ˜ì •
+	'################ ì›¹ì‚¬ì´íŠ¸ ë£¨íŠ¸ ì ˆëŒ€ê²½ë¡œ ì„¤ì • #################
 	ConfigPath = Server.MapPath("\") & "\"
 
-	'################ Ã·ºÎÆÄÀÏÀÌ ÀúÀåµÉ Àı´ë°æ·Î ¼³Á¤ (¾²±â±ÇÇÑÀÌ ¼³Á¤µÇ¾î ÀÖ¾î¾ß ÇÕ´Ï´Ù) #################
+	'################ ì²¨ë¶€íŒŒì¼ì´ ì €ì¥ë  ì ˆëŒ€ê²½ë¡œ ì„¤ì • (ì“°ê¸°ê¶Œí•œì´ ì„¤ì •ë˜ì–´ ìˆì–´ì•¼ í•©ë‹ˆë‹¤) #################
 	ConfigAttachedFileFolder = ConfigPath & "uploads\"
-	ConfigAttachedFileFolder = "D:\°æÀÎ³×Æ®¿÷½º\dev\uploads\" ' crjee ¼öÁ¤
+	ConfigEditorFileFolder = ConfigPath & "smart\upload\"
+	ConfigAttachedFileFolder = "D:\ê²½ì¸ë„¤íŠ¸ì›ìŠ¤\dev\uploads\" ' crjee ìˆ˜ì •
+	ConfigEditorFileFolder = "D:\ê²½ì¸ë„¤íŠ¸ì›ìŠ¤\dev\smart\upload\" ' crjee ìˆ˜ì •
 
-	'################ ÆÄÀÏ¾÷·Îµå¸¦ À§ÇÑ ÀÓ½Ã ÀúÀå°ø°£ °æ·Î ¼³Á¤(Àı´ë°æ·Î) #################
+	'################ íŒŒì¼ì—…ë¡œë“œë¥¼ ìœ„í•œ ì„ì‹œ ì €ì¥ê³µê°„ ê²½ë¡œ ì„¤ì •(ì ˆëŒ€ê²½ë¡œ) #################
 	ConfigTempFolder = ConfigAttachedFileFolder & "TEMP\"
 
 	DBopen()
@@ -85,7 +91,7 @@
 			sql = sql & "    and cm.user_id = '" & session("user_id") & "' "
 			fn_rs.Open sql, Conn, 1
 
-			If Not fn_rs.eof Then ' ³» »ç¶û¹æ
+			If Not fn_rs.eof Then ' ë‚´ ì‚¬ë‘ë°©
 				cafe_mb_level = fn_rs("cafe_mb_level")
 				fn_rs.close
 			Else
@@ -102,7 +108,7 @@
 				sql = sql & "    and cm.stat = 'Y' "
 				fn_rs.Open sql, Conn, 1
 
-				If Not fn_rs.eof Then ' ³» ¿¬ÇÕÈ¸
+				If Not fn_rs.eof Then ' ë‚´ ì—°í•©íšŒ
 					cafe_mb_level = fn_rs("cafe_mb_level")
 					union_mb_level = fn_rs("union_mb_level")
 
@@ -158,7 +164,7 @@
 	
 	Sub checkLogin()
 		If s_pop <> "Y" And Session("user_id") = "" Then
-			Response.Write "<script>alert('·Î±×ÀÎÀÌ ÇÊ¿äÇÕ´Ï´Ù.');location.href='/end_message_view.asp'</script>"
+			Response.Write "<script>alert('ë¡œê·¸ì¸ì´ í•„ìš”í•©ë‹ˆë‹¤.');location.href='/end_message_view.asp'</script>"
 			Response.End
 		End If
 	End Sub
@@ -168,12 +174,34 @@
 	End If
 
 	Sub checkCafePage(ByVal cafe_id)
-		If menu_seq = "" Then
-			On Error Resume Next
-			Set uploadform = Server.CreateObject("DEXT.FileUpload")
-			menu_seq = uploadform("menu_seq")
-			Set uploadform = Nothing
+		Set funcRs = server.createobject("adodb.recordset")
+		sql = ""
+		sql = sql & " select * "
+		sql = sql & "       ,isnull(daily_cnt,9999) as daily_cnt "
+		sql = sql & "   from cf_menu "
+		sql = sql & "  where menu_seq = '" & menu_seq & "' "
+		sql = sql & "    and cafe_id  = '" & cafe_id  & "' "
+		funcRs.Open Sql, Conn, 3, 1
+
+		If funcRs.Eof Then
+			msggo "ì •ìƒì ì¸ ì‚¬ìš©ì´ ì•„ë‹™ë‹ˆë‹¤.",""
+		Else
+			menu_type  = funcRs("menu_type")
+			menu_name  = funcRs("menu_name")
+			editor_yn  = funcRs("editor_yn")
+			write_auth = funcRs("write_auth")
+			reply_auth = funcRs("reply_auth")
+			read_auth  = funcRs("read_auth")
+			daily_cnt  = funcRs("daily_cnt")
+			inc_del_yn = funcRs("inc_del_yn")
+			list_info  = funcRs("list_info")
 		End If
+		funcRs.close
+		Set funcRs = Nothing
+	End Sub
+
+	Sub checkCafePageUpload(ByVal cafe_id)
+		menu_seq = uploadform("menu_seq")
 
 		Set funcRs = server.createobject("adodb.recordset")
 		sql = ""
@@ -185,7 +213,7 @@
 		funcRs.Open Sql, Conn, 3, 1
 
 		If funcRs.Eof Then
-			msggo "Á¤»óÀûÀÎ »ç¿ëÀÌ ¾Æ´Õ´Ï´Ù.",""
+			msggo "ì •ìƒì ì¸ ì‚¬ìš©ì´ ì•„ë‹™ë‹ˆë‹¤.",""
 		Else
 			menu_type  = funcRs("menu_type")
 			menu_name  = funcRs("menu_name")
@@ -206,7 +234,7 @@
 		read_auth = getonevalue("read_auth","cf_menu","where menu_seq = '" & menu_seq & "'")
 
 		If toInt(read_auth) > toInt(cafe_mb_level) Then
-			Response.Write "<script>alert('ÀĞ±â ±ÇÇÑÀÌ¾ø½À´Ï´Ù');history.back()</script>"
+			Response.Write "<script>alert('ì½ê¸° ê¶Œí•œì´ì—†ìŠµë‹ˆë‹¤');history.back()</script>"
 			Response.End
 		End If
 	End Sub
@@ -216,7 +244,7 @@
 		write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & menu_seq & "'")
 
 		If toInt(write_auth) > toInt(cafe_mb_level) Then
-			Response.Write "<script>alert('¾²±â ±ÇÇÑÀÌ¾ø½À´Ï´Ù');history.back()</script>"
+			Response.Write "<script>alert('ì“°ê¸° ê¶Œí•œì´ì—†ìŠµë‹ˆë‹¤');history.back()</script>"
 			Response.End
 		End If
 	End Sub
@@ -226,7 +254,7 @@
 		write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & menu_seq & "'")
 
 		If toInt(write_auth) > toInt(cafe_mb_level) Then
-			Response.Write "<script>alert('¼öÁ¤ ±ÇÇÑÀÌ¾ø½À´Ï´Ù');history.back()</script>"
+			Response.Write "<script>alert('ìˆ˜ì • ê¶Œí•œì´ì—†ìŠµë‹ˆë‹¤');history.back()</script>"
 			Response.End
 		End If
 	End Sub
@@ -236,7 +264,7 @@
 		reply_auth = getonevalue("reply_auth","cf_menu","where menu_seq = '" & menu_seq & "'")
 
 		If toInt(reply_auth) > toInt(cafe_mb_level) Then
-			Response.Write "<script>alert('´äº¯ ±ÇÇÑÀÌ¾ø½À´Ï´Ù');history.back()</script>"
+			Response.Write "<script>alert('ë‹µë³€ ê¶Œí•œì´ì—†ìŠµë‹ˆë‹¤');history.back()</script>"
 			Response.End
 		End If
 	End Sub
@@ -271,7 +299,7 @@
 			End If
 
 			If cint(write_cnt) >= cint(daily_cnt) Then
-				Response.Write "<script>alert('1ÀÏ µî·Ï °¹¼ö " & daily_cnt & "°³¸¦ ÃÊ°ú ÇÏ¿´½À´Ï´Ù');history.back()</script>"
+				Response.Write "<script>alert('1ì¼ ë“±ë¡ ê°¯ìˆ˜ " & daily_cnt & "ê°œë¥¼ ì´ˆê³¼ í•˜ì˜€ìŠµë‹ˆë‹¤');history.back()</script>"
 				Response.End
 			End If
 		End If
@@ -282,7 +310,7 @@
 	Sub checkMemoSendAuth(ByVal cafe_id)
 		cafe_mb_level = getUserLevel(cafe_id)
 		If cafe_mb_level < 2 Then
-			Response.Write "<script>alert('ÂÊÁö¸¦ º¸³»·Á¸é Á¤È¸¿øºÎÅÍ °¡´ÉÇÕ´Ï´Ù');history.back();</script>"
+			Response.Write "<script>alert('ìª½ì§€ë¥¼ ë³´ë‚´ë ¤ë©´ ì •íšŒì›ë¶€í„° ê°€ëŠ¥í•©ë‹ˆë‹¤');history.back();</script>"
 			Response.End
 		End If
 	End Sub
@@ -290,10 +318,10 @@
 	Sub checkMember(cafe_id)
 		If getUserLevel(cafe_id) = 0 Then
 			If isnull(Session("mycafe")) Or Session("mycafe") <> cafe_id Then
-				Response.Write "<script>alert('ºñÈ¸¿øÀº Á¢±Ù±ÇÇÑÀÌ ¾ø½À´Ï´Ù');history.back()</script>"
+				Response.Write "<script>alert('ë¹„íšŒì›ì€ ì ‘ê·¼ê¶Œí•œì´ ì—†ìŠµë‹ˆë‹¤');history.back()</script>"
 				Response.End
 			Else
-				Response.Write "<script>alert('È°µ¿Á¤Áö È¸¿øÀº Á¢±Ù±ÇÇÑÀÌ ¾ø½À´Ï´Ù');history.back()</script>"
+				Response.Write "<script>alert('í™œë™ì •ì§€ íšŒì›ì€ ì ‘ê·¼ê¶Œí•œì´ ì—†ìŠµë‹ˆë‹¤');history.back()</script>"
 				Response.End
 			End If
 		End If
@@ -302,14 +330,14 @@
 	Sub checkManager(cafe_id)
 		cafe_mb_level = getUserLevel(cafe_id)
 		If isnull(cafe_mb_level) Or cafe_mb_level < 10 Then
-			Response.Write "<script>alert('Á¢±Ù±ÇÇÑÀÌ ¾ø½À´Ï´Ù(" & cafe_mb_level & ").');history.back();</script>"
+			Response.Write "<script>alert('ì ‘ê·¼ê¶Œí•œì´ ì—†ìŠµë‹ˆë‹¤(" & cafe_mb_level & ").');history.back();</script>"
 			Response.End
 		End If
 	End Sub
 
 	Sub checkAdmin()
 		If isnull(Session("cafe_ad_level")) Or Session("cafe_ad_level") < "10" Then
-			Response.Write "<script>alert('Á¢±Ù±ÇÇÑÀÌ ¾ø½À´Ï´Ù.');history.back();</script>"
+			Response.Write "<script>alert('ì ‘ê·¼ê¶Œí•œì´ ì—†ìŠµë‹ˆë‹¤.');history.back();</script>"
 			Response.End
 		End If
 	End Sub
@@ -329,11 +357,11 @@
 	End Sub
 	
 '/*----------------------------------------------------------------*/
-'/*----- ½ÇÇà½Ã°£Ç¥½Ã
+'/*----- ì‹¤í–‰ì‹œê°„í‘œì‹œ
 '/*----------------------------------------------------------------*/
-	sub extime(msg)
-		response.write msg  & " : " & FormatNumber(Timer()-StartTime,5) & " (ÃÊ)<br>"
-	end sub
+	Sub extime(msg)
+		response.write msg  & " : " & FormatNumber(Timer()-StartTime,5) & " (ì´ˆ)<br>"
+	End Sub
 
 	Function toInt(str)
 		If isnull(str) Or isempty(str) Or Trim(str) = "" Then
@@ -343,13 +371,13 @@
 		End If
 	End Function
 '/*----------------------------------------------------------------*/
-'/*----- ÄÚµå°ü¸®°¡ µÇ´Â°ÍµéÀÇ ÄŞº¸¹Ú½º »ı¼º
+'/*----- ì½”ë“œê´€ë¦¬ê°€ ë˜ëŠ”ê²ƒë“¤ì˜ ì½¤ë³´ë°•ìŠ¤ ìƒì„±
 '/*----------------------------------------------------------------*/
-	function makeCombo(field1,field2,opt,table,refstr,sovalue)
-		DIM funcSQL
-		DIM funcRs
-		DIM strCombo
-		DIM a,b
+	Function makeCombo(field1,field2,opt,table,refstr,sovalue)
+		Dim funcSQL
+		Dim funcRs
+		Dim strCombo
+		Dim a,b
 
 		Set funcRs = server.createobject("adodb.recordset")
 		funcSQL = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
@@ -360,12 +388,12 @@
 		Do until funcRs.EOF
 			a = trim(funcRs(0))
 			b = funcRs(1)
-			if isnull(sovalue) Then sovalue = ""
-			if cstr(a) = cstr(sovalue) Then
-				if opt <> "" Then a = funcRs(2)
+			If isnull(sovalue) Then sovalue = ""
+			If cstr(a) = cstr(sovalue) Then
+				If opt <> "" Then a = funcRs(2)
 			strCombo = strCombo & "						<option value='" &a& "' selected>" &b& "</option>" &vbCrLf
 			Else
-				if opt <> "" Then a = funcRs(2)
+				If opt <> "" Then a = funcRs(2)
 			strCombo = strCombo & "						<option value='" &a& "'>" &b& "</option>" &vbCrLf
 			End If
 			funcRs.Movenext
@@ -374,16 +402,16 @@
 		funcRs.close
 
 		makeCombo = strCombo
-	end function
+	End Function
 
-	function makeFont(inFont)
-		strFont ="±¼¸²,±Ã¼­,µ¸¿ò,¹ÙÅÁ,»õ±¼¸²,ÈŞ¸ÕµÕ±ÙÇìµå¶óÀÎ,ÈŞ¸Õ¸ÅÁ÷Ã¼,ÈŞ¸Õ¸ğÀ½T,ÈŞ¸Õ¾Æ¹Ì,ÈŞ¸Õ¿¢½ºÆ÷,ÈŞ¸Õ¿¾Ã¼,ÈŞ¸ÕÆíÁö,HY°ß°íµñ,HY°ß¸íÁ¶,HY±Ã¼­B,HY±×·¡ÇÈM,HY¸ñ°¢ÆÄÀÓB,HY½Å¸íÁ¶,HY¾èÀº»ù¹°M,HY¿±¼­M,HYÁß°íµñ,HYÇìµå¶óÀÎ"
+	Function makeFont(inFont)
+		strFont ="êµ´ë¦¼,ê¶ì„œ,ë‹ì›€,ë°”íƒ•,ìƒˆêµ´ë¦¼,íœ´ë¨¼ë‘¥ê·¼í—¤ë“œë¼ì¸,íœ´ë¨¼ë§¤ì§ì²´,íœ´ë¨¼ëª¨ìŒT,íœ´ë¨¼ì•„ë¯¸,íœ´ë¨¼ì—‘ìŠ¤í¬,íœ´ë¨¼ì˜›ì²´,íœ´ë¨¼í¸ì§€,HYê²¬ê³ ë”•,HYê²¬ëª…ì¡°,HYê¶ì„œB,HYê·¸ë˜í”½M,HYëª©ê°íŒŒì„B,HYì‹ ëª…ì¡°,HYì–•ì€ìƒ˜ë¬¼M,HYì—½ì„œM,HYì¤‘ê³ ë”•,HYí—¤ë“œë¼ì¸"
 
 		arrFont = Split(strFont, ",")
 
 		strCombo = strCombo & "<option></option>" &vbCrLf
 		For i = 1 To ubound(arrFont)
-			if cstr(inFont) = cstr(arrFont(i)) Then
+			If cstr(inFont) = cstr(arrFont(i)) Then
 			strCombo = strCombo & "<option value='" &arrFont(i)& "' selected>" &arrFont(i)& "</option>" &vbCrLf
 			Else
 			strCombo = strCombo & "<option value='" &arrFont(i)& "'>" &arrFont(i)& "</option>" &vbCrLf
@@ -391,16 +419,16 @@
 		Next
 
 		makeFont = strCombo
-	end function
+	End Function
 
 '/*----------------------------------------------------------------*/
-'/*----- ÄÚµå°ü¸®°¡ µÇ´Â°ÍµéÀÇ ¶óµğ¿À¹öÆ° »ı¼º
+'/*----- ì½”ë“œê´€ë¦¬ê°€ ë˜ëŠ”ê²ƒë“¤ì˜ ë¼ë””ì˜¤ë²„íŠ¼ ìƒì„±
 '/*----------------------------------------------------------------*/
-	function makeRadio(func,tagname,cndt,tagtitle,field1,field2,opt,table,refstr,sovalue,read)
-		DIM funcSQL
-		DIM funcRs
-		DIM strRadio
-		DIM a,b
+	Function makeRadio(func,tagname,cndt,tagtitle,field1,field2,opt,table,refstr,sovalue,read)
+		Dim funcSQL
+		Dim funcRs
+		Dim strRadio
+		Dim a,b
 
 		Set funcRs = server.createobject("adodb.recordset")
 		funcSQL = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
@@ -410,15 +438,15 @@
 		Do until funcRs.EOF
 			a = trim(funcRs(0))
 			b = trim(funcRs(1))
-			if isnull(sovalue) Then sovalue = ""
-			if cstr(a) = cstr(sovalue) Then
-				if func = "" Then
+			If isnull(sovalue) Then sovalue = ""
+			If cstr(a) = cstr(sovalue) Then
+				If func = "" Then
 			strRadio = strRadio & "<input type='radio' hidefocus='true' name='" & tagname & "' value='" &a& "' cndt='" &cndt& "' title='" & tagtitle & "' style='border-color:#F2F2F2;' checked " & read & ">" &b& " & nbsp;" &vbCrLf
 				Else
 			strRadio = strRadio & "<input type='radio' hidefocus='true' name='" & tagname & "' value='" &a& "' cndt='" &cndt& "' title='" & tagtitle & "' style='border-color:#F2F2F2;' checked onclick=""" & func & """ " & read & ">" &b& " & nbsp;" &vbCrLf
 				End If
 			Else
-				if func = "" Then
+				If func = "" Then
 			strRadio = strRadio & "<input type='radio' hidefocus='true' name='" & tagname & "' value='" &a& "' cndt='" &cndt& "' title='" & tagtitle & "' style='border-color:#F2F2F2;' " & read & ">" &b& " & nbsp;" &vbCrLf
 				Else
 			strRadio = strRadio & "<input type='radio' hidefocus='true' name='" & tagname & "' value='" &a& "' cndt='" &cndt& "' title='" & tagtitle & "' style='border-color:#F2F2F2;' onclick=""" & func & """ " & read & ">" &b& " & nbsp;" &vbCrLf
@@ -430,36 +458,36 @@
 		funcRs.close
 
 		makeRadio = strRadio
-	end function
+	End Function
 
 '/*----------------------------------------------------------------*/
-'/*----- ÄÚµå°ü¸®°¡ µÇ´Â°ÍµéÀÇ Ã¼Å©¹Ú½º »ı¼º
+'/*----- ì½”ë“œê´€ë¦¬ê°€ ë˜ëŠ”ê²ƒë“¤ì˜ ì²´í¬ë°•ìŠ¤ ìƒì„±
 '/*----------------------------------------------------------------*/
-	function makeCheckBox(width,func,tagname,cndt,tagtitle,field1,field2,opt,table,refstr,sovalue)
-		DIM funcSQL
-		DIM funcRs
-		DIM strCheckBox
-		DIM a,b
+	Function makeCheckBox(width,func,tagname,cndt,tagtitle,field1,field2,opt,table,refstr,sovalue)
+		Dim funcSQL
+		Dim funcRs
+		Dim strCheckBox
+		Dim a,b
 
 		Set funcRs = server.createobject("adodb.recordset")
 		funcSQL = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
 		funcRs.Open funcSQL, Conn, 1
 		strCheckBox = vbCrLf
 
-'		strCheckBox = strCheckBox & "<span style='width:" & width & "'><input type='CheckBox' value='checkbox' name='allchk' title='" & tagtitle & "' style='border-color:#F2F2F2;'  onclick=""allChk('" & tagname & "',this.checked)"">ÀüÃ¼&nbsp;</span>" &vbCrLf
+'		strCheckBox = strCheckBox & "<span style='width:" & width & "'><input type='CheckBox' value='checkbox' name='allchk' title='" & tagtitle & "' style='border-color:#F2F2F2;'  onclick=""allChk('" & tagname & "',this.checked)"">ì „ì²´&nbsp;</span>" &vbCrLf
 
 		Do until funcRs.EOF
 			a = trim(funcRs(0))
 			b = funcRs(1)
-			if isnull(sovalue) Then sovalue = ""
-			if instr(sovalue, a) > 0 Then
-				if func = "" Then
+			If isnull(sovalue) Then sovalue = ""
+			If instr(sovalue, a) > 0 Then
+				If func = "" Then
 					strCheckBox = strCheckBox & "<span style='width:" & width & "'><input type='checkbox' hidefocus='true' value='" &a& "' name='" & tagname & "' cndt='" &cndt& "' title='" & tagtitle & "' style='border-color:#F2F2F2;' checked>" &b& " & nbsp;</span>" &vbCrLf
 				Else
 					strCheckBox = strCheckBox & "<span style='width:" & width & "'><input type='checkbox' hidefocus='true' value='" &a& "' name='" & tagname & "' cndt='" &cndt& "' title='" & tagtitle & "' style='border-color:#F2F2F2;' checked onclick=""" & func & """>" &b& " & nbsp;</span>" &vbCrLf
 				End If
 			Else
-				if func = "" Then
+				If func = "" Then
 					strCheckBox = strCheckBox & "<span style='width:" & width & "'><input type='checkbox' hidefocus='true' value='" &a& "' name='" & tagname & "' cndt='" &cndt& "' title='" & tagtitle & "' style='border-color:#F2F2F2;'>" &b& " & nbsp;</span>" &vbCrLf
 				Else
 					strCheckBox = strCheckBox & "<span style='width:" & width & "'><input type='checkbox' hidefocus='true' value='" &a& "' name='" & tagname & "' cndt='" &cndt& "' title='" & tagtitle & "' style='border-color:#F2F2F2;' onclick=""" & func & """>" &b& " & nbsp;</span>" &vbCrLf
@@ -471,32 +499,32 @@
 		funcRs.close
 
 		makeCheckBox = strCheckBox
-	end function
-	function makeCheckBox2(width,func,tagname,cndt,tagtitle,field1,field2,opt,table,refstr,sovalue)
-		DIM funcSQL
-		DIM funcRs
-		DIM strCheckBox
-		DIM a,b
+	End Function
+	Function makeCheckBox2(width,func,tagname,cndt,tagtitle,field1,field2,opt,table,refstr,sovalue)
+		Dim funcSQL
+		Dim funcRs
+		Dim strCheckBox
+		Dim a,b
 
 		Set funcRs = server.createobject("adodb.recordset")
 		funcSQL = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
 		funcRs.Open funcSQL, Conn, 1
 		strCheckBox = vbCrLf
 
-'		strCheckBox = strCheckBox & "<span style='width:" & width & "'><input type='CheckBox' value='checkbox' name='allchk' title='" & tagtitle & "' style='border-color:#F2F2F2;'  onclick=""allChk('" & tagname & "',this.checked)"">ÀüÃ¼&nbsp;</span>" &vbCrLf
+'		strCheckBox = strCheckBox & "<span style='width:" & width & "'><input type='CheckBox' value='checkbox' name='allchk' title='" & tagtitle & "' style='border-color:#F2F2F2;'  onclick=""allChk('" & tagname & "',this.checked)"">ì „ì²´&nbsp;</span>" &vbCrLf
 
 		Do until funcRs.EOF
 			a = trim(funcRs(0))
 			b = funcRs(1)
-			if isnull(sovalue) Then sovalue = "0"
-			if IsAuth(sovalue, 2 ^ a) Then
-				if func = "" Then
+			If isnull(sovalue) Then sovalue = "0"
+			If IsAuth(sovalue, 2 ^ a) Then
+				If func = "" Then
 					strCheckBox = strCheckBox & "<span style='width:" & width & "'><input type='checkbox' hidefocus='true' value='" &a& "' name='" & tagname & "' cndt='" &cndt& "' title='" & tagtitle & "' style='border-color:#F2F2F2;' checked>" &b& " & nbsp;</span>" &vbCrLf
 				Else
 					strCheckBox = strCheckBox & "<span style='width:" & width & "'><input type='checkbox' hidefocus='true' value='" &a& "' name='" & tagname & "' cndt='" &cndt& "' title='" & tagtitle & "' style='border-color:#F2F2F2;' checked onclick=""" & func & """>" &b& " & nbsp;</span>" &vbCrLf
 				End If
 			Else
-				if func = "" Then
+				If func = "" Then
 					strCheckBox = strCheckBox & "<span style='width:" & width & "'><input type='checkbox' hidefocus='true' value='" &a& "' name='" & tagname & "' cndt='" &cndt& "' title='" & tagtitle & "' style='border-color:#F2F2F2;'>" &b& " & nbsp;</span>" &vbCrLf
 				Else
 					strCheckBox = strCheckBox & "<span style='width:" & width & "'><input type='checkbox' hidefocus='true' value='" &a& "' name='" & tagname & "' cndt='" &cndt& "' title='" & tagtitle & "' style='border-color:#F2F2F2;' onclick=""" & func & """>" &b& " & nbsp;</span>" &vbCrLf
@@ -508,97 +536,97 @@
 		funcRs.close
 
 		makeCheckBox2 = strCheckBox
-	end function
+	End Function
 '/*-------------------------------------------------------------*/
-'/*----- Request °ªµé
+'/*----- Request ê°’ë“¤
 '/*-------------------------------------------------------------*/
-	sub Reval()
+	Sub Reval()
 		response.write "<hr>"
-		response.write "³Ñ¾î¿Â Äõ¸® Äİ·º¼Ç °ª"
+		response.write "ë„˜ì–´ì˜¨ ì¿¼ë¦¬ ì½œë ‰ì…˜ ê°’"
 		response.write "<hr>"
 
-		for each item in request.querystring
-			for i = 1 to request.querystring(item).count
+		For Each item In request.querystring
+			For i = 1 To request.querystring(item).count
 				response.write "<br>"
 				response.write item & " = " & request.querystring(item)(i)
-			next
-		next
+			Next
+		Next
 		response.write "<hr>"
-		response.write "³Ñ¾î¿Â Æû Äİ·º¼Ç °ª"
+		response.write "ë„˜ì–´ì˜¨ í¼ ì½œë ‰ì…˜ ê°’"
 		response.write "<hr>"
 
-		for each item in request.form
-			for i = 1 to request.form(item).count
+		For Each item In request.form
+			For i = 1 To request.form(item).count
 				response.write "<br>"
 				response.write item & "=" & request.form(item)(i)
-			next
-		next
-	end sub
+			Next
+		Next
+	End Sub
 
-	sub fReval()
+	Sub fReval()
 		response.write "<hr>"
-		response.write "³Ñ¾î¿Â Äõ¸® Äİ·º¼Ç °ª"
+		response.write "ë„˜ì–´ì˜¨ ì¿¼ë¦¬ ì½œë ‰ì…˜ ê°’"
 		response.write "<hr>"
 
-		for each item in request.querystring
-			for i = 1 to request.querystring(item).count
+		For Each item In request.querystring
+			For i = 1 To request.querystring(item).count
 				response.write "<br>"
 				response.write item & " = " & request.querystring(item)(i)
-			next
-		next
+			Next
+		Next
 		response.write "<hr>"
-		response.write "³Ñ¾î¿Â Æû Äİ·º¼Ç °ª"
+		response.write "ë„˜ì–´ì˜¨ í¼ ì½œë ‰ì…˜ ê°’"
 		response.write "<hr>"
 
-		for each item in uploadform
-			for i = 1 to uploadform(item).count
+		For Each item In uploadform
+			For i = 1 To uploadform(item).count
 				response.write "<br>"
 				response.write item & "=" & uploadform(item)(i)
-			next
-		next
-	end sub
+			Next
+		Next
+	End Sub
 
 
 '/*-------------------------------------------------------------*/
-'/*-----	ÇÑ µ¥ÀÌÅ¸ °¡Á®¿À±â
+'/*-----	í•œ ë°ì´íƒ€ ê°€ì ¸ì˜¤ê¸°
 '/*-------------------------------------------------------------*/
-	function getOneValue(field,table,refstr)
-		DIM funcSQL
-		DIM funcRs
+	Function getOneValue(field,table,refstr)
+		Dim funcSQL
+		Dim funcRs
 
 		Set funcRs = server.createobject("adodb.recordset")
 		funcSQL = "select " & field & " from " & table & " " & refstr
 
 		funcRs.open funcSQL, conn, 1, 1
 
-		if funcRs.eof Then
+		If funcRs.eof Then
 			getOneValue = ""
 		Else
 			getOneValue = Trim(funcRs(0))
 			If isnull(getOneValue) Then getOneValue = ""
 		End If
 		funcRs.close
-	end function
+	End Function
 '/*-------------------------------------------------------------*/
-'/*-----	¸Ş½ÃÁö º¸ÀÌ±â
+'/*-----	ë©”ì‹œì§€ ë³´ì´ê¸°
 '/*-------------------------------------------------------------*/
-	sub MsgOnly(str)
+	Sub MsgOnly(str)
 		Response.write "<script LANGUAGE=JAVAscript>" & vbcrlf
 		Response.write "alert(""\n" & str  & """)" & vbcrlf
 		Response.write "</script>" & vbcrlf
-	end sub
-	sub MsgEnd(str)
+	End Sub
+	Sub MsgEnd(str)
 		Response.write "<script LANGUAGE=JAVAscript>" & vbcrlf
 		Response.write "alert(""\n" & str  & """)" & vbcrlf
 		Response.write "</script>" & vbcrlf
-		Response.end
-	end sub
-	sub MsgGo(str,url)
+		Response.End
+	End Sub
+	Sub MsgGo(str,url)
 		Response.write "<script LANGUAGE=JAVAscript>" & vbcrlf
-		if str <> "" Then
+		If str <> "" Then
 		Response.write "alert(""\n" & str  & """)" & vbcrlf
 		End If
-		if url = "" Then
+		If url = "" Then
 			Response.write "history.back(-1);" & vbcrlf
 		elseif url = "close" Then
 			Response.write "self.close();" & vbcrlf
@@ -610,44 +638,44 @@
 			Response.write "location.href=""" & url & """;" & vbcrlf
 		End If
 		Response.write "</script>" & vbcrlf
-		Response.end
-	end sub
+		Response.End
+	End Sub
 
 '/*-------------------------------------------------------------*/
-'/*-----	¼ıÀÚ¸¦ ÀÓÀÇÀÇ ÀÚ¸´¼ö·Î 0 Ãß°¡ÇØ¼­ Ãâ·Â
+'/*-----	ìˆ«ìë¥¼ ì„ì˜ì˜ ìë¦¿ìˆ˜ë¡œ 0 ì¶”ê°€í•´ì„œ ì¶œë ¥
 '/*-------------------------------------------------------------*/
-	function numc(val, c_len)
-		DIM i, temp, t_len
+	Function numc(val, c_len)
+		Dim i, temp, t_len
 
-		if val <> "" Then temp = cstr(val)
+		If val <> "" Then temp = cstr(val)
 		t_len = len(temp)
-		if c_len > t_len Then
-			for i = 1 to (c_len - t_len)
+		If c_len > t_len Then
+			For i = 1 To (c_len - t_len)
 				temp = "0" & temp
-			next
+			Next
 		End If
 		numc = CStr(temp)
-	end function
+	End Function
 
-	function if3(var, tvalue, fvalue)
-		if (var = true) Then
+	Function if3(var, tvalue, fvalue)
+		If (var = true) Then
 			if3 = tvalue
 		Else
 			if3 = fvalue
 		End If
-	end function
+	End Function
 
-	function rmid(val, c_len, a_str)
-		if val <> "" Then temp = cstr(val)
+	Function rmid(val, c_len, a_str)
+		If val <> "" Then temp = cstr(val)
 
-		if len(temp) > c_len Then
+		If len(temp) > c_len Then
 			rmid = mid(temp, 1, c_len) & a_str
 		Else
 			rmid = temp
 		End If
-	end function
+	End Function
 
-	'ÁöÁ¤±æÀÌ·Î ·£´ı ¼ıÀÚ ¸¸µé±â (ÃÖ´ë 15ÀÚ¸®)
+	'ì§€ì •ê¸¸ì´ë¡œ ëœë¤ ìˆ«ì ë§Œë“¤ê¸° (ìµœëŒ€ 15ìë¦¬)
 	Function getRndNum(ByVal rLen)
 		If rLen > 15 Then rLen = 15
 
@@ -667,7 +695,7 @@
 		getRndNum = Int(Rnd(rndSeed)*rndSeed2)
 	End Function
 
-	'ÁöÁ¤±æÀÌ·Î ·£´ı ¹®ÀÚ ¸¸µé±â
+	'ì§€ì •ê¸¸ì´ë¡œ ëœë¤ ë¬¸ì ë§Œë“¤ê¸°
 	Function getRndStr(rLen)
 		Dim rtnStr
 
@@ -681,11 +709,11 @@
 
 	Dim arr_comment_seq()
 	Dim arr_seq()
-	sub del_comment(menu_type, com_seq)
+	Sub del_comment(menu_type, com_seq)
 
 		Set funcRs = server.createobject("adodb.recordset")
 
-		' ¸ğµç ´ñ±Û Á¶È¸
+		' ëª¨ë“  ëŒ“ê¸€ ì¡°íšŒ
 		sql = ""
 		sql = sql & " with tree_query  as (                                                                                                            "
 		sql = sql & "   select                                                                                                                         "
@@ -708,7 +736,7 @@
 		sql = sql & " )                                                                                                                                "
 		sql = sql & " select *                                                                                                                         "
 		sql = sql & "   from cf_" & menu_type & "_comment                                                                                                  "
-		sql = sql & "  where comment_seq in (                                                                                                    "
+		sql = sql & "  where comment_seq In (                                                                                                    "
 		sql = sql & " select comment_seq from tree_query)                                                                                                      "
 
 		sql = ""
@@ -749,11 +777,11 @@
 			Conn.Execute(sql)
 		Next
 
-	End sub
+	End Sub
 
-	sub waste_content(menu_type, com_seq)
+	Sub waste_content(menu_type, com_seq)
 
-		' ¸ğµç Ã·ºÎ »èÁ¦
+		' ëª¨ë“  ì²¨ë¶€ ì‚­ì œ
 		sql = ""
 		sql = sql & " update cf_" & menu_type & "_attach "
 		sql = sql & "    Set restoreid = '" & session("user_id") & "' "
@@ -775,7 +803,7 @@
 		sql = sql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(sql)
 
-		' ¸ğµç ´ñ±Û »èÁ¦
+		' ëª¨ë“  ëŒ“ê¸€ ì‚­ì œ
 		sql = ""
 		sql = sql & " update cf_" & menu_type & "_comment "
 		sql = sql & "    Set restoreid = '" & session("user_id") & "' "
@@ -797,7 +825,7 @@
 		sql = sql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(sql)
 
-		' ºÎ¸ğ±Û »èÁ¦ ¾÷µ¥ÀÌÆ®
+		' ë¶€ëª¨ê¸€ ì‚­ì œ ì—…ë°ì´íŠ¸
 		sql = ""
 		sql = sql & " update cf_" & menu_type & " "
 		sql = sql & "    Set parent_del_yn = 'Y' "
@@ -806,7 +834,7 @@
 		sql = sql & "  where parent_seq = '" & com_seq  & "' "
 		Conn.Execute(sql)
 
-		' º»±Û »èÁ¦
+		' ë³¸ê¸€ ì‚­ì œ
 		sql = ""
 		sql = sql & " update cf_" & menu_type & " "
 		sql = sql & "    Set restoreid = '" & session("user_id") & "' "
@@ -828,7 +856,7 @@
 		sql = sql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(sql)
 
-		' °øÁö±Û ¼ö ¾÷µ¥ÀÌÆ®
+		' ê³µì§€ê¸€ ìˆ˜ ì—…ë°ì´íŠ¸
 		sql = ""
 		sql = sql & " update cf_menu "
 		sql = sql & "    Set top_cnt = (select count(*) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
@@ -838,11 +866,11 @@
 		sql = sql & "  where menu_seq = '" & menu_seq & "' "
 		Conn.Execute(sql)
 
-	End sub
+	End Sub
 
-	sub restore_content(menu_type, com_seq)
+	Sub restore_content(menu_type, com_seq)
 
-		' ¸ğµç Ã·ºÎ º¹¿ø
+		' ëª¨ë“  ì²¨ë¶€ ë³µì›
 		sql = ""
 		sql = sql & " update cf_waste_" & menu_type & "_attach "
 		sql = sql & "    Set delid = '" & session("user_id") & "' "
@@ -862,7 +890,7 @@
 		sql = sql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(sql)
 
-		' ºÎ¸ğ±Û »èÁ¦ ¾÷µ¥ÀÌÆ®
+		' ë¶€ëª¨ê¸€ ì‚­ì œ ì—…ë°ì´íŠ¸
 		sql = ""
 		sql = sql & " update cf_" & menu_type & " "
 		sql = sql & "    Set parent_del_yn = 'N' "
@@ -871,7 +899,7 @@
 		sql = sql & "  where parent_seq = '" & com_seq  & "' "
 		Conn.Execute(sql)
 
-		' º»±Û º¹¿ø
+		' ë³¸ê¸€ ë³µì›
 		sql = ""
 		sql = sql & " update cf_waste_" & menu_type & " "
 		sql = sql & "    Set delid = '" & session("user_id") & "' "
@@ -891,7 +919,7 @@
 		sql = sql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(sql)
 
-		' ¸ğµç ´ñ±Û º¹¿ø
+		' ëª¨ë“  ëŒ“ê¸€ ë³µì›
 		sql = ""
 		sql = sql & " update cf_waste_" & menu_type & "_comment "
 		sql = sql & "    Set delid = '" & session("user_id") & "' "
@@ -911,7 +939,7 @@
 		sql = sql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(sql)
 
-		' °øÁö±Û ¼ö ¾÷µ¥ÀÌÆ®
+		' ê³µì§€ê¸€ ìˆ˜ ì—…ë°ì´íŠ¸
 		sql = ""
 		sql = sql & " update cf_menu "
 		sql = sql & "    Set top_cnt = (select count(*) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
@@ -921,11 +949,11 @@
 		sql = sql & "  where menu_seq = '" & menu_seq & "' "
 		Conn.Execute(sql)
 
-	End sub
+	End Sub
 
 	Dim attach_file()
 	ReDim attach_file(1)
-	sub delete_content(menu_type, com_seq)
+	Sub delete_content(menu_type, com_seq)
 
 		Set funcRs = server.createobject("adodb.recordset")
 
@@ -946,19 +974,19 @@
 		End If
 		funcRs.close
 
-		' ¸ğµç Ã·ºÎ »èÁ¦
+		' ëª¨ë“  ì²¨ë¶€ ì‚­ì œ
 		sql = ""
 		sql = sql & " delete cf_waste_" & menu_type & "_attach "
 		sql = sql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(sql)
 
-		' ¸ğµç ´ñ±Û »èÁ¦
+		' ëª¨ë“  ëŒ“ê¸€ ì‚­ì œ
 		sql = ""
 		sql = sql & " delete cf_waste_" & menu_type & "_comment "
 		sql = sql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(sql)
 
-		' º»±Û »èÁ¦
+		' ë³¸ê¸€ ì‚­ì œ
 		sql = ""
 		sql = sql & " delete cf_waste_" & menu_type & " "
 		sql = sql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
@@ -988,7 +1016,7 @@
 	Function getImgYN(path)
 		Set objImage = server.CreateObject("DEXT.ImageProc")
 
-		if true = objImage.SetSourceFile(path) Then
+		If true = objImage.SetSourceFile(path) Then
 			getImgYN = "Y"
 		Else
 			getImgYN = "N"

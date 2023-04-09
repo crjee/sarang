@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Call checkAdmin()
 	cafe_id = "home"
@@ -9,10 +10,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>È¸¿ø °ü¸® > °ü¸®ÀÚ</title>
+	<title>íšŒì› ê´€ë¦¬ > ê´€ë¦¬ìž</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -22,26 +23,26 @@
 <body class="sa">
 	<div id="wrap">
 		<header id="adm_head">
-			<h1><a href="/">RETS °æÀÎ<sub>ÀüÃ¼°ü¸®</sub></a></h1>
+			<h1><a href="/">RETS ê²½ì¸<sub>ì „ì²´ê´€ë¦¬</sub></a></h1>
 		</header>
 		<nav id="adm_nav">
 <!--#include virtual="/cafe/admin/admin_left_inc.asp"-->
 		</nav>
 		<main id="adm_body">
 			<div class="adm_page_tit">
-				<h2 class="h2">¸ÞÀÎ °ü¸®</h2>
+				<h2 class="h2">ë©”ì¸ ê´€ë¦¬</h2>
 			</div>
 			<div class="adm_guide_message">
 				<ul>
-					<li>»ç¶û¹æ ¸ÞÀÎ¿¡ ³ªÅ¸³ª´Â ÄÁÅÙÃ÷¸¦ ¼ÂÆÃÇÏ´Â ÆäÀÌÁö ÀÔ´Ï´Ù.</li>
-					<li>¸ÕÀú ÁÂÃø ÀüÃ¼¸Þ´º¿¡¼­ ¸ÞÀÎ³ëÃâÇÒ Ç×¸ñÀ» ¼±ÅÃÇÏ¿© ÀúÀå¹öÆ°À» ´©¸¨´Ï´Ù.</li>
-					<li>Áß¾ÓÀÇ ¸ÞÀÎ³ëÃâ¿¡ ¼±ÅÃµÈ ¸Þ´º¸¦ È®ÀÎ ÈÄ Å¬¸¯ÇÕ´Ï´Ù.</li>
-					<li>¿ìÃøÀÇ ÇØ´ç ÄÁÅÙÃ÷ÀÇ ÇüÅÂ ¹× Å©±â¿¡ ´ëÇØ ¼³Á¤ÇÑ ÈÄ Àû¿ë¹öÆ°À» ´­·¯ÁÖ¼¼¿À.</li>
+					<li>ì‚¬ëž‘ë°© ë©”ì¸ì— ë‚˜íƒ€ë‚˜ëŠ” ì»¨í…ì¸ ë¥¼ ì…‹íŒ…í•˜ëŠ” íŽ˜ì´ì§€ ìž…ë‹ˆë‹¤.</li>
+					<li>ë¨¼ì € ì¢Œì¸¡ ì „ì²´ë©”ë‰´ì—ì„œ ë©”ì¸ë…¸ì¶œí•  í•­ëª©ì„ ì„ íƒí•˜ì—¬ ì €ìž¥ë²„íŠ¼ì„ ëˆ„ë¦…ë‹ˆë‹¤.</li>
+					<li>ì¤‘ì•™ì˜ ë©”ì¸ë…¸ì¶œì— ì„ íƒëœ ë©”ë‰´ë¥¼ í™•ì¸ í›„ í´ë¦­í•©ë‹ˆë‹¤.</li>
+					<li>ìš°ì¸¡ì˜ í•´ë‹¹ ì»¨í…ì¸ ì˜ í˜•íƒœ ë° í¬ê¸°ì— ëŒ€í•´ ì„¤ì •í•œ í›„ ì ìš©ë²„íŠ¼ì„ ëˆŒëŸ¬ì£¼ì„¸ì˜¤.</li>
 				</ul>
 			</div>
 			<div class="adm_menu_flex_manage">
 				<div class="adm_menu_item">
-					<div class="adm_menu_item_tit">¸Þ´º ¼±ÅÃ</div>
+					<div class="adm_menu_item_tit">ë©”ë‰´ ì„ íƒ</div>
 					<div class="adm_select_box">
 						<div class="adm_select_tree_nav">
 							<ul class="menu_handle1" id="menu_handle1">
@@ -79,7 +80,7 @@
 				</div>
 				<div class="adm_menu_item">
 					<form name="form" method="post" action="main_add_exec.asp" target="hiddenfrm">
-					<div class="adm_menu_item_tit">¸ÞÀÎ ¸Þ´º</div>
+					<div class="adm_menu_item_tit">ë©”ì¸ ë©”ë‰´</div>
 					<div class="adm_select_box">
 						<div class="adm_select_tree_nav">
 							<ul class="menu_handle">
@@ -113,7 +114,7 @@
 		Loop
 	Else
 %>
-								<li id="emptyMenu" class="tit">ÀÌ°÷¿¡ ²ø¾î ³õÀ¸¼¼¿ä</li>
+								<li id="emptyMenu" class="tit">ì´ê³³ì— ëŒì–´ ë†“ìœ¼ì„¸ìš”</li>
 <%
 	End If
 	row.close
@@ -126,13 +127,13 @@
 						<div class="floatL">
 						</div>
 						<div class="floatR">
-							<button type="submit" class="btn btn_c_a btn_s">Àû¿ë</button>
+							<button type="submit" class="btn btn_c_a btn_s">ì ìš©</button>
 						</div>
 					</div>
 					</form>
 				</div>
 				<div class="adm_menu_item adm_menu_item_cont">
-					<div class="adm_menu_item_tit">¸ÞÀÎ ¼³Á¤</div>
+					<div class="adm_menu_item_tit">ë©”ì¸ ì„¤ì •</div>
 						<iframe id="ifrm" class="iframe" name="ifrm" frameborder="1" scrolling="no" style="border:1px;height:100%;width:100%"></iframe>
 					</div>
 				</div>
@@ -208,7 +209,7 @@
 	})
 
 	$(function() {
-		$("iframe.iframe").load(function() { //iframe ÄÁÅÙÃ÷°¡ ·Îµå µÈ ÈÄ¿¡ È£ÃâµË´Ï´Ù.
+		$("iframe.iframe").load(function() { //iframe ì»¨í…ì¸ ê°€ ë¡œë“œ ëœ í›„ì— í˜¸ì¶œë©ë‹ˆë‹¤.
 			var frame = $(this).get(0);
 			var doc = (frame.contentDocument) ? frame.contentDocument : frame.contentWindow.document;
 			$(this).height(doc.body.scrollHeight+ 100);

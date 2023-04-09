@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 	checkReadAuth(cafe_id)
@@ -8,10 +9,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>½ºÅ²-1 : GI</title>
+	<title>ìŠ¤í‚¨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -50,27 +51,27 @@
 	work    = rs("work")
 	age     = rs("age")
 	If age = "" Or age = "0" Then
-		age = "¹«°ü"
+		age = "ë¬´ê´€"
 	End if
 	sex    = rs("sex")
 	If sex = "" Then
-		sex = "¹«°ü"
+		sex = "ë¬´ê´€"
 	elseIf sex = "M" Then
-		sex = "³²ÀÚ"
+		sex = "ë‚¨ì"
 	elseIf sex = "W" Then
-		sex = "¿©ÀÚ"
+		sex = "ì—¬ì"
 	End if
 	work_year  = rs("work_year")
 	If work_year = "" Then
-		work_year = "¹«°ü"
+		work_year = "ë¬´ê´€"
 	else
 		work_year = work_year
 	End if
 	certify    = rs("certify")
 	If certify = "Y" Then
-		certify = "ÇÊ¼ö"
+		certify = "í•„ìˆ˜"
 	else
-		certify = "¹«°ü"
+		certify = "ë¬´ê´€"
 	End if
 	work_place = rs("work_place")
 	agency     = rs("agency")
@@ -132,15 +133,15 @@
 					try{
 						if (window.clipboardData) {
 								window.clipboardData.setData("Text", "<%=pageUrl%>")
-								alert("ÇØ´ç ±ÛÁÖ¼Ò°¡ º¹»ç µÇ¾ú½À´Ï´Ù. Ctrl + v ÇÏ½Ã¸é ºÙ¿© ³Ö±â°¡ °¡´ÉÇÕ´Ï´Ù.");
+								alert("í•´ë‹¹ ê¸€ì£¼ì†Œê°€ ë³µì‚¬ ë˜ì—ˆìŠµë‹ˆë‹¤. Ctrl + v í•˜ì‹œë©´ ë¶™ì—¬ ë„£ê¸°ê°€ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
 						}
 						else if (window.navigator.clipboard) {
 								window.navigator.clipboard.writeText("<%=pageUrl%>").then(() => {
-									alert("ÇØ´ç ±ÛÁÖ¼Ò°¡ º¹»ç µÇ¾ú½À´Ï´Ù. Ctrl + v ÇÏ½Ã¸é ºÙ¿© ³Ö±â°¡ °¡´ÉÇÕ´Ï´Ù.");
+									alert("í•´ë‹¹ ê¸€ì£¼ì†Œê°€ ë³µì‚¬ ë˜ì—ˆìŠµë‹ˆë‹¤. Ctrl + v í•˜ì‹œë©´ ë¶™ì—¬ ë„£ê¸°ê°€ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
 								});
 						}
 						else {
-							temp = prompt("ÇØ´ç ±ÛÁÖ¼Ò¸¦ º¹»çÇÏ½Ê½Ã¿À.", "<%=pageUrl%>");
+							temp = prompt("í•´ë‹¹ ê¸€ì£¼ì†Œë¥¼ ë³µì‚¬í•˜ì‹­ì‹œì˜¤.", "<%=pageUrl%>");
 						}
 					} catch(e) {
 						alert(e)
@@ -165,52 +166,52 @@
 			<input type="hidden" name="com_seq" value="<%=job_seq%>">
 			</form>
 				<div class="cont_tit">
-					<h2 class="h2"><%=menu_name%> ³»¿ëº¸±â</h2>
+					<h2 class="h2"><%=menu_name%> ë‚´ìš©ë³´ê¸°</h2>
 				</div>
 				<div class="btn_box view_btn">
 <%
 	If group_num = "" And reply_auth <= cafe_mb_level Then
 %>
-					<!-- <button class="btn btn_c_n btn_n" type="button" onclick="goReply()">´ä±Û</button> -->
+					<!-- <button class="btn btn_c_n btn_n" type="button" onclick="goReply()">ë‹µê¸€</button> -->
 <%
 	End If
 %>
 <%
 	If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goModify()">¼öÁ¤</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">»èÁ¦</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goMove()">ÀÌµ¿</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goModify()">ìˆ˜ì •</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">ì‚­ì œ</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goMove()">ì´ë™</button>
 <%
 	End If
 %>
 <%
 	If cafe_mb_level > 6 Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goNotice()"><%=if3(rs("top_yn")="Y","°øÁöÇØÁ¦","°øÁöÁöÁ¤")%></button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goNotice()"><%=if3(rs("top_yn")="Y","ê³µì§€í•´ì œ","ê³µì§€ì§€ì •")%></button>
 <%
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goSuggest()">ÃßÃµ</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goPrint()">ÀÎ¼â</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goSuggest()">ì¶”ì²œ</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goPrint()">ì¸ì‡„</button>
 <%
 	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
 	If toInt(write_auth) <= toInt(cafe_mb_level) Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="location.href='/cafe/skin/job_write.asp?menu_seq=<%=menu_seq%>'">±Û¾²±â</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="location.href='/cafe/skin/job_write.asp?menu_seq=<%=menu_seq%>'">ê¸€ì“°ê¸°</button>
 <%
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="copyUrl()">±ÛÁÖ¼Òº¹»ç</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">¸ñ·Ï</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="copyUrl()">ê¸€ì£¼ì†Œë³µì‚¬</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">ëª©ë¡</button>
 				</div>
 				<div class="view_head">
 					<h3 class="h3" id="subject"><%=subject%></h3>
 					<div class="wrt_info_box">
 						<ul>
-							<li><span>ÀÛ¼ºÀÚ</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
-							<li><span>Á¶È¸</span><strong><%=rs("view_cnt")%></strong></li>
-							<li><span>µî·ÏÀÏ½Ã</span><strong><%=rs("credt")%></strong></li>
+							<li><span>ì‘ì„±ì</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
+							<li><span>ì¡°íšŒ</span><strong><%=rs("view_cnt")%></strong></li>
+							<li><span>ë“±ë¡ì¼ì‹œ</span><strong><%=rs("credt")%></strong></li>
 						</ul>
 					</div>
 				</div>
@@ -218,7 +219,7 @@
 
 
 				<div class="view_cont">
-					<h4 class="f_awesome h4">ÀÚ°İÁ¶°Ç</h4>
+					<h4 class="f_awesome h4">ìê²©ì¡°ê±´</h4>
 					<div class="tb">
 						<table class="tb_input tb_fixed">
 							<colgroup>
@@ -229,21 +230,21 @@
 							</colgroup>
 							<tbody>
 								<tr>
-									<th scope="row">´ã´ç¾÷¹«</th>
+									<th scope="row">ë‹´ë‹¹ì—…ë¬´</th>
 									<td><%=work%></td>
-									<th scope="row">¿¬·É</th>
+									<th scope="row">ì—°ë ¹</th>
 									<td><%=age%></td>
 								</tr>
 								<tr>
-									<th scope="row">¼ºº°</th>
+									<th scope="row">ì„±ë³„</th>
 									<td><%=sex%></td>
-									<th scope="row">°æ·Â</th>
+									<th scope="row">ê²½ë ¥</th>
 									<td><%=work_year%></td>
 								</tr>
 								<tr>
-									<th scope="row">°ü·ÂÀÚ°İÁõ</th>
+									<th scope="row">ê´€ë ¥ìê²©ì¦</th>
 									<td><%=certify%></td>
-									<th scope="row">±Ù¹«Áö¿ª</th>
+									<th scope="row">ê·¼ë¬´ì§€ì—­</th>
 									<td><%=work_place%></td>
 								</tr>
 							</tbody>
@@ -252,7 +253,7 @@
 				</div>
 
 				<div class="view_cont">
-					<h4 class="f_awesome h4">¹®ÀÇ¹× Á¢¼ö¹æ¹ı</h4>
+					<h4 class="f_awesome h4">ë¬¸ì˜ë° ì ‘ìˆ˜ë°©ë²•</h4>
 					<div class="tb">
 						<table class="tb_input tb_fixed">
 							<colgroup>
@@ -263,31 +264,31 @@
 							</colgroup>
 							<tbody>
 								<tr>
-									<th scope="row">Áß°³¾÷¼Ò¸í</th>
+									<th scope="row">ì¤‘ê°œì—…ì†Œëª…</th>
 									<td><%=agency%></td>
-									<th scope="row">ÈŞ´ëÀüÈ­¹øÈ£</th>
+									<th scope="row">íœ´ëŒ€ì „í™”ë²ˆí˜¸</th>
 									<td><%=mbl_telno%></td>
 								</tr>
 								<tr>
-									<th scope="row">¿¬¶ôÃ³</th>
+									<th scope="row">ì—°ë½ì²˜</th>
 									<td><%=tel_no%></td>
-									<th scope="row">ÆÑ½º</th>
+									<th scope="row">íŒ©ìŠ¤</th>
 									<td><%=fax_no%></td>
 								</tr>
 								<tr>
-									<th scope="row">ÆÑ½º</th>
+									<th scope="row">íŒ©ìŠ¤</th>
 									<td><%=fax_no%></td>
-									<th scope="row">ÀÌ¸ŞÀÏ</th>
+									<th scope="row">ì´ë©”ì¼</th>
 									<td><%=email%></td>
 								</tr>
 								<tr>
-									<th scope="row">È¨ÆäÀÌÁö</th>
+									<th scope="row">í™ˆí˜ì´ì§€</th>
 									<td><%=homepage%></td>
-									<th scope="row">Á¢¼ö¹æ¹ı</th>
+									<th scope="row">ì ‘ìˆ˜ë°©ë²•</th>
 									<td><%=method%></td>
 								</tr>
 								<tr>
-									<th scope="row">¸¶°¨ÀÏ</th>
+									<th scope="row">ë§ˆê°ì¼</th>
 									<td colspan="3"><%=end_date%></td>
 								</tr>
 							</tbody>
@@ -295,7 +296,7 @@
 					</div>
 				</div>
 				<div class="view_cont">
-					<h4 class="f_awesome h4">¸ğÁı¿ä°­</h4>
+					<h4 class="f_awesome h4">ëª¨ì§‘ìš”ê°•</h4>
 				</div>
 				<div class="bbs_cont">
 					<%=rs("contents")%>

@@ -1,11 +1,12 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>�޴� ���� : ������</title>
+	<title>메뉴 관리 : 관리자</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -39,7 +40,7 @@
 	rs.close
 %>
 					<div class="adm_cont_tit">
-						<h4 class="h3 mt20 mb10"><%=menu_name%> ����</h4>
+						<h4 class="h3 mt20 mb10"><%=menu_name%> 설정</h4>
 					</div>
 					<form name="form" method="post" action="com_exec.asp">
 					<input type="hidden" name="cafe_id" value="<%=cafe_id%>">
@@ -54,66 +55,66 @@
 								</colgroup>
 								<tbody>
 									<tr>
-										<th scope="row">�̸�</th>
+										<th scope="row">이름</th>
 										<td>
 											<input type="text" id="menu_name" name="menu_name" value="<%=menu_name%>" class="inp">
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">�׸��̱�</th>
+										<th scope="row">항목보이기</th>
 										<td>
 											<span class="">
 												<input type="checkbox" id="list_info" name="list_info" value="agency" <%=if3(InStr(list_info, "agency")>0,"checked","")%> />
-												<label for=""><em>��ȣ</em></label>
+												<label for=""><em>상호</em></label>
 											</span>
 											<span class="ml10">
 												<input type="checkbox" id="list_info" name="list_info" value="kname" <%=if3(InStr(list_info, "kname")>0,"checked","")%> />
-												<label for=""><em>��ǥ�ڸ�</em></label>
+												<label for=""><em>대표자명</em></label>
 											</span>
 											<span class="ml10">
 												<input type="checkbox" id="list_info" name="list_info" value="picture" <%=if3(InStr(list_info, "picture")>0,"checked","")%> />
-												<label for=""><em>��ǥ�ڻ���</em></label>
+												<label for=""><em>대표자사진</em></label>
 											</span>
 											<span class="ml10">
 												<input type="checkbox" id="list_info" name="list_info" value="license" <%=if3(InStr(list_info, "license")>0,"checked","")%> />
-												<label for=""><em>�㰡��ȣ</em></label>
+												<label for=""><em>허가번호</em></label>
 											</span>
 											<span class="ml10">
 												<input type="checkbox" id="list_info" name="list_info" value="phone" <%=if3(InStr(list_info, "phone")>0,"checked","")%> />
-												<label for=""><em>��ȭ��ȣ</em></label>
+												<label for=""><em>전화번호</em></label>
 											</span>
 											<span class="ml10">
 												<input type="checkbox" id="list_info" name="list_info" value="mobile" <%=if3(InStr(list_info, "mobile")>0,"checked","")%> />
-												<label for=""><em>�ڵ�����ȣ</em></label>
+												<label for=""><em>핸드폰번호</em></label>
 											</span>
 											<span class="ml10">
 												<input type="checkbox" id="list_info" name="list_info" value="fax" <%=if3(InStr(list_info, "fax")>0,"checked","")%> />
-												<label for=""><em>�ѽ�</em></label>
+												<label for=""><em>팩스</em></label>
 											</span>
 											<span class="ml10">
 												<input type="checkbox" id="list_info" name="list_info" value="interphone" <%=if3(InStr(list_info, "interphone")>0,"checked","")%> />
-												<label for=""><em>������ȣ</em></label>
+												<label for=""><em>내선번호</em></label>
 											</span>
 											<span class="ml10">
 												<input type="checkbox" id="list_info" name="list_info" value="addr" <%=if3(InStr(list_info, "addr")>0,"checked","")%> />
-												<label for=""><em>�ּ�</em></label>
+												<label for=""><em>주소</em></label>
 											</span>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">�޴����߱�</th>
+										<th scope="row">메뉴감추기</th>
 										<td>
 											<input type="checkbox" id="hidden_yn" name="hidden_yn" value="Y" <%=if3(hidden_yn = "Y","checked","") %> class="" />
-											<label for=""><em>���߱�</em></label>
+											<label for=""><em>감추기</em></label>
 										</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 						<div class="btn_box algR">
-							<button type="submit" class="btn btn_c_a btn_n">����</button>
-							<button type="reset" class="btn btn_c_n btn_n">���</button>
-							<button type="button" class="btn btn_c_n btn_n" id="del">����</button>
+							<button type="submit" class="btn btn_c_a btn_n">저장</button>
+							<button type="reset" class="btn btn_c_n btn_n">취소</button>
+							<button type="button" class="btn btn_c_n btn_n" id="del">삭제</button>
 						</div>
 						</form>
 						<script>
@@ -124,7 +125,7 @@
 <script LANGUAGE="JavaScript">
 <!--
 	$('#del').click(function() {
-		msg="�����Ͻðڽ��ϱ�?"
+		msg="삭제하시겠습니까?"
 		if (confirm(msg)) {
 			document.location.href='../menu_del_exec.asp?menu_seq=<%=menu_seq%>';
 		}

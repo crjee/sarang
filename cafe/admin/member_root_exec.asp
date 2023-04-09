@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Call checkAdmin()
 
@@ -18,7 +19,7 @@
 
 			Conn.Execute(sql)
 		ElseIf Not rs.eof And Request("user_id")=user_id Then
-			Response.WRite "<script>alert('ÀÚ½ÅÀ» ¼³Á¤ ¶Ç´Â »èÁ¦ÇÒ¼ö¾ø½À´Ï´Ù');</script>"
+			Response.WRite "<script>alert('ìì‹ ì„ ì„¤ì • ë˜ëŠ” ì‚­ì œí• ìˆ˜ì—†ìŠµë‹ˆë‹¤');</script>"
 			Response.end
 		Else
 			sql = ""
@@ -37,7 +38,7 @@
 	End If
 %>
 <script>
-	alert("º¯°æµÇ¾ú½À´Ï´Ù.");
+	alert("ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	parent.search_form.target = parent.window.name;
 	parent.search_form.action = "member_list.asp";
 	parent.search_form.submit();

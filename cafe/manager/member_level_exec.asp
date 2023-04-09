@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
 
@@ -7,7 +8,7 @@
 	For i = 1 To Request("user_id").count
 		user_id = Request("user_id")(i)
 
-		' ÀÌÀü»ç¶û¹æ È÷½ºÅä¸® ÀúÀå
+		' ì´ì „ì‚¬ë‘ë°© íˆìŠ¤í† ë¦¬ ì €ì¥
 		sql = ""
 		sql = sql & " insert into cf_cafe_member_history( "
 		sql = sql & "        cafe_id "
@@ -20,14 +21,14 @@
 		sql = sql & " select cafe_id "
 		sql = sql & "       ,user_id "
 		sql = sql & "       ,cafe_mb_level "
-		sql = sql & "       ,'µî±Şº¯°æ(»ç¶û¹æÁö±â)' "
+		sql = sql & "       ,'ë“±ê¸‰ë³€ê²½(ì‚¬ë‘ë°©ì§€ê¸°)' "
 		sql = sql & "       ,stdate "
 		sql = sql & "       ,getdate() "
 		sql = sql & "   from cf_cafe_member "
 		sql = sql & "  where user_id = '" & user_id & "' "
 		Conn.Execute(sql)
 
-		' »ç¶û¹æÈ¸¿øµî±Ş º¯°æ
+		' ì‚¬ë‘ë°©íšŒì›ë“±ê¸‰ ë³€ê²½
 		sql = ""
 		sql = sql & " update cf_cafe_member "
 		sql = sql & "    set cafe_mb_level = '" & cafe_mb_level & "' "
@@ -37,5 +38,5 @@
 		Conn.Execute(sql)
 	Next
 
-	Response.Write "<script>alert('º¯°æµÇ¾ú½À´Ï´Ù.');parent.document.search_form.submit();</script>"
+	Response.Write "<script>alert('ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.');parent.document.search_form.submit();</script>"
 %>

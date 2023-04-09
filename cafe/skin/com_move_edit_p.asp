@@ -1,5 +1,6 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <!--#include virtual="/ipin_inc.asp"-->
-<!--#include virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 
@@ -9,9 +10,9 @@
 %>
 <html lang="ko">
 <head>
-<meta charset="euc-kr"/>
+<meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<title>�Խñ��̵�</title>
+<title>게시글이동</title>
 </head>
 <body>
 	<table width="96%" align="center">
@@ -22,14 +23,14 @@
 			<td style="font-size:12px;">
 			<%'=rs("subject")%>
 			<%' If cnt > 1 Then %>
-			/ ��� <%=cnt%>���� �ֽ��ϴ�
+			/ 답글 <%=cnt%>개가 있습니다
 			<%' End If %>
 			</td>
 		</tr-->
 		<tr>
 			<td>
 			<select name="menu_seq" required>
-				<option value="">�Խ��Ǽ���</option>
+				<option value="">게시판선택</option>
 <%
 	sql = ""
 	sql = sql & " select * "
@@ -51,7 +52,7 @@
 	Set rs = nothing
 %>
 			</select>
-			<input type="submit" value="�̵�">
+			<input type="submit" value="이동">
 			</td>
 		</tr>
 	</form>

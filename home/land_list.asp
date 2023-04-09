@@ -1,7 +1,8 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	freePage = True
 %>
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
 	checkCafePage(cafe_id)
@@ -9,7 +10,7 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>GI</title>
@@ -71,9 +72,9 @@
 							</colgroup>
 							<thead>
 								<tr>
-									<th scope="col">¹øÈ£</th>
-									<th scope="col">Á¦¸ñ</th>
-									<th scope="col">µî·ÏÀÏ</th>
+									<th scope="col">ë²ˆí˜¸</th>
+									<th scope="col">ì œëª©</th>
+									<th scope="col">ë“±ë¡ì¼</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -101,7 +102,7 @@
 	Else
 %>
 								<tr>
-									<td colspan="3" class="td_nodata">µî·ÏµÈ ±ÛÀÌ ¾ø½À´Ï´Ù.</td>
+									<td colspan="3" class="td_nodata">ë“±ë¡ëœ ê¸€ì´ ì—†ìŠµë‹ˆë‹¤.</td>
 								</tr>
 <%
 	End If

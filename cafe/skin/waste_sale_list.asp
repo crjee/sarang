@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 	checkManager(cafe_id)
@@ -6,10 +7,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>½ºÅ²-1 : GI</title>
+	<title>ìŠ¤í‚¨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -51,7 +52,7 @@
 	sql = sql & "    and menu_seq = '" & menu_seq & "' "
 	sql = sql & kword
 	rs.Open sql, conn, 3, 1
-	RecordCount = 0 ' ÀÚ·á°¡ ¾øÀ»¶§
+	RecordCount = 0 ' ìë£Œê°€ ì—†ì„ë•Œ
 
 	If Not rs.EOF Then
 		RecordCount = rs("cnt")
@@ -74,7 +75,7 @@
 	sql = sql & "  order by sale_seq desc "
 	rs.Open sql, conn, 3, 1
 
-	' ÀüÃ¼ ÆäÀÌÁö ¼ö ¾ò±â
+	' ì „ì²´ í˜ì´ì§€ ìˆ˜ ì–»ê¸°
 	If RecordCount/pagesize = Int(RecordCount/pagesize) then
 		PageCount = Int(RecordCount / pagesize)
 	Else
@@ -103,11 +104,11 @@
 				}
 			</script>
 				<div class="cont_tit">
-					<h2 class="h2"><font color="red"><%=menu_name%></font></h2>&nbsp;ÃÑ <%=FormatNumber(RecordCount,0)%>°ÇÀÇ ¸Å¹°ÀÌ ÀÖ½À´Ï´Ù.
+					<h2 class="h2"><font color="red"><%=menu_name%></font></h2>&nbsp;ì´ <%=FormatNumber(RecordCount,0)%>ê±´ì˜ ë§¤ë¬¼ì´ ìˆìŠµë‹ˆë‹¤.
 				</div>
 				<div class="search_box_flex">
 					<div class="search_box_flex_item">
-						ÃÑ <%=FormatNumber(RecordCount,0)%>°ÇÀÇ ¸Å¹°ÀÌ ÀÖ½À´Ï´Ù.
+						ì´ <%=FormatNumber(RecordCount,0)%>ê±´ì˜ ë§¤ë¬¼ì´ ìˆìŠµë‹ˆë‹¤.
 					</div>
 					<div class="search_box_flex_item">
 						<form name="search_form" id="search_form" method="post" onsubmit="MovePage(1)">
@@ -115,13 +116,13 @@
 						<input type="hidden" name="page" value="<%=page%>">
 						<input type="hidden" name="sale_seq">
 						<select id="sch_type" name="sch_type" class="sel w100p">
-							<option value="all">ÀüÃ¼</option>
-							<option value="subject" <%=if3(sch_type="subject","selected","")%>>Á¦¸ñ</option>
-							<option value="agency" <%=if3(sch_type="agency","selected","")%>>±Û¾´ÀÌ</option>
-							<option value="contents" <%=if3(sch_type="contents","selected","")%>>³»¿ë</option>
+							<option value="all">ì „ì²´</option>
+							<option value="subject" <%=if3(sch_type="subject","selected","")%>>ì œëª©</option>
+							<option value="agency" <%=if3(sch_type="agency","selected","")%>>ê¸€ì“´ì´</option>
+							<option value="contents" <%=if3(sch_type="contents","selected","")%>>ë‚´ìš©</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w300p">
-						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">°Ë»ö</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">ê²€ìƒ‰</button>
 						<select id="pagesize" name="pagesize" class="sel w100p" onchange="goSearch()">
 							<option value=""></option>
 							<option value="20" <%=if3(pagesize="20","selected","")%>>20</option>
@@ -151,14 +152,14 @@
 							</colgroup>
 							<thead>
 								<tr>
-									<th scope="col">¹øÈ£</th>
-									<th scope="col">¸Å¹°Á¦¸ñ</th>
-									<th scope="col">¼ÒÀçÁö</th>
-									<th scope="col">¸ñÀû ¹× ¿ëµµ</th>
-									<th scope="col">¸éÀû(Æò)</th>
-									<th scope="col">±İ¾×</th>
-									<th scope="col">µî·ÏÀÏ</th>
-									<th scope="col">µî·ÏÀÚ</th>
+									<th scope="col">ë²ˆí˜¸</th>
+									<th scope="col">ë§¤ë¬¼ì œëª©</th>
+									<th scope="col">ì†Œì¬ì§€</th>
+									<th scope="col">ëª©ì  ë° ìš©ë„</th>
+									<th scope="col">ë©´ì (í‰)</th>
+									<th scope="col">ê¸ˆì•¡</th>
+									<th scope="col">ë“±ë¡ì¼</th>
+									<th scope="col">ë“±ë¡ì</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -202,7 +203,7 @@
 		Do Until rs.eof
 			subject = rs("subject")
 			If isnull(subject) Or isempty(subject) Or Len(subject) = 0 Then
-				subject = "Á¦¸ñ¾øÀ½"
+				subject = "ì œëª©ì—†ìŒ"
 			End if
 			subject_s = rmid(subject, 35, "..")
 %>
@@ -234,7 +235,7 @@
 										<img src="/cafe/skin/img/btn/new.png" />
 <%
 			End If
-' ÀüÈ­¹øÈ£ ¾ø´Â °Í ¾÷µ¥ÀÌÆ®
+' ì „í™”ë²ˆí˜¸ ì—†ëŠ” ê²ƒ ì—…ë°ì´íŠ¸
 ' update t1                                              
 '    set tel_no = phone                             
 '    from (select ab.phone , aa.tel_no 
@@ -256,7 +257,7 @@
 	Else
 %>
 								<tr>
-									<td colspan="8">µî·ÏµÈ ±ÛÀÌ ¾ø½À´Ï´Ù.</td>
+									<td colspan="8">ë“±ë¡ëœ ê¸€ì´ ì—†ìŠµë‹ˆë‹¤.</td>
 								</tr>
 <%
 	End If
@@ -270,10 +271,10 @@
 					</div>
 <!--#include virtual="/cafe/skin/skin_page_inc.asp"-->
 <%
-	If write_auth <= cafe_mb_level Then ' ±Û¾²±â ±ÇÇÑ
+	If write_auth <= cafe_mb_level Then ' ê¸€ì“°ê¸° ê¶Œí•œ
 %>
 					<div class="btn_box algR">
-						<button class="btn btn_c_a btn_n"" type="button" onclick="location.href='/cafe/skin/sale_write.asp?menu_seq=<%=menu_seq%>'">±Û¾²±â</button>
+						<button class="btn btn_c_a btn_n"" type="button" onclick="location.href='/cafe/skin/sale_write.asp?menu_seq=<%=menu_seq%>'">ê¸€ì“°ê¸°</button>
 					</div>
 <%
 	End If

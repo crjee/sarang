@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	skin_id             = Request.Form("skin_id")
 	skin_left_id        = Request.Form("skin_left_id")
@@ -90,5 +91,5 @@
 		Conn.Execute(sql)
 	Next
 
-	msggo "½ºÅ²À» ÀúÀåÇß½À´Ï´Ù.", "/cafe/main.asp"
+	msggo "ìŠ¤í‚¨ì„ ì €ìž¥í–ˆìŠµë‹ˆë‹¤.", "/cafe/main.asp"
 %>

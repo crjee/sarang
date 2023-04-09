@@ -1,5 +1,8 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
+	checkManager(cafe_id)
+
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & "banner\"
 	uploadform.DefaultPath = uploadFolder
@@ -13,15 +16,13 @@
 	banner_width = uploadform("banner_width")
 	banner_height = uploadform("banner_height")
 
-	checkManager(cafe_id)
-
 	If UploadForm("file_name") <> "" Then
 		Set fso = CreateObject("Scripting.FileSystemObject")
 		FileName = uploadform("file_name").FileName
 		strFileName = uploadFolder & FileName
 
 		If uploadform("file_name").FileLen > uploadform.MaxFileLen Then
-			call msggo("ÆÄÀÏÀÇ Å©±â´Â " & CInt(uploadform.MaxFileLen/1024/1014) & "MB°¡ ³Ñ¾î¼­´Â ¾ÈµË´Ï´Ù","")
+			call msggo("íŒŒì¼ì˜ í¬ê¸°ëŠ” " & CInt(uploadform.MaxFileLen/1024/1014) & "MBê°€ ë„˜ì–´ì„œëŠ” ì•ˆë©ë‹ˆë‹¤","")
 			Set uploadform = Nothing
 			Response.End
 		End If
@@ -40,7 +41,7 @@
 	End If
 
 	If task = "ins" Then
-		msg = "µî·Ï"
+		msg = "ë“±ë¡"
 
 		Set rs = Conn.Execute("select top 1 banner_num from cf_banner where cafe_id='" & cafe_id & "' and banner_type='R' order by banner_num desc")
 
@@ -82,16 +83,16 @@
 		sql = sql & "       ,getdate())"
 		Conn.Execute(sql)
 
-		Response.write "<script>alert('" & msg & " µÇ¾ú½À´Ï´Ù.');parent.location = 'banner_list.asp';</script>"
+		Response.write "<script>alert('" & msg & " ë˜ì—ˆìŠµë‹ˆë‹¤.');parent.location = 'banner_list.asp';</script>"
 	ElseIf task = "del" Then
-		msg = "»èÁ¦"
+		msg = "ì‚­ì œ"
 
 		sql = "delete from cf_banner where banner_seq='" & banner_seq & "'"
 		Conn.Execute(sql)
 
-		Response.write "<script>alert('" & msg & " µÇ¾ú½À´Ï´Ù.');parent.location = 'banner_list.asp';</script>"
+		Response.write "<script>alert('" & msg & " ë˜ì—ˆìŠµë‹ˆë‹¤.');parent.location = 'banner_list.asp';</script>"
 	ElseIf task = "upd" Then
-		msg = "¼öÁ¤"
+		msg = "ìˆ˜ì •"
 
 		sql = ""
 		sql = sql & " update cf_banner "
@@ -109,7 +110,7 @@
 		sql = sql & "  where banner_seq = '" & banner_seq & "'"
 		Conn.Execute(sql)
 
-		Response.write "<script>alert('" & msg & " µÇ¾ú½À´Ï´Ù.');parent.location = 'banner_list.asp';</script>"
-		'Response.write "<script>alert('" & msg & " µÇ¾ú½À´Ï´Ù.');parent.opener.location = 'banner_list.asp';parent.close();</script>"
+		Response.write "<script>alert('" & msg & " ë˜ì—ˆìŠµë‹ˆë‹¤.');parent.location = 'banner_list.asp';</script>"
+		'Response.write "<script>alert('" & msg & " ë˜ì—ˆìŠµë‹ˆë‹¤.');parent.opener.location = 'banner_list.asp';parent.close();</script>"
 	End If
 %>

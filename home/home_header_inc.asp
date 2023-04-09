@@ -14,27 +14,27 @@
 				<div class="header_cont">
 					<h1><a href="/home/main.asp"><img src="/common/img/common/logo.svg" alt="" /></a></h1>
 					<div class="search_box">
-						<label for="">ÀüÃ¼°Ë»ö</label>
-						<input type="text" id="" name="" placeholder="°Ë»ö¾î¸¦ ÀÔ·ÂÇÏ¼¼¿ä" class="" />
-						<button type="button" class="f_awesome"><em>°Ë»ö</em></button>
+						<label for="">ì „ì²´ê²€ìƒ‰</label>
+						<input type="text" id="" name="" placeholder="ê²€ìƒ‰ì–´ë¥¼ ì…ë ¥í•˜ì„¸ìš”" class="" />
+						<button type="button" class="f_awesome"><em>ê²€ìƒ‰</em></button>
 					</div>
 					<ul class="top_btn_box">
 <%
 	If Session("user_id") = "" Then
 %>
-						<li><a href="/login_form.asp">·Î±×ÀÎ</a></li>
-						<li><a href="/home/agree_form.asp">È¸¿ø°¡ÀÔ</a></li>
+						<li><a href="/login_form.asp">ë¡œê·¸ì¸</a></li>
+						<li><a href="/home/agree_form.asp">íšŒì›ê°€ì…</a></li>
 <%
 	Else
 %>
-						<li><a href="/logout_exec.asp">·Î±×¾Æ¿ô</a></li>
+						<li><a href="/logout_exec.asp">ë¡œê·¸ì•„ì›ƒ</a></li>
 <%
 	End If
 %>
 <%
 	If Session("cafe_ad_level") = "10" Or Session("mycafe") <> "" Then
 %>
-						<li><a href="/cafe/main.asp">»ç¶û¹æ</a></li>
+						<li><a href="/cafe/main.asp">ì‚¬ë‘ë°©</a></li>
 <%
 	End If
 %>
@@ -43,16 +43,8 @@
 				<div class="header_banner">
 <%
 	Dim headerRs
-	Dim header_banner_seq    
-	Dim header_banner_num    
-	Dim header_banner_type   
-	Dim header_banner_subject
-	Dim header_file_name     
-	Dim header_file_type     
-	Dim header_banner_height 
-	Dim header_banner_width  
-	Dim header_link          
-	Dim header_open_yn       
+	Dim header_file_name
+	Dim header_link
 	Dim header_i
 	Dim header_j
 
@@ -61,7 +53,9 @@
 	Set headerRs = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
-	sql = sql & " select top 6 *           "
+	sql = sql & " select top 7 *           "
+	sql = sql & "       ,file_name         "
+	sql = sql & "       ,link              "
 	sql = sql & "   from cf_banner         "
 	sql = sql & "  where cafe_id='root'    "
 	sql = sql & "    and banner_type = 'T' "
@@ -72,19 +66,8 @@
 	header_i = 1
 	Do Until headerRs.eof
 		header_i = header_i + 1
-		header_banner_seq     = headerRs("banner_seq")
-		header_banner_num     = headerRs("banner_num")
-		header_banner_type    = headerRs("banner_type")
-		header_banner_subject = headerRs("subject")
 		header_file_name      = headerRs("file_name")
-		header_file_type      = headerRs("file_type")
-		header_banner_height  = headerRs("banner_height")
-		header_banner_width   = headerRs("banner_width")
 		header_link           = headerRs("link")
-		header_open_yn        = headerRs("open_yn")
-
-		header_banner_width  =  160
-		header_banner_height =  80
 
 		If header_file_name <> "" then
 %>
@@ -126,24 +109,16 @@
 <%
 	Dim header_menu_type
 	Dim header_menu_name
-	Dim header_menu_seq 
-	Dim header_hidden_yn
-	Dim header_new_cnt  
-	Dim header_ms  
-	Dim header_nc  
+	Dim header_menu_seq
 
 	sql = ""
 	sql = sql & " select menu_type "
 	sql = sql & "       ,menu_name "
 	sql = sql & "       ,menu_seq "
-	sql = sql & "       ,hidden_yn "
-	sql = sql & "       ,case when last_date > DateAdd(day,-2,getdate()) then 1 else 0 end new_cnt "
 	sql = sql & "   from cf_menu cm "
 	sql = sql & "  where cafe_id = '" & cafe_id & "'"
 	sql = sql & "    and menu_type <> 'poll' "
-	If cafe_mb_level <> "10" Then
 	sql = sql & "    and hidden_yn <> 'Y'"
-	End If
 	sql = sql & "  order by menu_num asc "
 	headerRs.Open sql, conn, 3, 1
 
@@ -151,34 +126,20 @@
 		header_menu_type = headerRs("menu_type")
 		header_menu_name = headerRs("menu_name")
 		header_menu_seq  = headerRs("menu_seq")
-		header_hidden_yn = headerRs("hidden_yn")
-		header_new_cnt   = headerRs("new_cnt")
 		header_menu_name = Replace(header_menu_name, " & amp;"," & ")
 
 		header_menu_type = Trim(header_menu_type)
 
-		If header_hidden_yn = "Y" then
-			header_ms = "<font color=red>[¼û±è]</font>"
-		Else
-			header_ms = ""
-		End If
-
 		If instr("notice,board,news,pds,album,sale,job,nsale,story",header_menu_type) Then
-			If header_new_cnt = 0 Then
-				header_nc = ""
-			Else
-				header_nc = "<img src='/cafe/skin/img/btn/new.png' align='absmiddle'>"'[" & n("cnt") & "]"
-			End if
-
-			header_menu_name_str = "<a href='/home/" & header_menu_type & "_list.asp?menu_seq=" & header_menu_seq & "'>" & header_ms & " " & header_menu_name & " " & header_nc & "</a>"
+			header_menu_name_str = "<a href='/home/" & header_menu_type & "_list.asp?menu_seq=" & header_menu_seq & "'>" & header_menu_name & "</a>"
 		ElseIf header_menu_type = "land" Then
-			header_menu_name_str = "<a href='/home/land_list.asp?menu_seq=" & header_menu_seq & "'>" & header_ms & " " & header_menu_name & " </a>"
+			header_menu_name_str = "<a href='/home/land_list.asp?menu_seq=" & header_menu_seq & "'>" & header_menu_name & " </a>"
 		ElseIf header_menu_type = "member" Then
-			header_menu_name_str = "<a href='/home/member_list.asp?menu_seq=" & header_menu_seq & "'>" & header_ms & " " & header_menu_name & " </a>"
+			header_menu_name_str = "<a href='/home/member_list.asp?menu_seq=" & header_menu_seq & "'>" & header_menu_name & " </a>"
 		ElseIf header_menu_type = "memo" Then
-			header_menu_name_str = "<a href='/home/memo_write.asp?menu_seq=" & header_menu_seq & "'>" & header_ms & " " & header_menu_name & " </a>"
+			header_menu_name_str = "<a href='/home/memo_write.asp?menu_seq=" & header_menu_seq & "'>" & header_menu_name & " </a>"
 		Else
-			header_menu_name_str = "<a href='/home/page_view.asp?menu_seq=" & header_menu_seq & "'>" & header_ms & " " & header_menu_name & " </a>"
+			header_menu_name_str = "<a href='/home/page_view.asp?menu_seq=" & header_menu_seq & "'>" & header_menu_name & " </a>"
 		End if
 
 		If CStr(request("menu_seq")) = CStr(header_menu_seq) then
@@ -193,7 +154,7 @@
 		headerRs.MoveNext
 	Loop
 	headerRs.close
-	Set headerRs = nothing
+	Set headerRs = Nothing
 %>
 			</ul>
 		</nav>

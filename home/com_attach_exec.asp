@@ -1,7 +1,8 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	freePage = True
 %>
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
 
@@ -98,7 +99,7 @@
 						rate = hrate
 					End If
 
-					'JPG Æ÷¸ËÀ¸·Î ÀúÀåÇØ¾ß ÇÔ
+					'JPG í¬ë§·ìœ¼ë¡œ ì €ì¥í•´ì•¼ í•¨
 					thumbnail = "thumbnail_" & com_seq & "_" & filenameonly & ".jpg"
 
 					call objImage.SaveasThumbnail(ConfigAttachedFileFolder & "thumbnail\" & thumbnail, objImage.ImageWidth/rate, objImage.ImageHeight/rate, false, true)
@@ -146,7 +147,7 @@
 		Set fso = Nothing
 %>
 <script>
-	alert("»èÁ¦ µÇ¾ú½À´Ï´Ù.");
+	alert("ì‚­ì œ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	str = '<input type="file" class="inp" name="file_name">';
 	parent.document.all.attachDiv<%=ag%>.innerHTML = str;
 </script>
@@ -157,7 +158,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("¿À·ù°¡ “u»ıÇß½À´Ï´Ù.\n\n¿¡·¯³»¿ë : <%=Err.Description%>(<%=Err.Number%>)");
+	alert("ì˜¤ë¥˜ê°€ ë±”ìƒí–ˆìŠµë‹ˆë‹¤.\n\nì—ëŸ¬ë‚´ìš© : <%=Err.Description%>(<%=Err.Number%>)");
 </script>
 <%
 	End If

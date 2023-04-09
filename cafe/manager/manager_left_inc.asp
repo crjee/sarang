@@ -1,33 +1,33 @@
 			<div class="adm_person">
 				<div class="adm_person_box">
-					<span>¾î¼­¿À¼¼¿ä! <%=session("kname")%>´Ô</span>
+					<span>ì–´ì„œì˜¤ì„¸ìš”! <%=session("kname")%>ë‹˜</span>
 				</div>
 			</div>
 			<ul class="adm_tree_menu side_menu_on">
-				<li><a href="/" class="adm_tree_link">±âº»Á¤º¸ °ü¸®</a>
+				<li><a href="/" class="adm_tree_link">ê¸°ë³¸ì •ë³´ ê´€ë¦¬</a>
 					<ul class="adm_tree_s_menu">
-						<li><a href="cafe_info_edit.asp">±âº»Á¤º¸ °ü¸®</a></li>
-						<li><a href="join_list.asp">°¡ÀÔÁ¤º¸/Á¶°Ç</a></li>
+						<li><a href="cafe_info_edit.asp">ê¸°ë³¸ì •ë³´ ê´€ë¦¬</a></li>
+						<li><a href="join_list.asp">ê°€ìž…ì •ë³´/ì¡°ê±´</a></li>
 					</ul>
 				</li>
-				<li><a href="#n" class="adm_tree_link">»ç¶û¹æ °ü¸®</a>
+				<li><a href="#n" class="adm_tree_link">ì‚¬ëž‘ë°© ê´€ë¦¬</a>
 					<ul class="adm_tree_s_menu">
-						<li><a href="menu_list.asp">¸Þ´º °ü¸®</a></li>
-						<li><a href="popup_list.asp">ÆË¾÷ °ü¸®</a></li>
-						<li><a href="banner_list.asp">¹è³Ê °ü¸®</a></li>
-						<li><a href="main_list.asp">¸ÞÀÎ °ü¸®</a></li>
+						<li><a href="menu_list.asp">ë©”ë‰´ ê´€ë¦¬</a></li>
+						<li><a href="popup_list.asp">íŒì—… ê´€ë¦¬</a></li>
+						<li><a href="banner_list.asp">ë°°ë„ˆ ê´€ë¦¬</a></li>
+						<li><a href="main_list.asp">ë©”ì¸ ê´€ë¦¬</a></li>
 					</ul>
 				</li>
-				<li><a href="#n" class="adm_tree_link">È¸¿ø °ü¸®</a>
+				<li><a href="#n" class="adm_tree_link">íšŒì› ê´€ë¦¬</a>
 					<ul class="adm_tree_s_menu">
-						<li><a href="member_list.asp">È¸¿ø ¸ñ·Ï</a></li>
+						<li><a href="member_list.asp">íšŒì› ëª©ë¡</a></li>
 					</ul>
 				</li>
-				<li><a href="#n" class="adm_tree_link">È¨ ¼³Á¤</a>
+				<li><a href="#n" class="adm_tree_link">í™ˆ ì„¤ì •</a>
 					<ul class="adm_tree_s_menu">
-						<li><a href="poll_list.asp">¼³¹® °ü¸®</a></li>
-						<!-- <li><a href="memo_form.asp">ÂÊÁö º¸³»±â</a></li> -->
-						<!-- <li><a href="manager_list.asp">½ºÅ²¼³Á¤</a></li> -->
+						<li><a href="poll_list.asp">ì„¤ë¬¸ ê´€ë¦¬</a></li>
+						<!-- <li><a href="memo_form.asp">ìª½ì§€ ë³´ë‚´ê¸°</a></li> -->
+						<!-- <li><a href="manager_list.asp">ìŠ¤í‚¨ì„¤ì •</a></li> -->
 					</ul>
 				</li>
 			</ul>

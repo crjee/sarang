@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
 
@@ -46,13 +47,13 @@
 	sql = sql & "       ,cm.cafe_mb_level "
 	sql = sql & "       ,cm.stat "
 	sql = sql & "       ,cm.stdate "
-	sql = sql & "       ,case cm.cafe_mb_level when '1' Then 'ÁØÈ¸¿ø' "
-	sql = sql & "                              when '2' Then 'Á¤È¸¿ø' "
-	sql = sql & "                              when '3' Then '¿ì¼öÈ¸¿ø' "
-	sql = sql & "                              when '4' Then 'Æ¯º°È¸¿ø' "
-	sql = sql & "                              when '5' Then '¿î¿µÀÚ' "
-	sql = sql & "                              when '10' Then '»ç¶û¹æÁö±â' "
-	sql = sql & "                              Else '¹ÌÁöÁ¤' end ulevel_txt"
+	sql = sql & "       ,case cm.cafe_mb_level when '1' Then 'ì¤€íšŒì›' "
+	sql = sql & "                              when '2' Then 'ì •íšŒì›' "
+	sql = sql & "                              when '3' Then 'ìš°ìˆ˜íšŒì›' "
+	sql = sql & "                              when '4' Then 'íŠ¹ë³„íšŒì›' "
+	sql = sql & "                              when '5' Then 'ìš´ì˜ìž' "
+	sql = sql & "                              when '10' Then 'ì‚¬ëž‘ë°©ì§€ê¸°' "
+	sql = sql & "                              Else 'ë¯¸ì§€ì •' end ulevel_txt"
 	sql = sql & "       ,(select count(*) from cf_board where user_id = mi.user_id) post_cnt "
 	sql = sql & "   from cf_cafe cf "
 	sql = sql & "  inner join cf_cafe_member cm on cm.cafe_id = cf.cafe_id "
@@ -65,12 +66,12 @@
 	row.Open Sql, conn, 3, 1
 
 	row.PageSize = PageSize
-	RecordCount = 0 ' ÀÚ·á°¡ ¾øÀ»¶§
+	RecordCount = 0 ' ìžë£Œê°€ ì—†ì„ë•Œ
 	If Not row.EOF Then
 		RecordCount = row.recordcount
 	End If
 
-	' ÀüÃ¼ ÆäÀÌÁö ¼ö ¾ò±â
+	' ì „ì²´ íŽ˜ì´ì§€ ìˆ˜ ì–»ê¸°
 	If RecordCount/PageSize = Int(RecordCount/PageSize) Then
 		PageCount = Int(RecordCount / PageSize)
 	Else
@@ -85,10 +86,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>È¸¿ø/¿î¿µÁø °ü¸® : °ü¸®ÀÚ</title>
+	<title>íšŒì›/ìš´ì˜ì§„ ê´€ë¦¬ : ê´€ë¦¬ìž</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -98,28 +99,28 @@
 <body>
 	<div id="wrap">
 		<header id="adm_head">
-			<h1><a href="/">RETS °æÀÎ<sub>»ç¶û¹æ °ü¸®</sub></a></h1>
+			<h1><a href="/">RETS ê²½ì¸<sub>ì‚¬ëž‘ë°© ê´€ë¦¬</sub></a></h1>
 		</header>
 		<nav id="adm_nav">
 <!--#include virtual="/cafe/manager/manager_left_inc.asp"-->
 		</nav>
 		<main id="adm_body">
 			<div class="adm_page_tit">
-				<h2 class="h2">È¸¿ø/¿î¿µÁø °ü¸®</h2>
+				<h2 class="h2">íšŒì›/ìš´ì˜ì§„ ê´€ë¦¬</h2>
 			</div>
 			<div class="adm_cont">
 				<div class="status_box clearBoth">
-					<span class="floatL">ÃÑ È¸¿ø <strong class="f_weight_m f_skyblue"><%=FormatNumber(RecordCount,0)%></strong>¸í</span>
+					<span class="floatL">ì´ íšŒì› <strong class="f_weight_m f_skyblue"><%=FormatNumber(RecordCount,0)%></strong>ëª…</span>
 					<span class="floatR">
 					<form name="form2" method="post" target="hiddenfrm">
-						<input type="checkbox" id="t1" name="" checked="checked" disabled="disabled" /><label for="t1"><em class="hide">¼±ÅÃ</em></label>
-						¼±ÅÃµÈ È¸¿øÀ»
+						<input type="checkbox" id="t1" name="" checked="checked" disabled="disabled" /><label for="t1"><em class="hide">ì„ íƒ</em></label>
+						ì„ íƒëœ íšŒì›ì„
 						<select id="mb_level" name="mb_level" class="sel w100p">
-							<option value="1">ÁØÈ¸¿ø</option>
-							<option value="2">Á¤È¸¿ø</option>
+							<option value="1">ì¤€íšŒì›</option>
+							<option value="2">ì •íšŒì›</option>
 						</select>
-						<button type="button" class="btn btn_c_s btn_s" onclick="goLevel()">µî±Þ¼³Á¤ º¯°æ</button>
-						<button type="button" class="btn btn_c_s btn_s" onclick="goActivity()">È°µ¿Á¤Áö ¶Ç´Â È°µ¿</button>
+						<button type="button" class="btn btn_c_s btn_s" onclick="goLevel()">ë“±ê¸‰ì„¤ì • ë³€ê²½</button>
+						<button type="button" class="btn btn_c_s btn_s" onclick="goActivity()">í™œë™ì •ì§€ ë˜ëŠ” í™œë™</button>
 					</form>
 					</span>
 				</div>
@@ -129,51 +130,51 @@
 					<div class="floatL">
 						<span class="">
 							<input type="checkbox" id="list_info" name="list_info" value="agency" <%=if3(InStr(list_info, "agency")>0,"checked","")%> />
-							<label for=""><em>»óÈ£</em></label>
+							<label for=""><em>ìƒí˜¸</em></label>
 						</span>
 						<span class="ml10">
 							<input type="checkbox" id="list_info" name="list_info" value="kname" <%=if3(InStr(list_info, "kname")>0,"checked","")%> />
-							<label for=""><em>´ëÇ¥ÀÚ¸í</em></label>
+							<label for=""><em>ëŒ€í‘œìžëª…</em></label>
 						</span>
 						<span class="ml10">
 							<input type="checkbox" id="list_info" name="list_info" value="picture" <%=if3(InStr(list_info, "picture")>0,"checked","")%> />
-							<label for=""><em>´ëÇ¥ÀÚ»çÁø</em></label>
+							<label for=""><em>ëŒ€í‘œìžì‚¬ì§„</em></label>
 						</span>
 						<span class="ml10">
 							<input type="checkbox" id="list_info" name="list_info" value="license" <%=if3(InStr(list_info, "license")>0,"checked","")%> />
-							<label for=""><em>Çã°¡¹øÈ£</em></label>
+							<label for=""><em>í—ˆê°€ë²ˆí˜¸</em></label>
 						</span>
 						<span class="ml10">
 							<input type="checkbox" id="list_info" name="list_info" value="phone" <%=if3(InStr(list_info, "phone")>0,"checked","")%> />
-							<label for=""><em>ÀüÈ­¹øÈ£</em></label>
+							<label for=""><em>ì „í™”ë²ˆí˜¸</em></label>
 						</span>
 						<span class="ml10">
 							<input type="checkbox" id="list_info" name="list_info" value="mobile" <%=if3(InStr(list_info, "mobile")>0,"checked","")%> />
-							<label for=""><em>ÇÚµåÆù¹øÈ£</em></label>
+							<label for=""><em>í•¸ë“œí°ë²ˆí˜¸</em></label>
 						</span>
 						<span class="ml10">
 							<input type="checkbox" id="list_info" name="list_info" value="fax" <%=if3(InStr(list_info, "fax")>0,"checked","")%> />
-							<label for=""><em>ÆÑ½º</em></label>
+							<label for=""><em>íŒ©ìŠ¤</em></label>
 						</span>
 						<span class="ml10">
 							<input type="checkbox" id="list_info" name="list_info" value="interphone" <%=if3(InStr(list_info, "interphone")>0,"checked","")%> />
-							<label for=""><em>³»¼±¹øÈ£</em></label>
+							<label for=""><em>ë‚´ì„ ë²ˆí˜¸</em></label>
 						</span>
 						<span class="ml10">
 							<input type="checkbox" id="list_info" name="list_info" value="addr" <%=if3(InStr(list_info, "addr")>0,"checked","")%> />
-							<label for=""><em>ÁÖ¼Ò</em></label>
+							<label for=""><em>ì£¼ì†Œ</em></label>
 						</span>
 					</div>
 					<div class="floatR">
 						<select id="sch_type" name="sch_type" class="sel w100p">
-							<option value="all">ÀüÃ¼</option>
-							<option value="agency" <%=if3(sch_type="agency","selected","")%>>¾÷¼Ò¸í</option>
-							<option value="kname" <%=if3(sch_type="kname","selected","")%>>È¸¿ø¸í</option>
-							<option value="phone" <%=if3(sch_type="phone","selected","")%>>ÀüÈ­¹øÈ£</option>
+							<option value="all">ì „ì²´</option>
+							<option value="agency" <%=if3(sch_type="agency","selected","")%>>ì—…ì†Œëª…</option>
+							<option value="kname" <%=if3(sch_type="kname","selected","")%>>íšŒì›ëª…</option>
+							<option value="phone" <%=if3(sch_type="phone","selected","")%>>ì „í™”ë²ˆí˜¸</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w300p" />
-						<button class="btn btn_c_a btn_s" type="button" onclick="goSearch()">°Ë»ö</button>
-						<span class="ml20 mr5">Ãâ·Â¼ö</span>
+						<button class="btn btn_c_a btn_s" type="button" onclick="goSearch()">ê²€ìƒ‰</button>
+						<span class="ml20 mr5">ì¶œë ¥ìˆ˜</span>
 						<select class="sel w100p" id="pagesize" name="pagesize" onchange="goSearch()">
 							<option value=""></option>
 							<option value="20" <%=if3(pagesize="20","selected","")%>>20</option>
@@ -204,17 +205,17 @@
 						<thead>
 							<tr>
 								<th scope="col"></th>
-<%If InStr(list_info, "agency") Then%>                                <th scope="col">»óÈ£</th><%End If%>
-<%If InStr(list_info, "kname") Or InStr(list_info, "picture") Then%>  <th scope="col">´ëÇ¥ÀÚ</th><%End If%>
-<%If InStr(list_info, "license") Then%>                               <th scope="col">Çã°¡¹øÈ£</th><%End If%>
-<%If InStr(list_info, "phone") Then%>                                 <th scope="col">ÀüÈ­¹øÈ£</th><%End If%>
-<%If InStr(list_info, "mobile") Then%>                                <th scope="col">ÇÚµåÆù¹øÈ£</th><%End If%>
-<%If InStr(list_info, "fax") Then%>                                   <th scope="col">ÆÑ½º</th><%End If%>
-<%If InStr(list_info, "interp") Then%>                                <th scope="col">³»¼±</th><%End If%>
-								<th scope="col">È¸¿øµî±Þ</th>
-								<th scope="col">°¡ÀÔÀÏ</th>
-								<th scope="col">»óÅÂ</th>
-								<th scope="col">°Ô½Ã±Û</th>
+<%If InStr(list_info, "agency") Then%>                                <th scope="col">ìƒí˜¸</th><%End If%>
+<%If InStr(list_info, "kname") Or InStr(list_info, "picture") Then%>  <th scope="col">ëŒ€í‘œìž</th><%End If%>
+<%If InStr(list_info, "license") Then%>                               <th scope="col">í—ˆê°€ë²ˆí˜¸</th><%End If%>
+<%If InStr(list_info, "phone") Then%>                                 <th scope="col">ì „í™”ë²ˆí˜¸</th><%End If%>
+<%If InStr(list_info, "mobile") Then%>                                <th scope="col">í•¸ë“œí°ë²ˆí˜¸</th><%End If%>
+<%If InStr(list_info, "fax") Then%>                                   <th scope="col">íŒ©ìŠ¤</th><%End If%>
+<%If InStr(list_info, "interp") Then%>                                <th scope="col">ë‚´ì„ </th><%End If%>
+								<th scope="col">íšŒì›ë“±ê¸‰</th>
+								<th scope="col">ê°€ìž…ì¼</th>
+								<th scope="col">ìƒíƒœ</th>
+								<th scope="col">ê²Œì‹œê¸€</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -249,7 +250,7 @@
 %>
 								<td class="algC" sch_typepan="<%=sch_type%>">
 <%
-			If ulevel_txt = "»ç¶û¹æÁö±â" Then
+			If ulevel_txt = "ì‚¬ëž‘ë°©ì§€ê¸°" Then
 %>
 								<input type="checkbox" disabled="disabled">
 <%
@@ -269,7 +270,7 @@
 <%
 				If picture <> "" Then
 %>
-									<img src="<%=uploadUrl & picture%>" id="profile" name="profile" onLoad="Rsize(this, 20, 20, 1)" style="cursor:hand;border:1px solid #e5e5e5;" title="Áß°³¾÷¼Ò»çÁø">
+									<img src="<%=uploadUrl & picture%>" id="profile" name="profile" onLoad="Rsize(this, 20, 20, 1)" style="cursor:hand;border:1px solid #e5e5e5;" title="ì¤‘ê°œì—…ì†Œì‚¬ì§„">
 <%
 				End If
 %>
@@ -325,11 +326,11 @@
 <%
 			If stat = "N" Then
 %>
-									<font color='red'>È°µ¿Á¤Áö</font>
+									<font color='red'>í™œë™ì •ì§€</font>
 <%
 			Else
 %>
-									<font color='blue'>È°µ¿</font>
+									<font color='blue'>í™œë™</font>
 <%
 			End If
 %>
@@ -375,7 +376,7 @@
 			}
 
 			if (j == 0) {
-				alert("È¸¿øÀ» ¼±ÅÃÇÏ¼¼¿ä!");
+				alert("íšŒì›ì„ ì„ íƒí•˜ì„¸ìš”!");
 				return false;
 			}
 			return true;
@@ -415,25 +416,25 @@
 			var tt = imgRsize(img, ww, hh);
 			if (img.width > ww || img.height > hh) {
 
-				// °¡·Î³ª ¼¼·ÎÅ©±â°¡ Á¦ÇÑÅ©±âº¸´Ù Å©¸é
+				// ê°€ë¡œë‚˜ ì„¸ë¡œí¬ê¸°ê°€ ì œí•œí¬ê¸°ë³´ë‹¤ í¬ë©´
 				img.width = tt[0];
-				// Å©±âÁ¶Á¤
+				// í¬ê¸°ì¡°ì •
 				img.height = tt[1];
-				img.alt = "Å¬¸¯ÇÏ½Ã¸é ¿øº»ÀÌ¹ÌÁö¸¦ º¸½Ç¼öÀÖ½À´Ï´Ù.";
+				img.alt = "í´ë¦­í•˜ì‹œë©´ ì›ë³¸ì´ë¯¸ì§€ë¥¼ ë³´ì‹¤ìˆ˜ìžˆìŠµë‹ˆë‹¤.";
 
 				if (aL) {
-					// ÀÚµ¿¸µÅ© on
+					// ìžë™ë§í¬ on
 					img.onclick = function() {
 						wT = Math.ceil((screen.width - tt[2])/2.6);
-						// Å¬¶óÀÌ¾ðÆ® Áß¾Ó¿¡ ÀÌ¹ÌÁöÀ§Ä¡.
+						// í´ë¼ì´ì–¸íŠ¸ ì¤‘ì•™ì— ì´ë¯¸ì§€ìœ„ì¹˜.
 						wL = Math.ceil((screen.height - tt[3])/2.6);
 						var mm = window.open(img.src, "mm", 'width='+tt[2]+',height='+tt[3]+',top='+wT+',left='+wL);
 						var doc = mm.document;
 						try{
 							doc.body.style.margin = 0;
-							// ¸¶ÁøÁ¦°Å
+							// ë§ˆì§„ì œê±°
 							doc.body.style.cursor = "hand";
-							doc.title = "¿øº»ÀÌ¹ÌÁö";
+							doc.title = "ì›ë³¸ì´ë¯¸ì§€";
 						}
 						catch(err) {
 						}
@@ -446,7 +447,7 @@
 			}
 			else {
 					img.onclick = function() {
-						alert("ÇöÀçÀÌ¹ÌÁö°¡ ¿øº» ÀÌ¹ÌÁöÀÔ´Ï´Ù.");
+						alert("í˜„ìž¬ì´ë¯¸ì§€ê°€ ì›ë³¸ ì´ë¯¸ì§€ìž…ë‹ˆë‹¤.");
 					}
 			}
 		}
@@ -455,16 +456,16 @@
 			var iW = img.width;
 			var iH = img.height;
 			var g = new Array;
-			if (iW < rW && iH < rH) { // °¡·Î¼¼·Î°¡ Ãà¼ÒÇÒ °ªº¸´Ù ÀÛÀ» °æ¿ì
+			if (iW < rW && iH < rH) { // ê°€ë¡œì„¸ë¡œê°€ ì¶•ì†Œí•  ê°’ë³´ë‹¤ ìž‘ì„ ê²½ìš°
 				g[0] = iW;
 				g[1] = iH;
 			}
 			else {
-				if (img.width > img.height) { // ¿øÅ©±â °¡·Î°¡ ¼¼·Îº¸´Ù Å©¸é
+				if (img.width > img.height) { // ì›í¬ê¸° ê°€ë¡œê°€ ì„¸ë¡œë³´ë‹¤ í¬ë©´
 					g[0] = rW;
 					g[1] = Math.ceil(img.height * rW / img.width);
 				}
-				else if (img.width < img.height) { //¿øÅ©±âÀÇ ¼¼·Î°¡ °¡·Îº¸´Ù Å©¸é
+				else if (img.width < img.height) { //ì›í¬ê¸°ì˜ ì„¸ë¡œê°€ ê°€ë¡œë³´ë‹¤ í¬ë©´
 					g[0] = Math.ceil(img.width * rH / img.height);
 					g[1] = rH;
 				}
@@ -472,18 +473,18 @@
 					g[0] = rW;
 					g[1] = rH;
 				}
-				if (g[0] > rW) { // ±¸ÇØÁø °¡·Î°ªÀÌ Ãà¼Ò °¡·Îº¸´Ù Å©¸é
+				if (g[0] > rW) { // êµ¬í•´ì§„ ê°€ë¡œê°’ì´ ì¶•ì†Œ ê°€ë¡œë³´ë‹¤ í¬ë©´
 					g[0] = rW;
 					g[1] = Math.ceil(img.height * rW / img.width);
 				}
-				if (g[1] > rH) { // ±¸ÇØÁø ¼¼·Î°ªÀÌ Ãà¼Ò ¼¼·Î°ª°¡·Îº¸´Ù Å©¸é
+				if (g[1] > rH) { // êµ¬í•´ì§„ ì„¸ë¡œê°’ì´ ì¶•ì†Œ ì„¸ë¡œê°’ê°€ë¡œë³´ë‹¤ í¬ë©´
 					g[0] = Math.ceil(img.width * rH / img.height);
 					g[1] = rH;
 				}
 			}
 
-			g[2] = img.width; // ¿ø»çÀÌÁî °¡·Î
-			g[3] = img.height; // ¿ø»çÀÌÁî ¼¼·Î
+			g[2] = img.width; // ì›ì‚¬ì´ì¦ˆ ê°€ë¡œ
+			g[3] = img.height; // ì›ì‚¬ì´ì¦ˆ ì„¸ë¡œ
 
 			return g;
 		}

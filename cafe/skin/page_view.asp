@@ -1,14 +1,15 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Ω∫≈≤-1 : GI</title>
+	<title>Ïä§ÌÇ®-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -43,7 +44,7 @@
 	sql = sql & "  where cm.menu_seq = '" & menu_seq & "' "
 	rs.Open Sql, conn, 3, 1
 
-	If rs("page_type") = "1" Then '»∏ƒ¢
+	If rs("page_type") = "1" Then 'ÌöåÏπô
 %>
 				<div class="cont_tit">
 					<h2 class="h2"><%=rs("menu_name")%></h2>
@@ -52,17 +53,17 @@
 					<%=rs("regulation")%>
 				</div>
 <%
-	ElseIf rs("page_type") = "2" Then 'º“∞≥
+	ElseIf rs("page_type") = "2" Then 'ÏÜåÍ∞ú
 %>
 				<div class="cont_tit">
-					<h2 class="h2">º“∞≥</h2>
+					<h2 class="h2">ÏÜåÍ∞ú</h2>
 				</div>
 				<div class="bbs_cont">
 					<%=rs("introduction")%>
 				</div>
 				<div class="bbs_add_cont">
 					<div class="bbs_add_cont_head">
-						<h4>»∏¿Â¥‘ ¿ŒªÁ∏ª</h4>
+						<h4>ÌöåÏû•Îãò Ïù∏ÏÇ¨Îßê</h4>
 					</div>
 					<div class="bbs_add_cont_body">
 						<dl class="bac_box">
@@ -83,7 +84,7 @@
 					</div>
 				</div>
 <%
-	ElseIf rs("page_type") = "4" Then '∏Ì¥‹
+	ElseIf rs("page_type") = "4" Then 'Î™ÖÎã®
 %>
 				<div class="cont_tit">
 					<h2 class="h2"><%=rs("menu_name")%></h2>
@@ -92,7 +93,7 @@
 					<%=rs("roster")%>
 				</div>
 <%
-	ElseIf rs("page_type") = "5" Then '¡∂¡˜µµ
+	ElseIf rs("page_type") = "5" Then 'Ï°∞ÏßÅÎèÑ
 %>
 				<div class="cont_tit">
 					<h2 class="h2"><%=rs("menu_name")%></h2>

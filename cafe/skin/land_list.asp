@@ -1,19 +1,20 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_mb_level = getUserLevel(cafe_id)
 	read_auth = getonevalue("read_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
 	If toInt(read_auth) > toInt(cafe_mb_level) Then
-		Response.Write "<script>alert('ÀĞ±â ±ÇÇÑÀÌ¾ø½À´Ï´Ù');history.back()</script>"
+		Response.Write "<script>alert('ì½ê¸° ê¶Œí•œì´ì—†ìŠµë‹ˆë‹¤');history.back()</script>"
 		Response.End
 	End If
 %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>½ºÅ²-1 : GI</title>
+	<title>ìŠ¤í‚¨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -41,7 +42,7 @@
 	RecordCount = rs.recordcount
 %>
 				<div class="cont_tit">
-					<h2 class="h2">ºÎµ¿»ê´º½º</h2>
+					<h2 class="h2">ë¶€ë™ì‚°ë‰´ìŠ¤</h2>
 				</div>
 				<div class="">
 					<div class="tb">
@@ -53,9 +54,9 @@
 							</colgroup>
 							<thead>
 								<tr>
-									<th scope="col">¹øÈ£</th>
-									<th scope="col">Á¦¸ñ</th>
-									<th scope="col">µî·ÏÀÏ</th>
+									<th scope="col">ë²ˆí˜¸</th>
+									<th scope="col">ì œëª©</th>
+									<th scope="col">ë“±ë¡ì¼</th>
 								</tr>
 							</thead>
 							<tbody>

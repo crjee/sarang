@@ -1,11 +1,11 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
 
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & "cafeimg\"
 	uploadform.DefaultPath = uploadFolder
-	' ÇÏ³ªÀÇ ÆÄÀÏ Å©±â¸¦ 1MBÀÌÇÏ·Î Á¦ÇÑ.
+	' í•˜ë‚˜ì˜ íŒŒì¼ í¬ê¸°ë¥¼ 1MBì´í•˜ë¡œ ì œí•œ.
 	uploadform.MaxFileLen = 10*1024*1024
 
 	cafe_id   = uploadform("cafe_id")
@@ -21,7 +21,7 @@
 
 	If uploadform("cafe_img") <> "" Then
 		IF uploadform("cafe_img").FileLen > uploadform.MaxFileLen Then
-			Call msggo("ÆÄÀÏÀÇ Å©±â´Â " & CInt(uploadform.MaxFileLen/1024/1014) & "MB°¡ ³Ñ¾î¼­´Â ¾ÈµË´Ï´Ù","")
+			Call msggo("íŒŒì¼ì˜ í¬ê¸°ëŠ” " & CInt(uploadform.MaxFileLen/1024/1014) & "MBê°€ ë„˜ì–´ì„œëŠ” ì•ˆë©ë‹ˆë‹¤","")
 			Set uploadform = Nothing
 			Response.End
 		End If
@@ -59,6 +59,6 @@
 	End if
 %>
 <script>
-alert("¼öÁ¤µÇ¾ú½À´Ï´Ù.")
+alert("ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤.")
 parent.location = 'cafe_info_edit.asp'
 </script>

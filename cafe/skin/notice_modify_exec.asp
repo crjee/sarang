@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Call checkAdmin()
 
@@ -29,7 +30,7 @@
 	For Each item In uploadform("file_name")
 		If item <> "" Then
 			IF item.FileLen > UploadForm.MaxFileLen Then
-				call msggo("ÆÄÀÏÀÇ Å©±â´Â " & CInt(uploadform.MaxFileLen/1024/1014) & "MB°¡ ³Ñ¾î¼­´Â ¾ÈµË´Ï´Ù","")
+				call msggo("íŒŒì¼ì˜ í¬ê¸°ëŠ” " & CInt(uploadform.MaxFileLen/1024/1014) & "MBê°€ ë„˜ì–´ì„œëŠ” ì•ˆë©ë‹ˆë‹¤","")
 				Set UploadForm = Nothing
 				Response.End
 			End If
@@ -92,7 +93,7 @@
 <input type="hidden" name="notice_seq" value="<%=notice_seq%>">
 </form>
 <script>
-	alert("¼öÁ¤ µÇ¾ú½À´Ï´Ù.");
+	alert("ìˆ˜ì • ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	parent.location.href='notice_view.asp?page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&notice_seq=<%=notice_seq%>';
 </script>
 

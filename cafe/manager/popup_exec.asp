@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
 
@@ -64,7 +65,7 @@
 
 				End If
 			Else
-				msgonly i& " ¹øÂ° °Ô½ÃÆÇÀÇ " & popup_num & " ±Û¹øÈ£´Â Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù."
+				msgonly i& " ë²ˆì§¸ ê²Œì‹œíŒì˜ " & popup_num & " ê¸€ë²ˆí˜¸ëŠ” ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤."
 				sql = ""
 				sql = sql & " delete cf_popup "
 				sql = sql & "  where cafe_id = '" & cafe_id & "' "

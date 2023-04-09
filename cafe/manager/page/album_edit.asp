@@ -1,11 +1,12 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>¸Þ´º °ü¸® : °ü¸®ÀÚ</title>
+	<title>ë©”ë‰´ ê´€ë¦¬ : ê´€ë¦¬ìž</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -39,7 +40,7 @@
 	rs.close
 %>
 					<div class="adm_cont_tit">
-						<h4 class="h3 mt20 mb10"><%=menu_name%> ¼³Á¤</h4>
+						<h4 class="h3 mt20 mb10"><%=menu_name%> ì„¤ì •</h4>
 					</div>
 					<form name="form" method="post" action="com_exec.asp">
 					<input type="hidden" name="cafe_id" value="<%=cafe_id%>">
@@ -54,81 +55,81 @@
 								</colgroup>
 								<tbody>
 									<tr>
-										<th scope="row">ÀÌ¸§</th>
+										<th scope="row">ì´ë¦„</th>
 										<td>
 											<input type="text" id="menu_name" name="menu_name" value="<%=menu_name%>" class="inp">
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">±ÇÇÑ</th>
+										<th scope="row">ê¶Œí•œ</th>
 										<td>
 											<ul class="list_option">
 												<li class="">
-													<span class="head">¾²±â</span>
+													<span class="head">ì“°ê¸°</span>
 													<select id="write_auth" name="write_auth" class="sel w_auto">
-														<option value="1" <%=if3(write_auth = "1","selected","") %>>ÁØÈ¸¿ø</option>
-														<option value="2" <%=if3(write_auth = "2","selected","") %>>Á¤È¸¿ø</option>
-														<option value="10" <%=if3(write_auth = "10","selected","") %>>»ç¶û¹æÁö±â</option>
+														<option value="1" <%=if3(write_auth = "1","selected","") %>>ì¤€íšŒì›</option>
+														<option value="2" <%=if3(write_auth = "2","selected","") %>>ì •íšŒì›</option>
+														<option value="10" <%=if3(write_auth = "10","selected","") %>>ì‚¬ëž‘ë°©ì§€ê¸°</option>
 													</select>
 												</li>
 												<li class="">
-													<span class="head">´ñ±Û¾²±â</span>
+													<span class="head">ëŒ“ê¸€ì“°ê¸°</span>
 													<select id="reply_auth" name="reply_auth" class="sel w_auto">
-														<option value="1" <%=if3(reply_auth = 1,"selected","") %>>ÁØÈ¸¿ø</option>
-														<option value="2" <%=if3(reply_auth = 2,"selected","") %>>Á¤È¸¿ø</option>
-														<option value="3" <%=if3(reply_auth = 3,"selected","") %>>¿ì¼öÈ¸¿ø</option>
-														<option value="4" <%=if3(reply_auth = 4,"selected","") %>>Æ¯º°È¸¿ø</option>
-														<option value="5" <%=if3(reply_auth = 5,"selected","") %>>°Ô½ÃÆÇÁö±â</option>
-														<option value="6" <%=if3(reply_auth = 6,"selected","") %>>¿î¿µÀÚ</option>
-														<option value="10" <%=if3(reply_auth = 10,"selected","") %>>»ç¶û¹æÁö±â</option>
+														<option value="1" <%=if3(reply_auth = 1,"selected","") %>>ì¤€íšŒì›</option>
+														<option value="2" <%=if3(reply_auth = 2,"selected","") %>>ì •íšŒì›</option>
+														<option value="3" <%=if3(reply_auth = 3,"selected","") %>>ìš°ìˆ˜íšŒì›</option>
+														<option value="4" <%=if3(reply_auth = 4,"selected","") %>>íŠ¹ë³„íšŒì›</option>
+														<option value="5" <%=if3(reply_auth = 5,"selected","") %>>ê²Œì‹œíŒì§€ê¸°</option>
+														<option value="6" <%=if3(reply_auth = 6,"selected","") %>>ìš´ì˜ìž</option>
+														<option value="10" <%=if3(reply_auth = 10,"selected","") %>>ì‚¬ëž‘ë°©ì§€ê¸°</option>
 													</select>
 												</li>
 												<li class="">
-													<span class="head">ÀÐ±â</span>
+													<span class="head">ì½ê¸°</span>
 													<select id="read_auth" name="read_auth" class="sel w_auto">
-														<option value="1" <%=if3(read_auth = 1,"selected","") %>>ÁØÈ¸¿ø</option>
-														<option value="2" <%=if3(read_auth = 2,"selected","") %>>Á¤È¸¿ø</option>
-														<option value="3" <%=if3(read_auth = 3,"selected","") %>>¿ì¼öÈ¸¿ø</option>
-														<option value="4" <%=if3(read_auth = 4,"selected","") %>>Æ¯º°È¸¿ø</option>
-														<option value="5" <%=if3(read_auth = 5,"selected","") %>>°Ô½ÃÆÇÁö±â</option>
-														<option value="6" <%=if3(read_auth = 6,"selected","") %>>¿î¿µÀÚ</option>
-														<option value="10" <%=if3(read_auth = 10,"selected","") %>>»ç¶û¹æÁö±â</option>
+														<option value="1" <%=if3(read_auth = 1,"selected","") %>>ì¤€íšŒì›</option>
+														<option value="2" <%=if3(read_auth = 2,"selected","") %>>ì •íšŒì›</option>
+														<option value="3" <%=if3(read_auth = 3,"selected","") %>>ìš°ìˆ˜íšŒì›</option>
+														<option value="4" <%=if3(read_auth = 4,"selected","") %>>íŠ¹ë³„íšŒì›</option>
+														<option value="5" <%=if3(read_auth = 5,"selected","") %>>ê²Œì‹œíŒì§€ê¸°</option>
+														<option value="6" <%=if3(read_auth = 6,"selected","") %>>ìš´ì˜ìž</option>
+														<option value="10" <%=if3(read_auth = 10,"selected","") %>>ì‚¬ëž‘ë°©ì§€ê¸°</option>
 													</select>
 												</li>
 											</ul>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">¾ç½Ä¼³Á¤</th>
+										<th scope="row">ì–‘ì‹ì„¤ì •</th>
 										<td>
 <%
 	Set form = Conn.Execute("select * from cf_com_form where menu_seq='"&menu_seq&"'")
 	If Not form.eof then
 %>
-											<label><input type="checkbox">Áú¹®¾ç½Ä»ç¿ë</label>
-											<button class="btn_4txt_sel" type="submit" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">¾ç½Ä¼öÁ¤</button>
+											<label><input type="checkbox">ì§ˆë¬¸ì–‘ì‹ì‚¬ìš©</label>
+											<button class="btn_4txt_sel" type="submit" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">ì–‘ì‹ìˆ˜ì •</button>
 <%
 	Else
 %>
-											<button class="btn_4txt_sel" type="submit" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">¾ç½Äµî·Ï</button>
+											<button class="btn_4txt_sel" type="submit" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">ì–‘ì‹ë“±ë¡</button>
 <%
 	End If
 %>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">¸Þ´º°¨Ãß±â</th>
+										<th scope="row">ë©”ë‰´ê°ì¶”ê¸°</th>
 										<td>
 											<input type="checkbox" id="hidden_yn" name="hidden_yn" value="Y" <%=if3(hidden_yn = "Y","checked","") %> class="" />
-											<label for=""><em>°¨Ãß±â</em></label>
+											<label for=""><em>ê°ì¶”ê¸°</em></label>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">¾²±âÇü½Ä</th>
+										<th scope="row">ì“°ê¸°í˜•ì‹</th>
 										<td>
 											<select id="editor_yn" name="editor_yn" class="sel w_auto">
-												<option value="Y" <%=if3(editor_yn = "Y","selected","") %>>¿¡µðÅÍ</option>
-												<option value="N" <%=if3(editor_yn <> "Y","selected","") %>>ÅØ½ºÆ®</option>
+												<option value="Y" <%=if3(editor_yn = "Y","selected","") %>>ì—ë””í„°</option>
+												<option value="N" <%=if3(editor_yn <> "Y","selected","") %>>í…ìŠ¤íŠ¸</option>
 											</select>
 										</td>
 									</tr>
@@ -136,9 +137,9 @@
 							</table>
 						</div>
 						<div class="btn_box algR">
-							<button type="submit" class="btn btn_c_a btn_n">ÀúÀå</button>
-							<button type="reset" class="btn btn_c_n btn_n">Ãë¼Ò</button>
-							<button type="button" class="btn btn_c_n btn_n" id="del">»èÁ¦</button>
+							<button type="submit" class="btn btn_c_a btn_n">ì €ìž¥</button>
+							<button type="reset" class="btn btn_c_n btn_n">ì·¨ì†Œ</button>
+							<button type="button" class="btn btn_c_n btn_n" id="del">ì‚­ì œ</button>
 						</div>
 						</form>
 						<script>
@@ -149,7 +150,7 @@
 <script LANGUAGE="JavaScript">
 <!--
 	$('#del').click(function() {
-		msg="»èÁ¦ÇÏ½Ã°Ú½À´Ï±î?"
+		msg="ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?"
 		if (confirm(msg)) {
 			document.location.href='../menu_del_exec.asp?menu_seq=<%=menu_seq%>';
 		}

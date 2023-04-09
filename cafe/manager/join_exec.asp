@@ -1,4 +1,4 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
 
@@ -13,6 +13,6 @@
 	Conn.Execute(sql)
 %>
 <script>
-alert("°¡ÀÔ½ÂÀÎ µÇ¾ú½À´Ï´Ù.")
+alert("ê°€ì…ìŠ¹ì¸ ë˜ì—ˆìŠµë‹ˆë‹¤.")
 parent.location = 'join_list.asp'
 </script>

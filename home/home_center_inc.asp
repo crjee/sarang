@@ -15,6 +15,7 @@
 	sql = sql & "       ,top_cnt                                             "
 	sql = sql & "       ,wide_yn                                             "
 	sql = sql & "       ,list_type                                           "
+	sql = sql & "       ,tab_use_yn                                          "
 	sql = sql & "   from cf_menu cm                                          "
 	sql = sql & "  where cafe_id = '" & cafe_id & "'                         "
 	sql = sql & "    and home_num != 0                                       "
@@ -25,18 +26,19 @@
 	i = 0
 	Do Until rs.eof
 		i = i + 1
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-		page_type = rs("page_type")
-		menu_seq  = rs("menu_seq")
-		home_num  = rs("home_num")
-		home_cnt  = rs("home_cnt")
-		top_cnt   = rs("top_cnt")
-		wide_yn   = rs("wide_yn")
-		list_type = rs("list_type")
+		menu_type  = rs("menu_type")
+		menu_name  = rs("menu_name")
+		page_type  = rs("page_type")
+		menu_seq   = rs("menu_seq")
+		home_num   = rs("home_num")
+		home_cnt   = rs("home_cnt")
+		top_cnt    = rs("top_cnt")
+		wide_yn    = rs("wide_yn")
+		list_type  = rs("list_type")
+		tab_use_yn = rs("tab_use_yn")
 
-		' ¿ÍÀÌµåÇü ¿©ºÎ sf_col_1 : ¿ÍÀÌµå, sf_col_2 : 2´Ü
-		' È¦¼ö Â¦¼ö(¿ŞÂÊ ¿À¸¥ÂÊ) main_frm_a : ¿ÍÀÌµåÀüÃ¼, main_frm_l : 2´Ü
+		' ì™€ì´ë“œí˜• ì—¬ë¶€ sf_col_1 : ì™€ì´ë“œ, sf_col_2 : 2ë‹¨
+		' í™€ìˆ˜ ì§ìˆ˜(ì™¼ìª½ ì˜¤ë¥¸ìª½) main_frm_a : ì™€ì´ë“œì „ì²´, main_frm_l : 2ë‹¨
 		If wide_yn = "Y" Then
 			wide_class = "sf_col_1"
 			odd_even_class = "main_frm_a"
@@ -49,7 +51,7 @@
 			End If
 		End If
 
-		' ¸®½ºÆ® Å¸ÀÔ latest_1 : ÅØ½ºÆ®, latest_2 : Ä«µåÁÂ, latest_2 latest_2_re : Ä«µå¿ì, latest_3 : ¾Ù¹üÀÏ¹İ, latest_3 latest_3_ori : ¾Ù¹ü¿ÍÀÌµå
+		' ë¦¬ìŠ¤íŠ¸ íƒ€ì… latest_1 : í…ìŠ¤íŠ¸, latest_2 : ì¹´ë“œì¢Œ, latest_2 latest_2_re : ì¹´ë“œìš°, latest_3 : ì•¨ë²”ì¼ë°˜, latest_3 latest_3_ori : ì•¨ë²”ì™€ì´ë“œ
 		If list_type = "T1" Or list_type = "T2" Then
 			list_class = "latest_1"
 		ElseIf list_type = "C1" Or list_type = "C2" Then
@@ -79,7 +81,7 @@
 			home_cnt = "5"
 		End If
 %>
-					<div class="<%=odd_even_class%>"><!-- main_frm_a : ¿ÍÀÌµåÀüÃ¼, main_frm_l : 2´Ü -->
+					<div class="<%=odd_even_class%>"><!-- main_frm_a : ì™€ì´ë“œì „ì²´, main_frm_l : 2ë‹¨ -->
 						<div class="latest_box">
 							<header class="latest_box_head">
 								<h4 class="h4"><%=menu_name%></h4>
@@ -87,8 +89,8 @@
 		If list_type = "A2" Then
 %>
 								<span class="ctr_box">
-									<button type="button" class="btn_prev btn_gs2_prev"><em>ÀÌÀü</em></button>
-									<button type="button" class="btn_next btn_gs2_next"><em>´ÙÀ½</em></button>
+									<button type="button" class="btn_prev btn_gs2_prev"><em>ì´ì „</em></button>
+									<button type="button" class="btn_next btn_gs2_next"><em>ë‹¤ìŒ</em></button>
 								</span>
 <%
 		End If
@@ -97,47 +99,46 @@
 							</header>
 							<div class="tb main_rolling" id="<%=land_id%>">
 <%
-		If list_type = "A2" Then ' ÅÇÁ¤º¸ È®ÀÎ
-%>
-								<div class="slide_cate">
-									<a href="#tab_n_cont1" class="on">ÀüÃ¼</a>
-<%
+		If tab_use_yn = "Y" Then ' íƒ­ì •ë³´ í™•ì¸
 			sql = ""
-			sql = sql & " select cmn_cd                                               "
-			sql = sql & "       ,cd_nm                                                "
-			sql = sql & "   from cf_code                                              "
-			sql = sql & "  where up_cd_id = (select cd_id                             "
-			sql = sql & "                          from cf_code                       "
-			sql = sql & "                         where up_cd_id = 'CD0000000000'     "
-			sql = sql & "                           and cmn_cd = 'pst_rgn_se_cd'      "
-			sql = sql & "                           and del_yn = 'N'                  "
-			sql = sql & "                           and use_yn = 'Y'                  "
-			sql = sql & "                       )                                     "
-			sql = sql & "    and del_yn = 'N'                                         "
-			sql = sql & "    and use_yn = 'Y'                                         "
-			sql = sql & "  order by cd_sn                                             "
+			sql = sql & " select section_seq                   "
+			sql = sql & "       ,section_nm                    "
+			sql = sql & "       ,section_sn                    "
+			sql = sql & "   from cf_menu_section               "
+			sql = sql & "  where menu_seq = '" & menu_seq & "' "
+			sql = sql & "    and use_yn = 'Y'                  "
+			sql = sql & "  union all                           "
+			sql = sql & " select null as section_seq           "
+			sql = sql & "       ,'ê¸°íƒ€' as section_nm           "
+			sql = sql & "       ,999999999 as section_nm       "
+			sql = sql & "  order by section_sn                 "
 			rs2.open Sql, conn, 3, 1
+
 			j = 2
 			ReDim arrLst(rs2.recordCount+1)
 			ReDim arrRgn(rs2.recordCount+1)
 
 			If Not rs2.eof Then
-				Do Until rs2.eof
-					cmn_cd = rs2("cmn_cd")
-					cd_nm  = rs2("cd_nm")
-					arrLst(j) = cmn_cd
-					arrRgn(j) = cd_nm
 %>
-									<a href="#tab_n_cont<%=j%>" class="<%=if3(j=1,"on","")%>"><%=cd_nm%></a>
+								<div class="slide_cate">
+									<a href="#tab_n_cont1" class="on">ì „ì²´</a>
+<%
+				Do Until rs2.eof
+					section_seq = rs2("section_seq")
+					section_nm  = rs2("section_nm")
+					arrLst(j) = section_seq
+					arrRgn(j) = section_nm
+%>
+									<a href="#tab_n_cont<%=j%>" class="<%=if3(j=1,"on","")%>"><%=section_nm%></a>
 <%
 					rs2.MoveNext
 					j = j + 1
 				Loop
-			End If
-			rs2.close
 %>
 								</div>
 <%
+			End If
+			rs2.close
 		Else
 			ReDim arrLst(1)
 			ReDim arrRgn(1)
@@ -151,7 +152,7 @@
 			sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
 			sql = sql & "       ,subject "
 			sql = sql & "       ,comment_cnt "
-			sql = sql & "       ," & menu_type  & "_seq "
+			sql = sql & "       ," & menu_type & "_seq "
 			sql = sql & "       ,group_num "
 			sql = sql & "       ,step_num "
 			If menu_type = "land" Then
@@ -176,6 +177,8 @@
 			End If
 			If menu_type = "nsale" And arrLst(li) <> "" Then
 			sql = sql & "    and nsale_rgn_cd = '" & arrLst(li) & "' "
+			ElseIf arrLst(li) <> "" Then
+			sql = sql & "    and section_seq = '" & arrLst(li) & "' "
 			End If
 			sql = sql & "    and step_num = 0 "
 			sql = sql & "    and top_yn = 'Y' "
@@ -195,7 +198,7 @@
 			sql = sql & "       ,frst_receipt_acpt_date  "
 			sql = sql & "       ,mvin_date  "
 			Else
-			sql = sql & "       ,null frst_receipt_acpt_date  "
+			sql = sql & "       ,convert(varchar(10), credt, 120) as frst_receipt_acpt_date  "
 			sql = sql & "       ,null mvin_date  "
 			End If
 			sql = sql & "   from cf_" & menu_type  & " "
@@ -210,6 +213,8 @@
 			End If
 			If menu_type = "nsale" And arrLst(li) <> "" Then
 			sql = sql & "    and nsale_rgn_cd = '" & arrLst(li) & "' "
+			ElseIf arrLst(li) <> "" Then
+			sql = sql & "    and section_seq = '" & arrLst(li) & "' "
 			End If
 			sql = sql & "    and step_num = 0 "
 			sql = sql & "    and isnull(top_yn,'') <> 'Y' "
@@ -226,24 +231,30 @@
 			End If
 			rs2.Open Sql, conn, 3, 1
 
+			If tab_use_yn = "Y" Then ' íƒ­ì •ë³´ í™•ì¸
+%>
+							<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>">
+<%
+			End If
+
 			If Not rs2.eof Then
 				If list_type = "T1" Or list_type = "T2" Then
 %>
-								<ul class="<%=list_class%>"><!-- latest_1 : ÅØ½ºÆ®, latest_2 : Ä«µåÁÂ, latest_2 latest_2_re : Ä«µå¿ì, latest_3 : ¾Ù¹üÀÏ¹İ, latest_3 latest_3_ori : ¾Ù¹ü¿ÍÀÌµå -->
+								<ul class="<%=list_class%>"><!-- latest_1 : í…ìŠ¤íŠ¸, latest_2 : ì¹´ë“œì¢Œ, latest_2 latest_2_re : ì¹´ë“œìš°, latest_3 : ì•¨ë²”ì¼ë°˜, latest_3 latest_3_ori : ì•¨ë²”ì™€ì´ë“œ -->
 <%
 				ElseIf list_type = "C1" Or list_type = "C2" Then
 %>
-								<ul class="<%=list_class%>"><!-- latest_1 : ÅØ½ºÆ®, latest_2 : Ä«µåÁÂ, latest_2 latest_2_re : Ä«µå¿ì, latest_3 : ¾Ù¹üÀÏ¹İ, latest_3 latest_3_ori : ¾Ù¹ü¿ÍÀÌµå -->
+								<ul class="<%=list_class%>"><!-- latest_1 : í…ìŠ¤íŠ¸, latest_2 : ì¹´ë“œì¢Œ, latest_2 latest_2_re : ì¹´ë“œìš°, latest_3 : ì•¨ë²”ì¼ë°˜, latest_3 latest_3_ori : ì•¨ë²”ì™€ì´ë“œ -->
 <%
 				ElseIf list_type = "A1" Or list_type = "A2" Then
 %>
-								<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>">
+								<div class="tb">
 									<div class="slide_2">
 										<div class="slide_in">
 <%
 				Else
 %>
-								<ul class="<%=list_class%>"><!-- latest_1 : ÅØ½ºÆ®, latest_2 : Ä«µåÁÂ, latest_2 latest_2_re : Ä«µå¿ì, latest_3 : ¾Ù¹üÀÏ¹İ, latest_3 latest_3_ori : ¾Ù¹ü¿ÍÀÌµå -->
+								<ul class="<%=list_class%>"><!-- latest_1 : í…ìŠ¤íŠ¸, latest_2 : ì¹´ë“œì¢Œ, latest_2 latest_2_re : ì¹´ë“œìš°, latest_3 : ì•¨ë²”ì¼ë°˜, latest_3 latest_3_ori : ì•¨ë²”ì™€ì´ë“œ -->
 <%
 				End If
 
@@ -275,7 +286,7 @@
 %>
 									<li>
 <%
-						uploadUrl = ConfigAttachedFileURL & "nsale/"
+						uploadUrl = ConfigAttachedFileURL & menu_type & "/"
 
 						sql = ""
 						sql = sql & " select top 1 * "
@@ -303,7 +314,7 @@
 %>
 											<div class="c_wrap">
 <%
-						uploadUrl = ConfigAttachedFileURL & "nsale/"
+						uploadUrl = ConfigAttachedFileURL & menu_type & "/"
 
 						sql = ""
 						sql = sql & " select top 1 * "
@@ -323,8 +334,21 @@
 						End If
 						rs3.close
 %>
-												<a href="<%=view_url%>"><span class="text">´ÜÁö¸í : <%=subject%></span></a>
-												<span class="posr"><span title="ºĞ¾çÀÏ"><%=frst_receipt_acpt_date%></span> / <span title="ÀÔÁÖÀÏ"><%=mvin_date%></span></span>
+												<a href="<%=view_url%>"><span class="text"><%=subject%></span></a>
+												<span class="posr">
+<%
+						If menu_type = "nsale" Then
+%>
+												<span title="ë¶„ì–‘ì¼"><%=frst_receipt_acpt_date%></span> / <span title="ì…ì£¼ì¼"><%=mvin_date%></span>
+<%
+						Else
+%>
+												<span title="ì‘ì„±ì¼"><%=frst_receipt_acpt_date%></span></span>
+<%
+						End If
+%>
+
+												</span>
 											</div>
 <%
 					Else
@@ -362,26 +386,32 @@
 				If list_type = "T1" Or list_type = "T2" Then
 %>
 									<li class="t_nowrap no_data">
-										µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù.
+										ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤.
 									</li>
 <%
 				ElseIf list_type = "C1" Or list_type = "C2" Then
 %>
 									<li class="t_nowrap no_data">
-										µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù.
+										ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤.
 									</li>
 <%
 				ElseIf list_type = "A1" Or list_type = "A2" Then
 %>
-								<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>"><%=arrRgn(li)%> µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù.</div>
+								<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>"><%=arrRgn(li)%> ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤.</div>
 <%
 				Else
 %>
 									<li class="t_nowrap no_data">
-										µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù.
+										ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤.
 									</li>
 <%
 				End If
+			End If
+
+			If tab_use_yn = "Y" Then ' íƒ­ì •ë³´ í™•ì¸
+%>
+							</div>
+<%
 			End If
 			rs2.close
 		Next
@@ -402,19 +432,19 @@
 					$(function() {
 						try {
 							$('#dv_rolling').vTicker({
-								// ½ºÅ©·Ñ ¼Óµµ(default: 700)
+								// ìŠ¤í¬ë¡¤ ì†ë„(default: 700)
 								speed: 1000,
-								// ½ºÅ©·Ñ »çÀÌÀÇ ´ë±â½Ã°£(default: 4000)
+								// ìŠ¤í¬ë¡¤ ì‚¬ì´ì˜ ëŒ€ê¸°ì‹œê°„(default: 4000)
 								pause: 2000,
-								// ½ºÅ©·Ñ ¾Ö´Ï¸ŞÀÌ¼Ç
+								// ìŠ¤í¬ë¡¤ ì• ë‹ˆë©”ì´ì…˜
 								animation: 'fade',
-								// ¸¶¿ì½º over ÀÏ¶§ ¸ØÃâ ¼³Á¤
+								// ë§ˆìš°ìŠ¤ over ì¼ë•Œ ë©ˆì¶œ ì„¤ì •
 								mousePause: true,
-								// ÇÑ¹ø¿¡ º¸ÀÏ ¸®½ºÆ®¼ö(default: 2)
+								// í•œë²ˆì— ë³´ì¼ ë¦¬ìŠ¤íŠ¸ìˆ˜(default: 2)
 								showItems: 5,
-								// ½ºÅ©·Ñ ÄÁÅ×ÀÌ³Ê ³ôÀÌ(default: 0)
+								// ìŠ¤í¬ë¡¤ ì»¨í…Œì´ë„ˆ ë†’ì´(default: 0)
 								height: 0,
-								// ¾ÆÀÌÅÛÀÌ ¿òÁ÷ÀÌ´Â ¹æÇâ, up/down (default: up)
+								// ì•„ì´í…œì´ ì›€ì§ì´ëŠ” ë°©í–¥, up/down (default: up)
 								direction: 'up'
 							});
 						}

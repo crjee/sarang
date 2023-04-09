@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Call checkAdmin()
 
@@ -19,6 +20,9 @@
 	Else
 		kword = ""
 	End If
+
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs2 = Server.CreateObject ("ADODB.Recordset")
 
 	sql =       ""
 	sql = sql & " select  "
@@ -44,17 +48,15 @@
 	sql = sql & "   left outer join cf_union_manager um on um.user_id = mb.user_id and um.union_id = cu.cafe_id "
 	sql = sql & kword
 	sql = sql & " order by kname "
-
-	Set rs = Server.CreateObject ("ADODB.Recordset")
 	rs.open Sql, conn, 3, 1
 
 	rs.pagesize = pagesize
-	RecordCount = 0 ' ÀÚ·á°¡ ¾øÀ»¶§
+	RecordCount = 0 ' ìžë£Œê°€ ì—†ì„ë•Œ
 	If Not rs.EOF Then
 		RecordCount = rs.recordcount
 	End If
 
-	' ÀüÃ¼ ÆäÀÌÁö ¼ö ¾ò±â
+	' ì „ì²´ íŽ˜ì´ì§€ ìˆ˜ ì–»ê¸°
 	If RecordCount/pagesize = Int(RecordCount/pagesize) Then
 		PageCount = Int(RecordCount / pagesize)
 	Else
@@ -69,10 +71,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>È¸¿ø °ü¸® > °ü¸®ÀÚ</title>
+	<title>íšŒì› ê´€ë¦¬ > ê´€ë¦¬ìž</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -82,7 +84,7 @@
 <body class="sa">
 	<div id="wrap">
 		<header id="adm_head">
-			<h1><a href="/">RETS °æÀÎ<sub>ÀüÃ¼°ü¸®</sub></a></h1>
+			<h1><a href="/">RETS ê²½ì¸<sub>ì „ì²´ê´€ë¦¬</sub></a></h1>
 		</header>
 		<nav id="adm_nav">
 <!--#include virtual="/cafe/admin/admin_left_inc.asp"-->
@@ -99,7 +101,7 @@
 						}
 
 						if (j == 0) {
-							alert("È¸¿øÀ» ¼±ÅÃÇÏ¼¼¿ä!");
+							alert("íšŒì›ì„ ì„ íƒí•˜ì„¸ìš”!");
 							return false;
 						}
 						return true;
@@ -147,7 +149,7 @@
 
 				function setColor(i) {
 					try {
-						document.getElementById("sp_"+i).innerText = "º¯°æµÊ";
+						document.getElementById("sp_"+i).innerText = "ë³€ê²½ë¨";
 						document.getElementById("tr_"+i).style.background = "#ffffcc";
 					}
 					catch (e) {
@@ -181,25 +183,25 @@
 					var tt = imgRsize(img, ww, hh);
 					if (img.width > ww || img.height > hh) {
 
-						// °¡·Î³ª ¼¼·ÎÅ©±â°¡ Á¦ÇÑÅ©±âº¸´Ù Å©¸é
+						// ê°€ë¡œë‚˜ ì„¸ë¡œí¬ê¸°ê°€ ì œí•œí¬ê¸°ë³´ë‹¤ í¬ë©´
 						img.width = tt[0];
-						// Å©±âÁ¶Á¤
+						// í¬ê¸°ì¡°ì •
 						img.height = tt[1];
-						img.alt = "Å¬¸¯ÇÏ½Ã¸é ¿øº»ÀÌ¹ÌÁö¸¦ º¸½Ç¼öÀÖ½À´Ï´Ù.";
+						img.alt = "í´ë¦­í•˜ì‹œë©´ ì›ë³¸ì´ë¯¸ì§€ë¥¼ ë³´ì‹¤ìˆ˜ìžˆìŠµë‹ˆë‹¤.";
 
 						if (aL) {
-							// ÀÚµ¿¸µÅ© on
+							// ìžë™ë§í¬ on
 							img.onclick = function() {
 								wT = Math.ceil((screen.width - tt[2])/2.6);
-								// Å¬¶óÀÌ¾ðÆ® Áß¾Ó¿¡ ÀÌ¹ÌÁöÀ§Ä¡.
+								// í´ë¼ì´ì–¸íŠ¸ ì¤‘ì•™ì— ì´ë¯¸ì§€ìœ„ì¹˜.
 								wL = Math.ceil((screen.height - tt[3])/2.6);
 								var mm = window.open(img.src, "mm", 'width='+tt[2]+',height='+tt[3]+',top='+wT+',left='+wL);
 								var doc = mm.document;
 								try{
 									doc.body.style.margin = 0;
-									// ¸¶ÁøÁ¦°Å
+									// ë§ˆì§„ì œê±°
 									doc.body.style.cursor = "hand";
-									doc.title = "¿øº»ÀÌ¹ÌÁö";
+									doc.title = "ì›ë³¸ì´ë¯¸ì§€";
 								}
 								catch(err) {
 								}
@@ -212,7 +214,7 @@
 					}
 					else {
 							img.onclick = function() {
-								alert("ÇöÀçÀÌ¹ÌÁö°¡ ¿øº» ÀÌ¹ÌÁöÀÔ´Ï´Ù.");
+								alert("í˜„ìž¬ì´ë¯¸ì§€ê°€ ì›ë³¸ ì´ë¯¸ì§€ìž…ë‹ˆë‹¤.");
 							}
 					}
 				}
@@ -221,16 +223,16 @@
 					var iW = img.width;
 					var iH = img.height;
 					var g = new Array;
-					if (iW < rW && iH < rH) { // °¡·Î¼¼·Î°¡ Ãà¼ÒÇÒ °ªº¸´Ù ÀÛÀ» °æ¿ì
+					if (iW < rW && iH < rH) { // ê°€ë¡œì„¸ë¡œê°€ ì¶•ì†Œí•  ê°’ë³´ë‹¤ ìž‘ì„ ê²½ìš°
 						g[0] = iW;
 						g[1] = iH;
 					}
 					else {
-						if (img.width > img.height) { // ¿øÅ©±â °¡·Î°¡ ¼¼·Îº¸´Ù Å©¸é
+						if (img.width > img.height) { // ì›í¬ê¸° ê°€ë¡œê°€ ì„¸ë¡œë³´ë‹¤ í¬ë©´
 							g[0] = rW;
 							g[1] = Math.ceil(img.height * rW / img.width);
 						}
-						else if (img.width < img.height) { //¿øÅ©±âÀÇ ¼¼·Î°¡ °¡·Îº¸´Ù Å©¸é
+						else if (img.width < img.height) { //ì›í¬ê¸°ì˜ ì„¸ë¡œê°€ ê°€ë¡œë³´ë‹¤ í¬ë©´
 							g[0] = Math.ceil(img.width * rH / img.height);
 							g[1] = rH;
 						}
@@ -238,36 +240,36 @@
 							g[0] = rW;
 							g[1] = rH;
 						}
-						if (g[0] > rW) { // ±¸ÇØÁø °¡·Î°ªÀÌ Ãà¼Ò °¡·Îº¸´Ù Å©¸é
+						if (g[0] > rW) { // êµ¬í•´ì§„ ê°€ë¡œê°’ì´ ì¶•ì†Œ ê°€ë¡œë³´ë‹¤ í¬ë©´
 							g[0] = rW;
 							g[1] = Math.ceil(img.height * rW / img.width);
 						}
-						if (g[1] > rH) { // ±¸ÇØÁø ¼¼·Î°ªÀÌ Ãà¼Ò ¼¼·Î°ª°¡·Îº¸´Ù Å©¸é
+						if (g[1] > rH) { // êµ¬í•´ì§„ ì„¸ë¡œê°’ì´ ì¶•ì†Œ ì„¸ë¡œê°’ê°€ë¡œë³´ë‹¤ í¬ë©´
 							g[0] = Math.ceil(img.width * rH / img.height);
 							g[1] = rH;
 						}
 					}
 
-					g[2] = img.width; // ¿ø»çÀÌÁî °¡·Î
-					g[3] = img.height; // ¿ø»çÀÌÁî ¼¼·Î
+					g[2] = img.width; // ì›ì‚¬ì´ì¦ˆ ê°€ë¡œ
+					g[3] = img.height; // ì›ì‚¬ì´ì¦ˆ ì„¸ë¡œ
 
 					return g;
 				}
 			</script>
 		<main id="adm_body">
 			<div class="adm_page_tit">
-				<h2 class="h2">È¸¿ø °ü¸®</h2>
+				<h2 class="h2">íšŒì› ê´€ë¦¬</h2>
 			</div>
 			<div class="adm_cont">
 				<div class="status_box clearBoth">
-					<span class="floatL">ÃÑ È¸¿ø <strong class="f_weight_m f_skyblue"><%=FormatNumber(RecordCount,0)%></strong>¸í</span>
+					<span class="floatL">ì´ íšŒì› <strong class="f_weight_m f_skyblue"><%=FormatNumber(RecordCount,0)%></strong>ëª…</span>
 					<span class="floatR">
-						<input type="checkbox" checked="checked" class="inp_check" /><label for="t1"><em class="hide">¼±ÅÃ</em></label>
-						¼±ÅÃµÈ È¸¿øÀ»
-						<button type="button" class="btn btn_c_s btn_s" onclick="goLevel()">µî±Þ¼³Á¤ º¯°æ</button>
-						<button type="button" class="btn btn_c_s btn_s" onclick="goActivity1()">ÀüÃ¼ Á¤Áö ¶Ç´Â È°µ¿</button>
-						<button type="button" class="btn btn_c_s btn_s" onclick="goActivity2()">»ç¶û¹æ Á¤Áö ¶Ç´Â È°µ¿</button>
-						ÇÕ´Ï´Ù.
+						<input type="checkbox" checked="checked" class="inp_check" /><label for="t1"><em class="hide">ì„ íƒ</em></label>
+						ì„ íƒëœ íšŒì›ì„
+						<button type="button" class="btn btn_c_s btn_s" onclick="goLevel()">ë“±ê¸‰ì„¤ì • ë³€ê²½</button>
+						<button type="button" class="btn btn_c_s btn_s" onclick="goActivity1()">ì „ì²´ ì •ì§€ ë˜ëŠ” í™œë™</button>
+						<button type="button" class="btn btn_c_s btn_s" onclick="goActivity2()">ì‚¬ëž‘ë°© ì •ì§€ ë˜ëŠ” í™œë™</button>
+						í•©ë‹ˆë‹¤.
 					</span>
 				</div>
 				<div class="search_box clearBoth">
@@ -275,18 +277,18 @@
 				<input type="hidden" name="page" value="<%=page%>">
 					<div class="floatL">
 						<select name="sch_type" class="sel w100p">
-							<option value="all">ÀüÃ¼</option>
-							<option value="mb.agency" <%=if3(sch_type="mb.agency","selected","")%>>»óÈ£</option>
-							<option value="mb.phone" <%=if3(sch_type="mb.phone","selected","")%>>ÀüÈ­¹øÈ£</option>
-							<option value="mb.user_id" <%=if3(sch_type="mb.user_id","selected","")%>>¾ÆÀÌµð</option>
-							<option value="mb.kname" <%=if3(sch_type="mb.kname","selected","")%>>ÀÌ¸§</option>
-							<option value="cc.cafe_name" <%=if3(sch_type="cc.cafe_name","selected","")%>>»ç¶û¹æ</option>
+							<option value="all">ì „ì²´</option>
+							<option value="mb.agency" <%=if3(sch_type="mb.agency","selected","")%>>ìƒí˜¸</option>
+							<option value="mb.phone" <%=if3(sch_type="mb.phone","selected","")%>>ì „í™”ë²ˆí˜¸</option>
+							<option value="mb.user_id" <%=if3(sch_type="mb.user_id","selected","")%>>ì•„ì´ë””</option>
+							<option value="mb.kname" <%=if3(sch_type="mb.kname","selected","")%>>ì´ë¦„</option>
+							<option value="cc.cafe_name" <%=if3(sch_type="cc.cafe_name","selected","")%>>ì‚¬ëž‘ë°©</option>
 						</select>
 						<input class="inp w300p" type="text" name="sch_word" value="<%=sch_word%>" onkeyDown='javascript:{if (event.keyCode==13) goSearch();}'>
-						<button class="btn btn_c_a btn_s" type="button" onclick="goSearch()">°Ë»ö</button>
+						<button class="btn btn_c_a btn_s" type="button" onclick="goSearch()">ê²€ìƒ‰</button>
 					</div>
 					<div class="floatR">
-						<span class="mr5">Ãâ·Â¼ö</span>
+						<span class="mr5">ì¶œë ¥ìˆ˜</span>
 						<select class="sel w100p" id="pagesize" name="pagesize" onchange="goSearch()">
 							<option value=""></option>
 							<option value="20" <%=if3(pagesize="20","selected","")%>>20</option>
@@ -312,23 +314,24 @@
 						</colgroup>
 						<thead>
 							<tr>
-								<th scope="col"><input type="checkbox" id="" name="" class="inp_check" /><label for=""><em class="hide">ÀüÃ¼¼±ÅÃ</em></label></th>
-								<th scope="col">¼º¸í(¾ÆÀÌµð)</th>
-								<th scope="col">»óÈ£</th>
-								<th scope="col">ÀüÈ­¹øÈ£</th>
-								<th scope="col">»ç¶û¹æÈ¸¿øµî±Þ</th>
-								<th scope="col">¿¬ÇÕÈ¸¿øµî±Þ</th>
-								<th scope="col">ÀüÃ¼»óÅÂ</th>
-								<th scope="col">»ç¶û¹æ»óÅÂ</th>
-								<th scope="col">ÀÌ¸ÞÀÏ</th>
-								<th scope="col">·çÆ®±ÇÇÑ</th>
-								<th scope="col">°Ô½Ã±Û</th>
+								<th scope="col"><input type="checkbox" id="" name="" class="inp_check" /><label for=""><em class="hide">ì „ì²´ì„ íƒ</em></label></th>
+								<th scope="col">ì„±ëª…(ì•„ì´ë””)</th>
+								<th scope="col">ìƒí˜¸</th>
+								<th scope="col">ì „í™”ë²ˆí˜¸</th>
+								<th scope="col">ì‚¬ëž‘ë°©íšŒì›ë“±ê¸‰</th>
+								<th scope="col">ì—°í•©íšŒì›ë“±ê¸‰</th>
+								<th scope="col">ì „ì²´ìƒíƒœ</th>
+								<th scope="col">ì‚¬ëž‘ë°©ìƒíƒœ</th>
+								<th scope="col">ì´ë©”ì¼</th>
+								<th scope="col">ë£¨íŠ¸ê¶Œí•œ</th>
+								<th scope="col">ê²Œì‹œê¸€</th>
 							</tr>
 						</thead>
 						<tbody>
 <%
 	i = 1
 	uploadUrl = ConfigAttachedFileURL & "picture/"
+
 	If Not rs.EOF Then
 		Do Until rs.EOF OR i > rs.pagesize
 			user_id   = rs("user_id")
@@ -348,13 +351,13 @@
 			union_mb_level = rs("union_mb_level")
 %>
 							<tr id="tr_<%=i%>">
-								<td class="algC"><input type="checkbox" id="chk_user" name="chk_user" value="<%=user_id%>" /><label for=""><em class="hide">¼±ÅÃ</em></label></th>
+								<td class="algC"><input type="checkbox" id="chk_user" name="chk_user" value="<%=user_id%>" /><label for=""><em class="hide">ì„ íƒ</em></label></th>
 								<td class="algC"><%=kname%>(<a href="/ex2.asp?userid=<%=user_id%>"><%=user_id%></a>)</td>
 								<td class="algC"><%=agency%>
 <%
 			If picture <> "" Then
 %>
-									<img src="<%=uploadUrl & picture%>" id="profile" name="profile" onLoad="Rsize(this, 20, 20, 1)" style="cursor:hand;border:1px solid #e5e5e5;" title="Áß°³¾÷¼Ò»çÁø">
+									<img src="<%=uploadUrl & picture%>" id="profile" name="profile" onLoad="Rsize(this, 20, 20, 1)" style="cursor:hand;border:1px solid #e5e5e5;" title="ì¤‘ê°œì—…ì†Œì‚¬ì§„">
 <%
 			End If
 %>
@@ -381,10 +384,10 @@
 									</select>
 									&nbsp;
 									<select name="cafe_mb_level_<%=user_id%>" class="sel w_auto" onchange="setColor('<%=i%>')">
-										<option value="">µî±Þ¼±ÅÃ</option>
-										<option value="1" <%=if3(cafe_mb_level=1,"selected","") %>>ÁØÈ¸¿ø</option>
-										<option value="2" <%=if3(cafe_mb_level=2,"selected","") %>>Á¤È¸¿ø</option>
-										<option value="10" <%=if3(cafe_mb_level=10,"selected","") %>>»ç¶û¹æÁö±â</option>
+										<option value="">ë“±ê¸‰ì„ íƒ</option>
+										<option value="1" <%=if3(cafe_mb_level=1,"selected","") %>>ì¤€íšŒì›</option>
+										<option value="2" <%=if3(cafe_mb_level=2,"selected","") %>>ì •íšŒì›</option>
+										<option value="10" <%=if3(cafe_mb_level=10,"selected","") %>>ì‚¬ëž‘ë°©ì§€ê¸°</option>
 									</select>
 									<span id="sp_<%=i%>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</td>
@@ -396,8 +399,8 @@
 %>
 									&nbsp;
 									<select name="union_mb_level_<%=user_id%>" class="sel w_auto" onchange="setColor('<%=i%>')">
-										<option value="">Á¤È¸¿ø</option>
-										<option value="10" <%=if3(union_mb_level=10,"selected","") %>>¿¬ÇÕÈ¸Áö±â</option>
+										<option value="">ì •íšŒì›</option>
+										<option value="10" <%=if3(union_mb_level=10,"selected","") %>>ì—°í•©íšŒì§€ê¸°</option>
 									</select>
 <%
 			Else
@@ -410,18 +413,18 @@
 								<td class="algC">
 <%
 							If Trim(mstat)="Y" Then
-								Response.Write "<font color='blue'>È°µ¿</font>"
+								Response.Write "<font color='blue'>í™œë™</font>"
 							Else
-								Response.Write "<font color='red'>È°µ¿Á¤Áö</font>"
+								Response.Write "<font color='red'>í™œë™ì •ì§€</font>"
 							End If
 %>
 								</td>
 								<td class="algC">
 <%
 							If Trim(cstat)="Y" Then
-								Response.Write "<font color='blue'>È°µ¿</font>"
+								Response.Write "<font color='blue'>í™œë™</font>"
 							Else
-								Response.Write "<font color='red'>È°µ¿Á¤Áö</font>"
+								Response.Write "<font color='red'>í™œë™ì •ì§€</font>"
 							End If
 %>
 								</td>
@@ -437,13 +440,13 @@
 			rlink = "member_root_exec.asp?user_id="&user_id
 			If Not rs2.eof Then
 %>
-											<button type="button" class="btn btn_c_s btn_s" onclick="hiddenfrm.location.href='member_root_exec.asp?user_id=<%=user_id&%>'">±ÇÇÑÃë¼Ò</button>
-											<a target="ifrm" href="member_root_exec.asp?user_id=<%=user_id&%>" class="btn btn-danger btn-xs" style="height:18px;">±ÇÇÑÃë¼Ò</a>
+											<button type="button" class="btn btn_c_s btn_s" onclick="hiddenfrm.location.href='member_root_exec.asp?user_id=<%=user_id%>'">ê¶Œí•œì·¨ì†Œ</button>
+											<a target="ifrm" href="member_root_exec.asp?user_id=<%=user_id%>" class="btn btn-danger btn-xs" style="height:18px;">ê¶Œí•œì·¨ì†Œ</a>
 <%
 			Else
 %>
-											<button type="button" class="btn btn_c_s btn_s" onclick="hiddenfrm.location.href='member_root_exec.asp?user_id=<%=user_id&%>'">±ÇÇÑÁÖ±â</button>
-											<a target="ifrm" href="member_root_exec.asp?user_id=<%=user_id&%>" class="btn btn-info btn-xs" style="height:18px;">±ÇÇÑÁÖ±â</a>
+											<button type="button" class="btn btn_c_s btn_s" onclick="hiddenfrm.location.href='member_root_exec.asp?user_id=<%=user_id%>'">ê¶Œí•œì£¼ê¸°</button>
+											<a target="ifrm" href="member_root_exec.asp?user_id=<%=user_id%>" class="btn btn-info btn-xs" style="height:18px;">ê¶Œí•œì£¼ê¸°</a>
 <%
 			End If
 			rs2.close
@@ -456,13 +459,15 @@
 			rs.MoveNext
 		Loop
 	End If
+	Set rs = Nothing
+	Set rs2 = Nothing
 %>
 						</tbody>
 					</table>
 				</div>
 				<div class="btn_box algR">
-					<a href="#n" class="btn btn_c_a btn_n" onclick="lyp('lypp_adm_member')">È¸¿øµî·Ï</a>
-					<a href="#n" class="btn btn_c_n btn_n">»èÁ¦</a>
+					<a href="#n" class="btn btn_c_a btn_n" onclick="lyp('lypp_adm_member')">íšŒì›ë“±ë¡</a>
+					<a href="#n" class="btn btn_c_n btn_n">ì‚­ì œ</a>
 				</div>
 				</form>
 <!--#include virtual="/cafe/skin/skin_page_inc.asp"-->
@@ -470,11 +475,11 @@
 		</main>
 		<footer id="adm_foot"></footer>
 	</div>
-	<!-- È¸¿ø µî·Ï : s -->
+	<!-- íšŒì› ë“±ë¡ : s -->
 	<script>
 		function Checkfm(f) {
 			if (f.cafe_check.value=='N') {
-				alert('Áßº¹µÈ »ç¶û¹æ ¾ÆÀÌµð ÀÔ´Ï´Ù')
+				alert('ì¤‘ë³µëœ ì‚¬ëž‘ë°© ì•„ì´ë”” ìž…ë‹ˆë‹¤')
 				return false
 			}
 		}
@@ -491,8 +496,8 @@
 	</script>
 	<aside class="lypp lypp_adm_default lypp_adm_member">
 		<header class="lypp_head">
-			<h2 class="h2">È¸¿ø µî·Ï</h2>
-			<span class="posR"><button type="button" class="btn btn_close"><em>´Ý±â</em></button></span>
+			<h2 class="h2">íšŒì› ë“±ë¡</h2>
+			<span class="posR"><button type="button" class="btn btn_close"><em>ë‹«ê¸°</em></button></span>
 		</header>
 		<div class="adm_cont">
 			<form id="crtInfo" name="crtInfo" method="post" action="member_write_exec.asp" target="hiddenfrm" onSubmit="return Checkfm(this)">
@@ -506,59 +511,59 @@
 					</colgroup>
 					<tbody>
 						<tr>
-							<th scope="row">¾ÆÀÌµð</th>
+							<th scope="row">ì•„ì´ë””</th>
 							<td colspan="3">
 								<input type="hidden" value="N" name="member_check">
 								<input type="text" id="user_id" name="user_id" class="inp" required onkeyup="member_find(this.value)">
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">ºñ¹Ð¹øÈ£</th>
+							<th scope="row">ë¹„ë°€ë²ˆí˜¸</th>
 							<td>
 								<input type="password" id="userpw" name="userpw" class="inp" required />
 							</td>
-							<th scope="row">ºñ¹Ð¹øÈ£ È®ÀÎ</th>
+							<th scope="row">ë¹„ë°€ë²ˆí˜¸ í™•ì¸</th>
 							<td>
 								<input type="password" id="userpw_confirm" name="userpw_confirm" class="inp" required />
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">ÇÑ±ÛÀÌ¸§</th>
+							<th scope="row">í•œê¸€ì´ë¦„</th>
 							<td>
 								<input type="text" id="kname" name="kname" class="inp" required />
 							</td>
-							<th scope="row">¿µ¹®ÀÌ¸§</th>
+							<th scope="row">ì˜ë¬¸ì´ë¦„</th>
 							<td>
 								<input type="text" id="ename" name="ename" class="inp" />
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">»óÈ£</th>
+							<th scope="row">ìƒí˜¸</th>
 							<td>
 								<input type="text" id="agency" name="agency" class="inp" required />
 							</td>
-							<th scope="row">Çã°¡¹øÈ£</th>
+							<th scope="row">í—ˆê°€ë²ˆí˜¸</th>
 							<td>
 								<input type="text" id="license" name="license" class="inp" />
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">¼ºº°</th>
+							<th scope="row">ì„±ë³„</th>
 							<td>
-								<input type="radio" id="sex" name="sex" value="³²" class="inp_radio" required />
-								<label for="sex"><em>³²</em></label>
+								<input type="radio" id="sex" name="sex" value="ë‚¨" class="inp_radio" required />
+								<label for="sex"><em>ë‚¨</em></label>
 
-								<input type="radio" id="sex" name="sex" value="¿©" class="inp_radio" required />
-								<label for="sex"><em>¿©</em></label>
+								<input type="radio" id="sex" name="sex" value="ì—¬" class="inp_radio" required />
+								<label for="sex"><em>ì—¬</em></label>
 							</td>
-							<th scope="row">ÀÌ¸ÞÀÏ</th>
+							<th scope="row">ì´ë©”ì¼</th>
 							<td>
 								<span class="dp_inline"><input type="text" id="email1" name="email1" class="inp w100p" required /></span>
 								<span class="dp_inline">@</span>
 								<span class="dp_inline"><input type="text" id="email2" name="email2" class="inp w100p" required /></span>
 								<span class="dp_inline">
 									<select id="n_hosts" name="n_hosts" class="sel w100p" onChange="setHost()">
-										<option value="">Á÷Á¢ÀÔ·Â</option>
+										<option value="">ì§ì ‘ìž…ë ¥</option>
 										<option value="chol.com">chol.com</option>
 										<option value="dreamwiz.com">dreamwiz.com</option>
 										<option value="empal.com">empal.com</option>
@@ -577,11 +582,11 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">ÈÞ´ëÆù¹øÈ£</th>
+							<th scope="row">íœ´ëŒ€í°ë²ˆí˜¸</th>
 							<td>
 								<span class="dp_inline">
 									<select id="mobile1" name="mobile1" class="sel w_remainder" required>
-										<option value="">¼±ÅÃ</option>
+										<option value="">ì„ íƒ</option>
 										<option value="010">010</option>
 										<option value="011">011</option>
 										<option value="016">016</option>
@@ -596,38 +601,38 @@
 								<span class="dp_inline"><input type="text" id="mobile3" name="mobile3" class="inp w100p" required /></span>
 								
 							</td>
-							<th scope="row">ÀüÈ­¹øÈ£</th>
+							<th scope="row">ì „í™”ë²ˆí˜¸</th>
 							<td>
 								<span class="dp_inline"><input type="text" id="phone" name="phone" class="inp w150p" required /></span>
-								<span class="dp_inline ml10">³»¼±¹øÈ£ <input type="text" id="interphone" name="interphone" class="inp w100p" /></span>
+								<span class="dp_inline ml10">ë‚´ì„ ë²ˆí˜¸ <input type="text" id="interphone" name="interphone" class="inp w100p" /></span>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">ÆÑ½º¹øÈ£</th>
+							<th scope="row">íŒ©ìŠ¤ë²ˆí˜¸</th>
 							<td>
 								<span class="dp_inline"><input type="text" id="fax" name="fax" class="inp w150p" /></span>
 							</td>
-							<th scope="row">¿ìÆí¹øÈ£</th>
+							<th scope="row">ìš°íŽ¸ë²ˆí˜¸</th>
 							<td>
 								<span class="dp_inline"><input type="text" id="zipcode" name="zipcode" class="inp w150p" required /></span>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">ÁÖ¼Ò</th>
+							<th scope="row">ì£¼ì†Œ</th>
 							<td>
 								<input type="text" id="addr1" name="addr1" class="inp" required />
 							</td>
-							<th scope="row">»ó¼¼ÁÖ¼Ò</th>
+							<th scope="row">ìƒì„¸ì£¼ì†Œ</th>
 							<td>
 								<input type="text" id="addr2" name="addr2" class="inp" />
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">»ç¶û¹æ</th>
+							<th scope="row">ì‚¬ëž‘ë°©</th>
 							<td colspan="3">
 								<span class="dp_inline">
 									<select id="cafe_id" name="cafe_id" class="sel w_remainder">
-										<option value="">¼±ÅÃ</option>
+										<option value="">ì„ íƒ</option>
 <%
 	Set cafe = Conn.Execute("select * from cf_cafe order by cafe_name")
 	Do Until cafe.eof
@@ -642,10 +647,10 @@
 								</span>
 								<span class="dp_inline">
 									<select id="cafe_mb_level" name="cafe_mb_level" class="sel w_remainder">
-										<option value="">µî±Þ¼±ÅÃ</option>
-										<option value="1" <%=if3(cafe_mb_level=1,"selected","") %>>ÁØÈ¸¿ø</option>
-										<option value="2" <%=if3(cafe_mb_level=2,"selected","") %>>Á¤È¸¿ø</option>
-										<option value="10" <%=if3(cafe_mb_level=10,"selected","") %>>»ç¶û¹æÁö±â</option>
+										<option value="">ë“±ê¸‰ì„ íƒ</option>
+										<option value="1" <%=if3(cafe_mb_level=1,"selected","") %>>ì¤€íšŒì›</option>
+										<option value="2" <%=if3(cafe_mb_level=2,"selected","") %>>ì •íšŒì›</option>
+										<option value="10" <%=if3(cafe_mb_level=10,"selected","") %>>ì‚¬ëž‘ë°©ì§€ê¸°</option>
 									</select>
 								</span>
 							</td>
@@ -654,13 +659,13 @@
 				</table>
 			</div>
 			<div class="btn_box algC">
-				<button type="submit" class="btn btn_n">È®ÀÎ</button>
-				<button type="reset" class="btn btn_n">Ãë¼Ò</button>
+				<button type="submit" class="btn btn_n">í™•ì¸</button>
+				<button type="reset" class="btn btn_n">ì·¨ì†Œ</button>
 			</div>
 			</form>
 		</div>
 	</aside>
-	<!-- //È¸¿ø µî·Ï : e -->
+	<!-- //íšŒì› ë“±ë¡ : e -->
 	<iframe id="hiddenfrm" name="hiddenfrm" style="display:none"></iframe>
 	</body>
 </html>

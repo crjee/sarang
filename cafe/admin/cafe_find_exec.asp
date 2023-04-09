@@ -1,11 +1,12 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = Request("cafe_id")
 	Set rs = Conn.Execute("select count(*) as cnt from cf_cafe where cafe_id='" & cafe_id & "'")
 
 	If rs("cnt") <> 0 Then
-		Response.Write "<script>parent.msg.innerHTML='<font color=red>»ç¿ëÁßÀÎ »ç¶û¹æ¾ÆÀÌµğ ÀÔ´Ï´Ù</font>';parent.document.all.cafe_check.value='N';</script>"
+		Response.Write "<script>parent.msg.innerHTML='<font color=red>ì‚¬ìš©ì¤‘ì¸ ì‚¬ë‘ë°©ì•„ì´ë”” ì…ë‹ˆë‹¤</font>';parent.document.all.cafe_check.value='N';</script>"
 	Else
-		Response.Write "<script>parent.msg.innerHTML='<font color=blue>»ç¿ë°¡´ÉÇÑ »ç¶û¹æ¾ÆÀÌµğ ÀÔ´Ï´Ù</font>';parent.document.all.cafe_check.value='Y';</script>"
+		Response.Write "<script>parent.msg.innerHTML='<font color=blue>ì‚¬ìš©ê°€ëŠ¥í•œ ì‚¬ë‘ë°©ì•„ì´ë”” ì…ë‹ˆë‹¤</font>';parent.document.all.cafe_check.value='Y';</script>"
 	End If
 %>

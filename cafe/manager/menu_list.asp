@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
 
@@ -8,10 +9,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>¸Ş´º °ü¸® > °ü¸®ÀÚ</title>
+	<title>ë©”ë‰´ ê´€ë¦¬ > ê´€ë¦¬ì</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -21,18 +22,18 @@
 <body>
 	<div id="wrap">
 		<header id="adm_head">
-			<h1><a href="/">RETS °æÀÎ<sub>»ç¶û¹æ °ü¸®</sub></a></h1>
+			<h1><a href="/">RETS ê²½ì¸<sub>ì‚¬ë‘ë°© ê´€ë¦¬</sub></a></h1>
 		</header>
 		<nav id="adm_nav">
 <!--#include virtual="/cafe/manager/manager_left_inc.asp"-->
 		</nav>
 		<main id="adm_body">
 			<div class="adm_page_tit">
-				<h2 class="h2">¸Ş´º °ü¸®</h2>
+				<h2 class="h2">ë©”ë‰´ ê´€ë¦¬</h2>
 			</div>
 			<div class="adm_menu_flex_manage">
 				<div class="adm_menu_item">
-					<div class="adm_menu_item_tit">¸Ş´ºÃß°¡</div>
+					<div class="adm_menu_item_tit">ë©”ë‰´ì¶”ê°€</div>
 					<div class="adm_select_box">
 						<div class="adm_select_tree_nav">
 							<ul class="menu_handle1" id="menu_handle1">
@@ -47,27 +48,27 @@
 	poll   = getonevalue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='poll'")
 	member = getonevalue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='member'")
 %>
-	<%If page1  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">È¸Ä¢</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="1"><input type="hidden" name="menu_name" value="È¸Ä¢"></li><%End if%>
-	<%If page2  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">¼Ò°³</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="2"><input type="hidden" name="menu_name" value="¼Ò°³"></li><%End if%>
-	<%If page4  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">¸í´Ü</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="4"><input type="hidden" name="menu_name" value="¸í´Ü"></li><%End if%>
-	<%If page5  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">Á¶Á÷µµ</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="5"><input type="hidden" name="menu_name" value="Á¶Á÷µµ"></li><%End if%>
-	<%If memo   = "0" then%>	<li><button type="button" menuSeq="0" value="memo" class="btn_adm">ÂÊÁö</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="memo"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="ÂÊÁö"></li><%End if%>
-	<%If land   = "0" then%>	<li><button type="button" menuSeq="0" value="land" class="btn_adm">ºÎµ¿»ê´º½º</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="land"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="ºÎµ¿»ê´º½º"></li><%End if%>
-								<li><button type="button" menuSeq="0" value="album" class="btn_adm">¾Ù¹ü</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="album"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="¾Ù¹ü"></li>
-								<li><button type="button" menuSeq="0" value="board" class="btn_adm">°Ô½ÃÆÇ</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="board"><input type="hidden" name="page_type" value="board"><input type="hidden" name="menu_name" value="°Ô½ÃÆÇ"></li>
-								<li><button type="button" menuSeq="0" value="sale" class="btn_adm">¸Å¹°</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="sale"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="¸Å¹°"></li>
-	<%If job    = "0" then%>	<li><button type="button" menuSeq="0" value="job" class="btn_adm">Ã¤¿ë</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="job"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="Ã¤¿ë"></li><%End if%>
-	<%If poll   = "0" then%>	<li><button type="button" menuSeq="0" value="poll" class="btn_adm">¼³¹®</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="poll"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="¼³¹®"></li><%End if%>
-	<%If member = "0" then%>	<li><button type="button" menuSeq="0" value="member" class="btn_adm">È¸¿ø</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="member"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="È¸¿ø"></li><%End if%>
-								<li class="tit"><button type="button" menuSeq="0" value="group" class="btn_adm">¸Ş´º±×·ì</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="group"><input type="hidden" name="page_type" value="gr"><input type="hidden" name="menu_name" value="¸Ş´º±×·ì"></li>
-								<li><button type="button" menuSeq="0" value="division" class="btn_adm">-----------<input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="division"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="±¸ºĞ¼±"></li>
+	<%If page1  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">íšŒì¹™</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="1"><input type="hidden" name="menu_name" value="íšŒì¹™"></li><%End if%>
+	<%If page2  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">ì†Œê°œ</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="2"><input type="hidden" name="menu_name" value="ì†Œê°œ"></li><%End if%>
+	<%If page4  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">ëª…ë‹¨</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="4"><input type="hidden" name="menu_name" value="ëª…ë‹¨"></li><%End if%>
+	<%If page5  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">ì¡°ì§ë„</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="5"><input type="hidden" name="menu_name" value="ì¡°ì§ë„"></li><%End if%>
+	<%If memo   = "0" then%>	<li><button type="button" menuSeq="0" value="memo" class="btn_adm">ìª½ì§€</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="memo"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="ìª½ì§€"></li><%End if%>
+	<%If land   = "0" then%>	<li><button type="button" menuSeq="0" value="land" class="btn_adm">ë¶€ë™ì‚°ë‰´ìŠ¤</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="land"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="ë¶€ë™ì‚°ë‰´ìŠ¤"></li><%End if%>
+								<li><button type="button" menuSeq="0" value="album" class="btn_adm">ì•¨ë²”</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="album"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="ì•¨ë²”"></li>
+								<li><button type="button" menuSeq="0" value="board" class="btn_adm">ê²Œì‹œíŒ</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="board"><input type="hidden" name="page_type" value="board"><input type="hidden" name="menu_name" value="ê²Œì‹œíŒ"></li>
+								<li><button type="button" menuSeq="0" value="sale" class="btn_adm">ë§¤ë¬¼</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="sale"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="ë§¤ë¬¼"></li>
+	<%If job    = "0" then%>	<li><button type="button" menuSeq="0" value="job" class="btn_adm">ì±„ìš©</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="job"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="ì±„ìš©"></li><%End if%>
+	<%If poll   = "0" then%>	<li><button type="button" menuSeq="0" value="poll" class="btn_adm">ì„¤ë¬¸</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="poll"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="ì„¤ë¬¸"></li><%End if%>
+	<%If member = "0" then%>	<li><button type="button" menuSeq="0" value="member" class="btn_adm">íšŒì›</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="member"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="íšŒì›"></li><%End if%>
+								<li class="tit"><button type="button" menuSeq="0" value="group" class="btn_adm">ë©”ë‰´ê·¸ë£¹</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="group"><input type="hidden" name="page_type" value="gr"><input type="hidden" name="menu_name" value="ë©”ë‰´ê·¸ë£¹"></li>
+								<li><button type="button" menuSeq="0" value="division" class="btn_adm">-----------<input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="division"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="êµ¬ë¶„ì„ "></li>
 							</ul>
 						</div>
 					</div>
 				</div>
 				<div class="adm_menu_item">
 					<form name="form" method="post" action="menu_add_exec.asp" target="hiddenfrm">
-					<div class="adm_menu_item_tit">ÇöÀç¸Ş´º</div>
+					<div class="adm_menu_item_tit">í˜„ì¬ë©”ë‰´</div>
 					<div class="adm_select_box">
 						<div class="adm_select_tree_nav">
 							<ul class="menu_handle">
@@ -75,61 +76,39 @@
 	Set row = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
-	sql = sql & " select *                       "
-	sql = sql & "   from cf_menu                 "
+	sql = sql & " select *                           "
+	sql = sql & "   from cf_menu                     "
 	sql = sql & "  where cafe_id = '" & cafe_id & "' "
-	sql = sql & "  order by menu_num asc         "
+	sql = sql & "  order by menu_num asc             "
 	row.Open Sql, conn, 3, 1
 
 	If Not row.eof Then
 		Do Until row.eof
-			menu_seq                 = row("menu_seq")
-			cafe_id                  = row("cafe_id")
-			menu_name                = row("menu_name")
-			page_type                = row("page_type")
-			menu_type                = row("menu_type")
-			menu_num                 = row("menu_num")
-			hidden_yn                = row("hidden_yn")
-			home_num                 = row("home_num")
-			home_cnt                 = row("home_cnt")
-			top_cnt                  = row("top_cnt")
-			doc                      = row("doc")
-			creid                    = row("creid")
-			credt                    = row("credt")
-			modid                    = row("modid")
-			moddt                    = row("moddt")
-			write_auth               = row("write_auth")
-			reply_auth               = row("reply_auth")
-			read_auth                = row("read_auth")
-			editor_yn                = row("editor_yn")
-			daily_cnt                = row("daily_cnt")
-			list_info                = row("list_info")
-			inc_del_yn               = row("inc_del_yn")
-			last_date                = row("last_date")
-			menu_skin_center_id      = row("menu_skin_center_id")
-			menu_skin_center_color01 = row("menu_skin_center_color01")
-			menu_skin_center_color02 = row("menu_skin_center_color02")
-			menu_skin_center_color03 = row("menu_skin_center_color03")
-			wide_yn                  = row("wide_yn")
-			list_type                = row("list_type")
-
+			menu_seq  = row("menu_seq")
+			menu_name = row("menu_name")
+			page_type = row("page_type")
+			menu_type = row("menu_type")
+			menu_num  = row("menu_num")
 			Select Case menu_type
 				Case "page"
 					Select Case page_type
-						Case "1" : txt = "È¸Ä¢"
-						Case "2" : txt = "¼Ò°³"
-						Case "4" : txt = "¸í´Ü"
-						Case "5" : txt = "Á¶Á÷µµ"
+						Case "1" : txt = "íšŒì¹™"
+						Case "2" : txt = "ì†Œê°œ"
+						Case "4" : txt = "ëª…ë‹¨"
+						Case "5" : txt = "ì¡°ì§ë„"
 					End Select
-				Case "memo"    : txt = "ÂÊÁö"
-				Case "land"    : txt = "ºÎµ¿»ê´º½º"
-				Case "album"   : txt = "¾Ù¹ü"
-				Case "board"   : txt = "°Ô½ÃÆÇ"
-				Case "sale"    : txt = "¸Å¹°"
-				Case "job"     : txt = "Ã¤¿ë"
-				Case "poll"    : txt = "¼³¹®"
-				Case "member"  : txt = "È¸¿ø"
-				Case "group"   : txt = "¸Ş´º±×·ì"
+				Case "memo"    : txt = "ìª½ì§€"
+				Case "land"    : txt = "ë¶€ë™ì‚°ë‰´ìŠ¤"
+				Case "album"   : txt = "ì•¨ë²”"
+				Case "board"   : txt = "ê²Œì‹œíŒ"
+				Case "sale"    : txt = "ë§¤ë¬¼"
+				Case "job"     : txt = "ì±„ìš©"
+				Case "poll"    : txt = "ì„¤ë¬¸"
+				Case "member"  : txt = "íšŒì›"
+				Case "group"   : txt = "ë©”ë‰´ê·¸ë£¹"
+				Case "nsale"   : txt = "ë¶„ì–‘"
+				Case "story"   : txt = "ë¶€ë™ì‚°ì´ì•¼ê¸°"
+
 			End Select
 
 			If sel_menu_seq = "" Then
@@ -143,6 +122,10 @@
 <%
 			row.MoveNext
 		Loop
+	Else
+%>
+								<li id="emptyMenu" class="tit">ì´ê³³ì— ëŒì–´ ë†“ìœ¼ì„¸ìš”</li>
+<%
 	End If
 	row.close
 	Set row = Nothing
@@ -154,13 +137,13 @@
 						<div class="floatL">
 						</div>
 						<div class="floatR">
-							<button type="submit" class="btn btn_c_a btn_s">Àû¿ë</button>
+							<button type="submit" class="btn btn_c_a btn_s">ì ìš©</button>
 						</div>
 					</div>
 					</form>
 				</div>
 				<div class="adm_menu_item adm_menu_item_cont">
-					<div class="adm_menu_item_tit">¸Ş´º ¼³Á¤</div>
+					<div class="adm_menu_item_tit">ë©”ë‰´ ì„¤ì •</div>
 						<iframe id="ifrm" class="iframe" name="ifrm" frameborder="1" scrolling="no" style="border:1px;height:100%;width:100%"></iframe>
 					</div>
 				</div>
@@ -183,11 +166,11 @@
 		$(document).on("mousedown",".adm_select_tree_nav ul li button",function(e) {
 			menu_seq = $(this).attr("menuSeq");
 			menu_type = $(this).attr("value");
+
 			if (menu_seq == "0") {
 				ifrm.location.href='about:blank';
 			}
-			else
-			{
+			else {
 				ifrm.location.href='page/menu_edit.asp?menu_seq='+menu_seq+'&menu_type='+menu_type
 			}
 		});
@@ -213,6 +196,11 @@
 			stop : function (event, ui) {
 				try {
 					this.innerHTML = temp;
+
+					if (document.getElementById('emptyMenu'))
+					{
+						document.getElementById('emptyMenu').outerHTML = "";
+					}
 				}
 				catch (e) {
 					alert(e);
@@ -228,8 +216,7 @@
 					if (menu_type == "division") {
 						ifrm.location.href='about:blank';
 					}
-					else
-					{
+					else {
 						ifrm.location.href='page/menu_edit.asp?menu_seq='+menu_seq+'&menu_type='+menu_type
 					}
 				}
@@ -248,7 +235,7 @@
 	})
 
 	$(function() {
-		$("iframe.iframe").load(function() { //iframe ÄÁÅÙÃ÷°¡ ·Îµå µÈ ÈÄ¿¡ È£ÃâµË´Ï´Ù.
+		$("iframe.iframe").load(function() { //iframe ì»¨í…ì¸ ê°€ ë¡œë“œ ëœ í›„ì— í˜¸ì¶œë©ë‹ˆë‹¤.
 			var frame = $(this).get(0);
 			var doc = (frame.contentDocument) ? frame.contentDocument : frame.contentWindow.document;
 			$(this).height(doc.body.scrollHeight+ 100);

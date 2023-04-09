@@ -1,11 +1,12 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>¸Ş´º °ü¸® : °ü¸®ÀÚ</title>
+	<title>ë©”ë‰´ ê´€ë¦¬ : ê´€ë¦¬ì</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -35,11 +36,12 @@
 		daily_cnt  = rs("daily_cnt")
 		inc_del_yn = rs("inc_del_yn")
 		list_info  = rs("list_info")
+		tab_use_yn = rs("tab_use_yn")
 	End If
 	rs.close
 %>
 					<div class="adm_cont_tit">
-						<h4 class="h3 mt20 mb10"><%=menu_name%> ¼³Á¤</h4>
+						<h4 class="h3 mt20 mb10"><%=menu_name%> ì„¤ì •</h4>
 					</div>
 					<form name="form" method="post" action="com_exec.asp">
 					<input type="hidden" name="cafe_id" value="<%=cafe_id%>">
@@ -54,93 +56,144 @@
 								</colgroup>
 								<tbody>
 									<tr>
-										<th scope="row">ÀÌ¸§</th>
+										<th scope="row">ì´ë¦„</th>
 										<td>
 											<input type="text" id="menu_name" name="menu_name" value="<%=menu_name%>" class="inp">
 										</td>
+										<td rowspan="100">
+											<div>
+												<div style="float:left;width:100px;">ê²Œì‹œíŒ ë¶„ë¥˜ ì¶”ê°€ : </div>
+												<div style="clar:both;">
+													<input type="button" id="addItem" value="ì¶”ê°€" onclick="createItem();" />
+													<!-- <input type="button" id="submitItem" value="ì œì¶œ" onclick="submitItem();" /> -->
+												</div>
+											</div>
+											<br />
+											<div id="itemBoxWrap">
+<%
+	Set row = Server.CreateObject ("ADODB.Recordset")
+
+	sql = ""
+	sql = sql & " select *                             "
+	sql = sql & "   from cf_menu_section               "
+	sql = sql & "  where menu_seq = '" & menu_seq & "' "
+	sql = sql & "  order by section_sn asc             "
+	row.Open Sql, conn, 3, 1
+
+	i = 1
+	If Not row.eof Then
+		Do Until row.eof
+			section_seq = row("section_seq")
+			section_nm  = row("section_nm")
+			use_yn      = row("use_yn")
+%>
+															<div class='itemBox'>
+																<div style='float:left;'>
+																	<span class='itemNum'><%=i%></span>
+																	<input type="hidden" name="section_seq" value="<%=section_seq%>">
+																	<input type="text" name="section_nm" value="<%=section_nm%>">
+																	<span class="ml10">
+																		<input type="checkbox" id="use_y<%=i%>" name="use_y" value="Y" <%=if3(use_yn="Y","checked","")%> onclick="onCheck(<%=i%>)" />
+																		<label for="use_y"><em>ì‚¬ìš©</em></label>
+																		<input type="hidden" id="use_yn<%=i%>" name="use_yn" value="<%=use_yn%>"
+																	</span>
+																</div>
+															</div>
+<%
+			i = i + 1
+			row.MoveNext
+		Loop
+	End If
+	row.close
+	Set row = Nothing
+%>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</td>
 									</tr>
 									<tr>
-										<th scope="row">±ÇÇÑ</th>
+										<th scope="row">ê¶Œí•œ</th>
 										<td>
 											<ul class="list_option">
 												<li class="">
-													<span class="head">¾²±â</span>
+													<span class="head">ì“°ê¸°</span>
 													<select id="write_auth" name="write_auth" class="sel w_auto">
-														<option value="1" <%=if3(write_auth = "1","selected","") %>>ÁØÈ¸¿ø</option>
-														<option value="2" <%=if3(write_auth = "2","selected","") %>>Á¤È¸¿ø</option>
-														<option value="10" <%=if3(write_auth = "10","selected","") %>>»ç¶û¹æÁö±â</option>
+														<option value="1" <%=if3(write_auth = "1","selected","") %>>ì¤€íšŒì›</option>
+														<option value="2" <%=if3(write_auth = "2","selected","") %>>ì •íšŒì›</option>
+														<option value="10" <%=if3(write_auth = "10","selected","") %>>ì‚¬ë‘ë°©ì§€ê¸°</option>
 													</select>
 												</li>
 												<li class="">
-													<span class="head">´ñ±Û¾²±â</span>
+													<span class="head">ëŒ“ê¸€ì“°ê¸°</span>
 													<select id="reply_auth" name="reply_auth" class="sel w_auto">
-														<option value="1" <%=if3(reply_auth = 1,"selected","") %>>ÁØÈ¸¿ø</option>
-														<option value="2" <%=if3(reply_auth = 2,"selected","") %>>Á¤È¸¿ø</option>
-														<option value="3" <%=if3(reply_auth = 3,"selected","") %>>¿ì¼öÈ¸¿ø</option>
-														<option value="4" <%=if3(reply_auth = 4,"selected","") %>>Æ¯º°È¸¿ø</option>
-														<option value="5" <%=if3(reply_auth = 5,"selected","") %>>°Ô½ÃÆÇÁö±â</option>
-														<option value="6" <%=if3(reply_auth = 6,"selected","") %>>¿î¿µÀÚ</option>
-														<option value="10" <%=if3(reply_auth = 10,"selected","") %>>»ç¶û¹æÁö±â</option>
+														<option value="1" <%=if3(reply_auth = 1,"selected","") %>>ì¤€íšŒì›</option>
+														<option value="2" <%=if3(reply_auth = 2,"selected","") %>>ì •íšŒì›</option>
+														<option value="10" <%=if3(reply_auth = 10,"selected","") %>>ì‚¬ë‘ë°©ì§€ê¸°</option>
 													</select>
 												</li>
 												<li class="">
-													<span class="head">ÀĞ±â</span>
+													<span class="head">ì½ê¸°</span>
 													<select id="read_auth" name="read_auth" class="sel w_auto">
-														<option value="1" <%=if3(read_auth = 1,"selected","") %>>ÁØÈ¸¿ø</option>
-														<option value="2" <%=if3(read_auth = 2,"selected","") %>>Á¤È¸¿ø</option>
-														<option value="3" <%=if3(read_auth = 3,"selected","") %>>¿ì¼öÈ¸¿ø</option>
-														<option value="4" <%=if3(read_auth = 4,"selected","") %>>Æ¯º°È¸¿ø</option>
-														<option value="5" <%=if3(read_auth = 5,"selected","") %>>°Ô½ÃÆÇÁö±â</option>
-														<option value="6" <%=if3(read_auth = 6,"selected","") %>>¿î¿µÀÚ</option>
-														<option value="10" <%=if3(read_auth = 10,"selected","") %>>»ç¶û¹æÁö±â</option>
+														<option value="1" <%=if3(read_auth = 1,"selected","") %>>ì¤€íšŒì›</option>
+														<option value="2" <%=if3(read_auth = 2,"selected","") %>>ì •íšŒì›</option>
+														<option value="10" <%=if3(read_auth = 10,"selected","") %>>ì‚¬ë‘ë°©ì§€ê¸°</option>
 													</select>
 												</li>
 											</ul>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">¾ç½Ä¼³Á¤</th>
+										<th scope="row">ì–‘ì‹ì„¤ì •</th>
 										<td>
 <%
 	Set form = Conn.Execute("select * from cf_com_form where menu_seq='" & menu_seq & "'")
 	If Not form.eof Then
 %>
 											<input type="checkbox" id="frm" name="frm" class="" />
-											<label for="frm"><em>Áú¹®¾ç½Ä »ç¿ë</em></label>
-											<span class="ml10"><buton type="submit" class="btn btn_s btn_c_a" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">¾ç½Ä¼öÁ¤</buton></span>
+											<label for="frm"><em>ì§ˆë¬¸ì–‘ì‹ ì‚¬ìš©</em></label>
+											<span class="ml10"><buton type="submit" class="btn btn_s btn_c_a" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">ì–‘ì‹ìˆ˜ì •</buton></span>
 <%
 	Else
 %>
-											<span class="ml10"><buton type="submit" class="btn btn_s btn_c_a" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">¾ç½Äµî·Ï</buton></span>
+											<span class="ml10"><buton type="submit" class="btn btn_s btn_c_a" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">ì–‘ì‹ë“±ë¡</buton></span>
 <%
 	End If
 %>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">¸Ş´º°¨Ãß±â</th>
+										<th scope="row">ë©”ë‰´ê°ì¶”ê¸°</th>
 										<td>
 											<input type="checkbox" id="hidden_yn" name="hidden_yn" value="Y" <%=if3(hidden_yn = "Y","checked","") %> class="" />
-											<label for=""><em>°¨Ãß±â</em></label>
+											<label for=""><em>ê°ì¶”ê¸°</em></label>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">¾²±âÇü½Ä</th>
+										<th scope="row">íƒ­ë©”ë‰´ì‚¬ìš©</th>
+										<td>
+											<input type="checkbox" id="tab_use_yn" name="tab_use_yn" value="Y" <%=if3(tab_use_yn = "Y","checked","") %> class="" />
+											<label for=""><em>ì‚¬ìš©</em></label>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">ì“°ê¸°í˜•ì‹</th>
 										<td>
 											<select id="editor_yn" name="editor_yn" class="sel w_auto">
-												<option value="Y" <%=if3(editor_yn = "Y","selected","") %>>¿¡µğÅÍ</option>
-												<option value="N" <%=if3(editor_yn <> "Y","selected","") %>>ÅØ½ºÆ®</option>
+												<option value="Y" <%=if3(editor_yn = "Y","selected","") %>>ì—ë””í„°</option>
+												<option value="N" <%=if3(editor_yn <> "Y","selected","") %>>í…ìŠ¤íŠ¸</option>
 											</select>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">¸ŞÀÎ³ëÃâ°¹¼ö</th>
+										<th scope="row">ë©”ì¸ë…¸ì¶œê°¯ìˆ˜</th>
 										<td>
 											<select id="home_cnt" name="home_cnt" class="sel w_auto">
 <%
 	For i = 2 To 10
 %>
-												<option value="<%= i %>" <%=if3(home_cnt = i,"selected","") %>><%= i %>°³</option>
+												<option value="<%= i %>" <%=if3(home_cnt = i,"selected","") %>><%= i %>ê°œ</option>
 <%
 	Next
 %>
@@ -148,21 +201,21 @@
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">1ÀÏ µî·Ï¼ö</th>
+										<th scope="row">1ì¼ ë“±ë¡ìˆ˜</th>
 										<td>
 											<select id="daily_cnt" name="daily_cnt" class="sel w_auto">
-												<option value="9999">¼³Á¤¾ÈÇÔ</option>
+												<option value="9999">ì„¤ì •ì•ˆí•¨</option>
 												<option value='1' <%=If3(daily_cnt="1","selected","") %>>1</option>
 												<option value='2' <%=If3(daily_cnt="2","selected","") %>>2</option>
 												<option value='3' <%=If3(daily_cnt="3","selected","") %>>3</option>
 											</select>
 											<span class="ml20">
 												<input type="radio" id="inc_del_yn" name="inc_del_yn" value="Y" <%=if3(inc_del_yn="Y","checked","") %> class="" />
-												<label for=""><em>»èÁ¦°Ç Æ÷ÇÔ</em></label>
+												<label for=""><em>ì‚­ì œê±´ í¬í•¨</em></label>
 											</span>
 											<span class="ml10">
 												<input type="radio" id="inc_del_yn" name="inc_del_yn" value="N" <%=if3(inc_del_yn="N","checked","") %> class="" />
-												<label for=""><em>»èÁ¦°Ç ¹ÌÆ÷ÇÔ</em></label>
+												<label for=""><em>ì‚­ì œê±´ ë¯¸í¬í•¨</em></label>
 											</span>
 										</td>
 									</tr>
@@ -170,9 +223,9 @@
 							</table>
 						</div>
 						<div class="btn_box algR">
-							<button type="submit" class="btn btn_c_a btn_n">ÀúÀå</button>
-							<button type="reset" class="btn btn_c_n btn_n">Ãë¼Ò</button>
-							<button type="button" class="btn btn_c_n btn_n" id="del">»èÁ¦</button>
+							<button type="submit" class="btn btn_c_a btn_n">ì €ì¥</button>
+							<button type="reset" class="btn btn_c_n btn_n">ì·¨ì†Œ</button>
+							<button type="button" class="btn btn_c_n btn_n" id="del">ì‚­ì œ</button>
 						</div>
 						</form>
 						<script>
@@ -180,10 +233,146 @@
 					</div>
 </body>
 </html>
+
+<style>
+.itemBox {
+    border:solid 1px black;
+    width:400px;
+    height:50px;
+    padding:10px;
+    margin-bottom:10px;
+}
+.itemBoxHighlight {
+    border:solid 1px black;
+    width:400px;
+    height:50px;
+    padding:10px;
+    margin-bottom:10px;
+    background-color:yellow;
+}
+.deleteBox {
+    float:right;
+    display:none;
+    cursor:pointer;
+}
+</style>
+<style>
+#sortable { list-style-type: none; margin: 0; padding: 0; width: 400px; }
+#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+#sortable li span { position: absolute; margin-left: -1.3em; }
+</style>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
+<script type="text/javascript">
+//<![CDATA[
+/** ì•„ì´í…œì„ ë“±ë¡í•œë‹¤. */
+function submitItem() {
+    if(!validateItem()) {
+    	return;
+    }
+    alert("ë“±ë¡");
+}
+
+/** ì•„ì´í…œ ì²´í¬ */
+function validateItem() {
+    var items = $("input[type='text'][name='item']");
+    if(items.length == 0) {
+        alert("ì‘ì„±ëœ ì•„ì´í…œì´ ì—†ìŠµë‹ˆë‹¤.");
+        return false;
+    }
+
+    var flag = true;
+    for(var i = 0; i < items.length; i++) {
+        if($(items.get(i)).val().trim() == "") {
+            flag = false;
+            alert("ë‚´ìš©ì„ ì…ë ¥í•˜ì§€ ì•Šì€ í•­ëª©ì´ ìˆìŠµë‹ˆë‹¤.");
+            break;
+        }
+    }
+
+    return flag;
+}
+
+/** UI ì„¤ì • */
+$(function() {
+    $("#itemBoxWrap").sortable({
+        placeholder:"itemBoxHighlight",
+        start: function(event, ui) {
+            ui.item.data('start_pos', ui.item.index());
+        },
+        stop: function(event, ui) {
+            var spos = ui.item.data('start_pos');
+            var epos = ui.item.index();
+			      reorder();
+        }
+    });
+    //$("#itemBoxWrap").disableSelection();
+    
+    $( "#sortable" ).sortable();
+    $( "#sortable" ).disableSelection();
+});
+
+/** ì•„ì´í…œ ìˆœì„œ ì¡°ì • */
+function reorder() {
+    $(".itemBox").each(function(i, box) {
+        $(box).find(".itemNum").html(i + 1);
+    });
+}
+
+/** ì•„ì´í…œ ì¶”ê°€ */
+function createItem() {
+    $(createBox())
+    .appendTo("#itemBoxWrap")
+    .hover(
+        function() {
+            $(this).css('backgroundColor', '#f9f9f5');
+            $(this).find('.deleteBox').show();
+        },
+        function() {
+            $(this).css('background', 'none');
+            $(this).find('.deleteBox').hide();
+        }
+    )
+		.append("<div class='deleteBox'>[ì‚­ì œ]</div>")
+		.find(".deleteBox").click(function() {
+        var valueCheck = false;
+        $(this).parent().find('input').each(function() {
+            if($(this).attr("name") != "type" && $(this).val() != '') {
+                valueCheck = true;
+            }
+        });
+
+        if(valueCheck) {
+            var delCheck = confirm('ì…ë ¥í•˜ì‹  ë‚´ìš©ì´ ìˆìŠµë‹ˆë‹¤.\nì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?');
+        }
+        if(!valueCheck || delCheck == true) {
+            $(this).parent().remove();
+            reorder();
+        }
+    });
+    // ìˆ«ìë¥¼ ë‹¤ì‹œ ë¶™ì¸ë‹¤.
+    reorder();
+}
+
+/** ì•„ì´í…œ ë°•ìŠ¤ ì‘ì„± */
+function createBox() {
+    var contents = "<div class='itemBox'>"
+                 + "<div style='float:left;'>"
+                 + "<span class='itemNum'></span>"
+                 + "<input type='hidden' name='section_seq'>"
+                 + "<input type='text' name='section_nm'>"
+                 + "<input type='hidden' name='use_yn' value='Y'>"
+                 + "</div>"
+                 + "</div>";
+    return contents;
+}
+//]]>
+</script>
+
 <script LANGUAGE="JavaScript">
 <!--
 	$('#del').click(function() {
-		msg="»èÁ¦ÇÏ½Ã°Ú½À´Ï±î?"
+		msg="ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?"
 		if (confirm(msg)) {
 			document.location.href='../menu_del_exec.asp?menu_seq=<%=menu_seq%>';
 		}

@@ -1,7 +1,8 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	freePage = True
 %>
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
 	checkCafePage(cafe_id)
@@ -10,19 +11,19 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>ºĞ¾ç¼Ò½Ä : GI</title>
+	<title>ë¶„ì–‘ì†Œì‹ : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/sticky.js"></script>
 	<script src="/common/js/common.js"></script>
-	<script src="/smart/js/HuskyEZCreator.js" charset="euc-kr"></script>
+	<script src="/smart/js/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
-<!-- ´Ş·Â ½ÃÀÛ -->
+<!-- ë‹¬ë ¥ ì‹œì‘ -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -30,15 +31,15 @@
 <script>
 	$.datepicker.setDefaults({
 		dateFormat: 'yy-mm-dd',
-		prevText: 'ÀÌÀü ´Ş',
-		nextText: '´ÙÀ½ ´Ş',
-		monthNames: ['1¿ù', '2¿ù', '3¿ù', '4¿ù', '5¿ù', '6¿ù', '7¿ù', '8¿ù', '9¿ù', '10¿ù', '11¿ù', '12¿ù'],
-		monthNamesShort: ['1¿ù', '2¿ù', '3¿ù', '4¿ù', '5¿ù', '6¿ù', '7¿ù', '8¿ù', '9¿ù', '10¿ù', '11¿ù', '12¿ù'],
-		dayNames: ['ÀÏ', '¿ù', 'È­', '¼ö', '¸ñ', '±İ', 'Åä'],
-		dayNamesShort: ['ÀÏ', '¿ù', 'È­', '¼ö', '¸ñ', '±İ', 'Åä'],
-		dayNamesMin: ['ÀÏ', '¿ù', 'È­', '¼ö', '¸ñ', '±İ', 'Åä'],
+		prevText: 'ì´ì „ ë‹¬',
+		nextText: 'ë‹¤ìŒ ë‹¬',
+		monthNames: ['1ì›”', '2ì›”', '3ì›”', '4ì›”', '5ì›”', '6ì›”', '7ì›”', '8ì›”', '9ì›”', '10ì›”', '11ì›”', '12ì›”'],
+		monthNamesShort: ['1ì›”', '2ì›”', '3ì›”', '4ì›”', '5ì›”', '6ì›”', '7ì›”', '8ì›”', '9ì›”', '10ì›”', '11ì›”', '12ì›”'],
+		dayNames: ['ì¼', 'ì›”', 'í™”', 'ìˆ˜', 'ëª©', 'ê¸ˆ', 'í† '],
+		dayNamesShort: ['ì¼', 'ì›”', 'í™”', 'ìˆ˜', 'ëª©', 'ê¸ˆ', 'í† '],
+		dayNamesMin: ['ì¼', 'ì›”', 'í™”', 'ìˆ˜', 'ëª©', 'ê¸ˆ', 'í† '],
 		showMonthAfterYear: true,
-		yearSuffix: '³â'
+		yearSuffix: 'ë…„'
 	});
 
 	$( function() {
@@ -53,7 +54,7 @@
 		$("#mvin_date").datepicker();
 	} );
 </script>
-<!-- ´Ş·Â ³¡ -->
+<!-- ë‹¬ë ¥ ë -->
 <body>
 	<div id="wrap">
 <!--#include virtual="/home/home_header_inc.asp"-->
@@ -74,7 +75,7 @@
 	rs.Open Sql, conn, 3, 1
 
 	If not rs.EOF Then
-		msgonly "ÀÓ½Ã ÀúÀåµÈ ³»¿ëÀÌ ÀÖ½À´Ï´Ù."
+		msgonly "ì„ì‹œ ì €ì¥ëœ ë‚´ìš©ì´ ìˆìŠµë‹ˆë‹¤."
 		top_yn   = rs("top_yn")
 		link     = rs("link")
 		subject  = rs("subject")
@@ -83,7 +84,7 @@
 	rs.close
 %>
 				<div class="cont_tit">
-					<h2 class="h2"><%=menu_name%> µî·Ï</h2>
+					<h2 class="h2"><%=menu_name%> ë“±ë¡</h2>
 				</div>
 				<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
 				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
@@ -99,15 +100,15 @@
 						</colgroup>
 						<tbody>
 							<tr>
-								<th scope="row">´ÜÁö¸í/Á¦¸ñ</th>
+								<th scope="row">ë‹¨ì§€ëª…/ì œëª©</th>
 								<td colspan="3">
 									<input type="text" id="subject" name="subject" value="<%=subject%>" class="inp w70 mr20">
 									<input type="checkbox" id="open_yn" name="open_yn" class="inp_check" value="Y" <%=if3(open_yn="Y","checked","")%> />
-									<label for="open_yn"><em>Ã¼Å© ½Ã ¹Ì³ëÃâ</em></label>
+									<label for="open_yn"><em>ì²´í¬ ì‹œ ë¯¸ë…¸ì¶œ</em></label>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">ºĞ¾çÁö¿ª</th>
+								<th scope="row">ë¶„ì–‘ì§€ì—­</th>
 								<td colspan="3">
 <%
 	sql = ""
@@ -133,13 +134,13 @@
 %>
 								</td>
 							<tr>
-								<th scope="row">ºĞ¾çÁÖ¼Ò</th>
+								<th scope="row">ë¶„ì–‘ì£¼ì†Œ</th>
 								<td colspan="3">
 									<input type="text" id="nsale_addr" name="nsale_addr" value="<%=nsale_addr%>" class="inp">
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">´ÜÁöÁ¾·ù</th>
+								<th scope="row">ë‹¨ì§€ì¢…ë¥˜</th>
 								<td>
 <%
 	sql = ""
@@ -164,7 +165,7 @@
 	rs.close
 %>
 								</td>
-								<th scope="row">ºĞ¾ç´Ü°è</th>
+								<th scope="row">ë¶„ì–‘ë‹¨ê³„</th>
 								<td>
 <%
 	sql = ""
@@ -199,46 +200,46 @@
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">¸ğÁı°ø°íÀÏ</th>
+								<th scope="row">ëª¨ì§‘ê³µê³ ì¼</th>
 								<td>
 									<input type="text" id="rect_notice_date" name="rect_notice_date" value="<%=rect_notice_date%>" class="inp" />
 								</td>
-								<th scope="row">Ã»¾àÁ¢¼öÀÏ</th>
+								<th scope="row">ì²­ì•½ì ‘ìˆ˜ì¼</th>
 								<td>
 									<span class="">
-										<em class="mr5">1¼øÀ§</em>
+										<em class="mr5">1ìˆœìœ„</em>
 										<input type="text" id="frst_receipt_acpt_date" name="frst_receipt_acpt_date" value="<%=frst_receipt_acpt_date%>" class="inp w120p" />
 									</span>
 									<span class="ml20">
-										<em class="mr5">2¼øÀ§</em>
+										<em class="mr5">2ìˆœìœ„</em>
 										<input type="text" id="scnd_receipt_acpt_date" name="scnd_receipt_acpt_date" value="<%=scnd_receipt_acpt_date%>" class="inp w120p" />
 									</span>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">´çÃ·¹ßÇ¥ÀÏ</th>
+								<th scope="row">ë‹¹ì²¨ë°œí‘œì¼</th>
 								<td>
 									<input type="text" id="prize_anc_date" name="prize_anc_date" value="<%=prize_anc_date%>" class="inp" />
 								</td>
-								<th scope="row">°è¾à±â°£</th>
+								<th scope="row">ê³„ì•½ê¸°ê°„</th>
 								<td>
 									<input type="text" id="cnt_st_date" name="cnt_st_date" value="<%=cnt_st_date%>" class="inp" />
 									<input type="text" id="cnt_ed_date" name="cnt_ed_date" value="<%=cnt_ed_date%>" class="inp" />
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">Àü¸Å±â°£</th>
+								<th scope="row">ì „ë§¤ê¸°ê°„</th>
 								<td>
 									<input type="text" id="resale_st_date" name="resale_st_date" value="<%=resale_st_date%>" class="inp" />
 									<input type="text" id="resale_ed_date" name="resale_ed_date" value="<%=resale_ed_date%>" class="inp" />
 								</td>
-								<th scope="row">ÀÔÁÖÀÏ</th>
+								<th scope="row">ì…ì£¼ì¼</th>
 								<td>
 									<input type="text" id="mvin_date" name="mvin_date" value="<%=mvin_date%>" class="inp" />
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">¸ğµ¨ÇÏ¿ì½º À§Ä¡</th>
+								<th scope="row">ëª¨ë¸í•˜ìš°ìŠ¤ ìœ„ì¹˜</th>
 								<td colspan="3">
 									<input type="text" id="mdl_house_addr" name="mdl_house_addr" value="<%=mdl_house_addr%>" class="inp">
 								</td>
@@ -285,8 +286,8 @@
 					</table>
 				</div>
 				<div class="btn_box">
-					<button type="submit" class="btn btn_c_a btn_n"><em>µî·Ï</em></button>
-					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='nsale_list.asp?menu_seq=<%=menu_seq%>'"><em>Ãë¼Ò</em></button>
+					<button type="submit" class="btn btn_c_a btn_n"><em>ë“±ë¡</em></button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='nsale_list.asp?menu_seq=<%=menu_seq%>'"><em>ì·¨ì†Œ</em></button>
 				</div>
 				</form>
 			</div>
@@ -304,10 +305,10 @@
 						elPlaceHolder: "ir1",
 						sSkinURI: "/smart/SmartEditor2Skin.html",
 						htParams : {
-							bUseToolbar : true,				// Åø¹Ù »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-							bUseVerticalResizer : true,		// ÀÔ·ÂÃ¢ Å©±â Á¶Àı¹Ù »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-							bUseModeChanger : true,			// ¸ğµå ÅÇ(Editor | HTML | TEXT) »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-							//aAdditionalFontList : aAdditionalFontSet,		// Ãß°¡ ±Û²Ã ¸ñ·Ï
+							bUseToolbar : true,				// íˆ´ë°” ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+							bUseVerticalResizer : true,		// ì…ë ¥ì°½ í¬ê¸° ì¡°ì ˆë°” ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+							bUseModeChanger : true,			// ëª¨ë“œ íƒ­(Editor | HTML | TEXT) ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+							//aAdditionalFontList : aAdditionalFontSet,		// ì¶”ê°€ ê¸€ê¼´ ëª©ë¡
 							fOnBeforeUnload : function() {
 								var f = document.form;
 								if (f.temp.value == "Y" && f.subject.value != "")
@@ -317,13 +318,13 @@
 									f.temp.value = "N";
 									f.target = "hiddenfrm";
 									f.submit();
-									alert("ÀÛ¼ºÁßÀÎ ³»¿ëÀÌ ÀÓ½Ã·Î ÀúÀåµÇ¾ú½À´Ï´Ù.");
+									alert("ì‘ì„±ì¤‘ì¸ ë‚´ìš©ì´ ì„ì‹œë¡œ ì €ì¥ë˜ì—ˆìŠµë‹ˆë‹¤.");
 								}
 							}
 						}, //boolean
 						fOnAppLoad : function() {
-							//¿¹Á¦ ÄÚµå
-							//oEditors.getById["ir1"].exec("PASTE_HTML", ["·ÎµùÀÌ ¿Ï·áµÈ ÈÄ¿¡ º»¹®¿¡ »ğÀÔµÇ´Â textÀÔ´Ï´Ù."])
+							//ì˜ˆì œ ì½”ë“œ
+							//oEditors.getById["ir1"].exec("PASTE_HTML", ["ë¡œë”©ì´ ì™„ë£Œëœ í›„ì— ë³¸ë¬¸ì— ì‚½ì…ë˜ëŠ” textì…ë‹ˆë‹¤."])
 						},
 						fCreator: "createSEditor2"
 					})

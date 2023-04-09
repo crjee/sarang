@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 	checkReadAuth(cafe_id)
@@ -8,10 +9,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>½ºÅ²-1 : GI</title>
+	<title>ìŠ¤í‚¨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -96,15 +97,15 @@
 						str = document.getElementById("subject").innerText;
 						if (window.clipboardData) {
 								window.clipboardData.setData("Text", str)
-								alert("ÇØ´ç Á¦¸ñÀÌ º¹»ç µÇ¾ú½À´Ï´Ù. Ctrl + v ÇÏ½Ã¸é ºÙ¿© ³Ö±â°¡ °¡´ÉÇÕ´Ï´Ù.");
+								alert("í•´ë‹¹ ì œëª©ì´ ë³µì‚¬ ë˜ì—ˆìŠµë‹ˆë‹¤. Ctrl + v í•˜ì‹œë©´ ë¶™ì—¬ ë„£ê¸°ê°€ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
 						}
 						else if (window.navigator.clipboard) {
 								window.navigator.clipboard.writeText(str).Then(() => {
-									alert("ÇØ´ç Á¦¸ñÀÌ º¹»ç µÇ¾ú½À´Ï´Ù. Ctrl + v ÇÏ½Ã¸é ºÙ¿© ³Ö±â°¡ °¡´ÉÇÕ´Ï´Ù.");
+									alert("í•´ë‹¹ ì œëª©ì´ ë³µì‚¬ ë˜ì—ˆìŠµë‹ˆë‹¤. Ctrl + v í•˜ì‹œë©´ ë¶™ì—¬ ë„£ê¸°ê°€ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
 								});
 						}
 						else {
-							temp = prompt("ÇØ´ç Á¦¸ñÀ» º¹»çÇÏ½Ê½Ã¿À.", str);
+							temp = prompt("í•´ë‹¹ ì œëª©ì„ ë³µì‚¬í•˜ì‹­ì‹œì˜¤.", str);
 						}
 					} catch(e) {
 						alert(e)
@@ -114,15 +115,15 @@
 					try{
 						if (window.clipboardData) {
 								window.clipboardData.setData("Text", "<%=pageUrl%>")
-								alert("ÇØ´ç ±ÛÁÖ¼Ò°¡ º¹»ç µÇ¾ú½À´Ï´Ù. Ctrl + v ÇÏ½Ã¸é ºÙ¿© ³Ö±â°¡ °¡´ÉÇÕ´Ï´Ù.");
+								alert("í•´ë‹¹ ê¸€ì£¼ì†Œê°€ ë³µì‚¬ ë˜ì—ˆìŠµë‹ˆë‹¤. Ctrl + v í•˜ì‹œë©´ ë¶™ì—¬ ë„£ê¸°ê°€ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
 						}
 						else if (window.navigator.clipboard) {
 								window.navigator.clipboard.writeText("<%=pageUrl%>").Then(() => {
-									alert("ÇØ´ç ±ÛÁÖ¼Ò°¡ º¹»ç µÇ¾ú½À´Ï´Ù. Ctrl + v ÇÏ½Ã¸é ºÙ¿© ³Ö±â°¡ °¡´ÉÇÕ´Ï´Ù.");
+									alert("í•´ë‹¹ ê¸€ì£¼ì†Œê°€ ë³µì‚¬ ë˜ì—ˆìŠµë‹ˆë‹¤. Ctrl + v í•˜ì‹œë©´ ë¶™ì—¬ ë„£ê¸°ê°€ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
 								});
 						}
 						else {
-							temp = prompt("ÇØ´ç ±ÛÁÖ¼Ò¸¦ º¹»çÇÏ½Ê½Ã¿À.", "<%=pageUrl%>");
+							temp = prompt("í•´ë‹¹ ê¸€ì£¼ì†Œë¥¼ ë³µì‚¬í•˜ì‹­ì‹œì˜¤.", "<%=pageUrl%>");
 						}
 					} catch(e) {
 						alert(e)
@@ -149,153 +150,228 @@
 			<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
 			</form>
 				<div class="cont_tit">
-					<h2 class="h2"><%=menu_name%> ³»¿ëº¸±â</h2>
+					<h2 class="h2"><%=menu_name%> ë‚´ìš©ë³´ê¸°</h2>
 				</div>
 				<div class="btn_box view_btn">
-<%
-	If group_num = "" And reply_auth <= cafe_mb_level Then
-%>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goReply()">´ä±Û</button>
-<%
-	End If
-%>
-<%
-	If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
-%>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goModify()">¼öÁ¤</button>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goDelete()">»èÁ¦</button>
-<%
-		If rs("step_num") = "0" Then
-%>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goMove()">ÀÌµ¿</button>
-<%
-		End If
-	End If
-%>
-<%
-	If cafe_mb_level > 6 Then
-		If rs("step_num") = "0" Then
-%>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goNotice()"><%=if3(rs("top_yn")="Y","°øÁöÇØÁ¦","°øÁöÁöÁ¤")%></button>
-<%
-		End If
-	End If
-%>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goSuggest()">ÃßÃµ</button>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goPrint()">ÀÎ¼â</button>
-					<button class="btn btn_c_n btn_s" type="button" onclick="copyUrl()">±ÛÁÖ¼Òº¹»ç</button>
-					<button class="btn btn_c_n btn_s" type="button" onclick="copySubject()">Á¦¸ñº¹»ç</button>
-<%
-	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
-	If toInt(write_auth) <= toInt(cafe_mb_level) Then
-%>
-					<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/board_write.asp?menu_seq=<%=menu_seq%>'">±Û¾²±â</button>
-<%
-	End If
-%>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goList()">¸ñ·Ï</button>
+					<%
+						If group_num = "" And reply_auth <= cafe_mb_level Then
+					%>
+										<button class="btn btn_c_n btn_s" type="button" onclick="goReply()">ë‹µê¸€</button>
+					<%
+						End If
+					%>
+					<%
+						If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
+					%>
+										<button class="btn btn_c_n btn_s" type="button" onclick="goModify()">ìˆ˜ì •</button>
+										<button class="btn btn_c_n btn_s" type="button" onclick="goDelete()">ì‚­ì œ</button>
+					<%
+							If rs("step_num") = "0" Then
+					%>
+										<!-- <button class="btn btn_c_n btn_s" type="button" onclick="goMove()">ì´ë™</button> -->
+										<button class="btn btn_c_n btn_s" type="button" onclick="lyp('lypp_move')">ì´ë™</button>
+					<%
+							End If
+						End If
+					%>
+					<%
+						If cafe_mb_level > 6 Then
+							If rs("step_num") = "0" Then
+					%>
+										<button class="btn btn_c_n btn_s" type="button" onclick="goNotice()"><%=if3(rs("top_yn")="Y","ê³µì§€í•´ì œ","ê³µì§€ì§€ì •")%></button>
+					<%
+							End If
+						End If
+					%>
+										<button class="btn btn_c_n btn_s" type="button" onclick="goSuggest()">ì¶”ì²œ</button>
+										<button class="btn btn_c_n btn_s" type="button" onclick="goPrint()">ì¸ì‡„</button>
+										<button class="btn btn_c_n btn_s" type="button" onclick="copyUrl()">ê¸€ì£¼ì†Œë³µì‚¬</button>
+										<button class="btn btn_c_n btn_s" type="button" onclick="copySubject()">ì œëª©ë³µì‚¬</button>
+					<%
+						write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
+						If toInt(write_auth) <= toInt(cafe_mb_level) Then
+					%>
+										<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/board_write.asp?menu_seq=<%=menu_seq%>'">ê¸€ì“°ê¸°</button>
+					<%
+						End If
+					%>
+										<button class="btn btn_c_n btn_s" type="button" onclick="goList()">ëª©ë¡</button>
 				</div>
-				<div id="print_area"><!-- ÇÁ¸°Æ®¿µ¿ª Ãß°¡ crjee -->
-				<div class="view_head">
-					<h3 class="h3" id="subject"><%=rs("subject")%></h3>
-					<div class="wrt_info_box">
-						<ul>
-							<li><span>ÀÛ¼ºÀÚ</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
-							<li><span>Á¶È¸</span><strong><%=rs("view_cnt")%></strong></li>
-							<li><span>ÃßÃµ</span><strong><%=rs("suggest_cnt")%></strong></li>
-							<li><span>µî·ÏÀÏ½Ã</span><strong><%=rs("credt")%></strong></li>
-						</ul>
+				<div id="print_area"><!-- í”„ë¦°íŠ¸ì˜ì—­ ì¶”ê°€ crjee -->
+					<div class="view_head">
+						<h3 class="h3" id="subject"><%=rs("subject")%></h3>
+						<div class="wrt_info_box">
+							<ul>
+								<li><span>ì‘ì„±ì</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
+								<li><span>ì¡°íšŒ</span><strong><%=rs("view_cnt")%></strong></li>
+								<li><span>ì¶”ì²œ</span><strong><%=rs("suggest_cnt")%></strong></li>
+								<li><span>ë“±ë¡ì¼ì‹œ</span><strong><%=rs("credt")%></strong></li>
+							</ul>
+						</div>
 					</div>
-				</div>
-				<div class="wrt_file_box"><!-- Ã·ºÎÆÄÀÏ¿µ¿ª Ãß°¡ crjee -->
-<%
-	uploadUrl = ConfigAttachedFileURL & menu_type & "/"
-	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
+					<div class="wrt_file_box"><!-- ì²¨ë¶€íŒŒì¼ì˜ì—­ ì¶”ê°€ crjee -->
+						<%
+							uploadUrl = ConfigAttachedFileURL & menu_type & "/"
+							uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
 
-	Set fso = CreateObject("Scripting.FileSystemObject")
-	Set rs2 = Server.CreateObject ("ADODB.Recordset")
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_board_attach "
-	sql = sql & "  where board_seq = '" & board_seq & "' "
-	rs2.Open Sql, conn, 3, 1
-	i = 0
-	If Not rs2.eof Then
-		Do Until rs2.eof
-			If (fso.FileExists(uploadFolder & rs2("file_name"))) Then
-				fileExt = LCase(Mid(rs2("file_name"), InStrRev(rs2("file_name"), ".") + 1))
-				If fileExt = "pdf" Then
-%>
-					<%If i > 0 Then%><br><%End If%>
-					<a href="<%=uploadUrl & rs2("file_name")%>" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
-<%
-				Else
-%>
-					<%If i > 0 Then%><br><%End If%>
-					<a href="/download_exec.asp?menu_type=<%=menu_type%>&file_name=<%=rs2("file_name")%>" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
-<%
-				End If
-			Else
-%>
-					<%If i > 0 Then%><br><%End If%>
-					<a href="javascript:alert('ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
-<%
-			End If
+							Set fso = CreateObject("Scripting.FileSystemObject")
+							Set rs2 = Server.CreateObject ("ADODB.Recordset")
+							sql = ""
+							sql = sql & " select * "
+							sql = sql & "   from cf_board_attach "
+							sql = sql & "  where board_seq = '" & board_seq & "' "
+							rs2.Open Sql, conn, 3, 1
+							i = 0
+							If Not rs2.eof Then
+								Do Until rs2.eof
+									If (fso.FileExists(uploadFolder & rs2("file_name"))) Then
+										fileExt = LCase(Mid(rs2("file_name"), InStrRev(rs2("file_name"), ".") + 1))
+										If fileExt = "pdf" Then
+						%>
+											<%If i > 0 Then%><br><%End If%>
+											<a href="<%=uploadUrl & rs2("file_name")%>" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+						<%
+										Else
+						%>
+											<%If i > 0 Then%><br><%End If%>
+											<a href="/download_exec.asp?menu_type=<%=menu_type%>&file_name=<%=rs2("file_name")%>" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+						<%
+										End If
+									Else
+						%>
+											<%If i > 0 Then%><br><%End If%>
+											<a href="javascript:alert('íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+						<%
+									End If
 
-			i = i + 1
-			rs2.MoveNext
-		Loop
-	End If
-	rs2.close
-	Set rs2 = Nothing
-	Set fso = Nothing
-%>
-<%
-	link = rs("link")
-	link_txt = rmid(link, 40, "..")
+									i = i + 1
+									rs2.MoveNext
+								Loop
+							End If
+							rs2.close
+							Set rs2 = Nothing
+							Set fso = Nothing
+						%>
+						<%
+							link = rs("link")
+							link_txt = rmid(link, 40, "..")
 
-	If link <> "" Then
-%>
-					<p class="file"><a href="<%=link%>" target="_blink" id="linkTxt"><%=link_txt%></a>&nbsp;<img src="/cafe/skin/img/inc/copy.png" style="cursor:hand" id="linkBtn"/></p>
-					<script>
-						document.getElementById("linkBtn").onclick = function() {
-							try{
-								if (window.clipboardData) {
-										window.clipboardData.setData("Text", "<%=link%>")
-										alert("ÇØ´ç URLÀÌ º¹»ç µÇ¾ú½À´Ï´Ù. Ctrl + v ÇÏ½Ã¸é ºÙ¿© ³Ö±â°¡ °¡´ÉÇÕ´Ï´Ù.");
+							If link <> "" Then
+						%>
+						<p class="file"><a href="<%=link%>" target="_blink" id="linkTxt"><%=link_txt%></a>&nbsp;<img src="/cafe/skin/img/inc/copy.png" style="cursor:hand" id="linkBtn"/></p>
+						<script>
+							document.getElementById("linkBtn").onclick = function() {
+								try{
+									if (window.clipboardData) {
+											window.clipboardData.setData("Text", "<%=link%>")
+											alert("í•´ë‹¹ URLì´ ë³µì‚¬ ë˜ì—ˆìŠµë‹ˆë‹¤. Ctrl + v í•˜ì‹œë©´ ë¶™ì—¬ ë„£ê¸°ê°€ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
+									}
+									else if (window.navigator.clipboard) {
+											window.navigator.clipboard.writeText("<%=link%>").Then(() => {
+												alert("í•´ë‹¹ URLì´ ë³µì‚¬ ë˜ì—ˆìŠµë‹ˆë‹¤. Ctrl + v í•˜ì‹œë©´ ë¶™ì—¬ ë„£ê¸°ê°€ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
+											});
+									}
+									else {
+										temp = prompt("í•´ë‹¹ URLì„ ë³µì‚¬í•˜ì‹­ì‹œì˜¤.", "<%=link%>");
+									}
+								} catch(e) {
+									alert(e)
 								}
-								else if (window.navigator.clipboard) {
-										window.navigator.clipboard.writeText("<%=link%>").Then(() => {
-											alert("ÇØ´ç URLÀÌ º¹»ç µÇ¾ú½À´Ï´Ù. Ctrl + v ÇÏ½Ã¸é ºÙ¿© ³Ö±â°¡ °¡´ÉÇÕ´Ï´Ù.");
-										});
-								}
-								else {
-									temp = prompt("ÇØ´ç URLÀ» º¹»çÇÏ½Ê½Ã¿À.", "<%=link%>");
-								}
-							} catch(e) {
-								alert(e)
-							}
-						};
-					</script>
-<%
-	End If
-%>
+							};
+						</script>
+						<%
+							End If
+						%>
+					</div>
+					<div class="bbs_cont">
+						<%=rs("contents")%>
+					</div>
+					<%
+						rs.close
+						Set rs = nothing
+					%>
+					<%
+						com_seq = board_seq
+					%>
 				</div>
-				<div class="bbs_cont">
-					<%=rs("contents")%>
-				</div>
-<%
-	rs.close
-	Set rs = nothing
-%>
-<%
-	com_seq = board_seq
-%>
-<!--#include virtual="/cafe/skin/com_comment_list_inc.asp"-->
-			</div>
-<!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
+				<!--#include virtual="/cafe/skin/com_comment_list_inc.asp"-->
+			<!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
 		</main>
-<!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
+		<!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
+	</div>
+
+
+	<!-- ë ˆì´ì–´ íŒì—… -->
+	<div class="lypp lypp_sarang lypp_move">
+		<header class="lypp_head">
+			<h2 class="h2">ê²Œì‹œë¬¼ ì´ë™</h2>
+			<span class="posR">
+				<button type="button" class="btn btn_close"><em>ë‹«ê¸°</em></button>
+			</span>
+		</header>
+		<div class="adm_cont">
+			<form method="post" action="banner_exec.asp" enctype="multipart/form-data" target="hiddenfrm">
+				<input type="hidden" name="task" value="upd">
+				<input type="hidden" name="banner_seq" value="">
+				<div class="tb tb_form_1">
+					<table class="tb_input">
+						<colgroup>
+							<col class="w15">
+							<col class="auto">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">ê²Œì‹œíŒ ì„ íƒ</th>
+								<td colspan="3">
+									<select id="file_type" name="file_type" required="" class="sel w_auto">
+										<option value="I">ì´ë¯¸ì§€</option>
+									</select>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="btn_box algC">
+					<button type="submit" class="btn btn_c_a btn_n">ì´ë™</button>
+					<button type="reset" class="btn btn_c_n btn_n">ì·¨ì†Œ</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="lypp lypp_sarang lypp_add">
+		<header class="lypp_head">
+			<h2 class="h2">ëŒ“ê¸€ ìˆ˜ì •</h2>
+			<span class="posR">
+				<button type="button" class="btn btn_close"><em>ë‹«ê¸°</em></button>
+			</span>
+		</header>
+		<div class="adm_cont">
+			<form method="post" action="banner_exec.asp" enctype="multipart/form-data" target="hiddenfrm">
+				<input type="hidden" name="task" value="upd">
+				<input type="hidden" name="banner_seq" value="">
+				<div class="tb tb_form_1">
+					<table class="tb_input">
+						<colgroup>
+							<col class="w15">
+							<col class="auto">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">ëŒ“ê¸€ ìˆ˜ì •</th>
+								<td>
+									
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="btn_box algC">
+					<button type="submit" class="btn btn_c_a btn_n">í™•ì¸</button>
+					<button type="reset" class="btn btn_c_n btn_n">ì·¨ì†Œ</button>
+				</div>
+			</form>
+		</div>
 	</div>
 </body>
 </html>

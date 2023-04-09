@@ -1,16 +1,18 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	freePage = True
 %>
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
-	checkCafePage(cafe_id)
-	checkModivyAuth(cafe_id)
 
 	ScriptTimeOut = 5000
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
 	uploadform.DefaultPath = uploadFolder
+
+	checkCafePageUpload(cafe_id)
+	checkModivyAuth(cafe_id)
 
 	page      = uploadform("page")
 	pagesize  = uploadform("pagesize")
@@ -31,7 +33,7 @@
 	For Each item In uploadform("file_name")
 		If item <> "" Then
 			IF item.FileLen > UploadForm.MaxFileLen Then
-				call msggo("ÆÄÀÏÀÇ Å©±â´Â " & CInt(uploadform.MaxFileLen/1024/1014) & "MB°¡ ³Ñ¾î¼­´Â ¾ÈµË´Ï´Ù","")
+				call msggo("íŒŒì¼ì˜ í¬ê¸°ëŠ” " & CInt(uploadform.MaxFileLen/1024/1014) & "MBê°€ ë„˜ì–´ì„œëŠ” ì•ˆë©ë‹ˆë‹¤","")
 				Set UploadForm = Nothing
 				Response.End
 			End If
@@ -123,6 +125,6 @@
 <input type="hidden" name="nsale_seq" value="<%=nsale_seq%>">
 </form>
 <script>
-	alert("¼öÁ¤ µÇ¾ú½À´Ï´Ù.");
+	alert("ìˆ˜ì • ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	parent.location.href='nsale_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&nsale_seq=<%=nsale_seq%>';
 </script>

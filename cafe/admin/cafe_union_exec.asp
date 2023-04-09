@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Call checkAdmin()
 
@@ -7,7 +8,7 @@
 		union_id = Request("union_id_" & cafe_id)
 		old_union_id = Request("old_union_id_" & cafe_id)
 
-		' ÀÌÀü ¿¬ÇÕÈ¸Áö±â È÷½ºÅä¸® ÀúÀå
+		' ì´ì „ ì—°í•©íšŒì§€ê¸° íˆìŠ¤í† ë¦¬ ì €ì¥
 		sql = ""
 		sql = sql & " insert into cf_union_manager_history( "
 		sql = sql & "        union_id "
@@ -22,7 +23,7 @@
 		sql = sql & " select union_id "
 		sql = sql & "       ,user_id "
 		sql = sql & "       ,union_mb_level "
-		sql = sql & "       ,'¿¬ÇÕÈ¸Áö±â »èÁ¦(°ü¸®ÀÚ)' "
+		sql = sql & "       ,'ì—°í•©íšŒì§€ê¸° ì‚­ì œ(ê´€ë¦¬ì)' "
 		sql = sql & "       ,stdate "
 		sql = sql & "       ,getdate() "
 		sql = sql & "       ,'" & Session("user_id") & "' "
@@ -32,7 +33,7 @@
 		sql = sql & "    and union_id = '" & old_union_id & "' "
 		Conn.Execute(sql)
 
-		' ±âÁ¸ ¿¬ÇÕÈ¸Áö±â »èÁ¦
+		' ê¸°ì¡´ ì—°í•©íšŒì§€ê¸° ì‚­ì œ
 		sql = ""
 		sql = sql & " delete cf_union_manager "
 		sql = sql & "  where user_id in (select user_id from cf_cafe_member where cafe_id = '" & cafe_id & "') "
@@ -49,7 +50,7 @@
 	Next
 %>
 <script>
-	alert("º¯°æµÇ¾ú½À´Ï´Ù.");
+	alert("ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	parent.search_form.target = parent.window.name;
 	parent.search_form.action = "cafe_list.asp";
 	parent.search_form.submit();

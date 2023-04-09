@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 	checkReadAuth(cafe_id)
@@ -6,10 +7,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>½ºÅ²-1 : GI</title>
+	<title>ìŠ¤í‚¨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -57,12 +58,12 @@
 	rs.Open sql, conn, 3, 1
 
 	rs.PageSize = PageSize
-	RecordCount = 0 ' ÀÚ·á°¡ ¾øÀ»¶§
+	RecordCount = 0 ' ìë£Œê°€ ì—†ì„ë•Œ
 	If Not rs.EOF Then
 		RecordCount = rs.recordcount
 	End If
 
-	' ÀüÃ¼ ÆäÀÌÁö ¼ö ¾ò±â
+	' ì „ì²´ í˜ì´ì§€ ìˆ˜ ì–»ê¸°
 	If RecordCount/PageSize = Int(RecordCount/PageSize) then
 		PageCount = Int(RecordCount / PageSize)
 	Else
@@ -98,9 +99,9 @@
 					var tt = imgRsize(img, ww, hh);
 					if (img.width > ww || img.height > hh) {
 
-						// °¡·Î³ª ¼¼·ÎÅ©±â°¡ Á¦ÇÑÅ©±âº¸´Ù Å©¸é
+						// ê°€ë¡œë‚˜ ì„¸ë¡œí¬ê¸°ê°€ ì œí•œí¬ê¸°ë³´ë‹¤ í¬ë©´
 						img.width = tt[0];
-						// Å©±âÁ¶Á¤
+						// í¬ê¸°ì¡°ì •
 						img.height = tt[1];
 
 					}
@@ -110,16 +111,16 @@
 					var iW = img.width;
 					var iH = img.height;
 					var g = new Array;
-					if (iW < rW && iH < rH) { // °¡·Î¼¼·Î°¡ Ãà¼ÒÇÒ °ªº¸´Ù ÀÛÀ» °æ¿ì
+					if (iW < rW && iH < rH) { // ê°€ë¡œì„¸ë¡œê°€ ì¶•ì†Œí•  ê°’ë³´ë‹¤ ì‘ì„ ê²½ìš°
 						g[0] = iW;
 						g[1] = iH;
 					}
 					else {
-						if (img.width > img.height) { // ¿øÅ©±â °¡·Î°¡ ¼¼·Îº¸´Ù Å©¸é
+						if (img.width > img.height) { // ì›í¬ê¸° ê°€ë¡œê°€ ì„¸ë¡œë³´ë‹¤ í¬ë©´
 							g[0] = rW;
 							g[1] = Math.ceil(img.height * rW / img.width);
 						}
-						else if (img.width < img.height) { //¿øÅ©±âÀÇ ¼¼·Î°¡ °¡·Îº¸´Ù Å©¸é
+						else if (img.width < img.height) { //ì›í¬ê¸°ì˜ ì„¸ë¡œê°€ ê°€ë¡œë³´ë‹¤ í¬ë©´
 							g[0] = Math.ceil(img.width * rH / img.height);
 							g[1] = rH;
 						}
@@ -127,18 +128,18 @@
 							g[0] = rW;
 							g[1] = rH;
 						}
-						if (g[0] > rW) { // ±¸ÇØÁø °¡·Î°ªÀÌ Ãà¼Ò °¡·Îº¸´Ù Å©¸é
+						if (g[0] > rW) { // êµ¬í•´ì§„ ê°€ë¡œê°’ì´ ì¶•ì†Œ ê°€ë¡œë³´ë‹¤ í¬ë©´
 							g[0] = rW;
 							g[1] = Math.ceil(img.height * rW / img.width);
 						}
-						if (g[1] > rH) { // ±¸ÇØÁø ¼¼·Î°ªÀÌ Ãà¼Ò ¼¼·Î°ª°¡·Îº¸´Ù Å©¸é
+						if (g[1] > rH) { // êµ¬í•´ì§„ ì„¸ë¡œê°’ì´ ì¶•ì†Œ ì„¸ë¡œê°’ê°€ë¡œë³´ë‹¤ í¬ë©´
 							g[0] = Math.ceil(img.width * rH / img.height);
 							g[1] = rH;
 						}
 					}
 
-					g[2] = img.width; // ¿ø»çÀÌÁî °¡·Î
-					g[3] = img.height; // ¿ø»çÀÌÁî ¼¼·Î
+					g[2] = img.width; // ì›ì‚¬ì´ì¦ˆ ê°€ë¡œ
+					g[3] = img.height; // ì›ì‚¬ì´ì¦ˆ ì„¸ë¡œ
 
 					return g;
 				}
@@ -149,7 +150,7 @@
 				<div class="">
 					<div class="search_box clearBoth">
 						<div class="floatL">
-							ÃÑ <strong class="f_weight_m f_skyblue"><%=FormatNumber(RecordCount,0)%></strong>°ÇÀÇ °Ô½Ã¹°ÀÌ ÀÖ½À´Ï´Ù.
+							ì´ <strong class="f_weight_m f_skyblue"><%=FormatNumber(RecordCount,0)%></strong>ê±´ì˜ ê²Œì‹œë¬¼ì´ ìˆìŠµë‹ˆë‹¤.
 						</div>
 						<div class="floatR">
 							<form name="search_form" id="search_form" method="post">
@@ -159,24 +160,24 @@
 <%
 	If cafe_ad_level = 10 Then
 %>
-							<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/waste_album_list.asp?menu_seq=<%=menu_seq%>'">ÈŞÁöÅë</button>
+							<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/waste_album_list.asp?menu_seq=<%=menu_seq%>'">íœ´ì§€í†µ</button>
 <%
 	End If
 
-	If write_auth <= cafe_mb_level Then ' ±Û¾²±â ±ÇÇÑ
+	If write_auth <= cafe_mb_level Then ' ê¸€ì“°ê¸° ê¶Œí•œ
 %>
-							<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/album_write.asp?menu_seq=<%=menu_seq%>'">±Û¾²±â</button>
+							<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/album_write.asp?menu_seq=<%=menu_seq%>'">ê¸€ì“°ê¸°</button>
 <%
 	End If
 %>
 							<select id="sch_type" name="sch_type" class="sel w100p">
-								<option value="all">ÀüÃ¼</option>
-								<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>Á¦¸ñ</option>
-								<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>±Û¾´ÀÌ</option>
-								<option value="cb.contents" <%=if3(sch_type="cb.contents","selected","")%>>³»¿ë</option>
+								<option value="all">ì „ì²´</option>
+								<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>ì œëª©</option>
+								<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>ê¸€ì“´ì´</option>
+								<option value="cb.contents" <%=if3(sch_type="cb.contents","selected","")%>>ë‚´ìš©</option>
 							</select>
 							<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w300p">
-							<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">°Ë»ö</button>
+							<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">ê²€ìƒ‰</button>
 							<select id="pagesize" name="pagesize" class="sel w100p" onchange="goSearch()">
 								<option value=""></option>
 								<option value="20" <%=if3(pagesize="20","selected","")%>>20</option>
@@ -237,7 +238,7 @@
 <%
 			End if
 %>
-									<span class="posr">Á¶È¸ <%=view_cnt%> ¤Ó <%=credt_txt%></span>
+									<span class="posr">ì¡°íšŒ <%=view_cnt%> ã…£ <%=credt_txt%></span>
 									<span class="posr"><%=agency%></span>
 								</div>
 <%
@@ -255,10 +256,10 @@
 					</div>
 <!--#include virtual="/cafe/skin/skin_page_inc.asp"-->
 <%
-	If write_auth <= cafe_mb_level Then ' ±Û¾²±â ±ÇÇÑ
+	If write_auth <= cafe_mb_level Then ' ê¸€ì“°ê¸° ê¶Œí•œ
 %>
 					<div class="btn_box algR">
-						<button class="btn btn_c_a btn_n" type="button" onclick="location.href='/cafe/skin/album_write.asp?menu_seq=<%=menu_seq%>'">±Û¾²±â</button>
+						<button class="btn btn_c_a btn_n" type="button" onclick="location.href='/cafe/skin/album_write.asp?menu_seq=<%=menu_seq%>'">ê¸€ì“°ê¸°</button>
 					</div>
 <%
 	End If

@@ -17,18 +17,18 @@
 			<nav id="nav_gnb" class="group_nav dsc_<%=Right(skin_idx, 1)%>">
 				<div class="group_area">
 					<div class="group_box">
-						<p><strong><%=session("agency")%></strong>´Ô ¾È³çÇÏ¼¼¿ä</p>
+						<p><strong><%=session("agency")%></strong>ë‹˜ ì•ˆë…•í•˜ì„¸ìš”</p>
 						<span class="icon"><%=user_level_str%></span>
 					</div>
 					<ul class="group_list">
-						<li><em>È¸¿ø¼ö</em> <strong><%=FormatNumber(member_cnt,0)%></strong></li>
-						<li><em>¹æ¹®¼ö</em> <strong><%=FormatNumber(visit_cnt,0)%></strong></li>
-						<li><em>ÂÊÁöÇÔ</em> <strong><a href="/cafe/skin/memo_list.asp" class="orange3"><%=memo_cnt%>°³</a></strong></li>
+						<li><em>íšŒì›ìˆ˜</em> <strong><%=FormatNumber(member_cnt,0)%></strong></li>
+						<li><em>ë°©ë¬¸ìˆ˜</em> <strong><%=FormatNumber(visit_cnt,0)%></strong></li>
+						<li><em>ìª½ì§€í•¨</em> <strong><a href="/cafe/skin/memo_list.asp" class="orange3"><%=memo_cnt%>ê°œ</a></strong></li>
 					</ul>
 					<div class="search_box">
-						<label for="">ÀüÃ¼°Ë»ö</label>
-						<input type="text" id="" name="" placeholder="°Ë»ö¾î¸¦ ÀÔ·ÂÇÏ¼¼¿ä" class="" />
-						<button type="button" class="f_awesome"><em>°Ë»ö</em></button>
+						<label for="">ì „ì²´ê²€ìƒ‰</label>
+						<input type="text" id="" name="" placeholder="ê²€ìƒ‰ì–´ë¥¼ ìž…ë ¥í•˜ì„¸ìš”" class="" />
+						<button type="button" class="f_awesome"><em>ê²€ìƒ‰</em></button>
 					</div>
 <%
 	Dim left_cafe_type
@@ -38,20 +38,20 @@
 		left_cafe_type = getonevalue("cafe_type", "cf_cafe", "where cafe_id = '" & cafe_id & "'")
 
 		If left_cafe_type = "C" Then
-			left_cafe_type_nm = "»ç¶û¹æ"
+			left_cafe_type_nm = "ì‚¬ëž‘ë°©"
 		Else
-			left_cafe_type_nm = "¿¬ÇÕÈ¸"
+			left_cafe_type_nm = "ì—°í•©íšŒ"
 		End If
 	End If
 %>
-					<button class="btn btn_c_s btn_n" type="button" onclick="javascripit:document.location.href='/cafe/manager/cafe_info_edit.asp'"><%=left_cafe_type_nm%> °ü¸®</button>
-					<a href="#n" class="btn btn_c_a btn_n ux_btn_wrt">Ä«Æä±Û¾²±â</a>
+					<button class="btn btn_c_s btn_n" type="button" onclick="javascripit:document.location.href='/cafe/manager/cafe_info_edit.asp'"><%=left_cafe_type_nm%> ê´€ë¦¬</button>
+					<a href="#n" class="btn btn_c_a btn_n ux_btn_wrt">ì¹´íŽ˜ê¸€ì“°ê¸°</a>
 					<div class="wrt_group_box">
 						<div class="btn_box">
-							<a href="#n" class="">°øÁö»çÇ× ±Û¾²±â</a>
-							<a href="#n" class="">°øÁö»çÇ× ±Û¾²±â</a>
-							<a href="#n" class="">°øÁö»çÇ× ±Û¾²±â</a>
-							<a href="#n" class="">°øÁö»çÇ× ±Û¾²±â</a>
+							<a href="#n" class="">ê³µì§€ì‚¬í•­ ê¸€ì“°ê¸°</a>
+							<a href="#n" class="">ê³µì§€ì‚¬í•­ ê¸€ì“°ê¸°</a>
+							<a href="#n" class="">ê³µì§€ì‚¬í•­ ê¸€ì“°ê¸°</a>
+							<a href="#n" class="">ê³µì§€ì‚¬í•­ ê¸€ì“°ê¸°</a>
 						</div>
 					</div>
 				</div>
@@ -130,7 +130,7 @@
 				left_menu_type = Trim(left_menu_type)
 
 				If left_hidden_yn = "Y" then
-					left_ms = "<font color=red>[¼û±è]</font>"
+					left_ms = "<font color=red>[ìˆ¨ê¹€]</font>"
 				Else
 					left_ms = ""
 				End If
@@ -170,7 +170,7 @@
 	Loop
 	leftRs.close
 	Set leftRs = nothing
-'If session("user_id") = "crjee" Then extime("left ½ÇÇà½Ã°£")
+'If session("user_id") = "crjee" Then extime("left ì‹¤í–‰ì‹œê°„")
 %>
 				</ul>
 			</nav>

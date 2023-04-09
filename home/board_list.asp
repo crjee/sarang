@@ -1,7 +1,8 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	freePage = True
 %>
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
 	checkCafePage(cafe_id)
@@ -9,7 +10,7 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>GI</title>
@@ -27,7 +28,7 @@
 	sch_word = Request("sch_word")
 	menu_seq = Request("menu_seq")
 
-'If session("user_id") = "crjee" Then extime("cf_menu ?�행?�간")
+'If session("user_id") = "crjee" Then extime("cf_menu ?ㅽ뻾?쒓컙")
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 	sql = ""
 	sql = sql & " select * "
@@ -35,10 +36,10 @@
 	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
 	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
 	rs.Open Sql, conn, 3, 1
-'If session("user_id") = "crjee" Then extime("cf_menu ?�행?�간")
+'If session("user_id") = "crjee" Then extime("cf_menu ?ㅽ뻾?쒓컙")
 
 	If rs.EOF Then
-		msggo "?�상?�인 ?�용???�닙?�다.",""
+		msggo "?뺤긽?곸씤 ?ъ슜???꾨떃?덈떎.",""
 	Else
 		menu_type = rs("menu_type")
 		menu_name = rs("menu_name")
@@ -74,7 +75,7 @@
 	sql = sql & kword
 	rs.Open sql, conn, 3, 1
 
-	RecordCount = 0 ' ?�료가 ?�을??
+	RecordCount = 0 ' ?먮즺媛 ?놁쓣??
 	If Not rs.EOF Then
 		RecordCount = rs("cnt")
 	End If
@@ -121,7 +122,7 @@
 	sql = sql & "  order by group_num desc, step_num asc "
 	rs.Open sql, conn, 3, 1
 
-	' ?�체 ?�이지 ???�기
+	' ?꾩껜 ?섏씠吏 ???산린
 	If RecordCount/pagesize = Int(RecordCount/pagesize) Then
 		PageCount = Int(RecordCount / pagesize)
 	Else
@@ -149,20 +150,20 @@
 <%
 	End If
 
-	If write_auth <= cafe_mb_level Then ' 글?�기 권한
+	If write_auth <= cafe_mb_level Then ' 湲?곌린 沅뚰븳
 %>
-						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/home/board_write.asp?menu_seq=<%=menu_seq%>'">글?�기</button>
+						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/home/board_write.asp?menu_seq=<%=menu_seq%>'">湲?곌린</button>
 <%
 	End If
 %>
 						<select id="sch_type" name="sch_type" class="sel w100p">
-							<option value="all">?�체</option>
-							<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>?�목</option>
-							<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>글?�이</option>
-							<option value="cb.contents" <%=if3(sch_type="cb.contents","selected","")%>>?�용</option>
+							<option value="all">?꾩껜</option>
+							<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>?쒕ぉ</option>
+							<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>湲?댁씠</option>
+							<option value="cb.contents" <%=if3(sch_type="cb.contents","selected","")%>>?댁슜</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w300p">
-						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검??/button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">寃??/button>
 						</form>
 					</div>
 					<div class="tb">
@@ -176,11 +177,11 @@
 							</colgroup>
 							<thead>
 								<tr>
-									<th scope="col">��ȣ</th>
-									<th scope="col">����</th>
-									<th scope="col">�ۼ���</th>
-									<th scope="col">�ۼ���</th>
-									<th scope="col">��ȸ</th>
+									<th scope="col">번호</th>
+									<th scope="col">제목</th>
+									<th scope="col">작성자</th>
+									<th scope="col">작성일</th>
+									<th scope="col">조회</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -190,13 +191,13 @@
 			comment_cnt = rs("comment_cnt")
 			subject = rs("subject")
 			If isnull(subject) Or isempty(subject) Or Len(subject) = 0 Then
-				subject = "?�목?�음"
+				subject = "?쒕ぉ?놁쓬"
 			End if
 
 			parent_del_yn = rs("parent_del_yn")
 
 			If parent_del_yn = "Y" Then
-				subject = "*?��?????��???��?* " & subject
+				subject = "*?먭?????젣???듦?* " & subject
 			End if
 			subject_s = rmid(subject, 40, "..")
 %>
@@ -237,7 +238,7 @@
 	Else
 %>
 								<tr>
-									<td colspan="5" class="td_nodata">��ϵ� ���� �����ϴ�.</td>
+									<td colspan="5" class="td_nodata">등록된 글이 없습니다.</td>
 								</tr>
 <%
 	End If

@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
 
@@ -7,10 +8,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>°¡ÀÔÁ¤º¸ °ü¸® : »ç¶û¹æ °ü¸®</title>
+	<title>ê°€ìž…ì •ë³´ ê´€ë¦¬ : ì‚¬ëž‘ë°© ê´€ë¦¬</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -20,14 +21,14 @@
 <body>
 	<div id="wrap">
 		<header id="adm_head">
-			<h1><a href="/">RETS °æÀÎ<sub>»ç¶û¹æ °ü¸®</sub></a></h1>
+			<h1><a href="/">RETS ê²½ì¸<sub>ì‚¬ëž‘ë°© ê´€ë¦¬</sub></a></h1>
 		</header>
 		<nav id="adm_nav">
 <!--#include virtual="/cafe/manager/manager_left_inc.asp"-->
 		</nav>
 		<main id="adm_body">
 			<div class="adm_page_tit">
-				<h2 class="h2">±âº»Á¤º¸ °ü¸®</h2>
+				<h2 class="h2">ê¸°ë³¸ì •ë³´ ê´€ë¦¬</h2>
 			</div>
 			<div class="adm_cont">
 				<form name="nomarForm" method="post" action="cafe_info_exec.asp" enctype="multipart/form-data">
@@ -40,7 +41,7 @@
 							</colgroup>
 							<tbody>
 								<tr>
-									<th scope="row">»ç¶û¹æ ·Î°í</th>
+									<th scope="row">ì‚¬ëž‘ë°© ë¡œê³ </th>
 									<td>
 										<div class="logo">
 <%
@@ -56,48 +57,48 @@
 	End If
 %>
 										</div>
-										<button type="button" id="deleteBtn" class="btn" onclick="javascript:cafe_img_del()">ÀÌ¹ÌÁö »èÁ¦</button>
-										<button type="button" id="enrollBtn" class="btn">ÀÌ¹ÌÁö µî·Ï</button>
+										<button type="button" id="deleteBtn" class="btn" onclick="javascript:cafe_img_del()">ì´ë¯¸ì§€ ì‚­ì œ</button>
+										<button type="button" id="enrollBtn" class="btn">ì´ë¯¸ì§€ ë“±ë¡</button>
 										<input type="file" name="cafe_img" id="cafe_img" style="display:none">
 										<ul class="list_txt">
-											<li>¿ì¸® »ç¶û¹æÀ» Ç¥ÇöÇÒ ¼ö ÀÖ´Â ´ëÇ¥ ÀÌ¹ÌÁö¸¦ °ñ¶óÁÖ¼¼¿ä.</li>
-											<li>»ç¶û¹æÁ¤º¸ ¿µ¿ª, ÇÁ·ÎÇÊ ÆäÀÌÁö ¹× ¿ì¸®»ç¶û¹æ ¾Û µî¿¡ È°¿ëµË´Ï´Ù.</li>
-											<li>Å©±â´Â 168¡¿54 ÇÈ¼¿ ÀÔ´Ï´Ù.</li>
+											<li>ìš°ë¦¬ ì‚¬ëž‘ë°©ì„ í‘œí˜„í•  ìˆ˜ ìžˆëŠ” ëŒ€í‘œ ì´ë¯¸ì§€ë¥¼ ê³¨ë¼ì£¼ì„¸ìš”.</li>
+											<li>ì‚¬ëž‘ë°©ì •ë³´ ì˜ì—­, í”„ë¡œí•„ íŽ˜ì´ì§€ ë° ìš°ë¦¬ì‚¬ëž‘ë°© ì•± ë“±ì— í™œìš©ë©ë‹ˆë‹¤.</li>
+											<li>í¬ê¸°ëŠ” 168Ã—54 í”½ì…€ ìž…ë‹ˆë‹¤.</li>
 										</ul>
 										<p class=""></p>
 									</td>
 								</tr>
 								<tr>
-									<th scope="row">»ç¶û¹æ ÀÌ¸§</th>
+									<th scope="row">ì‚¬ëž‘ë°© ì´ë¦„</th>
 									<td>
 										<input type="hidden" name="cafe_id" value="<%=cafe_id%>">
 										<input type="text" id="cafe_name" name="cafe_name" size="50" class="inp" required value="<%=row("cafe_name")%>">
 									</td>
 								</tr>
 								<tr>
-									<th scope="row">°ø°³ ¿©ºÎ</th>
+									<th scope="row">ê³µê°œ ì—¬ë¶€</th>
 									<td>
 										<span class="">
 											<input type="radio" id="open_yn" name="open_yn" value="Y" <%=if3(row("open_yn")="Y","checked","")%> />
-											<label for=""><em>°ø°³</em></label>
+											<label for=""><em>ê³µê°œ</em></label>
 										</span>
 										<span class="ml20">
 											<input type="radio" id="open_yn" name="open_yn" value="N" <%=if3(row("open_yn")="N","checked","")%> />
-											<label for=""><em>ºñ°ø°³</em></label>
+											<label for=""><em>ë¹„ê³µê°œ</em></label>
 										</span>
 									</td>
 								</tr>
 								<tr>
-									<th scope="row">¹Ù·Î°¡±â ¼³Á¤</th>
+									<th scope="row">ë°”ë¡œê°€ê¸° ì„¤ì •</th>
 									<td>
 										<span class="">
 											<input type="radio" id="open_type" name="open_type" value="C" <%=if3(row("open_type")="C","checked","")%> />
-											<label for=""><em>»ç¶û¹æ</em></label>
+											<label for=""><em>ì‚¬ëž‘ë°©</em></label>
 <%
 	If row("union_id") <> "" Then
 %>
 											<input type="radio" id="open_type" name="open_type" value="U" <%=if3(row("open_type")="U","checked","")%> />
-											<label for=""><em>¿¬ÇÕÈ¸</em></label>
+											<label for=""><em>ì—°í•©íšŒ</em></label>
 <%
 	End If
 %>
@@ -111,7 +112,7 @@
 						</table>
 					</div>
 					<div class="btn_box algR">
-						<button type="submit" class="btn btn_c_a btn_n">È®ÀÎ</button>
+						<button type="submit" class="btn btn_c_a btn_n">í™•ì¸</button>
 					</div>
 				</div>
 				</form>

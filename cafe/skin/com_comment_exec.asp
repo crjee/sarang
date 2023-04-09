@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 
@@ -12,11 +13,11 @@
 		comment     = Request("comment")
 		new_seq     = getSeq("cf_" & menu_type & "_comment")
 
-		If comment_seq = "" Then ' »õ±Û
+		If comment_seq = "" Then ' ìƒˆê¸€
 			group_num = new_seq
 			level_num = 0
 			step_num = 0
-		Else ' ´ä±Û
+		Else ' ë‹µê¸€
 			sql = ""
 			sql = sql & " select * "
 			sql = sql & "   from cf_" & menu_type & "_comment "
@@ -75,14 +76,14 @@
 		sql = sql & "  where " & menu_type & "_seq = " & com_seq & " "
 		Conn.Execute(sql)
 
-		Response.Write "<script>alert('ÀúÀå µÇ¾ú½À´Ï´Ù.');</script>"
-	Else ' »èÁ¦
+		Response.Write "<script>alert('ì €ì¥ ë˜ì—ˆìŠµë‹ˆë‹¤.');</script>"
+	Else ' ì‚­ì œ
 		comment_seq = Request("comment_seq")
 		cafe_mb_level = getUserLevel(cafe_id)
 
-		If cafe_mb_level >= 6 Then ' »ç¶û¹æÁö±â ÀÌ¸é ÇÏÀ§ ´ñ±Û±îÁö »èÁ¦
+		If cafe_mb_level >= 6 Then ' ì‚¬ë‘ë°©ì§€ê¸° ì´ë©´ í•˜ìœ„ ëŒ“ê¸€ê¹Œì§€ ì‚­ì œ
 			Call del_comment(menu_type, comment_seq)
-			Response.Write "<script>alert('»èÁ¦ µÇ¾ú½À´Ï´Ù.');</script>"
+			Response.Write "<script>alert('ì‚­ì œ ë˜ì—ˆìŠµë‹ˆë‹¤.');</script>"
 		Else
 			sql = ""
 			sql = sql & " select * "
@@ -91,11 +92,11 @@
 			sql = sql & "     and comment_seq = '" & comment_seq & "' "
 			rs.Open Sql, conn, 3, 1
 
-			If Not rs.eof Then ' ±ÛÀÛ¼ºÀÚ ÀÌ¸é ÇÏÀ§ ´ñ±Û±îÁö »èÁ¦
+			If Not rs.eof Then ' ê¸€ì‘ì„±ì ì´ë©´ í•˜ìœ„ ëŒ“ê¸€ê¹Œì§€ ì‚­ì œ
 				Call del_comment(menu_type, comment_seq)
-				Response.Write "<script>alert('»èÁ¦ µÇ¾ú½À´Ï´Ù.');</script>"
-			Else ' ±ÛÀÛ¼ºÀÚ ¾Æ´Ï¸é
-				Response.Write "<script>alert('±ÇÇÑÀÌ¾ø½À´Ï´Ù');</script>"
+				Response.Write "<script>alert('ì‚­ì œ ë˜ì—ˆìŠµë‹ˆë‹¤.');</script>"
+			Else ' ê¸€ì‘ì„±ì ì•„ë‹ˆë©´
+				Response.Write "<script>alert('ê¶Œí•œì´ì—†ìŠµë‹ˆë‹¤');</script>"
 				Response.End
 			End if
 		End if

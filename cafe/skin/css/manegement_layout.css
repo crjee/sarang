@@ -1,5 +1,5 @@
-@charset "euc-kr";
-/*ÆùÆ® ±âº»¼³Á¤Àº µ¸À½Ã¼ÀÔ´Ï´Ù. ÆùÆ® Ãß°¡´Â ¿©±â·Î ÇÏ½Ã¸é µË´Ï´Ù.*/
+@charset "utf-8";
+/*í°íŠ¸ ê¸°ë³¸ì„¤ì •ì€ ë‹ìŒì²´ì…ë‹ˆë‹¤. í°íŠ¸ ì¶”ê°€ëŠ” ì—¬ê¸°ë¡œ í•˜ì‹œë©´ ë©ë‹ˆë‹¤.*/
 * {
 	margin:0;
 	padding:0;
@@ -19,7 +19,7 @@ small, strike, strong, sub, sup, tt, var,
 b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
-/*¼öÁ¤ table, caption, tbody, tfoot, thead, tr, th, td,*/
+/*ìˆ˜ì • table, caption, tbody, tfoot, thead, tr, th, td,*/
 article, aside, canvas, details, embed, 
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
@@ -40,7 +40,7 @@ footer, header, hgroup, menu, nav, section {
 
 body {
 	line-height: 1;
-    font-family: tahoma, 'µ¸¿ò', Arial, Helvetica, sans-serif;
+    font-family: tahoma, 'ë‹ì›€', Arial, Helvetica, sans-serif;
 	font-size:12px;
 /*	color:#666666;*/
 	color:#000;
@@ -62,7 +62,7 @@ a:link {color:#666666;text-decoration:none;}
 a:visited {color:#666666;text-decoration:none;}
 a:hover {color:#666666;text-decoration:none;}
 a:active {color:#666666;text-decoration:none;}
-/*¼öÁ¤
+/*ìˆ˜ì •
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
@@ -78,7 +78,7 @@ table {
 }
 
 * {
-	font-family: tahoma, 'µ¸¿ò', Arial, Helvetica, sans-serif;
+	font-family: tahoma, 'ë‹ì›€', Arial, Helvetica, sans-serif;
 }
 
 #LblockHeader {

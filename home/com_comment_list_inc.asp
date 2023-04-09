@@ -22,9 +22,9 @@
 				</form>
 				<div class="bbs_add_cont">
 					<div class="bbs_add_cont_head">
-						<h4>´ñ±Û</h4><span class="count"><%=comment_cnt%></span>
+						<h4>ëŒ“ê¸€</h4><span class="count"><%=comment_cnt%></span>
 						<div class="posR">
-							<a href="#n" class="btn btn_s btn_c_a" onclick="javascript:goCommentWrite('');">´ñ±Û¾²±â</a>
+							<a href="#n" class="btn btn_s btn_c_a" onclick="javascript:goCommentWrite('');">ëŒ“ê¸€ì“°ê¸°</a>
 							<script>
 								function goCommentWrite(comment_seq) {
 									if (comment_seq != '') {
@@ -51,7 +51,7 @@
 							<input type="hidden" name="user_id" value="<%=session("user_id")%>">
 							<input type="hidden" name="ipin" value="<%=ipin%>">
 							<textarea name="comment" rows="" cols="" onKeyup="fc_chk_byte(this, 400, 'commentView')" required></textarea>
-							<button type="submit" class="btn btn_c_s">µî·Ï</button>
+							<button type="submit" class="btn btn_c_s">ë“±ë¡</button>
 							<p class="add_count"><span id="commentView" name="commentView">0</span>/400</p>
 						</form>
 					</div>
@@ -77,7 +77,7 @@
 <%
 			If session("user_id") = rs("user_id") Or cafe_ad_level = 10 Then
 %>
-									<a href="javascript:goCommentEdit('<%=rs("comment_seq")%>')" class="btn btn_s btn_c_a">¼öÁ¤</a>
+									<a href="javascript:goCommentEdit('<%=rs("comment_seq")%>')" class="btn btn_s btn_c_a">ìˆ˜ì •</a>
 									<script>
 										function goCommentEdit(comment_seq) {
 											document.open_form2.action = "/win_open_exec.asp"
@@ -91,7 +91,7 @@
 
 			If session("user_id") = rs("user_id") Or cafe_mb_level >= 6 Then
 %>
-									<a href="javascript:goCommentDel('<%=rs("comment_seq")%>')" class="btn btn_s btn_c_n">»èÁ¦</a>
+									<a href="javascript:goCommentDel('<%=rs("comment_seq")%>')" class="btn btn_s btn_c_n">ì‚­ì œ</a>
 									<script>
 										function goCommentDel(comment_seq) {
 											document.comment_form.task.value = "del";
@@ -125,53 +125,53 @@
 
 function fc_chk_byte(frm_nm, ari_max, cnt_view) { 
 //	var frm = document.regForm;
-	var ls_str = frm_nm.value; // ÀÌº¥Æ®°¡ ÀÏ¾î³­ ÄÁÆ®·ÑÀÇ value °ª 
-	var li_str_len = ls_str.length; // ÀüÃ¼±æÀÌ 
+	var ls_str = frm_nm.value; // ì´ë²¤íŠ¸ê°€ ì¼ì–´ë‚œ ì»¨íŠ¸ë¡¤ì˜ value ê°’ 
+	var li_str_len = ls_str.length; // ì „ì²´ê¸¸ì´ 
 
-	// º¯¼öÃÊ±âÈ­ 
-	var li_max = ari_max; // Á¦ÇÑÇÒ ±ÛÀÚ¼ö Å©±â 
-	var i = 0; // for¹®¿¡ »ç¿ë 
-	var li_byte = 0; // ÇÑ±ÛÀÏ°æ¿ì´Â 2 ±×¹Ü¿¡´Â 1À» ´õÇÔ 
-	var li_len = 0; // substringÇÏ±â À§ÇØ¼­ »ç¿ë 
-	var ls_one_char = ""; // ÇÑ±ÛÀÚ¾¿ °Ë»çÇÑ´Ù 
-	var ls_str2 = ""; // ±ÛÀÚ¼ö¸¦ ÃÊ°úÇÏ¸é Á¦ÇÑÇÒ¼ö ±ÛÀÚÀü±îÁö¸¸ º¸¿©ÁØ´Ù. 
+	// ë³€ìˆ˜ì´ˆê¸°í™” 
+	var li_max = ari_max; // ì œí•œí•  ê¸€ììˆ˜ í¬ê¸° 
+	var i = 0; // forë¬¸ì— ì‚¬ìš© 
+	var li_byte = 0; // í•œê¸€ì¼ê²½ìš°ëŠ” 2 ê·¸ë°—ì—ëŠ” 1ì„ ë”í•¨ 
+	var li_len = 0; // substringí•˜ê¸° ìœ„í•´ì„œ ì‚¬ìš© 
+	var ls_one_char = ""; // í•œê¸€ìì”© ê²€ì‚¬í•œë‹¤ 
+	var ls_str2 = ""; // ê¸€ììˆ˜ë¥¼ ì´ˆê³¼í•˜ë©´ ì œí•œí• ìˆ˜ ê¸€ìì „ê¹Œì§€ë§Œ ë³´ì—¬ì¤€ë‹¤. 
 
 	for (i=0; i< li_str_len; i++) { 
-	// ÇÑ±ÛÀÚÃßÃâ 
+	// í•œê¸€ìì¶”ì¶œ 
 		ls_one_char = ls_str.charAt(i); 
 
-		// ÇÑ±ÛÀÌ¸é 2¸¦ ´õÇÑ´Ù. 
+		// í•œê¸€ì´ë©´ 2ë¥¼ ë”í•œë‹¤. 
 		if (escape(ls_one_char).length > 4) { 
 			li_byte += 2; 
 		} 
-		// ±×¹ÜÀÇ °æ¿ì´Â 1À» ´õÇÑ´Ù. 
+		// ê·¸ë°—ì˜ ê²½ìš°ëŠ” 1ì„ ë”í•œë‹¤. 
 		else { 
 			li_byte++; 
 		} 
 
-		// ÀüÃ¼ Å©±â°¡ li_max¸¦ ³ÑÁö¾ÊÀ¸¸é 
+		// ì „ì²´ í¬ê¸°ê°€ li_maxë¥¼ ë„˜ì§€ì•Šìœ¼ë©´ 
 		if (li_byte <= li_max) { 
 			li_len = i + 1; 
 		} 
 	} 
 
-	// ÀüÃ¼±æÀÌ¸¦ ÃÊ°úÇÏ¸é 
+	// ì „ì²´ê¸¸ì´ë¥¼ ì´ˆê³¼í•˜ë©´ 
 	if (li_byte > li_max) { 
-		alert( li_max + "byte ±ÛÀÚ¸¦ ÃÊ°ú ÀÔ·ÂÇÒ¼ö ¾ø½À´Ï´Ù. \n ÃÊ°úµÈ ³»¿ëÀº ÀÚµ¿À¸·Î »èÁ¦ µË´Ï´Ù. "); 
+		alert( li_max + "byte ê¸€ìë¥¼ ì´ˆê³¼ ì…ë ¥í• ìˆ˜ ì—†ìŠµë‹ˆë‹¤. \n ì´ˆê³¼ëœ ë‚´ìš©ì€ ìë™ìœ¼ë¡œ ì‚­ì œ ë©ë‹ˆë‹¤. "); 
 		ls_str2 = ls_str.substr(0, li_len);
 		frm_nm.value = ls_str2; 
 
-		li_str_len = ls_str2.length; // ÀüÃ¼±æÀÌ 
-		li_byte = 0; // ÇÑ±ÛÀÏ°æ¿ì´Â 2 ±×¹Ü¿¡´Â 1À» ´õÇÔ 
+		li_str_len = ls_str2.length; // ì „ì²´ê¸¸ì´ 
+		li_byte = 0; // í•œê¸€ì¼ê²½ìš°ëŠ” 2 ê·¸ë°—ì—ëŠ” 1ì„ ë”í•¨ 
 		for (i=0; i< li_str_len; i++) { 
-		// ÇÑ±ÛÀÚÃßÃâ 
+		// í•œê¸€ìì¶”ì¶œ 
 			ls_one_char = ls_str2.charAt(i); 
 
-			// ÇÑ±ÛÀÌ¸é 2¸¦ ´õÇÑ´Ù. 
+			// í•œê¸€ì´ë©´ 2ë¥¼ ë”í•œë‹¤. 
 			if (escape(ls_one_char).length > 4) { 
 				li_byte += 2; 
 			} 
-			// ±×¹ÜÀÇ °æ¿ì´Â 1À» ´õÇÑ´Ù. 
+			// ê·¸ë°—ì˜ ê²½ìš°ëŠ” 1ì„ ë”í•œë‹¤. 
 			else { 
 				li_byte++; 
 			} 

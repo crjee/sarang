@@ -1,5 +1,6 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <!--#include virtual="/ipin_inc.asp"-->
-<!--#include virtual="/include/config_inc.asp"-->
 <%
 	memo_seq = Request("memo_seq")
 	del_seq = Request("del_seq")
@@ -8,7 +9,7 @@
 		sql = sql & " delete cf_memo "
 		sql = sql & "  where memo_seq = '" & del_seq & "' "
 		conn.Execute(sql)
-		Response.Write "<script>alert('»èÁ¦ µÇ¾ú½À´Ï´Ù.');opener.parent.list_form.submit();self.close();</script>"
+		Response.Write "<script>alert('ì‚­ì œ ë˜ì—ˆìŠµë‹ˆë‹¤.');opener.parent.list_form.submit();self.close();</script>"
 		Response.end
 	End If
 
@@ -36,14 +37,14 @@
 	rs.open sql, Conn, 3
 
 	If rs.eof Then
-		msggo "¸Ş½ÃÁö°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.","close"
+		msggo "ë©”ì‹œì§€ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.","close"
 	End If
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="ko">
 <head>
-<meta charset="euc-kr" />
-<title>ÂÊÁö³»¿ë</title>
+<meta charset="utf-8" />
+<title>ìª½ì§€ë‚´ìš©</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <link href="/cafe/skin/css/basic_layout.css" rel="stylesheet" type="text/css" />
@@ -55,25 +56,25 @@
 <body>
 	<div id="LblockCenter">
 		<div id="CenterContents">
-			<div id="Contents_title"><%=menu_name%> ³»¿ëº¸±â</div>
+			<div id="Contents_title"><%=menu_name%> ë‚´ìš©ë³´ê¸°</div>
 			<div id="Contents_Wrap">
 				<ul>
 					<li>
 						<table class="messagewrite">
 							<tr>
-								<th>Á¦¸ñ</th>
+								<th>ì œëª©</th>
 								<td><%=rs("subject")%></td>
 							</tr>
 							<tr>
-								<th>º¸³½ÀÌ</th>
+								<th>ë³´ë‚¸ì´</th>
 								<td><%=rs("fragency")%></td>
 							</tr>
 							<tr>
-								<th>¹Ş´ÂÀÌ</th>
+								<th>ë°›ëŠ”ì´</th>
 								<td><%=rs("toagency")%></td>
 							</tr>
 							<tr>
-								<th class="end2">º¸³½½Ã°£</th>
+								<th class="end2">ë³´ë‚¸ì‹œê°„</th>
 								<td class="end"><%=rs("credt")%></td>
 							</tr>
 						</table>
@@ -85,8 +86,8 @@
 			</div>
 		</div>
 		<p class="right">
-			<button class="btn_basic2txt" type="button" onclick="location.href='memo_view.asp?del_seq=<%=memo_seq%>'">»èÁ¦</button>
-			<button class="btn_basic2txt" type="button" onclick="self.close()">´İ±â</button>
+			<button class="btn_basic2txt" type="button" onclick="location.href='memo_view.asp?del_seq=<%=memo_seq%>'">ì‚­ì œ</button>
+			<button class="btn_basic2txt" type="button" onclick="self.close()">ë‹«ê¸°</button>
 		</p>
 	</div>
 </body>

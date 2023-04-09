@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 	checkManager(cafe_id)
@@ -8,10 +9,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>��Ų-1 : GI</title>
+	<title>스킨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -85,12 +86,12 @@
 			<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
 			</form>
 				<div class="cont_tit">
-					<h2 class="h2"><font color="red">������ <%=menu_name%> ���뺸��</font></h2>
+					<h2 class="h2"><font color="red">휴지통 <%=menu_name%> 내용보기</font></h2>
 				</div>
 				<div class="btn_box view_btn">
-					<button class="btn btn_c_n btn_n" type="button" onclick="goRestore()">����</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">����</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">���</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goRestore()">복원</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">삭제</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">목록</button>
 				</div>
 				<div class="view_head">
 					<h3 class="h3" id="subject"><%=rs("subject")%></h3>
@@ -125,7 +126,7 @@
 			Else
 %>
 					<%If i > 0 Then%><br><%End If%>
-					<a href="javascript:alert('������ �������� �ʽ��ϴ�,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+					<a href="javascript:alert('파일이 존재하지 않습니다,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 			End If
 
@@ -149,15 +150,15 @@
 		try{
 			if (window.clipboardData) {
 					window.clipboardData.setData("Text", "<%=link%>")
-					alert("�ش� URL�� ���� �Ǿ����ϴ�. Ctrl + v �Ͻø� �ٿ� �ֱⰡ �����մϴ�.");
+					alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 			}
 			else if (window.navigator.clipboard) {
 					window.navigator.clipboard.writeText("<%=link%>").Then(() => {
-						alert("�ش� URL�� ���� �Ǿ����ϴ�. Ctrl + v �Ͻø� �ٿ� �ֱⰡ �����մϴ�.");
+						alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 					});
 			}
 			else {
-				temp = prompt("�ش� URL�� �����Ͻʽÿ�.", "<%=link%>");
+				temp = prompt("해당 URL을 복사하십시오.", "<%=link%>");
 			}
 		} catch(e) {
 			alert(e)

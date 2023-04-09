@@ -1,13 +1,14 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>��Ų-1 : GI</title>
+	<title>스킨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -46,7 +47,7 @@
 					}
 
 					if (j == 0) {
-						alert("ȸ���� �����ϼ���!");
+						alert("회원을 선택하세요!");
 						return false;
 					}
 					return true;
@@ -121,16 +122,16 @@
 	memo_cnt = rs.recordcount
 %>
 				<div class="cont_tit">
-					<h2 class="h2">������&nbsp;<%=if3(stype="i","��������","��������")%>&nbsp;�� <%=read_cnt%> / <%=memo_cnt%></h2>
+					<h2 class="h2">쪽지함&nbsp;<%=if3(stype="i","받은쪽지","보낸쪽지")%>&nbsp;총 <%=read_cnt%> / <%=memo_cnt%></h2>
 				</div>
 				<div class="">
 					<div class="search_box algR">
 						<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 						<input type="hidden" name="page" value="<%=page%>">
-						<button class="btn btn_c_a btn_s" type="button" onclick="goAll()">��ü����</button>
-						<button class="btn btn_c_a btn_s" type="button" onclick="goDel()">���û���</button>
-						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/memo_list.asp?menu_seq=<%=menu_seq%>&stype=<%=stype%>&memo_receive_yn=<%=if3(memo_receive_yn="N","Y","N")%>'"><%=if3(memo_receive_yn="N","�������","���Űź�")%></button>
-						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/memo_write.asp?menu_seq=<%=menu_seq%>'">����������</button>
+						<button class="btn btn_c_a btn_s" type="button" onclick="goAll()">전체선택</button>
+						<button class="btn btn_c_a btn_s" type="button" onclick="goDel()">선택삭제</button>
+						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/memo_list.asp?menu_seq=<%=menu_seq%>&stype=<%=stype%>&memo_receive_yn=<%=if3(memo_receive_yn="N","Y","N")%>'"><%=if3(memo_receive_yn="N","수신허용","수신거부")%></button>
+						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/memo_write.asp?menu_seq=<%=menu_seq%>'">쪽지보내기</button>
 					</div>
 					<div class="tb">
 						<form name="list_form" method="post">
@@ -146,10 +147,10 @@
 							<thead>
 								<tr>
 									<th></th>
-									<th scope="col">������</th>
-									<th scope="col">�޴���</th>
-									<th scope="col">����</th> 
-									<th scope="col">�����</th>
+									<th scope="col">보낸이</th>
+									<th scope="col">받는이</th>
+									<th scope="col">제목</th> 
+									<th scope="col">등록일</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -162,7 +163,8 @@
 									<td class="algC"><input type="checkbox" value="<%=rs("memo_seq")%>" name="memo_seq" class="row-select"></td>
 									<td class="algC"><%=rs("fragency")%></td>
 									<td class="algC"><%=rs("toagency")%></td>
-									<td><a href="#" onclick="goView('<%=rs("memo_seq")%>')"><%=rs("subject")%></a></td>
+									<!-- <td><a href="#" onclick="goView('<%=rs("memo_seq")%>')"><%=rs("subject")%></a></td> -->
+									<td><a href="#" onclick="lyp('lypp_memo')"><%=rs("subject")%></a></td>
 									<td class="algC"><%=credt%></td>
 								</tr>
 <%
@@ -180,6 +182,64 @@
 <!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
 		</main>
 <!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
+	</div>
+
+	<!-- 레이어 팝업 -->
+	<div class="lypp lypp_sarang lypp_memo">
+		<header class="lypp_head">
+			<h2 class="h2">쪽지 내용보기</h2>
+			<span class="posR">
+				<button type="button" class="btn btn_close"><em>닫기</em></button>
+			</span>
+		</header>
+		<div class="adm_cont">
+			<form method="post" action="banner_exec.asp" enctype="multipart/form-data" target="hiddenfrm">
+				<input type="hidden" name="task" value="upd">
+				<input type="hidden" name="banner_seq" value="">
+				<div class="tb tb_form_1">
+					<table class="tb_input">
+						<colgroup>
+							<col class="w15">
+							<col class="w30">
+							<col class="w15">
+							<col class="w30">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">제목</th>
+								<td colspan="3">
+
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">보낸이</th>
+								<td>
+
+								</td>
+								<th scope="row">받는이</th>
+								<td>
+
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">보낸시간</th>
+								<td>
+
+								</td>
+							</tr>
+							<tr>
+								<td colspan="4">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="btn_box algC">
+					<button type="submit" class="btn btn_c_a btn_n">이동</button>
+					<button type="reset" class="btn btn_c_n btn_n">취소</button>
+				</div>
+			</form>
+		</div>
 	</div>
 </body>
 </html>

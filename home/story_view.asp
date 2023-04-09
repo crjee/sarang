@@ -1,7 +1,8 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	freePage = True
 %>
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
 	checkCafePage(cafe_id)
@@ -11,7 +12,7 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>GI</title>
@@ -94,15 +95,15 @@
 						str = document.getElementById("subject").innerText;
 						if (window.clipboardData) {
 								window.clipboardData.setData("Text", str)
-								alert("�ش� ������ ���� �Ǿ����ϴ�. Ctrl + v �Ͻø� �ٿ� �ֱⰡ �����մϴ�.");
+								alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 						}
 						else if (window.navigator.clipboard) {
 								window.navigator.clipboard.writeText(str).Then(() => {
-									alert("�ش� ������ ���� �Ǿ����ϴ�. Ctrl + v �Ͻø� �ٿ� �ֱⰡ �����մϴ�.");
+									alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 								});
 						}
 						else {
-							temp = prompt("�ش� ������ �����Ͻʽÿ�.", str);
+							temp = prompt("해당 제목을 복사하십시오.", str);
 						}
 					} catch(e) {
 						alert(e)
@@ -112,15 +113,15 @@
 					try{
 						if (window.clipboardData) {
 								window.clipboardData.setData("Text", "<%=pageUrl%>")
-								alert("�ش� ���ּҰ� ���� �Ǿ����ϴ�. Ctrl + v �Ͻø� �ٿ� �ֱⰡ �����մϴ�.");
+								alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 						}
 						else if (window.navigator.clipboard) {
 								window.navigator.clipboard.writeText("<%=pageUrl%>").Then(() => {
-									alert("�ش� ���ּҰ� ���� �Ǿ����ϴ�. Ctrl + v �Ͻø� �ٿ� �ֱⰡ �����մϴ�.");
+									alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 								});
 						}
 						else {
-							temp = prompt("�ش� ���ּҸ� �����Ͻʽÿ�.", "<%=pageUrl%>");
+							temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
 						}
 					} catch(e) {
 						alert(e)
@@ -147,25 +148,25 @@
 			<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
 			</form>
 				<div class="cont_tit">
-					<h2 class="h2"><%=menu_name%> ���뺸��</h2>
+					<h2 class="h2"><%=menu_name%> 내용보기</h2>
 				</div>
 				<div class="btn_box view_btn">
 <%
 	If group_num = "" And reply_auth <= cafe_mb_level Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goReply()">���</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goReply()">답글</button>
 <%
 	End If
 %>
 <%
 	If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goModify()">����</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">����</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goModify()">수정</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">삭제</button>
 <%
 		If rs("step_num") = "0" Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goMove()">�̵�</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goMove()">이동</button>
 <%
 		End If
 	End If
@@ -174,39 +175,39 @@
 	If cafe_mb_level > 6 Then
 		If rs("step_num") = "0" Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goNotice()"><%=if3(rs("top_yn")="Y","��������","��������")%></button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goNotice()"><%=if3(rs("top_yn")="Y","공지해제","공지지정")%></button>
 <%
 		End If
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goSuggest()">��õ</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goPrint()">�μ�</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="copyUrl()">���ּҺ���</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="copySubject()">���񺹻�</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goSuggest()">추천</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goPrint()">인쇄</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="copyUrl()">글주소복사</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="copySubject()">제목복사</button>
 <%
 	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
 	If toInt(write_auth) <= toInt(cafe_mb_level) Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="location.href='/home/story_write.asp?menu_seq=<%=menu_seq%>'">�۾���</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="location.href='/home/story_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 <%
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">���</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">목록</button>
 				</div>
-				<div id="print_area"><!-- ����Ʈ���� �߰� crjee -->
+				<div id="print_area"><!-- 프린트영역 추가 crjee -->
 				<div class="view_head">
 					<h3 class="h3" id="subject"><%=rs("subject")%></h3>
 					<div class="wrt_info_box">
 						<ul>
-							<li><span>�ۼ���</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
-							<li><span>��ȸ</span><strong><%=rs("view_cnt")%></strong></li>
-							<li><span>��õ</span><strong><%=rs("suggest_cnt")%></strong></li>
-							<li><span>����Ͻ�</span><strong><%=rs("credt")%></strong></li>
+							<li><span>작성자</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
+							<li><span>조회</span><strong><%=rs("view_cnt")%></strong></li>
+							<li><span>추천</span><strong><%=rs("suggest_cnt")%></strong></li>
+							<li><span>등록일시</span><strong><%=rs("credt")%></strong></li>
 							<li></li>
 						</ul>
 					</div>
 				</div>
-				<div class="wrt_file_box"><!-- ÷�����Ͽ��� �߰� crjee -->
+				<div class="wrt_file_box"><!-- 첨부파일영역 추가 crjee -->
 <%
 	uploadUrl = ConfigAttachedFileURL & menu_type & "/"
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
@@ -237,7 +238,7 @@
 			Else
 %>
 					<%If i > 0 Then%><br><%End If%>
-					<a href="javascript:alert('������ �������� �ʽ��ϴ�,')" class="file"><img src="/home/img/inc/file.png" /> <%=rs2("file_name")%></a>
+					<a href="javascript:alert('파일이 존재하지 않습니다,')" class="file"><img src="/home/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 			End If
 
@@ -261,15 +262,15 @@
 		try{
 			if (window.clipboardData) {
 					window.clipboardData.setData("Text", "<%=link%>")
-					alert("�ش� URL�� ���� �Ǿ����ϴ�. Ctrl + v �Ͻø� �ٿ� �ֱⰡ �����մϴ�.");
+					alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 			}
 			else if (window.navigator.clipboard) {
 					window.navigator.clipboard.writeText("<%=link%>").Then(() => {
-						alert("�ش� URL�� ���� �Ǿ����ϴ�. Ctrl + v �Ͻø� �ٿ� �ֱⰡ �����մϴ�.");
+						alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 					});
 			}
 			else {
-				temp = prompt("�ش� URL�� �����Ͻʽÿ�.", "<%=link%>");
+				temp = prompt("해당 URL을 복사하십시오.", "<%=link%>");
 			}
 		} catch(e) {
 			alert(e)

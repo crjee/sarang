@@ -1,12 +1,13 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	ScriptTimeOut = 5000
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & "sale\"
 	uploadform.DefaultPath = uploadFolder
-	' ÇÏ³ªÀÇ ÆÄÀÏ Å©±â¸¦ 10MBÀÌÇÏ·Î Á¦ÇÑ.
+	' í•˜ë‚˜ì˜ íŒŒì¼ í¬ê¸°ë¥¼ 10MBì´í•˜ë¡œ ì œí•œ.
 	uploadform.MaxFileLen = 10*1024*1024
-	' ÀüÃ¼ ÆÄÀÏÀÇ Å©±â¸¦ 50MB ÀÌÇÏ·Î Á¦ÇÑ.
+	' ì „ì²´ íŒŒì¼ì˜ í¬ê¸°ë¥¼ 50MB ì´í•˜ë¡œ ì œí•œ.
 	uploadform.TotalLen = 50*1024*1024
 
 	menu_seq  = uploadform("menu_seq")
@@ -134,7 +135,7 @@
 		Set conn = Nothing
 %>
 <script>
-//	alert("ÀÔ·Â µÇ¾ú½À´Ï´Ù.");
+//	alert("ì…ë ¥ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 //	parent.location.href='sale_list.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
 </script>
 <%
@@ -144,7 +145,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("¿À·ù°¡ “u»ıÇß½À´Ï´Ù.\n\n¿¡·¯³»¿ë : <%=Err.Description%>(<%=Err.Number%>)");
+	alert("ì˜¤ë¥˜ê°€ ë±”ìƒí–ˆìŠµë‹ˆë‹¤.\n\nì—ëŸ¬ë‚´ìš© : <%=Err.Description%>(<%=Err.Number%>)");
 </script>
 <%
 	End if

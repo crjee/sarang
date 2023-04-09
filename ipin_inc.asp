@@ -44,12 +44,12 @@
 				End If
 			Else
 				stat = "N"
-				Response.Write "<script>alert('È°µ¿ÁßÁö È¸¿øÀÔ´Ï´Ù!');window.close();</script>"
+				Response.Write "<script>alert('í™œë™ì¤‘ì§€ íšŒì›ì…ë‹ˆë‹¤!');window.close();</script>"
 				Response.End
 			End if
 		Else
 			stat = "X"
-			Response.Write "<script>alert('ÀÏÄ¡ÇÏ´Â È¸¿øÁ¤º¸¸¦ Ã£Áö¸øÇß½À´Ï´Ù!1');window.close();</script>"
+			Response.Write "<script>alert('ì¼ì¹˜í•˜ëŠ” íšŒì›ì •ë³´ë¥¼ ì°¾ì§€ëª»í–ˆìŠµë‹ˆë‹¤!1');window.close();</script>"
 			Response.end
 		End If
 		

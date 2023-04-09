@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Call checkAdmin()
 
@@ -21,7 +22,7 @@
 		strFileName = uploadFolder & FileName
 
 		If uploadform("file_name").FileLen > uploadform.MaxFileLen Then
-			call msggo("ÆÄÀÏÀÇ Å©±â´Â " & CInt(uploadform.MaxFileLen/1024/1014) & "MB°¡ ³Ñ¾î¼­´Â ¾ÈµË´Ï´Ù","")
+			call msggo("íŒŒì¼ì˜ í¬ê¸°ëŠ” " & CInt(uploadform.MaxFileLen/1024/1014) & "MBê°€ ë„˜ì–´ì„œëŠ” ì•ˆë©ë‹ˆë‹¤","")
 			Set uploadform = Nothing
 			Response.End
 		End If
@@ -40,7 +41,7 @@
 	End If
 
 	If task="ins" Then
-		msg = "µî·Ï"
+		msg = "ë“±ë¡"
 
 		Set rs = Conn.Execute("select top 1 banner_num from cf_banner where cafe_id='" & cafe_id & "' and banner_type='T' order by banner_num desc")
 		If rs.eof Then
@@ -82,14 +83,14 @@
 		sql = sql & "       ,getdate())"
 		Conn.Execute(sql)
 	ElseIf task="del" Then
-		msg = "»èÁ¦"
+		msg = "ì‚­ì œ"
 
 		sql = ""
 		sql = sql & " delete from cf_banner "
 		sql = sql & "  where banner_seq = '" & banner_seq & "'"
 		Conn.Execute(sql)
 	ElseIf task="upd" Then
-		msg = "¼öÁ¤"
+		msg = "ìˆ˜ì •"
 
 		sql = ""
 		sql = sql & " update cf_banner "
@@ -109,7 +110,7 @@
 	End If
 %>
 <script>
-	alert("<%=msg%> µÇ¾ú½À´Ï´Ù.");
+	alert("<%=msg%> ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	parent.opener.location = 'banner_list.asp';
 	parent.close();
 </script>

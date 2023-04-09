@@ -1,24 +1,25 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	freePage = True
 %>
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
 %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>°Ô½Ã±Û Áß´Ü ¿äÃ»ÇÏ±â</title>
+	<title>ê²Œì‹œê¸€ ì¤‘ë‹¨ ìš”ì²­í•˜ê¸°</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/styles.css">
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
-	<script src="/smart/js/HuskyEZCreator.js" charset="euc-kr"></script>
+	<script src="/smart/js/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <body>
 	<div id="wrap">
@@ -30,8 +31,8 @@
 			<input type="hidden" id="attachCnt" name="attachCnt" value="1">
 			<input type="hidden" name="temp" value="Y">
 				<div class="cont_tit">
-					<h2 class="h2">°Ô½Ã±Û Áß´Ü ¿äÃ»ÇÏ±â</h2>
-					<span class="posR"><em class="required">ÇÊ¼öÀÔ·Â</em>´Â ÇÊ¼ö ±âÀç Ç×¸ñÀÔ´Ï´Ù.</span>
+					<h2 class="h2">ê²Œì‹œê¸€ ì¤‘ë‹¨ ìš”ì²­í•˜ê¸°</h2>
+					<span class="posR"><em class="required">í•„ìˆ˜ìž…ë ¥</em>ëŠ” í•„ìˆ˜ ê¸°ìž¬ í•­ëª©ìž…ë‹ˆë‹¤.</span>
 				</div>
 				<div class="tb">
 					<table class="tb_input tb_fixed">
@@ -43,75 +44,75 @@
 						</colgroup>
 						<tbody>
 							<tr>
-								<th scope="row">¿äÃ»±¸ºÐ<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+								<th scope="row">ìš”ì²­êµ¬ë¶„<em class="required">í•„ìˆ˜ìž…ë ¥</em></th>
 								<td colspan="3">
 									<span class="">
 										<input type="radio" id="s_group1" name="s_group" class="inp_radio" required>
-										<label for="s_group1"><em>°³ÀÎ</em></label>
+										<label for="s_group1"><em>ê°œì¸</em></label>
 									</span>
 									<span class="ml20">
 										<input type="radio" id="s_group2" name="s_group" class="inp_radio" required>
-										<label for="s_group2"><em>´ÜÃ¼</em></label>
+										<label for="s_group2"><em>ë‹¨ì²´</em></label>
 									</span>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">ÀÌ¸§<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+								<th scope="row">ì´ë¦„<em class="required">í•„ìˆ˜ìž…ë ¥</em></th>
 								<td>
 									<input type="text" id="" name="" class="inp" required>
 								</td>
-								<th scope="row">¿¬¶ôÃ³<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+								<th scope="row">ì—°ë½ì²˜<em class="required">í•„ìˆ˜ìž…ë ¥</em></th>
 								<td>
 									<input type="text" id="" name="" class="inp" required>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">ÀÌ¸ÞÀÏ ÁÖ¼Ò<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+								<th scope="row">ì´ë©”ì¼ ì£¼ì†Œ<em class="required">í•„ìˆ˜ìž…ë ¥</em></th>
 								<td>
 									<input type="text" id="" name="" class="inp" required>
 								</td>
-								<th scope="row">½ÅºÐÁõ »çº»<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+								<th scope="row">ì‹ ë¶„ì¦ ì‚¬ë³¸<em class="required">í•„ìˆ˜ìž…ë ¥</em></th>
 								<td>
 									<input type="text" id="" name="" class="inp w300p" required>
-									<button type="button" class="btn btn_c_s btn_s">Ã£¾Æº¸±â</button>
+									<button type="button" class="btn btn_c_s btn_s">ì°¾ì•„ë³´ê¸°</button>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">¼Ò¼Ó<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+								<th scope="row">ì†Œì†<em class="required">í•„ìˆ˜ìž…ë ¥</em></th>
 								<td>
 									<input type="text" id="" name="" class="inp" required>
 								</td>
-								<th scope="row">»ç¾÷ÀÚµî·ÏÁõ<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+								<th scope="row">ì‚¬ì—…ìžë“±ë¡ì¦<em class="required">í•„ìˆ˜ìž…ë ¥</em></th>
 								<td>
 									<input type="text" id="" name="" class="inp" required>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">´ë¸®ÀÎ ½ÅºÐÁõ »çº»</th>
+								<th scope="row">ëŒ€ë¦¬ì¸ ì‹ ë¶„ì¦ ì‚¬ë³¸</th>
 								<td>
 									<input type="text" id="" name="" class="inp w300p">
-									<button type="button" class="btn btn_c_s btn_s">Ã£¾Æº¸±â</button>
-									<p class="txt_point mt10">´ë¸®ÀÎ °æ¿ì ÇÊ¼ö</p>
+									<button type="button" class="btn btn_c_s btn_s">ì°¾ì•„ë³´ê¸°</button>
+									<p class="txt_point mt10">ëŒ€ë¦¬ì¸ ê²½ìš° í•„ìˆ˜</p>
 								</td>
-								<th scope="row">À§ÀÓÀå</th>
+								<th scope="row">ìœ„ìž„ìž¥</th>
 								<td>
 									<input type="text" id="" name="" class="inp w300p">
-									<button type="button" class="btn btn_c_s btn_s">Ã£¾Æº¸±â</button>
-									<p class="txt_point mt10">´ë¸®ÀÎ °æ¿ì ÇÊ¼ö</p>
+									<button type="button" class="btn btn_c_s btn_s">ì°¾ì•„ë³´ê¸°</button>
+									<p class="txt_point mt10">ëŒ€ë¦¬ì¸ ê²½ìš° í•„ìˆ˜</p>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">°Ô½Ã±Û ÁÖ¼Ò<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+								<th scope="row">ê²Œì‹œê¸€ ì£¼ì†Œ<em class="required">í•„ìˆ˜ìž…ë ¥</em></th>
 								<td colspan="3">
 									<input type="text" id="" name="" class="inp">
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">Ã·ºÎÆÄÀÏ</th>
+								<th scope="row">ì²¨ë¶€íŒŒì¼</th>
 								<td colspan="3">
 									<input type="text" id="" name="" class="inp w300p">
-									<button type="button" class="btn btn_c_s btn_s">Ã£¾Æº¸±â</button>
-									<p class="txt_point mt10">ÆÄÀÏÇü½ÄÀº hwp, doc(docx), ppt, pdf ÆÄÀÏ¸¸ µî·Ï °¡´ÉÇÕ´Ï´Ù.</p>
+									<button type="button" class="btn btn_c_s btn_s">ì°¾ì•„ë³´ê¸°</button>
+									<p class="txt_point mt10">íŒŒì¼í˜•ì‹ì€ hwp, doc(docx), ppt, pdf íŒŒì¼ë§Œ ë“±ë¡ ê°€ëŠ¥í•©ë‹ˆë‹¤.</p>
 								</td>
 							</tr>
 						</tbody>
@@ -120,17 +121,17 @@
 						<textarea name="ir1" id="ir1" style="width:100%;display:none;"><%=contents%></textarea>
 					</div>
 					<div class="agree_box mt30">
-						<h3 class="h3">°³ÀÎÁ¤º¸ ¼öÁýÀÌ¿ë¿¡ ´ëÇÑ µ¿ÀÇ</h3>
+						<h3 class="h3">ê°œì¸ì •ë³´ ìˆ˜ì§‘ì´ìš©ì— ëŒ€í•œ ë™ì˜</h3>
 						<ul class="">
-							<li>¼öÁýÇ×¸ñ : [ÇÊ¼ö] ´ã´çÀÚ ¿¬¶ôÃ³, ´ã´çÀÚ ÀÌ¸ÞÀÏ ÁÖ¼Ò, È¸»ç¸í, ´ã´çÀÚ ÀÌ¸§</li>
-							<li>¼öÁýÇ×¸ñ : [ÇÊ¼ö] ´ã´çÀÚ ¿¬¶ôÃ³, ´ã´çÀÚ ÀÌ¸ÞÀÏ ÁÖ¼Ò, È¸»ç¸í, ´ã´çÀÚ ÀÌ¸§</li>
-							<li>¼öÁýÇ×¸ñ : [ÇÊ¼ö] ´ã´çÀÚ ¿¬¶ôÃ³, ´ã´çÀÚ ÀÌ¸ÞÀÏ ÁÖ¼Ò, È¸»ç¸í, ´ã´çÀÚ ÀÌ¸§</li>
+							<li>ìˆ˜ì§‘í•­ëª© : [í•„ìˆ˜] ë‹´ë‹¹ìž ì—°ë½ì²˜, ë‹´ë‹¹ìž ì´ë©”ì¼ ì£¼ì†Œ, íšŒì‚¬ëª…, ë‹´ë‹¹ìž ì´ë¦„</li>
+							<li>ìˆ˜ì§‘í•­ëª© : [í•„ìˆ˜] ë‹´ë‹¹ìž ì—°ë½ì²˜, ë‹´ë‹¹ìž ì´ë©”ì¼ ì£¼ì†Œ, íšŒì‚¬ëª…, ë‹´ë‹¹ìž ì´ë¦„</li>
+							<li>ìˆ˜ì§‘í•­ëª© : [í•„ìˆ˜] ë‹´ë‹¹ìž ì—°ë½ì²˜, ë‹´ë‹¹ìž ì´ë©”ì¼ ì£¼ì†Œ, íšŒì‚¬ëª…, ë‹´ë‹¹ìž ì´ë¦„</li>
 						</ul>
 					</div>
 				</div>
 				<div class="btn_box">
-					<button type="submit" class="btn btn_c_a btn_n">¿äÃ»ÇÏ±â</button>
-					<button type="reset" class="btn btn_c_n btn_n"><em>Ãë¼Ò</em></button>
+					<button type="submit" class="btn btn_c_a btn_n">ìš”ì²­í•˜ê¸°</button>
+					<button type="reset" class="btn btn_c_n btn_n"><em>ì·¨ì†Œ</em></button>
 				</div>
 			</form>
 			</div>
@@ -148,10 +149,10 @@
 		elPlaceHolder: "ir1",
 		sSkinURI: "/smart/SmartEditor2Skin.html",
 		htParams : {
-			bUseToolbar : true,				// Åø¹Ù »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-			bUseVerticalResizer : true,		// ÀÔ·ÂÃ¢ Å©±â Á¶Àý¹Ù »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-			bUseModeChanger : true,			// ¸ðµå ÅÇ(Editor | HTML | TEXT) »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-			//aAdditionalFontList : aAdditionalFontSet,		// Ãß°¡ ±Û²Ã ¸ñ·Ï
+			bUseToolbar : true,				// íˆ´ë°” ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+			bUseVerticalResizer : true,		// ìž…ë ¥ì°½ í¬ê¸° ì¡°ì ˆë°” ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+			bUseModeChanger : true,			// ëª¨ë“œ íƒ­(Editor | HTML | TEXT) ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+			//aAdditionalFontList : aAdditionalFontSet,		// ì¶”ê°€ ê¸€ê¼´ ëª©ë¡
 			fOnBeforeUnload : function() {
 				var f = document.form;
 				if (f.temp.value == "Y" && f.subject.value != "")
@@ -161,13 +162,13 @@
 					f.temp.value = "N";
 					f.target = "hiddenfrm";
 					f.submit();
-					alert("ÀÛ¼ºÁßÀÎ ³»¿ëÀÌ ÀÓ½Ã·Î ÀúÀåµÇ¾ú½À´Ï´Ù.");
+					alert("ìž‘ì„±ì¤‘ì¸ ë‚´ìš©ì´ ìž„ì‹œë¡œ ì €ìž¥ë˜ì—ˆìŠµë‹ˆë‹¤.");
 				}
 			}
 		}, //boolean
 		fOnAppLoad : function() {
-			//¿¹Á¦ ÄÚµå
-			//oEditors.getById["ir1"].exec("PASTE_HTML", ["·ÎµùÀÌ ¿Ï·áµÈ ÈÄ¿¡ º»¹®¿¡ »ðÀÔµÇ´Â textÀÔ´Ï´Ù."])
+			//ì˜ˆì œ ì½”ë“œ
+			//oEditors.getById["ir1"].exec("PASTE_HTML", ["ë¡œë”©ì´ ì™„ë£Œëœ í›„ì— ë³¸ë¬¸ì— ì‚½ìž…ë˜ëŠ” textìž…ë‹ˆë‹¤."])
 		},
 		fCreator: "createSEditor2"
 	})
@@ -186,53 +187,53 @@
 <script>
 	function fc_chk_byte(frm_nm, ari_max, cnt_view) { 
 	//	var frm = document.regForm;
-		var ls_str = frm_nm.value; // ÀÌº¥Æ®°¡ ÀÏ¾î³­ ÄÁÆ®·ÑÀÇ value °ª 
-		var li_str_len = ls_str.length; // ÀüÃ¼±æÀÌ 
+		var ls_str = frm_nm.value; // ì´ë²¤íŠ¸ê°€ ì¼ì–´ë‚œ ì»¨íŠ¸ë¡¤ì˜ value ê°’ 
+		var li_str_len = ls_str.length; // ì „ì²´ê¸¸ì´ 
 
-		// º¯¼öÃÊ±âÈ­ 
-		var li_max = ari_max; // Á¦ÇÑÇÒ ±ÛÀÚ¼ö Å©±â 
-		var i = 0; // for¹®¿¡ »ç¿ë 
-		var li_byte = 0; // ÇÑ±ÛÀÏ°æ¿ì´Â 2 ±×¹Ü¿¡´Â 1À» ´õÇÔ 
-		var li_len = 0; // substringÇÏ±â À§ÇØ¼­ »ç¿ë 
-		var ls_one_char = ""; // ÇÑ±ÛÀÚ¾¿ °Ë»çÇÑ´Ù 
-		var ls_str2 = ""; // ±ÛÀÚ¼ö¸¦ ÃÊ°úÇÏ¸é Á¦ÇÑÇÒ¼ö ±ÛÀÚÀü±îÁö¸¸ º¸¿©ÁØ´Ù. 
+		// ë³€ìˆ˜ì´ˆê¸°í™” 
+		var li_max = ari_max; // ì œí•œí•  ê¸€ìžìˆ˜ í¬ê¸° 
+		var i = 0; // forë¬¸ì— ì‚¬ìš© 
+		var li_byte = 0; // í•œê¸€ì¼ê²½ìš°ëŠ” 2 ê·¸ë°—ì—ëŠ” 1ì„ ë”í•¨ 
+		var li_len = 0; // substringí•˜ê¸° ìœ„í•´ì„œ ì‚¬ìš© 
+		var ls_one_char = ""; // í•œê¸€ìžì”© ê²€ì‚¬í•œë‹¤ 
+		var ls_str2 = ""; // ê¸€ìžìˆ˜ë¥¼ ì´ˆê³¼í•˜ë©´ ì œí•œí• ìˆ˜ ê¸€ìžì „ê¹Œì§€ë§Œ ë³´ì—¬ì¤€ë‹¤. 
 
 		for (i=0; i< li_str_len; i++) { 
-		// ÇÑ±ÛÀÚÃßÃâ 
+		// í•œê¸€ìžì¶”ì¶œ 
 			ls_one_char = ls_str.charAt(i); 
 
-			// ÇÑ±ÛÀÌ¸é 2¸¦ ´õÇÑ´Ù. 
+			// í•œê¸€ì´ë©´ 2ë¥¼ ë”í•œë‹¤. 
 			if (escape(ls_one_char).length > 4) { 
 				li_byte += 2; 
 			} 
-			// ±×¹ÜÀÇ °æ¿ì´Â 1À» ´õÇÑ´Ù. 
+			// ê·¸ë°—ì˜ ê²½ìš°ëŠ” 1ì„ ë”í•œë‹¤. 
 			else { 
 				li_byte++; 
 			} 
 
-			// ÀüÃ¼ Å©±â°¡ li_max¸¦ ³ÑÁö¾ÊÀ¸¸é 
+			// ì „ì²´ í¬ê¸°ê°€ li_maxë¥¼ ë„˜ì§€ì•Šìœ¼ë©´ 
 			if (li_byte <= li_max) { 
 				li_len = i + 1; 
 			} 
 		} 
 
-		// ÀüÃ¼±æÀÌ¸¦ ÃÊ°úÇÏ¸é 
+		// ì „ì²´ê¸¸ì´ë¥¼ ì´ˆê³¼í•˜ë©´ 
 		if (li_byte > li_max) { 
-			alert( li_max + "byte ±ÛÀÚ¸¦ ÃÊ°ú ÀÔ·ÂÇÒ¼ö ¾ø½À´Ï´Ù. \n ÃÊ°úµÈ ³»¿ëÀº ÀÚµ¿À¸·Î »èÁ¦ µË´Ï´Ù. "); 
+			alert( li_max + "byte ê¸€ìžë¥¼ ì´ˆê³¼ ìž…ë ¥í• ìˆ˜ ì—†ìŠµë‹ˆë‹¤. \n ì´ˆê³¼ëœ ë‚´ìš©ì€ ìžë™ìœ¼ë¡œ ì‚­ì œ ë©ë‹ˆë‹¤. "); 
 			ls_str2 = ls_str.substr(0, li_len);
 			frm_nm.value = ls_str2; 
 
-			li_str_len = ls_str2.length; // ÀüÃ¼±æÀÌ 
-			li_byte = 0; // ÇÑ±ÛÀÏ°æ¿ì´Â 2 ±×¹Ü¿¡´Â 1À» ´õÇÔ 
+			li_str_len = ls_str2.length; // ì „ì²´ê¸¸ì´ 
+			li_byte = 0; // í•œê¸€ì¼ê²½ìš°ëŠ” 2 ê·¸ë°—ì—ëŠ” 1ì„ ë”í•¨ 
 			for (i=0; i< li_str_len; i++) { 
-			// ÇÑ±ÛÀÚÃßÃâ 
+			// í•œê¸€ìžì¶”ì¶œ 
 				ls_one_char = ls_str2.charAt(i); 
 
-				// ÇÑ±ÛÀÌ¸é 2¸¦ ´õÇÑ´Ù. 
+				// í•œê¸€ì´ë©´ 2ë¥¼ ë”í•œë‹¤. 
 				if (escape(ls_one_char).length > 4) { 
 					li_byte += 2; 
 				} 
-				// ±×¹ÜÀÇ °æ¿ì´Â 1À» ´õÇÑ´Ù. 
+				// ê·¸ë°—ì˜ ê²½ìš°ëŠ” 1ì„ ë”í•œë‹¤. 
 				else { 
 					li_byte++; 
 				} 

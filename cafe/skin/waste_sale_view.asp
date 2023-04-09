@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 	checkManager(cafe_id)
@@ -6,10 +7,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>½ºÅ²-1 : GI</title>
+	<title>ìŠ¤í‚¨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -92,24 +93,24 @@
 			<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
 			</form>
 				<div class="cont_tit">
-					<h2 class="h2"><font color="red">ÈÞÁöÅë <%=menu_name%> ³»¿ëº¸±â</font></h2>
+					<h2 class="h2"><font color="red">íœ´ì§€í†µ <%=menu_name%> ë‚´ìš©ë³´ê¸°</font></h2>
 				</div>
 				<div class="btn_box view_btn">
-					<button class="btn btn_c_n btn_n" type="button" onclick="goRestore()">º¹¿ø</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">»èÁ¦</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">¸ñ·Ï</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goRestore()">ë³µì›</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">ì‚­ì œ</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">ëª©ë¡</button>
 				</div>
 				<div class="view_head">
 					<h3 class="h3" id="subject"><%=subject%></h3>
 					<div class="wrt_info_box">
 						<ul>
-							<li><span>ÀÛ¼ºÀÚ</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
-							<li><span>Á¶È¸</span><strong><%=rs("view_cnt")%></strong></li>
-							<li><span>µî·ÏÀÏ½Ã</span><strong><%=rs("credt")%></strong></li>
+							<li><span>ìž‘ì„±ìž</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
+							<li><span>ì¡°íšŒ</span><strong><%=rs("view_cnt")%></strong></li>
+							<li><span>ë“±ë¡ì¼ì‹œ</span><strong><%=rs("credt")%></strong></li>
 						</ul>
 					</div>
 				</div>
-				<div class="wrt_file_box"><!-- Ã·ºÎÆÄÀÏ¿µ¿ª Ãß°¡ crjee -->
+				<div class="wrt_file_box"><!-- ì²¨ë¶€íŒŒì¼ì˜ì—­ ì¶”ê°€ crjee -->
 <%
 	link_txt = rmid(link, 40, "..")
 	
@@ -121,15 +122,15 @@
 		try{
 			if (window.clipboardData) {
 					window.clipboardData.setData("Text", "<%=link%>")
-					alert("ÇØ´ç URLÀÌ º¹»ç µÇ¾ú½À´Ï´Ù. Ctrl + v ÇÏ½Ã¸é ºÙ¿© ³Ö±â°¡ °¡´ÉÇÕ´Ï´Ù.");
+					alert("í•´ë‹¹ URLì´ ë³µì‚¬ ë˜ì—ˆìŠµë‹ˆë‹¤. Ctrl + v í•˜ì‹œë©´ ë¶™ì—¬ ë„£ê¸°ê°€ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
 			}
 			else if (window.navigator.clipboard) {
 					window.navigator.clipboard.writeText("<%=link%>").Then(() => {
-						alert("ÇØ´ç URLÀÌ º¹»ç µÇ¾ú½À´Ï´Ù. Ctrl + v ÇÏ½Ã¸é ºÙ¿© ³Ö±â°¡ °¡´ÉÇÕ´Ï´Ù.");
+						alert("í•´ë‹¹ URLì´ ë³µì‚¬ ë˜ì—ˆìŠµë‹ˆë‹¤. Ctrl + v í•˜ì‹œë©´ ë¶™ì—¬ ë„£ê¸°ê°€ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
 					});
 			}
 			else {
-				temp = prompt("ÇØ´ç URLÀ» º¹»çÇÏ½Ê½Ã¿À.", "<%=link%>");
+				temp = prompt("í•´ë‹¹ URLì„ ë³µì‚¬í•˜ì‹­ì‹œì˜¤.", "<%=link%>");
 			}
 		} catch(e) {
 			alert(e)
@@ -151,39 +152,39 @@
 							</colgroup>
 							<tbody>
 								<tr>
-									<th scope="row">¼ÒÀçÁö</th>
+									<th scope="row">ì†Œìž¬ì§€</th>
 									<td><%=location%></td>
-									<th scope="row">°è¾à»óÅÂ</th>
+									<th scope="row">ê³„ì•½ìƒíƒœ</th>
 									<td><%=bargain%></td>
 								</tr>
 								<tr>
-									<th scope="row">¸éÀû(Æò)</th>
+									<th scope="row">ë©´ì (í‰)</th>
 									<td><%=area%></td>
-									<th scope="row">ÇØ´çÃþ/ÃÑÃþ</th>
+									<th scope="row">í•´ë‹¹ì¸µ/ì´ì¸µ</th>
 									<td><%=floor%></td>
 								</tr>
 								<tr>
-									<th scope="row">¹æ°³¼ö/¿å½Ç¼ö</th>
+									<th scope="row">ë°©ê°œìˆ˜/ìš•ì‹¤ìˆ˜</th>
 									<td><%=compose%></td>
-									<th scope="row">±Ý¾×</th>
+									<th scope="row">ê¸ˆì•¡</th>
 									<td><%=price%></td>
 								</tr>
 								<tr>
-									<th scope="row">ÀÔÁÖ°¡´ÉÀÏ</th>
+									<th scope="row">ìž…ì£¼ê°€ëŠ¥ì¼</th>
 									<td><%=live_in%></td>
-									<th scope="row">ÁÖÂ÷¿©ºÎ</th>
+									<th scope="row">ì£¼ì°¨ì—¬ë¶€</th>
 									<td><%=parking%></td>
 								</tr>
 								<tr>
-									<th scope="row">´ëÁß±³Åë</th>
+									<th scope="row">ëŒ€ì¤‘êµí†µ</th>
 									<td><%=traffic%></td>
-									<th scope="row">¸ñÀû ¹× ¿ëµµ</th>
+									<th scope="row">ëª©ì  ë° ìš©ë„</th>
 									<td><%=purpose%></td>
 								</tr>
 								<tr>
-									<th scope="row">¿¬¶ôÃ³</th>
+									<th scope="row">ì—°ë½ì²˜</th>
 									<td><%=tel_no%></td>
-									<th scope="row">ÆÑ½º</th>
+									<th scope="row">íŒ©ìŠ¤</th>
 									<td><%=fax_no%></td>
 								</tr>
 <%
@@ -202,7 +203,7 @@
 	If Not rs2.eof Then
 %>
 								<tr>
-									<th scope="row">Ã·ºÎÆÄÀÏ</th>
+									<th scope="row">ì²¨ë¶€íŒŒì¼</th>
 									<td colspan="3" style="text-align:left">
 <%
 		Do Until rs2.eof
@@ -222,7 +223,7 @@
 			Else
 %>
 										<%If i > 0 Then%><br><%End If%>
-										<a href="javascript:alert('ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+										<a href="javascript:alert('íŒŒì¼ì´ ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 			End If
 

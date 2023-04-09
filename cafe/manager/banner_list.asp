@@ -1,14 +1,15 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>¹è³Ê °ü¸® > °ü¸®ÀÚ</title>
+	<title>ë°°ë„ˆ ê´€ë¦¬ > ê´€ë¦¬ì</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -18,20 +19,20 @@
 <body>
 	<div id="wrap">
 		<header id="adm_head">
-			<h1><a href="/">RETS °æÀÎ<sub>»ç¶û¹æ °ü¸®</sub></a></h1>
+			<h1><a href="/">RETS ê²½ì¸<sub>ì‚¬ë‘ë°© ê´€ë¦¬</sub></a></h1>
 		</header>
 		<nav id="adm_nav">
 <!--#include virtual="/cafe/manager/manager_left_inc.asp"-->
 		</nav>
 		<main id="adm_body">
 			<div class="adm_page_tit">
-				<h2 class="h2">¹è³Ê°ü¸®</h2>
+				<h2 class="h2">ë°°ë„ˆê´€ë¦¬</h2>
 			</div>
 			<div class="adm_cont">
 				<div class="adm_menu_manage">
 				<form name="nform" method="post" action="banner_num_exec.asp" target="hiddenfrm">
 					<div class="btn_box algL mb10">
-						<button type="submit" class="btn btn_c_a btn_s">³ëÃâ¼ø¼­ ÀúÀå</button>
+						<button type="submit" class="btn btn_c_a btn_s">ë…¸ì¶œìˆœì„œ ì €ì¥</button>
 					</div>
 					<div class="tb tb_form_1">
 						<table class="tb_fixed">
@@ -48,15 +49,15 @@
 							</colgroup>
 							<thead>
 								<tr>
-									<th scope="col">³ëÃâ¼ø¼­</th>
-									<th scope="col">³ëÃâ¹øÈ£</th>
-									<th scope="col">ÀÌ¹ÌÁö</th>
-									<th scope="col">Á¦¸ñ</th>
-									<th scope="col">¸µÅ©</th>
-									<th scope="col">µî·ÏÀÏ</th>
-									<th scope="col">±¸ºĞ</th>
-									<th scope="col">°ø°³¿©ºÎ</th>
-									<th scope="col">¼³Á¤</th>
+									<th scope="col">ë…¸ì¶œìˆœì„œ</th>
+									<th scope="col">ë…¸ì¶œë²ˆí˜¸</th>
+									<th scope="col">ì´ë¯¸ì§€</th>
+									<th scope="col">ì œëª©</th>
+									<th scope="col">ë§í¬</th>
+									<th scope="col">ë“±ë¡ì¼</th>
+									<th scope="col">êµ¬ë¶„</th>
+									<th scope="col">ê³µê°œì—¬ë¶€</th>
+									<th scope="col">ì„¤ì •</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -76,9 +77,9 @@
 	Do Until rs.eof
 		open_yn = rs("open_yn")
 		If open_yn = "Y" Then
-			open_yn = "°ø°³"
+			open_yn = "ê³µê°œ"
 		Else
-			open_yn = "ºñ°ø°³"
+			open_yn = "ë¹„ê³µê°œ"
 		End If
 
 		banner_seq = rs("banner_seq")
@@ -94,25 +95,25 @@
 
 		Select Case banner_type
 			Case "T"
-				banner_type_txt = "»ó´Ü"
+				banner_type_txt = "ìƒë‹¨"
 			Case "C0"
-				banner_type_txt = "´ë¹®ÀüÃ¼"
+				banner_type_txt = "ëŒ€ë¬¸ì „ì²´"
 				width  = 800
 				height = 170
 			Case "C1"
-				banner_type_txt = "´ë¹®1"
+				banner_type_txt = "ëŒ€ë¬¸1"
 				width  = 266
 				height = 170
 			Case "C2"
-				banner_type_txt = "´ë¹®2"
+				banner_type_txt = "ëŒ€ë¬¸2"
 				width  = 266
 				height = 170
 			Case "C3"
-				banner_type_txt = "´ë¹®3"
+				banner_type_txt = "ëŒ€ë¬¸3"
 				width  = 266
 				height = 170
 			Case "R"
-				banner_type_txt = "¿À¸¥ÂÊ"
+				banner_type_txt = "ì˜¤ë¥¸ìª½"
 				width  = 150
 		End Select
 %>
@@ -151,8 +152,8 @@
 									<td class="algC"><%=banner_type_txt%></td>
 									<td class="algC"><%=open_yn%></td>
 									<td class="algC">
-										<button type="button" class="btn btn_c_a btn_s btn_modi" onclick="onEdit('<%=rs("banner_seq")%>')">¼öÁ¤</button>
-										<button type="button" class="btn btn_c_a btn_s" onclick="hiddenfrm.location.href='banner_del_exec.asp?task=del&banner_seq=<%=rs("banner_seq")%>'">»èÁ¦</button>
+										<button type="button" class="btn btn_c_a btn_s btn_modi" onclick="onEdit('<%=rs("banner_seq")%>')">ìˆ˜ì •</button>
+										<button type="button" class="btn btn_c_a btn_s" onclick="hiddenfrm.location.href='banner_del_exec.asp?task=del&banner_seq=<%=rs("banner_seq")%>'">ì‚­ì œ</button>
 									</td>
 								</tr>
 <%
@@ -165,7 +166,7 @@
 						</table>
 					</div>
 					<div class="btn_box algR">
-						<a href="#n" class="btn btn_c_a btn_n" onclick="onRegi()">¹è³Êµî·Ï</a>
+						<a href="#n" class="btn btn_c_a btn_n" onclick="onRegi()">ë°°ë„ˆë“±ë¡</a>
 					</div>
 				</div>
 			</form>
@@ -174,11 +175,11 @@
 		<footer id="adm_foot"></footer>
 	</div>
 	<iframe id="hiddenfrm" name="hiddenfrm" style="display:none"></iframe>
-	<!-- Banner µî·Ï : s -->
+	<!-- Banner ë“±ë¡ : s -->
 	<aside class="lypp lypp_adm_default lypp_adm_banner">
 		<header class="lypp_head">
-			<h2 class="h2">¹è³Ê <span id="regTitle"></span></h2>
-			<span class="posR"><button type="button" class="btn btn_close"><em>´İ±â</em></button></span>
+			<h2 class="h2">ë°°ë„ˆ <span id="regTitle"></span></h2>
+			<span class="posR"><button type="button" class="btn btn_close"><em>ë‹«ê¸°</em></button></span>
 		</header>
 		<div class="adm_cont">
 			<form method="post" id="regi_form" name="regi_form" action="banner_exec.asp" enctype="multipart/form-data" target="hiddenfrm">
@@ -192,76 +193,76 @@
 					</colgroup>
 					<tbody>
 						<tr>
-							<th scope="row">À§Ä¡</th>
+							<th scope="row">ìœ„ì¹˜</th>
 							<td>
 								<select id="banner_type" name="banner_type" required class="sel w_auto">
 									<option></option>
-									<%If banner_type_C0 <> "Y" then%><option value="C0">´ë¹®ÀüÃ¼</option><%End if%>
-									<%If banner_type_C1 <> "Y" then%><option value="C1">´ë¹®1</option><%End if%>
-									<%If banner_type_C2 <> "Y" then%><option value="C2">´ë¹®2</option><%End if%>
-									<%If banner_type_C3 <> "Y" then%><option value="C3">´ë¹®3</option><%End if%>
-									<option value="R">¿À¸¥ÂÊ</option>
+									<%If banner_type_C0 <> "Y" then%><option value="C0">ëŒ€ë¬¸ì „ì²´</option><%End if%>
+									<%If banner_type_C1 <> "Y" then%><option value="C1">ëŒ€ë¬¸1</option><%End if%>
+									<%If banner_type_C2 <> "Y" then%><option value="C2">ëŒ€ë¬¸2</option><%End if%>
+									<%If banner_type_C3 <> "Y" then%><option value="C3">ëŒ€ë¬¸3</option><%End if%>
+									<option value="R">ì˜¤ë¥¸ìª½</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">ÆÄÀÏÁ¾·ù</th>
+							<th scope="row">íŒŒì¼ì¢…ë¥˜</th>
 							<td>
 								<select id="file_type" name="file_type" required class="sel w_auto">
-									<option value="I">ÀÌ¹ÌÁö</option>
+									<option value="I">ì´ë¯¸ì§€</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">Á¦¸ñ</th>
+							<th scope="row">ì œëª©</th>
 							<td>
 								<input type="text" id="subject" name="subject" maxlength="100" required class="inp" />
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">¹è³Ê¼±ÅÃ</th>
+							<th scope="row">ë°°ë„ˆì„ íƒ</th>
 							<td>
 								<img id="file_img" name="file_img" style="width:150px">
 								<input type="file" id="file_name" name="file_name" class="inp" />
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">¹è³ÊÅ©±â</th>
+							<th scope="row">ë°°ë„ˆí¬ê¸°</th>
 							<td>
-								<label for="">°¡·Î</label>
+								<label for="">ê°€ë¡œ</label>
 								<input type="text" id="banner_width" name="banner_width" required class="inp w100p" />
 
-								<label for="">¼¼·Î</label>
+								<label for="">ì„¸ë¡œ</label>
 								<input type="text" id="banner_height" name="banner_height" required class="inp w100p" />
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">¹è³Ê¸µÅ©</th>
+							<th scope="row">ë°°ë„ˆë§í¬</th>
 							<td>
 								<input type="text" id="link" name="link" class="inp" />
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">°ø°³¿©ºÎ</th>
+							<th scope="row">ê³µê°œì—¬ë¶€</th>
 							<td>
 								<input type="radio" id="open_y" name="open_yn" value="Y" required />
-								<label for="open_y"><em>°ø°³</em></label>
+								<label for="open_y"><em>ê³µê°œ</em></label>
 
 								<input type="radio" id="open_n" name="open_yn" value="N" required />
-								<label for="open_n"><em>ºñ°ø°³</em></label>
+								<label for="open_n"><em>ë¹„ê³µê°œ</em></label>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div class="btn_box algC">
-				<button id="submitBtn" type="submit" class="btn btn_n">È®ÀÎ</button>
-				<button id="resetBtn" type="reset" class="btn btn_n">Ãë¼Ò</button>
+				<button id="submitBtn" type="submit" class="btn btn_n">í™•ì¸</button>
+				<button id="resetBtn" type="reset" class="btn btn_n">ì·¨ì†Œ</button>
 			</div>
 			</form>
 		</div>
 	</aside>
-	<!-- //Banner µî·Ï : e -->
+	<!-- //Banner ë“±ë¡ : e -->
 </body>
 </html>
 <!--Center-->
@@ -291,7 +292,7 @@
 		$("#task").val("ins");
 		$("#file_img").attr('src', "")
 		$("#file_name").attr("required" , true);
-		document.getElementById("regTitle").innerText = "µî·Ï";
+		document.getElementById("regTitle").innerText = "ë“±ë¡";
 		lyp('lypp_adm_banner');
 	}
 
@@ -300,7 +301,7 @@
 		$("#task").val("upd")
 		$("#file_img").attr('src', "")
 		$("#file_name").attr("required" , false);
-		document.getElementById("regTitle").innerText = "¼öÁ¤";
+		document.getElementById("regTitle").innerText = "ìˆ˜ì •";
 		lyp('lypp_adm_banner');
 
 		try {
@@ -339,7 +340,7 @@
 						}
 					}
 					else {
-						alert("ÇØ´ç ¹è³Ê°¡ ¾ø½À´Ï´Ù");
+						alert("í•´ë‹¹ ë°°ë„ˆê°€ ì—†ìŠµë‹ˆë‹¤");
 					}
 				},
 				complete : function() {

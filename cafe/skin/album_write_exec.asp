@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & "album\"
@@ -25,7 +26,7 @@
 	For Each item In uploadform("file_name")
 		If item <> "" Then
 			IF item.FileLen > UploadForm.MaxFileLen Then
-				call msggo("ÆÄÀÏÀÇ Å©±â´Â " & CInt(uploadform.MaxFileLen/1024/1014) & "MB°¡ ³Ñ¾î¼­´Â ¾ÈµË´Ï´Ù","")
+				call msggo("íŒŒì¼ì˜ í¬ê¸°ëŠ” " & CInt(uploadform.MaxFileLen/1024/1014) & "MBê°€ ë„˜ì–´ì„œëŠ” ì•ˆë©ë‹ˆë‹¤","")
 				Set UploadForm = Nothing
 				Response.End
 			End If
@@ -45,7 +46,7 @@
 		If item <> "" Then
 			MimeType = item.MimeType
 
-			'MimeTypeÀÌ image/jpeg ,image/gifÀÌ ¾Æ´Ñ°æ¿ì ¾÷·Îµå Áß´Ü
+			'MimeTypeì´ image/jpeg ,image/gifì´ ì•„ë‹Œê²½ìš° ì—…ë¡œë“œ ì¤‘ë‹¨
 			IF instr("image/jpeg/image/jpg,image/gif,image/png,image/bmp", MimeType) Then
 				If i = 1 Then
 					Set objImage = server.CreateObject("DEXT.ImageProc")
@@ -70,7 +71,7 @@
 
 						uploadFolder = ConfigAttachedFileFolder & "thumbnail\"
 						uploadform.DefaultPath = uploadFolder
-						'JPG Æ÷¸ËÀ¸·Î ÀúÀåÇØ¾ß ÇÔ
+						'JPG í¬ë§·ìœ¼ë¡œ ì €ì¥í•´ì•¼ í•¨
 						thumbnail = "thumbnail_" & new_seq & "_" & uploadform.FileNameWithoutExt & ".jpg"
 
 						Call objImage.SaveasThumbnail(uploadFolder & thumbnail, objImage.ImageWidth/rate, objImage.ImageHeight/rate, false, true)
@@ -82,18 +83,18 @@
 
 				FilePath = item.Save(,False)
 			Else
-				msgonly uploadform.FileName & " Àº ÀÌ¹ÌÁöÆÄÀÏÀÌ ¾Æ´Õ´Ï´Ù."
+				msgonly uploadform.FileName & " ì€ ì´ë¯¸ì§€íŒŒì¼ì´ ì•„ë‹™ë‹ˆë‹¤."
 			End If
 		End If
 	Next
 
-	If group_num = "" Then ' »õ±Û
+	If group_num = "" Then ' ìƒˆê¸€
 		parent_seq = ""
 		album_num = getNum("album", cafe_id, menu_seq)
 		group_num = album_num
 		level_num = 0
 		step_num = 0
-	Else ' ´ä±Û
+	Else ' ë‹µê¸€
 		parent_seq = album_seq
 
 		level_num = level_num + 1
@@ -209,11 +210,11 @@
 	var cName = "subject";
 	var expire = new Date();
 	expire.setDate(expire.getDate() + cDay);
-	cookies = cName + '=' + escape(cValue) + '; path=/ '; // ÇÑ±Û ±úÁüÀ» ¸·±âÀ§ÇØ escape(cValue)¸¦ ÇÕ´Ï´Ù.
+	cookies = cName + '=' + escape(cValue) + '; path=/ '; // í•œê¸€ ê¹¨ì§ì„ ë§‰ê¸°ìœ„í•´ escape(cValue)ë¥¼ í•©ë‹ˆë‹¤.
 	if (typeof cDay != 'undefined') cookies += ';expires=' + expire.toGMTString() + ';';
 	document.cookie = cookies;
 
-	alert("ÀÔ·Â µÇ¾ú½À´Ï´Ù.");
+	alert("ì…ë ¥ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	parent.location.href='album_list.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
 </script>
 <%
@@ -223,7 +224,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("¿À·ù°¡ “u»ıÇß½À´Ï´Ù.\n\n¿¡·¯³»¿ë : <%=Err.Description%>(<%=Err.Number%>)");
+	alert("ì˜¤ë¥˜ê°€ ë±”ìƒí–ˆìŠµë‹ˆë‹¤.\n\nì—ëŸ¬ë‚´ìš© : <%=Err.Description%>(<%=Err.Number%>)");
 </script>
 <%
 	End If

@@ -1,12 +1,13 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 
 	uploadFolder = ConfigAttachedFileFolder & "picture\"
 	uploadform.DefaultPath = uploadFolder
-	' ÇÏ³ªÀÇ ÆÄÀÏ Å©±â¸¦ 1MBÀÌÇÏ·Î Á¦ÇÑ.
+	' í•˜ë‚˜ì˜ íŒŒì¼ í¬ê¸°ë¥¼ 1MBì´í•˜ë¡œ ì œí•œ.
 	uploadform.MaxFileLen = 10*1024*1024
-	' ÀüÃ¼ ÆÄÀÏÀÇ Å©±â¸¦ 50MB ÀÌÇÏ·Î Á¦ÇÑ.
+	' ì „ì²´ íŒŒì¼ì˜ í¬ê¸°ë¥¼ 50MB ì´í•˜ë¡œ ì œí•œ.
 	uploadform.TotalLen = 50*1024*1024
 
 	If uploadform("picture") <> "" Then

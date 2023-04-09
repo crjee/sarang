@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
 
@@ -21,12 +22,12 @@
 	row.Open Sql, conn, 3, 1
 
 	row.PageSize = PageSize
-	RecordCount = 0 ' ÀÚ·á°¡ ¾øÀ»¶§
+	RecordCount = 0 ' ìë£Œê°€ ì—†ì„ë•Œ
 	If Not row.EOF Then
 		RecordCount = row.recordcount
 	End If
 
-	' ÀüÃ¼ ÆäÀÌÁö ¼ö ¾ò±â
+	' ì „ì²´ í˜ì´ì§€ ìˆ˜ ì–»ê¸°
 	If RecordCount/PageSize = Int(RecordCount/PageSize) then
 		PageCount = Int(RecordCount / PageSize)
 	Else
@@ -41,29 +42,29 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>¼³¹®°ü¸® > °ü¸®ÀÚ</title>
+	<title>ì„¤ë¬¸ê´€ë¦¬ > ê´€ë¦¬ì</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
-<!-- ´Ş·Â ½ÃÀÛ -->
+<!-- ë‹¬ë ¥ ì‹œì‘ -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script>
 	$.datepicker.setDefaults({
 		dateFormat: 'yy-mm-dd',
-		prevText: 'ÀÌÀü ´Ş',
-		nextText: '´ÙÀ½ ´Ş',
-		monthNames: ['1¿ù', '2¿ù', '3¿ù', '4¿ù', '5¿ù', '6¿ù', '7¿ù', '8¿ù', '9¿ù', '10¿ù', '11¿ù', '12¿ù'],
-		monthNamesShort: ['1¿ù', '2¿ù', '3¿ù', '4¿ù', '5¿ù', '6¿ù', '7¿ù', '8¿ù', '9¿ù', '10¿ù', '11¿ù', '12¿ù'],
-		dayNames: ['ÀÏ', '¿ù', 'È­', '¼ö', '¸ñ', '±İ', 'Åä'],
-		dayNamesShort: ['ÀÏ', '¿ù', 'È­', '¼ö', '¸ñ', '±İ', 'Åä'],
-		dayNamesMin: ['ÀÏ', '¿ù', 'È­', '¼ö', '¸ñ', '±İ', 'Åä'],
+		prevText: 'ì´ì „ ë‹¬',
+		nextText: 'ë‹¤ìŒ ë‹¬',
+		monthNames: ['1ì›”', '2ì›”', '3ì›”', '4ì›”', '5ì›”', '6ì›”', '7ì›”', '8ì›”', '9ì›”', '10ì›”', '11ì›”', '12ì›”'],
+		monthNamesShort: ['1ì›”', '2ì›”', '3ì›”', '4ì›”', '5ì›”', '6ì›”', '7ì›”', '8ì›”', '9ì›”', '10ì›”', '11ì›”', '12ì›”'],
+		dayNames: ['ì¼', 'ì›”', 'í™”', 'ìˆ˜', 'ëª©', 'ê¸ˆ', 'í† '],
+		dayNamesShort: ['ì¼', 'ì›”', 'í™”', 'ìˆ˜', 'ëª©', 'ê¸ˆ', 'í† '],
+		dayNamesMin: ['ì¼', 'ì›”', 'í™”', 'ìˆ˜', 'ëª©', 'ê¸ˆ', 'í† '],
 		showMonthAfterYear: true,
-		yearSuffix: '³â'
+		yearSuffix: 'ë…„'
 	});
 
 	$( function() {
@@ -71,27 +72,27 @@
 		$("#edate").datepicker();
 	} );
 </script>
-<!-- ´Ş·Â ³¡ -->
+<!-- ë‹¬ë ¥ ë -->
 </head>
 <body>
 	<div id="wrap">
 		<header id="adm_head">
-			<h1><a href="/">RETS °æÀÎ<sub>»ç¶û¹æ °ü¸®</sub></a></h1>
+			<h1><a href="/">RETS ê²½ì¸<sub>ì‚¬ë‘ë°© ê´€ë¦¬</sub></a></h1>
 		</header>
 		<nav id="adm_nav">
 <!--#include virtual="/cafe/manager/manager_left_inc.asp"-->
 		</nav>
 		<main id="adm_body">
 			<div class="adm_page_tit">
-				<h2 class="h2">¼³¹® °ü¸®</h2>
+				<h2 class="h2">ì„¤ë¬¸ ê´€ë¦¬</h2>
 			</div>
 			<div class="adm_cont">
 				<div class="status_box clearBoth">
 				<form name="search_form" method="post">
 				<input type="hidden" name="page" value="<%=page%>">
-					<span class="floatL">ÃÑ ¼³¹® <strong class="f_weight_m f_skyblue"><%=FormatNumber(RecordCount,0)%></strong>°³</span>
+					<span class="floatL">ì´ ì„¤ë¬¸ <strong class="f_weight_m f_skyblue"><%=FormatNumber(RecordCount,0)%></strong>ê°œ</span>
 					<span class="floatR">
-						<span class="ml20 mr5">Ãâ·Â¼ö</span>
+						<span class="ml20 mr5">ì¶œë ¥ìˆ˜</span>
 						<select class="sel w100p" id="pagesize" name="pagesize" onchange="goSearch()">
 							<option value=""></option>
 							<option value="10" <%=if3(pagesize="10","selected","")%>>10</option>
@@ -115,13 +116,13 @@
 							</colgroup>
 							<thead>
 								<tr>
-									<th scope="col">Á¦¸ñ</th>
-									<th scope="col">°á°ú</th>
-									<th scope="col">Âü¿©ÀÎ¿ø</th>
-									<th scope="col">±â°£</th>
-									<th scope="col">ÀÎÁõ</th>
-									<th scope="col">¸¶°¨</th>
-									<th scope="col">¼³Á¤</th>
+									<th scope="col">ì œëª©</th>
+									<th scope="col">ê²°ê³¼</th>
+									<th scope="col">ì°¸ì—¬ì¸ì›</th>
+									<th scope="col">ê¸°ê°„</th>
+									<th scope="col">ì¸ì¦</th>
+									<th scope="col">ë§ˆê°</th>
+									<th scope="col">ì„¤ì •</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -159,14 +160,14 @@
 %>
 										</ul>
 									</td>
-									<td class="algC"><%=total%> ¸í</td>
+									<td class="algC"><%=total%> ëª…</td>
 									<td class="algC"><%=row("sdate") & " ~ " & row("edate")%></td>
 									<td class="algC"><%=if3(row("rprsv_cert_use_yn")="Y","Y","")%></td>
 									<td class="algC"><%=if3(row("ddln_yn")="Y","Y","")%></td>
 									<td class="algC">
-										<button type="button" class="btn btn_c_a btn_s btn_modi" onclick="onEdit('<%=row("poll_seq")%>')">¼öÁ¤</button>
-										<button type="button" class="btn btn_c_a btn_s" onclick="hiddenfrm.location.href='poll_exec.asp?task=ddln&poll_seq=<%=row("poll_seq")%>'">¸¶°¨</button>
-										<button type="button" class="btn btn_c_a btn_s" onclick="hiddenfrm.location.href='poll_exec.asp?task=del&poll_seq=<%=row("poll_seq")%>'">»èÁ¦</button>
+										<button type="button" class="btn btn_c_a btn_s btn_modi" onclick="onEdit('<%=row("poll_seq")%>')">ìˆ˜ì •</button>
+										<button type="button" class="btn btn_c_a btn_s" onclick="hiddenfrm.location.href='poll_exec.asp?task=ddln&poll_seq=<%=row("poll_seq")%>'">ë§ˆê°</button>
+										<button type="button" class="btn btn_c_a btn_s" onclick="hiddenfrm.location.href='poll_exec.asp?task=del&poll_seq=<%=row("poll_seq")%>'">ì‚­ì œ</button>
 									</td>
 								</tr>
 <%
@@ -181,7 +182,7 @@
 						</table>
 					</div>
 					<div class="btn_box algR">
-						<a href="#n" class="btn btn_c_a btn_n" onclick="onRegi()">¼³¹®µî·Ï</a>
+						<a href="#n" class="btn btn_c_a btn_n" onclick="onRegi()">ì„¤ë¬¸ë“±ë¡</a>
 					</div>
 				</form>
 				</div>
@@ -192,8 +193,8 @@
 	</div>
 	<aside class="lypp lypp_adm_default lypp_adm_vote">
 		<header class="lypp_head">
-			<h2 class="h2">¼³¹®Á¶»ç <span id="regTitle"></span></h2>
-			<span class="posR"><button type="button" class="btn btn_close"><em>´İ±â</em></button></span>
+			<h2 class="h2">ì„¤ë¬¸ì¡°ì‚¬ <span id="regTitle"></span></h2>
+			<span class="posR"><button type="button" class="btn btn_close"><em>ë‹«ê¸°</em></button></span>
 		</header>
 		<div class="adm_cont">
 			<form id="regi_form" name="regi_form" method="post" action="poll_exec.asp" target="hiddenfrm">
@@ -207,47 +208,47 @@
 					</colgroup>
 					<tbody>
 						<tr>
-							<th scope="row">´ëÇ¥ÀÚÀÎÁõ</th>
+							<th scope="row">ëŒ€í‘œìì¸ì¦</th>
 							<td>
 								<input type="radio" id="rprsv_cert_use_y" name="rprsv_cert_use_yn" value="Y" required />
-								<label for="rprsv_cert_use_y"><em>»ç¿ë</em></label>
+								<label for="rprsv_cert_use_y"><em>ì‚¬ìš©</em></label>
 
 								<input type="radio" id="rprsv_cert_use_n" name="rprsv_cert_use_yn" value="N" required />
-								<label for="rprsv_cert_use_n"><em>¹Ì»ç¿ë</em></label>
+								<label for="rprsv_cert_use_n"><em>ë¯¸ì‚¬ìš©</em></label>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">¸¶°¨</th>
+							<th scope="row">ë§ˆê°</th>
 							<td>
 								<input type="radio" id="ddln_yn_y" name="ddln_yn" value="Y" required />
-								<label for="ddln_yn_y"><em>¸¶°¨</em></label>
+								<label for="ddln_yn_y"><em>ë§ˆê°</em></label>
 
 								<input type="radio" id="ddln_yn_n" name="ddln_yn" value="N" required />
-								<label for="ddln_yn_n"><em>»ç¿ë</em></label>
+								<label for="ddln_yn_n"><em>ì‚¬ìš©</em></label>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">Á¦¸ñ</th>
+							<th scope="row">ì œëª©</th>
 							<td>
 								<input type="text" id="subject" name="subject" required class="inp" />
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">¼³¹®±â°£</th>
+							<th scope="row">ì„¤ë¬¸ê¸°ê°„</th>
 							<td>
 								<input type="text" id="sdate" name="sdate" class="inp" /><br>
 								<input type="text" id="edate" name="edate" class="inp" />
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">¹®Ç×</th>
+							<th scope="row">ë¬¸í•­</th>
 							<td>
 								<select id="count" name="count" required class="sel w_auto" onchange="ques_cnt(this.value)">
-									<option value="">°¹¼ö¼±ÅÃ</option>
+									<option value="">ê°¯ìˆ˜ì„ íƒ</option>
 <%
 	For i = 1 To 10
 %>
-									<option value="<%=i%>" <%=If3(i=Cint(count),"selected","")%>><%=i%>°³</option>
+									<option value="<%=i%>" <%=If3(i=Cint(count),"selected","")%>><%=i%>ê°œ</option>
 <%
 	Next
 %>
@@ -261,7 +262,7 @@
 		If Len(j)=1 then j = "0" & i
 %>
 						<tr id="quess<%=i%>" style="display:none">
-							<th scope="row">Áú¹® <%=j%></th>
+							<th scope="row">ì§ˆë¬¸ <%=j%></th>
 							<td>
 								<input type="text" id="ques<%=j%>" name="ques<%=j%>" class="inp" />
 							</td>
@@ -273,8 +274,8 @@
 				</table>
 			</div>
 			<div class="btn_box algC">
-				<button id="submitBtn" type="submit" class="btn btn_n">È®ÀÎ</button>
-				<button id="resetBtn" type="reset" class="btn btn_n">Ãë¼Ò</button>
+				<button id="submitBtn" type="submit" class="btn btn_n">í™•ì¸</button>
+				<button id="resetBtn" type="reset" class="btn btn_n">ì·¨ì†Œ</button>
 			</div>
 			</form>
 		</div>
@@ -299,14 +300,14 @@
 	function onRegi() {
 		$("#regi_form")[0].reset();
 		$("#task").val("ins");
-		document.getElementById("regTitle").innerText = "µî·Ï";
+		document.getElementById("regTitle").innerText = "ë“±ë¡";
 		lyp('lypp_adm_vote');
 	}
 
 	function onEdit(poll_seq) {
 		$("#regi_form")[0].reset();
 		$("#task").val("upd")
-		document.getElementById("regTitle").innerText = "¼öÁ¤";
+		document.getElementById("regTitle").innerText = "ìˆ˜ì •";
 		lyp('lypp_adm_vote');
 
 		try {
@@ -347,7 +348,7 @@
 						}
 					}
 					else {
-						alert("ÇØ´ç ¼³¹®ÀÌ ¾ø½À´Ï´Ù");
+						alert("í•´ë‹¹ ì„¤ë¬¸ì´ ì—†ìŠµë‹ˆë‹¤");
 					}
 				},
 				complete : function() {

@@ -1,3 +1,4 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	If Request("check1") = "Y" Then
 		popup_key = request("popup_key")

@@ -1,20 +1,22 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	freePage = True
 %>
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
-	checkCafePage(cafe_id)
-	checkWriteAuth(cafe_id)
 
 	ScriptTimeOut = 5000
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
 	uploadform.DefaultPath = uploadFolder
-	' ÇÏ³ªÀÇ ÆÄÀÏ Å©±â¸¦ 10MBÀÌÇÏ·Î Á¦ÇÑ.
+	' í•˜ë‚˜ì˜ íŒŒì¼ í¬ê¸°ë¥¼ 10MBì´í•˜ë¡œ ì œí•œ.
 	uploadform.MaxFileLen = 10*1024*1024
-	' ÀüÃ¼ ÆÄÀÏÀÇ Å©±â¸¦ 50MB ÀÌÇÏ·Î Á¦ÇÑ.
+	' ì „ì²´ íŒŒì¼ì˜ í¬ê¸°ë¥¼ 50MB ì´í•˜ë¡œ ì œí•œ.
 	uploadform.TotalLen = 50*1024*1024
+
+	checkCafePageUpload(cafe_id)
+	checkWriteAuth(cafe_id)
 
 	page      = uploadform("page")
 	sch_type  = uploadform("sch_type")
@@ -32,7 +34,7 @@
 	rs.Open Sql, conn, 3, 1
 
 	If rs.EOF Then
-		msggo "Á¤»óÀûÀÎ »ç¿ëÀÌ ¾Æ´Õ´Ï´Ù.",""
+		msggo "ì •ìƒì ì¸ ì‚¬ìš©ì´ ì•„ë‹™ë‹ˆë‹¤.",""
 	Else
 		daily_cnt = rs("daily_cnt")
 		inc_del_yn = rs("inc_del_yn")
@@ -65,7 +67,7 @@
 	For Each item In uploadform("file_name")
 		If item <> "" Then
 			IF item.FileLen > uploadform.MaxFileLen Then
-				call msggo("ÆÄÀÏÀÇ Å©±â´Â " & CInt(uploadform.MaxFileLen/1024/1014) & "MB°¡ ³Ñ¾î¼­´Â ¾ÈµË´Ï´Ù","")
+				call msggo("íŒŒì¼ì˜ í¬ê¸°ëŠ” " & CInt(uploadform.MaxFileLen/1024/1014) & "MBê°€ ë„˜ì–´ì„œëŠ” ì•ˆë©ë‹ˆë‹¤","")
 				Set uploadform = Nothing
 				Response.End
 			End If
@@ -85,13 +87,13 @@
 
 	new_seq = getSeq("cf_nsale")
 
-	If group_num = "" Then ' »õ±Û
+	If group_num = "" Then ' ìƒˆê¸€
 		parent_seq = ""
 		nsale_num = getNum(menu_type, cafe_id, menu_seq)
 		group_num = nsale_num
 		level_num = 0
 		step_num = 0
-	Else ' ´ä±Û
+	Else ' ë‹µê¸€
 		parent_seq = nsale_seq
 		nsale_num = ""
 		group_num = group_num
@@ -245,11 +247,11 @@
 	var cName = "subject";
 	var expire = new Date();
 	expire.setDate(expire.getDate() + cDay);
-	cookies = cName + '=' + escape(cValue) + '; path=/ '; // ÇÑ±Û ±úÁüÀ» ¸·±âÀ§ÇØ escape(cValue)¸¦ ÇÕ´Ï´Ù.
+	cookies = cName + '=' + escape(cValue) + '; path=/ '; // í•œê¸€ ê¹¨ì§ì„ ë§‰ê¸°ìœ„í•´ escape(cValue)ë¥¼ í•©ë‹ˆë‹¤.
 	if (typeof cDay != 'undefined') cookies += ';expires=' + expire.toGMTString() + ';';
 	document.cookie = cookies;
 
-	alert("ÀÔ·Â µÇ¾ú½À´Ï´Ù.");
+	alert("ì…ë ¥ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	parent.location.href='nsale_list.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
 </script>
 <%
@@ -259,7 +261,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("¿À·ù°¡ “u»ıÇß½À´Ï´Ù.\n\n¿¡·¯³»¿ë : <%=Err.Description%>(<%=Err.Number%>)");
+	alert("ì˜¤ë¥˜ê°€ ë±”ìƒí–ˆìŠµë‹ˆë‹¤.\n\nì—ëŸ¬ë‚´ìš© : <%=Err.Description%>(<%=Err.Number%>)");
 </script>
 <%
 	End if

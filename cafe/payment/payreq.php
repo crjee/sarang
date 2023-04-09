@@ -1,57 +1,57 @@
-﻿<?
+癤??
 
 include_once("./_common.php");
 include_once("./_head.php");
 ?>
 <?php
     /*
-     * [결제 인증요청 페이지(STEP2-1)]
+     * [寃곗젣 ?몄쬆?붿껌 ?섏씠吏(STEP2-1)]
      *
-     * 샘플페이지에서는 기본 파라미터만 예시되어 있으며, 별도로 필요하신 파라미터는 연동메뉴얼을 참고하시어 추가 하시기 바랍니다.     
+     * ?섑뵆?섏씠吏?먯꽌??湲곕낯 ?뚮씪誘명꽣留??덉떆?섏뼱 ?덉쑝硫? 蹂꾨룄濡??꾩슂?섏떊 ?뚮씪誘명꽣???곕룞硫붾돱?쇱쓣 李멸퀬?섏떆??異붽? ?섏떆湲?諛붾엻?덈떎.     
      */
 
     /*
-     * 1. 기본결제 인증요청 정보 변경
+     * 1. 湲곕낯寃곗젣 ?몄쬆?붿껌 ?뺣낫 蹂寃?
      * 
-     * 기본정보를 변경하여 주시기 바랍니다.(파라미터 전달시 POST를 사용하세요)
+     * 湲곕낯?뺣낫瑜?蹂寃쏀븯??二쇱떆湲?諛붾엻?덈떎.(?뚮씪誘명꽣 ?꾨떖??POST瑜??ъ슜?섏꽭??
      */
-    $CST_PLATFORM               = $HTTP_POST_VARS["CST_PLATFORM"];      //LG텔레콤 결제 서비스 선택(test:테스트, service:서비스)
-    $CST_MID                    = $HTTP_POST_VARS["CST_MID"];           //상점아이디(LG텔레콤으로 부터 발급받으신 상점아이디를 입력하세요)
-                                                                        //테스트 아이디는 't'를 반드시 제외하고 입력하세요.
-    $LGD_MID                    = (("test" == $CST_PLATFORM)?"t":"").$CST_MID;  //상점아이디(자동생성)
-    $LGD_OID                    = $HTTP_POST_VARS["LGD_OID"];           //주문번호(상점정의 유니크한 주문번호를 입력하세요)
-    $LGD_AMOUNT                 = $HTTP_POST_VARS["LGD_AMOUNT"];        //결제금액("," 를 제외한 결제금액을 입력하세요)
-    $LGD_BUYER                  = $HTTP_POST_VARS["LGD_BUYER"];         //구매자명
-    $LGD_PRODUCTINFO            = $HTTP_POST_VARS["LGD_PRODUCTINFO"];   //상품명
-    $LGD_BUYEREMAIL             = $HTTP_POST_VARS["LGD_BUYEREMAIL"];    //구매자 이메일
-    $LGD_TIMESTAMP              = date(YmdHms);                         //타임스탬프
-    $LGD_CUSTOM_SKIN            = "blue";                               //상점정의 결제창 스킨 (red, blue, cyan, green, yellow)
-    $LGD_MERTKEY				= "c60c1fcbde71f8203dbb99db5d971d91";									//상점MertKey(mertkey는 상점관리자 -> 계약정보 -> 상점정보관리에서 확인하실수 있습니다)
-	$configPath 				= "/home/gibds.co.kr/www/payment/lgdacom"; 						//LG텔레콤에서 제공한 환경파일("/conf/lgdacom.conf") 위치 지정. 	    
-    $LGD_BUYERID                = $HTTP_POST_VARS["LGD_BUYERID"];       //구매자 아이디
-    $LGD_BUYERIP                = $HTTP_POST_VARS["LGD_BUYERIP"];       //구매자IP
+    $CST_PLATFORM               = $HTTP_POST_VARS["CST_PLATFORM"];      //LG?붾젅肄?寃곗젣 ?쒕퉬???좏깮(test:?뚯뒪?? service:?쒕퉬??
+    $CST_MID                    = $HTTP_POST_VARS["CST_MID"];           //?곸젏?꾩씠??LG?붾젅肄ㅼ쑝濡?遺??諛쒓툒諛쏆쑝???곸젏?꾩씠?붾? ?낅젰?섏꽭??
+                                                                        //?뚯뒪???꾩씠?붾뒗 't'瑜?諛섎뱶???쒖쇅?섍퀬 ?낅젰?섏꽭??
+    $LGD_MID                    = (("test" == $CST_PLATFORM)?"t":"").$CST_MID;  //?곸젏?꾩씠???먮룞?앹꽦)
+    $LGD_OID                    = $HTTP_POST_VARS["LGD_OID"];           //二쇰Ц踰덊샇(?곸젏?뺤쓽 ?좊땲?ы븳 二쇰Ц踰덊샇瑜??낅젰?섏꽭??
+    $LGD_AMOUNT                 = $HTTP_POST_VARS["LGD_AMOUNT"];        //寃곗젣湲덉븸("," 瑜??쒖쇅??寃곗젣湲덉븸???낅젰?섏꽭??
+    $LGD_BUYER                  = $HTTP_POST_VARS["LGD_BUYER"];         //援щℓ?먮챸
+    $LGD_PRODUCTINFO            = $HTTP_POST_VARS["LGD_PRODUCTINFO"];   //?곹뭹紐?
+    $LGD_BUYEREMAIL             = $HTTP_POST_VARS["LGD_BUYEREMAIL"];    //援щℓ???대찓??
+    $LGD_TIMESTAMP              = date(YmdHms);                         //??꾩뒪?ы봽
+    $LGD_CUSTOM_SKIN            = "blue";                               //?곸젏?뺤쓽 寃곗젣李??ㅽ궓 (red, blue, cyan, green, yellow)
+    $LGD_MERTKEY				= "c60c1fcbde71f8203dbb99db5d971d91";									//?곸젏MertKey(mertkey???곸젏愿由ъ옄 -> 怨꾩빟?뺣낫 -> ?곸젏?뺣낫愿由ъ뿉???뺤씤?섏떎???덉뒿?덈떎)
+	$configPath 				= "/home/gibds.co.kr/www/payment/lgdacom"; 						//LG?붾젅肄ㅼ뿉???쒓났???섍꼍?뚯씪("/conf/lgdacom.conf") ?꾩튂 吏?? 	    
+    $LGD_BUYERID                = $HTTP_POST_VARS["LGD_BUYERID"];       //援щℓ???꾩씠??
+    $LGD_BUYERIP                = $HTTP_POST_VARS["LGD_BUYERIP"];       //援щℓ?륤P
 	
     /*
-     * 가상계좌(무통장) 결제 연동을 하시는 경우 아래 LGD_CASNOTEURL 을 설정하여 주시기 바랍니다. 
+     * 媛?곴퀎醫?臾댄넻?? 寃곗젣 ?곕룞???섏떆??寃쎌슦 ?꾨옒 LGD_CASNOTEURL ???ㅼ젙?섏뿬 二쇱떆湲?諛붾엻?덈떎. 
      */    
-    $LGD_CASNOTEURL				= "http://상점URL/cas_noteurl.php";    
+    $LGD_CASNOTEURL				= "http://?곸젏URL/cas_noteurl.php";    
 		
     /*
      *************************************************
-     * 2. MD5 해쉬암호화 (수정하지 마세요) - BEGIN
+     * 2. MD5 ?댁돩?뷀샇??(?섏젙?섏? 留덉꽭?? - BEGIN
      * 
-     * MD5 해쉬암호화는 거래 위변조를 막기위한 방법입니다. 
+     * MD5 ?댁돩?뷀샇?붾뒗 嫄곕옒 ?꾨?議곕? 留됯린?꾪븳 諛⑸쾿?낅땲?? 
      *************************************************
      *
-     * 해쉬 암호화 적용( LGD_MID + LGD_OID + LGD_AMOUNT + LGD_TIMESTAMP + LGD_MERTKEY )
-     * LGD_MID          : 상점아이디
-     * LGD_OID          : 주문번호
-     * LGD_AMOUNT       : 금액
-     * LGD_TIMESTAMP    : 타임스탬프
-     * LGD_MERTKEY      : 상점MertKey (mertkey는 상점관리자 -> 계약정보 -> 상점정보관리에서 확인하실수 있습니다)
+     * ?댁돩 ?뷀샇???곸슜( LGD_MID + LGD_OID + LGD_AMOUNT + LGD_TIMESTAMP + LGD_MERTKEY )
+     * LGD_MID          : ?곸젏?꾩씠??
+     * LGD_OID          : 二쇰Ц踰덊샇
+     * LGD_AMOUNT       : 湲덉븸
+     * LGD_TIMESTAMP    : ??꾩뒪?ы봽
+     * LGD_MERTKEY      : ?곸젏MertKey (mertkey???곸젏愿由ъ옄 -> 怨꾩빟?뺣낫 -> ?곸젏?뺣낫愿由ъ뿉???뺤씤?섏떎???덉뒿?덈떎)
      *
-     * MD5 해쉬데이터 암호화 검증을 위해
-     * LG텔레콤에서 발급한 상점키(MertKey)를 환경설정 파일(lgdacom/conf/mall.conf)에 반드시 입력하여 주시기 바랍니다.
+     * MD5 ?댁돩?곗씠???뷀샇??寃利앹쓣 ?꾪빐
+     * LG?붾젅肄ㅼ뿉??諛쒓툒???곸젏??MertKey)瑜??섍꼍?ㅼ젙 ?뚯씪(lgdacom/conf/mall.conf)??諛섎뱶???낅젰?섏뿬 二쇱떆湲?諛붾엻?덈떎.
      */
     require_once("./lgdacom/XPayClient.php");
     $xpay = &new XPayClient($configPath, $LGD_PLATFORM);
@@ -60,7 +60,7 @@ include_once("./_head.php");
     $LGD_CUSTOM_PROCESSTYPE = "TWOTR";
     /*
      *************************************************
-     * 2. MD5 해쉬암호화 (수정하지 마세요) - END
+     * 2. MD5 ?댁돩?뷀샇??(?섏젙?섏? 留덉꽭?? - END
      *************************************************
      */
 ?>
@@ -69,32 +69,32 @@ include_once("./_head.php");
 <script language = 'javascript'>
 <!--
 /*
- * 상점결제 인증요청후 PAYKEY를 받아서 최종결제 요청.
+ * ?곸젏寃곗젣 ?몄쬆?붿껌??PAYKEY瑜?諛쏆븘??理쒖쥌寃곗젣 ?붿껌.
  */
 function doPay_ActiveX(){
     ret = xpay_check(document.getElementById('LGD_PAYINFO'), '<?= $CST_PLATFORM ?>');
 
-    if (ret=="00"){     //ActiveX 로딩 성공
-        var LGD_RESPCODE        = dpop.getData('LGD_RESPCODE');       //결과코드
-        var LGD_RESPMSG         = dpop.getData('LGD_RESPMSG');        //결과메세지
+    if (ret=="00"){     //ActiveX 濡쒕뵫 ?깃났
+        var LGD_RESPCODE        = dpop.getData('LGD_RESPCODE');       //寃곌낵肄붾뱶
+        var LGD_RESPMSG         = dpop.getData('LGD_RESPMSG');        //寃곌낵硫붿꽭吏
 
-        if( "0000" == LGD_RESPCODE ) { //인증성공
-            var LGD_PAYKEY      = dpop.getData('LGD_PAYKEY');         //LG텔레콤 인증KEY
-            var msg = "인증결과 : " + LGD_RESPMSG + "\n";
+        if( "0000" == LGD_RESPCODE ) { //?몄쬆?깃났
+            var LGD_PAYKEY      = dpop.getData('LGD_PAYKEY');         //LG?붾젅肄??몄쬆KEY
+            var msg = "?몄쬆寃곌낵 : " + LGD_RESPMSG + "\n";
             msg += "LGD_PAYKEY : " + LGD_PAYKEY +"\n\n";
             document.getElementById('LGD_PAYKEY').value = LGD_PAYKEY;
             alert(msg);
             document.getElementById('LGD_PAYINFO').submit();
-        } else { //인증실패
-            alert("인증이 실패하였습니다. " + LGD_RESPMSG);
+        } else { //?몄쬆?ㅽ뙣
+            alert("?몄쬆???ㅽ뙣?섏??듬땲?? " + LGD_RESPMSG);
             /*
-             * 인증실패 화면 처리
+             * ?몄쬆?ㅽ뙣 ?붾㈃ 泥섎━
              */
         }
     } else {
-        alert("LG U+ 전자결제를 위한 ActiveX Control이  설치되지 않았습니다.");
+        alert("LG U+ ?꾩옄寃곗젣瑜??꾪븳 ActiveX Control?? ?ㅼ튂?섏? ?딆븯?듬땲??");
         /*
-         * 인증실패 화면 처리
+         * ?몄쬆?ㅽ뙣 ?붾㈃ 泥섎━
          */
     }
 }
@@ -111,76 +111,76 @@ function isActiveXOK(){
 //-->
 </script>
 
-<div id="LGD_ACTIVEX_DIV"/> <!-- ActiveX 설치 안내 Layer 입니다. 수정하지 마세요. -->
+<div id="LGD_ACTIVEX_DIV"/> <!-- ActiveX ?ㅼ튂 ?덈궡 Layer ?낅땲?? ?섏젙?섏? 留덉꽭?? -->
 <form method="post" id="LGD_PAYINFO" action="payres.php">
 <!--table>
     <tr>
-        <td>구매자 이름 </td>
+        <td>援щℓ???대쫫 </td>
         <td><?= $LGD_BUYER ?></td>
     </tr>
     <tr>
-        <td>구매자 IP </td>
+        <td>援щℓ??IP </td>
         <td><?= $LGD_BUYERIP ?></td>
     </tr>
     <tr>
-        <td>구매자 ID </td>
+        <td>援щℓ??ID </td>
         <td><?= $LGD_BUYERID ?></td>
     </tr>
     <tr>
-        <td>상품정보 </td>
+        <td>?곹뭹?뺣낫 </td>
         <td><?= $LGD_PRODUCTINFO ?></td>
     </tr>
     <tr>
-        <td>결제금액 </td>
+        <td>寃곗젣湲덉븸 </td>
         <td><?= $LGD_AMOUNT ?></td>
     </tr>
     <tr>
-        <td>구매자 이메일 </td>
+        <td>援щℓ???대찓??</td>
         <td><?= $LGD_BUYEREMAIL ?></td>
     </tr>
     <tr>
-        <td>주문번호 </td>
+        <td>二쇰Ц踰덊샇 </td>
         <td><?= $LGD_OID ?></td>
     </tr>
     <tr>
-        <td colspan="2">* 추가 상세 결제요청 파라미터는 메뉴얼을 참조하시기 바랍니다.</td>
+        <td colspan="2">* 異붽? ?곸꽭 寃곗젣?붿껌 ?뚮씪誘명꽣??硫붾돱?쇱쓣 李몄“?섏떆湲?諛붾엻?덈떎.</td>
     </tr>
     <tr>
         <td colspan="2"></td>
     </tr>    
     <tr>
         <td colspan="2">
-		<div id="LGD_BUTTON1">결제를 위한 모듈을 다운 중이거나, 모듈을 설치하지 않았습니다. </div>
-		<div id="LGD_BUTTON2" style="display:none"><input type="button" value="인증요청" onclick="doPay_ActiveX();"/> </div>        
+		<div id="LGD_BUTTON1">寃곗젣瑜??꾪븳 紐⑤뱢???ㅼ슫 以묒씠嫄곕굹, 紐⑤뱢???ㅼ튂?섏? ?딆븯?듬땲?? </div>
+		<div id="LGD_BUTTON2" style="display:none"><input type="button" value="?몄쬆?붿껌" onclick="doPay_ActiveX();"/> </div>        
         </td>
     </tr>    
 </table-->
 <br>
 
 <br>
-<input type="hidden" name="CST_PLATFORM"                value="<?= $CST_PLATFORM ?>">                   <!-- 테스트, 서비스 구분 -->
-<input type="hidden" name="CST_MID"                     value="<?= $CST_MID ?>">                        <!-- 상점아이디 -->
-<input type="hidden" name="LGD_MID"                     value="<?= $LGD_MID ?>">                        <!-- 상점아이디 -->
-<input type="hidden" name="LGD_OID"                     value="<?= $LGD_OID ?>">                        <!-- 주문번호 -->
-<input type="hidden" name="LGD_BUYER"                   value="<?= $LGD_BUYER ?>">           			<!-- 구매자 -->
-<input type="hidden" name="LGD_PRODUCTINFO"             value="<?= $LGD_PRODUCTINFO ?>">     			<!-- 상품정보 -->
-<input type="hidden" name="LGD_AMOUNT"                  value="<?= $LGD_AMOUNT ?>">                     <!-- 결제금액 -->
-<input type="hidden" name="LGD_BUYEREMAIL"              value="<?= $LGD_BUYEREMAIL ?>">                 <!-- 구매자 이메일 -->
-<input type="hidden" name="LGD_CUSTOM_SKIN"             value="<?= $LGD_CUSTOM_SKIN ?>">                <!-- 결제창 SKIN -->
-<input type="hidden" name="LGD_CUSTOM_PROCESSTYPE"      value="<?= $LGD_CUSTOM_PROCESSTYPE ?>">         <!-- 트랜잭션 처리방식 -->
-<input type="hidden" name="LGD_TIMESTAMP"               value="<?= $LGD_TIMESTAMP ?>">                  <!-- 타임스탬프 -->
-<input type="hidden" name="LGD_HASHDATA"                value="<?= $LGD_HASHDATA ?>">                   <!-- MD5 해쉬암호값 -->
-<input type="hidden" name="LGD_PAYKEY"                  id="LGD_PAYKEY">                                <!-- LG텔레콤 PAYKEY(인증후 자동셋팅)-->
-<input type="hidden" name="LGD_VERSION"         		value="PHP_XPay_1.0">							<!-- 버전정보 (삭제하지 마세요) -->
-<input type="hidden" name="LGD_BUYERIP"                 value="<?= $LGD_BUYERIP ?>">           			<!-- 구매자IP -->
-<input type="hidden" name="LGD_BUYERID"                 value="<?= $LGD_BUYERID ?>">           			<!-- 구매자ID -->
-<!-- 가상계좌(무통장) 결제연동을 하시는 경우  할당/입금 결과를 통보받기 위해 반드시 LGD_CASNOTEURL 정보를 LG 텔레콤에 전송해야 합니다 . -->
-<!-- input type="hidden" name="LGD_CASNOTEURL"          	value="<?= $LGD_CASNOTEURL ?>"-->					<!-- 가상계좌 NOTEURL -->  
+<input type="hidden" name="CST_PLATFORM"                value="<?= $CST_PLATFORM ?>">                   <!-- ?뚯뒪?? ?쒕퉬??援щ텇 -->
+<input type="hidden" name="CST_MID"                     value="<?= $CST_MID ?>">                        <!-- ?곸젏?꾩씠??-->
+<input type="hidden" name="LGD_MID"                     value="<?= $LGD_MID ?>">                        <!-- ?곸젏?꾩씠??-->
+<input type="hidden" name="LGD_OID"                     value="<?= $LGD_OID ?>">                        <!-- 二쇰Ц踰덊샇 -->
+<input type="hidden" name="LGD_BUYER"                   value="<?= $LGD_BUYER ?>">           			<!-- 援щℓ??-->
+<input type="hidden" name="LGD_PRODUCTINFO"             value="<?= $LGD_PRODUCTINFO ?>">     			<!-- ?곹뭹?뺣낫 -->
+<input type="hidden" name="LGD_AMOUNT"                  value="<?= $LGD_AMOUNT ?>">                     <!-- 寃곗젣湲덉븸 -->
+<input type="hidden" name="LGD_BUYEREMAIL"              value="<?= $LGD_BUYEREMAIL ?>">                 <!-- 援щℓ???대찓??-->
+<input type="hidden" name="LGD_CUSTOM_SKIN"             value="<?= $LGD_CUSTOM_SKIN ?>">                <!-- 寃곗젣李?SKIN -->
+<input type="hidden" name="LGD_CUSTOM_PROCESSTYPE"      value="<?= $LGD_CUSTOM_PROCESSTYPE ?>">         <!-- ?몃옖??뀡 泥섎━諛⑹떇 -->
+<input type="hidden" name="LGD_TIMESTAMP"               value="<?= $LGD_TIMESTAMP ?>">                  <!-- ??꾩뒪?ы봽 -->
+<input type="hidden" name="LGD_HASHDATA"                value="<?= $LGD_HASHDATA ?>">                   <!-- MD5 ?댁돩?뷀샇媛?-->
+<input type="hidden" name="LGD_PAYKEY"                  id="LGD_PAYKEY">                                <!-- LG?붾젅肄?PAYKEY(?몄쬆???먮룞?뗮똿)-->
+<input type="hidden" name="LGD_VERSION"         		value="PHP_XPay_1.0">							<!-- 踰꾩쟾?뺣낫 (??젣?섏? 留덉꽭?? -->
+<input type="hidden" name="LGD_BUYERIP"                 value="<?= $LGD_BUYERIP ?>">           			<!-- 援щℓ?륤P -->
+<input type="hidden" name="LGD_BUYERID"                 value="<?= $LGD_BUYERID ?>">           			<!-- 援щℓ?륤D -->
+<!-- 媛?곴퀎醫?臾댄넻?? 寃곗젣?곕룞???섏떆??寃쎌슦  ?좊떦/?낃툑 寃곌낵瑜??듬낫諛쏄린 ?꾪빐 諛섎뱶??LGD_CASNOTEURL ?뺣낫瑜?LG ?붾젅肄ㅼ뿉 ?꾩넚?댁빞 ?⑸땲??. -->
+<!-- input type="hidden" name="LGD_CASNOTEURL"          	value="<?= $LGD_CASNOTEURL ?>"-->					<!-- 媛?곴퀎醫?NOTEURL -->  
 
 </form>
 </body>
-<!--  xpay.js는 반드시 body 밑에 두시기 바랍니다. -->
-<!--  UTF-8 인코딩 사용 시는 xpay.js 대신 xpay_utf-8.js 을  호출하시기 바랍니다.-->
+<!--  xpay.js??諛섎뱶??body 諛묒뿉 ?먯떆湲?諛붾엻?덈떎. -->
+<!--  UTF-8 ?몄퐫???ъ슜 ?쒕뒗 xpay.js ???xpay_utf-8.js ?? ?몄텧?섏떆湲?諛붾엻?덈떎.-->
 <script language="javascript" src="<?= $_SERVER['SERVER_PORT']!=443?"http":"https" ?>://xpay.lgdacom.net<?=($CST_PLATFORM == "service")?($_SERVER['SERVER_PORT']!=443?":7080":":7443"):""?>/xpay/js/xpay.js" type="text/javascript"></script>
 
 

@@ -1,9 +1,10 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & "picture\"
 	uploadform.DefaultPath = uploadFolder
-	' ÇÏ³ªÀÇ ÆÄÀÏ Å©±â¸¦ 1MBÀÌÇÏ·Î Á¦ÇÑ.
+	' í•˜ë‚˜ì˜ íŒŒì¼ í¬ê¸°ë¥¼ 1MBì´í•˜ë¡œ ì œí•œ.
 	uploadform.MaxFileLen = 10*1024*1024
 
 	del = uploadform("del")
@@ -12,7 +13,7 @@
 
 	If uploadform("picture") <> "" Then
 		IF uploadform("picture").FileLen > uploadform.MaxFileLen Then
-			call msggo("ÆÄÀÏÀÇ Å©±â´Â " & CInt(uploadform.MaxFileLen/1024/1014) & "MB°¡ ³Ñ¾î¼­´Â ¾ÈµË´Ï´Ù","")
+			call msggo("íŒŒì¼ì˜ í¬ê¸°ëŠ” " & CInt(uploadform.MaxFileLen/1024/1014) & "MBê°€ ë„˜ì–´ì„œëŠ” ì•ˆë©ë‹ˆë‹¤","")
 			Set uploadform = Nothing
 			Response.End
 		End If
@@ -39,6 +40,6 @@
 	Conn.Execute(sql)
 %>
 <script>
-alert("¼öÁ¤µÇ¾ú½À´Ï´Ù.")
+alert("ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤.")
 parent.location = 'my_info_edit.asp'
 </script>

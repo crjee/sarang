@@ -1,9 +1,11 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	freePage = True
 %>
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
+
 	If Session("count") = "" then
 		sql = ""
 		sql = sql & " update cf_cafe "
@@ -16,7 +18,7 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>GI</title>
@@ -34,11 +36,16 @@
 				<div class="main_frm mf_block_1">
 					<div class="main_frm_l">
 						<div class="tab_box">
-							<h2 class="h2 head"><em>ºÎµ¿»ê ÀÌ¾ß±â</em></h2>
+							<h2 class="h2 head"><em>ë¶€ë™ì‚° ì´ì•¼ê¸°</em></h2>
 							<ul class="tab_btns">
 <%
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	Set rs2 = Server.CreateObject ("ADODB.Recordset")
+	Dim homeRs
+	Dim homeRs2
+	Set homeRs = Server.CreateObject ("ADODB.Recordset")
+	Set homeRs2 = Server.CreateObject ("ADODB.Recordset")
+
+	Dim home_i
+	Dim home_j
 
 	sql = ""
 	sql = sql & " select cmn_cd                                               "
@@ -50,23 +57,22 @@
 	sql = sql & "                           and cmn_cd = 'pst_rgn_se_cd'      "
 	sql = sql & "                           and del_yn = 'N'                  "
 	sql = sql & "                           and use_yn = 'Y'                  "
-	sql = sql & "                       )                                     "
+	sql = sql & "                   )                                         "
 	sql = sql & "    and del_yn = 'N'                                         "
 	sql = sql & "    and use_yn = 'Y'                                         "
 	sql = sql & "  order by cd_sn                                             "
-	rs.open Sql, conn, 3, 1
-			Response.write sql
+	homeRs.open Sql, conn, 3, 1
 
-	i = 1
-	If Not rs.eof Then
-		Do Until rs.eof
-			cmn_cd = rs("cmn_cd")
-			cd_nm  = rs("cd_nm")
+	home_i = 0
+	If Not homeRs.eof Then
+		Do Until homeRs.eof
+			home_i = home_i + 1
+			cmn_cd = homeRs("cmn_cd")
+			cd_nm  = homeRs("cd_nm")
 %>
-								<li class="<%=if3(i=1,"on","")%>"><a href="#tab_cont<%=i%>"><em><%=cd_nm%></em></a></li>
+								<li class="<%=if3(home_i=1,"on","")%>"><a href="#tab_cont<%=home_i%>"><em><%=cd_nm%></em></a></li>
 <%
-			rs.MoveNext
-			i = i + 1
+			homeRs.MoveNext
 		Loop
 	End If
 %>
@@ -74,12 +80,13 @@
 							<span class="posR"><a href="/home/story_list.asp">more</a></span>
 						</div>
 <%
-	If Not rs.eof Then
-		rs.Movefirst
-		i = 1
-		Do Until rs.eof
-			cmn_cd = rs("cmn_cd")
-			cd_nm  = rs("cd_nm")
+	If home_i > 0 Then
+		home_j = 0
+		homeRs.MoveFirst
+		Do Until homeRs.eof
+			home_j = home_j + 1
+			cmn_cd = homeRs("cmn_cd")
+			cd_nm  = homeRs("cd_nm")
 
 			sql = ""
 			sql = sql & " select top 5 * "
@@ -87,13 +94,14 @@
 			sql = sql & " select 1 as seq "
 			sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
 			sql = sql & "       ,subject "
-			sql = sql & "       ,comment_cnt "
 			sql = sql & "       ,story_seq "
 			sql = sql & "       ,group_num "
 			sql = sql & "       ,step_num "
 			sql = sql & "   from cf_story "
 			sql = sql & "  where cafe_id  = 'home' "
+			If home_j > 1 Then
 			sql = sql & "    and pst_rgn_se_cd = '" & cmn_cd & "' "
+			End If
 			sql = sql & "    and step_num = 0 "
 			sql = sql & "    and top_yn = 'Y' "
 			sql = sql & "  union all "
@@ -101,40 +109,33 @@
 			sql = sql & "        2 as seq "
 			sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
 			sql = sql & "       ,subject "
-			sql = sql & "       ,comment_cnt "
 			sql = sql & "       ,story_seq "
 			sql = sql & "       ,group_num "
 			sql = sql & "       ,step_num "
 			sql = sql & "   from cf_story "
 			sql = sql & "  where cafe_id  = 'home' "
+			If home_j > 1 Then
 			sql = sql & "    and pst_rgn_se_cd = '" & cmn_cd & "' "
+			End If
 			sql = sql & "    and step_num = 0 "
 			sql = sql & "    and isnull(top_yn,'') <> 'Y' "
 			sql = sql & "  order by seq, group_num desc, step_num asc "
 			sql = sql & " ) aa "
 			sql = sql & " order by seq, group_num desc, step_num asc "
-			Response.write sql
-			rs2.Open Sql, conn, 3, 1
+			homeRs2.Open Sql, conn, 3, 1
 %>
-						<div id="tab_cont<%=i%>" class="tab_cont <%=if3(i=1,"on","")%>">
+						<div id="tab_cont<%=home_j%>" class="tab_cont <%=if3(home_j=1,"on","")%>">
 							<div class="latest_box">
 <%
-			If Not rs2.eof Then
+			If Not homeRs2.eof Then
 %>
 								<ul class="latest_1">
 <%
-				Do Until rs2.eof
-					seq           = rs2("seq")
-					credt_txt     = rs2("credt_txt")
-					subject       = rs2("subject")
-					comment_cnt   = rs2("comment_cnt")
-					story_seq     = rs2("story_seq")
-					pst_rgn_se_cd = rs2("story_seq")
-					If comment_cnt > 0 Then
-						comment_txt = "(" & comment_cnt & ")"
-					Else
-						comment_txt = ""
-					End If
+				Do Until homeRs2.eof
+					seq       = homeRs2("seq")
+					credt_txt = homeRs2("credt_txt")
+					subject   = homeRs2("subject")
+					story_seq = homeRs2("story_seq")
 					view_url = "/home/story_view.asp?story_seq=" & story_seq & "&menu_seq=1951"
 %>
 									<li>
@@ -142,8 +143,7 @@
 										<span class="posr"><%=credt_txt%></span>
 									</li>
 <%
-					i = i + 1
-					rs2.MoveNext
+					homeRs2.MoveNext
 				Loop
 %>
 								</ul>
@@ -151,43 +151,148 @@
 			Else
 %>
 								<div class="nodata">
-									<span class="txt">µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù.</span>
+									<span class="txt">ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤.</span>
 								</div>
 <%
 			End If
-			rs2.close
+			homeRs2.close
 %>
 							</div>
 						</div>
 <%
-			i = i + 1
-			rs.MoveNext
+			homeRs.MoveNext
 		Loop
 	End If
-	rs.close
-	Set rs = Nothing
+	homeRs.close
 %>
 					</div>
 					<div class="main_frm_r">
-						<h2 class="hide">·¿Ã÷Á¤º¸¸Á</h2>
+						<h2 class="hide">ë ›ì¸ ì •ë³´ë§</h2>
 						<ul class="main_quick_box">
-							<li><a href="#n"><span class="tit">·¿Ã÷ ¿ø°İ A/S</span></a></li>
-							<li><a href="#n"><span class="tit">·¿Ã÷ ¼³Ä¡</span></a></li>
-							<li><a href="#n"><span class="tit">·¿Ã÷ »ç¿ë ¼³¸í¼­</span></a></li>
+							<li><a href="#n"><span class="tit">ë ›ì¸  ì›ê²© A/S</span></a></li>
+							<li><a href="#n"><span class="tit">ë ›ì¸  ì„¤ì¹˜</span></a></li>
+							<li><a href="#n"><span class="tit">ë ›ì¸  ì‚¬ìš© ì„¤ëª…ì„œ</span></a></li>
 						</ul>
-						<div class="main_banner main_banner_1"><a href="#n"><img src="/common/img/banner/main_banner_3.jpg" alt="" /></a></div>
+						<div class="main_banner main_banner_1">
+<%
+	Dim home_banner_type
+	Dim home_file_name
+	Dim home_link
+
+	uploadUrl = ConfigAttachedFileURL & "banner/"
+
+	sql = ""
+	sql = sql & " select banner_type                       "
+	sql = sql & "       ,file_name                         "
+	sql = sql & "       ,link                              "
+	sql = sql & "   from cf_banner                         "
+	sql = sql & "  where cafe_id='root'                    "
+	sql = sql & "    and banner_type in ('H0')             "
+	sql = sql & "    and open_yn = 'Y'                     "
+	sql = sql & "  order by banner_seq asc                 "
+	homeRs.open Sql, conn, 3, 1
+
+	home_i = 1
+	If Not homeRs.eof Then
+		Do Until homeRs.eof
+			home_banner_type = homeRs("banner_type")
+			home_file_name   = homeRs("file_name")
+			home_link        = homeRs("link")
+
+			If home_file_name <> "" then
+				If home_link <> "" Then
+%>
+							<a href="<%=home_link%>" target="_blank">
+<%
+				End If
+%>
+								<img src="<%=uploadUrl & home_file_name%>"/>
+<%
+				If home_link <> "" Then
+%>
+							</a>
+<%
+				End If
+			End If
+
+			home_i = home_i + 1
+			homeRs.MoveNext
+		Loop
+	End If
+	homeRs.close
+
+	For home_j = home_i To 1
+%>
+							
+<%
+	Next
+%>
+						</div>
 					</div>
 				</div>
 
 				<div class="main_frm mf_block_2">
-					<div class="main_frm_l">
-						<div class="main_banner main_banner_2"><a href="#n"><img src="/common/img/banner/main_banner_1.jpg" alt="" /></a></div>
+<%
+	sql = ""
+	sql = sql & " select banner_type                       "
+	sql = sql & "       ,file_name                         "
+	sql = sql & "       ,link                              "
+	sql = sql & "   from cf_banner                         "
+	sql = sql & "  where cafe_id='root'                    "
+	sql = sql & "    and banner_type in ('H0', 'H2', 'H2') "
+	sql = sql & "    and open_yn = 'Y'                     "
+	sql = sql & "  order by banner_seq asc                 "
+	homeRs.open Sql, conn, 3, 1
+
+	home_i = 1
+	If Not homeRs.eof Then
+		Do Until homeRs.eof
+			home_banner_type = homeRs("banner_type")
+			home_file_name   = homeRs("file_name")
+			home_link        = homeRs("link")
+
+			If home_file_name <> "" then
+%>
+					<div class="main_frm_<%=if3(home_i=1,"l","r")%>">
+						<div class="main_banner main_banner_2">
+<%
+				If home_link <> "" Then
+%>
+							<a href="<%=home_link%>" target="_blank">
+<%
+				End If
+%>
+								<img src="<%=uploadUrl & home_file_name%>"/>
+<%
+				If home_link <> "" Then
+%>
+							</a>
+<%
+				End If
+%>
+						</div>
 					</div>
-					<div class="main_frm_r">
-						<div class="main_banner main_banner_3"><a href="#n"><img src="/common/img/banner/main_banner_2.jpg" alt="" /></a></div>
+<%
+			End If
+
+			home_i = home_i + 1
+			homeRs.MoveNext
+		Loop
+	End If
+	homeRs.close
+	Set homeRs = Nothing
+	Set homeRs2 = Nothing
+
+	For home_j = home_i To 2
+%>
+					<div class="main_frm_<%=if3(home_j=1,"l","r")%>">
+						<div class="nobanners"></div>
 					</div>
-				</div>
+<%
+	Next
+%>
 <!--#include virtual="/home/home_center_inc.asp"-->
+				</div>
 			</div>
 <!--#include virtual="/home/home_right_inc.asp"-->
 		</main>

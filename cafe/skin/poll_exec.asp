@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	poll_seq = Request("poll_seq")
 	ans = Request.Form("ans")
@@ -31,9 +32,9 @@
 		sql = sql & "       ,getdate())"
 		Conn.Execute("")
 
-		Response.Write "<script>alert('ÅõÇ¥ÇÏ¿´½À´Ï´Ù')</script>"
+		Response.Write "<script>alert('íˆ¬í‘œí•˜ì˜€ìŠµë‹ˆë‹¤')</script>"
 		Response.End
 	Else
-		Response.Write "<script>alert('ÀÌ¹Ì ¼³¹®Á¶»ç¿¡ Âü¿©ÇÏ½Å È¸¿øÀÌ½Ê´Ï´Ù')</script>"
+		Response.Write "<script>alert('ì´ë¯¸ ì„¤ë¬¸ì¡°ì‚¬ì— ì°¸ì—¬í•˜ì‹  íšŒì›ì´ì‹­ë‹ˆë‹¤')</script>"
 	End if
 %>

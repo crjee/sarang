@@ -1,3 +1,4 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	user_id = request("userid")
 	user_pw = request("userpw")
@@ -58,7 +59,7 @@
 			set_log()
 
 			session.Abandon
-'			Response.Write "<script>alert('È°µ¿ÁßÁö È¸¿øÀÌ½Ê´Ï´Ù.')</script>"
+'			Response.Write "<script>alert('í™œë™ì¤‘ì§€ íšŒì›ì´ì‹­ë‹ˆë‹¤.')</script>"
 			Response.Write "<script>location.href='http://cafe.daum.net';</script>"
 			Response.End
 		End if
@@ -67,9 +68,9 @@
 		set_log()
 
 		session.Abandon
-'		Response.Write "<script>alert('¿Ã¹Ù¸£Áö ¾ÊÀº Á¢±ÙÀÔ´Ï´Ù.')</script>"
+'		Response.Write "<script>alert('ì˜¬ë°”ë¥´ì§€ ì•Šì€ ì ‘ê·¼ì…ë‹ˆë‹¤.')</script>"
 		Response.Write "<script>location.href='http://cafe.daum.net';</script>"
-		Response.Write "<script>alert('¿Ã¹Ù¸£Áö ¾ÊÀº Á¢±ÙÀÔ´Ï´Ù!!.');history.back();</script>"
+		Response.Write "<script>alert('ì˜¬ë°”ë¥´ì§€ ì•Šì€ ì ‘ê·¼ì…ë‹ˆë‹¤!!.');history.back();</script>"
 		Response.end
 	end If
 	

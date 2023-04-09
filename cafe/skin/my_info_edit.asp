@@ -1,17 +1,17 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>½ºÅ²-1 : GI</title>
+	<title>ìŠ¤í‚¨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
-	<script type="text/javascript" src="/smart/js/HuskyEZCreator.js" charset="euc-kr"></script>
 </head>
 <body class="skin_type_1">
 	<div id="wrap" class="group">
@@ -88,22 +88,22 @@
 	rs.close
 
 	Select Case cafe_mb_level
-		Case "1" cafe_mb_level_txt = "ÁØÈ¸¿ø"
-		Case "2" cafe_mb_level_txt = "Á¤È¸¿ø"
-		Case "10" cafe_mb_level_txt = "»ç¶û¹æÁö±â"
+		Case "1" cafe_mb_level_txt = "ì¤€íšŒì›"
+		Case "2" cafe_mb_level_txt = "ì •íšŒì›"
+		Case "10" cafe_mb_level_txt = "ì‚¬ëž‘ë°©ì§€ê¸°"
 	End Select
 	
 	If isnull(union_mb_level) Then union_mb_level = ""
 		Select Case union_mb_level
-			Case "" union_mb_level_txt = "Á¤È¸¿ø"
-			Case "10" union_mb_level_txt = "¿¬ÇÕÈ¸Áö±â"
+			Case "" union_mb_level_txt = "ì •íšŒì›"
+			Case "10" union_mb_level_txt = "ì—°í•©íšŒì§€ê¸°"
 		End Select
 %>
 				<form name="form" method="post" action="my_info_exec.asp" enctype="multipart/form-data">
 				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 				<input type="hidden" name="temp" value="Y">
 				<div class="cont_tit">
-					<h2 class="h2">³ªÀÇ Á¤º¸</h2>
+					<h2 class="h2">ë‚˜ì˜ ì •ë³´</h2>
 				</div>
 				<div class="tb">
 					<table class="tb_input tb_fixed">
@@ -115,67 +115,67 @@
 						</colgroup>
 						<tbody>
 							<tr>
-								<th scope="row">¼º¸í</th>
+								<th scope="row">ì„±ëª…</th>
 								<td colspan="3">
 									<%=kname%>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">Áß°³¾÷¼Ò¸í</th>
+								<th scope="row">ì¤‘ê°œì—…ì†Œëª…</th>
 								<td>
 									<%=agency%>
 								</td>
-								<th scope="row">Çã°¡¹øÈ£</th>
+								<th scope="row">í—ˆê°€ë²ˆí˜¸</th>
 								<td>
 									<%=license%>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">ÂÊÁö¼ö½Å</th>
+								<th scope="row">ìª½ì§€ìˆ˜ì‹ </th>
 								<td>
-									<input type="radio" class="radio3" name="memo_receive_yn" value="Y" <%=if3(memo_receive_yn="Y","checked","")%>>Çã¿ë &nbsp; &nbsp;
-									<input type="radio" class="radio3" name="memo_receive_yn" value="N" <%=if3(memo_receive_yn="N","checked","")%>>Â÷´Ü
+									<input type="radio" class="radio3" name="memo_receive_yn" value="Y" <%=if3(memo_receive_yn="Y","checked","")%>>í—ˆìš© &nbsp; &nbsp;
+									<input type="radio" class="radio3" name="memo_receive_yn" value="N" <%=if3(memo_receive_yn="N","checked","")%>>ì°¨ë‹¨
 								</td>
-								<th scope="row">ÈÞ´ëÆù</th>
+								<th scope="row">íœ´ëŒ€í°</th>
 								<td>
 									<%=mobile%>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">¿¬¶ôÃ³</th>
+								<th scope="row">ì—°ë½ì²˜</th>
 								<td>
 									<%=phone%><%=if3(interphone="","","(" & interphone & ")")%>
 								</td>
-								<th scope="row">ÆÑ½º</th>
+								<th scope="row">íŒ©ìŠ¤</th>
 								<td>
 									<%=fax%>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">ÁÖ¼Ò</th>
+								<th scope="row">ì£¼ì†Œ</th>
 								<td colspan="3">
 									<%=addr1%> <%=addr2%>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">»ç¶û¹æ</th>
+								<th scope="row">ì‚¬ëž‘ë°©</th>
 								<td>
 									<a href="/cafe/main.asp?cafe_id=<%=cafe_id%>"><%=cafe_name%><%=if3(cafe_id="","","(" & cafe_mb_level_txt & ")")%></a>
 								</td>
-								<th scope="row">¿¬ÇÕÈ¸</th>
+								<th scope="row">ì—°í•©íšŒ</th>
 								<td>
 									<a href="/cafe/main.asp?cafe_id=<%=union_id%>"><%=union_name%><%=if3(union_id="","","(" & union_mb_level_txt & ")")%></a>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">Áß°³¾÷¼Ò»çÁø</th>
+								<th scope="row">ì¤‘ê°œì—…ì†Œì‚¬ì§„</th>
 								<td colspan="3">
 									<div class="photo">
 <%
 	uploadUrl = ConfigAttachedFileURL & "picture/"
 	If picture <> "" Then
 %>
-										<img src="<%=uploadUrl & picture%>" id="profile" name="profile" title="Áß°³¾÷¼Ò»çÁø">
+										<img src="<%=uploadUrl & picture%>" id="profile" name="profile" title="ì¤‘ê°œì—…ì†Œì‚¬ì§„">
 <%
 	Else
 %>
@@ -184,8 +184,8 @@
 	End If
 %>
 									</div>
-									<button type="button" id="deleteBtn" class="btn_long" onclick="javascript:picture_del()">»çÁø »èÁ¦</button>
-									<button type="button" id="enrollBtn" class="btn_long">»çÁø µî·Ï</button>
+									<button type="button" id="deleteBtn" class="btn_long" onclick="javascript:picture_del()">ì‚¬ì§„ ì‚­ì œ</button>
+									<button type="button" id="enrollBtn" class="btn_long">ì‚¬ì§„ ë“±ë¡</button>
 									<input type="file" name="picture" id="picture" style="display:none">
 									<input type="hidden" name="del" id="del">
 								</td>
@@ -194,8 +194,8 @@
 					</table>
 				</div>
 				<div class="btn_box">
-					<button type="submit" class="btn btn_c_a btn_n">µî·Ï</button>
-					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='board_list.asp?menu_seq=<%=menu_seq%>'"><em>Ãë¼Ò</em></button>
+					<button type="submit" class="btn btn_c_a btn_n">ë“±ë¡</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='board_list.asp?menu_seq=<%=menu_seq%>'"><em>ì·¨ì†Œ</em></button>
 				</div>
 				</form>
 			</div>

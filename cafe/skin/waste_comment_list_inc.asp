@@ -19,7 +19,7 @@
 %>
 				<div class="bbs_add_cont">
 					<div class="bbs_add_cont_head">
-						<h4>´ñ±Û</h4><span class="count"><%=comment_cnt%></span>
+						<h4>ëŒ“ê¸€</h4><span class="count"><%=comment_cnt%></span>
 						<div class="posR">
 						</div>
 					</div>

@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 
@@ -19,7 +20,7 @@
 	If Not rs.eof Then
 
 		If instr(rs("suggest_info"), user_id) Then
-			Response.Write "<script>alert('" & session("agency") & "´ÔÀº ÀÌ¹Ì ÃßÃµÇÏ¼Ì½À´Ï´Ù.');history.back();</script>"
+			Response.Write "<script>alert('" & session("agency") & "ë‹˜ì€ ì´ë¯¸ ì¶”ì²œí•˜ì…¨ìŠµë‹ˆë‹¤.');history.back();</script>"
 			Response.End
 		Else
 			remote_addr = request.ServerVariables("REMOTE_ADDR")
@@ -34,7 +35,7 @@
 			Conn.Execute(sql)
 		End If
 	Else
-		Response.Write "<script>alert('°Ô½Ã¹°ÀÌ Á¸ÀçÇÏÁö¾Ê½À´Ï´Ù.');history.back();</script>"
+		Response.Write "<script>alert('ê²Œì‹œë¬¼ì´ ì¡´ì¬í•˜ì§€ì•ŠìŠµë‹ˆë‹¤.');history.back();</script>"
 		Response.End
 	End If
 	rs.close
@@ -47,6 +48,6 @@
 	End If
 %>
 <script>
-	alert("ÃßÃµ µÇ¾ú½À´Ï´Ù.");
+	alert("ì¶”ì²œ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	location.href='<%=pgm%>_view.asp?<%=menu_type%>_seq=<%=com_seq%>&menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
 </script>

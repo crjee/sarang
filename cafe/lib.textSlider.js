@@ -1,6 +1,6 @@
 /**
-* ÆÄÀÏ¸í: lib.textSlider.js
-* ¼³  ¸í: ´º½º Ticker ¶óÀÌºê·¯¸®
+* íŒŒì¼ëª…: lib.textSlider.js
+* ì„¤  ëª…: ë‰´ìŠ¤ Ticker ë¼ì´ë¸ŒëŸ¬ë¦¬
 **/
 
 TextSlider = function(className) {

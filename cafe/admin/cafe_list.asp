@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Call checkAdmin()
 
@@ -59,12 +60,12 @@
 	rs.open Sql, conn, 3, 1
 
 	rs.PageSize = PageSize
-	RecordCount = 0 ' ÀÚ·á°¡ ¾øÀ»¶§
+	RecordCount = 0 ' ìžë£Œê°€ ì—†ì„ë•Œ
 	If Not rs.EOF Then
 		RecordCount = rs.recordcount
 	End If
 
-	' ÀüÃ¼ ÆäÀÌÁö ¼ö ¾ò±â
+	' ì „ì²´ íŽ˜ì´ì§€ ìˆ˜ ì–»ê¸°
 	If RecordCount/PageSize = Int(RecordCount/PageSize) then
 		PageCount = Int(RecordCount / PageSize)
 	Else
@@ -79,10 +80,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>»ç¶û¹æ °ü¸® > °ü¸®ÀÚ</title>
+	<title>ì‚¬ëž‘ë°© ê´€ë¦¬ > ê´€ë¦¬ìž</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -92,7 +93,7 @@
 <body class="sa">
 	<div id="wrap">
 		<header id="adm_head">
-			<h1><a href="/">RETS °æÀÎ<sub>ÀüÃ¼°ü¸®</sub></a></h1>
+			<h1><a href="/">RETS ê²½ì¸<sub>ì „ì²´ê´€ë¦¬</sub></a></h1>
 		</header>
 		<nav id="adm_nav">
 <!--#include virtual="/cafe/admin/admin_left_inc.asp"-->
@@ -108,7 +109,7 @@
 					}
 
 					if (j == 0) {
-						alert("»ç¶û¹æÀ» ¼±ÅÃÇÏ¼¼¿ä!");
+						alert("ì‚¬ëž‘ë°©ì„ ì„ íƒí•˜ì„¸ìš”!");
 						return false;
 					}
 					return true;
@@ -148,16 +149,16 @@
 			</script>
 		<main id="adm_body">
 			<div class="adm_page_tit">
-				<h2 class="h2">»ç¶û¹æ °ü¸®</h2>
+				<h2 class="h2">ì‚¬ëž‘ë°© ê´€ë¦¬</h2>
 			</div>
 			<div class="adm_cont">
 				<div class="status_box clearBoth">
-					<span class="floatL">ÃÑ »ç¶û¹æ <strong class="f_weight_m f_skyblue"><%=FormatNumber(RecordCount,0)%></strong>°³</span>
+					<span class="floatL">ì´ ì‚¬ëž‘ë°© <strong class="f_weight_m f_skyblue"><%=FormatNumber(RecordCount,0)%></strong>ê°œ</span>
 					<span class="floatR">
-						<input type="checkbox" checked="checked" class="inp_check" /><label for="t1"><em class="hide">¼±ÅÃ</em></label>
-						¼±ÅÃµÈ »ç¶û¹æÀ»
-						<button type="button" class="btn btn_c_s btn_s" onclick="goUnion()">¿¬ÇÕÈ¸ º¯°æ</button>
-						<button type="button" class="btn btn_c_s btn_s" onclick="goActivity()">»ç¶û¹æÂ÷´Ü ¶Ç´Â ÇØÁ¦</button>ÇÕ´Ï´Ù.
+						<input type="checkbox" checked="checked" class="inp_check" /><label for="t1"><em class="hide">ì„ íƒ</em></label>
+						ì„ íƒëœ ì‚¬ëž‘ë°©ì„
+						<button type="button" class="btn btn_c_s btn_s" onclick="goUnion()">ì—°í•©íšŒ ë³€ê²½</button>
+						<button type="button" class="btn btn_c_s btn_s" onclick="goActivity()">ì‚¬ëž‘ë°©ì°¨ë‹¨ ë˜ëŠ” í•´ì œ</button>í•©ë‹ˆë‹¤.
 					</span>
 				</div>
 				<div class="search_box clearBoth">
@@ -165,25 +166,25 @@
 				<input type="hidden" name="page" value="<%=page%>">
 					<div class="floatL">
 						<select name="cafe_type" class="sel w_auto">
-							<option value="all">»ç¶û¹æÁ¾·ù</option>
-							<option value="C" <%=if3(cafe_type="C","selected","")%>>»ç¶û¹æ</option>
-							<option value="U" <%=if3(cafe_type="U","selected","")%>>¿¬ÇÕÈ¸</option>
+							<option value="all">ì‚¬ëž‘ë°©ì¢…ë¥˜</option>
+							<option value="C" <%=if3(cafe_type="C","selected","")%>>ì‚¬ëž‘ë°©</option>
+							<option value="U" <%=if3(cafe_type="U","selected","")%>>ì—°í•©íšŒ</option>
 						</select>
 						<select name="open_yn" class="sel w_auto">
-							<option value="">°ø°³¿©ºÎ</option>
-							<option value="Y" <%=if3(open_yn="Y","selected","")%>>°ø°³</option>
-							<option value="N" <%=if3(open_yn="N","selected","")%>>ºñ°ø°³</option>
+							<option value="">ê³µê°œì—¬ë¶€</option>
+							<option value="Y" <%=if3(open_yn="Y","selected","")%>>ê³µê°œ</option>
+							<option value="N" <%=if3(open_yn="N","selected","")%>>ë¹„ê³µê°œ</option>
 						</select>
 						<select name="sch_type" class="sel w_auto">
-							<option value="all">»ç¶û¹æÀüÃ¼</option>
-							<option value="cf.cafe_name" <%=if3(sch_type="cf.cafe_name","selected","")%>>»ç¶û¹æ¸í</option>
-							<option value="cf.cafe_id" <%=if3(sch_type="cf.cafe_id","selected","")%>>°æ·Î</option>
+							<option value="all">ì‚¬ëž‘ë°©ì „ì²´</option>
+							<option value="cf.cafe_name" <%=if3(sch_type="cf.cafe_name","selected","")%>>ì‚¬ëž‘ë°©ëª…</option>
+							<option value="cf.cafe_id" <%=if3(sch_type="cf.cafe_id","selected","")%>>ê²½ë¡œ</option>
 						</select>
 						<input class="inp w300p" type="text" name="sch_word" value="<%=sch_word%>" onkeyDown='javascript:{if (event.keyCode==13) goSearch();}'>
-						<button class="btn btn_c_a btn_s" type="button" onclick="goSearch()">°Ë»ö</button>
+						<button class="btn btn_c_a btn_s" type="button" onclick="goSearch()">ê²€ìƒ‰</button>
 					</div>
 					<div class="floatR">
-						<span class="mr5">Ãâ·Â¼ö</span>
+						<span class="mr5">ì¶œë ¥ìˆ˜</span>
 						<select class="sel w100p" id="pagesize" name="pagesize" onchange="goSearch()">
 							<option value=""></option>
 							<option value="20" <%=if3(pagesize="20","selected","")%>>20</option>
@@ -195,7 +196,7 @@
 				</div>
 				<div class="tb tb_form_1">
 				<form name="form" method="post" target="hiddenfrm">
-					<table class="tb_fixed">
+					<table class="">
 						<colgroup>
 							<col class="w5" />
 							<col class="w20" />
@@ -203,21 +204,21 @@
 							<col class="w10" />
 							<col class="w10" />
 							<col class="" />
-							<col class="w10" />
-							<col class="w10" />
-							<col class="w10" />
+							<col class="w8" />
+							<col class="w6" />
+							<col class="w6" />
 						</colgroup>
 						<thead>
 							<tr>
-								<th scope="col"><input type="checkbox" id="" name="" class="inp_check" /><label for=""><em class="hide">ÀüÃ¼¼±ÅÃ</em></label></th>
-								<th scope="col">»ç¶û¹æ¸í</th>
-								<th scope="col">»ç¶û¹æ¾ÆÀÌµð</th>
-								<th scope="col">»ç¶û¹æÁö±â</th>
-								<th scope="col">È¸¿ø¼ö</th>
-								<th scope="col">¿¬ÇÕÈ¸</th>
-								<th scope="col">°³¼³ÀÏ</th>
-								<th scope="col">»óÅÂ</th>
-								<th scope="col">¿ÜºÎ¹Ì³ëÃâ</th>
+								<th scope="col"><input type="checkbox" id="" name="" class="inp_check" /><label for=""><em class="hide">ì „ì²´ì„ íƒ</em></label></th>
+								<th scope="col">ì‚¬ëž‘ë°©ëª…</th>
+								<th scope="col">ì‚¬ëž‘ë°©ì•„ì´ë””</th>
+								<th scope="col">ì‚¬ëž‘ë°©ì§€ê¸°</th>
+								<th scope="col">íšŒì›ìˆ˜</th>
+								<th scope="col">ì—°í•©íšŒ</th>
+								<th scope="col">ê°œì„¤ì¼</th>
+								<th scope="col">ìƒíƒœ</th>
+								<th scope="col">ì™¸ë¶€ë¯¸ë…¸ì¶œ</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -247,7 +248,7 @@
 
 %>
 							<tr id="tr_<%=i%>">
-								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="<%=cafe_id%>" /><label for=""><em class="hide">¼±ÅÃ</em></label></t¤·>
+								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="<%=cafe_id%>" /><label for=""><em class="hide">ì„ íƒ</em></label></tã…‡>
 								<td class="algC"><a href="/cafe/main.asp?cafe_id=<%=cafe_id%>"><%=cafe_name%></a></td>
 								<td class="algC"><%=cafe_id%></td>
 								<td class="algC">
@@ -293,11 +294,11 @@
 <%
 				If rs2.eof then
 %>
-										<option value="">µî·ÏµÈ ¿¬ÇÕÈ¸°¡ ¾ø½À´Ï´Ù</option>
+										<option value="">ë“±ë¡ëœ ì—°í•©íšŒê°€ ì—†ìŠµë‹ˆë‹¤</option>
 <%
 				Else
 %>
-										<option value="">¿¬ÇÕÈ¸¸¦ ¼±ÅÃÇÏ¼¼¿ä</option>
+										<option value="">ì—°í•©íšŒë¥¼ ì„ íƒí•˜ì„¸ìš”</option>
 <%
 				End If
 
@@ -313,7 +314,7 @@
 <%
 			Else
 %>
-									<font color="blue">¿¬ÇÕÈ¸</font>
+									<font color="blue">ì—°í•©íšŒ</font>
 									<input type="hidden" name="union_id" value="<%=rs("union_id")%>">
 <%
 			End If
@@ -323,13 +324,13 @@
 								<td class="algC">
 <%
 			If activity_yn = "Y" Then
-				Response.Write "<font color='blue'>Á¤»ó</font>"
+				Response.Write "<font color='blue'>ì •ìƒ</font>"
 			else
-				Response.Write "<font color='red'>Â÷´Ü</font>"
+				Response.Write "<font color='red'>ì°¨ë‹¨</font>"
 			End if
 %>
 								</td>
-								<td class="algC"><button type="button" class="btn btn_c_s btn_s">³ëÃâ</button></td>
+								<td class="algC"><button type="button" class="btn btn_c_s btn_s">ë…¸ì¶œ</button></td>
 							</tr>
 <%
 			i = i + 1
@@ -344,8 +345,8 @@
 					</table>
 				</div>
 				<div class="btn_box algR">
-					<a href="#n" class="btn btn_c_a btn_n" onclick="lyp('lypp_adm_group')">»ç¶û¹æ°³¼³</a>
-					<a href="#n" class="btn btn_c_n btn_n">»èÁ¦</a>
+					<a href="#n" class="btn btn_c_a btn_n" onclick="lyp('lypp_adm_group')">ì‚¬ëž‘ë°©ê°œì„¤</a>
+					<a href="#n" class="btn btn_c_n btn_n">ì‚­ì œ</a>
 				</div>
 				</form>
 <!--#include virtual="/cafe/skin/skin_page_inc.asp"-->
@@ -353,15 +354,15 @@
 		</main>
 		<footer id="adm_foot"></footer>
 	</div>
-	<!-- »ç¶û¹æ °³¼³ : s -->
+	<!-- ì‚¬ëž‘ë°© ê°œì„¤ : s -->
 	<script>
 		function Checkfm(f) {
 			if (f.cafe_check.value=='N') {
-				alert('Áßº¹µÈ »ç¶û¹æ ¾ÆÀÌµð ÀÔ´Ï´Ù')
+				alert('ì¤‘ë³µëœ ì‚¬ëž‘ë°© ì•„ì´ë”” ìž…ë‹ˆë‹¤')
 				return false
 			}
 			if (f.skin_id.value=='') {
-				alert('½ºÅ²ÀÌ ¼±ÅÃµÇÁö ¾Ê¾Ò½À´Ï´Ù')
+				alert('ìŠ¤í‚¨ì´ ì„ íƒë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤')
 				return false
 			}
 		}
@@ -372,8 +373,8 @@
 	</script>
 	<aside class="lypp lypp_adm_default lypp_adm_group">
 		<header class="lypp_head">
-			<h2 class="h2">»ç¶û¹æ °³¼³</h2>
-			<span class="posR"><button type="button" class="btn btn_close"><em>´Ý±â</em></button></span>
+			<h2 class="h2">ì‚¬ëž‘ë°© ê°œì„¤</h2>
+			<span class="posR"><button type="button" class="btn btn_close"><em>ë‹«ê¸°</em></button></span>
 		</header>
 		<div class="adm_cont">
 			<form id="crtInfo" name="crtInfo" method="post" action="cafe_write_exec.asp" target="hiddenfrm" onSubmit="return Checkfm(this)">
@@ -387,7 +388,7 @@
 					</colgroup>
 					<tbody>
 						<tr>
-							<th scope="row">»ç¶û¹æ ¾ÆÀÌµð</th>
+							<th scope="row">ì‚¬ëž‘ë°© ì•„ì´ë””</th>
 							<td colspan="3">
 								<input type="hidden" value="N" name="cafe_check">
 								<input type="text" id="cafe_id" name="cafe_id" class="inp" required onkeyup="cafe_find(this.value)">
@@ -395,58 +396,58 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">»ç¶û¹æ ÀÌ¸§</th>
+							<th scope="row">ì‚¬ëž‘ë°© ì´ë¦„</th>
 							<td colspan="3">
 								<input type="text" id="" name="" class="inp w50" />
-								<span class="dp_inline ml10">ÇÑ±Û, ¿µ¹®, ¼ýÀÚ, ±âÈ£¸¸ ÀÔ·ÂÇØ ÁÖ¼¼¿ä.</span>
+								<span class="dp_inline ml10">í•œê¸€, ì˜ë¬¸, ìˆ«ìž, ê¸°í˜¸ë§Œ ìž…ë ¥í•´ ì£¼ì„¸ìš”.</span>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">»ç¶û¹æ ºÐ·ù</th>
+							<th scope="row">ì‚¬ëž‘ë°© ë¶„ë¥˜</th>
 							<td>
 								<span class="">
 									<input type="radio" id="cafe_type" name="cafe_type" value="C" required />
-									<label for="cafe_type"><em>ÀÏ¹Ý</em></label>
+									<label for="cafe_type"><em>ì¼ë°˜</em></label>
 								</span>
 								<span class="ml10">
 									<input type="radio" id="cafe_type" name="cafe_type" value="U" required />
-									<label for=""><em>¿¬ÇÕÈ¸</em></label>
+									<label for=""><em>ì—°í•©íšŒ</em></label>
 								</span>
 							</td>
-							<th scope="row">°ø°³¿©ºÎ</th>
+							<th scope="row">ê³µê°œì—¬ë¶€</th>
 							<td>
 								<span class="">
 									<input type="radio" id="open_yn" name="open_yn" value="N" required />
-									<label for=""><em>°ø°³</em></label>
+									<label for=""><em>ê³µê°œ</em></label>
 								</span>
 								<span class="ml10">
 									<input type="radio" id="open_yn" name="open_yn" value="Y" checked required />
-									<label for=""><em>ºñ°ø°³</em></label>
+									<label for=""><em>ë¹„ê³µê°œ</em></label>
 								</span>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">°¡ÀÔ ¹æ½Ä</th>
+							<th scope="row">ê°€ìž… ë°©ì‹</th>
 							<td colspan="3">
 								<span class="">
 									<input type="radio" id="reg_type" name="reg_type" value="0" checked required />
-									<label for=""><em>¹Ù·Î°¡ÀÔ</em></label>
+									<label for=""><em>ë°”ë¡œê°€ìž…</em></label>
 								</span>
 								<span class="ml10">
 									<input type="radio" id="reg_type" name="reg_type" value="0" required />
-									<label for=""><em>ºñ°ø°³</em></label>
+									<label for=""><em>ë¹„ê³µê°œ</em></label>
 								</span>
-								<span class="ml20 va_middle">ºñ°ø°³ »ç¶û¹æÀº ¿î¿µÁøÀÇ ÃÊ´ë ¶Ç´Â °¡ÀÔÁ¶°Ç ÄûÁî¸¦ Ç®¾î¾ß °¡ÀÔÇÒ ¼ö ÀÖ½À´Ï´Ù.</span>
+								<span class="ml20 va_middle">ë¹„ê³µê°œ ì‚¬ëž‘ë°©ì€ ìš´ì˜ì§„ì˜ ì´ˆëŒ€ ë˜ëŠ” ê°€ìž…ì¡°ê±´ í€´ì¦ˆë¥¼ í’€ì–´ì•¼ ê°€ìž…í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.</span>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">»ç¶û¹æ½ºÅ²</th>
+							<th scope="row">ì‚¬ëž‘ë°©ìŠ¤í‚¨</th>
 							<td colspan="3">
 								<select id="skin_id" name="skin_id" class="sel w100p" required>
-									<option value="">½ºÅ²¼±ÅÃ</option>
-									<option value="skin_01">#½ºÅ² 1</option>
-									<option value="skin_02">#½ºÅ² 2</option>
-									<option value="skin_03">#½ºÅ² 3</option>
+									<option value="">ìŠ¤í‚¨ì„ íƒ</option>
+									<option value="skin_01">#ìŠ¤í‚¨ 1</option>
+									<option value="skin_02">#ìŠ¤í‚¨ 2</option>
+									<option value="skin_03">#ìŠ¤í‚¨ 3</option>
 								</select>
 							</td>
 						</tr>
@@ -454,13 +455,13 @@
 				</table>
 			</div>
 			<div class="btn_box algC">
-				<button type="submit" class="btn btn_n">È®ÀÎ</button>
-				<button type="reset" class="btn btn_n">Ãë¼Ò</button>
+				<button type="submit" class="btn btn_n">í™•ì¸</button>
+				<button type="reset" class="btn btn_n">ì·¨ì†Œ</button>
 			</div>
 			</form>
 		</div>
 	</aside>
-	<!-- //»ç¶û¹æ °³¼³ : e -->
+	<!-- //ì‚¬ëž‘ë°© ê°œì„¤ : e -->
 	<iframe id="hiddenfrm" name="hiddenfrm" style="display:none"></iframe>
 	</body>
 </html>

@@ -1,4 +1,4 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
 
@@ -31,25 +31,25 @@
 
 			Select Case banner_type
 				Case "T"
-					banner_type_txt = "»ó´Ü"
+					banner_type_txt = "ìƒë‹¨"
 				Case "C0"
-					banner_type_txt = "´ë¹®ÀüÃ¼"
+					banner_type_txt = "ëŒ€ë¬¸ì „ì²´"
 					width  = 800
 					height = 170
 				Case "C1"
-					banner_type_txt = "´ë¹®1"
+					banner_type_txt = "ëŒ€ë¬¸1"
 					width  = 266
 					height = 170
 				Case "C2"
-					banner_type_txt = "´ë¹®2"
+					banner_type_txt = "ëŒ€ë¬¸2"
 					width  = 266
 					height = 170
 				Case "C3"
-					banner_type_txt = "´ë¹®3"
+					banner_type_txt = "ëŒ€ë¬¸3"
 					width  = 266
 					height = 170
 				Case "R"
-					banner_type_txt = "¿À¸¥ÂÊ"
+					banner_type_txt = "ì˜¤ë¥¸ìª½"
 					width  = 150
 			End Select
 

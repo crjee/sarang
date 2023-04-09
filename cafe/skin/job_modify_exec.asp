@@ -1,9 +1,10 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_mb_level = getUserLevel(cafe_id)
 	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
 	If toInt(write_auth) > toInt(cafe_mb_level) Then
-		Response.Write "<script>alert('¼öÁ¤ ±ÇÇÑÀÌ¾ø½À´Ï´Ù');</script>"
+		Response.Write "<script>alert('ìˆ˜ì • ê¶Œí•œì´ì—†ìŠµë‹ˆë‹¤');</script>"
 		Response.End
 	End If
 

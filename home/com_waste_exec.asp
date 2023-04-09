@@ -1,7 +1,8 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	freePage = True
 %>
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
 	checkCafePage(cafe_id)
@@ -19,7 +20,7 @@
 
 	cafe_mb_level = getUserLevel(cafe_id)
 
-	If cafe_mb_level >= 6 Then ' »ç¶û¹æÁö±â ÀÌ¸é »èÁ¦
+	If cafe_mb_level >= 6 Then ' ì‚¬ë‘ë°©ì§€ê¸° ì´ë©´ ì‚­ì œ
 		call waste_content(menu_type, com_seq)
 	Else
 		Set rs = Server.CreateObject ("ADODB.Recordset")
@@ -31,10 +32,10 @@
 		sql = sql & "    and user_id = '" & user_id & "' "
 		rs.Open Sql, conn, 3, 1
 
-		If Not rs.eof Then ' ±ÛÀÛ¼ºÀÚ ÀÌ¸é »èÁ¦
+		If Not rs.eof Then ' ê¸€ì‘ì„±ì ì´ë©´ ì‚­ì œ
 			call waste_content(menu_type, com_seq)
-		Else ' ±ÛÀÛ¼ºÀÚ ¾Æ´Ï¸é
-			Response.Write "<script>alert('±ÇÇÑÀÌ¾ø½À´Ï´Ù');history.back();</script>"
+		Else ' ê¸€ì‘ì„±ì ì•„ë‹ˆë©´
+			Response.Write "<script>alert('ê¶Œí•œì´ì—†ìŠµë‹ˆë‹¤');history.back();</script>"
 			Response.End
 		End If
 		rs.Close
@@ -48,7 +49,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("»èÁ¦ µÇ¾ú½À´Ï´Ù.");
+	alert("ì‚­ì œ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	location.href='<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
 </script>
 <%
@@ -58,7 +59,7 @@
 		Set conn = Nothing
 %>
 <script>
-/	alert("¿À·ù°¡ “u»ıÇß½À´Ï´Ù.\n\n¿¡·¯³»¿ë : <%=Err.Description%>(<%=Err.Number%>)");
+/	alert("ì˜¤ë¥˜ê°€ ë±”ìƒí–ˆìŠµë‹ˆë‹¤.\n\nì—ëŸ¬ë‚´ìš© : <%=Err.Description%>(<%=Err.Number%>)");
 /	location.href='<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
 </script>
 <%

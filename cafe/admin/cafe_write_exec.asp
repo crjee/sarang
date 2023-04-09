@@ -1,9 +1,10 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	skin_id = Request.Form("skin_id")
 
 	If skin_id = "" Then
-		Response.Write "<script>alert('½ºÅ²ÀÌ ¼±ÅÃµÇÁö ¾Ê¾Ò½À´Ï´Ù')history.back()</script>"
+		Response.Write "<script>alert('ìŠ¤í‚¨ì´ ì„ íƒë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤')history.back()</script>"
 	End if
 
 	cafe_id   = Request.Form("cafe_id")
@@ -65,22 +66,22 @@
 	sql = sql & "       ,creid"
 	sql = sql & "       ,credt"
 	sql = sql & "      ) values "
-	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','»ç¶û¹æ¼Ò°³'               ,'gr'      ,'group','1'   ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
-	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','" & cafe_name & " È¸Ä¢' ,'1'       ,'page' ,'2'   ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
-	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','" & cafe_name & " ¼Ò°³' ,'2'       ,'page' ,'3'   ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
-	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','" & cafe_name & " ¸í´Ü' ,'4'       ,'page' ,'4'   ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
-	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','" & cafe_name & " Á¶Á÷µµ','5'       ,'page' ,'5'   ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
-	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','Ä¿¹Â´ÏÆ¼'                 ,'gr'     ,'group','6'   ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
-	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','" & cafe_name & " ¼Ò½ÄÁö','news'    ,'board','7'   ,'N'   ,'5'       ,'3' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
-	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','°øÁö»çÇ×'                 ,'notice' ,'board','8'   ,'N'   ,'5'       ,'1' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
-	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','ÂÊÁöº¸³»±â'               ,null      ,'memo' ,'9'   ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
-	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','ºÎµ¿»ê´º½º'               ,null      ,'land','10'  ,'N'   ,'5'       ,'4' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
-	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','¾Ù¹ü'                   ,null       ,'album','11'  ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
-	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','ÀÚ·á½Ç'                  ,'pds'      ,'board','12'  ,'N'   ,'5'       ,'0' ,0,'1','1','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
-	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','ÀÚÀ¯°Ô½ÃÆÇ'               ,'board'    ,'board' ,'13'  ,'N'   ,'5'       ,'2' ,0,'1','1','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
-	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','±Ş¸Å¹°±¸ÇÕ´Ï´Ù'             ,null      ,'sale','14'  ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
-	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','¼³¹®Á¶»ç'                 ,null      ,'poll'  ,'15'  ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
-	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','Á÷¿øÃ¤¿ë'                 ,null      ,'job','16'  ,'N'   ,'5'       ,'5' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate())"
+	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','ì‚¬ë‘ë°©ì†Œê°œ'               ,'gr'      ,'group','1'   ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
+	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','" & cafe_name & " íšŒì¹™' ,'1'       ,'page' ,'2'   ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
+	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','" & cafe_name & " ì†Œê°œ' ,'2'       ,'page' ,'3'   ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
+	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','" & cafe_name & " ëª…ë‹¨' ,'4'       ,'page' ,'4'   ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
+	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','" & cafe_name & " ì¡°ì§ë„','5'       ,'page' ,'5'   ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
+	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','ì»¤ë®¤ë‹ˆí‹°'                 ,'gr'     ,'group','6'   ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
+	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','" & cafe_name & " ì†Œì‹ì§€','news'    ,'board','7'   ,'N'   ,'5'       ,'3' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
+	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','ê³µì§€ì‚¬í•­'                 ,'notice' ,'board','8'   ,'N'   ,'5'       ,'1' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
+	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','ìª½ì§€ë³´ë‚´ê¸°'               ,null      ,'memo' ,'9'   ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
+	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','ë¶€ë™ì‚°ë‰´ìŠ¤'               ,null      ,'land','10'  ,'N'   ,'5'       ,'4' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
+	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','ì•¨ë²”'                   ,null       ,'album','11'  ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
+	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','ìë£Œì‹¤'                  ,'pds'      ,'board','12'  ,'N'   ,'5'       ,'0' ,0,'1','1','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
+	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','ììœ ê²Œì‹œíŒ'               ,'board'    ,'board' ,'13'  ,'N'   ,'5'       ,'2' ,0,'1','1','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
+	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','ê¸‰ë§¤ë¬¼êµ¬í•©ë‹ˆë‹¤'             ,null      ,'sale','14'  ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
+	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','ì„¤ë¬¸ì¡°ì‚¬'                 ,null      ,'poll'  ,'15'  ,'N'   ,'5'       ,'0' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate()),"
+	sql = sql & "      ('" & getSeq("cf_menu") & "','" & cafe_id & "','ì§ì›ì±„ìš©'                 ,null      ,'job','16'  ,'N'   ,'5'       ,'5' ,0,'10','10','1','Y',3,null,'" & Session("user_id") & "',getdate())"
 	Conn.Execute(sql)
 
 	Set rs = Server.CreateObject("ADODB.RecordSet")
@@ -126,23 +127,23 @@
 	Session("cafe_id") = cafe_id
 
 	If Err.Number <> 0 Then
-		'// DB¸¦ ·Ñ¹é ÈÄ DB°´Ã¼ ¼Ò¸ê
+		'// DBë¥¼ ë¡¤ë°± í›„ DBê°ì²´ ì†Œë©¸
 		conn.RollbackTrans
 		conn.Close
 		Set conn = Nothing
 %>
 <script>
-	alert("¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.<%=Err.Description%>");
+	alert("ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.<%=Err.Description%>");
 </script>
 <%
 	Else
-		'// DB·Ñ Ä¿¹Ô ÈÄ DB°´Ã¼ ¼Ò¸ê
+		'// DBë¡¤ ì»¤ë°‹ í›„ DBê°ì²´ ì†Œë©¸
 		conn.CommitTrans
 		conn.Close
 		Set conn = Nothing
 %>
 <script>
-	alert("°³¼³µÇ¾ú½À´Ï´Ù");
+	alert("ê°œì„¤ë˜ì—ˆìŠµë‹ˆë‹¤");
 	parent.location.href = 'cafe_list.asp?cafe_id=<%=cafe_id%>';
 </script>
 <%

@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
 
@@ -16,7 +17,7 @@
 		rs.Open Sql, conn, 3, 1
 
 		If rs.EOF Then
-			msggo "Á¤»óÀûÀÎ »ç¿ëÀÌ ¾Æ´Õ´Ï´Ù.",""
+			msggo "ì •ìƒì ì¸ ì‚¬ìš©ì´ ì•„ë‹™ë‹ˆë‹¤.",""
 		else
 			menu_type = rs("menu_type")
 			menu_name = rs("menu_name")
@@ -33,11 +34,11 @@
 	Set BeginTrans = Conn
 	CntError = 0
 
-	If task = "restore" Then ' º¹¿ø
-		msg = "º¹¿ø"
+	If task = "restore" Then ' ë³µì›
+		msg = "ë³µì›"
 		call restore_content(menu_type, com_seq)
-	ElseIf task = "delete" Then ' »èÁ¦
-		msg = "»èÁ¦"
+	ElseIf task = "delete" Then ' ì‚­ì œ
+		msg = "ì‚­ì œ"
 		Call delete_content(menu_type, com_seq)
 
 		If menu_type = "album" Then
@@ -50,7 +51,7 @@
 		conn.Close
 		Set conn = Nothing
 
-		If task = "delete" Then ' »èÁ¦
+		If task = "delete" Then ' ì‚­ì œ
 			Set fso = CreateObject("Scripting.FileSystemObject")
 			If isarray(attach_file) Then
 				For i = 1 To ubound(attach_file)
@@ -75,7 +76,7 @@
 		End If
 %>
 <script>
-	alert("<%=msg%> µÇ¾ú½À´Ï´Ù.");
+	alert("<%=msg%> ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	parent.location.href='waste_<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
 </script>
 <%
@@ -85,7 +86,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("¿À·ù°¡ “u»ıÇß½À´Ï´Ù.\n\n¿¡·¯³»¿ë : <%=Err.Description%>(<%=Err.Number%>)");
+	alert("ì˜¤ë¥˜ê°€ ë±”ìƒí–ˆìŠµë‹ˆë‹¤.\n\nì—ëŸ¬ë‚´ìš© : <%=Err.Description%>(<%=Err.Number%>)");
 </script>
 <%
 	End If

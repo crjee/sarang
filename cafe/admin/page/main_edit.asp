@@ -1,11 +1,12 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>¸Þ´º °ü¸® : °ü¸®ÀÚ</title>
+	<title>ë©”ë‰´ ê´€ë¦¬ : ê´€ë¦¬ìž</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -42,7 +43,7 @@
 	rs.close
 %>
 					<div class="adm_cont_tit">
-						<h4 class="h3 mt20 mb10"><%=menu_name%> ¼³Á¤</h4>
+						<h4 class="h3 mt20 mb10"><%=menu_name%> ì„¤ì •</h4>
 					</div>
 					<form name="form" method="post" action="main_exec.asp">
 					<input type="hidden" name="cafe_id" value="<%=cafe_id%>">
@@ -55,80 +56,78 @@
 									<col class="w120p" />
 									<col class="w120p" />
 									<col class="w_remainder" />
-									<col class="w_remainder" />
 								</colgroup>
 								<tbody>
 									<tr>
-										<th scope="row" rowspan="2">ÅØ½ºÆ®</th>
-										<th scope="row">2´Ü</th>
+										<th scope="row" rowspan="2">í…ìŠ¤íŠ¸</th>
+										<th scope="row">2ë‹¨</th>
 										<td>
 											<span class="">
 												<input type="radio" id="NT1" name="list_type" value="NT1" <%=if3(wide_yn&list_type="NT1","checked","")%> class="inp_radio" />
-												<label for="NT1"><em>¸®½ºÆ®Çü</em></label>
+												<label for="NT1"><em>ë¦¬ìŠ¤íŠ¸í˜•</em></label>
 											</span>
 										</td>
-										<td rowspan="6"></th>
 									</tr>
 									<tr>
-										<th scope="row">¿ÍÀÌµå</th>
+										<th scope="row">ì™€ì´ë“œ</th>
 										<td>
 											<span class="">
 												<input type="radio" id="YT1" name="list_type" value="YT1" <%=if3(wide_yn&list_type="YT1","checked","")%> class="inp_radio" />
-												<label for="YT1"><em>¸®½ºÆ®Çü</em></label>
+												<label for="YT1"><em>ë¦¬ìŠ¤íŠ¸í˜•</em></label>
 											</span>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row" rowspan="2">¾Ù¹ü</th>
-										<th>2´Ü</th>
+										<th scope="row" rowspan="2">ì•¨ë²”</th>
+										<th>2ë‹¨</th>
 										<td>
 											<span class="">
 												<input type="radio" id="NA1" name="list_type" value="NA1" <%=if3(wide_yn&list_type="NA1","checked","")%> class="inp_radio" />
-												<label for="NA1"><em>½½¶óÀÌµåÇü</em></label>
+												<label for="NA1"><em>ìŠ¬ë¼ì´ë“œí˜•</em></label>
 											</span>
 											<span class="">
 												<input type="radio" id="NA2" name="list_type" value="NA2" <%=if3(wide_yn&list_type="NA2","checked","")%> class="inp_radio" />
-												<label for="NA2"><em>ÅÇ ½½¶óÀÌµåÇü</em></label>
+												<label for="NA2"><em>íƒ­ ìŠ¬ë¼ì´ë“œí˜•</em></label>
 											</span>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">¿ÍÀÌµå</th>
+										<th scope="row">ì™€ì´ë“œ</th>
 										<td>
 											<span class="">
 												<input type="radio" id="YA1" name="list_type" value="YA1" <%=if3(wide_yn&list_type="YA1","checked","")%> class="inp_radio" />
-												<label for="YA1"><em>½½¶óÀÌµåÇü</em></label>
+												<label for="YA1"><em>ìŠ¬ë¼ì´ë“œí˜•</em></label>
 											</span>
 											<span class="">
 												<input type="radio" id="YA2" name="list_type" value="YA2" <%=if3(wide_yn&list_type="YA2","checked","")%> class="inp_radio" />
-												<label for="YA2"><em>ÅÇ ½½¶óÀÌµåÇü</em></label>
+												<label for="YA2"><em>íƒ­ ìŠ¬ë¼ì´ë“œí˜•</em></label>
 											</span>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row" rowspan="2">Ä«µå</th>
-										<th scope="row">2´Ü</th>
+										<th scope="row" rowspan="2">ì¹´ë“œ</th>
+										<th scope="row">2ë‹¨</th>
 										<td>
 											<span class="">
 												<input type="radio" id="NC1" name="list_type" value="NC1" <%=if3(wide_yn&list_type="NC1","checked","")%> class="inp_radio" />
-												<label for="NC1"><em>ÁÂÃø ÀÌ¹ÌÁöÇü</em></label>
+												<label for="NC1"><em>ì¢Œì¸¡ ì´ë¯¸ì§€í˜•</em></label>
 											</span>
 											<span class="">
 												<input type="radio" id="NC2" name="list_type" value="NC2" <%=if3(wide_yn&list_type="NC2","checked","")%> class="inp_radio" />
-												<label for="NC2"><em>¿ìÃø ÀÌ¹ÌÁöÇü</em></label>
+												<label for="NC2"><em>ìš°ì¸¡ ì´ë¯¸ì§€í˜•</em></label>
 											</span>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">¿ÍÀÌµå</th>
+										<th scope="row">ì™€ì´ë“œ</th>
 										<td>
 											<span class="">
 												<input type="radio" id="YC1" name="list_type" value="YC1" <%=if3(wide_yn&list_type="YC1","checked","")%> class="inp_radio" />
-												<label for="YC1"><em>ÁÂÃø ÀÌ¹ÌÁöÇü</em></label>
+												<label for="YC1"><em>ì¢Œì¸¡ ì´ë¯¸ì§€í˜•</em></label>
 											</span>
 											<span class="">
 												<input type="radio" id="YC2" name="list_type" value="YC2" <%=if3(wide_yn&list_type="YC2","checked","")%> class="inp_radio" />
-												<label for="YC2"><em>¿ìÃø ÀÌ¹ÌÁöÇü</em></label>
+												<label for="YC2"><em>ìš°ì¸¡ ì´ë¯¸ì§€í˜•</em></label>
 											</span>
 										</td>
 									</tr>
@@ -136,9 +135,9 @@
 							</table>
 						</div>
 						<div class="btn_box algR">
-							<button type="submit" class="btn btn_c_a btn_n">ÀúÀå</button>
-							<button type="reset" class="btn btn_c_n btn_n">Ãë¼Ò</button>
-							<button type="button" class="btn btn_c_n btn_n" id="del">»èÁ¦</button>
+							<button type="submit" class="btn btn_c_a btn_n">ì €ìž¥</button>
+							<button type="reset" class="btn btn_c_n btn_n">ì·¨ì†Œ</button>
+							<button type="button" class="btn btn_c_n btn_n" id="del">ì‚­ì œ</button>
 						</div>
 						</form>
 						<script>
@@ -149,7 +148,7 @@
 <script LANGUAGE="JavaScript">
 <!--
 	$('#del').click(function() {
-		msg="»èÁ¦ÇÏ½Ã°Ú½À´Ï±î?"
+		msg="ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?"
 		if (confirm(msg)) {
 			document.location.href='../main_del_exec.asp?menu_seq=<%=menu_seq%>';
 		}

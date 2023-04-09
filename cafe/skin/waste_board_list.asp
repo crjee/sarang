@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 	checkManager(cafe_id)
@@ -6,10 +7,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>½ºÅ²-1 : GI</title>
+	<title>ìŠ¤í‚¨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -52,7 +53,7 @@
 	sql = sql & kword
 
 	rs.Open sql, conn, 3, 1
-	RecordCount = 0 ' ÀÚ·á°¡ ¾øÀ»¶§
+	RecordCount = 0 ' ìë£Œê°€ ì—†ì„ë•Œ
 	If Not rs.EOF Then
 		RecordCount = rs("cnt")
 	End If
@@ -73,7 +74,7 @@
 	sql = sql & "  order by group_num desc, step_num asc "
 	rs.Open sql, conn, 3, 1
 
-	' ÀüÃ¼ ÆäÀÌÁö ¼ö ¾ò±â
+	' ì „ì²´ í˜ì´ì§€ ìˆ˜ ì–»ê¸°
 	If RecordCount/pagesize = Int(RecordCount/pagesize) Then
 		PageCount = Int(RecordCount / pagesize)
 	Else
@@ -102,7 +103,7 @@
 				}
 			</script>
 				<div class="cont_tit">
-					<h2 class="h2"><font color="red">ÈŞÁöÅë <%=menu_name%></font>&nbsp;ÃÑ <%=FormatNumber(RecordCount,0)%>°ÇÀÇ ±ÛÀÌ ÀÖ½À´Ï´Ù.</h2>
+					<h2 class="h2"><font color="red">íœ´ì§€í†µ <%=menu_name%></font>&nbsp;ì´ <%=FormatNumber(RecordCount,0)%>ê±´ì˜ ê¸€ì´ ìˆìŠµë‹ˆë‹¤.</h2>
 				</div>
 				<div class="">
 					<div class="search_box algR">
@@ -112,13 +113,13 @@
 						<input type="hidden" name="board_seq">
 						<input type="hidden" name="notice_seq">
 						<select id="sch_type" name="sch_type" class="sel w100p">
-							<option value="all">ÀüÃ¼</option>
-							<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>Á¦¸ñ</option>
-							<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>±Û¾´ÀÌ</option>
-							<option value="cb.contents" <%=if3(sch_type="cb.contents","selected","")%>>³»¿ë</option>
+							<option value="all">ì „ì²´</option>
+							<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>ì œëª©</option>
+							<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>ê¸€ì“´ì´</option>
+							<option value="cb.contents" <%=if3(sch_type="cb.contents","selected","")%>>ë‚´ìš©</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w300p">
-						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">°Ë»ö</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">ê²€ìƒ‰</button>
 						<select id="pagesize" name="pagesize" class="sel w100p" onchange="goSearch()">
 							<option value=""></option>
 							<option value="20" <%=if3(pagesize="20","selected","")%>>20</option>
@@ -144,12 +145,12 @@
 							</colgroup>
 							<thead>
 								<tr>
-									<th scope="col">¹øÈ£</th>
-									<th scope="col">Á¦¸ñ</th>
-									<th scope="col">±Û¾´ÀÌ</th>
-									<th scope="col">Á¶È¸</th>
-									<th scope="col">ÃßÃµ</th>
-									<th scope="col">µî·ÏÀÏ</th>
+									<th scope="col">ë²ˆí˜¸</th>
+									<th scope="col">ì œëª©</th>
+									<th scope="col">ê¸€ì“´ì´</th>
+									<th scope="col">ì¡°íšŒ</th>
+									<th scope="col">ì¶”ì²œ</th>
+									<th scope="col">ë“±ë¡ì¼</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -172,7 +173,7 @@
 		Do Until rs2.eof
 			subject = rs2("subject")
 			If subject = "" Then
-				subject = "Á¦¸ñ¾øÀ½"
+				subject = "ì œëª©ì—†ìŒ"
 			End if
 			subject_s = rmid(subject, 40, "..")
 %>
@@ -199,13 +200,13 @@
 			subject = Replace(subject, """", " & quot;")
 
 			If isnull(subject) Or isempty(subject) Or Len(Trim(subject)) = 0 Then
-				subject = "Á¦¸ñ¾øÀ½"
+				subject = "ì œëª©ì—†ìŒ"
 			End if
 
 			parent_del_yn = rs("parent_del_yn")
 
 			If parent_del_yn = "Y" Then
-				subject = "*¿ø±ÛÀÌ »èÁ¦µÈ ´ä±Û* " & subject
+				subject = "*ì›ê¸€ì´ ì‚­ì œëœ ë‹µê¸€* " & subject
 			End if
 			subject_s = rmid(subject, 40, "..")
 %>
@@ -247,7 +248,7 @@
 	Else
 %>
 								<tr>
-									<td colspan="6">µî·ÏµÈ ±ÛÀÌ ¾ø½À´Ï´Ù.</td>
+									<td colspan="6">ë“±ë¡ëœ ê¸€ì´ ì—†ìŠµë‹ˆë‹¤.</td>
 								</tr>
 <%
 	End If

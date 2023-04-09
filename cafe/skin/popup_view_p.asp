@@ -1,7 +1,8 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	s_pop = "Y"
 %>
-<!--#include virtual="/include/config_inc.asp"-->
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	popup_num = Request("popup_num")
 	notice_seq = Request("notice_seq")
@@ -24,12 +25,12 @@
 		sql = sql  & "   from cf_notice "
 		sql = sql  & "  where notice_seq = '" & notice_seq & "' "
 		rs.Open sql, Conn, 1
-		menu_name = "°æÀÎ³×Æ®¿÷½º ÀüÃ¼°øÁö"
+		menu_name = "ê²½ì¸ë„¤íŠ¸ì›ìŠ¤ ì „ì²´ê³µì§€"
 	End If
 
 	If rs.eof Then
 %>
-<h3 style="color:#c9a7f3;font-size:12px;;">ÆË¾÷ÁöÁ¤ÀÌ Àß¸ø µÇ¾ú½À´Ï´Ù.</h3>
+<h3 style="color:#c9a7f3;font-size:12px;;">íŒì—…ì§€ì •ì´ ìž˜ëª» ë˜ì—ˆìŠµë‹ˆë‹¤.</h3>
 <%
 		Response.end
 	End If
@@ -37,8 +38,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="ko">
 <head>
-<meta charset="euc-kr" />
-<title>ÆË¾÷°øÁö</title>
+<meta charset="utf-8" />
+<title>íŒì—…ê³µì§€</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <link href="/cafe/skin/css/basic_layout.css" rel="stylesheet" type="text/css" />
@@ -55,8 +56,8 @@
 			<%=rs("subject")%><br>
 			<%=rs("contents")%>
 		</div>
-		<input type="checkbox" name="check1" value="Y" onclick="document.form.submit()"> ¿À´ÃÇÏ·ç ±×¸¸ º¸±â
-		<p class="right"><button class="btn_basic2txt" id="btn" type="button" onclick="document.form.submit()">´Ý±â</button></p>
+		<input type="checkbox" name="check1" value="Y" onclick="document.form.submit()"> ì˜¤ëŠ˜í•˜ë£¨ ê·¸ë§Œ ë³´ê¸°
+		<p class="right"><button class="btn_basic2txt" id="btn" type="button" onclick="document.form.submit()">ë‹«ê¸°</button></p>
 	</div>
 	</form>
 </body>

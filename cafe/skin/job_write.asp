@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 	checkWriteAuth(cafe_id)
@@ -6,16 +7,16 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>½ºÅ²-1 : GI</title>
+	<title>ìŠ¤í‚¨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
-	<script type="text/javascript" src="/smart/js/HuskyEZCreator.js" charset="euc-kr"></script>
+	<script type="text/javascript" src="/smart/js/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <body class="skin_type_1">
 	<div id="wrap" class="group">
@@ -48,7 +49,7 @@
 	rs.Open Sql, conn, 3, 1
 
 	If not rs.EOF Then
-		msgonly "ÀÓ½Ã ÀúÀåµÈ ³»¿ëÀÌ ÀÖ½À´Ï´Ù."
+		msgonly "ì„ì‹œ ì €ì¥ëœ ë‚´ìš©ì´ ìˆìŠµë‹ˆë‹¤."
 
 		top_yn     = rs("top_yn")
 		subject    = rs("subject")
@@ -78,7 +79,7 @@
 	rs.close
 %>
 				<div class="cont_tit">
-					<h2 class="h2"><%=menu_name%> µî·Ï</h2>
+					<h2 class="h2"><%=menu_name%> ë“±ë¡</h2>
 				</div>
 				<form name="form" method="post" onsubmit="return submitContents(this)">
 				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
@@ -95,17 +96,17 @@
 	If cafe_mb_level > 6 Then
 %>
 							<tr>
-								<th scope="row">°øÁö</th>
+								<th scope="row">ê³µì§€</th>
 								<td>
 									<input type="checkbox" id="top_yn" name="top_yn" class="inp_check" value="Y" <%=if3(top_yn="Y","checked","")%> />
-									<label for="top_yn"><em>°øÁö·Î ÁöÁ¤</em></label>
+									<label for="top_yn"><em>ê³µì§€ë¡œ ì§€ì •</em></label>
 								</td>
 							</tr>
 <%
 	End If
 %>
 							<tr>
-								<th scope="row">Á¦¸ñ<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+								<th scope="row">ì œëª©<em class="required">í•„ìˆ˜ì…ë ¥</em></th>
 								<td>
 									<input type="text" id="subject" name="subject" class="inp" value="<%=subject%>" maxlength="200" onKeyup="fc_chk_byte(this, 200, 'req_attnView')" required>
 									<span id="req_attnView" name="req_attnView">0</span>/200
@@ -115,7 +116,7 @@
 					</table>
 				</div>
 				<div class="view_cont">
-					<h4 class="f_awesome h4">ÀÚ°İÁ¶°Ç</h4>
+					<h4 class="f_awesome h4">ìê²©ì¡°ê±´</h4>
 					<div class="tb">
 						<table class="tb_input tb_fixed">
 							<colgroup>
@@ -126,16 +127,16 @@
 							</colgroup>
 							<tbody>
 								<tr>
-									<th scope="row">´ã´ç¾÷¹«<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+									<th scope="row">ë‹´ë‹¹ì—…ë¬´<em class="required">í•„ìˆ˜ì…ë ¥</em></th>
 									<td>
 										<input type="text" class="inp" tabindex=2 name="work" value="<%=work%>" required />
 									</td>
-									<th scope="row">¿¬·É<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+									<th scope="row">ì—°ë ¹<em class="required">í•„ìˆ˜ì…ë ¥</em></th>
 									<td>
-										<input type="radio" class="checkbox" tabindex=3 name="age" value="" onclick="chkage(0)" <%=If3(age="","checked","")%>>¹«°ü &nbsp;
-										<input type="radio" class="checkbox" tabindex=4 name="age" value="Y" onclick="chkage(1)" <%=If3(age<>"","checked","")%>>¿¬·ÉÁ¦ÇÑ &nbsp;
-										<input type="text" class="inp" tabindex=5 name="age1" value="<%=age1%>" style="width:40px" <%=If3(age="","disabled","")%>>¼¼ ~
-										<input type="text" class="inp" tabindex=6 name="age2" value="<%=age2%>" style="width:40px" <%=If3(age="","disabled","")%>>¼¼
+										<input type="radio" class="checkbox" tabindex=3 name="age" value="" onclick="chkage(0)" <%=If3(age="","checked","")%>>ë¬´ê´€ &nbsp;
+										<input type="radio" class="checkbox" tabindex=4 name="age" value="Y" onclick="chkage(1)" <%=If3(age<>"","checked","")%>>ì—°ë ¹ì œí•œ &nbsp;
+										<input type="text" class="inp" tabindex=5 name="age1" value="<%=age1%>" style="width:40px" <%=If3(age="","disabled","")%>>ì„¸ ~
+										<input type="text" class="inp" tabindex=6 name="age2" value="<%=age2%>" style="width:40px" <%=If3(age="","disabled","")%>>ì„¸
 										<script>
 										function chkage(idx) {
 											if (idx == 0)
@@ -157,29 +158,29 @@
 									</td>
 								</tr>
 								<tr>
-									<th scope="row">¼ºº°<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+									<th scope="row">ì„±ë³„<em class="required">í•„ìˆ˜ì…ë ¥</em></th>
 									<td>
-										<input type="radio" class="checkbox" tabindex=7 name="sex" value="" <%=if3(sex="","checked","")%>>¹«°ü &nbsp; &nbsp;
-										<input type="radio" class="checkbox" tabindex=8 name="sex" value="M" <%=if3(sex="M","checked","")%>>³² &nbsp; &nbsp;
-										<input type="radio" class="checkbox" tabindex=9 name="sex" value="W" <%=if3(sex="W","checked","")%>>¿©
+										<input type="radio" class="checkbox" tabindex=7 name="sex" value="" <%=if3(sex="","checked","")%>>ë¬´ê´€ &nbsp; &nbsp;
+										<input type="radio" class="checkbox" tabindex=8 name="sex" value="M" <%=if3(sex="M","checked","")%>>ë‚¨ &nbsp; &nbsp;
+										<input type="radio" class="checkbox" tabindex=9 name="sex" value="W" <%=if3(sex="W","checked","")%>>ì—¬
 									</td>
-									<th scope="row">°æ·Â<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+									<th scope="row">ê²½ë ¥<em class="required">í•„ìˆ˜ì…ë ¥</em></th>
 									<td>
 										<select name="work_year" tabindex=10>
-											<option value="">¹«°ü</option>
+											<option value="">ë¬´ê´€</option>
 <% For i = 1 To 50 %>
-											<option value="<%=i%>" <%=if3(work_year=CStr(i),"selected","")%>><%=i%>³â ÀÌ»ó</option>
+											<option value="<%=i%>" <%=if3(work_year=CStr(i),"selected","")%>><%=i%>ë…„ ì´ìƒ</option>
 <% Next %>
 										</select>
 									</td>
 								</tr>
 								<tr>
-									<th class="end2">°ü·ÂÀÚ°İÁõ<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+									<th class="end2">ê´€ë ¥ìê²©ì¦<em class="required">í•„ìˆ˜ì…ë ¥</em></th>
 									<td>
-										<input type="radio" class="checkbox" tabindex=11 name="certify" value="Y" <%=if3(certify="Y","checked","")%>>ÇÊ¼ö &nbsp; &nbsp;
-										<input type="radio" class="checkbox" tabindex=12 name="certify" value="N" <%=if3(certify="N","checked","")%>>¹«°ü
+										<input type="radio" class="checkbox" tabindex=11 name="certify" value="Y" <%=if3(certify="Y","checked","")%>>í•„ìˆ˜ &nbsp; &nbsp;
+										<input type="radio" class="checkbox" tabindex=12 name="certify" value="N" <%=if3(certify="N","checked","")%>>ë¬´ê´€
 									</td>
-									<th class="end2">±Ù¹«Áö¿ª<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+									<th class="end2">ê·¼ë¬´ì§€ì—­<em class="required">í•„ìˆ˜ì…ë ¥</em></th>
 									<td>
 										<input type="text" class="inp" tabindex=13 name="work_place" value="<%=work_place%>" />
 									</td>
@@ -189,7 +190,7 @@
 					</div>
 				</div>
 				<div class="view_cont">
-					<h4 class="f_awesome h4">¹®ÀÇ¹× Á¢¼ö¹æ¹ı</h4>
+					<h4 class="f_awesome h4">ë¬¸ì˜ë° ì ‘ìˆ˜ë°©ë²•</h4>
 					<div class="tb">
 						<table class="tb_input tb_fixed">
 							<colgroup>
@@ -200,50 +201,50 @@
 							</colgroup>
 							<tbody>
 								<tr>
-									<th scope="row">Áß°³¾÷¼Ò¸í<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+									<th scope="row">ì¤‘ê°œì—…ì†Œëª…<em class="required">í•„ìˆ˜ì…ë ¥</em></th>
 									<td>
 										<input type="text" class="inp" tabindex=14 name="agency" value="<%=agency%>" required />
 									</td>
-									<th scope="row">´ã´çÀÚ¸í<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+									<th scope="row">ë‹´ë‹¹ìëª…<em class="required">í•„ìˆ˜ì…ë ¥</em></th>
 									<td>
 										<input type="text" class="inp" tabindex=15 name="person" value="<%=person%>" required />
 									</td>
 								</tr>
 								<tr>
-									<th scope="row">ÀüÈ­¹øÈ£</th>
+									<th scope="row">ì „í™”ë²ˆí˜¸</th>
 									<td>
 										<input type="text" class="inp" tabindex=16 name="tel_no" value="<%=tel_no%>" />
 									</td>
-									<th scope="row">ÈŞ´ëÀüÈ­¹øÈ£<em class="required">ÇÊ¼öÀÔ·Â</em></th>
+									<th scope="row">íœ´ëŒ€ì „í™”ë²ˆí˜¸<em class="required">í•„ìˆ˜ì…ë ¥</em></th>
 									<td>
 										<input type="text" class="inp" tabindex=17 name="mbl_telno" value="<%=mbl_telno%>" required />
 									</td>
 								</tr>
 								<tr>
-									<th scope="row">ÆÑ½º</th>
+									<th scope="row">íŒ©ìŠ¤</th>
 									<td>
 										<input type="text" class="inp" tabindex=18 name="fax_no" value="<%=fax_no%>" />
 									</td>
-									<th class="end2">ÀÌ¸ŞÀÏ</th>
+									<th class="end2">ì´ë©”ì¼</th>
 									<td>
 										<input type="text" class="inp" tabindex=19 name="email" value="<%=email%>" />
 									</td>
 								</tr>
 								<tr>
-									<th class="end2">È¨ÆäÀÌÁö</th>
+									<th class="end2">í™ˆí˜ì´ì§€</th>
 									<td>
 										<input type="text" class="inp" tabindex=20 name="homepage" value="<%=homepage%>" />
 									</td>
-									<th class="end2">Á¢¼ö¹æ¹ı</th>
+									<th class="end2">ì ‘ìˆ˜ë°©ë²•</th>
 									<td>
-										<input type="checkbox" class="checkbox" tabindex=21 value="ÀÌ¸ŞÀÏ" name="method" <%=if3(instr(method,"ÀÌ¸ŞÀÏ")>0,"checked","")%>>ÀÌ¸ŞÀÏ
-										<input type="checkbox" class="checkbox" tabindex=22 value="ÆÑ½º" name="method" <%=if3(instr(method,"ÆÑ½º")>0,"checked","")%>>ÆÑ½º
-										<input type="checkbox" class="checkbox" tabindex=23 value="¿ìÆí" name="method" <%=if3(instr(method,"¿ìÆí")>0,"checked","")%>>¿ìÆí
-										<input type="checkbox" class="checkbox" tabindex=24 value="¹æ¹®" name="method" <%=if3(instr(method,"¹æ¹®")>0,"checked","")%>>¹æ¹®
+										<input type="checkbox" class="checkbox" tabindex=21 value="ì´ë©”ì¼" name="method" <%=if3(instr(method,"ì´ë©”ì¼")>0,"checked","")%>>ì´ë©”ì¼
+										<input type="checkbox" class="checkbox" tabindex=22 value="íŒ©ìŠ¤" name="method" <%=if3(instr(method,"íŒ©ìŠ¤")>0,"checked","")%>>íŒ©ìŠ¤
+										<input type="checkbox" class="checkbox" tabindex=23 value="ìš°í¸" name="method" <%=if3(instr(method,"ìš°í¸")>0,"checked","")%>>ìš°í¸
+										<input type="checkbox" class="checkbox" tabindex=24 value="ë°©ë¬¸" name="method" <%=if3(instr(method,"ë°©ë¬¸")>0,"checked","")%>>ë°©ë¬¸
 									</td>
 								</tr>
 								<tr>
-									<th class="end2">¸¶°¨ÀÏ</th>
+									<th class="end2">ë§ˆê°ì¼</th>
 									<td colspan="3">
 										<input type="text" tabindex=25 id="end_date" name="end_date" value="<%=end_date%>" class="inp" />
 									</td>
@@ -253,7 +254,7 @@
 					</div>
 				</div>
 				<div class="view_cont">
-					<h4 class="f_awesome h4">¸ğÁı¿ä°­</h4>
+					<h4 class="f_awesome h4">ëª¨ì§‘ìš”ê°•</h4>
 					<div class="tb">
 <%
 	If editor_yn = "Y" Then
@@ -262,10 +263,10 @@
 <%
 		If contents = "" Then
 %>
-								<p>[±Ş¿©Á¶°Ç] :</p>
-								<p>[Á¦Ãâ¼­·ù] :</p>
-								<p>[¾÷¼ÒÀ§Ä¡] :</p>
-								<p>[±âÅ¸»çÇ×] :</p>
+								<p>[ê¸‰ì—¬ì¡°ê±´] :</p>
+								<p>[ì œì¶œì„œë¥˜] :</p>
+								<p>[ì—…ì†Œìœ„ì¹˜] :</p>
+								<p>[ê¸°íƒ€ì‚¬í•­] :</p>
 <%
 		Else
 %>
@@ -281,10 +282,10 @@
 <%
 		If contents = "" Then
 %>
-								<p>[±Ş¿©Á¶°Ç] :</p>
-								<p>[Á¦Ãâ¼­·ù] :</p>
-								<p>[¾÷¼ÒÀ§Ä¡] :</p>
-								<p>[±âÅ¸»çÇ×] :</p>
+								<p>[ê¸‰ì—¬ì¡°ê±´] :</p>
+								<p>[ì œì¶œì„œë¥˜] :</p>
+								<p>[ì—…ì†Œìœ„ì¹˜] :</p>
+								<p>[ê¸°íƒ€ì‚¬í•­] :</p>
 <%
 		Else
 %>
@@ -296,7 +297,7 @@
 <%
 	End If
 %>
-						<li class="orange">»õ·Î°íÄ§½Ã ¿¡µğÅÍ ³»¿ëÀº À¯ÁöµÇÁö ¾Ê½À´Ï´Ù.</li>
+						<li class="orange">ìƒˆë¡œê³ ì¹¨ì‹œ ì—ë””í„° ë‚´ìš©ì€ ìœ ì§€ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.</li>
 					</div>
 					<table class="tb_input tb_fixed mt10">
 						<colgroup>
@@ -312,8 +313,8 @@
 					</table>
 				</div>
 				<div class="btn_box">
-					<button type="submit" class="btn btn_c_a btn_n" tabindex=26>µî·Ï</button>
-					<button type="button" class="btn btn_c_n btn_n" tabindex=27 onclick="location.href='job_list.asp?menu_seq=<%=menu_seq%>'"><em>Ãë¼Ò</em></button>
+					<button type="submit" class="btn btn_c_a btn_n" tabindex=26>ë“±ë¡</button>
+					<button type="button" class="btn btn_c_n btn_n" tabindex=27 onclick="location.href='job_list.asp?menu_seq=<%=menu_seq%>'"><em>ì·¨ì†Œ</em></button>
 				</div>
 				</form>
 			</div>
@@ -327,7 +328,7 @@
 			<script>
 				var oEditors = [];
 
-				// Ãß°¡ ±Û²Ã ¸ñ·Ï
+				// ì¶”ê°€ ê¸€ê¼´ ëª©ë¡
 				//var aAdditionalFontSet = [["MS UI Gothic", "MS UI Gothic"], ["Comic Sans MS", "Comic Sans MS"],["TEST","TEST"]];
 
 				nhn.husky.EZCreator.createInIFrame({
@@ -335,10 +336,10 @@
 					elPlaceHolder: "ir1",
 					sSkinURI: "/smart/SmartEditor2Skin.html",
 					htParams : {
-						bUseToolbar : true,				// Åø¹Ù »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-						bUseVerticalResizer : true,		// ÀÔ·ÂÃ¢ Å©±â Á¶Àı¹Ù »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-						bUseModeChanger : true,			// ¸ğµå ÅÇ(Editor | HTML | TEXT) »ç¿ë ¿©ºÎ (true:»ç¿ë/ false:»ç¿ëÇÏÁö ¾ÊÀ½)
-						//aAdditionalFontList : aAdditionalFontSet,		// Ãß°¡ ±Û²Ã ¸ñ·Ï
+						bUseToolbar : true,				// íˆ´ë°” ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+						bUseVerticalResizer : true,		// ì…ë ¥ì°½ í¬ê¸° ì¡°ì ˆë°” ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+						bUseModeChanger : true,			// ëª¨ë“œ íƒ­(Editor | HTML | TEXT) ì‚¬ìš© ì—¬ë¶€ (true:ì‚¬ìš©/ false:ì‚¬ìš©í•˜ì§€ ì•ŠìŒ)
+						//aAdditionalFontList : aAdditionalFontSet,		// ì¶”ê°€ ê¸€ê¼´ ëª©ë¡
 						fOnBeforeUnload : function() {
 							var f = document.form;
 							if (f.temp.value == "Y" && f.subject.value != "")
@@ -348,13 +349,13 @@
 								f.temp.value = "N";
 								f.target = "hiddenfrm";
 								f.submit();
-								alert("ÀÛ¼ºÁßÀÎ ³»¿ëÀÌ ÀÓ½Ã·Î ÀúÀåµÇ¾ú½À´Ï´Ù.");
+								alert("ì‘ì„±ì¤‘ì¸ ë‚´ìš©ì´ ì„ì‹œë¡œ ì €ì¥ë˜ì—ˆìŠµë‹ˆë‹¤.");
 							}
 						}
 					}, //boolean
 					fOnAppLoad : function() {
-						//¿¹Á¦ ÄÚµå
-						//oEditors.getById["ir1"].exec("PASTE_HTML", ["·ÎµùÀÌ ¿Ï·áµÈ ÈÄ¿¡ º»¹®¿¡ »ğÀÔµÇ´Â textÀÔ´Ï´Ù."])
+						//ì˜ˆì œ ì½”ë“œ
+						//oEditors.getById["ir1"].exec("PASTE_HTML", ["ë¡œë”©ì´ ì™„ë£Œëœ í›„ì— ë³¸ë¬¸ì— ì‚½ì…ë˜ëŠ” textì…ë‹ˆë‹¤."])
 					},
 					fCreator: "createSEditor2"
 				})
@@ -372,53 +373,53 @@
 <script>
 	function fc_chk_byte(frm_nm, ari_max, cnt_view) { 
 	//	var frm = document.regForm;
-		var ls_str = frm_nm.value; // ÀÌº¥Æ®°¡ ÀÏ¾î³­ ÄÁÆ®·ÑÀÇ value °ª 
-		var li_str_len = ls_str.length; // ÀüÃ¼±æÀÌ 
+		var ls_str = frm_nm.value; // ì´ë²¤íŠ¸ê°€ ì¼ì–´ë‚œ ì»¨íŠ¸ë¡¤ì˜ value ê°’ 
+		var li_str_len = ls_str.length; // ì „ì²´ê¸¸ì´ 
 
-		// º¯¼öÃÊ±âÈ­ 
-		var li_max = ari_max; // Á¦ÇÑÇÒ ±ÛÀÚ¼ö Å©±â 
-		var i = 0; // for¹®¿¡ »ç¿ë 
-		var li_byte = 0; // ÇÑ±ÛÀÏ°æ¿ì´Â 2 ±×¹Ü¿¡´Â 1À» ´õÇÔ 
-		var li_len = 0; // substringÇÏ±â À§ÇØ¼­ »ç¿ë 
-		var ls_one_char = ""; // ÇÑ±ÛÀÚ¾¿ °Ë»çÇÑ´Ù 
-		var ls_str2 = ""; // ±ÛÀÚ¼ö¸¦ ÃÊ°úÇÏ¸é Á¦ÇÑÇÒ¼ö ±ÛÀÚÀü±îÁö¸¸ º¸¿©ÁØ´Ù. 
+		// ë³€ìˆ˜ì´ˆê¸°í™” 
+		var li_max = ari_max; // ì œí•œí•  ê¸€ììˆ˜ í¬ê¸° 
+		var i = 0; // forë¬¸ì— ì‚¬ìš© 
+		var li_byte = 0; // í•œê¸€ì¼ê²½ìš°ëŠ” 2 ê·¸ë°—ì—ëŠ” 1ì„ ë”í•¨ 
+		var li_len = 0; // substringí•˜ê¸° ìœ„í•´ì„œ ì‚¬ìš© 
+		var ls_one_char = ""; // í•œê¸€ìì”© ê²€ì‚¬í•œë‹¤ 
+		var ls_str2 = ""; // ê¸€ììˆ˜ë¥¼ ì´ˆê³¼í•˜ë©´ ì œí•œí• ìˆ˜ ê¸€ìì „ê¹Œì§€ë§Œ ë³´ì—¬ì¤€ë‹¤. 
 
 		for (i=0; i< li_str_len; i++) { 
-		// ÇÑ±ÛÀÚÃßÃâ 
+		// í•œê¸€ìì¶”ì¶œ 
 			ls_one_char = ls_str.charAt(i); 
 
-			// ÇÑ±ÛÀÌ¸é 2¸¦ ´õÇÑ´Ù. 
+			// í•œê¸€ì´ë©´ 2ë¥¼ ë”í•œë‹¤. 
 			if (escape(ls_one_char).length > 4) { 
 				li_byte += 2; 
 			} 
-			// ±×¹ÜÀÇ °æ¿ì´Â 1À» ´õÇÑ´Ù. 
+			// ê·¸ë°—ì˜ ê²½ìš°ëŠ” 1ì„ ë”í•œë‹¤. 
 			else { 
 				li_byte++; 
 			} 
 
-			// ÀüÃ¼ Å©±â°¡ li_max¸¦ ³ÑÁö¾ÊÀ¸¸é 
+			// ì „ì²´ í¬ê¸°ê°€ li_maxë¥¼ ë„˜ì§€ì•Šìœ¼ë©´ 
 			if (li_byte <= li_max) { 
 				li_len = i + 1; 
 			} 
 		} 
 
-		// ÀüÃ¼±æÀÌ¸¦ ÃÊ°úÇÏ¸é 
+		// ì „ì²´ê¸¸ì´ë¥¼ ì´ˆê³¼í•˜ë©´ 
 		if (li_byte > li_max) { 
-			alert( li_max + "byte ±ÛÀÚ¸¦ ÃÊ°ú ÀÔ·ÂÇÒ¼ö ¾ø½À´Ï´Ù. \n ÃÊ°úµÈ ³»¿ëÀº ÀÚµ¿À¸·Î »èÁ¦ µË´Ï´Ù. "); 
+			alert( li_max + "byte ê¸€ìë¥¼ ì´ˆê³¼ ì…ë ¥í• ìˆ˜ ì—†ìŠµë‹ˆë‹¤. \n ì´ˆê³¼ëœ ë‚´ìš©ì€ ìë™ìœ¼ë¡œ ì‚­ì œ ë©ë‹ˆë‹¤. "); 
 			ls_str2 = ls_str.substr(0, li_len);
 			frm_nm.value = ls_str2; 
 
-			li_str_len = ls_str2.length; // ÀüÃ¼±æÀÌ 
-			li_byte = 0; // ÇÑ±ÛÀÏ°æ¿ì´Â 2 ±×¹Ü¿¡´Â 1À» ´õÇÔ 
+			li_str_len = ls_str2.length; // ì „ì²´ê¸¸ì´ 
+			li_byte = 0; // í•œê¸€ì¼ê²½ìš°ëŠ” 2 ê·¸ë°—ì—ëŠ” 1ì„ ë”í•¨ 
 			for (i=0; i< li_str_len; i++) { 
-			// ÇÑ±ÛÀÚÃßÃâ 
+			// í•œê¸€ìì¶”ì¶œ 
 				ls_one_char = ls_str2.charAt(i); 
 
-				// ÇÑ±ÛÀÌ¸é 2¸¦ ´õÇÑ´Ù. 
+				// í•œê¸€ì´ë©´ 2ë¥¼ ë”í•œë‹¤. 
 				if (escape(ls_one_char).length > 4) { 
 					li_byte += 2; 
 				} 
-				// ±×¹ÜÀÇ °æ¿ì´Â 1À» ´õÇÑ´Ù. 
+				// ê·¸ë°—ì˜ ê²½ìš°ëŠ” 1ì„ ë”í•œë‹¤. 
 				else { 
 					li_byte++; 
 				} 

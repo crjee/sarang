@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	menu_seq  = Request.Form("menu_seq")
 	menu_type = Request("menu_type")
@@ -19,7 +20,7 @@
 	sql = sql & "  where menu_seq = '" & menu_seq & "' "
 	Conn.Execute(sql)
 
-	'¸ÞÀÎ¸Þ´º Ã³¸®
+	'ë©”ì¸ë©”ë‰´ ì²˜ë¦¬
 	sql = ""
 	sql = sql & " update cf_menu                                                     "
 	sql = sql & "    set home_num = 0                                                "

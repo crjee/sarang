@@ -1,6 +1,6 @@
 <?
 setlocale(LC_CTYPE, 'ko_KR.eucKR');
-if (!defined("_GNUBOARD_")) exit; // °³º° ÆäÀÌÁö Á¢±Ù ºÒ°¡ 
+if (!defined("_GNUBOARD_")) exit; // ê°œë³„ íŽ˜ì´ì§€ ì ‘ê·¼ ë¶ˆê°€ 
 include_once("$g4[path]/head.php");
 
 ?>

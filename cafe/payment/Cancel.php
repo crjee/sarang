@@ -1,18 +1,18 @@
 <?php
 setlocale(LC_CTYPE, 'ko_KR.UTF-8');
     /*
-     * [°áÁ¦Ãë¼Ò ¿äÃ» ÆäÀÌÁö]
+     * [ê²°ì œì·¨ì†Œ ìš”ì²­ íŽ˜ì´ì§€]
      *
-     * LGÅÚ·¹ÄÞÀ¸·Î ºÎÅÍ ³»·Á¹ÞÀº °Å·¡¹øÈ£(LGD_TID)¸¦ °¡Áö°í Ãë¼Ò ¿äÃ»À» ÇÕ´Ï´Ù.(ÆÄ¶ó¹ÌÅÍ Àü´Þ½Ã POST¸¦ »ç¿ëÇÏ¼¼¿ä)
-     * (½ÂÀÎ½Ã LGÅÚ·¹ÄÞÀ¸·Î ºÎÅÍ ³»·Á¹ÞÀº PAYKEY¿Í È¥µ¿ÇÏÁö ¸¶¼¼¿ä.)
+     * LGí…”ë ˆì½¤ìœ¼ë¡œ ë¶€í„° ë‚´ë ¤ë°›ì€ ê±°ëž˜ë²ˆí˜¸(LGD_TID)ë¥¼ ê°€ì§€ê³  ì·¨ì†Œ ìš”ì²­ì„ í•©ë‹ˆë‹¤.(íŒŒë¼ë¯¸í„° ì „ë‹¬ì‹œ POSTë¥¼ ì‚¬ìš©í•˜ì„¸ìš”)
+     * (ìŠ¹ì¸ì‹œ LGí…”ë ˆì½¤ìœ¼ë¡œ ë¶€í„° ë‚´ë ¤ë°›ì€ PAYKEYì™€ í˜¼ë™í•˜ì§€ ë§ˆì„¸ìš”.)
      */
-    $CST_PLATFORM               = $HTTP_POST_VARS["CST_PLATFORM"];       //LGÅÚ·¹ÄÞ °áÁ¦ ¼­ºñ½º ¼±ÅÃ(test:Å×½ºÆ®, service:¼­ºñ½º)
-    $CST_MID                    = $HTTP_POST_VARS["CST_MID"];            //»óÁ¡¾ÆÀÌµð(LGÅÚ·¹ÄÞÀ¸·Î ºÎÅÍ ¹ß±Þ¹ÞÀ¸½Å »óÁ¡¾ÆÀÌµð¸¦ ÀÔ·ÂÇÏ¼¼¿ä)
-                                                                         //Å×½ºÆ® ¾ÆÀÌµð´Â 't'¸¦ ¹Ýµå½Ã Á¦¿ÜÇÏ°í ÀÔ·ÂÇÏ¼¼¿ä.
-    $LGD_MID                    = (("test" == $CST_PLATFORM)?"t":"").$CST_MID;  //»óÁ¡¾ÆÀÌµð(ÀÚµ¿»ý¼º)    
-    $LGD_TID                	= $HTTP_POST_VARS["LGD_TID"];			 //LGÅÚ·¹ÄÞÀ¸·Î ºÎÅÍ ³»·Á¹ÞÀº °Å·¡¹øÈ£(LGD_TID)
+    $CST_PLATFORM               = $HTTP_POST_VARS["CST_PLATFORM"];       //LGí…”ë ˆì½¤ ê²°ì œ ì„œë¹„ìŠ¤ ì„ íƒ(test:í…ŒìŠ¤íŠ¸, service:ì„œë¹„ìŠ¤)
+    $CST_MID                    = $HTTP_POST_VARS["CST_MID"];            //ìƒì ì•„ì´ë””(LGí…”ë ˆì½¤ìœ¼ë¡œ ë¶€í„° ë°œê¸‰ë°›ìœ¼ì‹  ìƒì ì•„ì´ë””ë¥¼ ìž…ë ¥í•˜ì„¸ìš”)
+                                                                         //í…ŒìŠ¤íŠ¸ ì•„ì´ë””ëŠ” 't'ë¥¼ ë°˜ë“œì‹œ ì œì™¸í•˜ê³  ìž…ë ¥í•˜ì„¸ìš”.
+    $LGD_MID                    = (("test" == $CST_PLATFORM)?"t":"").$CST_MID;  //ìƒì ì•„ì´ë””(ìžë™ìƒì„±)    
+    $LGD_TID                	= $HTTP_POST_VARS["LGD_TID"];			 //LGí…”ë ˆì½¤ìœ¼ë¡œ ë¶€í„° ë‚´ë ¤ë°›ì€ ê±°ëž˜ë²ˆí˜¸(LGD_TID)
     
- 	$configPath 				= "/home/gibds.co.kr/www/payment/lgdacom"; 	 //LGÅÚ·¹ÄÞ¿¡¼­ Á¦°øÇÑ È¯°æÆÄÀÏ("/conf/lgdacom.conf") À§Ä¡ ÁöÁ¤.   
+ 	$configPath 				= "/home/gibds.co.kr/www/payment/lgdacom"; 	 //LGí…”ë ˆì½¤ì—ì„œ ì œê³µí•œ í™˜ê²½íŒŒì¼("/conf/lgdacom.conf") ìœ„ì¹˜ ì§€ì •.   
     
     require_once("./lgdacom/XPayClient.php");
     $xpay = &new XPayClient($configPath, $CST_PLATFORM);
@@ -22,18 +22,18 @@ setlocale(LC_CTYPE, 'ko_KR.UTF-8');
     $xpay->Set("LGD_TID", $LGD_TID);
     
     /*
-     * 1. °áÁ¦Ãë¼Ò ¿äÃ» °á°úÃ³¸®
+     * 1. ê²°ì œì·¨ì†Œ ìš”ì²­ ê²°ê³¼ì²˜ë¦¬
      *
-     * Ãë¼Ò°á°ú ¸®ÅÏ ÆÄ¶ó¹ÌÅÍ´Â ¿¬µ¿¸Þ´º¾óÀ» Âü°íÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.
+     * ì·¨ì†Œê²°ê³¼ ë¦¬í„´ íŒŒë¼ë¯¸í„°ëŠ” ì—°ë™ë©”ë‰´ì–¼ì„ ì°¸ê³ í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤.
      */
     if ($xpay->TX()) {
-        //1)°áÁ¦Ãë¼Ò°á°ú È­¸éÃ³¸®(¼º°ø,½ÇÆÐ °á°ú Ã³¸®¸¦ ÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.)
-        echo "°áÁ¦ Ãë¼Ò¿äÃ»ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.  <br>";
+        //1)ê²°ì œì·¨ì†Œê²°ê³¼ í™”ë©´ì²˜ë¦¬(ì„±ê³µ,ì‹¤íŒ¨ ê²°ê³¼ ì²˜ë¦¬ë¥¼ í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤.)
+        echo "ê²°ì œ ì·¨ì†Œìš”ì²­ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.  <br>";
         echo "TX Response_code = " . $xpay->Response_Code() . "<br>";
         echo "TX Response_msg = " . $xpay->Response_Msg() . "<p>";
     }else {
-        //2)API ¿äÃ» ½ÇÆÐ È­¸éÃ³¸®
-        echo "°áÁ¦ Ãë¼Ò¿äÃ»ÀÌ ½ÇÆÐÇÏ¿´½À´Ï´Ù.  <br>";
+        //2)API ìš”ì²­ ì‹¤íŒ¨ í™”ë©´ì²˜ë¦¬
+        echo "ê²°ì œ ì·¨ì†Œìš”ì²­ì´ ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.  <br>";
         echo "TX Response_code = " . $xpay->Response_Code() . "<br>";
         echo "TX Response_msg = " . $xpay->Response_Msg() . "<p>";
     }

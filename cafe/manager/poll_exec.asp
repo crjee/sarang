@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
 
@@ -46,12 +47,12 @@
 		sql = sql & "       ,moddt   = getdate() "
 		sql = sql & "  where poll_seq = '" & poll_seq & "' "
 		Conn.Execute(sql)
-		Response.Write "<script>alert('¸¶°¨µÇ¾ú½À´Ï´Ù');parent.location = 'poll_list.asp'</script>"
+		Response.Write "<script>alert('ë§ˆê°ë˜ì—ˆìŠµë‹ˆë‹¤');parent.location = 'poll_list.asp'</script>"
 		Response.end
 	End If
 
 	If task = "del" Then
-		for i = 1 to Request("poll_seq").count
+		For i = 1 to Request("poll_seq").count
 			poll_seq = Request("poll_seq")(i)
 
 			sql = "delete from cf_poll where poll_seq = '" & poll_seq & "'"
@@ -59,7 +60,7 @@
 			sql = "delete from cf_poll_ans where poll_seq = '" & poll_seq & "'"
 			Conn.Execute(sql)
 		Next
-		Response.Write "<script>alert('»èÁ¦µÇ¾ú½À´Ï´Ù');parent.location = 'poll_list.asp'</script>"
+		Response.Write "<script>alert('ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤');parent.location = 'poll_list.asp'</script>"
 		Response.end
 	End If
 
@@ -85,7 +86,7 @@
 		sql = sql & "       ,moddt   = getdate() "
 		sql = sql & "  where poll_seq = '" & poll_seq & "' "
 		Conn.Execute(sql)
-		Response.Write "<script>alert('¼öÁ¤µÇ¾ú½À´Ï´Ù');parent.location='poll_list.asp';window.close();</script>"
+		Response.Write "<script>alert('ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤');parent.location='poll_list.asp';window.close();</script>"
 		Response.end
 	End If
 
@@ -170,7 +171,7 @@
 		sql = sql & "       ,'" & Session("user_id") & "' "
 		sql = sql & "       ,getdate())"
 		Conn.Execute(sql)
-		Response.Write "<script>alert('µî·ÏµÇ¾ú½À´Ï´Ù');parent.location = 'poll_list.asp';window.close()</script>"
+		Response.Write "<script>alert('ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤');parent.location = 'poll_list.asp';window.close()</script>"
 		Response.End
 		
 	End If

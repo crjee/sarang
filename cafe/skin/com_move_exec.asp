@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 
@@ -15,7 +16,7 @@
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 	Set rs2 = Server.CreateObject ("ADODB.Recordset")
 
-	' ÀÚ½Å±Û°ú ´ä±Û Á¶È¸
+	' ìì‹ ê¸€ê³¼ ë‹µê¸€ ì¡°íšŒ
 	sql = ""
 	sql = sql & " with tree_query  as (                                                                                                            "
 	sql = sql & "   select                                                                                                                         "
@@ -46,7 +47,7 @@
 	rs.Open Sql, conn, 1, 1
 
 	If Not rs.eof Then
-		' ¸Ş´ºÅ¸ÀÔ º¯°æ
+		' ë©”ë‰´íƒ€ì… ë³€ê²½
 		Do Until rs.eof
 
 			new_num = getNum(menu_type, cafe_id, menu_seq)
@@ -88,7 +89,7 @@
 				rs2.close
 			End if
 
-			' °Ô½Ã±Û º¹»ç
+			' ê²Œì‹œê¸€ ë³µì‚¬
 			sql = ""
 			sql = sql & " update cf_" & menu_type & " "
 			sql = sql & "    set menu_seq = " & menu_seq & " "
@@ -128,7 +129,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("ÀÌµ¿ µÇ¾ú½À´Ï´Ù.");
+	alert("ì´ë™ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	opener.parent.location.href='<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
 	window.close()
 </script>
@@ -139,7 +140,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("¿À·ù°¡ “u»ıÇß½À´Ï´Ù.\n\n¿¡·¯³»¿ë : <%=Err.Description%>(<%=Err.Number%>)");
+	alert("ì˜¤ë¥˜ê°€ ë±”ìƒí–ˆìŠµë‹ˆë‹¤.\n\nì—ëŸ¬ë‚´ìš© : <%=Err.Description%>(<%=Err.Number%>)");
 	opener.parent.location.href='<%=pgm%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
 	window.close()
 </script>

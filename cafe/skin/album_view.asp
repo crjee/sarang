@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkCafePage(cafe_id)
 	checkReadAuth(cafe_id)
@@ -8,10 +9,10 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-	<meta charset="euc-kr">
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>½ºÅ²-1 : GI</title>
+	<title>ìŠ¤í‚¨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -54,25 +55,25 @@
 					var tt = imgRsize(img, ww, hh);
 					if (img.width > ww || img.height > hh) {
 
-						// °¡·Î³ª ¼¼·ÎÅ©±â°¡ Á¦ÇÑÅ©±âº¸´Ù Å©¸é
+						// ê°€ë¡œë‚˜ ì„¸ë¡œí¬ê¸°ê°€ ì œí•œí¬ê¸°ë³´ë‹¤ í¬ë©´
 						img.width = tt[0];
-						// Å©±âÁ¶Á¤
+						// í¬ê¸°ì¡°ì •
 						img.height = tt[1];
-						img.alt = "Å¬¸¯ÇÏ½Ã¸é ¿øº»ÀÌ¹ÌÁö¸¦ º¸½Ç¼öÀÖ½À´Ï´Ù.";
+						img.alt = "í´ë¦­í•˜ì‹œë©´ ì›ë³¸ì´ë¯¸ì§€ë¥¼ ë³´ì‹¤ìˆ˜ìˆìŠµë‹ˆë‹¤.";
 
 						if (aL) {
-							// ÀÚµ¿¸µÅ© on
+							// ìë™ë§í¬ on
 							img.onclick = function() {
 								wT = Math.ceil((screen.width - tt[2])/2.6);
-								// Å¬¶óÀÌ¾ğÆ® Áß¾Ó¿¡ ÀÌ¹ÌÁöÀ§Ä¡.
+								// í´ë¼ì´ì–¸íŠ¸ ì¤‘ì•™ì— ì´ë¯¸ì§€ìœ„ì¹˜.
 								wL = Math.ceil((screen.height - tt[3])/2.6);
 								var mm = window.open(img.src, "mm", 'width='+tt[2]+',height='+tt[3]+',top='+wT+',left='+wL);
 								var doc = mm.document;
 								try{
 									doc.body.style.margin = 0;
-									// ¸¶ÁøÁ¦°Å
+									// ë§ˆì§„ì œê±°
 									doc.body.style.cursor = "hand";
-									doc.title = "¿øº»ÀÌ¹ÌÁö";
+									doc.title = "ì›ë³¸ì´ë¯¸ì§€";
 								}
 								catch(err) {
 								}
@@ -85,7 +86,7 @@
 					}
 					else {
 							img.onclick = function() {
-								alert("ÇöÀçÀÌ¹ÌÁö°¡ ¿øº» ÀÌ¹ÌÁöÀÔ´Ï´Ù.");
+								alert("í˜„ì¬ì´ë¯¸ì§€ê°€ ì›ë³¸ ì´ë¯¸ì§€ì…ë‹ˆë‹¤.");
 							}
 					}
 				}
@@ -94,16 +95,16 @@
 					var iW = img.width;
 					var iH = img.height;
 					var g = new Array;
-					if (iW < rW && iH < rH) { // °¡·Î¼¼·Î°¡ Ãà¼ÒÇÒ °ªº¸´Ù ÀÛÀ» °æ¿ì
+					if (iW < rW && iH < rH) { // ê°€ë¡œì„¸ë¡œê°€ ì¶•ì†Œí•  ê°’ë³´ë‹¤ ì‘ì„ ê²½ìš°
 						g[0] = iW;
 						g[1] = iH;
 					}
 					else {
-						if (img.width > img.height) { // ¿øÅ©±â °¡·Î°¡ ¼¼·Îº¸´Ù Å©¸é
+						if (img.width > img.height) { // ì›í¬ê¸° ê°€ë¡œê°€ ì„¸ë¡œë³´ë‹¤ í¬ë©´
 							g[0] = rW;
 							g[1] = Math.ceil(img.height * rW / img.width);
 						}
-						else if (img.width < img.height) { //¿øÅ©±âÀÇ ¼¼·Î°¡ °¡·Îº¸´Ù Å©¸é
+						else if (img.width < img.height) { //ì›í¬ê¸°ì˜ ì„¸ë¡œê°€ ê°€ë¡œë³´ë‹¤ í¬ë©´
 							g[0] = Math.ceil(img.width * rH / img.height);
 							g[1] = rH;
 						}
@@ -111,18 +112,18 @@
 							g[0] = rW;
 							g[1] = rH;
 						}
-						if (g[0] > rW) { // ±¸ÇØÁø °¡·Î°ªÀÌ Ãà¼Ò °¡·Îº¸´Ù Å©¸é
+						if (g[0] > rW) { // êµ¬í•´ì§„ ê°€ë¡œê°’ì´ ì¶•ì†Œ ê°€ë¡œë³´ë‹¤ í¬ë©´
 							g[0] = rW;
 							g[1] = Math.ceil(img.height * rW / img.width);
 						}
-						if (g[1] > rH) { // ±¸ÇØÁø ¼¼·Î°ªÀÌ Ãà¼Ò ¼¼·Î°ª°¡·Îº¸´Ù Å©¸é
+						if (g[1] > rH) { // êµ¬í•´ì§„ ì„¸ë¡œê°’ì´ ì¶•ì†Œ ì„¸ë¡œê°’ê°€ë¡œë³´ë‹¤ í¬ë©´
 							g[0] = Math.ceil(img.width * rH / img.height);
 							g[1] = rH;
 						}
 					}
 
-					g[2] = img.width; // ¿ø»çÀÌÁî °¡·Î
-					g[3] = img.height; // ¿ø»çÀÌÁî ¼¼·Î
+					g[2] = img.width; // ì›ì‚¬ì´ì¦ˆ ê°€ë¡œ
+					g[3] = img.height; // ì›ì‚¬ì´ì¦ˆ ì„¸ë¡œ
 
 					return g;
 				}
@@ -174,15 +175,15 @@
 					try{
 						if (window.clipboardData) {
 								window.clipboardData.setData("Text", "<%=pageUrl%>")
-								alert("ÇØ´ç ±ÛÁÖ¼Ò°¡ º¹»ç µÇ¾ú½À´Ï´Ù. Ctrl + v ÇÏ½Ã¸é ºÙ¿© ³Ö±â°¡ °¡´ÉÇÕ´Ï´Ù.");
+								alert("í•´ë‹¹ ê¸€ì£¼ì†Œê°€ ë³µì‚¬ ë˜ì—ˆìŠµë‹ˆë‹¤. Ctrl + v í•˜ì‹œë©´ ë¶™ì—¬ ë„£ê¸°ê°€ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
 						}
 						else if (window.navigator.clipboard) {
 								window.navigator.clipboard.writeText("<%=pageUrl%>").then(() => {
-									alert("ÇØ´ç ±ÛÁÖ¼Ò°¡ º¹»ç µÇ¾ú½À´Ï´Ù. Ctrl + v ÇÏ½Ã¸é ºÙ¿© ³Ö±â°¡ °¡´ÉÇÕ´Ï´Ù.");
+									alert("í•´ë‹¹ ê¸€ì£¼ì†Œê°€ ë³µì‚¬ ë˜ì—ˆìŠµë‹ˆë‹¤. Ctrl + v í•˜ì‹œë©´ ë¶™ì—¬ ë„£ê¸°ê°€ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
 								});
 						}
 						else {
-							temp = prompt("ÇØ´ç ±ÛÁÖ¼Ò¸¦ º¹»çÇÏ½Ê½Ã¿À.", "<%=pageUrl%>");
+							temp = prompt("í•´ë‹¹ ê¸€ì£¼ì†Œë¥¼ ë³µì‚¬í•˜ì‹­ì‹œì˜¤.", "<%=pageUrl%>");
 						}
 					} catch(e) {
 						alert(e)
@@ -206,46 +207,47 @@
 			<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
 			</form>
 				<div class="cont_tit">
-					<h2 class="h2"><%=menu_name%> ³»¿ëº¸±â</h2>
+					<h2 class="h2"><%=menu_name%> ë‚´ìš©ë³´ê¸°</h2>
 				</div>
 				<div class="btn_box view_btn">
 <%
 	If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
 		If rs("step_num") = "0" Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goModify()">¼öÁ¤</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">»èÁ¦</button>
+					<button class="btn btn_c_n btn_s" type="button" onclick="goModify()">ìˆ˜ì •</button>
+					<button class="btn btn_c_n btn_s" type="button" onclick="goDelete()">ì‚­ì œ</button>
 <%
 		End If
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goSuggest()">ÃßÃµ</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goPrint()">ÇÁ¸°ÅÍ</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goSlide()">½½¶óÀÌµå</button>
+					<button class="btn btn_c_n btn_s" type="button" onclick="goSuggest()">ì¶”ì²œ</button>
+					<button class="btn btn_c_n btn_s" type="button" onclick="goPrint()">í”„ë¦°í„°</button>
+					<!-- <button class="btn btn_c_n btn_s" type="button" onclick="goSlide()">ìŠ¬ë¼ì´ë“œ</button> -->
+					<button class="btn btn_c_n btn_s" type="button" onclick="lyp('lypp_slide')">ìŠ¬ë¼ì´ë“œ</button>
 <%
 	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
 	If toInt(write_auth) <= toInt(cafe_mb_level) Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="location.href='/cafe/skin/album_write.asp?menu_seq=<%=menu_seq%>'">±Û¾²±â</button>
+					<button class="btn btn_c_n btn_s" type="button" onclick="location.href='/cafe/skin/album_write.asp?menu_seq=<%=menu_seq%>'">ê¸€ì“°ê¸°</button>
 <%
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="copyUrl()">±ÛÁÖ¼Òº¹»ç</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">¸ñ·Ï</button>
+					<button class="btn btn_c_n btn_s" type="button" onclick="copyUrl()">ê¸€ì£¼ì†Œë³µì‚¬</button>
+					<button class="btn btn_c_n btn_s" type="button" onclick="goList()">ëª©ë¡</button>
 				</div>
-				<div id="print_area"><!-- ÇÁ¸°Æ®¿µ¿ª Ãß°¡ crjee -->
+				<div id="print_area"><!-- í”„ë¦°íŠ¸ì˜ì—­ ì¶”ê°€ crjee -->
 				<div class="view_head">
 					<h3 class="h3" id="subject"><%=rs("subject")%></h3>
 					<div class="wrt_info_box">
 						<ul>
-							<li><span>ÀÛ¼ºÀÚ</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
-							<li><span>Á¶È¸</span><strong><%=rs("view_cnt")%></strong></li>
-							<li><span>ÃßÃµ</span><strong><%=rs("suggest_cnt")%></strong></li>
-							<li><span>µî·ÏÀÏ½Ã</span><strong><%=rs("credt")%></strong></li>
+							<li><span>ì‘ì„±ì</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
+							<li><span>ì¡°íšŒ</span><strong><%=rs("view_cnt")%></strong></li>
+							<li><span>ì¶”ì²œ</span><strong><%=rs("suggest_cnt")%></strong></li>
+							<li><span>ë“±ë¡ì¼ì‹œ</span><strong><%=rs("credt")%></strong></li>
 						</ul>
 					</div>
 				</div>
-				<div class="wrt_file_box"><!-- Ã·ºÎÆÄÀÏ¿µ¿ª Ãß°¡ crjee -->
+				<div class="wrt_file_box"><!-- ì²¨ë¶€íŒŒì¼ì˜ì—­ ì¶”ê°€ crjee -->
 <%
 	link = rs("link")
 	link_txt = rmid(link, 40, "..")
@@ -258,15 +260,15 @@
 		try{
 			if (window.clipboardData) {
 					window.clipboardData.setData("Text", "<%=link%>")
-					alert("ÇØ´ç URLÀÌ º¹»ç µÇ¾ú½À´Ï´Ù. Ctrl + v ÇÏ½Ã¸é ºÙ¿© ³Ö±â°¡ °¡´ÉÇÕ´Ï´Ù.");
+					alert("í•´ë‹¹ URLì´ ë³µì‚¬ ë˜ì—ˆìŠµë‹ˆë‹¤. Ctrl + v í•˜ì‹œë©´ ë¶™ì—¬ ë„£ê¸°ê°€ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
 			}
 			else if (window.navigator.clipboard) {
 					window.navigator.clipboard.writeText("<%=link%>").then(() => {
-						alert("ÇØ´ç URLÀÌ º¹»ç µÇ¾ú½À´Ï´Ù. Ctrl + v ÇÏ½Ã¸é ºÙ¿© ³Ö±â°¡ °¡´ÉÇÕ´Ï´Ù.");
+						alert("í•´ë‹¹ URLì´ ë³µì‚¬ ë˜ì—ˆìŠµë‹ˆë‹¤. Ctrl + v í•˜ì‹œë©´ ë¶™ì—¬ ë„£ê¸°ê°€ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
 					});
 			}
 			else {
-				temp = prompt("ÇØ´ç URLÀ» º¹»çÇÏ½Ê½Ã¿À.", "<%=link%>");
+				temp = prompt("í•´ë‹¹ URLì„ ë³µì‚¬í•˜ì‹­ì‹œì˜¤.", "<%=link%>");
 			}
 		} catch(e) {
 			alert(e)
@@ -314,6 +316,29 @@
 <!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
 		</main>
 <!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
+	</div>
+
+	<!-- ë ˆì´ì–´ íŒì—… -->
+	<div class="lypp lypp_sarang lypp_slide">
+		<header class="lypp_head">
+			<h2 class="h2">ìŠ¬ë¼ì´ë“œ ë·°</h2>
+			<span class="posR">
+				<button type="button" class="btn btn_close"><em>ë‹«ê¸°</em></button>
+			</span>
+		</header>
+		<div class="adm_cont">
+			<form method="post" action="banner_exec.asp" enctype="multipart/form-data" target="hiddenfrm">
+				<input type="hidden" name="task" value="upd">
+				<input type="hidden" name="banner_seq" value="">
+				<div class="">
+					ì´ë¯¸ì§€ ì‚½ì…
+				</div>
+				<div class="btn_box algC">
+					<button type="submit" class="btn btn_c_a btn_n">í™•ì¸</button>
+					<button type="reset" class="btn btn_c_n btn_n">ì·¨ì†Œ</button>
+				</div>
+			</form>
+		</div>
 	</div>
 </body>
 </html>

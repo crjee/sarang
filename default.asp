@@ -1,3 +1,4 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <%
 	cafe_id = Request("cafe_id")
 
@@ -16,7 +17,7 @@
 		Response.End
 	Else
 		session.Abandon
-		Response.Write "<script>alert('¿Ã¹Ù¸£Áö ¾ÊÀº Á¢±ÙÀÔ´Ï´Ù.');history.back();</script>"
+		Response.Write "<script>alert('ì˜¬ë°”ë¥´ì§€ ì•Šì€ ì ‘ê·¼ì…ë‹ˆë‹¤.');history.back();</script>"
 		Response.End
 	End If
 %>

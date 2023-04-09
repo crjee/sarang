@@ -1,4 +1,5 @@
-<!--#include virtual="/include/config_inc.asp"-->
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include  virtual="/include/config_inc.asp"-->
 <%
 	subject = Replace(Request.Form("subject"),"'"," & #39;")
 	contents = Replace(Request.form("ir1"),"'"," & #39;")
@@ -89,7 +90,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("Àü¼Û µÇ¾ú½À´Ï´Ù.");
+	alert("ì „ì†¡ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	parent.document.location = "memo_write.asp?menu_seq=<%=menu_seq%>"
 </script>
 <%
@@ -99,7 +100,7 @@
 		Set conn = Nothing
 %>
 <script>
-	alert("¿À·ù°¡ “u»ıÇß½À´Ï´Ù.\n\n¿¡·¯³»¿ë : <%=Err.Description%>(<%=Err.Number%>)");
+	alert("ì˜¤ë¥˜ê°€ ë±”ìƒí–ˆìŠµë‹ˆë‹¤.\n\nì—ëŸ¬ë‚´ìš© : <%=Err.Description%>(<%=Err.Number%>)");
 </script>
 <%
 	End if
