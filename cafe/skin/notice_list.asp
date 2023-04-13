@@ -130,7 +130,7 @@
 <%
 	End If
 %>
-						<select id="sch_type" name="sch_type" class="sel w100p">
+						<select id="sch_type" name="sch_type" class="sel w_auto">
 							<option value="">전체</option>
 							<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>제목</option>
 							<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>글쓴이</option>

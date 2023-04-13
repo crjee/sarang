@@ -102,7 +102,7 @@
 					<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 					<input type="hidden" name="page" value="<%=page%>">
 					<input type="hidden" name="dmnd_id">
-					<select id="sch_type" name="sch_type" class="sel w100p">
+					<select id="sch_type" name="sch_type" class="sel w_auto">
 						<option value="">전체</option>
 						<option value="subject" <%=if3(sch_type="subject","selected","")%>>제목</option>
 						<option value="dmnd_cn" <%=if3(sch_type="dmnd_cn","selected","")%>>내용</option>

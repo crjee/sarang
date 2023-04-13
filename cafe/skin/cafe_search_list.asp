@@ -261,13 +261,13 @@
 						<input type="hidden" name="notice_seq" value="<%=com_seq%>">
 						<input type="hidden" name="page" value="<%=page%>">
 						<input type="hidden" name="com_seq">
-						<select id="sch_term" name="sch_term" class="sel w100p" onChange="setTerm(this)">
+						<select id="sch_term" name="sch_term" class="sel w_auto" onChange="setTerm(this)">
 							<option value="">전체기간</option>
 							<%=makeComboCD("sch_term", sch_term)%>
 						</select>
 						<input type="text" id="sch_st_date" name="sch_st_date" value="<%=sch_st_date%>" class="inp w100p" />
 						<input type="text" id="sch_ed_date" name="sch_ed_date" value="<%=sch_ed_date%>" class="inp w100p" />
-						<select id="sch_board" name="sch_board" class="sel w100p">
+						<select id="sch_board" name="sch_board" class="sel w_auto">
 							<option value="">전체게시판</option>
 <%
 	Set leftRs = Server.CreateObject ("ADODB.Recordset")
@@ -299,7 +299,7 @@
 	leftRs.close
 %>
 						</select>
-						<select id="sch_type" name="sch_type" class="sel w50p">
+						<select id="sch_type" name="sch_type" class="sel w_auto">
 							<option value="">전체</option>
 							<option value="subject" <%=if3(sch_type="subject","selected","")%>>제목</option>
 							<option value="agency" <%=if3(sch_type="agency","selected","")%>>글쓴이</option>

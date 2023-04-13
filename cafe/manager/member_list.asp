@@ -167,7 +167,7 @@
 						</span>
 					</div>
 					<div class="floatR">
-						<select id="sch_type" name="sch_type" class="sel w100p">
+						<select id="sch_type" name="sch_type" class="sel w_auto">
 							<option value="">전체</option>
 							<option value="agency" <%=if3(sch_type="agency","selected","")%>>업소명</option>
 							<option value="kname" <%=if3(sch_type="kname","selected","")%>>회원명</option>

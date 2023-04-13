@@ -402,7 +402,7 @@
 <%
 				ElseIf list_type = "A1" Or list_type = "A2" Then
 %>
-								<%=arrRgn(li)%> 데이터가 없습니다.
+								<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>"><%=arrRgn(li)%> 데이터가 없습니다.</div>
 <%
 				Else
 %>

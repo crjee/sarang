@@ -108,7 +108,7 @@
 <%
 	End If
 %>
-						<select id="sch_type" name="sch_type" class="sel w100p">
+						<select id="sch_type" name="sch_type" class="sel w_auto">
 							<option value="">전체</option>
 							<option value="cb.subject" <%=if3(sch_type="subject","selected","")%>>제목</option>
 							<option value="cb.contents" <%=if3(sch_type="contents","selected","")%>>내용</option>

@@ -231,7 +231,7 @@
 						<input type="hidden" name="page" value="<%=page%>">
 						<input type="hidden" name="sort" value="<%=sort%>">
 						<input type="hidden" name="ascdesc" value="<%=ascdesc%>">
-						<select id="sch_type" name="sch_type" class="sel w100p">
+						<select id="sch_type" name="sch_type" class="sel w_auto">
 							<option value="">전체</option>
 								<option value="">전체</option>
 								<option value="agency" <%=if3(sch_type="agency","selected","")%>>업소명</option>

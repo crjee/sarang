@@ -126,7 +126,7 @@
 						<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 						<input type="hidden" name="page" value="<%=page%>">
 						<input type="hidden" name="sale_seq">
-						<select id="sch_type" name="sch_type" class="sel w100p">
+						<select id="sch_type" name="sch_type" class="sel w_auto">
 							<option value="">전체</option>
 							<option value="subject" <%=if3(sch_type="subject","selected","")%>>제목</option>
 							<option value="agency" <%=if3(sch_type="agency","selected","")%>>글쓴이</option>
