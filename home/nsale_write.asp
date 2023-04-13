@@ -61,29 +61,6 @@
 <!--#include virtual="/home/home_header_inc.asp"-->
 		<main id="main" class="main">
 			<div class="container">
-<%
-
-	link = "http://"
-
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_temp_nsale "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	sql = sql & "    and user_id = '" & user_id  & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If Not rs.EOF Then
-		msgonly "임시 저장된 내용이 있습니다."
-		top_yn   = rs("top_yn")
-		link     = rs("link")
-		subject  = rs("subject")
-		contents = rs("contents")
-	End If
-	rs.close
-%>
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%> 등록</h2>
 				</div>
@@ -108,7 +85,7 @@
 							<tr>
 								<th scope="row">단지명/제목</th>
 								<td colspan="3">
-									<input type="text" id="subject" name="subject"  class="inp">
+									<input type="text" id="subject" name="subject" class="inp" required >
 								</td>
 							</tr>
 							<tr>
@@ -135,40 +112,40 @@
 							<tr>
 								<th scope="row">모집공고일</th>
 								<td>
-									<input type="text" id="rect_notice_date" name="rect_notice_date" value="<%=rect_notice_date%>" class="inp w12" />
+									<input type="text" id="rect_notice_date" name="rect_notice_date" value="<%=rect_notice_date%>" class="inp w12" readonly />
 								</td>
 								<th scope="row">청약접수일</th>
 								<td>
 									<span class="">
 										<em class="mr5">1순위</em>
-										<input type="text" id="frst_receipt_acpt_date" name="frst_receipt_acpt_date" value="<%=frst_receipt_acpt_date%>" class="inp w120p" />
+										<input type="text" id="frst_receipt_acpt_date" name="frst_receipt_acpt_date" value="<%=frst_receipt_acpt_date%>" class="inp w120p" readonly />
 									</span>
 									<span class="ml20">
 										<em class="mr5">2순위</em>
-										<input type="text" id="scnd_receipt_acpt_date" name="scnd_receipt_acpt_date" value="<%=scnd_receipt_acpt_date%>" class="inp w120p" />
+										<input type="text" id="scnd_receipt_acpt_date" name="scnd_receipt_acpt_date" value="<%=scnd_receipt_acpt_date%>" class="inp w120p" readonly />
 									</span>
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">당첨발표일</th>
 								<td>
-									<input type="text" id="prize_anc_date" name="prize_anc_date" value="<%=prize_anc_date%>" class="inp w120" />
+									<input type="text" id="prize_anc_date" name="prize_anc_date" value="<%=prize_anc_date%>" class="inp w120" readonly />
 								</td>
 								<th scope="row">계약기간</th>
 								<td>
-									<input type="text" id="cnt_st_date" name="cnt_st_date" value="<%=cnt_st_date%>" class="inp w120" /><br>
-									<input type="text" id="cnt_ed_date" name="cnt_ed_date" value="<%=cnt_ed_date%>" class="inp w120" />
+									<input type="text" id="cnt_st_date" name="cnt_st_date" value="<%=cnt_st_date%>" class="inp w120" readonly /><br>
+									<input type="text" id="cnt_ed_date" name="cnt_ed_date" value="<%=cnt_ed_date%>" class="inp w120" readonly />
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">전매기간</th>
 								<td>
-									<input type="text" id="resale_st_date" name="resale_st_date" value="<%=resale_st_date%>" class="inp w120" /><br>
-									<input type="text" id="resale_ed_date" name="resale_ed_date" value="<%=resale_ed_date%>" class="inp w120" />
+									<input type="text" id="resale_st_date" name="resale_st_date" value="<%=resale_st_date%>" class="inp w120" readonly /><br>
+									<input type="text" id="resale_ed_date" name="resale_ed_date" value="<%=resale_ed_date%>" class="inp w120" readonly />
 								</td>
 								<th scope="row">입주일</th>
 								<td>
-									<input type="text" id="mvin_date" name="mvin_date" value="<%=mvin_date%>" class="inp w120" />
+									<input type="text" id="mvin_date" name="mvin_date" value="<%=mvin_date%>" class="inp w120" readonly />
 								</td>
 							</tr>
 							<tr>
@@ -181,9 +158,11 @@
 					</table>
 					<div class="mt10">
 <%
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_com_form "
+	sql = sql & " select *                             "
+	sql = sql & "   from cf_com_form                   "
 	sql = sql & "  where menu_seq = '" & menu_seq & "' "
 	rs.Open Sql, conn, 3, 1
 
@@ -205,7 +184,6 @@
 						<textarea name="ir1" id="ir1" style="width:100%;display:none;"><%=contents%></textarea>
 <%
 	End If
-	rs.close
 %>
 					</div>
 					<table class="tb_input tb_fixed mt10">

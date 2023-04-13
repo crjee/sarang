@@ -260,8 +260,8 @@
 							<option value="">전체기간</option>
 							<%=makeComboCD("sch_term", sch_term)%>
 						</select>
-						<input type="text" id="sch_st_date" name="sch_st_date" value="<%=sch_st_date%>" class="inp w100p" />
-						<input type="text" id="sch_ed_date" name="sch_ed_date" value="<%=sch_ed_date%>" class="inp w100p" />
+						<input type="text" id="sch_st_date" name="sch_st_date" value="<%=sch_st_date%>" class="inp w100p" readonly />
+						<input type="text" id="sch_ed_date" name="sch_ed_date" value="<%=sch_ed_date%>" class="inp w100p" readonly />
 						<select id="sch_board" name="sch_board" class="sel w_auto">
 							<option value="">전체게시판</option>
 <%
@@ -300,7 +300,7 @@
 							<option value="agency" <%=if3(sch_type="agency","selected","")%>>글쓴이</option>
 							<option value="contents" <%=if3(sch_type="contents","selected","")%>>내용</option>
 						</select>
-						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w100p">
+						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w150p">
 						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
 						<select id="pagesize" name="pagesize" class="sel w50p" onchange="goSearch('<%=session("ctTarget")%>')">
 							<option value=""></option>

@@ -141,9 +141,9 @@
 							<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>글쓴이</option>
 							<option value="cb.contents" <%=if3(sch_type="cb.contents","selected","")%>>내용</option>
 						</select>
-						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w300p">
+						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w150p">
 						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
-						<select id="pagesize" name="pagesize" class="sel w100p" onchange="goSearch('<%=session("ctTarget")%>')">
+						<select id="pagesize" name="pagesize" class="sel w50p" onchange="goSearch('<%=session("ctTarget")%>')">
 							<option value=""></option>
 							<option value="20" <%=if3(pagesize="20","selected","")%>>20</option>
 							<option value="30" <%=if3(pagesize="30","selected","")%>>30</option>

@@ -240,9 +240,9 @@
 								<option value="mobile" <%=if3(sch_type="mobile","selected","")%>>핸드폰번호</option>
 								<option value="addr1" <%=if3(sch_type="addr1","selected","")%>>주소</option>
 						</select>
-						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w300p">
+						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w150p">
 						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
-						<select id="pagesize" name="pagesize" class="sel w100p" onchange="goSearch()">
+						<select id="pagesize" name="pagesize" class="sel w50p" onchange="goSearch()">
 							<option value=""></option>
 							<option value="20" <%=if3(pagesize="20","selected","")%>>20</option>
 							<option value="30" <%=if3(pagesize="30","selected","")%>>30</option>

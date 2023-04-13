@@ -287,7 +287,7 @@
 								<tr>
 									<th class="end2">마감일</th>
 									<td colspan="3">
-										<input type="text" tabindex=25 id="end_date" name="end_date" value="<%=end_date%>" class="inp w10" />
+										<input type="text" tabindex=25 id="end_date" name="end_date" value="<%=end_date%>" class="inp w10" readonly />
 									</td>
 								</tr>
 							</tbody>

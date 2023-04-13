@@ -12,7 +12,7 @@
 	uploadform.DefaultPath = uploadFolder
 
 	checkCafePageUpload(cafe_id)
-	checkModivyAuth(cafe_id)
+	checkModifyAuth(cafe_id)
 
 	page      = uploadform("page")
 	pagesize  = uploadform("pagesize")

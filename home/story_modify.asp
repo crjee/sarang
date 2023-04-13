@@ -30,7 +30,7 @@
 		<main id="main" class="sub">
 			<div class="container">
 				<div class="cont_tit">
-					<h2 class="h2"><%=menu_name%> 등록</h2>
+					<h2 class="h2"><%=menu_name%> 수정</h2>
 				</div>
 				<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
 				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
@@ -165,7 +165,6 @@
 						try {
 							elClickedObj.action = "story_write_exec.asp";
 							elClickedObj.temp.value = "N";
-							elClickedObj.target = "hiddenfrm";
 							elClickedObj.submit()
 						} catch(e) {alert(e)}
 					}

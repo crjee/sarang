@@ -107,7 +107,7 @@
 						<option value="subject" <%=if3(sch_type="subject","selected","")%>>제목</option>
 						<option value="dmnd_cn" <%=if3(sch_type="dmnd_cn","selected","")%>>내용</option>
 					</select>
-					<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w300p">
+					<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w150p">
 					<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
 					</form>
 				</div>

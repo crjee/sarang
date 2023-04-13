@@ -179,41 +179,41 @@
 								<th scope="row">모집공고일</th>
 								<td>
 									<span class="">
-									<input type="text" id="rect_notice_date" name="rect_notice_date" value="<%=rect_notice_date%>" class="inp w120" />
+									<input type="text" id="rect_notice_date" name="rect_notice_date" value="<%=rect_notice_date%>" class="inp w120" readonly />
 									</span>
 								</td>
 								<th scope="row">청약접수일</th>
 								<td>
 									<span class="">
 										<em class="mr5">1순위</em>
-										<input type="text" id="frst_receipt_acpt_date" name="frst_receipt_acpt_date" value="<%=frst_receipt_acpt_date%>" class="inp w120p" />
+										<input type="text" id="frst_receipt_acpt_date" name="frst_receipt_acpt_date" value="<%=frst_receipt_acpt_date%>" class="inp w120p" readonly />
 									</span>
 									<span class="ml20">
 										<em class="mr5">2순위</em>
-										<input type="text" id="scnd_receipt_acpt_date" name="scnd_receipt_acpt_date" value="<%=scnd_receipt_acpt_date%>" class="inp w120p" />
+										<input type="text" id="scnd_receipt_acpt_date" name="scnd_receipt_acpt_date" value="<%=scnd_receipt_acpt_date%>" class="inp w120p" readonly />
 									</span>
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">당첨발표일</th>
 								<td>
-									<input type="text" id="prize_anc_date" name="prize_anc_date" value="<%=prize_anc_date%>" class="inp w120" />
+									<input type="text" id="prize_anc_date" name="prize_anc_date" value="<%=prize_anc_date%>" class="inp w120" readonly />
 								</td>
 								<th scope="row">계약기간</th>
 								<td>
-									<input type="text" id="cnt_st_date" name="cnt_st_date" value="<%=cnt_st_date%>" class="inp w120" /><br>
-									<input type="text" id="cnt_ed_date" name="cnt_ed_date" value="<%=cnt_ed_date%>" class="inp w120" />
+									<input type="text" id="cnt_st_date" name="cnt_st_date" value="<%=cnt_st_date%>" class="inp w120" readonly /><br>
+									<input type="text" id="cnt_ed_date" name="cnt_ed_date" value="<%=cnt_ed_date%>" class="inp w120" readonly />
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">전매기간</th>
 								<td>
-									<input type="text" id="resale_st_date" name="resale_st_date" value="<%=resale_st_date%>" class="inp w120" /><br>
-									<input type="text" id="resale_ed_date" name="resale_ed_date" value="<%=resale_ed_date%>" class="inp w120" />
+									<input type="text" id="resale_st_date" name="resale_st_date" value="<%=resale_st_date%>" class="inp w120" readonly /><br>
+									<input type="text" id="resale_ed_date" name="resale_ed_date" value="<%=resale_ed_date%>" class="inp w120" readonly />
 								</td>
 								<th scope="row">입주일</th>
 								<td>
-									<input type="text" id="mvin_date" name="mvin_date" value="<%=mvin_date%>" class="inp w120" />
+									<input type="text" id="mvin_date" name="mvin_date" value="<%=mvin_date%>" class="inp w120" readonly />
 								</td>
 							</tr>
 							<tr>
