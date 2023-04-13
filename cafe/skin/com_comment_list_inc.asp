@@ -14,11 +14,6 @@
 
 		comment_cnt = rs.recordcount
 %>
-				<form name="open_form2" method="post">
-					<input type="hidden" name="open_url">
-					<input type="hidden" name="open_name" value="com_comment">
-					<input type="hidden" name="open_specs" value="width=600,height=200,scrollbars=no">
-				</form>
 				<div class="bbs_add_cont">
 					<div class="bbs_add_cont_head">
 						<h4>댓글</h4><span class="count"><%=comment_cnt%></span>
@@ -77,15 +72,7 @@
 			If session("user_id") = rs("user_id") Or cafe_ad_level = 10 Then
 %>
 									<!-- <a href="javascript:goCommentEdit('<%=rs("comment_seq")%>')" class="btn btn_s btn_c_a">수정</a> -->
-									<a href="#n" class="btn btn_s btn_c_a" onclick="lyp('lypp_add')">수정</a>
-									<script>
-										function goCommentEdit(comment_seq) {
-											document.open_form2.action = "/win_open_exec.asp"
-											document.open_form2.target = "hiddenfrm";
-											document.open_form2.open_url.value = "/cafe/skin/com_comment_write_p.asp?menu_seq=<%=menu_seq%>&comment_seq="+comment_seq;
-											document.open_form2.submit();
-										}
-									</script>
+									<a href="#n" class="btn btn_s btn_c_a" onclick="onEdit('<%=rs("comment_seq")%>')">수정</a>
 <%
 			End If
 
@@ -121,64 +108,80 @@
 <%
 	End If
 %>
-				<script>
-				function fc_chk_byte(frm_nm, ari_max, cnt_view) {
-				//	var frm = document.regForm;
-					var ls_str = frm_nm.value; // 이벤트가 일어난 컨트롤의 value 값
-					var li_str_len = ls_str.length; // 전체길이
 
-					// 변수초기화
-					var li_max = ari_max; // 제한할 글자수 크기
-					var i = 0; // for문에 사용
-					var li_byte = 0; // 한글일경우는 2 그밗에는 1을 더함
-					var li_len = 0; // substring하기 위해서 사용
-					var ls_one_char = ""; // 한글자씩 검사한다
-					var ls_str2 = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.
+	<div class="lypp lypp_sarang lypp_add">
+		<header class="lypp_head">
+			<h2 class="h2">댓글 수정</h2>
+			<span class="posR">
+				<button type="button" class="btn btn_close"><em>닫기</em></button>
+			</span>
+		</header>
+		<div class="adm_cont">
+			<form id="form" name="form" method="post" action="com_comment_write_exec.asp" target="hiddenfrm">
+				<input type="hidden" name="menu_type" value="<%=menu_type%>">
+				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
+				<input type="hidden" id="comment_seq" name="comment_seq">
+				<div class="tb tb_form_1">
+					<table class="tb_input">
+						<colgroup>
+							<col class="w15">
+							<col class="auto">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">댓글 수정</th>
+								<td>
+									<textarea id="comment" name="comment" rows="" cols="" onKeyup="fc_chk_byte(this, 400, 'commentEdit')" required></textarea>
+									<p class="add_count"><span id="commentView" name="commentEdit">0</span>/400</p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="btn_box algC">
+					<button type="submit" class="btn btn_c_a btn_n">확인</button>
+					<button type="reset" class="btn btn_c_n btn_n">취소</button>
+				</div>
+			</form>
+		</div>
+	</div>
+<script type="text/javascript">
+	function onEdit(comment_seq) {
+		$("#form")[0].reset();
+		$("#comment_seq").val(comment_seq)
+		var menu_type = "<%=menu_type%>"
+		lyp('lypp_add');
+		try {
+			var strHtml = [];
 
-					for (i=0; i< li_str_len; i++) {
-					// 한글자추출
-						ls_one_char = ls_str.charAt(i);
-
-						// 한글이면 2를 더한다.
-						if (escape(ls_one_char).length > 4) {
-							li_byte += 2;
-						}
-						// 그밗의 경우는 1을 더한다.
-						else {
-							li_byte++;
-						}
-
-						// 전체 크기가 li_max를 넘지않으면
-						if (li_byte <= li_max) {
-							li_len = i + 1;
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: "/cafe/skin/com_comment_view_ajax.asp",
+				data: {"menu_type":menu_type,"comment_seq":comment_seq},
+				success: function(xmlData) {
+					if (xmlData.TotalCnt > 0) {
+						for (i=0; i<xmlData.TotalCnt; i++) {
+							//alert(xmlData.ResultList[i].banner_seq);
+							$("#comment_seq").val(xmlData.ResultList[i].comment_seq);
+							//alert(xmlData.ResultList[i].file_type);
+							$("#comment").val(xmlData.ResultList[i].comment);
 						}
 					}
-
-					// 전체길이를 초과하면
-					if (li_byte > li_max) {
-						alert( li_max + "byte 글자를 초과 입력할수 없습니다. \n 초과된 내용은 자동으로 삭제 됩니다. ");
-						ls_str2 = ls_str.substr(0, li_len);
-						frm_nm.value = ls_str2;
-
-						li_str_len = ls_str2.length; // 전체길이
-						li_byte = 0; // 한글일경우는 2 그밗에는 1을 더함
-						for (i=0; i< li_str_len; i++) {
-						// 한글자추출
-							ls_one_char = ls_str2.charAt(i);
-
-							// 한글이면 2를 더한다.
-							if (escape(ls_one_char).length > 4) {
-								li_byte += 2;
-							}
-							// 그밗의 경우는 1을 더한다.
-							else {
-								li_byte++;
-							}
-						}
+					else {
+						alert("해당 댓글이 없습니다");
 					}
-					if (cnt_view != "") {
-						var inner_form = eval("document.all."+ cnt_view)
-						inner_form.innerHTML = li_byte ;		//frm.txta_Memo.value.length;
-					}
+				},
+				complete : function() {
+				},
+				error : function(xmlData) {
+					alert("ERROR");
 				}
-				</script>
+			});
+		}
+		catch (e) {
+			alert(e);
+		}
+	}
+</script>
+

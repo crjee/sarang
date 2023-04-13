@@ -18,7 +18,7 @@
 	sch_word = Request("sch_word")
 
 	If sch_word <> "" Then
-		If sch_type = "all" Then
+		If sch_type = "l" Then
 			kword = " and mi.agency like '%" & sch_word & "%' or mi.kname like '%" & sch_word & "%' or mi.phone like '%" & sch_word & "%' "
 		Else
 			kword = " and " & sch_type & " like '%" & sch_word & "%' "
@@ -95,6 +95,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 	<div id="wrap">
@@ -113,7 +114,7 @@
 					<span class="floatL">총 회원 <strong class="f_weight_m f_skyblue"><%=FormatNumber(RecordCount,0)%></strong>명</span>
 					<span class="floatR">
 					<form name="form2" method="post" target="hiddenfrm">
-						<input type="checkbox" id="t1" name="" checked="checked" disabled="disabled" /><label for="t1"><em class="hide">선택</em></label>
+						<input type="checkbox" id="t1" name="" checked="checked" disabled="disabled" class="inp_check" /><label for="t1"><em class="hide">선택</em></label>
 						선택된 회원을
 						<select id="mb_level" name="mb_level" class="sel w100p">
 							<option value="1">준회원</option>
@@ -129,45 +130,45 @@
 				<input type="hidden" name="page" value="<%=page%>">
 					<div class="floatL">
 						<span class="">
-							<input type="checkbox" id="list_info" name="list_info" value="agency" <%=if3(InStr(list_info, "agency")>0,"checked","")%> />
+							<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="agency" <%=if3(InStr(list_info, "agency")>0,"checked","")%> />
 							<label for=""><em>상호</em></label>
 						</span>
 						<span class="ml10">
-							<input type="checkbox" id="list_info" name="list_info" value="kname" <%=if3(InStr(list_info, "kname")>0,"checked","")%> />
+							<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="kname" <%=if3(InStr(list_info, "kname")>0,"checked","")%> />
 							<label for=""><em>대표자명</em></label>
 						</span>
 						<span class="ml10">
-							<input type="checkbox" id="list_info" name="list_info" value="picture" <%=if3(InStr(list_info, "picture")>0,"checked","")%> />
+							<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="picture" <%=if3(InStr(list_info, "picture")>0,"checked","")%> />
 							<label for=""><em>대표자사진</em></label>
 						</span>
 						<span class="ml10">
-							<input type="checkbox" id="list_info" name="list_info" value="license" <%=if3(InStr(list_info, "license")>0,"checked","")%> />
+							<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="license" <%=if3(InStr(list_info, "license")>0,"checked","")%> />
 							<label for=""><em>허가번호</em></label>
 						</span>
 						<span class="ml10">
-							<input type="checkbox" id="list_info" name="list_info" value="phone" <%=if3(InStr(list_info, "phone")>0,"checked","")%> />
+							<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="phone" <%=if3(InStr(list_info, "phone")>0,"checked","")%> />
 							<label for=""><em>전화번호</em></label>
 						</span>
 						<span class="ml10">
-							<input type="checkbox" id="list_info" name="list_info" value="mobile" <%=if3(InStr(list_info, "mobile")>0,"checked","")%> />
+							<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="mobile" <%=if3(InStr(list_info, "mobile")>0,"checked","")%> />
 							<label for=""><em>핸드폰번호</em></label>
 						</span>
 						<span class="ml10">
-							<input type="checkbox" id="list_info" name="list_info" value="fax" <%=if3(InStr(list_info, "fax")>0,"checked","")%> />
+							<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="fax" <%=if3(InStr(list_info, "fax")>0,"checked","")%> />
 							<label for=""><em>팩스</em></label>
 						</span>
 						<span class="ml10">
-							<input type="checkbox" id="list_info" name="list_info" value="interphone" <%=if3(InStr(list_info, "interphone")>0,"checked","")%> />
+							<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="interphone" <%=if3(InStr(list_info, "interphone")>0,"checked","")%> />
 							<label for=""><em>내선번호</em></label>
 						</span>
 						<span class="ml10">
-							<input type="checkbox" id="list_info" name="list_info" value="addr" <%=if3(InStr(list_info, "addr")>0,"checked","")%> />
+							<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="addr" <%=if3(InStr(list_info, "addr")>0,"checked","")%> />
 							<label for=""><em>주소</em></label>
 						</span>
 					</div>
 					<div class="floatR">
 						<select id="sch_type" name="sch_type" class="sel w100p">
-							<option value="all">전체</option>
+							<option value="">전체</option>
 							<option value="agency" <%=if3(sch_type="agency","selected","")%>>업소명</option>
 							<option value="kname" <%=if3(sch_type="kname","selected","")%>>회원명</option>
 							<option value="phone" <%=if3(sch_type="phone","selected","")%>>전화번호</option>
@@ -248,15 +249,15 @@
 
 			cols = 4
 %>
-								<td class="algC" sch_typepan="<%=sch_type%>">
+								<td class="algC">
 <%
 			If ulevel_txt = "사랑방지기" Then
 %>
-								<input type="checkbox" disabled="disabled">
+								<input type="checkbox" class="inp_check" disabled="disabled">
 <%
 			Else
 %>
-								<input type="checkbox" id="user_id" name="user_id" value="<%=user_id%>">
+								<input type="checkbox" id="user_id" name="user_id" value="<%=user_id%>" class="inp_check">
 								<input type="hidden" id="stat" name="stat" value="<%=stat%>">
 <%
 			End If

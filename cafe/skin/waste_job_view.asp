@@ -16,12 +16,19 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body class="skin_type_1">
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 	<div id="wrap" class="group">
 <!--#include virtual="/cafe/skin/skin_header_inc.asp"-->
 		<main id="main" class="sub">
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
+<%
+	End IF
+%>
 			<div class="container">
 <%
 	ipin = getRndStr(10)
@@ -103,18 +110,21 @@
 	user_id    = rs("user_id")
 %>
 			<script type="text/javascript">
-				function goList() {
-					document.search_form.action = "/cafe/skin/waste_job_list.asp"
+				function goList(gvTarget) {
+					document.search_form.action = "/cafe/skin/waste_job_list.asp";
+					document.search_form.target = gvTarget;
 					document.search_form.submit();
 				}
 				function goRestore() {
-					document.search_form.action = "/cafe/skin/waste_com_exec.asp"
 					document.search_form.task.value = "restore";
+					document.search_form.action = "/cafe/skin/waste_com_exec.asp";
+					document.search_form.target = "hiddenfrm";
 					document.search_form.submit();
 				}
 				function goDelete() {
-					document.search_form.action = "/cafe/skin/waste_com_exec.asp"
 					document.search_form.task.value = "delete";
+					document.search_form.action = "/cafe/skin/waste_com_exec.asp";
+					document.search_form.target = "hiddenfrm";
 					document.search_form.submit();
 				}
 			</script>
@@ -136,7 +146,7 @@
 				<div class="btn_box view_btn">
 					<button class="btn btn_c_n btn_n" type="button" onclick="goRestore()">복원</button>
 					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">삭제</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">목록</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goList('<%=session("ctTarget")%>')">목록</button>
 				</div>
 				<div class="view_head">
 					<h3 class="h3" id="subject"><%=subject%></h3>
@@ -239,10 +249,17 @@
 %>
 <!--#include virtual="/cafe/skin/waste_comment_list_inc.asp"-->
 			</div>
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 <!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
 		</main>
 <!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
 	</div>
+<%
+	End IF
+%>
+	<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;width:1000;"></iframe>
 </body>
 </html>
 

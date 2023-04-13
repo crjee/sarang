@@ -5,7 +5,7 @@
 	Set rs2 = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
-	sql = sql & " select * "
+	sql = sql & " select top 6 * "
 	sql = sql & "       ,case when banner_type = 'C0' Then '800' "
 	sql = sql & "             when banner_type = 'C1' Then '267' "
 	sql = sql & "             when banner_type = 'C2' Then '266' "
@@ -24,8 +24,8 @@
 				<div class="visual_box">
 <%
 		Do Until rs.eof
-			width  = rs("width")
-			height = rs("height")
+			width       = rs("width")
+			height      = rs("height")
 			banner_type = rs("banner_type")
 
 			If rs("link") <> "" Then

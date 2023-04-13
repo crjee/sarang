@@ -19,6 +19,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 	<div id="wrap">
@@ -34,8 +35,8 @@
 	If page = "" Then page = 1
 
 	If sch_word <> "" Then
-		If sch_type = "all" Then
-			kword = " and (cb.subject like '%" & sch_word & "%' or cb.agency like '%" & sch_word & "%' or cb.contents like '%" & sch_word & "%') "
+		If sch_type = "l" Then
+			kword = " and (subject like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
 		Else
 			kword = " and " & sch_type & " like '%" & sch_word & "%' "
 		End If
@@ -70,30 +71,27 @@
 	sql = sql & "       ,agency        "
 	sql = sql & "       ,view_cnt      "
 	sql = sql & "       ,suggest_cnt   "
-	sql = sql & "       ,credt      "
+	sql = sql & "       ,credt         "
 	sql = sql & "       ,group_num     "
 	sql = sql & "       ,step_num      "
-	sql = sql & "       ,user_id    "
-	sql = sql & "       ,tel_no        "
-	sql = sql & "   from (select row_number() over( order by cb.group_num desc, cb.step_num asc) as rownum "
-	sql = sql & "               ,cb.comment_cnt   "
-	sql = sql & "               ,cb.subject       "
-	sql = sql & "               ,cb.parent_del_yn "
-	sql = sql & "               ,cb.level_num     "
-	sql = sql & "               ,cb.story_num     "
-	sql = sql & "               ,cb.story_seq     "
-	sql = sql & "               ,cb.agency        "
-	sql = sql & "               ,cb.view_cnt      "
-	sql = sql & "               ,cb.suggest_cnt   "
-	sql = sql & "               ,cb.credt      "
-	sql = sql & "               ,cb.group_num     "
-	sql = sql & "               ,cb.step_num      "
-	sql = sql & "               ,cb.user_id       "
-	sql = sql & "               ,cm.phone as tel_no "
+	sql = sql & "       ,user_id       "
+	sql = sql & "   from (select row_number() over( order by group_num desc, step_num asc) as rownum "
+	sql = sql & "               ,comment_cnt   "
+	sql = sql & "               ,subject       "
+	sql = sql & "               ,parent_del_yn "
+	sql = sql & "               ,level_num     "
+	sql = sql & "               ,story_num     "
+	sql = sql & "               ,story_seq     "
+	sql = sql & "               ,agency        "
+	sql = sql & "               ,view_cnt      "
+	sql = sql & "               ,suggest_cnt   "
+	sql = sql & "               ,credt      "
+	sql = sql & "               ,group_num     "
+	sql = sql & "               ,step_num      "
+	sql = sql & "               ,user_id       "
 	sql = sql & "           from cf_story cb"
-	sql = sql & "           left join cf_member cm on cm.user_id = cb.user_id "
-	sql = sql & "          where cb.cafe_id = '" & cafe_id & "' "
-	sql = sql & "            and cb.menu_seq = '" & menu_seq & "' "
+	sql = sql & "          where cafe_id = '" & cafe_id & "' "
+	sql = sql & "            and menu_seq = '" & menu_seq & "' "
 	sql = sql & kword
 	sql = sql & "        ) a "
 	sql = sql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & " "
@@ -135,10 +133,10 @@
 	End If
 %>
 						<select id="sch_type" name="sch_type" class="sel w100p">
-							<option value="all">전체</option>
-							<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>제목</option>
-							<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>글쓴이</option>
-							<option value="cb.contents" <%=if3(sch_type="cb.contents","selected","")%>>내용</option>
+							<option value="">전체</option>
+							<option value="subject" <%=if3(sch_type="subject","selected","")%>>제목</option>
+							<option value="agency" <%=if3(sch_type="agency","selected","")%>>글쓴이</option>
+							<option value="contents" <%=if3(sch_type="contents","selected","")%>>내용</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w300p">
 						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>

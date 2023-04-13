@@ -22,7 +22,6 @@
 	uploadform.DefaultPath = uploadFolder
 
 	notice_seq = uploadform("notice_seq")
-	group_num = uploadform("group_num")
 	level_num = uploadform("level_num")
 	step_num = uploadform("step_num")
 	subject = Replace(uploadform("subject"),"'"," & #39;")
@@ -99,17 +98,6 @@
 		Set conn = Nothing
 %>
 <script>
-	var cValue = "";
-	var cDay = 1;
-	var cName = "subject";
-	var expire = new Date();
-	expire.setDate(expire.getDate() + cDay);
-	cookies = cName + '=' + escape(cValue) + '; path=/ '; // 한글 깨짐을 막기위해 escape(cValue)를 합니다.
-	if (typeof cDay != 'undefined') cookies += ';expires=' + expire.toGMTString() + ';';
-	document.cookie = cookies;
-
-//	alert("입력 되었습니다.");
-//	parent.location.href='notice_list.asp?page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
 </script>
 <%
 	Else
@@ -118,7 +106,6 @@
 		Set conn = Nothing
 %>
 <script>
-//	alert("오류가 뱔생했습니다.\n\n에러내용 : <%=Err.Description%>(<%=Err.Number%>)");
 </script>
 <%
 	End if

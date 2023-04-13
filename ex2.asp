@@ -11,22 +11,22 @@
 	Conn.Open Application("db")
 
 	sql = ""
-	sql = sql & " select mi.user_id                                        "
-	sql = sql & "       ,mi.agency                                         "
-	sql = sql & "       ,mi.kname                                          "
-	sql = sql & "       ,mi.ename                                          "
-	sql = sql & "       ,cm.cafe_id                                        "
-	sql = sql & "       ,cf.union_id                                       "
-	sql = sql & "       ,mi.stat                                           "
-	sql = sql & "       ,ad.cafe_ad_level                                  "
-	sql = sql & "       ,cm.cafe_mb_level                                  "
-	sql = sql & "       ,cs.skin_id                                        "
-	sql = sql & "   from cf_member mi                                      "
+	sql = sql & " select mi.user_id                                              "
+	sql = sql & "       ,mi.agency                                               "
+	sql = sql & "       ,mi.kname                                                "
+	sql = sql & "       ,mi.ename                                                "
+	sql = sql & "       ,cm.cafe_id                                              "
+	sql = sql & "       ,cf.union_id                                             "
+	sql = sql & "       ,mi.stat                                                 "
+	sql = sql & "       ,ad.cafe_ad_level                                        "
+	sql = sql & "       ,cm.cafe_mb_level                                        "
+	sql = sql & "       ,cs.skin_id                                              "
+	sql = sql & "   from cf_member mi                                            "
 	sql = sql & "   left outer join cf_cafe_member cm on cm.user_id = mi.user_id "
-	sql = sql & "   left outer join cf_admin ad on ad.user_id = mi.user_id "
-	sql = sql & "   left outer join cf_cafe cf on cf.cafe_id = mi.cafe_id  "
-	sql = sql & "   left outer join cf_skin cs on cs.cafe_id = cf.cafe_id  "
-	sql = sql & "  where mi.user_id = '" & user_id & "'                        "
+	sql = sql & "   left outer join cf_admin ad on ad.user_id = mi.user_id       "
+	sql = sql & "   left outer join cf_cafe cf on cf.cafe_id = mi.cafe_id        "
+	sql = sql & "   left outer join cf_skin cs on cs.cafe_id = cf.cafe_id        "
+	sql = sql & "  where mi.user_id = '" & user_id & "'                          "
 
 'http://gisarangbang.krei.co.kr/exdefault.asp?userid=DBB545&userpw=0xF667CC8E65823D5034D62AF6276741F8F890F36C8361FC4FED268DF84144CAA0
 	Set mem = Conn.Execute(sql)
@@ -37,14 +37,14 @@
 			set_log()
 
 			Session.timeout = 1440
-			Session("user_id") = mem("user_id")
-			Session("agency") = mem("agency")
-			Session("kname") = mem("kname")
-			Session("ename") = mem("ename")
-			Session("mycafe") = mem("cafe_id")
+			Session("user_id")       = mem("user_id")
+			Session("agency")        = mem("agency")
+			Session("kname")         = mem("kname")
+			Session("ename")         = mem("ename")
+			Session("mycafe")        = mem("cafe_id")
 			Session("cafe_ad_level") = mem("cafe_ad_level")
 			Session("cafe_mb_level") = mem("cafe_mb_level")
-			Session("skin_id") = mem("skin_id")
+			Session("skin_id")       = mem("skin_id")
 
 			If mem("union_id") = "jungdong" Then
 				cafe_id = "jungdong"

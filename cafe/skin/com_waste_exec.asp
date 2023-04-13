@@ -60,9 +60,20 @@
 		conn.Close
 		Set conn = Nothing
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 	alert("삭제 되었습니다.");
-	location.href='<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
+<%
+	If session("noFrame") = "Y" Then
+%>
+	parent.location.href='<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>') ;
+<%
+	End if
+%>
 </script>
 <%
 	Else
@@ -70,9 +81,20 @@
 		conn.Close
 		Set conn = Nothing
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
-/	alert("오류가 뱔생했습니다.\n\n에러내용 : <%=Err.Description%>(<%=Err.Number%>)");
-/	location.href='<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
+	alert("오류가 뱔생했습니다.\n\n에러내용 : <%=Err.Description%>(<%=Err.Number%>)");
+<%
+	If session("noFrame") = "Y" Then
+%>
+	parent.location.href='<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>') ;
+<%
+	End if
+%>
 </script>
 <%
 	End if

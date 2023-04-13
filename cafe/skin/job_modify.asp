@@ -16,6 +16,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 	<script type="text/javascript" src="/smart/js/HuskyEZCreator.js" charset="utf-8"></script>
 <!-- 달력 시작 -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -43,10 +44,16 @@
 <!-- 달력 끝 -->
 </head>
 <body class="skin_type_1">
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 	<div id="wrap" class="group">
 <!--#include virtual="/cafe/skin/skin_header_inc.asp"-->
 		<main id="main" class="sub">
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
+<%
+	End IF
+%>
 			<div class="container">
 <%
 	page      = Request("page")
@@ -89,13 +96,6 @@
 		method     = rs("method")
 		end_date   = rs("end_date")
 		contents  = rs("contents")
-
-		arr_end_date   = split(end_date, "-")
-		If ubound(arr_end_date) = 2 Then
-			end_date1 = arr_end_date(0)
-			end_date2 = arr_end_date(1)
-			end_date3 = arr_end_date(2)
-		End if
 
 		arr_age   = split(age, "~")
 		If ubound(arr_age) = 1 Then
@@ -165,8 +165,14 @@
 									</td>
 									<th scope="row">연령<em class="required">필수입력</em></th>
 									<td>
-										<input type="radio" class="checkbox" tabindex=3 name="age" value="" onclick="chkage(0)" <%=If3(age="","checked","")%>>무관 &nbsp;
-										<input type="radio" class="checkbox" tabindex=4 name="age" value="Y" onclick="chkage(1)" <%=If3(age<>"","checked","")%>>연령제한 &nbsp;
+										<span class=''>
+											<input type="radio" class="inp_radio" tabindex=3 id="age" name="age" value="" onclick="chkage(0)" <%=if3(age="","checked","")%> required>
+											<label for='age'><em>무관</em></label>
+										</span>
+										<span class=''>
+											<input type="radio" class="inp_radio" tabindex=4 id="ageY" name="age" value="Y" onclick="chkage(1)" <%=if3(age="Y","checked","")%> required>
+											<label for='ageY'><em>연령제한</em></label>
+										</span>
 										<input type="text" class="inp" tabindex=5 name="age1" value="<%=age1%>" style="width:40px" <%=If3(age="","disabled","")%>>세 ~
 										<input type="text" class="inp" tabindex=6 name="age2" value="<%=age2%>" style="width:40px" <%=If3(age="","disabled","")%>>세
 										<script>
@@ -191,13 +197,15 @@
 								<tr>
 									<th scope="row">성별<em class="required">필수입력</em></th>
 									<td>
-										<input type="radio" class="checkbox" tabindex=7 name="sex" value="" <%=if3(sex="","checked","")%>>무관 &nbsp; &nbsp;
-										<input type="radio" class="checkbox" tabindex=8 name="sex" value="M" <%=if3(sex="M","checked","")%>>남 &nbsp; &nbsp;
-										<input type="radio" class="checkbox" tabindex=9 name="sex" value="W" <%=if3(sex="W","checked","")%>>여
+										<span class=''>
+											<input type="radio" tabindex=7 id="sex" name="sex" value="" class="inp_radio" <%=if3(sex=""," checked","")%> required>
+											<label for='sex'><em>무관</em></label>
+										</span>
+										<%=makeRadioCD("sex", sex, "required")%>
 									</td>
 									<th scope="row">경력<em class="required">필수입력</em></th>
 									<td>
-										<select name="work_year" tabindex=10>
+										<select name="work_year" tabindex=10 class="sel w_auto">
 											<option value="">무관</option>
 <% For i = 1 To 50 %>
 											<option value="<%=i%>" <%=if3(work_year=CStr(i),"selected","")%>><%=i%>년 이상</option>
@@ -208,8 +216,14 @@
 								<tr>
 									<th class="end2">관력자격증<em class="required">필수입력</em></th>
 									<td>
-										<input type="radio" class="checkbox" tabindex=11 name="certify" value="Y" <%=if3(certify="Y","checked","")%>>필수 &nbsp; &nbsp;
-										<input type="radio" class="checkbox" tabindex=12 name="certify" value="N" <%=if3(certify="N","checked","")%>>무관
+										<span class=''>
+											<input type="radio" class="inp_radio" tabindex=11 id="certifyY" name="certify" value="Y" <%=if3(certify="Y","checked","")%>>
+											<label for='certifyY'><em>필수</em></label>
+										</span>
+										<span class=''>
+											<input type="radio" class="inp_radio" tabindex=12 id="certifyN" name="certify" value="N" <%=if3(certify="N","checked","")%>>
+											<label for='certifyN'><em>무관</em></label>
+										</span>
 									</td>
 									<th class="end2">근무지역<em class="required">필수입력</em></th>
 									<td>
@@ -268,16 +282,13 @@
 									</td>
 									<th class="end2">접수방법</th>
 									<td>
-										<input type="checkbox" class="checkbox" tabindex=20 value="이메일" name="method" <%=if3(instr(method,"이메일")>0,"checked","")%>>이메일
-										<input type="checkbox" class="checkbox" tabindex=21 value="팩스" name="method" <%=if3(instr(method,"팩스")>0,"checked","")%>>팩스
-										<input type="checkbox" class="checkbox" tabindex=22 value="우편" name="method" <%=if3(instr(method,"우편")>0,"checked","")%>>우편
-										<input type="checkbox" class="checkbox" tabindex=23 value="방문" name="method" <%=if3(instr(method,"방문")>0,"checked","")%>>방문
+										<%=makeCheckBoxCD("method", method, "", "21")%>
 									</td>
 								</tr>
 								<tr>
 									<th class="end2">마감일</th>
 									<td colspan="3">
-										<input type="text" tabindex=24 id="end_date" name="end_date" value="<%=end_date%>" class="inp" />
+										<input type="text" tabindex=24 id="end_date" name="end_date" value="<%=end_date%>" class="inp w10" />
 									</td>
 								</tr>
 							</tbody>
@@ -295,14 +306,21 @@
 				</div>
 				<div class="btn_box">
 					<button type="submit" class="btn btn_c_a btn_n" tabindex=26>등록</button>
-					<button type="button" class="btn btn_c_n btn_n" tabindex=27 onclick="location.href='job_list.asp?menu_seq=<%=menu_seq%>'"><em>취소</em></button>
+					<button type="button" class="btn btn_c_n btn_n" tabindex=27 onclick="<%=session("svHref")%>location.href='/cafe/skin/job_list.asp?menu_seq=<%=menu_seq%>'"><em>취소</em></button>
 				</div>
 				</form>
 			</div>
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 <!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
 		</main>
 <!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
 	</div>
+<%
+	End IF
+%>
+	<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;width:1000;"></iframe>
 </body>
 </html>
 
@@ -340,67 +358,3 @@
 				} catch(e) {}
 			}
 			</script>
-<script>
-
-function fc_chk_byte(frm_nm, ari_max, cnt_view) { 
-//	var frm = document.regForm;
-	var ls_str = frm_nm.value; // 이벤트가 일어난 컨트롤의 value 값 
-	var li_str_len = ls_str.length; // 전체길이 
-
-	// 변수초기화 
-	var li_max = ari_max; // 제한할 글자수 크기 
-	var i = 0; // for문에 사용 
-	var li_byte = 0; // 한글일경우는 2 그밗에는 1을 더함 
-	var li_len = 0; // substring하기 위해서 사용 
-	var ls_one_char = ""; // 한글자씩 검사한다 
-	var ls_str2 = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다. 
-
-	for (i=0; i< li_str_len; i++) { 
-	// 한글자추출 
-		ls_one_char = ls_str.charAt(i); 
-
-		// 한글이면 2를 더한다. 
-		if (escape(ls_one_char).length > 4) { 
-			li_byte += 2; 
-		} 
-		// 그밗의 경우는 1을 더한다. 
-		else { 
-			li_byte++; 
-		} 
-
-		// 전체 크기가 li_max를 넘지않으면 
-		if (li_byte <= li_max) { 
-			li_len = i + 1; 
-		} 
-	} 
-
-	// 전체길이를 초과하면 
-	if (li_byte > li_max) { 
-		alert( li_max + "byte 글자를 초과 입력할수 없습니다. \n 초과된 내용은 자동으로 삭제 됩니다. "); 
-		ls_str2 = ls_str.substr(0, li_len);
-		frm_nm.value = ls_str2; 
-
-		li_str_len = ls_str2.length; // 전체길이 
-		li_byte = 0; // 한글일경우는 2 그밗에는 1을 더함 
-		for (i=0; i< li_str_len; i++) { 
-		// 한글자추출 
-			ls_one_char = ls_str2.charAt(i); 
-
-			// 한글이면 2를 더한다. 
-			if (escape(ls_one_char).length > 4) { 
-				li_byte += 2; 
-			} 
-			// 그밗의 경우는 1을 더한다. 
-			else { 
-				li_byte++; 
-			} 
-		} 
-	} 
-	if (cnt_view != "") {
-		var inner_form = eval("document.all."+ cnt_view) 
-		inner_form.innerHTML = li_byte ;		//frm.txta_Memo.value.length;
-	}
-//	frm_nm.focus(); 
-
-} 
-</script>

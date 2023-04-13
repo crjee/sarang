@@ -43,7 +43,7 @@
 	If task = "ins" Then
 		msg = "등록"
 
-		Set rs = Conn.Execute("select top 1 banner_num from cf_banner where cafe_id='" & cafe_id & "' and banner_type='R' order by banner_num desc")
+		Set rs = Conn.Execute("select top 1 banner_num from cf_banner where cafe_id = '" & cafe_id & "' and banner_type = '" & banner_type & "' order by banner_num desc")
 
 		If rs.eof Then
 			banner_num = 1

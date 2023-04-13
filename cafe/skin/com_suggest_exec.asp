@@ -47,7 +47,18 @@
 		pgm = menu_type
 	End If
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 	alert("추천 되었습니다.");
-	location.href='<%=pgm%>_view.asp?<%=menu_type%>_seq=<%=com_seq%>&menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
+<%
+	If session("noFrame") = "Y" Then
+%>
+	parent.location.href='<%=pgm%>_view.asp?<%=menu_type%>_seq=<%=com_seq%>&menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/<%=pgm%>_view.asp?<%=menu_type%>_seq=<%=com_seq%>&menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>') ;
+<%
+	End if
+%>
 </script>

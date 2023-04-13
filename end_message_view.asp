@@ -14,6 +14,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 	<div class="flex_box">

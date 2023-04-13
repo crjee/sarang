@@ -15,6 +15,8 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
+	<script src="/common/js/tablednd.js" integrity="sha256-d3rtug+Hg1GZPB7Y/yTcRixO/wlI78+2m08tosoRn7A=" crossorigin="anonymous"></script>
 </head>
 <body>
 	<div id="wrap">
@@ -30,17 +32,47 @@
 			</div>
 			<div class="adm_cont">
 				<div class="adm_menu_manage">
-				<form name="nform" method="post" action="banner_num_exec.asp" target="hiddenfrm">
+<%
+	uploadUrl = ConfigAttachedFileURL & "banner/"
+
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs2 = Server.CreateObject ("ADODB.Recordset")
+
+	sql = ""
+	sql = sql & " select cmn_cd                                         "
+	sql = sql & "       ,cd_id                                          "
+	sql = sql & "       ,cd_nm                                          "
+	sql = sql & "   from cf_code                                        "
+	sql = sql & "  where up_cd_id = (select cd_id                       "
+	sql = sql & "                      from cf_code                     "
+	sql = sql & "                     where up_cd_id = 'CD0000000000'   "
+	sql = sql & "                       and cmn_cd = 'cafe_banner_type' "
+	sql = sql & "                   )                                   "
+	sql = sql & "  order by cd_sn                                       "
+	Rs.open Sql, conn, 3, 1
+
+	Do Until Rs.eof
+		cmn_cd = Rs("cmn_cd")
+		cd_id  = Rs("cd_id")
+		cd_nm  = Rs("cd_nm")
+		banner_type = cmn_cd
+%>
+				<form name="form<%=cd_nm%>" method="post" action="banner_num_exec.asp">
 					<div class="btn_box algL mb10">
+						<h3 class="h3"><%=cd_nm%></h3>
+					</div>
+					<div class="btn_box algL mb10">
+						<input type="button" onClick="rowMoveEvent<%=cmn_cd%>('up');" value="▲" style="width:50px;"/>
+						&nbsp;&nbsp;
+						<input type="button" onClick="rowMoveEvent<%=cmn_cd%>('down');" value="▼" style="width:50px;"/>
 						<button type="submit" class="btn btn_c_a btn_s">노출순서 저장</button>
 					</div>
 					<div class="tb tb_form_1">
-						<table class="tb_fixed">
+						<table class="tb_fixed" id="">
 							<colgroup>
 								<col class="w5" />
 								<col class="w5" />
 								<col class="w10" />
-								<col class="w_remainder" />
 								<col class="w_remainder" />
 								<col class="w8" />
 								<col class="w7" />
@@ -52,124 +84,175 @@
 									<th scope="col">노출순서</th>
 									<th scope="col">노출번호</th>
 									<th scope="col">이미지</th>
-									<th scope="col">제목</th>
-									<th scope="col">링크</th>
+									<th scope="col">제목/링크</th>
 									<th scope="col">등록일</th>
 									<th scope="col">구분</th>
 									<th scope="col">공개여부</th>
 									<th scope="col">설정</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="girlTbody<%=cmn_cd%>">
 <%
-	uploadUrl = ConfigAttachedFileURL & "banner/"
+		sql = ""
+		sql = sql & "  with cd1                                                    "
+		sql = sql & "    as (                                                      "
+		sql = sql & "        select cmn_cd                                         "
+		sql = sql & "              ,cd_nm                                          "
+		sql = sql & "          from cf_code                                        "
+		sql = sql & "         where up_cd_id = (select cd_id                       "
+		sql = sql & "                             from cf_code                     "
+		sql = sql & "                            where up_cd_id = 'CD0000000000'   "
+		sql = sql & "                              and cmn_cd = 'cafe_banner_type' "
+		sql = sql & "                          )                                   "
+		sql = sql & "       )                                                      "
+		sql = sql & " ,     cd2                                                    "
+		sql = sql & "    as (                                                      "
+		sql = sql & "        select cmn_cd                                         "
+		sql = sql & "              ,cd_nm                                          "
+		sql = sql & "          from cf_code                                        "
+		sql = sql & "         where up_cd_id = (select cd_id                       "
+		sql = sql & "                             from cf_code                     "
+		sql = sql & "                            where up_cd_id = 'CD0000000000'   "
+		sql = sql & "                              and cmn_cd = 'open_yn'          "
+		sql = sql & "                          )                                   "
+		sql = sql & "       )                                                      "
+		sql = sql & " select cb.*                                                  "
+		sql = sql & "       ,cd1.cd_nm as banner_type_txt                          "
+		sql = sql & "       ,cd2.cd_nm as open_yn_txt                              "
+		sql = sql & "   from cf_banner cb                                          "
+		sql = sql & "   left join cd1 on cd1.cmn_cd = cb.banner_type               "
+		sql = sql & "   left join cd2 on cd2.cmn_cd = cb.open_yn                   "
+		sql = sql & "  where cafe_id = '" & cafe_id & "'                           "
+		sql = sql & "    and banner_type = '" & banner_type & "'                   "
+		sql = sql & "  order by cb.banner_num asc                                  "
+		Rs2.open Sql, conn, 3, 1
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_banner "
-	sql = sql & "  where cafe_id = '" & cafe_id & "' "
-	sql = sql & "    and banner_type <> 'T' "
-	sql = sql & "  order by banner_type, banner_num asc "
-	rs.Open Sql, conn, 3, 1
+		i = 1
+		If Not Rs2.eof Then
+			Do Until Rs2.eof
+				banner_seq      = Rs2("banner_seq")
+				cafe_id         = Rs2("cafe_id")
+				banner_num      = Rs2("banner_num")
+				banner_type     = Rs2("banner_type")
+				file_name       = Rs2("file_name")
+				banner_height   = Rs2("banner_height")
+				banner_width    = Rs2("banner_width")
+				subject         = Rs2("subject")
+				link            = Rs2("link")
+				open_yn         = Rs2("open_yn")
+				reg_date        = Rs2("reg_date")
+				creid           = Rs2("creid")
+				credt           = Rs2("credt")
+				modid           = Rs2("modid")
+				moddt           = Rs2("moddt")
+				file_type       = Rs2("file_type")
+				banner_type_txt = Rs2("banner_type_txt")
+				open_yn_txt     = Rs2("open_yn_txt")
 
-	i = 1
-	Do Until rs.eof
-		open_yn = rs("open_yn")
-		If open_yn = "Y" Then
-			open_yn = "공개"
-		Else
-			open_yn = "비공개"
-		End If
-
-		banner_seq = rs("banner_seq")
-		banner_num = rs("banner_num")
-		file_type = rs("file_type")
-		file_name = rs("file_name")
-		banner_type = rs("banner_type")
-		subject = rs("subject")
-		open_yn = rs("open_yn")
-		link = rs("link")
-		banner_width = rs("banner_width")
-		banner_height = rs("banner_height")
-
-		Select Case banner_type
-			Case "T"
-				banner_type_txt = "상단"
-			Case "C0"
-				banner_type_txt = "대문전체"
-				width  = 800
-				height = 170
-			Case "C1"
-				banner_type_txt = "대문1"
-				width  = 266
-				height = 170
-			Case "C2"
-				banner_type_txt = "대문2"
-				width  = 266
-				height = 170
-			Case "C3"
-				banner_type_txt = "대문3"
-				width  = 266
-				height = 170
-			Case "R"
-				banner_type_txt = "오른쪽"
-				width  = 150
-		End Select
+				Select Case banner_type
+					Case "T"
+					Case "C0"
+						width  = 800
+						height = 170
+					Case "C1"
+						width  = 266
+						height = 170
+					Case "C2"
+						width  = 266
+						height = 170
+					Case "C3"
+						width  = 266
+						height = 170
+					Case "R"
+						width  = 150
+						height = 0
+					Case Else
+						width  = 0
+						height = 0
+				End Select
 %>
 								<tr>
 									<td class="algC">
-										<input type="hidden" name="banner_seq" value="<%=rs("banner_seq")%>">
-<%
-		If rs("banner_type") = "R" Then
-%>
-										<input type="text" name="banner_num" class="inp w40p algC" value="<%=banner_num%>" align="right">
-<%
-		Else
-%>
-										<input type="hidden" name="banner_num" value="<%=banner_num%>">
-<%
-		End If
-%>
+										<input type="hidden" name="banner_seq" value="<%=banner_seq%>">
+										<input type="radio" class="inp_radio" id="chkRadio<%=cmn_cd%>" name="chkRadio<%=cmn_cd%>" onClick="checkeRowColorChange<%=cmn_cd%>(this);">
 									</td>
 									<td class="algC"><%=banner_num%></td>
 									<td class="algC">
 <%
-		If rs("file_type") = "I" Then
+				If file_type = "I" Then
 %>
-										<%If rs("link") <> "" then%><a href="<%=rs("link")%>" target="_blank"><%End if%><img src="<%=uploadUrl & rs("file_name")%>" style="border:1px solid #dddddd;width:150px;"><%If rs("link") <> "" then%></a><%End if%></li>
+										<%If link <> "" Then%><a href="<%=link%>" target="_blank"><%End if%><img src="<%=uploadUrl & file_name%>" style="border:1px solid #dddddd;width:150px;"><%If link <> "" Then%></a><%End If%></li>
 <%
-		ElseIf rs("file_type") = "F" Then
+				ElseIf file_type = "F" Then
 %>
-										<%If rs("link") <> "" then%><a href="<%=rs("link")%>" target="_blank"><%End if%><embed src="<%=uploadUrl & rs("file_name")%>" style="border:1px solid #dddddd;width:<%=banner_width%>px ;height:<%=banner_height%>px;"><%If rs("link") <> "" then%></a><%End if%></li>
+										<%If link <> "" Then%><a href="<%=link%>" target="_blank"><%End if%><embed src="<%=uploadUrl & file_name%>" style="border:1px solid #dddddd;width:<%=banner_width%>px ;height:<%=banner_height%>px;"><%If link <> "" Then%></a><%End If%></li>
 <%
-		End if
+				End if
 %>
 									</td>
-									<td class="algC"><%=rs("subject")%></td>
-									<td class="algC"><%=rs("link")%></td>
-									<td class="algC"><%=Left(rs("credt"),10)%></td>
+									<td class="algC"><%=subject%><br><%=link%></td>
+									<td class="algC"><%=Left(credt,10)%></td>
 									<td class="algC"><%=banner_type_txt%></td>
-									<td class="algC"><%=open_yn%></td>
+									<td class="algC"><%=open_yn_txt%></td>
 									<td class="algC">
-										<button type="button" class="btn btn_c_a btn_s btn_modi" onclick="onEdit('<%=rs("banner_seq")%>')">수정</button>
-										<button type="button" class="btn btn_c_a btn_s" onclick="hiddenfrm.location.href='banner_del_exec.asp?task=del&banner_seq=<%=rs("banner_seq")%>'">삭제</button>
+										<button type="button" class="btn btn_c_a btn_s btn_modi" onclick="onEdit('<%=banner_seq%>')">수정</button>
+										<button type="button" class="btn btn_c_a btn_s" onclick="hiddenfrm.location.href='banner_del_exec.asp?task=del&banner_seq=<%=banner_seq%>'">삭제</button>
 									</td>
 								</tr>
 <%
-		i = i + 1
-		rs.MoveNext
-	Loop
-	rs.close
+				i = i + 1
+				Rs2.MoveNext
+			Loop
+%>
+<script type="text/javascript">
+	function checkeRowColorChange<%=cmn_cd%>(obj) {
+		var row = jQuery("#chkRadio<%=cmn_cd%>").index(obj);
+	}
+	function rowMoveEvent<%=cmn_cd%>(direction) {
+		if(jQuery("#chkRadio<%=cmn_cd%>:checked").val()) {
+			var row = jQuery("#chkRadio<%=cmn_cd%>:checked").parent().parent();
+			var num = row.index();
+			var max = (jQuery("#chkRadio<%=cmn_cd%>").length - 1);	   // index는 0부터 시작하기에 -1을 해준다.
+			if(direction == "up") {
+				if(num == 0) { 
+					return false;
+				} else {
+					row.prev().before(row);
+				}
+			} else if(direction == "down") {
+				if(num >= max) {
+					return false;
+				} else {
+					row.next().after(row);
+				}
+			}
+		} else {
+		}
+	}
+	</script>
+<%
+		Else
+%>
+								<tr>
+									<td class="algC" colspan="8">동록된 배너가 없습니다.</td>
+								</tr>
+<%
+		End If
+		Rs2.close
 %>
 							</tbody>
 						</table>
 					</div>
 					<div class="btn_box algR">
-						<a href="#n" class="btn btn_c_a btn_n" onclick="onRegi()">배너등록</a>
+						<a href="#n" class="btn btn_c_a btn_n" onclick="onRegi('<%=banner_type%>')">배너등록</a>
 					</div>
+				</form>
+<%
+		Rs.MoveNext
+	Loop
+	Rs.close
+%>
 				</div>
-			</form>
 			</div>
 		</main>
 		<footer id="adm_foot"></footer>
@@ -197,11 +280,7 @@
 							<td>
 								<select id="banner_type" name="banner_type" required class="sel w_auto">
 									<option></option>
-									<%If banner_type_C0 <> "Y" then%><option value="C0">대문전체</option><%End if%>
-									<%If banner_type_C1 <> "Y" then%><option value="C1">대문1</option><%End if%>
-									<%If banner_type_C2 <> "Y" then%><option value="C2">대문2</option><%End if%>
-									<%If banner_type_C3 <> "Y" then%><option value="C3">대문3</option><%End if%>
-									<option value="R">오른쪽</option>
+									<%=makeComboCD("cafe_banner_type", "")%>
 								</select>
 							</td>
 						</tr>
@@ -220,20 +299,25 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">배너선택</th>
+							<th scope="row">배너이미지</th>
 							<td>
 								<img id="file_img" name="file_img" style="width:150px">
-								<input type="file" id="file_name" name="file_name" class="inp" />
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">배너선택</th>
+							<td>
+								<input type="file" id="file_name" name="file_name" class="inp" required />
 							</td>
 						</tr>
 						<tr>
 							<th scope="row">배너크기</th>
 							<td>
 								<label for="">가로</label>
-								<input type="text" id="banner_width" name="banner_width" required class="inp w100p" />
+								<input type="text" id="banner_width" name="banner_width" value="0" required class="inp w100p" />
 
 								<label for="">세로</label>
-								<input type="text" id="banner_height" name="banner_height" required class="inp w100p" />
+								<input type="text" id="banner_height" name="banner_height" value="0" required class="inp w100p" />
 							</td>
 						</tr>
 						<tr>
@@ -245,11 +329,7 @@
 						<tr>
 							<th scope="row">공개여부</th>
 							<td>
-								<input type="radio" id="open_y" name="open_yn" value="Y" required />
-								<label for="open_y"><em>공개</em></label>
-
-								<input type="radio" id="open_n" name="open_yn" value="N" required />
-								<label for="open_n"><em>비공개</em></label>
+								<%=makeRadioCD("open_yn", "", "required")%>
 							</td>
 						</tr>
 					</tbody>
@@ -265,8 +345,51 @@
 	<!-- //Banner 등록 : e -->
 </body>
 </html>
-<!--Center-->
 <script type="text/javascript">
+function checkeRowColorChange(obj) {
+	// 체크된 라디오 박스의 행(row)에 강조색깔로 바꾸기 전 모든 행(row)의 백그라운드를 흰색으로 변경한다.
+//	jQuery("#girlTbody > tr").css("background-color", "#FFFFFF");
+	// 체크된 라디오 박스의 행이 몇번째에 위치하는지 파악한다.
+	var row = jQuery("#chkRadio").index(obj);
+	// 체크된 라디오 박스의 행(row)의 색깔을 변경한다.
+//	jQuery("#girlTbody > tr").eq(row).css("background-color", "#FAF4C0");
+}
+function rowMoveEvent(direction) {
+	
+	// 체크된 행(row)의 존재 여부를 파악한다.
+	if(jQuery("#chkRadio:checked").val()) {
+		// 체크된 라디오 박스의 행(row)을 변수에 담는다.
+		var row = jQuery("#chkRadio:checked").parent().parent();
+		// 체크된 행(row)의 이동 한계점을 파악하기 위해 인덱스를 파악한다.
+		var num = row.index();
+		// 전체 행의 개수를 구한다.
+		var max = (jQuery("#chkRadio").length - 1);	   // index는 0부터 시작하기에 -1을 해준다.
+		if(direction == "up") {
+			if(num == 0) { 
+				// 체크된 행(row)의 위치가 최상단에 위치해 있을경우 더이상 올라갈 수 없게 막는다.
+				alert("첫번째로 지정되어 있습니다.\n더이상 순서를 변경할 수 없습니다.");
+				return false;
+			} else {
+				// 체크된 행(row)을 한칸 위로 올린다.
+				row.prev().before(row);
+			}
+		} else if(direction == "down") {
+			if(num >= max) {
+				// 체크된 행(row)의 위치가 최하단에 위치해 있을경우 더이상 내려갈 수 없게 막는다.
+				alert("마지막으로 지정되어 있습니다.\n더이상 순서를 변경할 수 없습니다.");
+				return false;
+			} else {
+				// 체크된 행(row)을 한칸 아래로 내린다.
+				row.next().after(row);
+			}
+		}
+	} else {
+		alert("선택된 행이 존재하지 않습니다\n위치를 이동시킬 행을 하나 선택해 주세요.");
+	}
+}
+</script>
+<script type="text/javascript">
+
 	function readURL(input,obj) {
 		if (input.files && input.files[0]) {
 			var reader = new FileReader()
@@ -287,11 +410,12 @@
 		$("#file_img").attr('src', "")
 	})
 
-	function onRegi() {
+	function onRegi(banner_type) {
 		$("#regi_form")[0].reset();
 		$("#task").val("ins");
 		$("#file_img").attr('src', "")
 		$("#file_name").attr("required" , true);
+		$("#banner_type").val(banner_type);
 		document.getElementById("regTitle").innerText = "등록";
 		lyp('lypp_adm_banner');
 	}
@@ -321,16 +445,16 @@
 							$("#file_type").val(xmlData.ResultList[i].file_type);
 							//alert(xmlData.ResultList[i].file_name);
 							$("#file_img").attr('src', "<%=uploadUrl%>"+xmlData.ResultList[i].file_name)
-//										$("#file_name").val(xmlData.ResultList[i].file_name);
+							//$("#file_name").val(xmlData.ResultList[i].file_name);
 							//alert(xmlData.ResultList[i].banner_type);
 							$("#banner_type").val(xmlData.ResultList[i].banner_type);
 							//alert(xmlData.ResultList[i].subject);
 							$("#subject").val(xmlData.ResultList[i].subject);
 							//alert(xmlData.ResultList[i].open_yn);
 							if (xmlData.ResultList[i].open_yn == "Y")
-							$("#open_y").prop('checked',true);
+							$("#open_yn_Y").prop('checked',true);
 							if (xmlData.ResultList[i].open_yn == "N")
-							$("#open_n").prop('checked',true);
+							$("#open_yn_N").prop('checked',true);
 							//alert(xmlData.ResultList[i].link);
 							$("#link").val(xmlData.ResultList[i].link);
 							//alert(xmlData.ResultList[i].banner_width);
@@ -354,5 +478,4 @@
 			alert(e);
 		}
 	}
-
 </script>

@@ -9,4 +9,4 @@
 %>
 <script Language="Javascript">
 	self.close();
-</SCRIPT>
+</script>

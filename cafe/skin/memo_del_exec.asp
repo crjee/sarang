@@ -20,7 +20,18 @@
 		Conn.Execute(sql)
 	Next
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
-	alert('삭제되었습니다')
-	top.location.href='memo_list.asp?stype=<%=stype%>';
+	alert("삭제 되었습니다.");
+<%
+	If session("noFrame") = "Y" Then
+%>
+	parent.location.href='memo_list.asp?stype=<%=stype%>';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/location.href=memo_list.asp?stype=<%=stype%>') ;
+<%
+	End if
+%>
 </script>

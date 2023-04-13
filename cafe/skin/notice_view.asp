@@ -17,12 +17,19 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body class="skin_type_1">
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 	<div id="wrap" class="group">
 <!--#include virtual="/cafe/skin/skin_header_inc.asp"-->
 		<main id="main" class="sub">
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
+<%
+	End IF
+%>
 			<div class="container">
 <%
 	ipin = getRndStr(10)
@@ -75,11 +82,11 @@
 <%
 	If group_num = "" And reply_auth <= cafe_ad_level Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goReply()">답글</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goReply('<%=session("ctTarget")%>')">답글</button>
 <%
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goModify()">수정</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
 					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">삭제</button>
 <%
 	If cafe_ad_level > 6 Then
@@ -96,26 +103,26 @@
 <%
 	If cafe_ad_level = "10" Then ' 글쓰기 권한
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="location.href='/cafe/skin/notice_write.asp'">글쓰기</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/notice_write.asp'">글쓰기</button>
 <%
 	End If
 %>
 					<button class="btn btn_c_n btn_n" type="button" onclick="copyUrl()">글주소복사</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">목록</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goList('<%=session("ctTarget")%>')">목록</button>
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
-				<div class="view_head">
-					<h3 class="h3" id="subject"><%=rs("subject")%></h3>
-					<div class="wrt_info_box">
-						<ul>
-							<li><span>작성자</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
-							<li><span>조회</span><strong><%=rs("view_cnt")%></strong></li>
-							<li><span>추천</span><strong><%=rs("suggest_cnt")%></strong></li>
-							<li><span>등록일시</span><strong><%=rs("credt")%></strong></li>
-						</ul>
+					<div class="view_head">
+						<h3 class="h3" id="subject"><%=rs("subject")%></h3>
+						<div class="wrt_info_box">
+							<ul>
+								<li><span>작성자</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
+								<li><span>조회</span><strong><%=rs("view_cnt")%></strong></li>
+								<li><span>추천</span><strong><%=rs("suggest_cnt")%></strong></li>
+								<li><span>등록일시</span><strong><%=rs("credt")%></strong></li>
+							</ul>
+						</div>
 					</div>
-				</div>
-				<div class="wrt_file_box"><!-- 첨부파일영역 추가 crjee -->
+					<div class="wrt_file_box"><!-- 첨부파일영역 추가 crjee -->
 <%
 	uploadUrl = ConfigAttachedFileURL & "notice/"
 	uploadFolder = ConfigAttachedFileFolder & "notice\"
@@ -135,19 +142,19 @@
 				fileExt = LCase(Mid(rs2("file_name"), InStrRev(rs2("file_name"), ".") + 1))
 				If fileExt = "pdf" Then
 %>
-					<%If i > 0 Then%><br><%End If%>
-					<a href="<%=uploadUrl & rs2("file_name")%>" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+						<%If i > 0 Then%><br><%End If%>
+						<a href="<%=uploadUrl & rs2("file_name")%>" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 				Else
 %>
-					<%If i > 0 Then%><br><%End If%>
-					<a href="/download_exec.asp?menu_type=<%=menu_type%>&file_name=<%=rs2("file_name")%>" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+						<%If i > 0 Then%><br><%End If%>
+						<a href="/download_exec.asp?menu_type=<%=menu_type%>&file_name=<%=rs2("file_name")%>" target="hiddenfrm" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 				End If
 			Else
 %>
-					<%If i > 0 Then%><br><%End If%>
-					<a href="javascript:alert('파일이 존재하지 않습니다,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+						<%If i > 0 Then%><br><%End If%>
+						<a href="javascript:alert('파일이 존재하지 않습니다,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 			End If
 			
@@ -169,20 +176,27 @@
 <%
 	End If
 %>
-				</div>
-				<div class="bbs_cont">
-					<%=rs("contents")%>
-				</div>
+					</div>
+					<div class="bbs_cont">
+						<%=rs("contents")%>
+					</div>
 				</div>
 <%
 	rs.close
 	Set rs = nothing
 %>
 			</div>
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 <!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
 		</main>
 <!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
 	</div>
+<%
+	End IF
+%>
+	<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;width:1000;"></iframe>
 </body>
 </html>
 
@@ -199,39 +213,45 @@
 			window.print();
 		}
 
-		function goList() {
-			document.search_form.action = "/cafe/skin/notice_list.asp"
+		function goList(gvTarget) {
+			document.search_form.action = "/cafe/skin/notice_list.asp";
+			document.search_form.target = gvTarget;
 			document.search_form.submit();
 		}
-		function goReply() {
-			document.search_form.action = "/cafe/skin/notice_reply.asp"
+		function goReply(gvTarget) {
+			document.search_form.action = "/cafe/skin/notice_reply.asp";
+			document.search_form.target = gvTarget;
 			document.search_form.submit();
 		}
-		function goModify() {
-			document.search_form.action = "/cafe/skin/notice_modify.asp"
+		function goModify(gvTarget) {
+			document.search_form.action = "/cafe/skin/notice_modify.asp";
+			document.search_form.target = gvTarget;
 			document.search_form.submit();
 		}
 		function goDelete() {
-			document.search_form.action = "/cafe/skin/notice_delete_exec.asp"
-			document.search_form.action = "/cafe/skin/com_waste_exec.asp"
+			document.search_form.action = "/cafe/skin/com_waste_exec.asp";
+			document.search_form.target = "hiddenfrm";
 			document.search_form.submit();
 		}
 		function goPopup() {
-			document.search_form.action = "/cafe/skin/notice_pop_exec.asp"
+			document.search_form.action = "/cafe/skin/notice_pop_exec.asp";
+			document.search_form.target = "hiddenfrm";
 			document.search_form.submit();
 		}
 		function goNotice() {
-			document.search_form.action = "/cafe/skin/notice_top_exec.asp"
+			document.search_form.action = "/cafe/skin/notice_top_exec.asp";
+			document.search_form.target = "hiddenfrm";
 			document.search_form.submit();
 		}
 		function goSuggest() {
-			document.search_form.action = "/cafe/skin/notice_suggest_exec.asp"
+			document.search_form.action = "/cafe/skin/notice_suggest_exec.asp";
+			document.search_form.target = "hiddenfrm";
 			document.search_form.submit();
 		}
 		function copyUrl() {
 			try{
 				if (window.clipboardData) {
-						window.clipboardData.setData("Text", "<%=pageUrl%>")
+						window.clipboardData.setData("Text", "<%=pageUrl%>");
 						alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 				}
 				else if (window.navigator.clipboard) {

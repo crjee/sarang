@@ -64,9 +64,20 @@
 			Next
 		End If
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 	alert("삭제 되었습니다.");
+<%
+	If session("noFrame") = "Y" Then
+%>
 	parent.location.href='notice_list.asp?page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/notice_list.asp?page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>') ;
+<%
+	End if
+%>
 </script>
 <%
 	Else

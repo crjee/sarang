@@ -92,8 +92,19 @@
 <input type="hidden" name="sch_word" value="<%=sch_word%>">
 <input type="hidden" name="notice_seq" value="<%=notice_seq%>">
 </form>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 	alert("수정 되었습니다.");
+<%
+	If session("noFrame") = "Y" Then
+%>
 	parent.location.href='notice_view.asp?page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&notice_seq=<%=notice_seq%>';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/notice_view.asp?page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&notice_seq=<%=notice_seq%>') ;
+<%
+	End if
+%>
 </script>
 

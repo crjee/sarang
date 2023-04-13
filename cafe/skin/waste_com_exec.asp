@@ -18,7 +18,7 @@
 
 		If rs.EOF Then
 			msggo "정상적인 사용이 아닙니다.",""
-		else
+		Else
 			menu_type = rs("menu_type")
 			menu_name = rs("menu_name")
 		End If
@@ -75,9 +75,20 @@
 			Set fso = Nothing
 		End If
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 	alert("<%=msg%> 되었습니다.");
+<%
+	If session("noFrame") = "Y" Then
+%>
 	parent.location.href='waste_<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/waste_<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>') ;
+<%
+	End if
+%>
 </script>
 <%
 	Else

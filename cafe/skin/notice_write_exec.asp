@@ -19,7 +19,7 @@
 	sch_word  = uploadform("sch_word")
 
 	notice_seq = uploadform("notice_seq")
-	group_num = uploadform("group_num")
+	group_num = uploadform("group_num") ' 답글에 대한 원본 글
 	level_num = uploadform("level_num")
 	step_num = uploadform("step_num")
 	subject = Replace(uploadform("subject"),"'"," & #39;")
@@ -162,6 +162,7 @@
 		conn.Close
 		Set conn = Nothing
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 	var cValue = "";
 	var cDay = 1;
@@ -173,7 +174,17 @@
 	document.cookie = cookies;
 
 	alert("입력 되었습니다.");
+<%
+	If session("noFrame") = "Y" Then
+%>
 	parent.location.href='notice_list.asp?page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/notice_list.asp?page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>') ;
+<%
+	End if
+%>
 </script>
 <%
 	Else

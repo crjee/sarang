@@ -16,12 +16,19 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body class="skin_type_1">
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 	<div id="wrap" class="group">
 <!--#include virtual="/cafe/skin/skin_header_inc.asp"-->
 		<main id="main" class="sub">
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
+<%
+	End IF
+%>
 			<div class="container">
 <%
 	sch_type = Request("sch_type")
@@ -36,8 +43,8 @@
 	If page = "" then page = 1
 
 	If sch_word <> "" then
-		If sch_type = "all" Then
-			kword = " and (cj.subject like '%" & sch_word & "%' or cj.creid like '%" & sch_word & "%' or cj.agency like '%" & sch_word & "%' or cj.contents like '%" & sch_word & "%') "
+		If sch_type = "l" Then
+			kword = " and (subject like '%" & sch_word & "%' or creid like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
 		Else
 			kword = " and " & sch_type & " like '%" & sch_word & "%' "
 		End If
@@ -77,25 +84,24 @@
 	sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
 	sql = sql & "       ,end_date "
 	sql = sql & "   from (select row_number() over( order by job_seq desc) as rownum "
-	sql = sql & "               ,cj.subject "
-	sql = sql & "               ,cj.job_seq "
-	sql = sql & "               ,cj.work_place "
-	sql = sql & "               ,cj.agency "
-	sql = sql & "               ,cj.credt "
-	sql = sql & "               ,cj.end_date "
-	sql = sql & "               ,cj.parent_del_yn "
-	sql = sql & "               ,cj.tel_no "
-	sql = sql & "               ,cj.mbl_telno "
-	sql = sql & "           from cf_job cj "
-	sql = sql & "           left join cf_member cm on cm.user_id = cj.user_id "
+	sql = sql & "               ,subject "
+	sql = sql & "               ,job_seq "
+	sql = sql & "               ,work_place "
+	sql = sql & "               ,agency "
+	sql = sql & "               ,credt "
+	sql = sql & "               ,end_date "
+	sql = sql & "               ,parent_del_yn "
+	sql = sql & "               ,tel_no "
+	sql = sql & "               ,mbl_telno "
+	sql = sql & "           from cf_job  "
 	sql = sql & "         where 1 = 1 "
 	If all_yn <> "Y" then
-	sql = sql & "           and cj.end_date >= '" & date & "' "
+	sql = sql & "           and end_date >= '" & date & "' "
 	End If
 	If self_yn = "Y" then
-	sql = sql & "           and cj.user_id = '" & session("user_id") & "' "
+	sql = sql & "           and user_id = '" & session("user_id") & "' "
 	End If
-	sql = sql & "           and isnull(cj.top_yn,'') <> 'Y' "
+	sql = sql & "           and isnull(top_yn,'') <> 'Y' "
 	sql = sql & kword
 	sql = sql & "       ) a "
 	sql = sql & " where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & " "
@@ -110,23 +116,26 @@
 	End If
 %>
 			<script>
-				function MovePage(page) {
+				function MovePage(page, gvTarget) {
 					var f = document.search_form;
 					f.page.value = page;
-					f.action = "job_list.asp"
+					f.target = gvTarget;
+					f.action = "job_list.asp";
 					f.submit();
 				}
 
-				function goView(job_seq) {
+				function goView(job_seq, gvTarget) {
 					var f = document.search_form;
 					f.job_seq.value = job_seq;
-					f.action = "job_view.asp"
+					f.target = gvTarget;
+					f.action = "job_view.asp";
 					f.submit()
 				}
 
-				function goSearch() {
+				function goSearch(gvTarget) {
 					var f = document.search_form;
 					f.page.value = 1;
+					f.target = gvTarget;
 					f.submit();
 				}
 			</script>
@@ -138,7 +147,7 @@
 						총 <strong><%=FormatNumber(RecordCount,0)%></strong>건의 게시물이 있습니다.
 					</div>
 					<div class="search_box_flex_item">
-						<form name="search_form" id="search_form" method="post" onsubmit="MovePage(1)">
+						<form name="search_form" id="search_form" method="post" onsubmit="MovePage(1, '<%=session("ctTarget")%>')">
 						<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 						<input type="hidden" name="page" value="<%=page%>">
 						<input type="hidden" name="job_seq">
@@ -163,24 +172,24 @@
 
 	If cafe_ad_level = 10 Then
 %>
-						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/waste_job_list.asp?menu_seq=<%=menu_seq%>'">휴지통</button>
+						<button class="btn btn_c_a btn_s" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/waste_job_list.asp?menu_seq=<%=menu_seq%>'">휴지통</button>
 <%
 	End If
 
 	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
-						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/job_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+						<button class="btn btn_c_a btn_s" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/job_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 <%
 	End If
 %>
 						<select id="sch_type" name="sch_type" class="sel w100p">
-							<option value="all">전체</option>
-							<option value="cj.subject" <%=if3(sch_type="cj.subject","selected","")%>>제목</option>
-							<option value="cj.agency" <%=if3(sch_type="cj.agency","selected","")%>>글쓴이</option>
-							<option value="cj.contents" <%=if3(sch_type="cj.contents","selected","")%>>내용</option>
+							<option value="">전체</option>
+							<option value="subject" <%=if3(sch_type="subject","selected","")%>>제목</option>
+							<option value="agency" <%=if3(sch_type="agency","selected","")%>>글쓴이</option>
+							<option value="contents" <%=if3(sch_type="contents","selected","")%>>내용</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w200p">
-						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
 <%
 	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
@@ -203,7 +212,7 @@
 <%
 	End If
 %>
-						<select id="pagesize" name="pagesize" class="sel w100p" onchange="goSearch()">
+						<select id="pagesize" name="pagesize" class="sel w100p" onchange="goSearch('<%=session("ctTarget")%>')">
 							<option value=""></option>
 							<option value="20" <%=if3(pagesize="20","selected","")%>>20</option>
 							<option value="30" <%=if3(pagesize="30","selected","")%>>30</option>
@@ -242,15 +251,14 @@
 	Set rs2 = Server.CreateObject ("ADODB.Recordset")
 
 	sql =       ""
-	sql = sql & " select cj.subject "
-	sql = sql & "       ,cm.phone as tel_no "
-	sql = sql & "       ,cj.job_seq "
-	sql = sql & "       ,cj.work_place "
-	sql = sql & "       ,cj.agency "
-	sql = sql & "       ,convert(varchar(10), cj.credt, 120) as credt_txt "
+	sql = sql & " select subject "
+	sql = sql & "       ,tel_no "
+	sql = sql & "       ,job_seq "
+	sql = sql & "       ,work_place "
+	sql = sql & "       ,agency "
+	sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
 	sql = sql & "       ,end_date "
 	sql = sql & "   from cf_job cj "
-	sql = sql & "   left join cf_member cm on cm.user_id = cj.user_id "
 	sql = sql & "  where top_yn = 'Y' "
 	sql = sql & " order by job_seq desc "
 	rs2.Open Sql, conn, 3, 1
@@ -265,7 +273,7 @@
 			subject_s = rmid(subject, 35, "..")
 %>
 								<tr>
-									<td><a href="javascript: goView('<%=rs2("job_seq")%>')" title="<%=subject_s%>"><%=subject%></a></td>
+									<td><a href="javascript: goView('<%=rs2("job_seq")%>', '<%=session("ctTarget")%>')" title="<%=subject_s%>"><%=subject%></a></td>
 									<td class="algC"><%=rs2("work_place")%></td>
 									<td class="algC"><a title="<%=rs2("tel_no")%>"><%=rs2("agency")%></a></td>
 									<td class="algC"><%=rs2("credt_txt")%></td>
@@ -296,7 +304,7 @@
 			subject_s = rmid(subject, 40, "..")
 %>
 								<tr>
-									<td><a href="javascript: goView('<%=rs("job_seq")%>')" title="<%=subject_s%>"><%=subject%></a>
+									<td><a href="javascript: goView('<%=rs("job_seq")%>', '<%=session("ctTarget")%>')" title="<%=subject_s%>"><%=subject%></a>
 <%
 			If CDate(DateAdd("d",2,rs("credt_txt"))) >= Date Then
 %>
@@ -333,17 +341,23 @@
 	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
 					<div class="btn_box algR">
-						<button class="btn btn_c_a btn_n" type="button" onclick="location.href='/cafe/skin/job_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+						<button class="btn btn_c_a btn_n" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/job_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 					</div>
 <%
 	End If
 %>
 				</div>
 			</div>
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 <!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
 		</main>
 <!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
 	</div>
+<%
+	End IF
+%>
 </body>
 </html>
 

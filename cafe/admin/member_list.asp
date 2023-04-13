@@ -12,7 +12,7 @@
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
 	If sch_type <> "" And sch_word <> "" Then
-		If sch_type = "all" Then
+		If sch_type = "l" Then
 			kword = " where (cc.cafe_name like '%" & sch_word & "%' or mb.agency like '%" & sch_word & "%' or mb.phone like '%" & sch_word & "%' or mb.user_id like '%" & sch_word & "%' or mb.kname like '%" & sch_word & "%') "
 		Else
 			kword = " where " & sch_type & " like '%" & sch_word & "%' "
@@ -80,6 +80,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body class="sa">
 	<div id="wrap">
@@ -277,7 +278,7 @@
 				<input type="hidden" name="page" value="<%=page%>">
 					<div class="floatL">
 						<select name="sch_type" class="sel w100p">
-							<option value="all">전체</option>
+							<option value="">전체</option>
 							<option value="mb.agency" <%=if3(sch_type="mb.agency","selected","")%>>상호</option>
 							<option value="mb.phone" <%=if3(sch_type="mb.phone","selected","")%>>전화번호</option>
 							<option value="mb.user_id" <%=if3(sch_type="mb.user_id","selected","")%>>아이디</option>
@@ -351,7 +352,7 @@
 			union_mb_level = rs("union_mb_level")
 %>
 							<tr id="tr_<%=i%>">
-								<td class="algC"><input type="checkbox" id="chk_user" name="chk_user" value="<%=user_id%>" /><label for=""><em class="hide">선택</em></label></th>
+								<td class="algC"><input type="checkbox" class="inp_check" id="chk_user" name="chk_user" value="<%=user_id%>" /><label for=""><em class="hide">선택</em></label></th>
 								<td class="algC"><%=kname%>(<a href="/ex2.asp?userid=<%=user_id%>"><%=user_id%></a>)</td>
 								<td class="algC"><%=agency%>
 <%
@@ -550,11 +551,7 @@
 						<tr>
 							<th scope="row">성별</th>
 							<td>
-								<input type="radio" id="sex" name="sex" value="남" class="inp_radio" required />
-								<label for="sex"><em>남</em></label>
-
-								<input type="radio" id="sex" name="sex" value="여" class="inp_radio" required />
-								<label for="sex"><em>여</em></label>
+								<%=makeRadioCD("sex", sex, "required")%>
 							</td>
 							<th scope="row">이메일</th>
 							<td>
@@ -564,19 +561,7 @@
 								<span class="dp_inline">
 									<select id="n_hosts" name="n_hosts" class="sel w100p" onChange="setHost()">
 										<option value="">직접입력</option>
-										<option value="chol.com">chol.com</option>
-										<option value="dreamwiz.com">dreamwiz.com</option>
-										<option value="empal.com">empal.com</option>
-										<option value="gmail.com">gmail.com</option>
-										<option value="hanafos.com">hanafos.com</option>
-										<option value="hanmail.net">hanmail.net</option>
-										<option value="hotmail.com">hotmail.com</option>
-										<option value="korea.com">korea.com</option>
-										<option value="lycos.co.kr">lycos.co.kr</option>
-										<option value="nate.com">nate.com</option>
-										<option value="naver.com">naver.com</option>
-										<option value="paran.com">paran.com</option>
-										<option value="yahoo.co.kr">yahoo.co.kr</option>
+										<%=makeComboCD("n_hosts", "")%>
 									</select>
 								</span>
 							</td>

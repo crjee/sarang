@@ -11,7 +11,6 @@
 	sch_type  = uploadform("sch_type")
 	sch_word  = uploadform("sch_word")
 
-	group_num = uploadform("group_num")
 	step_num = uploadform("step_num")
 	level_num = uploadform("level_num")
 	sale_seq = uploadform("sale_seq")
@@ -104,8 +103,19 @@
 
 	Set UploadForm = Nothing
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 	alert("수정 되었습니다.");
+<%
+	If session("noFrame") = "Y" Then
+%>
 	parent.location.href='sale_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&sale_seq=<%=sale_seq%>';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/sale_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&sale_seq=<%=sale_seq%>') ;
+<%
+	End if
+%>
 </script>
 

@@ -265,7 +265,7 @@
 		phone = rs("phone")
 		agency = rs("agency")
 %>
-						<input type="checkbox" name="chk[group][<%=user_id%>]" value="<%=user_id%>" onClick="mem_chk(this,'<%=user_id%>','[<%=agency%>] <%=kname%>')">
+						<input type="checkbox" class="inp_check" name="chk[group][<%=user_id%>]" value="<%=user_id%>" onClick="mem_chk(this,'<%=user_id%>','[<%=agency%>] <%=kname%>')">
 						<a title="<%=agency%>::<%=kname%>::<%=phone%>">[<%=agency%>] <font color=gray><%=kname%></font></a><br />
 <%
 	rs.MoveNext

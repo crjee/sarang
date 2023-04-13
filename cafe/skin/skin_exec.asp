@@ -90,6 +90,19 @@
 		sql = sql & "    and home_num = '" & home_num & "'                                   "
 		Conn.Execute(sql)
 	Next
-
-	msggo "스킨을 저장했습니다.", "/cafe/main.asp"
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script>
+	alert("스킨을 저장했습니다.");
+<%
+	If session("noFrame") = "Y" Then
+%>
+	parent.location.href='/cafe/main.asp';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/main.asp') ;
+<%
+	End if
+%>
+</script>

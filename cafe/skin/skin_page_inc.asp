@@ -1,5 +1,5 @@
 					<div class="pagenation">
-						<button type="button" class="btn btn_c_peach f_awesome btnPrev" onclick="Javascript:MovePage(1);"><em><<</em></button>
+						<button type="button" class="btn btn_c_peach f_awesome btnPrev" onclick="Javascript:MovePage(1, '<%=session("ctTarget")%>')");"><em><<</em></button>
 <%
 	If page/20 = Int(page/20) Then ' 현재 페이지가 10의 배수이면
 		BlockStart = page - 20 + 1
@@ -16,7 +16,7 @@
 	' 이전 블럭이 있으면 '이전 10개' 출력
 	If BlockStart > 1 Then
 %>
-						<button type="button" class="btn btn_c_peach f_awesome btnPrev" onclick="Javascript:MovePage(<%=BlockStart-1%>);"><em>이전</em></button>
+						<button type="button" class="btn btn_c_peach f_awesome btnPrev" onclick="Javascript:MovePage(<%=BlockStart-1%>, '<%=session("ctTarget")%>')");"><em>이전</em></button>
 <%
 	Else
 %>
@@ -27,18 +27,18 @@
 	For j = BlockStart to BlockEnd
 		If j = CInt(page) Then
 %>
-						<button type="button" onclick="MovePage(<%=j%>);" title="<%=j%> Page" class="on"><%=j%></button>
+						<button type="button" onclick="MovePage(<%=j%>, '<%=session("ctTarget")%>')");" title="<%=j%> Page" class="on"><%=j%></button>
 <%
 		Else
 %>
-						<button type="button" onclick="MovePage(<%=j%>);" title="<%=j%> Page" class=""><%=j%></button>
+						<button type="button" onclick="MovePage(<%=j%>, '<%=session("ctTarget")%>')");" title="<%=j%> Page" class=""><%=j%></button>
 <%
 		End If
 	Next
 
 	If BlockStart + 19 < PageCount Then
 %>
-						<button type="button" class="btn btn_c_peach f_awesome btnNext" onclick="Javascript:MovePage(<%=BlockEnd+1%>);"><em>다음</em></button>
+						<button type="button" class="btn btn_c_peach f_awesome btnNext" onclick="Javascript:MovePage(<%=BlockEnd+1%>, '<%=session("ctTarget")%>')");"><em>다음</em></button>
 <%
 	Else
 %>
@@ -46,5 +46,5 @@
 <%
 	End If
 %>
-						<button type="button" class="btn btn_c_peach f_awesome btnNext" onclick="Javascript:MovePage(<%=PageCount%>);"><em>>></em></button>
+						<button type="button" class="btn btn_c_peach f_awesome btnNext" onclick="Javascript:MovePage(<%=PageCount%>, '<%=session("ctTarget")%>')");"><em>>></em></button>
 					</div>

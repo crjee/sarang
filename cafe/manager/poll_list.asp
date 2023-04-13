@@ -51,8 +51,12 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 <!-- 달력 시작 -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 	$.datepicker.setDefaults({
 		dateFormat: 'yy-mm-dd',
@@ -210,20 +214,20 @@
 						<tr>
 							<th scope="row">대표자인증</th>
 							<td>
-								<input type="radio" id="rprsv_cert_use_y" name="rprsv_cert_use_yn" value="Y" required />
+								<input type="radio" class="inp_radio" id="rprsv_cert_use_y" name="rprsv_cert_use_yn" value="Y" required />
 								<label for="rprsv_cert_use_y"><em>사용</em></label>
 
-								<input type="radio" id="rprsv_cert_use_n" name="rprsv_cert_use_yn" value="N" required />
+								<input type="radio" class="inp_radio" id="rprsv_cert_use_n" name="rprsv_cert_use_yn" value="N" required />
 								<label for="rprsv_cert_use_n"><em>미사용</em></label>
 							</td>
 						</tr>
 						<tr>
 							<th scope="row">마감</th>
 							<td>
-								<input type="radio" id="ddln_yn_y" name="ddln_yn" value="Y" required />
+								<input type="radio" class="inp_radio" id="ddln_yn_y" name="ddln_yn" value="Y" required />
 								<label for="ddln_yn_y"><em>마감</em></label>
 
-								<input type="radio" id="ddln_yn_n" name="ddln_yn" value="N" required />
+								<input type="radio" class="inp_radio" id="ddln_yn_n" name="ddln_yn" value="N" required />
 								<label for="ddln_yn_n"><em>사용</em></label>
 							</td>
 						</tr>
@@ -236,8 +240,7 @@
 						<tr>
 							<th scope="row">설문기간</th>
 							<td>
-								<input type="text" id="sdate" name="sdate" class="inp" /><br>
-								<input type="text" id="edate" name="edate" class="inp" />
+								<input type="text" id="sdate" name="sdate" class="inp w10" /> ~ <input type="text" id="edate" name="edate" class="inp w10" />
 							</td>
 						</tr>
 						<tr>

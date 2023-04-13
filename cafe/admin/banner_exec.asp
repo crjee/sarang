@@ -16,6 +16,8 @@
 	banner_width = uploadform("banner_width")
 	banner_height = uploadform("banner_height")
 
+	cafe_id = "root"
+
 	If UploadForm("file_name") <> "" Then
 		Set fso = CreateObject("Scripting.FileSystemObject")
 		FileName = uploadform("file_name").FileName
@@ -43,11 +45,11 @@
 	If task="ins" Then
 		msg = "등록"
 
-		Set rs = Conn.Execute("select top 1 banner_num from cf_banner where cafe_id='" & cafe_id & "' and banner_type='T' order by banner_num desc")
+		Set rs = Conn.Execute("select top 1 banner_num from cf_banner where cafe_id = '" & cafe_id & "' and banner_type = '" & banner_type & "' order by banner_num desc")
 		If rs.eof Then
 			banner_num = 1
 		Else
-			banner_num = rs("banner_num")+1
+			banner_num = rs("banner_num") + 1
 		End If
 
 		new_seq = getSeq("cf_banner")
@@ -70,7 +72,7 @@
 		sql = sql & "      ) values( "
 		sql = sql & "        '" & new_seq & "' "
 		sql = sql & "       ,'" & cafe_id & "' "
-		sql = sql & "       ,'R' "
+		sql = sql & "       ,'" & banner_type & "' "
 		sql = sql & "       ,'" & open_yn & "' "
 		sql = sql & "       ,'" & subject & "' "
 		sql = sql & "       ,'" & file_type & "' "
@@ -111,6 +113,5 @@
 %>
 <script>
 	alert("<%=msg%> 되었습니다.");
-	parent.opener.location = 'banner_list.asp';
-	parent.close();
+	parent.location = 'banner_list.asp';
 </script>

@@ -75,7 +75,7 @@
 	sql = sql & "       ,'" & addr2 & "' "
 	sql = sql & "       ,'" & stat & "' "
 	sql = sql & "       ,'" & cafe_id & "' "
-	sql = sql & "       ,'" & mlevel & "' "
+	sql = sql & "       ,'" & cafe_mb_level & "' "
 	sql = sql & "       ,'" & memo_receive_yn & "' "
 	sql = sql & "       ,'" & Session("user_id") & "' "
 	sql = sql & "       ,getdate()"

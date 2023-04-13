@@ -12,6 +12,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 <%
@@ -98,7 +99,7 @@
 	Set form = Conn.Execute("select * from cf_com_form where menu_seq='"&menu_seq&"'")
 	If Not form.eof then
 %>
-											<label><input type="checkbox">질문양식사용</label>
+											<label><input type="checkbox" class="inp_check">질문양식사용</label>
 											<button class="btn_4txt_sel" type="submit" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식수정</button>
 <%
 	Else
@@ -112,7 +113,7 @@
 									<tr>
 										<th scope="row">메뉴감추기</th>
 										<td>
-											<input type="checkbox" id="hidden_yn" name="hidden_yn" value="Y" <%=if3(hidden_yn = "Y","checked","") %> class="" />
+											<input type="checkbox" id="hidden_yn" name="hidden_yn" value="Y" <%=if3(hidden_yn = "Y","checked","") %> class="inp_check" />
 											<label for=""><em>감추기</em></label>
 										</td>
 									</tr>

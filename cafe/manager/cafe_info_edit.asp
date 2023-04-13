@@ -17,6 +17,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 	<div id="wrap">
@@ -78,26 +79,19 @@
 								<tr>
 									<th scope="row">공개 여부</th>
 									<td>
-										<span class="">
-											<input type="radio" id="open_yn" name="open_yn" value="Y" <%=if3(row("open_yn")="Y","checked","")%> />
-											<label for=""><em>공개</em></label>
-										</span>
-										<span class="ml20">
-											<input type="radio" id="open_yn" name="open_yn" value="N" <%=if3(row("open_yn")="N","checked","")%> />
-											<label for=""><em>비공개</em></label>
-										</span>
+										<%=makeRadioCD("open_yn", open_yn, "required")%>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">바로가기 설정</th>
 									<td>
 										<span class="">
-											<input type="radio" id="open_type" name="open_type" value="C" <%=if3(row("open_type")="C","checked","")%> />
+											<input type="radio" class="inp_radio" id="open_type" name="open_type" value="C" <%=if3(row("open_type")="C","checked","")%> />
 											<label for=""><em>사랑방</em></label>
 <%
 	If row("union_id") <> "" Then
 %>
-											<input type="radio" id="open_type" name="open_type" value="U" <%=if3(row("open_type")="U","checked","")%> />
+											<input type="radio" class="inp_radio" id="open_type" name="open_type" value="U" <%=if3(row("open_type")="U","checked","")%> />
 											<label for=""><em>연합회</em></label>
 <%
 	End If

@@ -12,6 +12,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body class="skin_type_1">
 	<div id="wrap" class="group">
@@ -22,8 +23,34 @@
 		<main id="main" class="sub">
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
 			<div class="container">
-<!--#include virtual="/cafe/skin/skin_banner_inc.asp"-->
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 <!--#include virtual="/cafe/skin/skin_center_inc.asp"-->
+<%
+	Else
+%>
+				<iframe name="cafe_main" id="cafe_main" title="카페 메인" src="about:blank" width="100%" height="100%" frameborder="0" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+				<script type="text/javascript">
+				try {
+					$('#cafe_main').attr('src', '/cafe/skin/skin_center_view.asp?cafe_id=<%=cafe_id%>') ;
+						$("#cafe_main").height($(window).height())
+				} catch(e) {aleret(e)}
+
+				$(document).ready(function() {
+					$('#cafe_main').on('load', function() {
+						if(this.contentDocument) {
+							$(this).height(this.contentDocument.documentElement.scrollHeight);
+						}
+						else {
+							$(this).height(this.contentWindow.document.body.scrollHeight);
+						}
+					});
+				});
+				</script>
+<%
+	End IF
+%>
 			</div>
 <!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
 		</main>

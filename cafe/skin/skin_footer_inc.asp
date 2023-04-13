@@ -20,4 +20,3 @@
 				</p>
 			</div>
 		</footer>
-		<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;width:1000;"></iframe>

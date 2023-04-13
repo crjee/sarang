@@ -21,6 +21,7 @@
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/sticky.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 	<script src="/smart/js/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <!-- 달력 시작 -->
@@ -68,13 +69,13 @@
 
 	sql = ""
 	sql = sql & " select * "
-	sql = sql & "   from cf_temp_board "
+	sql = sql & "   from cf_temp_nsale "
 	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
 	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
 	sql = sql & "    and user_id = '" & user_id  & "' "
 	rs.Open Sql, conn, 3, 1
 
-	If not rs.EOF Then
+	If Not rs.EOF Then
 		msgonly "임시 저장된 내용이 있습니다."
 		top_yn   = rs("top_yn")
 		link     = rs("link")
@@ -88,7 +89,6 @@
 				</div>
 				<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
 				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-				<input type="hidden" id="attachCnt" name="attachCnt" value="1">
 				<input type="hidden" name="temp" value="Y">
 				<div class="tb">
 					<table class="tb_input tb_fixed">
@@ -100,38 +100,21 @@
 						</colgroup>
 						<tbody>
 							<tr>
+								<th scope="row">노출</th>
+								<td colspan="3">
+									<%=makeRadioCD("open_yn", "", "reuqired")%>
+								</td>
+							</tr>
+							<tr>
 								<th scope="row">단지명/제목</th>
 								<td colspan="3">
-									<input type="text" id="subject" name="subject" value="<%=subject%>" class="inp w70 mr20">
-									<input type="checkbox" id="open_yn" name="open_yn" class="inp_check" value="Y" <%=if3(open_yn="Y","checked","")%> />
-									<label for="open_yn"><em>체크 시 미노출</em></label>
+									<input type="text" id="subject" name="subject"  class="inp">
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">분양지역</th>
 								<td colspan="3">
-<%
-	sql = ""
-	sql = sql & " select *                       "
-	sql = sql & "   from sys_cd                  "
-	sql = sql & "  where cd_nm = 'nsale_rgn_cd'    "
-	sql = sql & "    and USE_YN = 'Y'            "
-	sql = sql & "  order by cd_sn asc            "
-	rs.open Sql, conn, 3, 1
-
-	Do Until rs.eof
-		cmn_cd  = rs("cmn_cd")
-		cd_expl = rs("cd_expl")
-%>
-									<span class="">
-										<input type="radio" id="nsale_rgn_cd_<%=cmn_cd%>" name="nsale_rgn_cd" value="<%=cmn_cd%>" <%=if3(nsale_rgn_cd,"checked","")%> class="inp_radio">
-										<label for="nsale_rgn_cd_<%=cmn_cd%>"><em><%=cd_expl%></em></label>
-									</span>
-<%
-		rs.MoveNext
-	Loop
-	rs.close
-%>
+									<%=makeRadioCD("nsale_rgn_cd", "", "reuqired")%>
 								</td>
 							<tr>
 								<th scope="row">분양주소</th>
@@ -142,67 +125,17 @@
 							<tr>
 								<th scope="row">단지종류</th>
 								<td>
-<%
-	sql = ""
-	sql = sql & " select *                       "
-	sql = sql & "   from sys_cd                  "
-	sql = sql & "  where cd_nm = 'cmpl_se_cd'    "
-	sql = sql & "    and USE_YN = 'Y'            "
-	sql = sql & "  order by cd_sn asc            "
-	rs.open Sql, conn, 3, 1
-
-	Do Until rs.eof
-		cmn_cd  = rs("cmn_cd")
-		cd_expl = rs("cd_expl")
-%>
-									<span class="">
-										<input type="radio" id="cmpl_se_cd_<%=cmn_cd%>" name="cmpl_se_cd" value="<%=cmn_cd%>" <%=if3(cmpl_se_cd=cmn_cd,"checked","")%> class="inp_radio">
-										<label for="cmpl_se_cd_<%=cmn_cd%>"><em><%=cd_expl%></em></label>
-									</span>
-<%
-		rs.MoveNext
-	Loop
-	rs.close
-%>
+									<%=makeRadioCD("cmpl_se_cd", "", "reuqired")%>
 								</td>
 								<th scope="row">분양단계</th>
 								<td>
-<%
-	sql = ""
-	sql = sql & " select cmn_cd                                               "
-	sql = sql & "       ,cd_nm                                              "
-	sql = sql & "   from cf_code                                              "
-	sql = sql & "  where up_cd_id = (select cd_id                     "
-	sql = sql & "                          from cf_code                       "
-	sql = sql & "                         where up_cd_id = 'CD0000000000' "
-	sql = sql & "                           and cmn_cd = 'nsale_stts_cd'      "
-	sql = sql & "                           and del_yn = 'N'                  "
-	sql = sql & "                           and use_yn = 'Y'                  "
-	sql = sql & "                       )                                     "
-	sql = sql & "    and del_yn = 'N'                                         "
-	sql = sql & "    and use_yn = 'Y'                                         "
-	sql = sql & "  order by cd_sn                                             "
-	rs.open Sql, conn, 3, 1
-
-	Do Until rs.eof
-		cmn_cd = rs("cmn_cd")
-		cd_nm  = rs("cd_nm")
-%>
-									<span class="">
-										<input type="radio" id="nsale_stts_cd_<%=cmn_cd%>" name="nsale_stts_cd" value="<%=cmn_cd%>" <%=if3(nsale_stts_cd=cmn_cd,"checked","")%> class="inp_radio">
-										<label for="nsale_stts_cd_<%=cmn_cd%>"><em><%=cd_nm%></em></label>
-									</span>
-<%
-		rs.MoveNext
-	Loop
-	rs.close
-%>
+									<%=makeRadioCD("nsale_stts_cd", "", "reuqired")%>
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">모집공고일</th>
 								<td>
-									<input type="text" id="rect_notice_date" name="rect_notice_date" value="<%=rect_notice_date%>" class="inp" />
+									<input type="text" id="rect_notice_date" name="rect_notice_date" value="<%=rect_notice_date%>" class="inp w12" />
 								</td>
 								<th scope="row">청약접수일</th>
 								<td>
@@ -219,23 +152,23 @@
 							<tr>
 								<th scope="row">당첨발표일</th>
 								<td>
-									<input type="text" id="prize_anc_date" name="prize_anc_date" value="<%=prize_anc_date%>" class="inp" />
+									<input type="text" id="prize_anc_date" name="prize_anc_date" value="<%=prize_anc_date%>" class="inp w120" />
 								</td>
 								<th scope="row">계약기간</th>
 								<td>
-									<input type="text" id="cnt_st_date" name="cnt_st_date" value="<%=cnt_st_date%>" class="inp" />
-									<input type="text" id="cnt_ed_date" name="cnt_ed_date" value="<%=cnt_ed_date%>" class="inp" />
+									<input type="text" id="cnt_st_date" name="cnt_st_date" value="<%=cnt_st_date%>" class="inp w120" /><br>
+									<input type="text" id="cnt_ed_date" name="cnt_ed_date" value="<%=cnt_ed_date%>" class="inp w120" />
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">전매기간</th>
 								<td>
-									<input type="text" id="resale_st_date" name="resale_st_date" value="<%=resale_st_date%>" class="inp" />
-									<input type="text" id="resale_ed_date" name="resale_ed_date" value="<%=resale_ed_date%>" class="inp" />
+									<input type="text" id="resale_st_date" name="resale_st_date" value="<%=resale_st_date%>" class="inp w120" /><br>
+									<input type="text" id="resale_ed_date" name="resale_ed_date" value="<%=resale_ed_date%>" class="inp w120" />
 								</td>
 								<th scope="row">입주일</th>
 								<td>
-									<input type="text" id="mvin_date" name="mvin_date" value="<%=mvin_date%>" class="inp" />
+									<input type="text" id="mvin_date" name="mvin_date" value="<%=mvin_date%>" class="inp w120" />
 								</td>
 							</tr>
 							<tr>
@@ -256,11 +189,13 @@
 
 	If Not rs.eof Then
 		form = rs("form")
-	End if
+	End If
+	rs.close
 
 	If contents = "" Then
 		contents = form
-	End if
+	End If
+
 	If editor_yn = "Y" Then
 %>
 						<textarea name="ir1" id="ir1" style="width:100%;display:none;"><%=contents%></textarea>
@@ -269,7 +204,8 @@
 %>
 						<textarea name="ir1" id="ir1" style="width:100%;display:none;"><%=contents%></textarea>
 <%
-	End if
+	End If
+	rs.close
 %>
 					</div>
 					<table class="tb_input tb_fixed mt10">
@@ -279,6 +215,7 @@
 						</colgroup>
 						<tbody>
 <%
+	menu_type = "nsale"
 	com_seq = nsale_seq
 %>
 <!--#include virtual="/include/attach_inc.asp"-->

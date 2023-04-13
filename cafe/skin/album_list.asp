@@ -16,13 +16,21 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
+	<script src="/common/js/album.js"></script>
 </head>
 <body class="skin_type_1">
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 	<div id="wrap" class="group">
 <!--#include virtual="/cafe/skin/skin_header_inc.asp"-->
 		<main id="main" class="sub">
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
-			<div class="container">
+<%
+	End IF
+%>
+			<div class="container" id="album">
 <%
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
@@ -34,7 +42,7 @@
 	If page = "" then page = 1
 
 	If sch_word <> "" then
-		If sch_type = "all" Then
+		If sch_type = "l" Then
 			kword = " and (subject like '%" & sch_word & "%' or creid like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
 		Else
 			kword = " and " & sch_type & " like '%" & sch_word & "%' "
@@ -75,75 +83,6 @@
 		PageNum = rs.PageCount
 	End If
 %>
-			<script>
-				function MovePage(page) {
-					var f = document.search_form;
-					f.page.value = page;
-					f.action = "album_list.asp"
-					f.submit();
-				}
-
-				function goView(album_seq) {
-					var f = document.search_form;
-					f.album_seq.value = album_seq;
-					f.action = "album_view.asp"
-					f.submit();
-				}
-
-				function goSearch() {
-					var f = document.search_form;
-					f.page.value = 1;
-					f.submit();
-				}
-				function Rsize(img, ww, hh, aL) {
-					var tt = imgRsize(img, ww, hh);
-					if (img.width > ww || img.height > hh) {
-
-						// 가로나 세로크기가 제한크기보다 크면
-						img.width = tt[0];
-						// 크기조정
-						img.height = tt[1];
-
-					}
-				}
-
-				function imgRsize(img, rW, rH) {
-					var iW = img.width;
-					var iH = img.height;
-					var g = new Array;
-					if (iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
-						g[0] = iW;
-						g[1] = iH;
-					}
-					else {
-						if (img.width > img.height) { // 원크기 가로가 세로보다 크면
-							g[0] = rW;
-							g[1] = Math.ceil(img.height * rW / img.width);
-						}
-						else if (img.width < img.height) { //원크기의 세로가 가로보다 크면
-							g[0] = Math.ceil(img.width * rH / img.height);
-							g[1] = rH;
-						}
-						else {
-							g[0] = rW;
-							g[1] = rH;
-						}
-						if (g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
-							g[0] = rW;
-							g[1] = Math.ceil(img.height * rW / img.width);
-						}
-						if (g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
-							g[0] = Math.ceil(img.width * rH / img.height);
-							g[1] = rH;
-						}
-					}
-
-					g[2] = img.width; // 원사이즈 가로
-					g[3] = img.height; // 원사이즈 세로
-
-					return g;
-				}
-			</script>
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%></h2>
 				</div>
@@ -160,18 +99,18 @@
 <%
 	If cafe_ad_level = 10 Then
 %>
-							<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/waste_album_list.asp?menu_seq=<%=menu_seq%>'">휴지통</button>
+							<button class="btn btn_c_a btn_s" type="button" onclick="<%=session("svHref")%>location.href='/cafe/skin/waste_album_list.asp?menu_seq=<%=menu_seq%>'">휴지통</button>
 <%
 	End If
 
 	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
-							<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/album_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+							<button class="btn btn_c_a btn_s" type="button" onclick="<%=session("svHref")%>location.href='/cafe/skin/album_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 <%
 	End If
 %>
 							<select id="sch_type" name="sch_type" class="sel w100p">
-								<option value="all">전체</option>
+								<option value="">전체</option>
 								<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>제목</option>
 								<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>글쓴이</option>
 								<option value="cb.contents" <%=if3(sch_type="cb.contents","selected","")%>>내용</option>
@@ -259,17 +198,22 @@
 	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
 					<div class="btn_box algR">
-						<button class="btn btn_c_a btn_n" type="button" onclick="location.href='/cafe/skin/album_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+						<button class="btn btn_c_a btn_n" type="button" onclick="<%=session("svHref")%>location.href='/cafe/skin/album_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 					</div>
 <%
 	End If
 %>
 				</div>
 			</div>
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 <!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
 		</main>
 <!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
 	</div>
+<%
+	End IF
+%>
 </body>
 </html>
-

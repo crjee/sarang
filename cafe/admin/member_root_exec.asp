@@ -23,16 +23,16 @@
 			Response.end
 		Else
 			sql = ""
-			sql = sql & " insert into cf_admin( "
-			sql = sql & "        user_id "
-			sql = sql & "       ,cafe_ad_level "
-			sql = sql & "       ,creid "
-			sql = sql & "       ,credt "
-			sql = sql & "      ) values( "
+			sql = sql & " insert into cf_admin(               "
+			sql = sql & "        user_id                      "
+			sql = sql & "       ,cafe_ad_level                "
+			sql = sql & "       ,creid                        "
+			sql = sql & "       ,credt                        "
+			sql = sql & "      ) values(                      "
 			sql = sql & "        '" & Request("user_id") & "' "
-			sql = sql & "       ,'10' "
+			sql = sql & "       ,'10'                         "
 			sql = sql & "       ,'" & Session("user_id") & "' "
-			sql = sql & "       ,getdate())"
+			sql = sql & "       ,getdate())                   "
 			Conn.Execute(sql)
 		End If
 	End If

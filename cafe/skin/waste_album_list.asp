@@ -16,12 +16,19 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body class="skin_type_1">
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 	<div id="wrap" class="group">
 <!--#include virtual="/cafe/skin/skin_header_inc.asp"-->
 		<main id="main" class="sub">
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
+<%
+	End IF
+%>
 			<div class="container">
 <%
 	sch_type = Request("sch_type")
@@ -34,7 +41,7 @@
 	If page = "" then page = 1
 
 	If sch_word <> "" then
-		If sch_type = "all" Then
+		If sch_type = "l" Then
 			kword = " and (subject like '%" & sch_word & "%' or creid like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
 		Else
 			kword = " and " & sch_type & " like '%" & sch_word & "%' "
@@ -77,24 +84,28 @@
 	End If
 %>
 			<script>
-				function MovePage(page) {
+				function MovePage(page, gvTarget) {
 					var f = document.search_form;
 					f.page.value = page;
-					f.action = "waste_album_list.asp"
+					f.action = "waste_album_list.asp";
+					f.target = gvTarget;
 					f.submit();
 				}
 
-				function goView(album_seq) {
+				function goView(album_seq, gvTarget) {
 					var f = document.search_form;
 					f.album_seq.value = album_seq;
-					f.action = "waste_album_view.asp"
+					f.action = "waste_album_view.asp";
+					f.target = gvTarget;
 					f.submit();
 				}
 
-				function goSearch() {
+				function goSearch(gvTarget) {
 					var f = document.search_form;
 					f.page.value = 1;
+					f.target = gvTarget;
 					f.submit();
+
 				}
 			</script>
 				<div class="cont_tit">
@@ -111,14 +122,14 @@
 							<input type="hidden" name="page" value="<%=page%>">
 							<input type="hidden" name="album_seq">
 							<select id="sch_type" name="sch_type" class="sel w100p">
-								<option value="all">전체</option>
+								<option value="">전체</option>
 								<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>제목</option>
 								<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>글쓴이</option>
 								<option value="cb.contents" <%=if3(sch_type="cb.contents","selected","")%>>내용</option>
 							</select>
 							<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w300p">
-							<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
-							<select id="pagesize" name="pagesize" class="sel w100p" onchange="goSearch()">
+							<button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
+							<select id="pagesize" name="pagesize" class="sel w100p" onchange="goSearch('<%=session("ctTarget")%>')">
 								<option value=""></option>
 								<option value="20" <%=if3(pagesize="20","selected","")%>>20</option>
 								<option value="30" <%=if3(pagesize="30","selected","")%>>30</option>
@@ -162,7 +173,7 @@
 
 			If Not rs2.EOF Then
 %>
-									<span class="photos"><a href="javascript: goView('<%=album_seq%>')"><img src="<%=uploadUrl & rs2("file_name")%>" border="0" /></a></span>
+									<span class="photos"><a href="javascript: goView('<%=album_seq%>', '<%=session("ctTarget")%>')"><img src="<%=uploadUrl & rs2("file_name")%>" border="0" /></a></span>
 <%
 			Else
 %>
@@ -171,7 +182,7 @@
 			End If
 			rs2.close
 %>
-									<a href="javascript: goView('<%=album_seq%>')"><span class="text"><%=subject%>(<%=comment_cnt%>)</span></a>
+									<a href="javascript: goView('<%=album_seq%>', '<%=session("ctTarget")%>')"><span class="text"><%=subject%>(<%=comment_cnt%>)</span></a>
 <%
 			If CDate(DateAdd("d", 2, credt_txt)) >= Date Then
 %>
@@ -200,17 +211,23 @@
 	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
 					<div class="btn_box algR">
-						<button class="btn btn_c_a btn_n" type="button" onclick="location.href='/cafe/skin/album_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+						<button class="btn btn_c_a btn_n" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/album_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 					</div>
 <%
 	End If
 %>
 				</div>
 			</div>
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 <!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
 		</main>
 <!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
 	</div>
+<%
+	End IF
+%>
 </body>
 </html>
 

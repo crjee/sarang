@@ -233,7 +233,7 @@
 
 			If tab_use_yn = "Y" Then ' 탭정보 확인
 %>
-							<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>">
+								<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>"><!-- tab -->
 <%
 			End If
 
@@ -339,15 +339,14 @@
 <%
 						If menu_type = "nsale" Then
 %>
-												<span title="분양일"><%=frst_receipt_acpt_date%></span> / <span title="입주일"><%=mvin_date%></span>
+													<span title="분양일"><%=frst_receipt_acpt_date%></span> / <span title="입주일"><%=mvin_date%></span>
 <%
 						Else
 %>
-												<span title="작성일"><%=frst_receipt_acpt_date%></span></span>
+													<span title="작성일"><%=frst_receipt_acpt_date%></span></span>
 <%
 						End If
 %>
-
 												</span>
 											</div>
 <%
@@ -385,32 +384,38 @@
 			Else
 				If list_type = "T1" Or list_type = "T2" Then
 %>
+								<ul>
 									<li class="t_nowrap no_data">
 										데이터가 없습니다.
 									</li>
+								</ul>
 <%
 				ElseIf list_type = "C1" Or list_type = "C2" Then
 %>
+								<ul>
 									<li class="t_nowrap no_data">
 										데이터가 없습니다.
 									</li>
+								</ul>
 <%
 				ElseIf list_type = "A1" Or list_type = "A2" Then
 %>
-								<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>"><%=arrRgn(li)%> 데이터가 없습니다.</div>
+								<%=arrRgn(li)%> 데이터가 없습니다.
 <%
 				Else
 %>
+								<ul>
 									<li class="t_nowrap no_data">
 										데이터가 없습니다.
 									</li>
+								</ul>
 <%
 				End If
 			End If
 
 			If tab_use_yn = "Y" Then ' 탭정보 확인
 %>
-							</div>
+								</div><!-- tab -->
 <%
 			End If
 			rs2.close

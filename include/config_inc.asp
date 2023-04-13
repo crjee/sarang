@@ -3,7 +3,8 @@
 	Session.codepage="65001"
 	Response.codepage="65001"
 	Response.ContentType="text/html;charset=utf-8"
-
+%>
+<%
 	StartTime=Timer()
 	Dim Conn
 
@@ -164,7 +165,7 @@
 	
 	Sub checkLogin()
 		If s_pop <> "Y" And Session("user_id") = "" Then
-			Response.Write "<script>alert('로그인이 필요합니다.');location.href='/end_message_view.asp'</script>"
+			Response.Write "<script>alert('로그인이 필요합니다.');top.location.href='/end_message_view.asp'</script>"
 			Response.End
 		End If
 	End Sub
@@ -342,7 +343,7 @@
 		End If
 	End Sub
 
-	Sub setViewCnt(menu_type, com_seq)
+	Sub setViewCnt(ByVal menu_type, ByVal com_seq)
 		If Session("view_seq") <> com_seq Then
 			sql = ""
 			sql = sql & " update cf_" & menu_type & " "
@@ -373,15 +374,180 @@
 '/*----------------------------------------------------------------*/
 '/*----- 코드관리가 되는것들의 콤보박스 생성
 '/*----------------------------------------------------------------*/
-	Function makeCombo(field1,field2,opt,table,refstr,sovalue)
-		Dim funcSQL
+
+	Function getCodeName(ByVal cmn, ByVal cd)
+		Set funcRs = server.createobject("adodb.recordset")
+
+		funcSql = ""
+		funcSql = funcSql & " select cmn_cd                                           "
+		funcSql = funcSql & "       ,cd_nm                                            "
+		funcSql = funcSql & "   from cf_code                                          "
+		funcSql = funcSql & "  where up_cd_id = (select cd_id                         "
+		funcSql = funcSql & "                          from cf_code                   "
+		funcSql = funcSql & "                         where up_cd_id = 'CD0000000000' "
+		funcSql = funcSql & "                           and cmn_cd = '" & cmn & "'    "
+		funcSql = funcSql & "                           and del_yn = 'N'              "
+		funcSql = funcSql & "                           and use_yn = 'Y'              "
+		funcSql = funcSql & "                       )                                 "
+		funcSql = funcSql & "    and cmn_cd = '" & cd & "'                            "
+		funcSql = funcSql & "    and del_yn = 'N'                                     "
+		funcSql = funcSql & "    and use_yn = 'Y'                                     "
+		funcSql = funcSql & "  order by cd_sn                                         "
+		funcRs.Open funcSql, Conn, 1
+
+		If Not funcRs.eof Then
+			cmn_cd = funcRs("cmn_cd")
+			cd_nm  = funcRs("cd_nm")
+		End If
+		funcRs.close
+
+		getCodeName =cd_nm
+	End Function
+
+	Function makeComboCD(ByVal cmn, ByVal sel)
+		Dim funcSql
 		Dim funcRs
 		Dim strCombo
 		Dim a,b
 
 		Set funcRs = server.createobject("adodb.recordset")
-		funcSQL = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
-		funcRs.Open funcSQL, Conn, 1
+
+		funcSql = ""
+		funcSql = funcSql & " select cmn_cd                                           "
+		funcSql = funcSql & "       ,cd_nm                                            "
+		funcSql = funcSql & "   from cf_code                                          "
+		funcSql = funcSql & "  where up_cd_id = (select cd_id                         "
+		funcSql = funcSql & "                          from cf_code                   "
+		funcSql = funcSql & "                         where up_cd_id = 'CD0000000000' "
+		funcSql = funcSql & "                           and cmn_cd = '" & cmn & "'    "
+		funcSql = funcSql & "                           and del_yn = 'N'              "
+		funcSql = funcSql & "                           and use_yn = 'Y'              "
+		funcSql = funcSql & "                       )                                 "
+		funcSql = funcSql & "    and del_yn = 'N'                                     "
+		funcSql = funcSql & "    and use_yn = 'Y'                                     "
+		funcSql = funcSql & "  order by cd_sn                                         "
+		funcRs.Open funcSql, Conn, 1
+
+		strCombo = vbCrLf
+
+		Do Until funcRs.eof
+			cmn_cd = funcRs("cmn_cd")
+			cd_nm  = funcRs("cd_nm")
+
+			strCombo = strCombo & "									"
+			strCombo = strCombo & "<option value='" & cmn_cd & "' " & if3(cmn_cd=cstr(sel), "selected", "") & ">" & cd_nm & "</option>" & vbCrLf
+
+			funcRs.Movenext
+		Loop
+
+		funcRs.close
+
+		makeComboCD = strCombo
+	End Function
+
+	Function makeRadioCD(ByVal cmn, ByVal sel, ByVal req)
+		Dim funcSql
+		Dim funcRs
+		Dim strRadio
+		Dim a,b
+
+		Set funcRs = server.createobject("adodb.recordset")
+
+		funcSql = ""
+		funcSql = funcSql & " select cmn_cd                                           "
+		funcSql = funcSql & "       ,cd_nm                                            "
+		funcSql = funcSql & "   from cf_code                                          "
+		funcSql = funcSql & "  where up_cd_id = (select cd_id                         "
+		funcSql = funcSql & "                          from cf_code                   "
+		funcSql = funcSql & "                         where up_cd_id = 'CD0000000000' "
+		funcSql = funcSql & "                           and cmn_cd = '" & cmn & "'    "
+		funcSql = funcSql & "                           and del_yn = 'N'              "
+		funcSql = funcSql & "                           and use_yn = 'Y'              "
+		funcSql = funcSql & "                   )                                     "
+		funcSql = funcSql & "    and del_yn = 'N'                                     "
+		funcSql = funcSql & "    and use_yn = 'Y'                                     "
+		funcSql = funcSql & "  order by cd_sn                                         "
+		funcRs.Open funcSql, Conn, 1
+
+		strRadio = vbCrLf
+
+		Do Until funcRs.eof
+			cmn_cd = funcRs("cmn_cd")
+			cd_nm  = funcRs("cd_nm")
+
+			strRadio = strRadio & "									"
+			strRadio = strRadio & "<span class=''>" & vbCrLf
+			strRadio = strRadio & "										"
+			strRadio = strRadio & "<input type='radio' id='" & cmn & "_" & cmn_cd & "' name='" & cmn & "' value='" & cmn_cd & "' class='inp_radio' " & if3(cmn_cd=cstr(sel), "checked ", "") & if3(req="", "", " required") & "/>" & vbCrLf
+			strRadio = strRadio & "										"
+			strRadio = strRadio & "<label for='" & cmn & "_" & cmn_cd & "'><em>" & cd_nm & "</em></label>" & vbCrLf
+			strRadio = strRadio & "									"
+			strRadio = strRadio & "</span>" & vbCrLf
+
+			funcRs.Movenext
+		Loop
+
+		funcRs.close
+
+		makeRadioCD = strRadio
+	End Function
+
+	Function makeCheckBoxCD(ByVal cmn, ByVal sel, ByVal req, ByVal tIdx)
+		Dim funcSql
+		Dim funcRs
+		Dim strCheckBox
+		Dim a,b
+
+		Set funcRs = server.createobject("adodb.recordset")
+
+		funcSql = ""
+		funcSql = funcSql & " select cmn_cd                                           "
+		funcSql = funcSql & "       ,cd_nm                                            "
+		funcSql = funcSql & "   from cf_code                                          "
+		funcSql = funcSql & "  where up_cd_id = (select cd_id                         "
+		funcSql = funcSql & "                          from cf_code                   "
+		funcSql = funcSql & "                         where up_cd_id = 'CD0000000000' "
+		funcSql = funcSql & "                           and cmn_cd = '" & cmn & "'    "
+		funcSql = funcSql & "                           and del_yn = 'N'              "
+		funcSql = funcSql & "                           and use_yn = 'Y'              "
+		funcSql = funcSql & "                   )                                     "
+		funcSql = funcSql & "    and del_yn = 'N'                                     "
+		funcSql = funcSql & "    and use_yn = 'Y'                                     "
+		funcSql = funcSql & "  order by cd_sn                                         "
+		funcRs.Open funcSql, Conn, 1
+
+		strCheckBox = vbCrLf
+
+		Do Until funcRs.eof
+			cmn_cd = funcRs("cmn_cd")
+			cd_nm  = funcRs("cd_nm")
+
+			strCheckBox = strCheckBox & "									"
+			strCheckBox = strCheckBox & "<span class=''>" & vbCrLf
+			strCheckBox = strCheckBox & "										"
+			strCheckBox = strCheckBox & "<input type='checkbox' id='" & cmn & "_" & cmn_cd & "' name='" & cmn & "' value='" & cmn_cd & "' class='inp_check' " & if3(instr(cstr(sel), cmn_cd) > 0, " checked", "") & if3(req="", "", " required") & if3(tIdx="", "", " tabidex='" & tIdx & "'") & "/>" & vbCrLf
+			strCheckBox = strCheckBox & "										"
+			strCheckBox = strCheckBox & "<label for='" & cmn & "_" & cmn_cd & "'><em>" & cd_nm & "</em></label>" & vbCrLf
+			strCheckBox = strCheckBox & "									"
+			strCheckBox = strCheckBox & "</span>" & vbCrLf
+
+			funcRs.Movenext
+		Loop
+
+		funcRs.close
+
+		makeCheckBoxCD = strCheckBox
+	End Function
+
+	Function makeCombo(field1,field2,opt,table,refstr,sovalue)
+		Dim funcSql
+		Dim funcRs
+		Dim strCombo
+		Dim a,b
+
+		Set funcRs = server.createobject("adodb.recordset")
+		funcSql = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
+		funcRs.Open funcSql, Conn, 1
 
 		strCombo = vbCrLf
 
@@ -425,14 +591,14 @@
 '/*----- 코드관리가 되는것들의 라디오버튼 생성
 '/*----------------------------------------------------------------*/
 	Function makeRadio(func,tagname,cndt,tagtitle,field1,field2,opt,table,refstr,sovalue,read)
-		Dim funcSQL
+		Dim funcSql
 		Dim funcRs
 		Dim strRadio
 		Dim a,b
 
 		Set funcRs = server.createobject("adodb.recordset")
-		funcSQL = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
-		funcRs.Open funcSQL, Conn, 1
+		funcSql = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
+		funcRs.Open funcSql, Conn, 1
 		strRadio = vbCrLf
 
 		Do until funcRs.EOF
@@ -464,14 +630,14 @@
 '/*----- 코드관리가 되는것들의 체크박스 생성
 '/*----------------------------------------------------------------*/
 	Function makeCheckBox(width,func,tagname,cndt,tagtitle,field1,field2,opt,table,refstr,sovalue)
-		Dim funcSQL
+		Dim funcSql
 		Dim funcRs
 		Dim strCheckBox
 		Dim a,b
 
 		Set funcRs = server.createobject("adodb.recordset")
-		funcSQL = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
-		funcRs.Open funcSQL, Conn, 1
+		funcSql = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
+		funcRs.Open funcSql, Conn, 1
 		strCheckBox = vbCrLf
 
 '		strCheckBox = strCheckBox & "<span style='width:" & width & "'><input type='CheckBox' value='checkbox' name='allchk' title='" & tagtitle & "' style='border-color:#F2F2F2;'  onclick=""allChk('" & tagname & "',this.checked)"">전체&nbsp;</span>" &vbCrLf
@@ -501,14 +667,14 @@
 		makeCheckBox = strCheckBox
 	End Function
 	Function makeCheckBox2(width,func,tagname,cndt,tagtitle,field1,field2,opt,table,refstr,sovalue)
-		Dim funcSQL
+		Dim funcSql
 		Dim funcRs
 		Dim strCheckBox
 		Dim a,b
 
 		Set funcRs = server.createobject("adodb.recordset")
-		funcSQL = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
-		funcRs.Open funcSQL, Conn, 1
+		funcSql = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
+		funcRs.Open funcSql, Conn, 1
 		strCheckBox = vbCrLf
 
 '		strCheckBox = strCheckBox & "<span style='width:" & width & "'><input type='CheckBox' value='checkbox' name='allchk' title='" & tagtitle & "' style='border-color:#F2F2F2;'  onclick=""allChk('" & tagname & "',this.checked)"">전체&nbsp;</span>" &vbCrLf
@@ -591,13 +757,13 @@
 '/*-----	한 데이타 가져오기
 '/*-------------------------------------------------------------*/
 	Function getOneValue(field,table,refstr)
-		Dim funcSQL
+		Dim funcSql
 		Dim funcRs
 
 		Set funcRs = server.createobject("adodb.recordset")
-		funcSQL = "select " & field & " from " & table & " " & refstr
+		funcSql = "select " & field & " from " & table & " " & refstr
 
-		funcRs.open funcSQL, conn, 1, 1
+		funcRs.open funcSql, conn, 1, 1
 
 		If funcRs.eof Then
 			getOneValue = ""

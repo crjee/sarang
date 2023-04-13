@@ -22,7 +22,7 @@
 	Set rs = server.createobject("adodb.recordset")
 
 	sale_seq = uploadform("sale_seq")
-	group_num = uploadform("group_num")
+	group_num = uploadform("group_num") ' 답글에 대한 원본 글
 	level_num = uploadform("level_num")
 	step_num = uploadform("step_num")
 	location = uploadform("location")
@@ -221,9 +221,20 @@
 		conn.Close
 		Set conn = Nothing
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 	alert("입력 되었습니다.");
+<%
+	If session("noFrame") = "Y" Then
+%>
 	parent.location.href='sale_list.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/sale_list.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>') ;
+<%
+	End if
+%>
 </script>
 <%
 	Else

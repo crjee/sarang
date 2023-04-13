@@ -13,11 +13,13 @@
 			<div class="header_inner">
 				<div class="header_cont">
 					<h1><a href="/home/main.asp"><img src="/common/img/common/logo.svg" alt="" /></a></h1>
+					<form name="cafe_search_form" id="cafe_search_form" method="post" action="/home/home_search_list.asp">
 					<div class="search_box">
 						<label for="">전체검색</label>
-						<input type="text" id="" name="" placeholder="검색어를 입력하세요" class="" />
-						<button type="button" class="f_awesome"><em>검색</em></button>
+						<input type="text" id="sch_word" name="sch_word" placeholder="검색어를 입력하세요" class="" required />
+						<button type="submit" class="f_awesome"><em>검색</em></button>
 					</div>
+					</form>
 					<ul class="top_btn_box">
 <%
 	If Session("user_id") = "" Then

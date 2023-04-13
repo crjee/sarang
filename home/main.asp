@@ -27,6 +27,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 	<div id="wrap">
@@ -187,7 +188,7 @@
 	sql = sql & "       ,link                              "
 	sql = sql & "   from cf_banner                         "
 	sql = sql & "  where cafe_id='root'                    "
-	sql = sql & "    and banner_type in ('H0')             "
+	sql = sql & "    and banner_type in ('H1')             "
 	sql = sql & "    and open_yn = 'Y'                     "
 	sql = sql & "  order by banner_seq asc                 "
 	homeRs.open Sql, conn, 3, 1
@@ -223,7 +224,7 @@
 
 	For home_j = home_i To 1
 %>
-							
+							배너모집1
 <%
 	Next
 %>
@@ -239,7 +240,7 @@
 	sql = sql & "       ,link                              "
 	sql = sql & "   from cf_banner                         "
 	sql = sql & "  where cafe_id='root'                    "
-	sql = sql & "    and banner_type in ('H0', 'H2', 'H2') "
+	sql = sql & "    and banner_type in ('H2', 'H2')       "
 	sql = sql & "    and open_yn = 'Y'                     "
 	sql = sql & "  order by banner_seq asc                 "
 	homeRs.open Sql, conn, 3, 1
@@ -286,13 +287,19 @@
 	For home_j = home_i To 2
 %>
 					<div class="main_frm_<%=if3(home_j=1,"l","r")%>">
+						<div class="main_banner main_banner_2">
+							<a href="#">배너모집2</a>
+						</div>
+					</div>
+<!-- 
+					<div class="main_frm_<%=if3(home_j=1,"l","r")%>">
 						<div class="nobanners"></div>
 					</div>
-<%
+ --><%
 	Next
 %>
-<!--#include virtual="/home/home_center_inc.asp"-->
 				</div>
+<!--#include virtual="/home/home_center_inc.asp"-->
 			</div>
 <!--#include virtual="/home/home_right_inc.asp"-->
 		</main>

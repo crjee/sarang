@@ -16,6 +16,12 @@
 	var scale = 1;
 	var scale2 = getCookie("scale");
 
+	$(document).ready(function() {
+		$('#cafe_main').on('load', function() {
+			this.contentWindow.document.body.style.zoom = scale;
+		});
+	});
+
 	if (scale2 != "") {
 		scale = scale2;
 		document.body.style.zoom = scale;
@@ -105,7 +111,16 @@
 		<header id="header">
 			<div class="header_inner">
 				<div class="header_cont">
-					<h1><a href="/"><img src="/common/img/common/logo.svg" alt="" /></a></h1>
+					<h1>
+<%
+	If cafe_img <> "" then
+		uploadUrl = ConfigAttachedFileURL & "cafeimg/"
+%>
+						<a href="/cafe/main.asp?cafe_id=<%=cafe_id%>"><img src="<%=uploadUrl & cafe_img%>" style="width:168px; height:54px" /></a>
+<%
+	End if
+%>
+					</h1>
 					<ul class="top_btn_box">
 						<li class="button_zone">
 							<span id="zoom"></span>
@@ -118,11 +133,30 @@
 							<button type="button" class="btn_reduc" onclick="zoomIn()"><em>확대</em></button>
 						</li>
 <%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+		skin_id = "noFrame"
+	Else
+		If session("skin_id") = "skin_01" Then
+			skin_id = "skin_01"
+		Else
+			skin_id = "skin_03"
+		End If
+	End If
+%>
+						<li>
+						<select id="skin_id" name="skin_id" class="sel w120p" onchange="javascript:document.location.href='/cafe/main.asp?skin_id='+this.value">
+							<option value="">전체</option>
+							<option value="noFrame" <%=if3(skin_id="noFrame","selected","")%>>프레임 미사용</option>
+							<option value="skin_01" <%=if3(skin_id="skin_01","selected","")%>>깜빡 프레임</option>
+							<option value="skin_03" <%=if3(skin_id="skin_03","selected","")%>>유지 프레임</option>
+						</select>
+						</li>
+<%
 	If Session("cafe_ad_level") = "10" Then
 %>
-						<li><a href="/cafe/admin/member_list.asp">관리자</a></li>
+						<li><a href="/cafe/admin/member_list.asp" target="<%=session("svTarget")%>">관리자</a></li>
 						<li><a href="/cafe/main.asp?cafe_id=<%=session("mycafe")%>">처음으로</a></li>
-						<li><a href="/cafe/skin/my_info_edit.asp">내정보</a></li>
+						<li><a href="/cafe/skin/my_info_edit.asp" target="<%=session("svTarget")%>">내정보</a></li>
 <%
 		If user_id <> "" Then
 %>
@@ -141,7 +175,7 @@
 
 	ElseIf Session("cafe_mb_level") = "10" Then
 %>
-						<li><a href="/cafe/skin/my_info_edit.asp">내정보</a></li>
+						<li><a href="/cafe/skin/my_info_edit.asp" target="<%=session("svTarget")%>">내정보</a></li>
 						<li><a href="/cafe/main.asp?cafe_id=<%=session("mycafe")%>">처음으로</a></li>
 						<li><a href="/end_message_view.asp">로그아웃</a></li>
 <%
@@ -152,7 +186,7 @@
 		End If
 	Else
 %>
-						<li><a href="/cafe/skin/my_info_edit.asp">내정보</a></li>
+						<li><a href="/cafe/skin/my_info_edit.asp" target="<%=session("svTarget")%>">내정보</a></li>
 						<li><a href="/cafe/main.asp?cafe_id=<%=session("mycafe")%>">처음으로</a></li>
 						<li><a href="/end_message_view.asp">로그아웃</a></li>
 <%
@@ -165,10 +199,11 @@
 <%
 	uploadUrl = ConfigAttachedFileURL & "banner/"
 	Set head_rs = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
-	sql = sql & " select top 6 *           "
+	sql = sql & " select top 7 *           "
 	sql = sql & "   from cf_banner         "
-	sql = sql & "  where cafe_id='root'    "
+	sql = sql & "  where cafe_id = 'root'  "
 	sql = sql & "    and banner_type = 'T' "
 	sql = sql & "    and open_yn = 'Y'     "
 	sql = sql & "  order by banner_seq asc "

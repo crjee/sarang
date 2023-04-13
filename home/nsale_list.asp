@@ -19,6 +19,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 	<div id="wrap">
@@ -34,7 +35,7 @@
 	If page = "" then page = 1
 
 	If sch_word <> "" then
-		If sch_type = "all" Then
+		If sch_type = "l" Then
 			kword = " and (subject like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
 		Else
 			kword = " and " & sch_type & " like '%" & sch_word & "%' "
@@ -108,7 +109,7 @@
 	End If
 %>
 						<select id="sch_type" name="sch_type" class="sel w100p">
-							<option value="all">전체</option>
+							<option value="">전체</option>
 							<option value="cb.subject" <%=if3(sch_type="subject","selected","")%>>제목</option>
 							<option value="cb.contents" <%=if3(sch_type="contents","selected","")%>>내용</option>
 						</select>

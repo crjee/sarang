@@ -104,9 +104,20 @@
 		conn.Close
 		Set conn = Nothing
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 	alert("입력 되었습니다.");
+<%
+	If session("noFrame") = "Y" Then
+%>
 	parent.location.href='job_list.asp?menu_seq=<%=menu_seq%>&cafe_id=<%=cafe_id%>';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/job_list.asp?menu_seq=<%=menu_seq%>&cafe_id=<%=cafe_id%>') ;
+<%
+	End if
+%>
 </script>
 <%
 	Else

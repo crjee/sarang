@@ -16,12 +16,19 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body class="skin_type_1">
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 	<div id="wrap" class="group">
 <!--#include virtual="/cafe/skin/skin_header_inc.asp"-->
 		<main id="main" class="sub">
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
+<%
+	End IF
+%>
 			<div class="container">
 <%
 	sch_type = Request("sch_type")
@@ -36,7 +43,7 @@
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
 	If sch_word <> "" then
-		If sch_type = "all" Then
+		If sch_type = "l" Then
 			kword = " and (mi.agency like '%" & sch_word & "%' or mi.kname like '%" & sch_word & "%' or mi.phone like '%" & sch_word & "%' or mi.mobile like '%" & sch_word & "%' or mi.addr1 like '%" & sch_word & "%' or mi.addr2 like '%" & sch_word & "%') "
 		ElseIf sch_type = "agency" Then
 			kword = " and " & sch_type & " like '%" & sch_word & "%' "
@@ -225,8 +232,8 @@
 						<input type="hidden" name="sort" value="<%=sort%>">
 						<input type="hidden" name="ascdesc" value="<%=ascdesc%>">
 						<select id="sch_type" name="sch_type" class="sel w100p">
-							<option value="all">전체</option>
-								<option value="all">전체</option>
+							<option value="">전체</option>
+								<option value="">전체</option>
 								<option value="agency" <%=if3(sch_type="agency","selected","")%>>업소명</option>
 								<option value="kname" <%=if3(sch_type="kname","selected","")%>>회원명</option>
 								<option value="phone" <%=if3(sch_type="phone","selected","")%>>전화번호</option>
@@ -326,10 +333,16 @@
 <!--#include virtual="/cafe/skin/skin_page_inc.asp"-->
 				</div>
 			</div>
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 <!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
 		</main>
 <!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
 	</div>
+<%
+	End IF
+%>
 </body>
 </html>
 

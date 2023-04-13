@@ -16,12 +16,19 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body class="skin_type_1">
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 	<div id="wrap" class="group">
 <!--#include virtual="/cafe/skin/skin_header_inc.asp"-->
 		<main id="main" class="sub">
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
+<%
+	End IF
+%>
 			<div class="container">
 <%
 	sch_type = Request("sch_type")
@@ -36,7 +43,7 @@
 	If page = "" then page = 1
 
 	If sch_word <> "" then
-		If sch_type = "all" Then
+		If sch_type = "l" Then
 			kword = " and (subject like '%" & sch_word & "%' or creid like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
 		Else
 			kword = " and " & sch_type & " like '%" & sch_word & "%' "
@@ -95,24 +102,28 @@
 	End If
 %>
 			<script>
-				function MovePage(page) {
+				function MovePage(page, gvTarget) {
 					var f = document.search_form;
 					f.page.value = page;
-					f.action = "waste_job_list.asp"
+					f.target = gvTarget;
+					f.action = "waste_job_list.asp";
 					f.submit();
 				}
 
-				function goView(job_seq) {
+				function goView(job_seq, gvTarget) {
 					var f = document.search_form;
 					f.job_seq.value = job_seq;
-					f.action = "waste_job_view.asp"
-					f.submit()
+					f.target = gvTarget;
+					f.action = "waste_job_view.asp";
+					f.submit();
 				}
 
-				function goSearch() {
+				function goSearch(gvTarget) {
 					var f = document.search_form;
 					f.page.value = 1;
+					f.target = gvTarget;
 					f.submit();
+
 				}
 			</script>
 				<div class="cont_tit">
@@ -120,19 +131,19 @@
 				</div>
 				<div class="">
 					<div class="search_box algR">
-						<form name="search_form" id="search_form" method="post" onsubmit="MovePage(1)">
+						<form name="search_form" id="search_form" method="post" onsubmit="MovePage(1, '<%=session("ctTarget")%>')">
 						<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 						<input type="hidden" name="page" value="<%=page%>">
 						<input type="hidden" name="job_seq">
 						<select id="sch_type" name="sch_type" class="sel w100p">
-							<option value="all">전체</option>
+							<option value="">전체</option>
 							<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>제목</option>
 							<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>글쓴이</option>
 							<option value="cb.contents" <%=if3(sch_type="cb.contents","selected","")%>>내용</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w300p">
-						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
-						<select id="pagesize" name="pagesize" class="sel w100p" onchange="goSearch()">
+						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
+						<select id="pagesize" name="pagesize" class="sel w100p" onchange="goSearch('<%=session("ctTarget")%>')">
 							<option value=""></option>
 							<option value="20" <%=if3(pagesize="20","selected","")%>>20</option>
 							<option value="30" <%=if3(pagesize="30","selected","")%>>30</option>
@@ -190,7 +201,7 @@
 			subject_s = rmid(subject, 35, "..")
 %>
 								<tr>
-									<td><a href="javascript: goView('<%=rs2("job_seq")%>')" title="<%=subject_s%>"><%=subject%></a></td>
+									<td><a href="javascript: goView('<%=rs2("job_seq")%>', '<%=session("ctTarget")%>')" title="<%=subject_s%>"><%=subject%></a></td>
 									<td class="algC"><%=rs2("work_place")%></td>
 									<td class="algC"><%=rs2("agency")%></td>
 									<td class="algC"><%=rs2("credt_txt")%></td>
@@ -221,7 +232,7 @@
 			subject_s = rmid(subject, 40, "..")
 %>
 								<tr>
-									<td><a href="javascript: goView('<%=rs("job_seq")%>')" title="<%=subject_s%>"><%=subject%></a>
+									<td><a href="javascript: goView('<%=rs("job_seq")%>', '<%=session("ctTarget")%>')" title="<%=subject_s%>"><%=subject%></a>
 <%
 			If CDate(DateAdd("d",2,rs("credt_txt"))) >= Date Then
 %>
@@ -258,17 +269,23 @@
 	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
 					<div class="btn_box algR">
-						<button class="btn btn_c_a btn_n" type="button" onclick="location.href='/cafe/skin/job_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+						<button class="btn btn_c_a btn_n" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/job_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 					</div>
 <%
 	End If
 %>
 				</div>
 			</div>
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 <!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
 		</main>
 <!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
 	</div>
+<%
+	End IF
+%>
 </body>
 </html>
 

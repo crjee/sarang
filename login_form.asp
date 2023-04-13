@@ -11,6 +11,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 	<div id="wrap" class="login_zone">
@@ -23,11 +24,11 @@
 				<div class="login_cont">
 					<div class="login_cont_obj"	>
 						<label for="" class="hide">아이디</label>
-						<input type="text" id="user_id" name="user_id" placeholder="아이디를 입력하세요" required class="inp" />
+						<input type="text" id="user_id" name="user_id" value="" placeholder="아이디를 입력하세요" required class="inp" />
 					</div>
 					<div class="login_cont_obj"	>
 						<label for="" class="hide">비밀번호</label>
-						<input type="password" id="user_pw" name="user_pw" placeholder="비밀번호를 입력하세요" required class="inp" />
+						<input type="password" id="user_pw" name="user_pw" value="" placeholder="비밀번호를 입력하세요" required class="inp" />
 					</div>
 					<button type="submit" class="btn"><em>로그인</em></button>
 				</div>

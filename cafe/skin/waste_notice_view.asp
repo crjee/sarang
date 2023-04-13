@@ -17,12 +17,19 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body class="skin_type_1">
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 	<div id="wrap" class="group">
 <!--#include virtual="/cafe/skin/skin_header_inc.asp"-->
 		<main id="main" class="sub">
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
+<%
+	End IF
+%>
 			<div class="container">
 <%
 	page      = Request("page")
@@ -45,18 +52,21 @@
 	rs.Open Sql, conn, 3, 1
 %>
 			<script type="text/javascript">
-				function goList() {
-					document.search_form.action = "/cafe/skin/waste_notice_list.asp"
+				function goList(gvTarget) {
+					document.search_form.action = "/cafe/skin/waste_notice_list.asp";
+					document.search_form.target = gvTarget;
 					document.search_form.submit();
 				}
 				function goRestore() {
-					document.search_form.action = "/cafe/skin/waste_com_exec.asp"
 					document.search_form.task.value = "restore";
+					document.search_form.action = "/cafe/skin/waste_com_exec.asp";
+					document.search_form.target = "hiddenfrm";
 					document.search_form.submit();
 				}
 				function goDelete() {
-					document.search_form.action = "/cafe/skin/waste_com_exec.asp"
 					document.search_form.task.value = "delete";
+					document.search_form.action = "/cafe/skin/waste_com_exec.asp";
+					document.search_form.target = "hiddenfrm";
 					document.search_form.submit();
 				}
 			</script>
@@ -79,21 +89,21 @@
 				<div class="btn_box view_btn">
 					<button class="btn btn_c_n btn_n" type="button" onclick="goRestore()">복원</button>
 					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">삭제</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">목록</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goList('<%=session("ctTarget")%>')">목록</button>
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
-				<div class="view_head">
-					<h3 class="h3" id="subject"><%=rs("subject")%></h3>
-					<div class="wrt_info_box">
-						<ul>
-							<li><span>작성자</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
-							<li><span>조회</span><strong><%=rs("view_cnt")%></strong></li>
-							<li><span>추천</span><strong><%=rs("suggest_cnt")%></strong></li>
-							<li><span>등록일시</span><strong><%=rs("credt")%></strong></li>
-						</ul>
+					<div class="view_head">
+						<h3 class="h3" id="subject"><%=rs("subject")%></h3>
+						<div class="wrt_info_box">
+							<ul>
+								<li><span>작성자</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
+								<li><span>조회</span><strong><%=rs("view_cnt")%></strong></li>
+								<li><span>추천</span><strong><%=rs("suggest_cnt")%></strong></li>
+								<li><span>등록일시</span><strong><%=rs("credt")%></strong></li>
+							</ul>
+						</div>
 					</div>
-				</div>
-				<div class="wrt_file_box"><!-- 첨부파일영역 추가 crjee -->
+					<div class="wrt_file_box"><!-- 첨부파일영역 추가 crjee -->
 <%
 	uploadUrl = ConfigAttachedFileURL & menu_type & "/"
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
@@ -113,19 +123,19 @@
 				fileExt = LCase(Mid(rs2("file_name"), InStrRev(rs2("file_name"), ".") + 1))
 				If fileExt = "pdf" Then
 %>
-					<%If i > 0 Then%><br><%End If%>
-					<a href="<%=uploadUrl & rs2("file_name")%>" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+						<%If i > 0 Then%><br><%End If%>
+						<a href="<%=uploadUrl & rs2("file_name")%>" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 				Else
 %>
-					<%If i > 0 Then%><br><%End If%>
-					<a href="/download_exec.asp?menu_type=<%=menu_type%>&file_name=<%=rs2("file_name")%>" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+						<%If i > 0 Then%><br><%End If%>
+						<a href="/download_exec.asp?menu_type=<%=menu_type%>&file_name=<%=rs2("file_name")%>" target="hiddenfrm" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 				End If
 			Else
 %>
-					<%If i > 0 Then%><br><%End If%>
-					<a href="javascript:alert('파일이 존재하지 않습니다,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+						<%If i > 0 Then%><br><%End If%>
+						<a href="javascript:alert('파일이 존재하지 않습니다,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 			End If
 			
@@ -143,24 +153,30 @@
 	
 	If link <> "" Then
 %>
-					<p class="file"><a href="<%=link%>" target="_blink"><%=link_txt%></a>&nbsp;<img src="/cafe/skin/img/inc/copy.png" style="cursor:hand" onclick="window.clipnoticeData.setData('Text','<%=link%>');alert('해당 글 주소가 복사되었습니다.\n\n 키보드에 Ctrl + V 누르고 이용하십시요. ')"/></p>
+						<p class="file"><a href="<%=link%>" target="_blink" id="linkTxt"><%=link_txt%></a>&nbsp;<img src="/cafe/skin/img/inc/copy.png" style="cursor:hand" onclick="window.clipnoticeData.setData('Text','<%=link%>');alert('해당 글 주소가 복사되었습니다.\n\n 키보드에 Ctrl + V 누르고 이용하십시요. ')"/></p>
 <%
 	End If
 %>
-				</div>
-				<div class="bbs_cont">
-					<%=rs("contents")%>
-				</div>
+					</div>
+					<div class="bbs_cont">
+						<%=rs("contents")%>
+					</div>
 				</div>
 <%
 	rs.close
 	Set rs = nothing
 %>
 			</div>
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 <!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
 		</main>
 <!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
 	</div>
+<%
+	End IF
+%>
+	<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;width:1000;"></iframe>
 </body>
 </html>
-

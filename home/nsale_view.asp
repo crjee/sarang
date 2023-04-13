@@ -20,6 +20,7 @@
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/sticky.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 	<div id="wrap">

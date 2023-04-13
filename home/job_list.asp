@@ -19,6 +19,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 	<div id="wrap">
@@ -34,8 +35,8 @@
 	If page = "" then page = 1
 
 	If sch_word <> "" then
-		If sch_type = "all" Then
-			kword = " and (cj.subject like '%" & sch_word & "%' or cj.creid like '%" & sch_word & "%' or cj.agency like '%" & sch_word & "%' or cj.contents like '%" & sch_word & "%') "
+		If sch_type = "l" Then
+			kword = " and (subject like '%" & sch_word & "%' or creid like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
 		Else
 			kword = " and " & sch_type & " like '%" & sch_word & "%' "
 		End If
@@ -75,25 +76,24 @@
 	sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
 	sql = sql & "       ,end_date "
 	sql = sql & "   from (select row_number() over( order by job_seq desc) as rownum "
-	sql = sql & "               ,cj.subject "
-	sql = sql & "               ,cj.job_seq "
-	sql = sql & "               ,cj.work_place "
-	sql = sql & "               ,cj.agency "
-	sql = sql & "               ,cj.credt "
-	sql = sql & "               ,cj.end_date "
-	sql = sql & "               ,cj.parent_del_yn "
-	sql = sql & "               ,cj.tel_no "
-	sql = sql & "               ,cj.mbl_telno "
-	sql = sql & "           from cf_job cj "
-	sql = sql & "           left join cf_member cm on cm.user_id = cj.user_id "
+	sql = sql & "               ,subject "
+	sql = sql & "               ,job_seq "
+	sql = sql & "               ,work_place "
+	sql = sql & "               ,agency "
+	sql = sql & "               ,credt "
+	sql = sql & "               ,end_date "
+	sql = sql & "               ,parent_del_yn "
+	sql = sql & "               ,tel_no "
+	sql = sql & "               ,mbl_telno "
+	sql = sql & "           from cf_job "
 	sql = sql & "         where 1 = 1 "
 	If all_yn <> "Y" then
-	sql = sql & "           and cj.end_date >= '" & date & "' "
+	sql = sql & "           and end_date >= '" & date & "' "
 	End If
 	If self_yn = "Y" then
-	sql = sql & "           and cj.user_id = '" & session("user_id") & "' "
+	sql = sql & "           and user_id = '" & session("user_id") & "' "
 	End If
-	sql = sql & "           and isnull(cj.top_yn,'') <> 'Y' "
+	sql = sql & "           and isnull(top_yn,'') <> 'Y' "
 	sql = sql & kword
 	sql = sql & "       ) a "
 	sql = sql & " where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & " "
@@ -134,10 +134,10 @@
 	End If
 %>
 						<select id="sch_type" name="sch_type" class="sel w100p">
-							<option value="all">전체</option>
-							<option value="cj.subject" <%=if3(sch_type="cj.subject","selected","")%>>제목</option>
-							<option value="cj.agency" <%=if3(sch_type="cj.agency","selected","")%>>글쓴이</option>
-							<option value="cj.contents" <%=if3(sch_type="cj.contents","selected","")%>>내용</option>
+							<option value="">전체</option>
+							<option value="subject" <%=if3(sch_type="subject","selected","")%>>제목</option>
+							<option value="agency" <%=if3(sch_type="agency","selected","")%>>글쓴이</option>
+							<option value="contents" <%=if3(sch_type="contents","selected","")%>>내용</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w300p">
 						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
@@ -190,7 +190,7 @@
 									<td class="algC"><%=rs("work_place")%></td>
 									<td class="algC"><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></td>
 									<td class="algC"><%=rs("credt_txt")%></td>
-									<td class="algC"><%=rs("end_date_txt")%></td>
+									<td class="algC"><%=rs("end_date")%></td>
 								</tr>
 <%
 			rs.MoveNext

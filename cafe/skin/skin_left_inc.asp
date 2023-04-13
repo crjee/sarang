@@ -1,4 +1,10 @@
 <%
+	Response.CharSet="utf-8"
+	Session.codepage="65001"
+	Response.codepage="65001"
+	Response.ContentType="text/html;charset=utf-8"
+%>
+<%
 '	OPTION Explicit
 '	Dim cafe_id
 '	Dim cafe_mb_level
@@ -23,13 +29,15 @@
 					<ul class="group_list">
 						<li><em>회원수</em> <strong><%=FormatNumber(member_cnt,0)%></strong></li>
 						<li><em>방문수</em> <strong><%=FormatNumber(visit_cnt,0)%></strong></li>
-						<li><em>쪽지함</em> <strong><a href="/cafe/skin/memo_list.asp" class="orange3"><%=memo_cnt%>개</a></strong></li>
+						<li><em>쪽지함</em> <strong><a href="/cafe/skin/memo_list.asp" class="orange3" target="<%=session("svTarget")%>"><%=memo_cnt%>개</a></strong></li>
 					</ul>
+					<form name="cafe_search_form" id="cafe_search_form" method="post" action="/cafe/skin/cafe_search_list.asp" target="<%=session("svTarget")%>">
 					<div class="search_box">
 						<label for="">전체검색</label>
-						<input type="text" id="" name="" placeholder="검색어를 입력하세요" class="" />
-						<button type="button" class="f_awesome"><em>검색</em></button>
+						<input type="text" id="sch_word" name="sch_word" placeholder="검색어를 입력하세요" class="" required />
+						<button type="submit" class="f_awesome"><em>검색</em></button>
 					</div>
+					</form>
 <%
 	Dim left_cafe_type
 	Dim left_cafe_type_nm
@@ -48,10 +56,35 @@
 					<a href="#n" class="btn btn_c_a btn_n ux_btn_wrt">카페글쓰기</a>
 					<div class="wrt_group_box">
 						<div class="btn_box">
-							<a href="#n" class="">공지사항 글쓰기</a>
-							<a href="#n" class="">공지사항 글쓰기</a>
-							<a href="#n" class="">공지사항 글쓰기</a>
-							<a href="#n" class="">공지사항 글쓰기</a>
+<%
+	Set leftRs = Server.CreateObject ("ADODB.Recordset")
+
+	sql = ""
+	sql = sql & " select menu_type                                            "
+	sql = sql & "       ,menu_name                                            "
+	sql = sql & "       ,menu_seq                                             "
+	sql = sql & "       ,hidden_yn                                            "
+	sql = sql & "   from cf_menu                                              "
+	sql = sql & "  where cafe_id = '" & cafe_id & "'                          "
+	sql = sql & "    and hidden_yn = 'N'                                      "
+	sql = sql & "    and write_auth is not null                               "
+	sql = sql & "    and write_auth <= '" & cafe_mb_level & "'                "
+	sql = sql & "    and menu_type in ('album','board','job','sale','notice') "
+	leftRs.Open sql, conn, 3, 1
+
+	Do Until leftRs.eof
+		left_menu_type = leftRs("menu_type")
+		left_menu_name = leftRs("menu_name")
+		left_menu_seq  = leftRs("menu_seq")
+		left_hidden_yn = leftRs("hidden_yn")
+		left_menu_name = Replace(left_menu_name, " & amp;"," & ")
+%>
+							<a href="/cafe/skin/<%=left_menu_type%>_write.asp?menu_seq=<%=left_menu_seq%>" target="<%=session("svTarget")%>"><%=left_menu_name%></a>
+<%
+		leftRs.MoveNext
+	Loop
+	leftRs.close
+%>
 						</div>
 					</div>
 				</div>
@@ -67,8 +100,6 @@
 	Dim left_left_add_style
 	Dim left_ms
 	Dim left_mc
-
-	Set leftRs = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select menu_type "
@@ -140,17 +171,17 @@
 						left_nc = ""
 					Else
 						left_nc = "<img src='/cafe/skin/img/btn/new.png' align='absmiddle'>"'[" & n("cnt") & "]"
-					End if
+					End If
 
-					left_menu_name_str = "<a href='/cafe/skin/" & left_menu_type & "_list.asp?menu_seq=" & left_menu_seq & "'>" & left_ms & " " & left_menu_name & " " & left_nc & "</a>"
+					left_menu_name_str = "<a href='/cafe/skin/" & left_menu_type & "_list.asp?menu_seq=" & left_menu_seq & "' target='" & session("svTarget") & "'>" & left_ms & " " & left_menu_name & " " & left_nc & "</a>"
 				ElseIf left_menu_type = "land" Then
-					left_menu_name_str = "<a href='/cafe/skin/land_list.asp?menu_seq=" & left_menu_seq & "'>" & left_ms & " " & left_menu_name & " </a>"
+					left_menu_name_str = "<a href='/cafe/skin/land_list.asp?menu_seq="                   & left_menu_seq & "' target='" & session("svTarget") & "'>" & left_ms & " " & left_menu_name & " </a>"
 				ElseIf left_menu_type = "member" Then
-					left_menu_name_str = "<a href='/cafe/skin/member_list.asp?menu_seq=" & left_menu_seq & "'>" & left_ms & " " & left_menu_name & " </a>"
+					left_menu_name_str = "<a href='/cafe/skin/member_list.asp?menu_seq="                 & left_menu_seq & "' target='" & session("svTarget") & "'>" & left_ms & " " & left_menu_name & " </a>"
 				ElseIf left_menu_type = "memo" Then
-					left_menu_name_str = "<a href='/cafe/skin/memo_write.asp?menu_seq=" & left_menu_seq & "'>" & left_ms & " " & left_menu_name & " </a>"
+					left_menu_name_str = "<a href='/cafe/skin/memo_write.asp?menu_seq="                  & left_menu_seq & "' target='" & session("svTarget") & "'>" & left_ms & " " & left_menu_name & " </a>"
 				Else
-					left_menu_name_str = "<a href='/cafe/skin/page_view.asp?menu_seq=" & left_menu_seq & "'>" & left_ms & " " & left_menu_name & " </a>"
+					left_menu_name_str = "<a href='/cafe/skin/page_view.asp?menu_seq="                   & left_menu_seq & "' target='" & session("svTarget") & "'>" & left_ms & " " & left_menu_name & " </a>"
 				End if
 			End If
 
@@ -172,5 +203,96 @@
 	Set leftRs = nothing
 'If session("user_id") = "crjee" Then extime("left 실행시간")
 %>
+
+				
+				</ul>
+<br>
+				<ul>
+<%
+	If cafe_id <> session("mycafe") Then
+%>
+					<li class="leftlink">
+						&nbsp;&nbsp;&nbsp;<a href="/cafe/main.asp?cafe_id=<%=session("mycafe")%>"><img src="/cafe/skin/img/left/left_goclub.gif" width="156" height="45" border="0" alt="사랑방 바로가기" align="absmiddle"></a></td>
+					</li>
+<%
+	End If
+%>
+<%
+'If session("user_id") = "crjee" Then extime("left 실행시간")
+	union_id = getonevalue("union_id","cf_cafe","where cafe_id = '"&cafe_id&"' ")
+'If session("user_id") = "crjee" Then extime("left 실행시간")
+
+	If union_id <> "" Then
+%>
+					<!--연합회 바로가기-->
+					<li class="leftlink">
+					&nbsp;&nbsp;&nbsp;<a href="/cafe/main.asp?cafe_id=<%=union_id%>"><img src="/cafe/skin/img/left/left_gounited.gif"></a>
+					</li>
+					<!--연합회 바로가기-->
+<%
+	End If
+
+	If cafe_ad_level = "10" Then
+'If session("user_id") = "crjee" Then extime("makecombo 실행시간")
+%>
+					<!--사랑방 바로가기-->
+					<li class="shortcut">
+					<select name="cafe_id" class="sel w200p" title="사랑방" onchange="javascript:document.location.href='/cafe/main.asp?cafe_id='+this.value;">
+						<option value="">사랑방 선택</option>
+						<%=makecombo("cafe_id","cafe_name","","cf_cafe"," order by cafe_name asc",cafe_id)%>
+					</select>
+					</li>
+					<!--사랑방 바로가기-->
+
+<%
+'If session("user_id") = "crjee" Then extime("makecombo 실행시간")
+	End If
+%>
+					<li class="leftlink">
+						&nbsp;&nbsp;&nbsp;<a href="javascript:pop_win('/cafe/form/retsform.htm','retsform','670','820')"><img src="/cafe/form/images/leftm_contract.gif" width="156" height="45" border="0" alt="계약서 서식 다운받기" align="absmiddle"></a></td>
+					</li>
+			<script>
+
+function pop_win(url, winname, width, height, left, top)	{
+	if( left>=0 || top>=0 ) 
+		window.open(url, winname, "left=" + left + ",top=" + top + ",fullscreen=no,titlebar=no,toolbar=no,directories=no,status=no,menubar=no,resizable=yes,width=" + width + ",height=" + height);
+	else {
+//		window.open(url, winname, "left =" + (screen.availWidth-width)/2 + ",top=" + (screen.availHeight-height)/2 + ",fullscreen=no,titlebar=no,toolbar=no,directories=no,status=no,menubar=no,resizable=yes,width=" + width + ",height=" + height);
+		var w_left = window.screenLeft;
+		var w_width = document.body.clientWidth;
+		var w_top = window.screenTop;
+		var w_height = document.body.clientHeight;
+		left = (w_width-width)/2+w_left/2;
+		top = (w_height-height)/2+w_top/2;
+
+		window.open(url, winname, "left =" + left + ",top=" + top + ",fullscreen=no,titlebar=no,toolbar=no,directories=no,status=no,menubar=no,resizable=yes,width=" + width + ",height=" + height);
+
+	}
+}
+			</script>
+					<li class="leftbanner">&nbsp;</li>
+					<li class="leftbanner"><a href="http://www.iros.go.kr/" target="_blank"><img src="/uploads/banner/deongi.gif" style="width:135px;" /></a></li>
+					<li class="leftbanner"><a href="http://www.courtauction.go.kr/" target="_blank"><img src="/uploads/banner/useful_kyungmae.gif" style="width:135px;" /></a></li>
+					<li class="leftbanner"><a href="https://seereal.lh.or.kr/" target="_blank"><img src="/uploads/banner/onnara.gif" style="width:135px;" /></a></li>
+					<li class="leftbanner"><a href="http://www.realtyprice.kr/notice/town/searchPastYear.htm" target="_blank"><img src="/uploads/banner/siga.gif" style="width:135px;" /></a></li>
+					<li class="leftbanner"><a href="javascript:jiga_wind()"><img src="/uploads/banner/jiga.gif" style="width:135px;" /></a></li>
+					<li class="leftbanner"><a href="javascript:pop_ydsds()"><img src="/uploads/banner/useful_yangdo.gif" style="width:135px;" /></a></li>
+					<li class="leftbanner"><a href="https://hometax.go.kr/websquare/websquare.html?w2xPath=/ui/pp/index.xml" target="_blank"><img src="/uploads/banner/hometax.gif" style="width:135px;" /></a></li>
+					<li class="leftbanner"><a href="https://kras.go.kr:444" target="_blank"><img src="/uploads/banner/kras_go_kr.gif" style="width:135px;" /></a></li>
+					<li class="leftbanner"><a href="http://www.kar.or.kr/" target="_blank"><img src="/uploads/banner/kar_or_kr.gif" style="width:135px;" /></a></li>
+					<li class="leftbanner"><a href="http://www.lak.or.kr" target="_blank"><img src="/uploads/banner/lak_or_kr.gif" style="width:135px;" /></a></li>
+<Script Language="JavaScript">
+	function jiga_wind()
+	{
+		var jiga_wind = window.open("http://club.re4u.co.kr/jiga.htm","jiga_wind","width=800, height=550");
+		jiga_wind.focus();
+	}//function jiga_wind
+	
+	function pop_ydsds()
+	{
+		var yangdo_win = window.open('http://kar.serve.co.kr/agency/kar/calculators/pop_cal.asp?page_type=kar','yangdo_win','width=1000,height=600,left=20,top=10,scrollbars=yes');
+		yangdo_win.focus();
+	}//function pop_ydsds
+</Script>
 				</ul>
 			</nav>

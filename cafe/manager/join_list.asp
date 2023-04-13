@@ -55,6 +55,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 	<div id="wrap">
@@ -75,8 +76,7 @@
 						<span class="f_weight_b mr10">가입등급설정 :</span>
 						사랑방 회원가입 시
 						<select id="reg_level" name="reg_level" class="sel w100p">
-							<option value="1" <%=if3(reg_level="1","selected","")%>>준회원</option>
-							<option value="2" <%=if3(reg_level="2","selected","")%>>정회원</option>
+							<%=makeComboCD("reg_level", reg_level)%>
 						</select>
 						으로 자동 등급 설정합니다.
 						<button type="submit" class="btn btn_c_s btn_s">확인</button>

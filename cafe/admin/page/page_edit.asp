@@ -12,6 +12,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 	<script type="text/javascript" src="/smart/js/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <body>
@@ -93,7 +94,7 @@
 									<tr>
 										<th scope="row">메뉴감추기</th>
 										<td>
-											<input type="checkbox" id="hidden_yn" name="hidden_yn" value="Y" <%=if3(hidden_yn = "Y","checked","") %> class="" />
+											<input type="checkbox" id="hidden_yn" name="hidden_yn" value="Y" <%=if3(hidden_yn = "Y","checked","") %> class="inp_check" />
 											<label for=""><em>감추기</em></label>
 										</td>
 									</tr>

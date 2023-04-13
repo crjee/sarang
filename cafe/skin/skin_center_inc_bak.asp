@@ -93,7 +93,7 @@
 <%
 		End If
 %>
-								<span class="posR"><a href="/cafe/skin/<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>">more</a></span>
+								<span class="posR"><a href="/cafe/skin/<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>" target="<%=session("ctTarget")%>">more</a></span>
 							</header>
 							<div class="tb main_rolling" id="<%=land_id%>">
 <%
@@ -267,7 +267,7 @@
 					If list_type = "T1" Or list_type = "T2" Then
 %>
 									<li class="t_nowrap">
-										<a href="<%=view_url%>"><span class="text"><%=subject%><%=comment_txt%></span></a>
+										<a href="<%=view_url%>" target="<%=session("ctTarget")%>"><span class="text"><%=subject%><%=comment_txt%></span></a>
 										<span class="posr"><%=credt_txt%></span>
 									</li>
 <%
@@ -286,7 +286,7 @@
 
 						If Not rs3.EOF Then
 %>
-										<span class="photos"><a href="<%=view_url%>"><img src="<%=uploadUrl & rs3("file_name")%>" alt="" /></a></span>
+										<span class="photos"><a href="<%=view_url%>" target="<%=session("ctTarget")%>"><img src="<%=uploadUrl & rs3("file_name")%>" alt="" /></a></span>
 <%
 						Else
 %>
@@ -295,7 +295,7 @@
 						End If
 						rs3.close
 %>
-										<a href="<%=view_url%>"><span class="text"><%=subject%></span></a>
+										<a href="<%=view_url%>" target="<%=session("ctTarget")%>"><span class="text"><%=subject%></span></a>
 										<span class="posr"><%=credt_txt%></span>
 									</li>
 <%
@@ -314,7 +314,7 @@
 
 						If Not rs3.EOF Then
 %>
-												<span class="photos"><a href="<%=view_url%>"><img src="<%=uploadUrl & rs3("file_name")%>" border="0" /></a></span>
+												<span class="photos"><a href="<%=view_url%>" target="<%=session("ctTarget")%>"><img src="<%=uploadUrl & rs3("file_name")%>" border="0" /></a></span>
 <%
 						Else
 %>
@@ -323,14 +323,14 @@
 						End If
 						rs3.close
 %>
-												<a href="<%=view_url%>"><span class="text">단지명 : <%=subject%></span></a>
+												<a href="<%=view_url%>" target="<%=session("ctTarget")%>"><span class="text">단지명 : <%=subject%></span></a>
 												<span class="posr"><span title="분양일"><%=frst_receipt_acpt_date%></span> / <span title="입주일"><%=mvin_date%></span></span>
 											</div>
 <%
 					Else
 %>
 									<li class="t_nowrap">
-										<a href="<%=view_url%>"><span class="text"><%=subject%><%=comment_txt%></span></a>
+										<a href="<%=view_url%>" target="<%=session("ctTarget")%>"><span class="text"><%=subject%><%=comment_txt%></span></a>
 										<span class="posr"><%=credt_txt%></span>
 									</li>
 <%
@@ -373,7 +373,7 @@
 <%
 				ElseIf list_type = "A1" Or list_type = "A2" Then
 %>
-								<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>"><%=arrRgn(li)%> 데이터가 없습니다.</div>
+									<%=arrRgn(li)%> 데이터가 없습니다.
 <%
 				Else
 %>

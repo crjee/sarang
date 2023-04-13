@@ -5,7 +5,7 @@
 					<li><a href="#n">이용약관</a></li>
 					<li><a href="#n">개인정보처리방침</a></li>
 					<li><a href="/home/inquiry_write.asp">광고/제휴문의</a></li>
-					<li><a href="/home/reqdel_write.asp">게시중단요청</a></li>
+					<li><a href="/home/dmnddel_write.asp">게시중단요청</a></li>
 				</ul>
 			</div>
 			<div class="foot_inner">
@@ -16,7 +16,7 @@
 					<li><em class="">통신판매업신고번호</em>제2010-인천계양-0223호</li>
 				</ul>
 				<p class="foot_address">
-					Copyright &copy; 2004~2022 경인네트워크. All rights reserved.
+					Copyright &copy; 2004~<%=Year(Date)%> 경인네트워크. All rights reserved.
 				</p>
 			</div>
 		</footer>

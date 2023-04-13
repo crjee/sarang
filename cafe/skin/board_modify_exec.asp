@@ -50,7 +50,7 @@
 	sql = sql & "       ,moddt = getdate() "
 	sql = sql & " where board_seq = '" & board_seq & "' "
 	Conn.Execute(sql)
-	msgonly sql
+
 	sql = ""
 	sql = sql & " update cf_menu "
 	sql = sql & "    set top_cnt = (select count(*) from cf_board where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
@@ -89,8 +89,18 @@
 <input type="hidden" name="sch_word" value="<%=sch_word%>">
 <input type="hidden" name="board_seq" value="<%=board_seq%>">
 </form>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 	alert("수정 되었습니다.");
+<%
+	If session("noFrame") = "Y" Then
+%>
 	parent.location.href='board_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&board_seq=<%=board_seq%>';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/board_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&board_seq=<%=board_seq%>') ;
+<%
+	End if
+%>
 </script>
-

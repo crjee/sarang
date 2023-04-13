@@ -34,9 +34,20 @@
 		conn.Close
 		Set conn = Nothing
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 	alert("처리 되었습니다.");
+<%
+	If session("noFrame") = "Y" Then
+%>
 	parent.location.href='notice_view.asp?page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&notice_seq=<%=notice_seq%>';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/notice_view.asp?page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&notice_seq=<%=notice_seq%>') ;
+<%
+	End if
+%>
 </script>
 <%
 	Else
@@ -44,9 +55,20 @@
 		conn.Close
 		Set conn = Nothing
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 	alert("오류가 뱔생했습니다.\n\n에러내용 : <%=Err.Description%>(<%=Err.Number%>)");
+<%
+	If session("noFrame") = "Y" Then
+%>
 	parent.location.href='notice_view.asp?page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&notice_seq=<%=notice_seq%>';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/notice_view.asp?page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&notice_seq=<%=notice_seq%>') ;
+<%
+	End if
+%>
 </script>
 <%
 	End if

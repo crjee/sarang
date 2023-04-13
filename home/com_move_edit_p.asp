@@ -31,7 +31,7 @@
 		</tr-->
 		<tr>
 			<td>
-			<select name="menu_seq" required>
+			<select name="menu_seq" class="sel w_auto" required>
 				<option value="">게시판선택</option>
 <%
 	Set rs = Server.CreateObject ("ADODB.Recordset")

@@ -47,7 +47,7 @@
 	Next
 
 	open_yn                = uploadform("open_yn")
-	nsale_rgn_cd        = uploadform("nsale_rgn_cd")
+	nsale_rgn_cd           = uploadform("nsale_rgn_cd")
 	nsale_addr             = uploadform("nsale_addr")
 	cmpl_se_cd             = uploadform("cmpl_se_cd")
 	nsale_stts_cd          = uploadform("nsale_stts_cd")
@@ -64,9 +64,9 @@
 
 	sql = ""
 	sql = sql & " update cf_nsale "
-	sql = sql & "    set subject = '" & subject & "' "
+	sql = sql & "    set subject                = '" & subject                & "' "
 	sql = sql & "       ,open_yn                = '" & open_yn                & "' "
-	sql = sql & "       ,nsale_rgn_cd        = '" & nsale_rgn_cd        & "' "
+	sql = sql & "       ,nsale_rgn_cd           = '" & nsale_rgn_cd           & "' "
 	sql = sql & "       ,nsale_addr             = '" & nsale_addr             & "' "
 	sql = sql & "       ,cmpl_se_cd             = '" & cmpl_se_cd             & "' "
 	sql = sql & "       ,nsale_stts_cd          = '" & nsale_stts_cd          & "' "
@@ -80,9 +80,9 @@
 	sql = sql & "       ,resale_ed_date         = '" & resale_ed_date         & "' "
 	sql = sql & "       ,mvin_date              = '" & mvin_date              & "' "
 	sql = sql & "       ,mdl_house_addr         = '" & mdl_house_addr         & "' "
-	sql = sql & "       ,contents = '" & ir1 & "' "
-	sql = sql & "       ,modid = '" & Session("user_id") & "' "
-	sql = sql & "       ,moddt = getdate() "
+	sql = sql & "       ,contents               = '" & ir1                    & "' "
+	sql = sql & "       ,modid                  = '" & Session("user_id")     & "' "
+	sql = sql & "       ,moddt                  = getdate()                        "
 	sql = sql & " where nsale_seq = '" & nsale_seq & "' "
 	Conn.Execute(sql)
 	

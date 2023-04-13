@@ -1,3 +1,4 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)

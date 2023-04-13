@@ -12,7 +12,6 @@
 	sch_word  = uploadform("sch_word")
 
 	album_seq = uploadform("album_seq")
-	group_num = uploadform("group_num")
 	level_num = uploadform("level_num")
 	step_num = uploadform("step_num")
 	menu_seq = uploadform("menu_seq")
@@ -99,8 +98,6 @@
 		Set conn = Nothing
 %>
 <script>
-//	alert("입력 되었습니다.");
-//	parent.location.href='album_list.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
 </script>
 <%
 	Else
@@ -109,7 +106,6 @@
 		Set conn = Nothing
 %>
 <script>
-//	alert("오류가 뱔생했습니다.\n\n에러내용 : <%=Err.Description%>(<%=Err.Number%>)");
 </script>
 <%
 	End if

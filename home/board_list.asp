@@ -19,6 +19,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 	<div id="wrap">
@@ -58,8 +59,8 @@
 	If page = "" Then page = 1
 
 	If sch_word <> "" Then
-		If sch_type = "all" Then
-			kword = " and (cb.subject like '%" & sch_word & "%' or cb.agency like '%" & sch_word & "%' or cb.contents like '%" & sch_word & "%') "
+		If sch_type = "l" Then
+			kword = " and (subject like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
 		Else
 			kword = " and " & sch_type & " like '%" & sch_word & "%' "
 		End If
@@ -92,37 +93,34 @@
 	sql = sql & "       ,agency        "
 	sql = sql & "       ,view_cnt      "
 	sql = sql & "       ,suggest_cnt   "
-	sql = sql & "       ,credt      "
+	sql = sql & "       ,credt         "
 	sql = sql & "       ,group_num     "
 	sql = sql & "       ,step_num      "
-	sql = sql & "       ,user_id    "
-	sql = sql & "       ,tel_no        "
-	sql = sql & "   from (select row_number() over( order by cb.group_num desc, cb.step_num asc) as rownum "
-	sql = sql & "               ,cb.comment_cnt   "
-	sql = sql & "               ,cb.subject       "
-	sql = sql & "               ,cb.parent_del_yn "
-	sql = sql & "               ,cb.level_num     "
-	sql = sql & "               ,cb.board_num     "
-	sql = sql & "               ,cb.board_seq     "
-	sql = sql & "               ,cb.agency        "
-	sql = sql & "               ,cb.view_cnt      "
-	sql = sql & "               ,cb.suggest_cnt   "
-	sql = sql & "               ,cb.credt      "
-	sql = sql & "               ,cb.group_num     "
-	sql = sql & "               ,cb.step_num      "
-	sql = sql & "               ,cb.user_id       "
-	sql = sql & "               ,cm.phone as tel_no "
-	sql = sql & "           from cf_board cb"
-	sql = sql & "           left join cf_member cm on cm.user_id = cb.user_id "
-	sql = sql & "          where cb.cafe_id = '" & cafe_id & "' "
-	sql = sql & "            and cb.menu_seq = '" & menu_seq & "' "
+	sql = sql & "       ,user_id       "
+	sql = sql & "   from (select row_number() over( order by group_num desc, step_num asc) as rownum "
+	sql = sql & "               ,comment_cnt   "
+	sql = sql & "               ,subject       "
+	sql = sql & "               ,parent_del_yn "
+	sql = sql & "               ,level_num     "
+	sql = sql & "               ,board_num     "
+	sql = sql & "               ,board_seq     "
+	sql = sql & "               ,agency        "
+	sql = sql & "               ,view_cnt      "
+	sql = sql & "               ,suggest_cnt   "
+	sql = sql & "               ,credt         "
+	sql = sql & "               ,group_num     "
+	sql = sql & "               ,step_num      "
+	sql = sql & "               ,user_id       "
+	sql = sql & "           from cf_board      "
+	sql = sql & "          where cafe_id = '" & cafe_id & "' "
+	sql = sql & "            and menu_seq = '" & menu_seq & "' "
 	sql = sql & kword
 	sql = sql & "        ) a "
 	sql = sql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & " "
 	sql = sql & "  order by group_num desc, step_num asc "
 	rs.Open sql, conn, 3, 1
 
-	' ?꾩껜 ?섏씠吏 ???산린
+	' 전체 페이지 수 얻기
 	If RecordCount/pagesize = Int(RecordCount/pagesize) Then
 		PageCount = Int(RecordCount / pagesize)
 	Else
@@ -150,20 +148,20 @@
 <%
 	End If
 
-	If write_auth <= cafe_mb_level Then ' 湲?곌린 沅뚰븳
+	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
-						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/home/board_write.asp?menu_seq=<%=menu_seq%>'">湲?곌린</button>
+						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/home/board_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 <%
 	End If
 %>
 						<select id="sch_type" name="sch_type" class="sel w100p">
-							<option value="all">?꾩껜</option>
-							<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>?쒕ぉ</option>
-							<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>湲?댁씠</option>
-							<option value="cb.contents" <%=if3(sch_type="cb.contents","selected","")%>>?댁슜</option>
+							<option value="">전체</option>
+							<option value="subject" <%=if3(sch_type="subject","selected","")%>>제목</option>
+							<option value="agency" <%=if3(sch_type="agency","selected","")%>>글쓴이</option>
+							<option value="contents" <%=if3(sch_type="contents","selected","")%>>내용</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w300p">
-						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">寃??/button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
 						</form>
 					</div>
 					<div class="tb">
@@ -191,13 +189,13 @@
 			comment_cnt = rs("comment_cnt")
 			subject = rs("subject")
 			If isnull(subject) Or isempty(subject) Or Len(subject) = 0 Then
-				subject = "?쒕ぉ?놁쓬"
+				subject = "제목없음"
 			End if
 
 			parent_del_yn = rs("parent_del_yn")
 
 			If parent_del_yn = "Y" Then
-				subject = "*?먭?????젣???듦?* " & subject
+				subject = "*원글이 삭제된 답글* " & subject
 			End if
 			subject_s = rmid(subject, 40, "..")
 %>

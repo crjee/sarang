@@ -39,7 +39,18 @@
 	sql = sql & "  where user_id = '" & user_id & "' "
 	Conn.Execute(sql)
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
-alert("수정되었습니다.")
-parent.location = 'my_info_edit.asp'
+	alert("수정 되었습니다.");
+<%
+	If session("noFrame") = "Y" Then
+%>
+	parent.document.location = "my_info_edit.asp"
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', './skin/my_info_edit.asp') ;
+<%
+	End if
+%>
 </script>

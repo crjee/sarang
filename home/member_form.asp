@@ -19,6 +19,7 @@
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/sticky.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 	<div id="wrap">
@@ -28,55 +29,123 @@
 				<div class="cont_tit">
 					<h2 class="h2">회원가입</h2>
 				</div>
-				<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
-				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-				<input type="hidden" id="attachCnt" name="attachCnt" value="1">
-				<input type="hidden" name="temp" value="Y">
-				<div class="tb">
-					<table class="tb_input tb_fixed">
+				<form id="crtInfo" name="crtInfo" method="post" action="member_exec.asp" target="hiddenfrm">
+				<div class="tb tb_form_1">
+					<table class="tb_input">
 						<colgroup>
-							<col class="w200p">
-							<col class="w_remainder">
+							<col class="w15" />
+							<col class="w35" />
+							<col class="w15" />
+							<col class="w35" />
 						</colgroup>
 						<tbody>
 							<tr>
-								<th scope="row">지역</th>
+								<th scope="row">아이디</th>
+								<td colspan="3">
+									<input type="hidden" value="N" name="member_check">
+									<input type="text" id="user_id" name="user_id" class="inp" required onkeyup="member_find(this.value)">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">비밀번호</th>
 								<td>
-									<span class="">
-										<input type="radio" id="pst_rgn_se_cd_<%=CMN_CD%>" name="pst_rgn_se_cd" class="inp_radio" value="<%=CMN_CD%>" <%=if3(InStr(pst_rgn_se_cd, CMN_CD)>0,"checked","")%> required />
-										<label for="pst_rgn_se_cd_<%=CMN_CD%>"><em><%=CD_EXPL%></em></label>
+									<input type="password" id="userpw" name="userpw" class="inp" required />
+								</td>
+								<th scope="row">비밀번호 확인</th>
+								<td>
+									<input type="password" id="userpw_confirm" name="userpw_confirm" class="inp" required />
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">한글이름</th>
+								<td>
+									<input type="text" id="kname" name="kname" class="inp" required />
+								</td>
+								<th scope="row">영문이름</th>
+								<td>
+									<input type="text" id="ename" name="ename" class="inp" />
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">상호</th>
+								<td>
+									<input type="text" id="agency" name="agency" class="inp" required />
+								</td>
+								<th scope="row">허가번호</th>
+								<td>
+									<input type="text" id="license" name="license" class="inp" />
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">성별</th>
+								<td>
+									<%=makeRadioCD("sex", "", "")%>
+								</td>
+								<th scope="row">이메일</th>
+								<td>
+									<span class="dp_inline"><input type="text" id="email1" name="email1" class="inp w100p" required /></span>
+									<span class="dp_inline">@</span>
+									<span class="dp_inline"><input type="text" id="email2" name="email2" class="inp w100p" required /></span>
+									<span class="dp_inline">
+										<select id="n_hosts" name="n_hosts" class="sel w100p" onChange="setHost()">
+											<option value="">직접입력</option>
+											<%=makeComboCD("n_hosts", "")%>
+										</select>
 									</span>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">제목(*)</th>
+								<th scope="row">휴대폰번호</th>
 								<td>
-									<input type="text" id="subject" name="subject" class="inp" value="<%=subject%>" maxlength="200" onKeyup="fc_chk_byte(this, 200, 'req_attnView')" required>
-									<span id="req_attnView" name="req_attnView">0</span>/200
+									<span class="dp_inline">
+										<select id="mobile1" name="mobile1" class="sel w_remainder" required>
+											<option value="">선택</option>
+											<option value="010">010</option>
+											<option value="011">011</option>
+											<option value="016">016</option>
+											<option value="017">017</option>
+											<option value="018">018</option>
+											<option value="019">019</option>
+										</select>
+									</span>
+									<span class="dp_inline">-</span>
+									<span class="dp_inline"><input type="text" id="mobile2" name="mobile2" class="inp w100p" required /></span>
+									<span class="dp_inline">-</span>
+									<span class="dp_inline"><input type="text" id="mobile3" name="mobile3" class="inp w100p" required /></span>
+									
+								</td>
+								<th scope="row">전화번호</th>
+								<td>
+									<span class="dp_inline"><input type="text" id="phone" name="phone" class="inp w150p" required /></span>
+									<span class="dp_inline ml10">내선번호 <input type="text" id="interphone" name="interphone" class="inp w100p" /></span>
 								</td>
 							</tr>
-						</tbody>
-					</table>
-					<div class="mt10">
-					</div>
-					<table class="tb_input tb_fixed mt10">
-						<colgroup>
-							<col class="w200p">
-							<col class="w_remainder">
-						</colgroup>
-						<tbody>
 							<tr>
-								<th scope="row">링크주소</th>
+								<th scope="row">팩스번호</th>
 								<td>
-									<input type="text" id="link" name="link" class="inp" value="<%=link%>">
+									<span class="dp_inline"><input type="text" id="fax" name="fax" class="inp w150p" /></span>
+								</td>
+								<th scope="row">우편번호</th>
+								<td>
+									<span class="dp_inline"><input type="text" id="zipcode" name="zipcode" class="inp w150p" required /></span>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">주소</th>
+								<td>
+									<input type="text" id="addr1" name="addr1" class="inp" required />
+								</td>
+								<th scope="row">상세주소</th>
+								<td>
+									<input type="text" id="addr2" name="addr2" class="inp" />
 								</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
-				<div class="btn_box">
-					<button type="submit" class="btn btn_c_a btn_n"><em>등록</em></button>
-					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='story_list.asp?menu_seq=<%=menu_seq%>'"><em>취소</em></button>
+				<div class="btn_box algC">
+					<button type="submit" class="btn btn_n">확인</button>
+					<button type="reset" class="btn btn_n">취소</button>
 				</div>
 				</form>
 			</div>
@@ -86,66 +155,3 @@
 	</div>
 </body>
 </html>
-<script>
-	function fc_chk_byte(frm_nm, ari_max, cnt_view) { 
-	//	var frm = document.regForm;
-		var ls_str = frm_nm.value; // 이벤트가 일어난 컨트롤의 value 값 
-		var li_str_len = ls_str.length; // 전체길이 
-
-		// 변수초기화 
-		var li_max = ari_max; // 제한할 글자수 크기 
-		var i = 0; // for문에 사용 
-		var li_byte = 0; // 한글일경우는 2 그밗에는 1을 더함 
-		var li_len = 0; // substring하기 위해서 사용 
-		var ls_one_char = ""; // 한글자씩 검사한다 
-		var ls_str2 = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다. 
-
-		for (i=0; i< li_str_len; i++) { 
-		// 한글자추출 
-			ls_one_char = ls_str.charAt(i); 
-
-			// 한글이면 2를 더한다. 
-			if (escape(ls_one_char).length > 4) { 
-				li_byte += 2; 
-			} 
-			// 그밗의 경우는 1을 더한다. 
-			else { 
-				li_byte++; 
-			} 
-
-			// 전체 크기가 li_max를 넘지않으면 
-			if (li_byte <= li_max) { 
-				li_len = i + 1; 
-			} 
-		} 
-
-		// 전체길이를 초과하면 
-		if (li_byte > li_max) { 
-			alert( li_max + "byte 글자를 초과 입력할수 없습니다. \n 초과된 내용은 자동으로 삭제 됩니다. "); 
-			ls_str2 = ls_str.substr(0, li_len);
-			frm_nm.value = ls_str2; 
-
-			li_str_len = ls_str2.length; // 전체길이 
-			li_byte = 0; // 한글일경우는 2 그밗에는 1을 더함 
-			for (i=0; i< li_str_len; i++) { 
-			// 한글자추출 
-				ls_one_char = ls_str2.charAt(i); 
-
-				// 한글이면 2를 더한다. 
-				if (escape(ls_one_char).length > 4) { 
-					li_byte += 2; 
-				} 
-				// 그밗의 경우는 1을 더한다. 
-				else { 
-					li_byte++; 
-				} 
-			} 
-		} 
-		if (cnt_view != "") {
-			var inner_form = eval("document.all."+ cnt_view) 
-			inner_form.innerHTML = li_byte ;		//frm.txta_Memo.value.length;
-		}
-	//	frm_nm.focus(); 
-
-	} 
-</script>

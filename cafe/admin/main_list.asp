@@ -19,6 +19,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body class="sa">
 	<div id="wrap">
@@ -86,11 +87,11 @@
 							<ul class="menu_handle">
 <%
 	sql = ""
-	sql = sql & " select *                       "
-	sql = sql & "   from cf_menu                 "
+	sql = sql & " select *                           "
+	sql = sql & "   from cf_menu                     "
 	sql = sql & "  where cafe_id = '" & cafe_id & "' "
-	sql = sql & "    and home_num != 0           "
-	sql = sql & "  order by home_num asc         "
+	sql = sql & "    and home_num != 0               "
+	sql = sql & "  order by home_num asc             "
 	row.Open Sql, conn, 3, 1
 
 	i = 1

@@ -86,7 +86,7 @@
 			</div>
 		</div>
 		<p class="right">
-			<button class="btn_basic2txt" type="button" onclick="location.href='memo_view.asp?del_seq=<%=memo_seq%>'">삭제</button>
+			<button class="btn_basic2txt" type="button" onclick="<%=session("svHref")%>location.href='/cafe/skin/memo_view.asp?del_seq=<%=memo_seq%>'">삭제</button>
 			<button class="btn_basic2txt" type="button" onclick="self.close()">닫기</button>
 		</p>
 	</div>

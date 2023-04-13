@@ -14,6 +14,8 @@
 		kword = kword & " and cafe_type = '" & cafe_type & "' "
 	ElseIf cafe_type = "C" Then
 		kword = kword & " and cafe_type = '" & cafe_type & "' "
+	Else
+		cafe_type = ""
 	End IF
 
 	open_yn = Request("open_yn")
@@ -24,7 +26,7 @@
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
 	If sch_type <> "" And sch_word <> "" then
-		If sch_type = "all" Then
+		If sch_type = "l" Then
 			kword = kword & " and (cf.cafe_name like '%" & sch_word & "%' or cf.cafe_id like '%" & sch_word & "%') "
 		Else
 			kword = kword & " and " & sch_type & " like '%" & sch_word & "%' "
@@ -89,6 +91,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body class="sa">
 	<div id="wrap">
@@ -118,16 +121,16 @@
 				function goUnion() {
 					if (!testCheck()) return;
 					var f = document.search_form;
-					f.target="hiddenfrm"
-					f.action="cafe_union_exec.asp"
+					f.target = "hiddenfrm";
+					f.action = "cafe_union_exec.asp";
 					f.submit();
 				}
 
 				function goActivity() {
 					if (!testCheck()) return;
 					var f = document.search_form;
-					f.target="hiddenfrm"
-					f.action="cafe_activity_exec.asp"
+					f.target = "hiddenfrm";
+					f.action = "cafe_activity_exec.asp"
 					f.submit();
 				}
 
@@ -166,17 +169,15 @@
 				<input type="hidden" name="page" value="<%=page%>">
 					<div class="floatL">
 						<select name="cafe_type" class="sel w_auto">
-							<option value="all">사랑방종류</option>
-							<option value="C" <%=if3(cafe_type="C","selected","")%>>사랑방</option>
-							<option value="U" <%=if3(cafe_type="U","selected","")%>>연합회</option>
+							<option value="">사랑방종류</option>
+							<%=makeComboCD("cafe_type", cafe_type)%>
 						</select>
 						<select name="open_yn" class="sel w_auto">
 							<option value="">공개여부</option>
-							<option value="Y" <%=if3(open_yn="Y","selected","")%>>공개</option>
-							<option value="N" <%=if3(open_yn="N","selected","")%>>비공개</option>
+							<%=makeComboCD("open_yn", open_yn)%>
 						</select>
 						<select name="sch_type" class="sel w_auto">
-							<option value="all">사랑방전체</option>
+							<option value="">사랑방전체</option>
 							<option value="cf.cafe_name" <%=if3(sch_type="cf.cafe_name","selected","")%>>사랑방명</option>
 							<option value="cf.cafe_id" <%=if3(sch_type="cf.cafe_id","selected","")%>>경로</option>
 						</select>
@@ -248,7 +249,7 @@
 
 %>
 							<tr id="tr_<%=i%>">
-								<td class="algC"><input type="checkbox" id="chk_cafe" name="chk_cafe" value="<%=cafe_id%>" /><label for=""><em class="hide">선택</em></label></tㅇ>
+								<td class="algC"><input type="checkbox" class="inp_check" id="chk_cafe" name="chk_cafe" value="<%=cafe_id%>" /><label for=""><em class="hide">선택</em></label></td>
 								<td class="algC"><a href="/cafe/main.asp?cafe_id=<%=cafe_id%>"><%=cafe_name%></a></td>
 								<td class="algC"><%=cafe_id%></td>
 								<td class="algC">
@@ -283,7 +284,6 @@
 									<input type="hidden" name="old_union_id_<%=cafe_id%>" value="<%=rs("union_id")%>">
 <%
 			If cafe_type <> "U" Then
-
 				sql = ""
 				sql = sql & " select * "
 				sql = sql & "   from cf_cafe "
@@ -405,37 +405,23 @@
 						<tr>
 							<th scope="row">사랑방 분류</th>
 							<td>
-								<span class="">
-									<input type="radio" id="cafe_type" name="cafe_type" value="C" required />
-									<label for="cafe_type"><em>일반</em></label>
-								</span>
-								<span class="ml10">
-									<input type="radio" id="cafe_type" name="cafe_type" value="U" required />
-									<label for=""><em>연합회</em></label>
-								</span>
+								<%=makeRadioCD("cafe_type", "", "required")%>
 							</td>
 							<th scope="row">공개여부</th>
 							<td>
-								<span class="">
-									<input type="radio" id="open_yn" name="open_yn" value="N" required />
-									<label for=""><em>공개</em></label>
-								</span>
-								<span class="ml10">
-									<input type="radio" id="open_yn" name="open_yn" value="Y" checked required />
-									<label for=""><em>비공개</em></label>
-								</span>
+								<%=makeRadioCD("open_yn", "", "required")%>
 							</td>
 						</tr>
 						<tr>
 							<th scope="row">가입 방식</th>
 							<td colspan="3">
 								<span class="">
-									<input type="radio" id="reg_type" name="reg_type" value="0" checked required />
-									<label for=""><em>바로가입</em></label>
+									<input type="radio" class="inp_radio" id="reg_type0" name="reg_type" value="0" checked required />
+									<label for="reg_type0"><em>바로가입</em></label>
 								</span>
 								<span class="ml10">
-									<input type="radio" id="reg_type" name="reg_type" value="0" required />
-									<label for=""><em>비공개</em></label>
+									<input type="radio" class="inp_radio" id="reg_type1" name="reg_type" value="1" required />
+									<label for="reg_type1"><em>비공개</em></label>
 								</span>
 								<span class="ml20 va_middle">비공개 사랑방은 운영진의 초대 또는 가입조건 퀴즈를 풀어야 가입할 수 있습니다.</span>
 							</td>

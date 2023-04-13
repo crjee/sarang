@@ -56,7 +56,7 @@
 			<%=rs("subject")%><br>
 			<%=rs("contents")%>
 		</div>
-		<input type="checkbox" name="check1" value="Y" onclick="document.form.submit()"> 오늘하루 그만 보기
+		<input type="checkbox" class="inp_check" name="check1" value="Y" onclick="document.form.submit()"> 오늘하루 그만 보기
 		<p class="right"><button class="btn_basic2txt" id="btn" type="button" onclick="document.form.submit()">닫기</button></p>
 	</div>
 	</form>

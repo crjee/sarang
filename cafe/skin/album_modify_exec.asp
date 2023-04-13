@@ -11,7 +11,6 @@
 	sch_type  = uploadform("sch_type")
 	sch_word  = uploadform("sch_word")
 
-	group_num = uploadform("group_num")
 	step_num = uploadform("step_num")
 	level_num = uploadform("level_num")
 	album_seq = uploadform("album_seq")
@@ -31,6 +30,11 @@
 			End If
 		End If
 	Next
+msgonly "sfsdfsdf"
+	On Error Resume Next
+	Conn.BeginTrans
+	Set BeginTrans = Conn
+	CntError = 0
 
 	thumbnail = getonevalue("thumbnail","cf_album","where album_seq = '" & album_seq & "'")
 
@@ -79,7 +83,30 @@
 			End If
 		End If
 	Next
-
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
+Response.write "sdfsdfsdfssdf"
 	sql = ""
 	sql = sql & " update cf_album "
 	sql = sql & "    set subject = '" & subject & "' "
@@ -124,8 +151,44 @@
 	Next
 
 	Set UploadForm = Nothing
+
+	If Err.Number = 0 Then
+		conn.CommitTrans
+		conn.Close
+		Set conn = Nothing
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 	alert("수정 되었습니다.");
+try
+{
+<%
+	If session("noFrame") = "Y" Then
+%>
 	parent.location.href='album_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&album_seq=<%=album_seq%>';
+<%
+	Else
+%>
+<%
+	End if
+%>
+	alert($('#cafe_main', parent.parent.document).attr('src'));
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/album_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&album_seq=<%=album_seq%>') ;
+}
+catch (e)
+{
+	alert(e)
+}
 </script>
+<%
+	Else
+		conn.RollbackTrans
+		conn.Close
+		Set conn = Nothing
+%>
+<script>
+	alert("오류가 뱔생했습니다.\n\n에러내용 : <%=Err.Description%>(<%=Err.Number%>)");
+</script>
+<%
+	End If
+%>

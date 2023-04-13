@@ -7,7 +7,7 @@
 	menu_seq = Request.Form("menu_seq")
 	com_seq = Request("com_seq")
 
-	'on Error Resume Next
+	on Error Resume Next
 	Conn.BeginTrans
 	Set BeginTrans = Conn
 	CntError = 0
@@ -20,29 +20,29 @@
 	sql = ""
 	sql = sql & " with tree_query  as (                                                                                                            "
 	sql = sql & "   select                                                                                                                         "
-	sql = sql & "          " & menu_type & "_seq                                                                                                                     "
+	sql = sql & "          " & menu_type & "_seq                                                                                                   "
 	sql = sql & "        , parent_seq                                                                                                              "
 	sql = sql & "        , subject                                                                                                                 "
-	sql = sql & "        , convert(varchar(255), " & menu_type & "_seq) sort                                                                                         "
+	sql = sql & "        , convert(varchar(255), " & menu_type & "_seq) sort                                                                       "
 	sql = sql & "        , convert(varchar(2000), subject) depth_fullname                                                                          "
-	sql = sql & "        , credt                                                                                                                 "
-	sql = sql & "     from cf_" & menu_type & "                                                                                                        "
-	sql = sql & "     where " & menu_type & "_seq = " & com_seq & "                                                                                                          "
+	sql = sql & "        , credt                                                                                                                   "
+	sql = sql & "     from cf_" & menu_type & "                                                                                                    "
+	sql = sql & "     where " & menu_type & "_seq = " & com_seq & "                                                                                "
 	sql = sql & "     union all                                                                                                                    "
 	sql = sql & "     select                                                                                                                       "
-	sql = sql & "           b." & menu_type & "_seq                                                                                                                  "
+	sql = sql & "           b." & menu_type & "_seq                                                                                                "
 	sql = sql & "         , b.parent_seq                                                                                                           "
 	sql = sql & "         , b.subject                                                                                                              "
-	sql = sql & "         , convert(varchar(255), convert(nvarchar,c.sort) + ' > ' +  convert(varchar(255), b." & menu_type & "_seq)) sort                           "
+	sql = sql & "         , convert(varchar(255), convert(nvarchar,c.sort) + ' > ' +  convert(varchar(255), b." & menu_type & "_seq)) sort         "
 	sql = sql & "         , convert(varchar(2000), convert(nvarchar,c.depth_fullname) + ' > ' +  convert(varchar(2000), b.subject)) depth_fullname "
-	sql = sql & "         , b.credt                                                                                                                 "
-	sql = sql & "     from  cf_" & menu_type & " b, tree_query c                                                                                       "
-	sql = sql & "     where b.parent_seq = c." & menu_type & "_seq                                                                                                   "
+	sql = sql & "         , b.credt                                                                                                                "
+	sql = sql & "     from  cf_" & menu_type & " b, tree_query c                                                                                   "
+	sql = sql & "     where b.parent_seq = c." & menu_type & "_seq                                                                                 "
 	sql = sql & " )                                                                                                                                "
 	sql = sql & " select *                                                                                                                         "
-	sql = sql & "   from cf_" & menu_type & "                                                                                                          "
-	sql = sql & "  where " & menu_type & "_seq in (                                                                                                                  "
-	sql = sql & " select " & menu_type & "_seq from tree_query)                                                                                                      "
+	sql = sql & "   from cf_" & menu_type & "                                                                                                      "
+	sql = sql & "  where " & menu_type & "_seq in (                                                                                                "
+	sql = sql & " select " & menu_type & "_seq from tree_query)                                                                                    "
 	sql = sql & "  order by " & menu_type & "_seq "
 	rs.Open Sql, conn, 1, 1
 
@@ -61,31 +61,25 @@
 			sql = sql & "   from cf_" & menu_type & " "
 			sql = sql & "  where menu_seq = '" & menu_seq  & "' "
 			sql = sql & "    and credt < (select credt from cf_" & menu_type & " where " & menu_type & "_seq = " & com_seq & ") "
-'			msgonly sql
 			rs2.Open Sql, conn, 3, 1
 			group_num = rs2("group_max")
 			rs2.close
-'			msgonly group_num
 
 			sql = ""
 			sql = sql & " select count(*) as group_cnt "
 			sql = sql & "   from cf_" & menu_type & " "
 			sql = sql & "  where menu_seq = '" & menu_seq  & "' "
 			sql = sql & "    and group_num = '" & group_num  & "' "
-'			msgonly sql
 			rs2.Open Sql, conn, 3, 1
-'			group_cnt = rs2("group_cnt")
 			rs2.close
-'			msgonly group_cnt
+
 			If CInt(group_cnt) > 0 Then
 				sql = ""
 				sql = sql & " select isnull(min(group_num), " & CLng(group_num)  & ") - 0.001 as group_min "
 				sql = sql & "   from cf_" & menu_type & " "
 				sql = sql & "  where menu_seq = '" & menu_seq  & "' "
 				sql = sql & "    and group_num < '" & group_num  & "' "
-'				msgonly sql
 				rs2.Open Sql, conn, 3, 1
-'				group_num = clng(rs2("group_min"))
 				rs2.close
 			End if
 
@@ -128,10 +122,20 @@
 		conn.Close
 		Set conn = Nothing
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 	alert("이동 되었습니다.");
-	opener.parent.location.href='<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
-	window.close()
+<%
+	If session("noFrame") = "Y" Then
+%>
+	parent.location.href='<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>') ;
+<%
+	End if
+%>
 </script>
 <%
 	Else
@@ -141,8 +145,6 @@
 %>
 <script>
 	alert("오류가 뱔생했습니다.\n\n에러내용 : <%=Err.Description%>(<%=Err.Number%>)");
-	opener.parent.location.href='<%=pgm%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
-	window.close()
 </script>
 <%
 	End if

@@ -12,6 +12,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 <%
@@ -64,39 +65,39 @@
 										<th scope="row">항목보이기</th>
 										<td>
 											<span class="">
-												<input type="checkbox" id="list_info" name="list_info" value="agency" <%=if3(InStr(list_info, "agency")>0,"checked","")%> />
+												<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="agency" <%=if3(InStr(list_info, "agency")>0,"checked","")%> />
 												<label for=""><em>상호</em></label>
 											</span>
 											<span class="ml10">
-												<input type="checkbox" id="list_info" name="list_info" value="kname" <%=if3(InStr(list_info, "kname")>0,"checked","")%> />
+												<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="kname" <%=if3(InStr(list_info, "kname")>0,"checked","")%> />
 												<label for=""><em>대표자명</em></label>
 											</span>
 											<span class="ml10">
-												<input type="checkbox" id="list_info" name="list_info" value="picture" <%=if3(InStr(list_info, "picture")>0,"checked","")%> />
+												<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="picture" <%=if3(InStr(list_info, "picture")>0,"checked","")%> />
 												<label for=""><em>대표자사진</em></label>
 											</span>
 											<span class="ml10">
-												<input type="checkbox" id="list_info" name="list_info" value="license" <%=if3(InStr(list_info, "license")>0,"checked","")%> />
+												<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="license" <%=if3(InStr(list_info, "license")>0,"checked","")%> />
 												<label for=""><em>허가번호</em></label>
 											</span>
 											<span class="ml10">
-												<input type="checkbox" id="list_info" name="list_info" value="phone" <%=if3(InStr(list_info, "phone")>0,"checked","")%> />
+												<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="phone" <%=if3(InStr(list_info, "phone")>0,"checked","")%> />
 												<label for=""><em>전화번호</em></label>
 											</span>
 											<span class="ml10">
-												<input type="checkbox" id="list_info" name="list_info" value="mobile" <%=if3(InStr(list_info, "mobile")>0,"checked","")%> />
+												<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="mobile" <%=if3(InStr(list_info, "mobile")>0,"checked","")%> />
 												<label for=""><em>핸드폰번호</em></label>
 											</span>
 											<span class="ml10">
-												<input type="checkbox" id="list_info" name="list_info" value="fax" <%=if3(InStr(list_info, "fax")>0,"checked","")%> />
+												<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="fax" <%=if3(InStr(list_info, "fax")>0,"checked","")%> />
 												<label for=""><em>팩스</em></label>
 											</span>
 											<span class="ml10">
-												<input type="checkbox" id="list_info" name="list_info" value="interphone" <%=if3(InStr(list_info, "interphone")>0,"checked","")%> />
+												<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="interphone" <%=if3(InStr(list_info, "interphone")>0,"checked","")%> />
 												<label for=""><em>내선번호</em></label>
 											</span>
 											<span class="ml10">
-												<input type="checkbox" id="list_info" name="list_info" value="addr" <%=if3(InStr(list_info, "addr")>0,"checked","")%> />
+												<input type="checkbox" class="inp_check" id="list_info" name="list_info" value="addr" <%=if3(InStr(list_info, "addr")>0,"checked","")%> />
 												<label for=""><em>주소</em></label>
 											</span>
 										</td>
@@ -104,7 +105,7 @@
 									<tr>
 										<th scope="row">메뉴감추기</th>
 										<td>
-											<input type="checkbox" id="hidden_yn" name="hidden_yn" value="Y" <%=if3(hidden_yn = "Y","checked","") %> class="" />
+											<input type="checkbox" id="hidden_yn" name="hidden_yn" value="Y" <%=if3(hidden_yn = "Y","checked","") %> class="inp_check" />
 											<label for=""><em>감추기</em></label>
 										</td>
 									</tr>

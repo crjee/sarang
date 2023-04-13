@@ -14,12 +14,19 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body class="skin_type_1">
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 	<div id="wrap" class="group">
 <!--#include virtual="/cafe/skin/skin_header_inc.asp"-->
 		<main id="main" class="sub">
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
+<%
+	End IF
+%>
 			<div class="container">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 			<script>
@@ -27,6 +34,7 @@
 					if (!testCheck()) return;
 					var f = document.list_form;
 					f.action = "memo_del_exec.asp";
+					f.target = "hiddenfrm";
 					f.submit()
 				}
 
@@ -54,9 +62,9 @@
 				}
 
 				function goView(memo_seq) {
+					document.open_form.open_url.value = "/cafe/skin/memo_view_p.asp?memo_seq="+memo_seq;
 					document.open_form.action = "/win_open_exec.asp"
 					document.open_form.target = "hiddenfrm";
-					document.open_form.open_url.value = "/cafe/skin/memo_view_p.asp?memo_seq="+memo_seq;
 					document.open_form.submit();
 				}
 			</script>
@@ -130,8 +138,8 @@
 						<input type="hidden" name="page" value="<%=page%>">
 						<button class="btn btn_c_a btn_s" type="button" onclick="goAll()">전체선택</button>
 						<button class="btn btn_c_a btn_s" type="button" onclick="goDel()">선택삭제</button>
-						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/memo_list.asp?menu_seq=<%=menu_seq%>&stype=<%=stype%>&memo_receive_yn=<%=if3(memo_receive_yn="N","Y","N")%>'"><%=if3(memo_receive_yn="N","수신허용","수신거부")%></button>
-						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/memo_write.asp?menu_seq=<%=menu_seq%>'">쪽지보내기</button>
+						<button class="btn btn_c_a btn_s" type="button" onclick="<%=session("svHref")%>location.href='/cafe/skin/memo_list.asp?menu_seq=<%=menu_seq%>&stype=<%=stype%>&memo_receive_yn=<%=if3(memo_receive_yn="N","Y","N")%>'"><%=if3(memo_receive_yn="N","수신허용","수신거부")%></button>
+						<button class="btn btn_c_a btn_s" type="button" onclick="<%=session("svHref")%>location.href='/cafe/skin/memo_write.asp?menu_seq=<%=menu_seq%>'">쪽지보내기</button>
 					</div>
 					<div class="tb">
 						<form name="list_form" method="post">
@@ -160,7 +168,7 @@
 		credt = rs("credt")
 %>
 								<tr>
-									<td class="algC"><input type="checkbox" value="<%=rs("memo_seq")%>" name="memo_seq" class="row-select"></td>
+									<td class="algC"><input type="checkbox" value="<%=rs("memo_seq")%>" name="memo_seq" class="inp_check"></td>
 									<td class="algC"><%=rs("fragency")%></td>
 									<td class="algC"><%=rs("toagency")%></td>
 									<!-- <td><a href="#" onclick="goView('<%=rs("memo_seq")%>')"><%=rs("subject")%></a></td> -->
@@ -179,10 +187,19 @@
 					</div>
 				</div>
 			</div>
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 <!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
 		</main>
 <!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
 	</div>
+<%
+	End IF
+%>
+	<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;width:1000;"></iframe>
+</body>
+</html>
 
 	<!-- 레이어 팝업 -->
 	<div class="lypp lypp_sarang lypp_memo">
@@ -241,6 +258,3 @@
 			</form>
 		</div>
 	</div>
-</body>
-</html>
-

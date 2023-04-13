@@ -1,1 +1,0 @@
-(function(n){const o=n["gu"]=n["gu"]||{};o.dictionary=Object.assign(o.dictionary||{},{"Block quote":" 夕듀た夕싟ぞ夕?夕잀ぞ夕귖첈奭?,Bold:"夕섁ぞ夕잀쳛 - 夕о쳦夕꿋쳨夕□쳨","Cannot upload file:":"夕ムぞ夕뉋げ 夕끶お夕꿋쳦夕?夕?夕?챺 夕뜩첈奭",Italic:"夕ㅰ쳨夕겯ぞ夕귖じ奭?- 夕뉋첒夕꿋た夕뺖쳨"});o.getPluralForm=function(n){return n!=1}})(window.CKEDITOR_TRANSLATIONS||(window.CKEDITOR_TRANSLATIONS={}));

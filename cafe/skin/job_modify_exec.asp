@@ -76,7 +76,18 @@
 	sql = sql & "  where menu_seq = '" & menu_seq & "' "
 	Conn.Execute(sql)
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
+	alert("수정 되었습니다.");
+<%
+	If session("noFrame") = "Y" Then
+%>
 	parent.location.href='job_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&job_seq=<%=job_seq%>&self_yn=<%=self_yn%>&all_yn=<%=all_yn%>';
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/job_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&job_seq=<%=job_seq%>&self_yn=<%=self_yn%>&all_yn=<%=all_yn%>') ;
+<%
+	End if
+%>
 </script>
-

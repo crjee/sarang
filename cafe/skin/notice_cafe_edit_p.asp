@@ -255,7 +255,7 @@
 		cafe_id = rs("cafe_id")
 		cafe_name = rs("cafe_name")
 %>
-							<input type="checkbox" name="chk[group][<%=cafe_id%>]" value="<%=cafe_id%>" onClick="mem_chk(this,'<%=cafe_id%>','<%=cafe_name%>')">
+							<input type="checkbox" class="inp_check" name="chk[group][<%=cafe_id%>]" value="<%=cafe_id%>" onClick="mem_chk(this,'<%=cafe_id%>','<%=cafe_name%>')">
 							<a title="<%=cafe_name%>"><font color=gray><%=cafe_name%></font></a><br />
 <%
 	rs.MoveNext

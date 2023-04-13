@@ -19,6 +19,7 @@
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/sticky.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 	<div id="wrap">
@@ -30,7 +31,6 @@
 				</div>
 				<form name="form" method="post" onsubmit="return submitContents(this)">
 				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-				<input type="hidden" id="attachCnt" name="attachCnt" value="1">
 				<input type="hidden" name="temp" value="Y">
 				<div class="view_cont">
 					<h4 class="f_awesome h4">이용약관</h4>
@@ -49,9 +49,9 @@
 						</textarea>
 					</div>
 					<span class="">
-						<input type="radio" id="agree1_y" name="agree1_yn" value="Y" class="checkbox" required />
+						<input type="radio" id="agree1_y" name="agree1_yn" value="Y" class="inp_radio" required />
 						<label for="agree1_y"><em>동의합니다.</em></label>
-						<input type="radio" id="agree1_n" name="agree1_yn" value="N" class="checkbox" required />
+						<input type="radio" id="agree1_n" name="agree1_yn" value="N" class="inp_radio" required />
 						<label for="agree1_n"><em>동의하지 않습니다</em></label>
 					</span>
 				</div>
@@ -71,9 +71,9 @@
 						</textarea>
 					</div>
 					<span class="">
-						<input type="radio" id="agree2_y" name="agree2_yn" value="Y" class="checkbox" required />
+						<input type="radio" id="agree2_y" name="agree2_yn" value="Y" class="inp_radio" required />
 						<label for="agree2_y"><em>동의합니다.</em></label>
-						<input type="radio" id="agree2_n" name="agree2_yn" value="N" class="checkbox" required />
+						<input type="radio" id="agree2_n" name="agree2_yn" value="N" class="inp_radio" required />
 						<label for="agree2_n"><em>동의하지 않습니다</em></label>
 					</span>
 				</div>
@@ -94,9 +94,9 @@
 						</textarea>
 					</div>
 					<span class="">
-						<input type="radio" id="agree3_y" name="agree3_yn" value="Y" class="checkbox" required />
+						<input type="radio" id="agree3_y" name="agree3_yn" value="Y" class="inp_radio" required />
 						<label for="agree3_y"><em>동의합니다.</em></label>
-						<input type="radio" id="agree3_n" name="agree3_yn" value="N" class="checkbox" required />
+						<input type="radio" id="agree3_n" name="agree3_yn" value="N" class="inp_radio" required />
 						<label for="agree3_n"><em>동의하지 않습니다</em></label>
 					</span>
 				</div>

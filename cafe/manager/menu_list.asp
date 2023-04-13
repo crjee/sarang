@@ -18,6 +18,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 	<div id="wrap">
@@ -143,9 +144,9 @@
 					</form>
 				</div>
 				<div class="adm_menu_item adm_menu_item_cont">
-					<div class="adm_menu_item_tit">메뉴 설정</div>
+					<!-- <div class="adm_menu_item_tit">메뉴 설정</div> -->
 						<iframe id="ifrm" class="iframe" name="ifrm" frameborder="1" scrolling="no" style="border:1px;height:100%;width:100%"></iframe>
-					</div>
+					<!-- </div> -->
 				</div>
 			</div>
 		</main>

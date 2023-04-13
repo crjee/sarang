@@ -12,12 +12,19 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body class="skin_type_1">
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 	<div id="wrap" class="group">
 <!--#include virtual="/cafe/skin/skin_header_inc.asp"-->
 		<main id="main" class="sub">
 <!--#include virtual="/cafe/skin/skin_left_inc.asp"-->
+<%
+	End IF
+%>
 			<div class="container">
 <%
 	Set rs = Server.CreateObject ("ADODB.Recordset")
@@ -133,8 +140,8 @@
 							<tr>
 								<th scope="row">쪽지수신</th>
 								<td>
-									<input type="radio" class="radio3" name="memo_receive_yn" value="Y" <%=if3(memo_receive_yn="Y","checked","")%>>허용 &nbsp; &nbsp;
-									<input type="radio" class="radio3" name="memo_receive_yn" value="N" <%=if3(memo_receive_yn="N","checked","")%>>차단
+									<input type="radio" class="inp_radio" name="memo_receive_yn" value="Y" <%=if3(memo_receive_yn="Y","checked","")%>>허용 &nbsp; &nbsp;
+									<input type="radio" class="inp_radio" name="memo_receive_yn" value="N" <%=if3(memo_receive_yn="N","checked","")%>>차단
 								</td>
 								<th scope="row">휴대폰</th>
 								<td>
@@ -195,14 +202,20 @@
 				</div>
 				<div class="btn_box">
 					<button type="submit" class="btn btn_c_a btn_n">등록</button>
-					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='board_list.asp?menu_seq=<%=menu_seq%>'"><em>취소</em></button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="<%=session("svHref")%>location.href='/cafe/skin/board_list.asp?menu_seq=<%=menu_seq%>'"><em>취소</em></button>
 				</div>
 				</form>
 			</div>
+<%
+	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
+%>
 <!--#include virtual="/cafe/skin/skin_right_inc.asp"-->
 		</main>
 <!--#include virtual="/cafe/skin/skin_footer_inc.asp"-->
 	</div>
+<%
+	End IF
+%>
 </body>
 </html>
 

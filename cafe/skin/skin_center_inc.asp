@@ -1,3 +1,4 @@
+<!--#include virtual="/cafe/skin/skin_banner_inc.asp"-->
 				<div class="sub_frm_flex">
 <%
 	Set rs = Server.CreateObject ("ADODB.Recordset")
@@ -95,7 +96,7 @@
 <%
 		End If
 %>
-								<span class="posR"><a href="/cafe/skin/<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>">more</a></span>
+								<span class="posR"><a href="/cafe/skin/<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>" target="<%=session("ctTarget")%>">more</a></span>
 							</header>
 							<div class="tb main_rolling" id="<%=land_id%>">
 <%
@@ -233,7 +234,7 @@
 
 			If tab_use_yn = "Y" Then ' 탭정보 확인
 %>
-							<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>">
+								<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>">
 <%
 			End If
 
@@ -278,7 +279,7 @@
 					If list_type = "T1" Or list_type = "T2" Then
 %>
 									<li class="t_nowrap">
-										<a href="<%=view_url%>"><span class="text"><%=subject%><%=comment_txt%></span></a>
+										<a href="<%=view_url%>" target="<%=session("ctTarget")%>"><span class="text"><%=subject%><%=comment_txt%></span></a>
 										<span class="posr"><%=credt_txt%></span>
 									</li>
 <%
@@ -297,7 +298,7 @@
 
 						If Not rs3.EOF Then
 %>
-										<span class="photos"><a href="<%=view_url%>"><img src="<%=uploadUrl & rs3("file_name")%>" alt="" /></a></span>
+										<span class="photos"><a href="<%=view_url%>" target="<%=session("ctTarget")%>"><img src="<%=uploadUrl & rs3("file_name")%>" alt="" /></a></span>
 <%
 						Else
 %>
@@ -306,7 +307,7 @@
 						End If
 						rs3.close
 %>
-										<a href="<%=view_url%>"><span class="text"><%=subject%></span></a>
+										<a href="<%=view_url%>" target="<%=session("ctTarget")%>"><span class="text"><%=subject%></span></a>
 										<span class="posr"><%=credt_txt%></span>
 									</li>
 <%
@@ -325,7 +326,7 @@
 
 						If Not rs3.EOF Then
 %>
-												<span class="photos"><a href="<%=view_url%>"><img src="<%=uploadUrl & rs3("file_name")%>" border="0" /></a></span>
+												<span class="photos"><a href="<%=view_url%>" target="<%=session("ctTarget")%>"><img src="<%=uploadUrl & rs3("file_name")%>" border="0" /></a></span>
 <%
 						Else
 %>
@@ -334,16 +335,16 @@
 						End If
 						rs3.close
 %>
-												<a href="<%=view_url%>"><span class="text"><%=subject%></span></a>
+												<a href="<%=view_url%>" target="<%=session("ctTarget")%>"><span class="text"><%=subject%></span></a>
 												<span class="posr">
 <%
 						If menu_type = "nsale" Then
 %>
-												<span title="분양일"><%=frst_receipt_acpt_date%></span> / <span title="입주일"><%=mvin_date%></span>
+													<span title="분양일"><%=frst_receipt_acpt_date%></span> / <span title="입주일"><%=mvin_date%></span>
 <%
 						Else
 %>
-												<span title="작성일"><%=frst_receipt_acpt_date%></span></span>
+													<span title="작성일"><%=frst_receipt_acpt_date%></span></span>
 <%
 						End If
 %>
@@ -354,7 +355,7 @@
 					Else
 %>
 									<li class="t_nowrap">
-										<a href="<%=view_url%>"><span class="text"><%=subject%><%=comment_txt%></span></a>
+										<a href="<%=view_url%>" target="<%=session("ctTarget")%>"><span class="text"><%=subject%><%=comment_txt%></span></a>
 										<span class="posr"><%=credt_txt%></span>
 									</li>
 <%
@@ -385,32 +386,38 @@
 			Else
 				If list_type = "T1" Or list_type = "T2" Then
 %>
+								<ul>
 									<li class="t_nowrap no_data">
 										데이터가 없습니다.
 									</li>
+								</ul>
 <%
 				ElseIf list_type = "C1" Or list_type = "C2" Then
 %>
+								<ul>
 									<li class="t_nowrap no_data">
 										데이터가 없습니다.
 									</li>
+								</ul>
 <%
 				ElseIf list_type = "A1" Or list_type = "A2" Then
 %>
-								<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>"><%=arrRgn(li)%> 데이터가 없습니다.</div>
+								<%=arrRgn(li)%> 데이터가 없습니다.
 <%
 				Else
 %>
+								<ul>
 									<li class="t_nowrap no_data">
 										데이터가 없습니다.
 									</li>
+								</ul>
 <%
 				End If
 			End If
 
 			If tab_use_yn = "Y" Then ' 탭정보 확인
 %>
-							</div>
+								</div><!-- tab -->
 <%
 			End If
 			rs2.close
@@ -452,4 +459,3 @@
 						}
 					});
 				</script>
-

@@ -89,9 +89,20 @@
 		conn.Close
 		Set conn = Nothing
 %>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 	alert("전송 되었습니다.");
+<%
+	If session("noFrame") = "Y" Then
+%>
 	parent.document.location = "memo_write.asp?menu_seq=<%=menu_seq%>"
+<%
+	Else
+%>
+	$('#cafe_main', parent.parent.document).attr('src', './skin/memo_write.asp?menu_seq=<%=menu_seq%>') ;
+<%
+	End if
+%>
 </script>
 <%
 	Else

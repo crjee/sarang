@@ -12,6 +12,7 @@
 	<script src="/common/js/jquery-ui.min.js"></script>
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
 </head>
 <body>
 <%
@@ -41,7 +42,7 @@
 	rs.close
 %>
 					<div class="adm_cont_tit">
-						<h4 class="h3 mt20 mb10"><%=menu_name%> 설정</h4>
+						<h3 class="h3 mt20 mb10"><%=menu_name%> 설정</h3>
 					</div>
 					<form name="form" method="post" action="com_exec.asp">
 					<input type="hidden" name="cafe_id" value="<%=cafe_id%>">
@@ -68,27 +69,21 @@
 										<td colspan="3">
 											<ul class="list_option_flex">
 												<li class="">
-													<span class="head">쓰기</span>
-													<select id="write_auth" name="write_auth" class="sel w_auto">
-														<option value="1" <%=if3(write_auth = "1","selected","") %>>준회원</option>
-														<option value="2" <%=if3(write_auth = "2","selected","") %>>정회원</option>
-														<option value="10" <%=if3(write_auth = "10","selected","") %>>사랑방지기</option>
-													</select>
-												</li>
-												<li class="">
-													<span class="head">댓글쓰기</span>
-													<select id="reply_auth" name="reply_auth" class="sel w_auto">
-														<option value="1" <%=if3(reply_auth = 1,"selected","") %>>준회원</option>
-														<option value="2" <%=if3(reply_auth = 2,"selected","") %>>정회원</option>
-														<option value="10" <%=if3(reply_auth = 10,"selected","") %>>사랑방지기</option>
-													</select>
-												</li>
-												<li class="">
 													<span class="head">읽기</span>
 													<select id="read_auth" name="read_auth" class="sel w_auto">
-														<option value="1" <%=if3(read_auth = 1,"selected","") %>>준회원</option>
-														<option value="2" <%=if3(read_auth = 2,"selected","") %>>정회원</option>
-														<option value="10" <%=if3(read_auth = 10,"selected","") %>>사랑방지기</option>
+														<%=makeComboCD("cafe_mb_level", read_auth)%>
+													</select>
+												</li>
+												<li class="">
+													<span class="head">쓰기</span>
+													<select id="write_auth" name="write_auth" class="sel w_auto">
+														<%=makeComboCD("cafe_mb_level", write_auth)%>
+													</select>
+												</li>
+												<li class="">
+													<span class="head">답글쓰기</span>
+													<select id="reply_auth" name="reply_auth" class="sel w_auto">
+														<%=makeComboCD("cafe_mb_level", reply_auth)%>
 													</select>
 												</li>
 											</ul>
@@ -101,7 +96,7 @@
 	Set form = Conn.Execute("select * from cf_com_form where menu_seq='" & menu_seq & "'")
 	If Not form.eof Then
 %>
-											<input type="checkbox" id="frm" name="frm" class="" />
+											<input type="checkbox" id="frm" name="frm" class="inp_check" />
 											<label for="frm"><em>질문양식 사용</em></label>
 											<span class="ml10"><buton type="submit" class="btn btn_s btn_c_a" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식수정</buton></span>
 <%
@@ -114,14 +109,14 @@
 										</td>
 										<th scope="row">메뉴감추기</th>
 										<td>
-											<input type="checkbox" id="hidden_yn" name="hidden_yn" value="Y" <%=if3(hidden_yn = "Y","checked","") %> class="" />
+											<input type="checkbox" id="hidden_yn" name="hidden_yn" value="Y" <%=if3(hidden_yn = "Y","checked","") %> class="inp_check" />
 											<label for=""><em>감추기</em></label>
 										</td>
 									</tr>
 									<tr>
 										<th scope="row">탭메뉴사용</th>
 										<td>
-											<input type="checkbox" id="tab_use_yn" name="tab_use_yn" value="Y" <%=if3(tab_use_yn = "Y","checked","") %> class="" />
+											<input type="checkbox" id="tab_use_yn" name="tab_use_yn" value="Y" <%=if3(tab_use_yn = "Y","checked","") %> class="inp_check" />
 											<label for=""><em>사용</em></label>
 										</td>
 										<th scope="row">쓰기형식</th>
@@ -154,11 +149,11 @@
 												<option value='3' <%=If3(daily_cnt="3","selected","") %>>3</option>
 											</select>
 											<span class="ml20">
-												<input type="radio" id="inc_del_yn" name="inc_del_yn" value="Y" <%=if3(inc_del_yn="Y","checked","") %> class="" />
+												<input type="radio" id="inc_del_yn" name="inc_del_yn" value="Y" <%=if3(inc_del_yn="Y","checked","") %> class="inp_radio" />
 												<label for=""><em>삭제건 포함</em></label>
 											</span>
 											<span class="ml10">
-												<input type="radio" id="inc_del_yn" name="inc_del_yn" value="N" <%=if3(inc_del_yn="N","checked","") %> class="" />
+												<input type="radio" id="inc_del_yn" name="inc_del_yn" value="N" <%=if3(inc_del_yn="N","checked","") %> class="inp_radio" />
 												<label for=""><em>삭제건 미포함</em></label>
 											</span>
 										</td>
@@ -166,7 +161,7 @@
 									<tr>
 										<th scope="row">분류 추가</th>
 										<td colspan="3">
-                                            <!-- 게시판 분류 추가 : s -->
+											<!-- 게시판 분류 추가 : s -->
 											<div>
 												<div style="float:left;width:100px;">게시판 분류 추가 : </div>
 												<div style="clar:both;">
@@ -199,7 +194,7 @@
 																	<input type="hidden" name="section_seq" value="<%=section_seq%>">
 																	<input type="text" name="section_nm" value="<%=section_nm%>" class="inp w_auto">
 																	<span class="ml10">
-																		<input type="checkbox" id="use_y<%=i%>" name="use_y" value="Y" <%=if3(use_yn="Y","checked","")%> onclick="onCheck(<%=i%>)" />
+																		<input type="checkbox" id="use_y<%=i%>" name="use_y" value="Y" class="inp_check" <%=if3(use_yn="Y","checked","")%> onclick="onCheck(<%=i%>)" />
 																		<label for="use_y"><em>사용</em></label>
 																		<input type="hidden" id="use_yn<%=i%>" name="use_yn" value="<%=use_yn%>">
 																	</span>
@@ -217,7 +212,7 @@
 													</div>
 												</div>
 											</div>
-                                            <!-- 게시판 분류 추가 : e -->
+											<!-- 게시판 분류 추가 : e -->
 										</td>
 									</tr>
 								</tbody>

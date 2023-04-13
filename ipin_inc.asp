@@ -7,21 +7,21 @@
 		Conn.open Application("db")
 
 		sql = ""
-		sql = sql & " select mi.user_id "
-		sql = sql & "       ,mi.agency "
-		sql = sql & "       ,mi.kname "
-		sql = sql & "       ,mi.ename "
-		sql = sql & "       ,mi.cafe_id "
-		sql = sql & "       ,cf.union_id "
-		sql = sql & "       ,upper(mi.stat) stat "
-		sql = sql & "       ,ad.cafe_ad_level "
-		sql = sql & "       ,cs.skin_id "
-		sql = sql & "   from cf_member mi "
+		sql = sql & " select mi.user_id                                        "
+		sql = sql & "       ,mi.agency                                         "
+		sql = sql & "       ,mi.kname                                          "
+		sql = sql & "       ,mi.ename                                          "
+		sql = sql & "       ,mi.cafe_id                                        "
+		sql = sql & "       ,cf.union_id                                       "
+		sql = sql & "       ,upper(mi.stat) stat                               "
+		sql = sql & "       ,ad.cafe_ad_level                                  "
+		sql = sql & "       ,cs.skin_id                                        "
+		sql = sql & "   from cf_member mi                                      "
 		sql = sql & "   left outer join cf_admin ad on ad.user_id = mi.user_id "
-		sql = sql & "   left outer join cf_cafe cf on cf.cafe_id = mi.cafe_id "
-		sql = sql & "   left outer join cf_skin cs on cs.cafe_id = cf.cafe_id "
-		sql = sql & "  where mi.user_id = '" & user_id & "' "
-		sql = sql & "    and mi.ipin = '" & ipin & "' "
+		sql = sql & "   left outer join cf_cafe cf on cf.cafe_id = mi.cafe_id  "
+		sql = sql & "   left outer join cf_skin cs on cs.cafe_id = cf.cafe_id  "
+		sql = sql & "  where mi.user_id = '" & user_id & "'                    "
+		sql = sql & "    and mi.ipin = '" & ipin & "'                          "
 
 		Set rs = Conn.Execute(sql)
 		If Not rs.eof Then
@@ -29,13 +29,13 @@
 				set_log()
 
 				Session.timeout = 1440
-				Session("user_id") = rs("user_id")
-				Session("agency")  = rs("agency")
-				Session("kname")   = rs("kname")
-				Session("ename")   = rs("ename")
-				Session("mycafe")  = rs("cafe_id")
+				Session("user_id")       = rs("user_id")
+				Session("agency")        = rs("agency")
+				Session("kname")         = rs("kname")
+				Session("ename")         = rs("ename")
+				Session("mycafe")        = rs("cafe_id")
 				Session("cafe_ad_level") = rs("cafe_ad_level")
-				Session("skin_id") = rs("skin_id")
+				Session("skin_id")       = rs("skin_id")
 
 				If rs("union_id") = "jungdong" Then
 					cafe_id = "jungdong"
