@@ -400,7 +400,9 @@
 <%
 				ElseIf list_type = "A1" Or list_type = "A2" Then
 %>
-								<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>"><%=arrRgn(li)%> 데이터가 없습니다.</div>
+									<div class="nodata">
+										<span class="txt"><%=arrRgn(li)%> 데이터가 없습니다.</span>
+									</div>
 <%
 				Else
 %>
