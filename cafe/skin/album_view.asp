@@ -40,11 +40,13 @@
 	sch_word  = Request("sch_word")
 	cafe_sch  = Request("cafe_sch")
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
+	self_yn   = Request("self_yn")
 
 	album_seq = Request("album_seq")
 
 	Call setViewCnt(menu_type, album_seq)
+
+	Set rs = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select ca.* "
@@ -68,6 +70,7 @@
 				<input type="hidden" name="pagesize" value="<%=pagesize%>">
 				<input type="hidden" name="sch_type" value="<%=sch_type%>">
 				<input type="hidden" name="sch_word" value="<%=sch_word%>">
+				<input type="hidden" name="self_yn" value="<%=self_yn%>">
 				<input type="hidden" name="album_seq" value="<%=album_seq%>">
 				<input type="hidden" name="group_num" value="<%=rs("group_num")%>">
 				<input type="hidden" name="level_num" value="<%=rs("level_num")%>">

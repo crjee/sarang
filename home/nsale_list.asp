@@ -45,11 +45,12 @@
 	End IF
 
 	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs2 = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
-	sql = sql & " select count(nsale_seq) cnt "
-	sql = sql & "   from cf_nsale "
-	sql = sql & "  where cafe_id = '" & cafe_id & "' "
+	sql = sql & " select count(nsale_seq) cnt          "
+	sql = sql & "   from cf_nsale                      "
+	sql = sql & "  where cafe_id = '" & cafe_id & "'   "
 	sql = sql & "    and menu_seq = '" & menu_seq & "' "
 	sql = sql & kword
 	rs.Open sql, conn, 3, 1
@@ -61,17 +62,17 @@
 	rs.close
 
 	sql = ""
-	sql = sql & " select convert(varchar(10), credt, 120) as credt_txt"
-	sql = sql & "       ,*       "
+	sql = sql & " select convert(varchar(10), credt, 120) as credt_txt                               "
+	sql = sql & "       ,*                                                                           "
 	sql = sql & "   from (select row_number() over( order by group_num desc, step_num asc) as rownum "
-	sql = sql & "               ,*               "
-	sql = sql & "           from cf_nsale "
-	sql = sql & "          where cafe_id = '" & cafe_id & "' "
-	sql = sql & "            and menu_seq = '" & menu_seq & "' "
+	sql = sql & "               ,*                                                                   "
+	sql = sql & "           from cf_nsale                                                            "
+	sql = sql & "          where cafe_id = '" & cafe_id & "'                                         "
+	sql = sql & "            and menu_seq = '" & menu_seq & "'                                       "
 	sql = sql & kword
-	sql = sql & "        ) a "
-	sql = sql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & " "
-	sql = sql & "  order by group_num desc, step_num asc "
+	sql = sql & "        ) a                                                                         "
+	sql = sql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & "          "
+	sql = sql & "  order by group_num desc, step_num asc                                             "
 	rs.Open sql, conn, 3, 1
 
 	' 전체 페이지 수 얻기
@@ -118,86 +119,70 @@
 						</form>
 					</div>
 					<div class="tb">
-						<table>
-							<colgroup>
-								<col class="w5" />
-								<col class="w_auto" />
-								<col class="w10" />
-								<col class="w10" />
-								<col class="w10" />
-							</colgroup>
-							<thead>
-								<tr>
-									<th scope="col">번호</th>
-									<th scope="col">제목</th>
-									<th scope="col">작성자</th>
-									<th scope="col">작성일</th>
-									<th scope="col">조회</th>
-								</tr>
-							</thead>
-							<tbody>
+						<div class="gallery gallery_t_1">
+							<div class="gallery_inner_box">
 <%
+	Set fso = Server.CreateObject("Scripting.FileSystemObject")
+	i = 1
 	If Not rs.EOF Then
-		Do Until rs.EOF
+		Do Until rs.EOF Or i > rs.PageSize
+			nsale_seq   = rs("nsale_seq")
+			subject     = rs("subject")
+			view_cnt    = rs("view_cnt")
+			agency      = rs("agency")
 			comment_cnt = rs("comment_cnt")
-			subject = rs("subject")
+			credt_txt   = rs("credt_txt")
+
 			If isnull(subject) Or isempty(subject) Or Len(subject) = 0 Then
 				subject = "제목없음"
 			End if
-
-			parent_del_yn = rs("parent_del_yn")
-
-			If parent_del_yn = "Y" Then
-				subject = "*원글이 삭제된 답글* " & subject
-			End if
-			subject_s = rmid(subject, 40, "..")
 %>
-								<tr>
-									<td class="algC"><%=if3(rs("level_num")="0",rs("nsale_num"),"")%></td>
-									<td>
+								<div class="c_wrap">
 <%
-			If rs("level_num") > "0" Then
+			uploadUrl = ConfigAttachedFileURL & "nsale/"
+
+			sql = ""
+			sql = sql & " select top 1 * "
+			sql = sql & "   from cf_nsale_attach "
+			sql = sql & "  where nsale_seq = '" & nsale_seq & "' "
+			sql = sql & "  order by nsale_seq "
+			rs2.Open Sql, conn, 3, 1
+
+			If Not rs2.EOF Then
 %>
-										<img src="/cafe/skin/img/btn/re.gif" width="<%=rs("level_num")*10%>" height="0">
-										<img src="/cafe/skin/img/btn/re.png" />
+									<span class="photos"><a href="javascript: goView('<%=nsale_seq%>','<%=session("ctTarget")%>')"><img src="<%=uploadUrl & rs2("file_name")%>" border="0" /></a></span>
+<%
+			Else
+%>
+									<span class="photos"></span>
 <%
 			End If
+			rs2.close
 %>
-										<a href="javascript: goView('<%=rs("nsale_seq")%>')" title="<%=subject_s%>"><%=subject%>&nbsp;</a>
+									<a href="javascript: goView('<%=nsale_seq%>','<%=session("ctTarget")%>')"><span class="text"><%=subject%>(<%=comment_cnt%>)
 <%
-			If comment_cnt > "0" Then
-%>
-										(<%=comment_cnt%>)
-<%
-			End If
-%>
-<%
-			If CDate(DateAdd("d",2,rs("credt_txt"))) >= Date Then
+			If CDate(DateAdd("d", 2, credt_txt)) >= Date Then
 %>
 										<img src="/cafe/skin/img/btn/new.png" />
 <%
 			End if
 %>
-									</td>
-									<td class="algC">운영자</td>
-									<td class="algC"><%=rs("credt_txt")%></td>
-									<td class="algC"><%=rs("view_cnt")%></td>
-								</tr>
+									</span></a>
+									<span class="posr"><span class="text">조회 <%=view_cnt%> ㅣ <%=credt_txt%></span></span>
+									<span class="posr"><span class="text"><%=agency%></span></span>
+								</div>
 <%
+			i = i + 1
 			rs.MoveNext
 		Loop
-	Else
-%>
-								<tr>
-									<td colspan="5" class="td_nodata">등록된 글이 없습니다.</td>
-								</tr>
-<%
-	End If
+	End if
 	rs.close
 	Set rs = nothing
+
+	Set fso = nothing
 %>
-							</tbody>
-						</table>
+							</div>
+						</div>
 					</div>
 <!--#include virtual="/cafe/skin/skin_page_inc.asp"-->
 				</div>

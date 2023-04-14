@@ -34,7 +34,6 @@
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
 	self_yn  = Request("self_yn")
-	all_yn   = Request("all_yn")
 
 	pagesize = Request("pagesize")
 	If pagesize = "" Then pagesize = 20
@@ -59,6 +58,9 @@
 	sql = sql & "   from cf_board cb "
 	sql = sql & "  where cafe_id = '" & cafe_id & "' "
 	sql = sql & "    and menu_seq = '" & menu_seq & "' "
+	If self_yn = "Y" then
+	sql = sql & "    and user_id = '" & session("user_id") & "' "
+	End If
 	sql = sql & kword
 	rs.Open sql, conn, 3, 1
 	RecordCount = 0 ' 자료가 없을때
@@ -100,6 +102,9 @@
 	sql = sql & "           from cf_board"
 	sql = sql & "          where cafe_id = '" & cafe_id & "' "
 	sql = sql & "            and menu_seq = '" & menu_seq & "' "
+	If self_yn = "Y" then
+	sql = sql & "            and user_id = '" & session("user_id") & "' "
+	End If
 	sql = sql & kword
 	sql = sql & "        ) cb "
 	sql = sql & "     left join cf_member cm on cm.user_id = cb.user_id "
@@ -164,10 +169,6 @@
 						<span class="ml20">
 							<input type="checkbox" id="self_yn" name="self_yn" class="inp_check" value="Y" <%=if3(self_yn="Y","checked","")%> onclick="goAll()" />
 							<label for="self_yn"><em>본인등록</em></label>
-						</span>
-						<span class="ml10">
-							<input type="checkbox" id="all_yn" name="all_yn" class="inp_check" value="Y" <%=if3(all_yn="Y","checked","")%> onclick="goAll()" />
-							<label for="all_yn"><em>전체보기</em></label>
 						</span>
 						<script>
 							function goAll() {

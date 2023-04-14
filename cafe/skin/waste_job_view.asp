@@ -44,8 +44,6 @@
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
-	self_yn   = Request("self_yn")
-	all_yn    = Request("all_yn")
 
 	job_seq = Request("job_seq")
 
@@ -134,8 +132,6 @@
 			<input type="hidden" name="pagesize" value="<%=pagesize%>">
 			<input type="hidden" name="sch_type" value="<%=sch_type%>">
 			<input type="hidden" name="sch_word" value="<%=sch_word%>">
-			<input type="hidden" name="self_yn" value="<%=self_yn%>">
-			<input type="hidden" name="all_yn" value="<%=all_yn%>">
 			<input type="hidden" name="task">
 			<input type="hidden" name="job_seq" value="<%=job_seq%>">
 			<input type="hidden" name="com_seq" value="<%=job_seq%>">

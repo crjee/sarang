@@ -35,7 +35,6 @@
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
 	self_yn  = Request("self_yn")
-	all_yn   = Request("all_yn")
 
 	pagesize = Request("pagesize")
 	If pagesize = "" Then pagesize = 20
@@ -63,6 +62,9 @@
 	sql = sql & "  where cafe_id = '" & cafe_id & "' "
 	sql = sql & "    and menu_seq = '" & menu_seq & "' "
 	sql = sql & "    and level_num = 0 "
+	If self_yn = "Y" then
+	sql = sql & "    and user_id = '" & session("user_id") & "' "
+	End If
 	sql = sql & kword
 	sql = sql & "  order by group_num desc,step_num asc "
 	rs.Open sql, conn, 3, 1
@@ -104,10 +106,6 @@
 						<span class="ml20">
 							<input type="checkbox" id="self_yn" name="self_yn" class="inp_check" value="Y" <%=if3(self_yn="Y","checked","")%> onclick="goAll()" />
 							<label for="self_yn"><em>본인등록</em></label>
-						</span>
-						<span class="ml10">
-							<input type="checkbox" id="all_yn" name="all_yn" class="inp_check" value="Y" <%=if3(all_yn="Y","checked","")%> onclick="goAll()" />
-							<label for="all_yn"><em>전체보기</em></label>
 						</span>
 						<script>
 							function goAll() {
@@ -158,50 +156,43 @@
 <%
 	Set fso = Server.CreateObject("Scripting.FileSystemObject")
 	i = 1
-	j = 0
-	line_item = 4
 	If Not rs.EOF Then
 		Do Until rs.EOF Or i > rs.PageSize
 			album_seq   = rs("album_seq")
 			subject     = rs("subject")
-			album_num   = rs("album_num")
 			view_cnt    = rs("view_cnt")
-			credt       = rs("credt")
 			agency      = rs("agency")
-			thumbnail   = rs("thumbnail")
 			comment_cnt = rs("comment_cnt")
 			credt_txt   = rs("credt_txt")
+			thumbnail   = rs("thumbnail")
 %>
 								<div class="c_wrap">
 <%
-			uploadUrl = ConfigAttachedFileURL & "album/"
+			' 썸네일로 표시
+			uploadUrl = ConfigAttachedFileURL & "thumbnail/"
+			fileUrl = uploadUrl & thumbnail
+			uploadPath = ConfigAttachedFileFolder & "thumbnail\"
+			filePath = uploadPath & thumbnail
 
-			sql = ""
-			sql = sql & " select top 1 * "
-			sql = sql & "   from cf_album_attach "
-			sql = sql & "  where album_seq = '" & album_seq & "' "
-			sql = sql & "  order by album_seq "
-			rs2.Open Sql, conn, 3, 1
-
-			If Not rs2.EOF Then
+			If (fso.FileExists(filePath)) Then
 %>
-									<span class="photos"><a href="javascript: goView('<%=album_seq%>','<%=session("ctTarget")%>')"><img src="<%=uploadUrl & rs2("file_name")%>" border="0" /></a></span>
+									<span class="photos"><a href="javascript: goView('<%=album_seq%>','<%=session("ctTarget")%>')"><img src="<%=fileUrl%>" border="0" /></a></span>
 <%
 			Else
 %>
 									<span class="photos"></span>
 <%
 			End If
-			rs2.close
 %>
-									<a href="javascript: goView('<%=album_seq%>','<%=session("ctTarget")%>')"><span class="text"><%=subject%>(<%=comment_cnt%>)</span></a>
+									<a href="javascript: goView('<%=album_seq%>','<%=session("ctTarget")%>')"><span class="text"><%=subject%>(<%=comment_cnt%>)
 <%
 			If CDate(DateAdd("d", 2, credt_txt)) >= Date Then
 %>
-						<img src="/cafe/skin/img/btn/new.png" />
+										<img src="/cafe/skin/img/btn/new.png" />
 <%
 			End if
 %>
+									</span></a>
 									<span class="posr"><span class="text">조회 <%=view_cnt%> ㅣ <%=credt_txt%></span></span>
 									<span class="posr"><span class="text"><%=agency%></span></span>
 								</div>

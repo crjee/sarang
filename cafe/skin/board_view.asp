@@ -39,11 +39,13 @@
 	sch_word  = Request("sch_word")
 	cafe_sch  = Request("cafe_sch")
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
+	self_yn   = Request("self_yn")
 
 	board_seq = Request("board_seq")
 
 	Call setViewCnt(menu_type, board_seq)
+
+	Set rs = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select cb.* "
@@ -159,6 +161,7 @@
 			<input type="hidden" name="sch_type" value="<%=sch_type%>">
 			<input type="hidden" name="sch_word" value="<%=sch_word%>">
 			<input type="hidden" name="task">
+			<input type="hidden" name="self_yn" value="<%=self_yn%>">
 			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 			<input type="hidden" name="board_seq" value="<%=board_seq%>">
 			<input type="hidden" name="com_seq" value="<%=board_seq%>">

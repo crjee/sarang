@@ -33,8 +33,6 @@
 <%
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
-	self_yn  = Request("self_yn")
-	all_yn   = Request("all_yn")
 
 	pagesize = Request("pagesize")
 	If pagesize = "" Then pagesize = 20
@@ -58,12 +56,6 @@
 	sql = sql & " select count(job_seq) cnt "
 	sql = sql & "   from cf_waste_job       "
 	sql = sql & "  where 1 = 1              "
-	If all_yn <> "Y" then
-	sql = sql & "    and end_date >= '" & date & "' "
-	End If
-	If self_yn = "Y" then
-	sql = sql & "    and user_id = '" & session("user_id") & "' "
-	End If
 	sql = sql & kword
 	rs.Open sql, conn, 3, 1
 	RecordCount = 0 ' 자료가 없을때
@@ -81,12 +73,6 @@
 	sql = sql & "              ,* "
 	sql = sql & "          from cf_waste_job cb "
 	sql = sql & "         where 1 = 1 "
-	If all_yn <> "Y" then
-	sql = sql & "           and end_date >= '" & date & "' "
-	End If
-	If self_yn = "Y" then
-	sql = sql & "           and user_id = '" & session("user_id") & "' "
-	End If
 	sql = sql & "           and isnull(top_yn,'') <> 'Y' "
 	sql = sql & kword
 	sql = sql & "       ) a "

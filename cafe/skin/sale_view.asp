@@ -48,6 +48,8 @@
 	sch_word  = Request("sch_word")
 	cafe_sch  = Request("cafe_sch")
 
+	self_yn   = Request("self_yn")
+
 	sale_seq = Request("sale_seq")
 
 	Call setViewCnt(menu_type, sale_seq)
@@ -166,6 +168,7 @@
 			<input type="hidden" name="page" value="<%=page%>">
 			<input type="hidden" name="pagesize" value="<%=pagesize%>">
 			<input type="hidden" name="task">
+			<input type="hidden" name="self_yn" value="<%=self_yn%>">
 			<input type="hidden" name="sale_seq" value="<%=sale_seq%>">
 			<input type="hidden" name="com_seq" value="<%=sale_seq%>">
 			<input type="hidden" name="group_num" value="<%=rs("group_num")%>">

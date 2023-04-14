@@ -10,6 +10,7 @@
 	pagesize  = uploadform("pagesize")
 	sch_type  = uploadform("sch_type")
 	sch_word  = uploadform("sch_word")
+	self_yn   = Request("self_yn")
 
 	step_num = uploadform("step_num")
 	level_num = uploadform("level_num")
@@ -165,7 +166,7 @@ try
 <%
 	If session("noFrame") = "Y" Then
 %>
-	parent.location.href='album_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&album_seq=<%=album_seq%>';
+	parent.location.href='album_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&self_yn=<%=self_yn%>&album_seq=<%=album_seq%>';
 <%
 	Else
 %>
@@ -173,7 +174,7 @@ try
 	End if
 %>
 	alert($('#cafe_main', parent.parent.document).attr('src'));
-	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/album_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&album_seq=<%=album_seq%>') ;
+	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/album_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&self_yn=<%=self_yn%>&album_seq=<%=album_seq%>') ;
 }
 catch (e)
 {

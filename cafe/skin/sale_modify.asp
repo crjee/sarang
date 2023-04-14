@@ -35,6 +35,9 @@
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
+
+	self_yn   = Request("self_yn")
+
 	sale_seq  = Request("sale_seq")
 
 	Set rs = Server.CreateObject ("ADODB.Recordset")
@@ -82,6 +85,7 @@
 				<input type="hidden" name="pagesize" value="<%=pagesize%>">
 				<input type="hidden" name="sch_type" value="<%=sch_type%>">
 				<input type="hidden" name="sch_word" value="<%=sch_word%>">
+				<input type="hidden" name="self_yn" value="<%=self_yn%>">
 				<input type="hidden" name="sale_seq" value="<%=sale_seq%>">
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%> 수정</h2>
