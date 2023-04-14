@@ -47,6 +47,9 @@
 	sql = sql & "       ,subject           "
 	sql = sql & "       ,inq_cn            "
 	sql = sql & "       ,atch_data_file_nm "
+	sql = sql & "       ,ans_cn            "
+	sql = sql & "       ,inq_prcs_cd       "
+	sql = sql & "       ,inq_prcs_dt       "
 	sql = sql & "       ,creid             "
 	sql = sql & "       ,credt             "
 	sql = sql & "      ) values( "
@@ -59,9 +62,11 @@
 	sql = sql & "       ,'" & subject           & "' "
 	sql = sql & "       ,'" & inq_cn            & "' "
 	sql = sql & "       ,'" & atch_data_file_nm & "' "
+	sql = sql & "       ,null                        "
+	sql = sql & "       ,'0'                         "
+	sql = sql & "       ,null                        "
 	sql = sql & "       ,'" & Session("user_id") & "' "
 	sql = sql & "       ,getdate())"
-	msgonly sql
 	Conn.Execute(sql)
 
 	Set uploadform = Nothing
@@ -73,7 +78,7 @@
 %>
 <script>
 	alert("입력 되었습니다.");
-	parent.location.href='/';
+	parent.location.href='/home/main.asp';
 </script>
 <%
 	Else

@@ -157,6 +157,8 @@
 			sql = sql & "       ,step_num "
 			If menu_type = "land" Then
 			sql = sql & "       ,land_url "
+			Else
+			sql = sql & "       ,null land_url "
 			End If
 			If menu_type = "nsale" Then
 			sql = sql & "       ,frst_receipt_acpt_date  "
@@ -193,6 +195,8 @@
 			sql = sql & "       ,step_num "
 			If menu_type = "land" Then
 			sql = sql & "       ,land_url "
+			Else
+			sql = sql & "       ,null land_url "
 			End If
 			If menu_type = "nsale" Then
 			sql = sql & "       ,frst_receipt_acpt_date  "
@@ -265,6 +269,7 @@
 					comment_cnt  = rs2("comment_cnt")
 					frst_receipt_acpt_date = rs2("frst_receipt_acpt_date")
 					mvin_date  = rs2("mvin_date")
+					land_url  = rs2("land_url")
 					com_seq  = rs2(menu_type & "_seq")
 
 					If comment_cnt > 0 Then
@@ -273,13 +278,23 @@
 						comment_txt = ""
 					End If
 
-					view_url = "/home/" & menu_type & "_view.asp?" & menu_type & "_seq=" & rs2(menu_type & "_seq") & "&menu_seq=" & menu_seq
-
 					If list_type = "T1" Or list_type = "T2" Then
 %>
 									<li class="t_nowrap">
+<%
+						If menu_type = "land" Then
+							view_url = "http://land.naver.com/" & land_url
+%>
+										<a href="<%=view_url%>" target="_blank"><span class="text" style="width:1000px;"><%=subject%></span></a>
+<%
+						Else
+							view_url = "/cafe/skin/" & menu_type & "_view.asp?" & menu_type & "_seq=" & rs2(menu_type & "_seq") & "&menu_seq=" & menu_seq
+%>
 										<a href="<%=view_url%>"><span class="text"><%=subject%><%=comment_txt%></span></a>
 										<span class="posr"><%=credt_txt%></span>
+<%
+						End If
+%>
 									</li>
 <%
 					ElseIf list_type = "C1" Or list_type = "C2" Then

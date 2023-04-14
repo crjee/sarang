@@ -477,6 +477,7 @@
 
 		strRadio = vbCrLf
 
+		i = 1
 		Do Until funcRs.eof
 			cmn_cd = funcRs("cmn_cd")
 			cd_nm  = funcRs("cd_nm")
@@ -484,12 +485,13 @@
 			strRadio = strRadio & "									"
 			strRadio = strRadio & "<span class=''>" & vbCrLf
 			strRadio = strRadio & "										"
-			strRadio = strRadio & "<input type='radio' id='" & cmn & "_" & cmn_cd & "' name='" & cmn & "' value='" & cmn_cd & "' class='inp_radio' " & if3(cmn_cd=cstr(sel), "checked ", "") & if3(req="", "", " required") & "/>" & vbCrLf
+			strRadio = strRadio & "<input type='radio' id='" & cmn & "_" & cmn_cd & "' name='" & cmn & "' value='" & cmn_cd & "' class='inp_radio' " & if3(cmn_cd=cstr(sel), "checked ", "") & if3(req<>"" And i=1, " required", "") & "/>" & vbCrLf
 			strRadio = strRadio & "										"
 			strRadio = strRadio & "<label for='" & cmn & "_" & cmn_cd & "'><em>" & cd_nm & "</em></label>" & vbCrLf
 			strRadio = strRadio & "									"
 			strRadio = strRadio & "</span>" & vbCrLf
 
+			i = i + 1
 			funcRs.Movenext
 		Loop
 

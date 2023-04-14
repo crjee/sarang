@@ -72,14 +72,14 @@
 							<tr>
 								<th scope="row">제목<em class="required">필수입력</em></th>
 								<td colspan="3">
-									<input type="text" id="subject" name="subject" class="inp" required>
+									<input type="text" id="subject" name="subject" class="inp w100" required>
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">첨부파일</th>
 								<td colspan="3">
-									<input type="file" id="atch_data_file_nm" name="atch_data_file_nm" class="inp w300p">
-									<button type="button" class="btn btn_c_s btn_s">찾아보기</button>
+									<input type="file" id="atch_data_file_nm" name="atch_data_file_nm" class="inp w100">
+									<!-- <button type="button" class="btn btn_c_s btn_s">찾아보기</button> -->
 									<p class="txt_point mt10">파일형식은 hwp, doc(docx), ppt, pdf 파일만 등록 가능합니다.</p>
 								</td>
 							</tr>

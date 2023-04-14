@@ -52,7 +52,7 @@
 							<tr>
 								<th scope="row">제목<em class="required">필수입력</em></th>
 								<td colspan="3">
-									<input type="text" id="subject" name="subject" class="inp" required>
+									<input type="text" id="subject" name="subject" class="inp w100" required>
 								</td>
 							</tr>
 							<tr>

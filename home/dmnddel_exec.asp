@@ -61,7 +61,6 @@
 	dmnd_cn           = Replace(uploadform("ir1"),"'","&#39;")
 	dmnd_cn           = uploadform("dmnd_cn")
 	atch_data_file_nm = uploadform("atch_data_file_nm")
-	dmnd_prcs_cd      = uploadform("dmnd_prcs_cd")
 
 	sql = ""
 	sql = sql & " insert into cf_dmnddel( "
@@ -79,6 +78,8 @@
 	sql = sql & "       ,url_addr          "
 	sql = sql & "       ,dmnd_cn           "
 	sql = sql & "       ,atch_data_file_nm "
+	sql = sql & "       ,dmnd_prcs_cd      "
+	sql = sql & "       ,dmnd_prcs_dt      "
 	sql = sql & "       ,creid             "
 	sql = sql & "       ,credt             "
 	sql = sql & "      ) values( "
@@ -96,6 +97,8 @@
 	sql = sql & "       ,'" & url_addr          & "' "
 	sql = sql & "       ,'" & dmnd_cn           & "' "
 	sql = sql & "       ,'" & atch_data_file_nm & "' "
+	sql = sql & "       ,'0'                         "
+	sql = sql & "       ,null                        "
 	sql = sql & "       ,'" & Session("user_id") & "' "
 	sql = sql & "       ,getdate())"
 	Conn.Execute(sql)
@@ -109,7 +112,7 @@
 %>
 <script>
 	alert("입력 되었습니다.");
-	parent.location.href='/';
+	parent.location.href='/home/main.asp';
 </script>
 <%
 	Else

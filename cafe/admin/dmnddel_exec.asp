@@ -9,11 +9,10 @@
 	sql = ""
 	sql = sql & " update cf_dmnddel                            "
 	sql = sql & "    set dmnd_prcs_cd = '" & dmnd_prcs_cd & "' "
-	sql = sql & "       ,dmnd_prcs_cd = getdate()              "
+	sql = sql & "       ,dmnd_prcs_dt = getdate()              "
 	sql = sql & "       ,modid = '" & Session("user_id") & "'  "
 	sql = sql & "       ,moddt = getdate()                     "
 	sql = sql & "  where dmnd_id = '" & dmnd_id & "'           "
-	Response.write sql
 	Conn.Execute(sql)
 %>
 <script>

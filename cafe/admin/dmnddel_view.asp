@@ -51,6 +51,7 @@
 	sql = sql & "       ,dm.dmnd_cn           "
 	sql = sql & "       ,dm.atch_data_file_nm "
 	sql = sql & "       ,dm.dmnd_prcs_cd      "
+	sql = sql & "       ,dm.dmnd_prcs_dt      "
 	sql = sql & "       ,dm.creid             "
 	sql = sql & "       ,dm.credt             "
 	sql = sql & "       ,dm.modid             "
@@ -113,7 +114,7 @@
 				<input type="hidden" name="sch_word" value="<%=sch_word%>">
 				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 				<input type="hidden" name="dmnd_id" value="<%=dmnd_id%>">
-				<select id="dmnd_prcs_cd" name="dmnd_prcs_cd" class="sel w100">
+				<select id="dmnd_prcs_cd" name="dmnd_prcs_cd" class="sel w100p">
 					<option value="">선택</option>
 					<%=makeComboCD("dmnd_prcs_cd", dmnd_prcs_cd)%>
 				</select>
@@ -133,8 +134,12 @@
 						<tbody>
 							<tr>
 								<th scope="row">요청구분</th>
-								<td colspan="3">
+								<td>
 									<%=dmnd_se_cd_nm%>
+								</td>
+								<th scope="row">요청일시</th>
+								<td>
+									<%=credt%>
 								</td>
 							</tr>
 							<tr>

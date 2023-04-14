@@ -106,7 +106,7 @@
 				<input type="hidden" name="sch_word" value="<%=sch_word%>">
 				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 				<input type="hidden" name="inq_id" value="<%=inq_id%>">
-				<select id="inq_prcs_cd" name="inq_prcs_cd" class="sel w100">
+				<select id="inq_prcs_cd" name="inq_prcs_cd" class="sel w100p">
 					<option value="">선택</option>
 					<%=makeComboCD("inq_prcs_cd", inq_prcs_cd)%>
 				</select>
@@ -126,8 +126,12 @@
 						<tbody>
 							<tr>
 								<th scope="row">문의구분</th>
-								<td colspan="3">
+								<td>
 									<%=inq_se_cd_nm%>
+								</td>
+								<th scope="row">문의일시</th>
+								<td>
+									<%=credt%>
 								</td>
 							</tr>
 							<tr>
