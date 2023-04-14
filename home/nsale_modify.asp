@@ -85,7 +85,6 @@
 
 		subject                = rs("subject")
 		open_yn                = rs("open_yn")
-		nsale_rgn_cd           = rs("nsale_rgn_cd")
 		nsale_addr             = rs("nsale_addr")
 		cmpl_se_cd             = rs("cmpl_se_cd")
 		nsale_stts_cd          = rs("nsale_stts_cd")
@@ -119,6 +118,7 @@
 		user_id                = rs("user_id")
 		level_num              = rs("level_num")
 		nsale_num              = rs("nsale_num")
+		section_seq            = rs("section_seq")
 		subject = Replace(subject, """", " & quot;")
 	End if
 	rs.close
@@ -154,11 +154,18 @@
 									<input type="text" id="subject" name="subject" value="<%=subject%>" class="inp">
 								</td>
 							</tr>
+<%
+	If tab_use_yn = "Y" Then
+%>
 							<tr>
-								<th scope="row">분양지역</th>
-								<td colspan="3">
-									<%=makeRadioCD("nsale_rgn_cd", nsale_rgn_cd, "reuqired")%>
+								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th></th>
+								<td>
+									<%=makeSection("R", "section_seq", section_seq, "required")%>
 								</td>
+							</tr>
+<%
+	End If
+%>
 							<tr>
 								<th scope="row">분양주소</th>
 								<td colspan="3">

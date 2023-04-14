@@ -62,7 +62,7 @@
 	link = uploadform("link")
 	If link = "http://" Then link = ""
 	top_yn = uploadform("top_yn")
-	pst_rgn_se_cd = uploadform("pst_rgn_se_cd")
+	section_seq = uploadform("section_seq")
 
 	For Each item In uploadform("file_name")
 		If item <> "" Then
@@ -111,7 +111,7 @@
 	End If
 
 	open_yn                = uploadform("open_yn")
-	nsale_rgn_cd           = uploadform("nsale_rgn_cd")
+	section_seq            = uploadform("section_seq")
 	nsale_addr             = uploadform("nsale_addr")
 	cmpl_se_cd             = uploadform("cmpl_se_cd")
 	nsale_stts_cd          = uploadform("nsale_stts_cd")
@@ -130,7 +130,7 @@
 	sql = sql & " insert into cf_nsale(                   "
 	sql = sql & "        subject                          "
 	sql = sql & "       ,open_yn                          "
-	sql = sql & "       ,nsale_rgn_cd                     "
+	sql = sql & "       ,section_seq                      "
 	sql = sql & "       ,nsale_addr                       "
 	sql = sql & "       ,cmpl_se_cd                       "
 	sql = sql & "       ,nsale_stts_cd                    "
@@ -165,7 +165,7 @@
 	sql = sql & "      ) values(                          "
 	sql = sql & "        '" & subject                & "' "
 	sql = sql & "       ,'" & open_yn                & "' "
-	sql = sql & "       ,'" & nsale_rgn_cd           & "' "
+	sql = sql & "       ,'" & section_seq            & "' "
 	sql = sql & "       ,'" & nsale_addr             & "' "
 	sql = sql & "       ,'" & cmpl_se_cd             & "' "
 	sql = sql & "       ,'" & nsale_stts_cd          & "' "

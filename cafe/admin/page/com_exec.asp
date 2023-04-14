@@ -15,6 +15,7 @@
 	inc_del_yn = Request("inc_del_yn")
 	list_info  = Request("list_info")
 	tab_use_yn = Request("tab_use_yn")
+	tab_nm     = Request("tab_nm")
 
 	If hidden_yn = "" Then hidden_yn = "N"
 
@@ -31,6 +32,7 @@
 	sql = sql & "       ,inc_del_yn = '" & inc_del_yn & "' "
 	sql = sql & "       ,list_info  = '" & list_info  & "' "
 	sql = sql & "       ,tab_use_yn = '" & tab_use_yn & "' "
+	sql = sql & "       ,tab_nm     = '" & tab_nm     & "' "
 	sql = sql & "       ,modid = '" & Session("user_id") & "' "
 	sql = sql & "       ,moddt = getdate() "
 	sql = sql & "  where menu_seq = '" & menu_seq & "' "

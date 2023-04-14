@@ -41,7 +41,7 @@
 	link = uploadform("link")
 	If link = "http://" Then link = ""
 	top_yn = uploadform("top_yn")
-	pst_rgn_se_cd = uploadform("pst_rgn_se_cd")
+	section_seq = uploadform("section_seq")
 
 	For Each item In uploadform("file_name")
 		If item <> "" Then
@@ -108,7 +108,7 @@
 	sql = sql & "       ,user_id "
 	sql = sql & "       ,creid "
 	sql = sql & "       ,credt "
-	sql = sql & "       ,pst_rgn_se_cd "
+	sql = sql & "       ,section_seq "
 	sql = sql & "      ) values( "
 	sql = sql & "        '" & new_seq & "' "
 	sql = sql & "       ,'" & parent_seq & "' "
@@ -128,7 +128,7 @@
 	sql = sql & "       ,'" & Session("user_id") & "' "
 	sql = sql & "       ,'" & Session("user_id") & "' "
 	sql = sql & "       ,getdate() "
-	sql = sql & "       ,'" & pst_rgn_se_cd & "')"
+	sql = sql & "       ,'" & section_seq & "')"
 	Conn.Execute(sql)
 
 	If daily_cnt < 9999 Then

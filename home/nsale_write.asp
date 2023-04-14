@@ -88,11 +88,18 @@
 									<input type="text" id="subject" name="subject" class="inp" required >
 								</td>
 							</tr>
+<%
+	If tab_use_yn = "Y" Then
+%>
 							<tr>
-								<th scope="row">분양지역</th>
-								<td colspan="3">
-									<%=makeRadioCD("nsale_rgn_cd", "", "reuqired")%>
+								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th></th>
+								<td>
+									<%=makeSection("R", "section_seq", section_seq, "required")%>
 								</td>
+							</tr>
+<%
+	End If
+%>
 							<tr>
 								<th scope="row">분양주소</th>
 								<td colspan="3">

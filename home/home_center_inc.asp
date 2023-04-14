@@ -176,7 +176,7 @@
 			sql = sql & "    and end_date >= '" & date  & "' "
 			End If
 			If menu_type = "nsale" And arrLst(li) <> "" Then
-			sql = sql & "    and nsale_rgn_cd = '" & arrLst(li) & "' "
+			sql = sql & "    and section_seq = '" & arrLst(li) & "' "
 			ElseIf arrLst(li) <> "" Then
 			sql = sql & "    and section_seq = '" & arrLst(li) & "' "
 			End If
@@ -212,7 +212,7 @@
 			sql = sql & "    and end_date >= '" & Date & "' "
 			End If
 			If menu_type = "nsale" And arrLst(li) <> "" Then
-			sql = sql & "    and nsale_rgn_cd = '" & arrLst(li) & "' "
+			sql = sql & "    and section_seq = '" & arrLst(li) & "' "
 			ElseIf arrLst(li) <> "" Then
 			sql = sql & "    and section_seq = '" & arrLst(li) & "' "
 			End If

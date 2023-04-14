@@ -29,12 +29,53 @@
 <!--#include virtual="/home/home_header_inc.asp"-->
 		<main id="main" class="sub">
 			<div class="container">
+<%
+	page      = Request("page")
+	pagesize  = Request("pagesize")
+	sch_type  = Request("sch_type")
+	sch_word  = Request("sch_word")
+
+	story_seq = Request("story_seq")
+
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+
+	sql = ""
+	sql = sql & " select * "
+	sql = sql & "   from cf_story "
+	sql = sql & "  where story_seq = '" & story_seq & "' "
+	rs.Open Sql, conn, 3, 1
+
+	If Not rs.eof Then
+		If toInt(cafe_mb_level) < 6 And UCase(session("user_id")) <> UCase(rs("user_id")) then
+			Response.Write "<script>alert('수정 권한이없습니다');history.back();</script>"
+			Response.End
+		End If
+
+		step_num = rs("step_num")
+		top_yn   = rs("top_yn")
+		user_id  = rs("user_id")
+		subject  = rs("subject")
+		contents = rs("contents")
+		subject  = Replace(subject, """", " & quot;")
+
+		If rs("link")="" Then
+			link = "http://"
+		Else
+			link = rs("link")
+		End If
+	End if
+	rs.close
+%>
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%> 수정</h2>
 				</div>
 				<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
+				<input type="hidden" name="page" value="<%=page%>">
+				<input type="hidden" name="pagesize" value="<%=pagesize%>">
+				<input type="hidden" name="sch_type" value="<%=sch_type%>">
+				<input type="hidden" name="sch_word" value="<%=sch_word%>">
 				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-				<input type="hidden" name="temp" value="Y">
+				<input type="hidden" name="story_seq" value="<%=story_seq%>">
 				<div class="tb">
 					<table class="tb_input tb_fixed">
 						<colgroup>
@@ -55,12 +96,18 @@
 <%
 	End If
 %>
+<%
+	If tab_use_yn = "Y" Then
+%>
 							<tr>
-								<th scope="row">지역<em class="required">필수입력</em></th></th>
+								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th></th>
 								<td>
-									<%=makeRadioCD("pst_rgn_se_cd", pst_rgn_se_cd, "required")%>
+									<%=makeSection("R", "section_seq", section_seq, "required")%>
 								</td>
 							</tr>
+<%
+	End If
+%>
 							<tr>
 								<th scope="row">제목<em class="required">필수입력</em></th></th>
 								<td>
@@ -141,16 +188,6 @@
 							bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
 							//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
 							fOnBeforeUnload : function() {
-								var f = document.form;
-								if (f.temp.value == "Y" && f.subject.value != "")
-								{
-									oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
-									f.action = "story_temp_exec.asp";
-									f.temp.value = "N";
-									f.target = "hiddenfrm";
-									f.submit();
-									alert("작성중인 내용이 임시로 저장되었습니다.");
-								}
 							}
 						}, //boolean
 						fOnAppLoad : function() {
@@ -163,8 +200,7 @@
 					function submitContents(elClickedObj) {
 						oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
 						try {
-							elClickedObj.action = "story_write_exec.asp";
-							elClickedObj.temp.value = "N";
+							elClickedObj.action = "story_modify_exec.asp";
 							elClickedObj.submit()
 						} catch(e) {alert(e)}
 					}

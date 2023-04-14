@@ -37,12 +37,25 @@
 					<div class="tb">
 						<textarea rows="" cols="" readonly="readonly" class="textarea mt10">
 <%
+function TextStrimRead(strPathName)
+'UTF-8 형식의 텍스트파일을 불러오는 사용자정의 함수입니다.
+    Set objStream = server.CreateObject("ADODB.Stream")
+    
+    With objStream
+        .Open
+        .Type = 2 'adTypeText
+        .Charset = "UTF-8"
+        .LoadFromFile strPathName
+        TextStrimRead = .ReadText
+    End With
+    
+    Set objStream = Nothing
+    
+End Function
+ 
 	Set fso = CreateObject("Scripting.FileSystemObject")
 	If (fso.FileExists(ConfigPath & "이용약관.txt")) Then
-		Set file = fso.OpenTextFile(ConfigPath & "이용약관.txt", 1, True)
-		file_str = file.ReadAll
-		file.Close
-		Set file = Nothing
+		file_str = TextStrimRead(ConfigPath & "이용약관.txt")
 	End If
 %>
 							<%=file_str%>
@@ -61,10 +74,7 @@
 						<textarea rows="" cols="" readonly="readonly" class="textarea mt10">
 <%
 	If (fso.FileExists(ConfigPath & "개인정보취급방침.txt")) Then
-		Set file = fso.OpenTextFile(ConfigPath & "개인정보취급방침.txt", 1, True)
-		file_str = file.ReadAll
-		file.Close
-		Set file = Nothing
+		file_str = TextStrimRead(ConfigPath & "개인정보취급방침.txt")
 	End If
 %>
 							<%=file_str%>
@@ -83,10 +93,7 @@
 						<textarea rows="" cols="" readonly="readonly" class="textarea mt10">
 <%
 	If (fso.FileExists(ConfigPath & "위치서비스이용약관.txt")) Then
-		Set file = fso.OpenTextFile(ConfigPath & "위치서비스이용약관.txt", 1, True)
-		file_str = file.ReadAll
-		file.Close
-		Set file = Nothing
+		file_str = TextStrimRead(ConfigPath & "위치서비스이용약관.txt")
 	End If
 	Set fso = Nothing
 %>

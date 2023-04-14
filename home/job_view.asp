@@ -196,27 +196,27 @@
 <%
 	If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
+					<!-- <button class="btn btn_c_n btn_n" type="button" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
 					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">삭제</button>
 					<button class="btn btn_c_n btn_n" type="button" onclick="goMove()">이동</button>
-<%
+ --><%
 	End If
 %>
 <%
 	If cafe_mb_level > 6 Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goNotice()"><%=if3(rs("top_yn")="Y","공지해제","공지지정")%></button>
-<%
+					<!-- <button class="btn btn_c_n btn_n" type="button" onclick="goNotice()"><%=if3(rs("top_yn")="Y","공지해제","공지지정")%></button>
+ --><%
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goSuggest()">추천</button>
+					<!-- <button class="btn btn_c_n btn_n" type="button" onclick="goSuggest()">추천</button>
 					<button class="btn btn_c_n btn_n" type="button" onclick="goPrint()">인쇄</button>
-<%
+ --><%
 	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
 	If toInt(write_auth) <= toInt(cafe_mb_level) Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/job_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
-<%
+					<!-- <button class="btn btn_c_n btn_n" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/job_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+ --><%
 	End If
 %>
 					<button class="btn btn_c_n btn_n" type="button" onclick="copyUrl()">글주소복사</button>
@@ -232,9 +232,6 @@
 						</ul>
 					</div>
 				</div>
-
-
-
 				<div class="view_cont">
 					<h4 class="f_awesome h4">자격조건</h4>
 					<div class="tb">
@@ -268,7 +265,6 @@
 						</table>
 					</div>
 				</div>
-
 				<div class="view_cont">
 					<h4 class="f_awesome h4">문의및 접수방법</h4>
 					<div class="tb">

@@ -130,16 +130,22 @@
 								<h4 class="h4">부동산 이야기</h4>
 								<span class="posR"><a href="/home/land_list.asp?menu_seq=1953">more</a></span>
 							</header>
-						</div>
 <%
 	End If
 %>
 <%
 	For home_i = 1 To UBound(arrHomeLst)
+		If tab_use_yn = "Y" Then
 %>
 						<div id="tab_cont<%=home_i%>" class="tab_cont <%=if3(home_i=1,"on","")%>">
 							<div class="latest_box">
 <%
+		Else
+%>
+							<div class="tb main_rolling">
+<%
+		End If
+
 		sql = ""
 		sql = sql & " select top 5 * "
 		sql = sql & " from ( "
@@ -152,7 +158,7 @@
 		sql = sql & "   from cf_story "
 		sql = sql & "  where cafe_id  = 'home' "
 		If arrHomeLst(home_i) <> "" Then
-		sql = sql & "    and pst_rgn_se_cd = '" & arrHomeLst(home_i) & "' "
+		sql = sql & "    and section_seq = '" & arrHomeLst(home_i) & "' "
 		End If
 		sql = sql & "    and step_num = 0 "
 		sql = sql & "    and top_yn = 'Y' "
@@ -167,7 +173,7 @@
 		sql = sql & "   from cf_story "
 		sql = sql & "  where cafe_id  = 'home' "
 		If arrHomeLst(home_i) <> "" Then
-		sql = sql & "    and pst_rgn_se_cd = '" & arrHomeLst(home_i) & "' "
+		sql = sql & "    and section_seq = '" & arrHomeLst(home_i) & "' "
 		End If
 		sql = sql & "    and step_num = 0 "
 		sql = sql & "    and isnull(top_yn,'') <> 'Y' "

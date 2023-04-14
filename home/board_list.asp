@@ -188,6 +188,7 @@
 		Do Until rs.EOF
 			comment_cnt = rs("comment_cnt")
 			subject = rs("subject")
+
 			If isnull(subject) Or isempty(subject) Or Len(subject) = 0 Then
 				subject = "제목없음"
 			End if
@@ -264,21 +265,11 @@
 		f.submit();
 	}
 
-	function goView(board_seq, no) {
-		try{
+	function goView(board_seq) {
 			var f = document.search_form;
 			f.board_seq.value = board_seq;
-			if (no == 0) {
-			f.notice_seq.value = board_seq;
-			f.action = "notice_view.asp"
-			}
-			else {
 			f.action = "board_view.asp"
-			}
 			f.submit()
-		} catch(e) {
-			alert(e)
-		}
 	}
 
 	function goSearch() {

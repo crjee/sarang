@@ -46,12 +46,8 @@
 	sql = sql & "    as (                                                        "
 	sql = sql & "        select cmn_cd                                           "
 	sql = sql & "              ,cd_nm                                            "
-	sql = sql & "          from cf_code                                          "
-	sql = sql & "         where up_cd_id = (select cd_id                         "
-	sql = sql & "                                 from cf_code                   "
-	sql = sql & "                                where up_cd_id = 'CD0000000000' "
-	sql = sql & "                                  and cmn_cd = 'nsale_rgn_cd'   "
-	sql = sql & "                              )                                 "
+	sql = sql & "          from cf_menu_section                                  "
+	sql = sql & "         where menu_seq = '" & menu_seq & "'                    "
 	sql = sql & "       )                                                        "
 	sql = sql & " ,     cd2                                                      "
 	sql = sql & "    as (                                                        "
@@ -65,10 +61,10 @@
 	sql = sql & "                              )                                 "
 	sql = sql & "       )                                                        "
 	sql = sql & " select cb.* "
-	sql = sql & "       ,cd1.cd_nm as nsale_rgn_cd_txt "
+	sql = sql & "       ,cd1.section_nm as section_nm "
 	sql = sql & "       ,cd2.cd_nm as cmpl_se_cd_txt "
 	sql = sql & "   from cf_nsale cb "
-	sql = sql & "   left join cd1 on cd1.cmn_cd = cb.nsale_rgn_cd "
+	sql = sql & "   left join cd1 on cd1.section_seq = cb.section_seq "
 	sql = sql & "   left join cd2 on cd2.cmn_cd = cb.cmpl_se_cd "
 	sql = sql & "  where nsale_seq = '" & nsale_seq & "' "
 	rs.Open Sql, conn, 3, 1
@@ -76,7 +72,7 @@
 	If Not rs.eof Then
 		subject                = rs("subject")
 		open_yn                = rs("open_yn")
-		nsale_rgn_cd           = rs("nsale_rgn_cd")
+		section_seq            = rs("section_seq")
 		nsale_addr             = rs("nsale_addr")
 		cmpl_se_cd             = rs("cmpl_se_cd")
 		nsale_stts_cd          = rs("nsale_stts_cd")
@@ -110,7 +106,7 @@
 		user_id                = rs("user_id")
 		level_num              = rs("level_num")
 		nsale_num              = rs("nsale_num")
-		nsale_rgn_cd_txt       = rs("nsale_rgn_cd_txt")
+		section_nm             = rs("section_nm")
 		cmpl_se_cd_txt         = rs("cmpl_se_cd_txt")
 	End If
 %>
@@ -266,8 +262,8 @@
 									</colgroup>
 									<tbody>
 										<tr>
-											<th scope="row">분양지역</th>
-											<td colspan="3"><%=nsale_rgn_cd_txt%></td>
+											<th scope="row"><%=tab_nm%></th>
+											<td colspan="3"><%=section_nm%></td>
 										</tr>
 										<tr>
 											<th scope="row">분양주소</th>

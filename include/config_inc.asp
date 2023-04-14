@@ -24,6 +24,8 @@
 	Dim write_cnt
 	Dim inc_del_yn
 	Dim list_info
+	Dim tab_use_yn
+	Dim tab_nm
 
 	'################ Database설정 #################
 	Function DBOpen()
@@ -196,6 +198,8 @@
 			daily_cnt  = funcRs("daily_cnt")
 			inc_del_yn = funcRs("inc_del_yn")
 			list_info  = funcRs("list_info")
+			tab_use_yn = funcRs("tab_use_yn")
+			tab_nm     = funcRs("tab_nm")
 		End If
 		funcRs.close
 		Set funcRs = Nothing
@@ -537,6 +541,65 @@
 		funcRs.close
 
 		makeCheckBoxCD = strCheckBox
+	End Function
+
+	Function makeSection(ByVal tag, ByVal snm, ByVal sel, ByVal req)
+		Dim funcSql
+		Dim funcRs
+		Dim strRadio
+		Dim a,b
+
+		Set funcRs = server.createobject("adodb.recordset")
+
+		funcSql = ""
+		funcSql = ""
+		funcSql = funcSql & " select section_seq                   "
+		funcSql = funcSql & "       ,section_nm                    "
+		funcSql = funcSql & "       ,section_sn                    "
+		funcSql = funcSql & "   from cf_menu_section               "
+		funcSql = funcSql & "  where menu_seq = '" & menu_seq & "' "
+		funcSql = funcSql & "    and use_yn = 'Y'                  "
+		funcSql = funcSql & "  order by section_sn                 "
+		funcRs.open funcSql, conn, 3, 1
+
+		strSection = vbCrLf
+
+		Do Until funcRs.eof
+			section_seq = funcRs("section_seq")
+			section_nm  = funcRs("section_nm")
+			section_sn  = funcRs("section_sn")
+
+			Select Case tag
+			Case "R"
+				strSection = strSection & "									"
+				strSection = strSection & "<span class=''>" & vbCrLf
+				strSection = strSection & "										"
+				strSection = strSection & "<input type='radio' id='section_sn_" & section_sn & "' name='" & snm & "' value='" & section_seq & "' class='inp_radio' " & if3(section_seq=cstr(sel), "checked ", "") & if3(req="", "", " required") & "/>" & vbCrLf
+				strSection = strSection & "										"
+				strSection = strSection & "<label for='section_sn_" & section_sn & "'><em>" & section_nm & "</em></label>" & vbCrLf
+				strSection = strSection & "									"
+				strSection = strSection & "</span>" & vbCrLf
+			Case "S"
+				strSection = strSection & "									"
+				strSection = strSection & "<option value='" & section_seq & "' " & if3(section_seq=cstr(sel), "selected", "") & ">" & section_nm & "</option>" & vbCrLf
+			Case "C"
+				strSection = strSection & "									"
+				strSection = strSection & "<span class=''>" & vbCrLf
+				strSection = strSection & "										"
+				strSection = strSection & "<input type='checkbox' id='section_sn_" & section_sn & "' name='" & snm & "' value='" & section_seq & "' class='inp_check' " & if3(instr(cstr(sel), section_seq) > 0, " checked", "") & if3(req="", "", " required") & if3(tIdx="", "", " tabidex='" & tIdx & "'") & "/>" & vbCrLf
+				strSection = strSection & "										"
+				strSection = strSection & "<label for='section_sn_" & section_sn & "'><em>" & section_nm & "</em></label>" & vbCrLf
+				strSection = strSection & "									"
+				strSection = strSection & "</span>" & vbCrLf
+			Case "V"
+			End Select
+
+			funcRs.Movenext
+		Loop
+
+		funcRs.close
+
+		makeSection = strSection
 	End Function
 
 	Function makeCombo(field1,field2,opt,table,refstr,sovalue)

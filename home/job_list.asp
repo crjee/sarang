@@ -129,8 +129,8 @@
 
 	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
-						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/board_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
-<%
+						<!-- <button class="btn btn_c_a btn_s" type="button" onclick="location.href='/cafe/skin/board_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+ --><%
 	End If
 %>
 						<select id="sch_type" name="sch_type" class="sel w_auto">
@@ -217,3 +217,27 @@
 	</div>
 </body>
 </html>
+<script>
+	function MovePage(page, gvTarget) {
+		var f = document.search_form;
+		f.page.value = page;
+		f.target = gvTarget;
+		f.action = "job_list.asp";
+		f.submit();
+	}
+
+	function goView(job_seq, gvTarget) {
+		var f = document.search_form;
+		f.job_seq.value = job_seq;
+		f.target = gvTarget;
+		f.action = "job_view.asp";
+		f.submit()
+	}
+
+	function goSearch(gvTarget) {
+		var f = document.search_form;
+		f.page.value = 1;
+		f.target = gvTarget;
+		f.submit();
+	}
+</script>

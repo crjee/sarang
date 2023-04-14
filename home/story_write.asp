@@ -55,12 +55,18 @@
 <%
 	End If
 %>
+<%
+	If tab_use_yn = "Y" Then
+%>
 							<tr>
-								<th scope="row">지역<em class="required">필수입력</em></th></th>
+								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th></th>
 								<td>
-									<%=makeRadioCD("pst_rgn_se_cd", pst_rgn_se_cd, "required")%>
+									<%=makeSection("R", "section_seq", "", "required")%>
 								</td>
 							</tr>
+<%
+	End If
+%>
 							<tr>
 								<th scope="row">제목<em class="required">필수입력</em></th></th>
 								<td>

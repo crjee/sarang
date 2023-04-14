@@ -38,6 +38,7 @@
 		inc_del_yn = rs("inc_del_yn")
 		list_info  = rs("list_info")
 		tab_use_yn = rs("tab_use_yn")
+		tab_nm     = rs("tab_nm")
 	End If
 	rs.close
 %>
@@ -114,10 +115,11 @@
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">탭메뉴사용</th>
+										<th scope="row">탭메뉴</th>
 										<td>
 											<input type="checkbox" id="tab_use_yn" name="tab_use_yn" value="Y" <%=if3(tab_use_yn = "Y","checked","") %> class="inp_check" />
 											<label for="tab_use_yn"><em>사용</em></label>
+											<input type="text" id="tab_nm" name="tab_nm" value="<%=tab_nm%>" class="inp">
 										</td>
 										<th scope="row">쓰기형식</th>
 										<td>

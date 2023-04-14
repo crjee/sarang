@@ -14,15 +14,16 @@
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
 	uploadform.DefaultPath = uploadFolder
 
+	cafe_id = "home"
 	checkCafePageUpload(cafe_id)
 
-	story_seq = uploadform("story_seq")
-	kname = uploadform("kname")
-	subject = uploadform("subject")
-	ir1 = Replace(uploadform("ir1"),"'"," & #39;")
-	link = uploadform("link")
+	story_seq   = uploadform("story_seq")
+	subject     = uploadform("subject")
+	ir1         = Replace(uploadform("ir1"),"'"," & #39;")
+	link        = uploadform("link")
+	section_seq = uploadform("section_seq")
+	top_yn      = uploadform("top_yn")
 	If link = "http://" Then link = ""
-	top_yn = uploadform("top_yn")
 
 	For Each item In uploadform("file_name")
 		If item <> "" Then
@@ -41,14 +42,15 @@
 	Next
 
 	sql = ""
-	sql = sql & " update cf_story "
-	sql = sql & "    set subject = '" & subject & "' "
-	sql = sql & "       ,contents = '" & ir1 & "' "
-	sql = sql & "       ,top_yn = '" & top_yn & "' "
-	sql = sql & "       ,link = '" & link & "' "
-	sql = sql & "       ,modid = '" & Session("user_id") & "' "
-	sql = sql & "       ,moddt = getdate() "
-	sql = sql & " where story_seq = '" & story_seq & "' "
+	sql = sql & " update cf_story                                   "
+	sql = sql & "    set subject     = '" & subject     & "'        "
+	sql = sql & "       ,contents    = '" & ir1         & "'        "
+	sql = sql & "       ,section_seq = '" & section_seq & "'        "
+	sql = sql & "       ,top_yn      = '" & top_yn      & "'        "
+	sql = sql & "       ,link        = '" & link        & "'        "
+	sql = sql & "       ,modid       = '" & Session("user_id") & "' "
+	sql = sql & "       ,moddt       = getdate()                    "
+	sql = sql & " where story_seq = '" & story_seq & "'             "
 	Conn.Execute(sql)
 	
 	sql = ""
@@ -67,14 +69,14 @@
 			sql = sql & " insert into cf_story_attach(attach_seq "
 			sql = sql & "       ,story_seq "
 			sql = sql & "       ,file_name "
-			sql = sql & "       ,creid "
-			sql = sql & "       ,credt "
-			sql = sql & "      ) values( "
-			sql = sql & "        '" & new_seq & "' "
-			sql = sql & "       ,'" & story_seq & "' "
+			sql = sql & "       ,creid     "
+			sql = sql & "       ,credt     "
+			sql = sql & "      ) values(   "
+			sql = sql & "        '" & new_seq                & "' "
+			sql = sql & "       ,'" & story_seq              & "' "
 			sql = sql & "       ,'" & item.LastSavedFileName & "' "
-			sql = sql & "       ,'" & Session("user_id") & "' "
-			sql = sql & "       ,getdate())"
+			sql = sql & "       ,'" & Session("user_id")     & "' "
+			sql = sql & "       ,getdate())                       "
 			Conn.Execute(sql)
 		End If
 	Next
