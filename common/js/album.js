@@ -267,7 +267,7 @@
 						window.print();
 					}
 
-					function goList(sch) {
+					function goList(sch, gvTarget) {
 						if (sch == 'Y') {
 							document.search_form.action = "/cafe/skin/cafe_search_list.asp";
 						}
@@ -278,13 +278,14 @@
 						document.search_form.submit();
 					}
 
-					function goReply() {
+					function goReply(gvTarget) {
 						document.search_form.action = "/cafe/skin/album_reply.asp";
 						document.search_form.target = gvTarget;
 						document.search_form.submit();
 					}
 
-					function goModify() {
+					function goModify(gvTarget) {
+						alter()
 						document.search_form.action = "/cafe/skin/album_modify.asp";
 						document.search_form.target = gvTarget;
 						document.search_form.submit();

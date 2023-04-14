@@ -414,6 +414,7 @@
 		Dim strCombo
 		Dim a,b
 
+		If IsNull(sel) Then sel = ""
 		Set funcRs = server.createobject("adodb.recordset")
 
 		funcSql = ""
@@ -455,6 +456,7 @@
 		Dim strRadio
 		Dim a,b
 
+		If IsNull(sel) Then sel = ""
 		Set funcRs = server.createobject("adodb.recordset")
 
 		funcSql = ""
@@ -502,6 +504,7 @@
 		Dim strCheckBox
 		Dim a,b
 
+		If IsNull(sel) Then sel = ""
 		Set funcRs = server.createobject("adodb.recordset")
 
 		funcSql = ""
@@ -549,6 +552,7 @@
 		Dim strRadio
 		Dim a,b
 
+		If IsNull(sel) Then sel = ""
 		Set funcRs = server.createobject("adodb.recordset")
 
 		funcSql = ""

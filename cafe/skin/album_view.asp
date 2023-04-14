@@ -81,7 +81,7 @@
 	If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
 		If rs("step_num") = "0" Then
 %>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goModify()">수정</button>
+					<button class="btn btn_c_n btn_s" type="button" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
 					<button class="btn btn_c_n btn_s" type="button" onclick="goDelete()">삭제</button>
 <%
 		End If

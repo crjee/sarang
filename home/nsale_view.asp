@@ -36,16 +36,93 @@
 
 	nsale_seq = Request("nsale_seq")
 
-	Call setViewCnt(menu_type, nsale_seq)
+	page_move = Request("page_move")
 
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 	Set rs2 = Server.CreateObject ("ADODB.Recordset")
 
+	' Response.write "nsale_seq : " & nsale_seq & "<br>"
+
+	If page_move = "prev" Then
+		sql = ""
+		sql = sql & " select top 1                                                               "
+		sql = sql & "        row_number() over( order by group_num asc, step_num desc) as rownum "
+		sql = sql & "       ,nsale_seq as prev_seq                                               "
+		sql = sql & "   from cf_nsale                                                            "
+		sql = sql & "  where nsale_seq > '" & nsale_seq & "'                                     "
+		sql = sql & "  order by group_num asc, step_num desc                                     "
+		' Response.write sql & "<br>"
+		rs.Open Sql, conn, 3, 1
+
+		If Not rs.eof Then
+			prev_seq = rs("prev_seq")
+		End If
+		rs.close
+		nsale_seq = prev_seq
+	ElseIf page_move = "next" Then
+		sql = ""
+		sql = sql & " select top 1                                                               "
+		sql = sql & "        row_number() over( order by group_num desc, step_num asc) as rownum "
+		sql = sql & "       ,nsale_seq as next_seq                                               "
+		sql = sql & "   from cf_nsale                                                            "
+		sql = sql & "  where nsale_seq < '" & nsale_seq & "'                                     "
+		sql = sql & "  order by group_num desc, step_num asc                                     "
+		' Response.write sql & "<br>"
+		rs.Open Sql, conn, 3, 1
+
+		If Not rs.eof Then
+			next_seq = rs("next_seq")
+		End If
+		rs.close
+		nsale_seq = next_seq
+	End If
+	' Response.write "page_move : " & page_move & "<br>"
+	' Response.write "nsale_seq : " & nsale_seq & "<br>"
+	' Response.write "prev_seq : " & prev_seq & "<br>"
+	' Response.write "next_seq : " & next_seq & "<br>"
+
+	prev_seq = ""
+	next_seq = ""
+	sql = ""
+	sql = sql & " select top 1                                                               "
+	sql = sql & "        row_number() over( order by group_num asc, step_num desc) as rownum "
+	sql = sql & "       ,nsale_seq as prev_seq                                               "
+	sql = sql & "   from cf_nsale                                                            "
+	sql = sql & "  where nsale_seq > '" & nsale_seq & "'                                     "
+	sql = sql & "  order by group_num asc, step_num desc                                     "
+	' Response.write sql & "<br>"
+	rs.Open Sql, conn, 3, 1
+
+	If Not rs.eof Then
+		prev_seq = rs("prev_seq")
+	End If
+	rs.close
+
+	sql = ""
+	sql = sql & " select top 1                                                               "
+	sql = sql & "        row_number() over( order by group_num desc, step_num asc) as rownum "
+	sql = sql & "       ,nsale_seq as next_seq                                               "
+	sql = sql & "   from cf_nsale                                                            "
+	sql = sql & "  where nsale_seq < '" & nsale_seq & "'                                     "
+	sql = sql & "  order by group_num desc, step_num asc                                     "
+	' Response.write sql & "<br>"
+	rs.Open Sql, conn, 3, 1
+
+	If Not rs.eof Then
+		next_seq = rs("next_seq")
+	End If
+	rs.close
+	' Response.write "nsale_seq : " & nsale_seq & "<br>"
+	' Response.write "prev_seq : " & prev_seq & "<br>"
+	' Response.write "next_seq : " & next_seq & "<br>"
+
+	Call setViewCnt(menu_type, nsale_seq)
+
 	sql = ""
 	sql = sql & "  with cd1                                                      "
 	sql = sql & "    as (                                                        "
-	sql = sql & "        select cmn_cd                                           "
-	sql = sql & "              ,cd_nm                                            "
+	sql = sql & "        select section_seq                                      "
+	sql = sql & "              ,section_nm                                       "
 	sql = sql & "          from cf_menu_section                                  "
 	sql = sql & "         where menu_seq = '" & menu_seq & "'                    "
 	sql = sql & "       )                                                        "
@@ -113,14 +190,14 @@
 			<script>
 				function goPrint() {
 					var initBody;
-					window.onbeforeprint = function() {
+					hiddenfrm.window.onbeforeprint = function() {
 						initBody = document.body.innerHTML;
-						document.body.innerHTML =  document.getElementById('print_area').innerHTML;
+						hiddenfrm.body.innerHTML =  document.getElementById('print_area').innerHTML;
 					};
-					window.onafterprint = function() {
-						document.body.innerHTML = initBody;
+					hiddenfrm.window.onafterprint = function() {
+//						hiddenfrm.body.innerHTML = initBody;
 					};
-					window.print();
+					hiddenfrm.window.print();
 				}
 
 				function goList(sch) {
@@ -161,6 +238,16 @@
 					document.open_form.target = "hiddenfrm";
 					document.open_form.submit();
 				}
+				function goPrev() {
+					document.search_form.page_move.value = "prev"
+					document.search_form.action = "/home/nsale_view.asp"
+					document.search_form.submit();
+				}
+				function goNext() {
+					document.search_form.page_move.value = "next"
+					document.search_form.action = "/home/nsale_view.asp"
+					document.search_form.submit();
+				}
 			</script>
 			<form name="open_form" method="post">
 			<input type="hidden" name="open_url" value="/cafe/skin/com_move_edit_p.asp?com_seq=<%=nsale_seq%>&menu_seq=<%=menu_seq%>&cafe_id=<%=cafe_id%>">
@@ -172,6 +259,7 @@
 			<input type="hidden" name="pagesize" value="<%=pagesize%>">
 			<input type="hidden" name="sch_type" value="<%=sch_type%>">
 			<input type="hidden" name="sch_word" value="<%=sch_word%>">
+			<input type="hidden" name="page_move" value="<%=page_move%>">
 			<input type="hidden" name="task">
 			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 			<input type="hidden" name="nsale_seq" value="<%=nsale_seq%>">
@@ -202,24 +290,25 @@
 <%
 	End If
 %>
-					<!-- <a href="#n" class="btn btn_c_n btn_n" onclick="goPrev()">이전글</a> -->
-					<!-- <a href="#n" class="btn btn_c_n btn_n" onclick="goNext()">다음글</a> -->
+					<a href="#n" class="btn btn_c_n btn_n" onclick="<%=if3(prev_seq="","alert('처음 입니다.')","goPrev()")%>">이전글</a>
+					<a href="#n" class="btn btn_c_n btn_n" onclick="<%=if3(next_seq="","alert('마지막 입니다')","goNext()")%>">다음글</a>
 					<a href="#n" class="btn btn_c_n btn_n" onclick="goList()">목록</a>
 					<a href="#n" class="btn btn_c_a btn_n" onclick="goPrint()">인쇄</a>
 				</div>
-				<div class="view_head">
-					<h3 class="h3"><span class="milestone">분양계획</span> [<%=cmpl_se_cd_txt%>]<%=subject%></h3>
-					<div class="wrt_info_box posR">
-						<ul>
-							<li><span>작성자</span><strong><%=subject%></strong></li>
-							<li><span>조회</span><strong><%=view_cnt%></strong></li>
-							<li><span>추천</span><strong><%=view_cnt%></strong></li>
-							<li><span>등록일시</span><strong><%=credt%></strong></li>
-						</ul>
-					</div>
-					<div class="view_head_frame">
-						<div class="view_head_photo">
-							<div class="photo_box">
+				<div id="print_area"><!-- 프린트영역 추가 crjee -->
+					<div class="view_head">
+						<h3 class="h3"><span class="milestone">분양계획</span> [<%=cmpl_se_cd_txt%>]<%=subject%></h3>
+						<div class="wrt_info_box posR">
+							<ul>
+								<li><span>작성자</span><strong><%=subject%></strong></li>
+								<li><span>조회</span><strong><%=view_cnt%></strong></li>
+								<li><span>추천</span><strong><%=view_cnt%></strong></li>
+								<li><span>등록일시</span><strong><%=credt%></strong></li>
+							</ul>
+						</div>
+						<div class="view_head_frame">
+							<div class="view_head_photo">
+								<div class="photo_box">
 <%
 	uploadUrl = ConfigAttachedFileURL & "nsale/"
 
@@ -240,119 +329,78 @@
 	End If
 	rs2.close
 %>
+								</div>
+								<script>
+									$(".photo_box").slick({
+										infinite : true,
+										slidesToShow : 1,
+										slidesToScroll : 1,
+										variableWidth : false,
+									});
+								</script>
 							</div>
-							<script>
-								$(".photo_box").slick({
-									infinite : true,
-									slidesToShow : 1,
-									slidesToScroll : 1,
-									variableWidth : false,
-								});
-							</script>
-						</div>
-						<div class="view_head_cont">
-							<div class="tb">
-								<table class="tb_fixed">
-									<caption></caption>
-									<colgroup>
-										<col class="w20" />
-										<col class="w30" />
-										<col class="w20" />
-										<col class="w30" />
-									</colgroup>
-									<tbody>
-										<tr>
-											<th scope="row"><%=tab_nm%></th>
-											<td colspan="3"><%=section_nm%></td>
-										</tr>
-										<tr>
-											<th scope="row">분양주소</th>
-											<td colspan="3"><%=nsale_addr%></td>
-										</tr>
-										<tr>
-											<th scope="row">모집공고일</th>
-											<td><%=rect_notice_date%></td>
-											<th rowspan="2" scope="row">청약접수일</th>
-											<td>1순위 : <%=frst_receipt_acpt_date%></td>
-										</tr>
-										<tr>
-											<th scope="row">당첨발표일</th>
-											<td><%=prize_anc_date%></td>
-											<td>2순위 : <%=scnd_receipt_acpt_date%></td>
-										</tr>
-										<tr>
-											<th scope="row">계약기간</th>
-											<td colspan="3"><%=cnt_st_date%> ~ <%=cnt_ed_date%></td>
-										</tr>
-										<tr>
-											<th scope="row">전매기간</th>
-											<td colspan="3"><%=resale_st_date%> ~ <%=resale_ed_date%></td>
-										</tr>
-										<tr>
-											<th scope="row">입주일</th>
-											<td colspan="3"><%=mvin_date%> ~</td>
-										</tr>
-										<tr>
-											<th scope="row">모델하우스 위치</th>
-											<td colspan="3"><%=mdl_house_addr%></td>
-										</tr>
-									</tbody>
-								</table>
+							<div class="view_head_cont">
+								<div class="tb">
+									<table class="tb_fixed">
+										<caption></caption>
+										<colgroup>
+											<col class="w20" />
+											<col class="w30" />
+											<col class="w20" />
+											<col class="w30" />
+										</colgroup>
+										<tbody>
+											<tr>
+												<th scope="row"><%=tab_nm%></th>
+												<td colspan="3"><%=section_nm%></td>
+											</tr>
+											<tr>
+												<th scope="row">분양주소</th>
+												<td colspan="3"><%=nsale_addr%></td>
+											</tr>
+											<tr>
+												<th scope="row">모집공고일</th>
+												<td><%=rect_notice_date%></td>
+												<th rowspan="2" scope="row">청약접수일</th>
+												<td>1순위 : <%=frst_receipt_acpt_date%></td>
+											</tr>
+											<tr>
+												<th scope="row">당첨발표일</th>
+												<td><%=prize_anc_date%></td>
+												<td>2순위 : <%=scnd_receipt_acpt_date%></td>
+											</tr>
+											<tr>
+												<th scope="row">계약기간</th>
+												<td colspan="3"><%=cnt_st_date%> ~ <%=cnt_ed_date%></td>
+											</tr>
+											<tr>
+												<th scope="row">전매기간</th>
+												<td colspan="3"><%=resale_st_date%> ~ <%=resale_ed_date%></td>
+											</tr>
+											<tr>
+												<th scope="row">입주일</th>
+												<td colspan="3"><%=mvin_date%> ~</td>
+											</tr>
+											<tr>
+												<th scope="row">모델하우스 위치</th>
+												<td colspan="3"><%=mdl_house_addr%></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<!-- 
-				<div class="view_cont">
-					<h4 class="f_awesome h4">단지 정보 상세 내용</h4>
-					<div class="tb">
-						<table class="tb_input tb_fixed">
-							<colgroup>
-								<col class="w110p">
-								<col class="w_remainder">
-								<col class="w110p">
-								<col class="w_remainder">
-								<col class="w110p">
-								<col class="w_remainder">
-								<col class="w110p">
-								<col class="w_remainder">
-							</colgroup>
-							<tbody>
-								<tr>
-									<th scope="row">총세대수</th>
-									<td>2,500</td>
-									<th scope="row">총동수</th>
-									<td>100</td>
-									<th scope="row">총주차대수</th>
-									<td>5,500</td>
-									<th scope="row">가구당 주차수</th>
-									<td>3</td>
-								</tr>
-								<tr>
-									<th scope="row">최고/최저층</th>
-									<td>35</td>
-									<th scope="row">면적정보</th>
-									<td>5,500</td>
-									<th scope="row">건설사</th>
-									<td>현대산업개발</td>
-									<th scope="row">난방방식</th>
-									<td>지역난방</td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="view_cont">
+						<h4 class="f_awesome h4">입주자 모집공고</h4>
+						<div class="tb">
+							<%=contents%>
+						</div>
 					</div>
 				</div>
-				 -->
-				<div class="view_cont">
-					<h4 class="f_awesome h4">입주자 모집공고</h4>
-					<div class="tb">
-						<%=contents%>
-					</div>
-				</div>
-				
 				<div class="btn_box">
-					<a href="#n" class="btn btn_c_n btn_n">이전글</a>
-					<a href="#n" class="btn btn_c_n btn_n">다음글</a>
+					<a href="#n" class="btn btn_c_n btn_n" onclick="<%=if3(prev_seq="","alert('처음 입니다.')","goPrev()")%>">이전글</a>
+					<a href="#n" class="btn btn_c_n btn_n" onclick="<%=if3(next_seq="","alert('마지막 입니다')","goNext()")%>">다음글</a>
 					<a href="#n" class="btn btn_c_n btn_n">목록</a>
 					<a href="#n" class="btn btn_c_a btn_n">인쇄</a>
 				</div>

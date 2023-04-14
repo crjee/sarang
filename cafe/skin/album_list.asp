@@ -34,6 +34,8 @@
 <%
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
+	self_yn  = Request("self_yn")
+	all_yn   = Request("all_yn")
 
 	pagesize = Request("pagesize")
 	If pagesize = "" Then pagesize = 20
@@ -97,6 +99,28 @@
 							<input type="hidden" name="page" value="<%=page%>">
 							<input type="hidden" name="album_seq">
 <%
+	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
+%>
+						<span class="ml20">
+							<input type="checkbox" id="self_yn" name="self_yn" class="inp_check" value="Y" <%=if3(self_yn="Y","checked","")%> onclick="goAll()" />
+							<label for="self_yn"><em>본인등록</em></label>
+						</span>
+						<span class="ml10">
+							<input type="checkbox" id="all_yn" name="all_yn" class="inp_check" value="Y" <%=if3(all_yn="Y","checked","")%> onclick="goAll()" />
+							<label for="all_yn"><em>전체보기</em></label>
+						</span>
+						<script>
+							function goAll() {
+								var f = document.search_form;
+								f.action = "album_list.asp"
+								f.page.value = 1;
+								f.submit()
+							}
+						</script>
+<%
+	End If
+%>
+<%
 	If cafe_ad_level = 10 Then
 %>
 							<button class="btn btn_c_a btn_s" type="button" onclick="<%=session("svHref")%>location.href='/cafe/skin/waste_album_list.asp?menu_seq=<%=menu_seq%>'">휴지통</button>
@@ -138,14 +162,15 @@
 	line_item = 4
 	If Not rs.EOF Then
 		Do Until rs.EOF Or i > rs.PageSize
-			album_seq = rs("album_seq")
-			subject   = rs("subject")
-			album_num = rs("album_num")
-			view_cnt  = rs("view_cnt")
-			credt     = rs("credt")
-			agency    = rs("agency")
+			album_seq   = rs("album_seq")
+			subject     = rs("subject")
+			album_num   = rs("album_num")
+			view_cnt    = rs("view_cnt")
+			credt       = rs("credt")
+			agency      = rs("agency")
 			thumbnail   = rs("thumbnail")
 			comment_cnt = rs("comment_cnt")
+			credt_txt   = rs("credt_txt")
 %>
 								<div class="c_wrap">
 <%
@@ -160,7 +185,7 @@
 
 			If Not rs2.EOF Then
 %>
-									<span class="photos"><a href="javascript: goView('<%=album_seq%>')"><img src="<%=uploadUrl & rs2("file_name")%>" border="0" /></a></span>
+									<span class="photos"><a href="javascript: goView('<%=album_seq%>','<%=session("ctTarget")%>')"><img src="<%=uploadUrl & rs2("file_name")%>" border="0" /></a></span>
 <%
 			Else
 %>
@@ -169,7 +194,7 @@
 			End If
 			rs2.close
 %>
-									<a href="javascript: goView('<%=album_seq%>')"><span class="text"><%=subject%>(<%=comment_cnt%>)</span></a>
+									<a href="javascript: goView('<%=album_seq%>','<%=session("ctTarget")%>')"><span class="text"><%=subject%>(<%=comment_cnt%>)</span></a>
 <%
 			If CDate(DateAdd("d", 2, credt_txt)) >= Date Then
 %>
@@ -177,8 +202,8 @@
 <%
 			End if
 %>
-									<span class="posr">조회 <%=view_cnt%> ㅣ <%=credt_txt%></span>
-									<span class="posr"><%=agency%></span>
+									<span class="posr"><span class="text">조회 <%=view_cnt%> ㅣ <%=credt_txt%></span></span>
+									<span class="posr"><span class="text"><%=agency%></span></span>
 								</div>
 <%
 			i = i + 1

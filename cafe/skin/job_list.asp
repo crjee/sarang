@@ -50,9 +50,9 @@
 		End If
 	Else
 		kword = ""
-	End IF
+	End If
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select count(job_seq) cnt "
@@ -152,6 +152,28 @@
 						<input type="hidden" name="page" value="<%=page%>">
 						<input type="hidden" name="job_seq">
 <%
+	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
+%>
+						<span class="ml20">
+							<input type="checkbox" id="self_yn" name="self_yn" class="inp_check" value="Y" <%=if3(self_yn="Y","checked","")%> onclick="goAll()" />
+							<label for="self_yn"><em>본인등록</em></label>
+						</span>
+						<span class="ml10">
+							<input type="checkbox" id="all_yn" name="all_yn" class="inp_check" value="Y" <%=if3(all_yn="Y","checked","")%> onclick="goAll()" />
+							<label for="all_yn"><em>전체보기</em></label>
+						</span>
+						<script>
+							function goAll() {
+								var f = document.search_form;
+								f.action = "job_list.asp"
+								f.page.value = 1;
+								f.submit()
+							}
+						</script>
+<%
+	End If
+%>
+<%
 	cafe_mb_level = getUserLevel(cafe_id)
 	If user_id <> "" Then
 %>
@@ -190,28 +212,6 @@
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w150p">
 						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
-<%
-	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
-%>
-						<span class="ml20">
-							<input type="checkbox" id="self_yn" name="self_yn" class="inp_check" value="Y" <%=if3(self_yn="Y","checked","")%> onclick="goAll()" />
-							<label for="self_yn"><em>본인등록</em></label>
-						</span>
-						<span class="ml10">
-							<input type="checkbox" id="all_yn" name="all_yn" class="inp_check" value="Y" <%=if3(all_yn="Y","checked","")%> onclick="goAll()" />
-							<label for="all_yn"><em>전체보기</em></label>
-						</span>
-						<script>
-							function goAll() {
-								var f = document.search_form;
-								f.action = "job_list.asp"
-								f.page.value = 1;
-								f.submit()
-							}
-						</script>
-<%
-	End If
-%>
 						<select id="pagesize" name="pagesize" class="sel w50p" onchange="goSearch('<%=session("ctTarget")%>')">
 							<option value=""></option>
 							<option value="20" <%=if3(pagesize="20","selected","")%>>20</option>
