@@ -7,7 +7,6 @@
 	Set rs2 = Server.CreateObject ("ADODB.Recordset")
 
 	For i = 1 To Request("chk_user").count
-
 		user_id = Request("chk_user")(i)
 		cafe_id = Request("cafe_id_" & user_id)
 		cafe_mb_level = Request("cafe_mb_level_" & user_id)

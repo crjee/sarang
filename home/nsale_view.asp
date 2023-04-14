@@ -32,7 +32,7 @@
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
-	all_yn    = Request("all_yn")
+	cafe_sch  = Request("cafe_sch")
 
 	nsale_seq = Request("nsale_seq")
 
@@ -127,8 +127,13 @@
 					window.print();
 				}
 
-				function goList() {
-					document.search_form.action = "/home/nsale_list.asp"
+				function goList(sch) {
+					if (sch == 'Y') {
+						document.search_form.action = "/home/home_search_list.asp";
+					}
+					else {
+						document.search_form.action = "/home/nsale_list.asp";
+					}
 					document.search_form.submit();
 				}
 				function goReply() {
@@ -167,13 +172,12 @@
 			<input type="hidden" name="open_specs" value="width=340, height=310, left=150, top=150">
 			</form>
 			<form name="search_form" method="post">
-			<input type="hidden" name="sch_type" value="<%=sch_type%>">
-			<input type="hidden" name="sch_word" value="<%=sch_word%>">
-			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-			<input type="hidden" name="all_yn" value="<%=all_yn%>">
 			<input type="hidden" name="page" value="<%=page%>">
 			<input type="hidden" name="pagesize" value="<%=pagesize%>">
+			<input type="hidden" name="sch_type" value="<%=sch_type%>">
+			<input type="hidden" name="sch_word" value="<%=sch_word%>">
 			<input type="hidden" name="task">
+			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 			<input type="hidden" name="nsale_seq" value="<%=nsale_seq%>">
 			<input type="hidden" name="com_seq" value="<%=nsale_seq%>">
 			<input type="hidden" name="group_num" value="<%=rs("group_num")%>">

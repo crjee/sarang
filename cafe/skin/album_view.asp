@@ -38,6 +38,7 @@
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
+	cafe_sch  = Request("cafe_sch")
 
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 
@@ -88,7 +89,7 @@
 %>
 					<button class="btn btn_c_n btn_s" type="button" onclick="goSuggest()">추천</button>
 					<button class="btn btn_c_n btn_s" type="button" onclick="goPrint()">프린터</button>
-					<button class="btn btn_c_n btn_s" type="button" onclick="lyp('lypp_slide')">슬라이드</button>
+					<button class="btn btn_c_n btn_s" type="button" onclick="goSlide()">슬라이드</button>
 <%
 	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
 	If toInt(write_auth) <= toInt(cafe_mb_level) Then
@@ -98,7 +99,7 @@
 	End If
 %>
 					<button class="btn btn_c_n btn_s" type="button" onclick="copyUrl()">글주소복사</button>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goList()">목록</button>
+					<button class="btn btn_c_n btn_s" type="button" onclick="goList('<%=cafe_sch%>')">목록</button>
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
 					<div class="view_head">
@@ -242,7 +243,6 @@
 		document.all._Ath_Slide.src = g_ImageTable[g_iimg][0];
 		if (g_iimg == g_mimg)
 		{
-			alert("슬라이드 마지막 이미지 입니다.");
 			g_fPlayMode = !g_fPlayMode;
 			btnPrev.disabled = btnPlay.disabled = btnNext.disabled = false;
 		}//if
@@ -298,8 +298,6 @@
 	g_imax = g_mimg--;
 
 	g_dwTimeOutSec = 3;
-
-	window.onload = Play;
 
 	function Rsize(img, ww, hh, aL) {
 		var tt = imgRsize(img, ww, hh);
@@ -370,6 +368,11 @@
 		g[3] = img.height; // 원사이즈 세로
 
 		return g;
+	}
+
+	function goSlide() {
+		Play();
+		lyp('lypp_slide');
 	}
 </script>
 

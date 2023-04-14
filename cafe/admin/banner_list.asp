@@ -88,43 +88,7 @@
 		cd_id  = Rs("cd_id")
 		cd_nm  = Rs("cd_nm")
 		banner_type = cmn_cd
-%>
-				<form name="form<%=cd_nm%>" method="post" action="banner_num_exec.asp">
-					<div class="btn_box algL mb10">
-						<h3 class="h3"><%=cd_nm%></h3>
-					</div>
-					<div class="btn_box algL mb10">
-						<input type="button" onClick="rowMoveEvent<%=cmn_cd%>('up');" value="▲" style="width:50px;"/>
-						&nbsp;&nbsp;
-						<input type="button" onClick="rowMoveEvent<%=cmn_cd%>('down');" value="▼" style="width:50px;"/>
-						<button type="submit" class="btn btn_c_a btn_s">노출순서 저장</button>
-					</div>
-					<div class="tb tb_form_1">
-						<table class="tb_fixed" id="">
-							<colgroup>
-								<col class="w5" />
-								<col class="w5" />
-								<col class="w10" />
-								<col class="w_remainder" />
-								<col class="w8" />
-								<col class="w7" />
-								<col class="w7" />
-								<col class="w10" />
-							</colgroup>
-							<thead>
-								<tr>
-									<th scope="col">노출순서</th>
-									<th scope="col">노출번호</th>
-									<th scope="col">이미지</th>
-									<th scope="col">제목/링크</th>
-									<th scope="col">등록일</th>
-									<th scope="col">구분</th>
-									<th scope="col">공개여부</th>
-									<th scope="col">설정</th>
-								</tr>
-							</thead>
-							<tbody id="girlTbody<%=cmn_cd%>">
-<%
+
 		sql = ""
 		sql = sql & "  with cd1                                                    "
 		sql = sql & "    as (                                                      "
@@ -157,9 +121,53 @@
 		sql = sql & "  where cafe_id = 'root'                                      "
 		sql = sql & "    and banner_type = '" & banner_type & "'                   "
 		sql = sql & "  order by cb.banner_num asc                                  "
-		Rs2.open Sql, conn, 3, 1
-
-		i = 1
+		rs2.CursorType = 3
+		rs2.CursorLocation = 3
+		rs2.LockType = 3
+		rs2.Open SQL, conn
+		rsCnt = rs2.recordcount
+%>
+				<form name="form<%=cd_nm%>" method="post" action="banner_num_exec.asp">
+					<div class="btn_box algL mb10">
+						<h3 class="h3"><%=cd_nm%></h3>
+					</div>
+<%
+		If rsCnt > 1 Then
+%>
+					<div class="btn_box algL mb10">
+						<button type="button" class="btn btn_c_a btn_s" onClick="rowMoveEvent<%=cmn_cd%>('up');" />▲</button>
+						<button type="button" class="btn btn_c_a btn_s" onClick="rowMoveEvent<%=cmn_cd%>('down');" />▼</button>
+						<button type="submit" class="btn btn_c_a btn_s">노출순서 저장</button>
+					</div>
+<%
+		End If
+%>
+					<div class="tb tb_form_1">
+						<table class="tb_fixed" id="">
+							<colgroup>
+								<col class="w5" />
+								<col class="w5" />
+								<col class="w10" />
+								<col class="w_remainder" />
+								<col class="w8" />
+								<col class="w7" />
+								<col class="w7" />
+								<col class="w10" />
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col">노출순서</th>
+									<th scope="col">노출번호</th>
+									<th scope="col">이미지</th>
+									<th scope="col">제목/링크</th>
+									<th scope="col">등록일</th>
+									<th scope="col">구분</th>
+									<th scope="col">공개여부</th>
+									<th scope="col">설정</th>
+								</tr>
+							</thead>
+							<tbody id="girlTbody<%=cmn_cd%>">
+<%
 		If Not Rs2.eof Then
 			Do Until Rs2.eof
 				banner_seq      = Rs2("banner_seq")
@@ -208,19 +216,39 @@
 								<tr>
 									<td class="algC">
 										<input type="hidden" name="banner_seq" value="<%=banner_seq%>">
-										<input type="radio" class="inp_radio" id="chkRadio<%=cmn_cd%>" name="chkRadio<%=cmn_cd%>" onClick="checkeRowColorChange<%=cmn_cd%>(this);">
+										<input type="radio" class="" id="chkRadio<%=cmn_cd%>" name="chkRadio<%=cmn_cd%>" onClick="checkeRowColorChange<%=cmn_cd%>(this);">
 									</td>
 									<td class="algC"><%=banner_num%></td>
 									<td class="algC">
 <%
 				If file_type = "I" Then
+					If link <> "" Then
 %>
-										<%If link <> "" Then%><a href="<%=link%>" target="_blank"><%End if%><img src="<%=uploadUrl & file_name%>" style="border:1px solid #dddddd;width:150px;"><%If link <> "" Then%></a><%End If%></li>
+										<a href="<%=link%>" target="_blank">
 <%
+					End If
+%>
+											<img src="<%=uploadUrl & file_name%>" style="border:1px solid #dddddd;width:150px;">
+<%
+					If link <> "" Then
+%>
+										</a>
+<%
+					End If
 				ElseIf file_type = "F" Then
+					If link <> "" Then
 %>
-										<%If link <> "" Then%><a href="<%=link%>" target="_blank"><%End if%><embed src="<%=uploadUrl & file_name%>" style="border:1px solid #dddddd;width:<%=banner_width%>px ;height:<%=banner_height%>px;"><%If link <> "" Then%></a><%End If%></li>
+										<a href="<%=link%>" target="_blank">
 <%
+					End If
+%>
+											<embed src="<%=uploadUrl & file_name%>" style="border:1px solid #dddddd;width:<%=banner_width%>px ;height:<%=banner_height%>px;">
+<%
+					If link <> "" Then
+%>
+										</a>
+<%
+					End If
 				End if
 %>
 									</td>
@@ -234,36 +262,36 @@
 									</td>
 								</tr>
 <%
-				i = i + 1
 				Rs2.MoveNext
 			Loop
 %>
-<script type="text/javascript">
-	function checkeRowColorChange<%=cmn_cd%>(obj) {
-		var row = jQuery("#chkRadio<%=cmn_cd%>").index(obj);
-	}
-	function rowMoveEvent<%=cmn_cd%>(direction) {
-		if(jQuery("#chkRadio<%=cmn_cd%>:checked").val()) {
-			var row = jQuery("#chkRadio<%=cmn_cd%>:checked").parent().parent();
-			var num = row.index();
-			var max = (jQuery("#chkRadio<%=cmn_cd%>").length - 1);	   // index는 0부터 시작하기에 -1을 해준다.
-			if(direction == "up") {
-				if(num == 0) { 
-					return false;
-				} else {
-					row.prev().before(row);
-				}
-			} else if(direction == "down") {
-				if(num >= max) {
-					return false;
-				} else {
-					row.next().after(row);
-				}
-			}
-		} else {
-		}
-	}
-	</script>
+								<script type="text/javascript">
+									function checkeRowColorChange<%=cmn_cd%>(obj) {
+										var row = jQuery("#chkRadio<%=cmn_cd%>").index(obj);
+									}
+									function rowMoveEvent<%=cmn_cd%>(direction) {
+										if(jQuery("#chkRadio<%=cmn_cd%>:checked").val()) {
+											var row = jQuery("#chkRadio<%=cmn_cd%>:checked").parent().parent();
+											var num = row.index();
+											var max = <%=rsCnt%> - 1;	   // index는 0부터 시작하기에 -1을 해준다.
+											//var max = (jQuery("#chkRadio<%=cmn_cd%>").length - 1);	   // index는 0부터 시작하기에 -1을 해준다.
+											if(direction == "up") {
+												if(num == 0) { 
+													return false;
+												} else {
+													row.prev().before(row);
+												}
+											} else if(direction == "down") {
+												if(num >= max) {
+													return false;
+												} else {
+													row.next().after(row);
+												}
+											}
+										} else {
+										}
+									}
+								</script>
 <%
 		Else
 %>
@@ -379,49 +407,7 @@
 	<!-- //Banner 등록 : e -->
 </body>
 </html>
-<script type="text/javascript">
-function checkeRowColorChange(obj) {
-	// 체크된 라디오 박스의 행(row)에 강조색깔로 바꾸기 전 모든 행(row)의 백그라운드를 흰색으로 변경한다.
-//	jQuery("#girlTbody > tr").css("background-color", "#FFFFFF");
-	// 체크된 라디오 박스의 행이 몇번째에 위치하는지 파악한다.
-	var row = jQuery("#chkRadio").index(obj);
-	// 체크된 라디오 박스의 행(row)의 색깔을 변경한다.
-//	jQuery("#girlTbody > tr").eq(row).css("background-color", "#FAF4C0");
-}
-function rowMoveEvent(direction) {
-	
-	// 체크된 행(row)의 존재 여부를 파악한다.
-	if(jQuery("#chkRadio:checked").val()) {
-		// 체크된 라디오 박스의 행(row)을 변수에 담는다.
-		var row = jQuery("#chkRadio:checked").parent().parent();
-		// 체크된 행(row)의 이동 한계점을 파악하기 위해 인덱스를 파악한다.
-		var num = row.index();
-		// 전체 행의 개수를 구한다.
-		var max = (jQuery("#chkRadio").length - 1);	   // index는 0부터 시작하기에 -1을 해준다.
-		if(direction == "up") {
-			if(num == 0) { 
-				// 체크된 행(row)의 위치가 최상단에 위치해 있을경우 더이상 올라갈 수 없게 막는다.
-				alert("첫번째로 지정되어 있습니다.\n더이상 순서를 변경할 수 없습니다.");
-				return false;
-			} else {
-				// 체크된 행(row)을 한칸 위로 올린다.
-				row.prev().before(row);
-			}
-		} else if(direction == "down") {
-			if(num >= max) {
-				// 체크된 행(row)의 위치가 최하단에 위치해 있을경우 더이상 내려갈 수 없게 막는다.
-				alert("마지막으로 지정되어 있습니다.\n더이상 순서를 변경할 수 없습니다.");
-				return false;
-			} else {
-				// 체크된 행(row)을 한칸 아래로 내린다.
-				row.next().after(row);
-			}
-		}
-	} else {
-		alert("선택된 행이 존재하지 않습니다\n위치를 이동시킬 행을 하나 선택해 주세요.");
-	}
-}
-</script>
+
 <script type="text/javascript">
 
 	function readURL(input,obj) {
@@ -449,8 +435,8 @@ function rowMoveEvent(direction) {
 		$("#task").val("ins");
 		$("#file_img").attr('src', "")
 		$("#file_name").attr("required" , true);
-		document.getElementById("regTitle").innerText = "등록";
 		$("#banner_type").val(banner_type);
+		document.getElementById("regTitle").innerText = "등록";
 		lyp('lypp_adm_banner');
 	}
 

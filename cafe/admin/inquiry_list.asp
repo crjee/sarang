@@ -12,7 +12,7 @@
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
 	If sch_type <> "" And sch_word <> "" then
-		If sch_type = "l" Then
+		If sch_type = "" Then
 			kword = kword & " and (subject like '%" & sch_word & "%' or inq_cn like '%" & sch_word & "%') "
 		Else
 			kword = kword & " and " & sch_type & " like '%" & sch_word & "%' "

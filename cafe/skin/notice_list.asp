@@ -42,7 +42,7 @@
 	If page = "" then page = 1
 
 	If sch_word <> "" then
-		If sch_type = "l" Then
+		If sch_type = "" Then
 			kword = " and (subject like '%" & sch_word & "%' or creid like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
 		Else
 			kword = " and " & sch_type & " like '%" & sch_word & "%' "

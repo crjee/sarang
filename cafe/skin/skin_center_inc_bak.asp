@@ -396,8 +396,7 @@
 	Set rs = Nothing
 %>
 				</div>
-				<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-				<script type="text/javascript" src="/cafe/jquery.vticker-min.js"></script>
+				<script type="text/javascript" src="/common/js/jquery.vticker-min.js"></script>
 				<script type="text/javascript">
 					$(function() {
 						try {

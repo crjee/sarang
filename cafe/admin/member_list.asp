@@ -12,7 +12,7 @@
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
 	If sch_type <> "" And sch_word <> "" Then
-		If sch_type = "l" Then
+		If sch_type = "" Then
 			kword = " where (cc.cafe_name like '%" & sch_word & "%' or mb.agency like '%" & sch_word & "%' or mb.phone like '%" & sch_word & "%' or mb.user_id like '%" & sch_word & "%' or mb.kname like '%" & sch_word & "%') "
 		Else
 			kword = " where " & sch_type & " like '%" & sch_word & "%' "
@@ -315,7 +315,7 @@
 						</colgroup>
 						<thead>
 							<tr>
-								<th scope="col"><input type="checkbox" id="" name="" class="inp_check" /><label for=""><em class="hide">전체선택</em></label></th>
+								<th scope="col">선택</th>
 								<th scope="col">성명(아이디)</th>
 								<th scope="col">상호</th>
 								<th scope="col">전화번호</th>
@@ -335,24 +335,24 @@
 
 	If Not rs.EOF Then
 		Do Until rs.EOF OR i > rs.pagesize
-			user_id   = rs("user_id")
-			kname     = rs("kname")
-			agency    = rs("agency")
-			phone     = rs("phone")
-			email     = rs("email")
-			mstat     = rs("mstat")
-			cstat     = rs("cstat")
-			cafe_id   = rs("cafe_id")
-			cafe_name = rs("cafe_name")
-			cafe_mb_level = rs("cafe_mb_level")
-			post_cnt  = rs("post_cnt")
-			picture   = rs("picture")
-			union_id  = rs("union_id")
-			union_name  = rs("union_name")
+			user_id        = rs("user_id")
+			kname          = rs("kname")
+			agency         = rs("agency")
+			phone          = rs("phone")
+			email          = rs("email")
+			mstat          = rs("mstat")
+			cstat          = rs("cstat")
+			cafe_id        = rs("cafe_id")
+			cafe_name      = rs("cafe_name")
+			cafe_mb_level  = rs("cafe_mb_level")
+			post_cnt       = rs("post_cnt")
+			picture        = rs("picture")
+			union_id       = rs("union_id")
+			union_name     = rs("union_name")
 			union_mb_level = rs("union_mb_level")
 %>
 							<tr id="tr_<%=i%>">
-								<td class="algC"><input type="checkbox" class="inp_check" id="chk_user" name="chk_user" value="<%=user_id%>" /><label for=""><em class="hide">선택</em></label></th>
+								<td class="algC"><input type="checkbox" class="inp_check" id="chk_user<%=i%>" name="chk_user" value="<%=user_id%>" /><label for="chk_user<%=i%>"><em class="hide">선택</em></label></td>
 								<td class="algC"><%=kname%>(<a href="/ex2.asp?userid=<%=user_id%>"><%=user_id%></a>)</td>
 								<td class="algC"><%=agency%>
 <%
@@ -442,12 +442,10 @@
 			If Not rs2.eof Then
 %>
 											<button type="button" class="btn btn_c_s btn_s" onclick="hiddenfrm.location.href='member_root_exec.asp?user_id=<%=user_id%>'">권한취소</button>
-											<a target="ifrm" href="member_root_exec.asp?user_id=<%=user_id%>" class="btn btn-danger btn-xs" style="height:18px;">권한취소</a>
 <%
 			Else
 %>
 											<button type="button" class="btn btn_c_s btn_s" onclick="hiddenfrm.location.href='member_root_exec.asp?user_id=<%=user_id%>'">권한주기</button>
-											<a target="ifrm" href="member_root_exec.asp?user_id=<%=user_id%>" class="btn btn-info btn-xs" style="height:18px;">권한주기</a>
 <%
 			End If
 			rs2.close

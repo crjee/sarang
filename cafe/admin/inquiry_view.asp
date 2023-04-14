@@ -30,7 +30,6 @@
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
-	all_yn    = Request("all_yn")
 
 	inq_id = Request("inq_id")
 
@@ -85,7 +84,7 @@
 %>
 		<script type="text/javascript">
 			function goList() {
-				document.search_form.action = "inquiry_list.asp"
+				document.search_form.action = "inquiry_list.asp";
 				document.search_form.target = "_self"
 				document.search_form.submit();
 			}

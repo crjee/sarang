@@ -26,7 +26,7 @@
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
 	If sch_type <> "" And sch_word <> "" then
-		If sch_type = "l" Then
+		If sch_type = "" Then
 			kword = kword & " and (cf.cafe_name like '%" & sch_word & "%' or cf.cafe_id like '%" & sch_word & "%') "
 		Else
 			kword = kword & " and " & sch_type & " like '%" & sch_word & "%' "
@@ -211,7 +211,7 @@
 						</colgroup>
 						<thead>
 							<tr>
-								<th scope="col"><input type="checkbox" id="" name="" class="inp_check" /><label for=""><em class="hide">전체선택</em></label></th>
+								<th scope="col">선택</th>
 								<th scope="col">사랑방명</th>
 								<th scope="col">사랑방아이디</th>
 								<th scope="col">사랑방지기</th>
@@ -249,7 +249,7 @@
 
 %>
 							<tr id="tr_<%=i%>">
-								<td class="algC"><input type="checkbox" class="inp_check" id="chk_cafe" name="chk_cafe" value="<%=cafe_id%>" /><label for=""><em class="hide">선택</em></label></td>
+								<td class="algC"><input type="checkbox" class="inp_check" id="chk_cafe<%=i%>" name="chk_cafe" value="<%=cafe_id%>" /><label for="chk_cafe<%=i%>"><em class="hide">선택</em></label></td>
 								<td class="algC"><a href="/cafe/main.asp?cafe_id=<%=cafe_id%>"><%=cafe_name%></a></td>
 								<td class="algC"><%=cafe_id%></td>
 								<td class="algC">

@@ -110,14 +110,14 @@
 										<th scope="row">메뉴감추기</th>
 										<td>
 											<input type="checkbox" id="hidden_yn" name="hidden_yn" value="Y" <%=if3(hidden_yn = "Y","checked","") %> class="inp_check" />
-											<label for=""><em>감추기</em></label>
+											<label for="hidden_yn"><em>감추기</em></label>
 										</td>
 									</tr>
 									<tr>
 										<th scope="row">탭메뉴사용</th>
 										<td>
 											<input type="checkbox" id="tab_use_yn" name="tab_use_yn" value="Y" <%=if3(tab_use_yn = "Y","checked","") %> class="inp_check" />
-											<label for=""><em>사용</em></label>
+											<label for="tab_use_yn"><em>사용</em></label>
 										</td>
 										<th scope="row">쓰기형식</th>
 										<td>
@@ -149,12 +149,12 @@
 												<option value='3' <%=If3(daily_cnt="3","selected","") %>>3</option>
 											</select>
 											<span class="ml20">
-												<input type="radio" id="inc_del_yn" name="inc_del_yn" value="Y" <%=if3(inc_del_yn="Y","checked","") %> class="inp_radio" />
-												<label for=""><em>삭제건 포함</em></label>
+												<input type="radio" id="inc_del_y" name="inc_del_yn" value="Y" <%=if3(inc_del_yn="Y","checked","") %> class="inp_radio" />
+												<label for="inc_del_y"><em>삭제건 포함</em></label>
 											</span>
 											<span class="ml10">
-												<input type="radio" id="inc_del_yn" name="inc_del_yn" value="N" <%=if3(inc_del_yn="N","checked","") %> class="inp_radio" />
-												<label for=""><em>삭제건 미포함</em></label>
+												<input type="radio" id="inc_del_n" name="inc_del_yn" value="N" <%=if3(inc_del_yn="N","checked","") %> class="inp_radio" />
+												<label for="inc_del_n"><em>삭제건 미포함</em></label>
 											</span>
 										</td>
 									</tr>
@@ -194,9 +194,8 @@
 																	<input type="hidden" name="section_seq" value="<%=section_seq%>">
 																	<input type="text" name="section_nm" value="<%=section_nm%>" class="inp w_auto">
 																	<span class="ml10">
-																		<input type="checkbox" id="use_y<%=i%>" name="use_y" value="Y" class="inp_check" <%=if3(use_yn="Y","checked","")%> onclick="onCheck(<%=i%>)" />
-																		<label for="use_y"><em>사용</em></label>
-																		<input type="hidden" id="use_yn<%=i%>" name="use_yn" value="<%=use_yn%>">
+																		<input type="checkbox" id="use_y<%=i%>" name="use_yn" value="Y" class="inp_check" <%=if3(use_yn="Y","checked","")%> />
+																		<label for="use_y<%=i%>"><em>사용</em></label>
 																	</span>
 																</div>
 															</div>

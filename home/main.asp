@@ -36,135 +36,180 @@
 			<div class="container">
 				<div class="main_frm mf_block_1">
 					<div class="main_frm_l">
-						<div class="tab_box">
-							<h2 class="h2 head"><em>부동산 이야기</em></h2>
-							<ul class="tab_btns">
 <%
 	Dim homeRs
-	Dim homeRs2
 	Set homeRs = Server.CreateObject ("ADODB.Recordset")
-	Set homeRs2 = Server.CreateObject ("ADODB.Recordset")
 
 	Dim home_i
 	Dim home_j
 
 	sql = ""
-	sql = sql & " select cmn_cd                                               "
-	sql = sql & "       ,cd_nm                                                "
-	sql = sql & "   from cf_code                                              "
-	sql = sql & "  where up_cd_id = (select cd_id                             "
-	sql = sql & "                          from cf_code                       "
-	sql = sql & "                         where up_cd_id = 'CD0000000000'     "
-	sql = sql & "                           and cmn_cd = 'pst_rgn_se_cd'      "
-	sql = sql & "                           and del_yn = 'N'                  "
-	sql = sql & "                           and use_yn = 'Y'                  "
-	sql = sql & "                   )                                         "
-	sql = sql & "    and del_yn = 'N'                                         "
-	sql = sql & "    and use_yn = 'Y'                                         "
-	sql = sql & "  order by cd_sn                                             "
-	homeRs.open Sql, conn, 3, 1
+	sql = sql & " select menu_type           "
+	sql = sql & "       ,menu_name           "
+	sql = sql & "       ,page_type           "
+	sql = sql & "       ,menu_seq            "
+	sql = sql & "       ,home_num            "
+	sql = sql & "       ,home_cnt            "
+	sql = sql & "       ,top_cnt             "
+	sql = sql & "       ,wide_yn             "
+	sql = sql & "       ,list_type           "
+	sql = sql & "       ,tab_use_yn          "
+	sql = sql & "   from cf_menu cm          "
+	sql = sql & "  where cafe_id = 'home'    "
+	sql = sql & "    and menu_type = 'story' "
+	sql = sql & "  order by home_num asc     "
+	homeRs.Open Sql, conn, 3, 1
 
-	home_i = 0
+	i = 0
 	If Not homeRs.eof Then
-		Do Until homeRs.eof
-			home_i = home_i + 1
-			cmn_cd = homeRs("cmn_cd")
-			cd_nm  = homeRs("cd_nm")
-%>
-								<li class="<%=if3(home_i=1,"on","")%>"><a href="#tab_cont<%=home_i%>"><em><%=cd_nm%></em></a></li>
-<%
-			homeRs.MoveNext
-		Loop
+		i = i + 1
+		menu_type  = homeRs("menu_type")
+		menu_name  = homeRs("menu_name")
+		page_type  = homeRs("page_type")
+		menu_seq   = homeRs("menu_seq")
+		home_num   = homeRs("home_num")
+		home_cnt   = homeRs("home_cnt")
+		top_cnt    = homeRs("top_cnt")
+		wide_yn    = homeRs("wide_yn")
+		list_type  = homeRs("list_type")
+		tab_use_yn = homeRs("tab_use_yn")
 	End If
+	homeRs.close
+
+	If tab_use_yn = "Y" Then ' 탭정보 확인
+		sql = ""
+		sql = sql & " select section_seq                   "
+		sql = sql & "       ,section_nm                    "
+		sql = sql & "       ,section_sn                    "
+		sql = sql & "   from cf_menu_section               "
+		sql = sql & "  where menu_seq = '" & menu_seq & "' "
+		sql = sql & "    and use_yn = 'Y'                  "
+		sql = sql & "  union all                           "
+		sql = sql & " select null as section_seq           "
+		sql = sql & "       ,'기타' as section_nm           "
+		sql = sql & "       ,999999999 as section_nm       "
+		sql = sql & "  order by section_sn                 "
+		homeRs.open Sql, conn, 3, 1
+
+		ReDim arrHomeLst(homeRs.recordCount+1)
+		ReDim arrHomeRgn(homeRs.recordCount+1)
+
+		home_i = 1
+%>
+						<div class="tab_box">
+							<h2 class="h2 head"><em>부동산 이야기</em></h2>
+							<ul class="tab_btns">
+								<li class="<%=if3(home_i=1,"on","")%>"><a href="#tab_cont<%=home_i%>"><em>전체</em></a></li>
+<%
+		If Not homeRs.eof Then
+			home_i = 2
+			Do Until homeRs.eof
+				section_seq = homeRs("section_seq")
+				section_nm  = homeRs("section_nm")
+				arrHomeLst(home_i) = section_seq
+				arrHomeRgn(home_i) = section_nm
+%>
+								<li class="<%=if3(home_i=1,"on","")%>"><a href="#tab_cont<%=home_i%>"><em><%=section_nm%></em></a></li>
+<%
+				homeRs.MoveNext
+				home_i = home_i + 1
+			Loop
+		End If
+		homeRs.close
 %>
 							</ul>
 							<span class="posR"><a href="/home/story_list.asp">more</a></span>
 						</div>
 <%
-	If home_i > 0 Then
-		home_j = 0
-		homeRs.MoveFirst
-		Do Until homeRs.eof
-			home_j = home_j + 1
-			cmn_cd = homeRs("cmn_cd")
-			cd_nm  = homeRs("cd_nm")
-
-			sql = ""
-			sql = sql & " select top 5 * "
-			sql = sql & " from ( "
-			sql = sql & " select 1 as seq "
-			sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
-			sql = sql & "       ,subject "
-			sql = sql & "       ,story_seq "
-			sql = sql & "       ,group_num "
-			sql = sql & "       ,step_num "
-			sql = sql & "   from cf_story "
-			sql = sql & "  where cafe_id  = 'home' "
-			If home_j > 1 Then
-			sql = sql & "    and pst_rgn_se_cd = '" & cmn_cd & "' "
-			End If
-			sql = sql & "    and step_num = 0 "
-			sql = sql & "    and top_yn = 'Y' "
-			sql = sql & "  union all "
-			sql = sql & " select top 5 "
-			sql = sql & "        2 as seq "
-			sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
-			sql = sql & "       ,subject "
-			sql = sql & "       ,story_seq "
-			sql = sql & "       ,group_num "
-			sql = sql & "       ,step_num "
-			sql = sql & "   from cf_story "
-			sql = sql & "  where cafe_id  = 'home' "
-			If home_j > 1 Then
-			sql = sql & "    and pst_rgn_se_cd = '" & cmn_cd & "' "
-			End If
-			sql = sql & "    and step_num = 0 "
-			sql = sql & "    and isnull(top_yn,'') <> 'Y' "
-			sql = sql & "  order by seq, group_num desc, step_num asc "
-			sql = sql & " ) aa "
-			sql = sql & " order by seq, group_num desc, step_num asc "
-			homeRs2.Open Sql, conn, 3, 1
+	Else
+		ReDim arrHomeLst(1)
+		ReDim arrHomeRgn(1)
 %>
-						<div id="tab_cont<%=home_j%>" class="tab_cont <%=if3(home_j=1,"on","")%>">
+						<div class="latest_box">
+							<header class="latest_box_head">
+								<h4 class="h4">부동산 이야기</h4>
+								<span class="posR"><a href="/home/land_list.asp?menu_seq=1953">more</a></span>
+							</header>
+						</div>
+<%
+	End If
+%>
+<%
+	For home_i = 1 To UBound(arrHomeLst)
+%>
+						<div id="tab_cont<%=home_i%>" class="tab_cont <%=if3(home_i=1,"on","")%>">
 							<div class="latest_box">
 <%
-			If Not homeRs2.eof Then
+		sql = ""
+		sql = sql & " select top 5 * "
+		sql = sql & " from ( "
+		sql = sql & " select 1 as seq "
+		sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
+		sql = sql & "       ,subject "
+		sql = sql & "       ,story_seq "
+		sql = sql & "       ,group_num "
+		sql = sql & "       ,step_num "
+		sql = sql & "   from cf_story "
+		sql = sql & "  where cafe_id  = 'home' "
+		If arrHomeLst(home_i) <> "" Then
+		sql = sql & "    and pst_rgn_se_cd = '" & arrHomeLst(home_i) & "' "
+		End If
+		sql = sql & "    and step_num = 0 "
+		sql = sql & "    and top_yn = 'Y' "
+		sql = sql & "  union all "
+		sql = sql & " select top 5 "
+		sql = sql & "        2 as seq "
+		sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
+		sql = sql & "       ,subject "
+		sql = sql & "       ,story_seq "
+		sql = sql & "       ,group_num "
+		sql = sql & "       ,step_num "
+		sql = sql & "   from cf_story "
+		sql = sql & "  where cafe_id  = 'home' "
+		If arrHomeLst(home_i) <> "" Then
+		sql = sql & "    and pst_rgn_se_cd = '" & arrHomeLst(home_i) & "' "
+		End If
+		sql = sql & "    and step_num = 0 "
+		sql = sql & "    and isnull(top_yn,'') <> 'Y' "
+		sql = sql & "  order by seq, group_num desc, step_num asc "
+		sql = sql & " ) aa "
+		sql = sql & " order by seq, group_num desc, step_num asc "
+		homeRs.Open Sql, conn, 3, 1
+
+		If Not homeRs.eof Then
 %>
 								<ul class="latest_1">
 <%
-				Do Until homeRs2.eof
-					seq       = homeRs2("seq")
-					credt_txt = homeRs2("credt_txt")
-					subject   = homeRs2("subject")
-					story_seq = homeRs2("story_seq")
-					view_url = "/home/story_view.asp?story_seq=" & story_seq & "&menu_seq=1951"
+			Do Until homeRs.eof
+				seq       = homeRs("seq")
+				credt_txt = homeRs("credt_txt")
+				subject   = homeRs("subject")
+				story_seq = homeRs("story_seq")
+				view_url = "/home/story_view.asp?story_seq=" & story_seq & "&menu_seq=1951"
 %>
 									<li>
 										<a href="<%=view_url%>"><span class="text"><%=subject%></span></a>
 										<span class="posr"><%=credt_txt%></span>
 									</li>
 <%
-					homeRs2.MoveNext
-				Loop
+				homeRs.MoveNext
+			Loop
 %>
 								</ul>
 <%
-			Else
+		Else
 %>
 								<div class="nodata">
 									<span class="txt">데이터가 없습니다.</span>
 								</div>
 <%
-			End If
-			homeRs2.close
+		End If
+		homeRs.close
 %>
 							</div>
 						</div>
 <%
-			homeRs.MoveNext
-		Loop
-	End If
-	homeRs.close
+	Next
 %>
 					</div>
 					<div class="main_frm_r">
@@ -183,14 +228,14 @@
 	uploadUrl = ConfigAttachedFileURL & "banner/"
 
 	sql = ""
-	sql = sql & " select banner_type                       "
-	sql = sql & "       ,file_name                         "
-	sql = sql & "       ,link                              "
-	sql = sql & "   from cf_banner                         "
-	sql = sql & "  where cafe_id='root'                    "
-	sql = sql & "    and banner_type in ('H1')             "
-	sql = sql & "    and open_yn = 'Y'                     "
-	sql = sql & "  order by banner_seq asc                 "
+	sql = sql & " select banner_type           "
+	sql = sql & "       ,file_name             "
+	sql = sql & "       ,link                  "
+	sql = sql & "   from cf_banner             "
+	sql = sql & "  where cafe_id='root'        "
+	sql = sql & "    and banner_type in ('H1') "
+	sql = sql & "    and open_yn = 'Y'         "
+	sql = sql & "  order by banner_seq asc     "
 	homeRs.open Sql, conn, 3, 1
 
 	home_i = 1
@@ -282,7 +327,7 @@
 	End If
 	homeRs.close
 	Set homeRs = Nothing
-	Set homeRs2 = Nothing
+	Set homeRs = Nothing
 
 	For home_j = home_i To 2
 %>

@@ -46,6 +46,7 @@
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
+	cafe_sch  = Request("cafe_sch")
 
 	sale_seq = Request("sale_seq")
 
@@ -95,8 +96,13 @@
 					window.print();
 				}
 
-				function goList(gvTarget) {
-					document.search_form.action = "/cafe/skin/sale_list.asp";
+				function goList(gvTarget, sch) {
+					if (sch == 'Y') {
+						document.search_form.action = "/cafe/skin/cafe_search_list.asp";
+					}
+					else {
+						document.search_form.action = "/cafe/skin/sale_list.asp";
+					}
 					document.search_form.target = gvTarget;
 					document.search_form.submit();
 				}

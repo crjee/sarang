@@ -37,7 +37,7 @@
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
-	all_yn    = Request("all_yn")
+	cafe_sch  = Request("cafe_sch")
 
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 
@@ -66,8 +66,13 @@
 					window.print();
 				}
 
-				function goList(gvTarget) {
-					document.search_form.action = "/cafe/skin/board_list.asp";
+				function goList(gvTarget, sch) {
+					if (sch == 'Y') {
+						document.search_form.action = "/cafe/skin/cafe_search_list.asp";
+					}
+					else {
+						document.search_form.action = "/cafe/skin/board_list.asp";
+					}
 					document.search_form.target = gvTarget;
 					document.search_form.submit();
 				}
@@ -149,13 +154,12 @@
 			<input type="hidden" name="open_specs" value="width=340, height=310, left=150, top=150">
 			</form>
 			<form name="search_form" method="post">
-			<input type="hidden" name="sch_type" value="<%=sch_type%>">
-			<input type="hidden" name="sch_word" value="<%=sch_word%>">
-			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-			<input type="hidden" name="all_yn" value="<%=all_yn%>">
 			<input type="hidden" name="page" value="<%=page%>">
 			<input type="hidden" name="pagesize" value="<%=pagesize%>">
+			<input type="hidden" name="sch_type" value="<%=sch_type%>">
+			<input type="hidden" name="sch_word" value="<%=sch_word%>">
 			<input type="hidden" name="task">
+			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 			<input type="hidden" name="board_seq" value="<%=board_seq%>">
 			<input type="hidden" name="com_seq" value="<%=board_seq%>">
 			<input type="hidden" name="group_num" value="<%=rs("group_num")%>">
@@ -208,7 +212,7 @@
 <%
 	End If
 %>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goList('<%=session("ctTarget")%>')">목록</button>
+					<button class="btn btn_c_n btn_s" type="button" onclick="goList('<%=session("ctTarget")%>', '<%=cafe_sch%>')">목록</button>
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
 					<div class="view_head">

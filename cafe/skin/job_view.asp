@@ -37,6 +37,8 @@
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
+	cafe_sch  = Request("cafe_sch")
+
 	self_yn   = Request("self_yn")
 	all_yn    = Request("all_yn")
 
@@ -107,8 +109,13 @@
 					window.print();
 				}
 
-				function goList(gvTarget) {
-					document.search_form.action = "/cafe/skin/job_list.asp";
+				function goList(gvTarget, sch) {
+					if (sch == 'Y') {
+						document.search_form.action = "/cafe/skin/cafe_search_list.asp";
+					}
+					else {
+						document.search_form.action = "/cafe/skin/job_list.asp";
+					}
 					document.search_form.target = gvTarget;
 					document.search_form.submit();
 				}
@@ -167,7 +174,6 @@
 			<input type="hidden" name="open_specs" value="width=340, height=310, left=150, top=150">
 			</form>
 			<form name="search_form" method="post">
-			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 			<input type="hidden" name="page" value="<%=page%>">
 			<input type="hidden" name="pagesize" value="<%=pagesize%>">
 			<input type="hidden" name="sch_type" value="<%=sch_type%>">
@@ -175,6 +181,7 @@
 			<input type="hidden" name="self_yn" value="<%=self_yn%>">
 			<input type="hidden" name="all_yn" value="<%=all_yn%>">
 			<input type="hidden" name="task">
+			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 			<input type="hidden" name="job_seq" value="<%=job_seq%>">
 			<input type="hidden" name="com_seq" value="<%=job_seq%>">
 			</form>

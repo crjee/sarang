@@ -253,21 +253,22 @@
 					</div>
 					<div class="search_box_flex_item">
 						<form name="search_form" id="search_form" method="post" onsubmit="MovePage(1, '<%=session("ctTarget")%>')">
+						<input type="hidden" name="page" value="<%=page%>">
+						<input type="hidden" name="cafe_sch" value="Y">
 						<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 						<input type="hidden" name="album_seq" value="<%=com_seq%>">
 						<input type="hidden" name="board_seq" value="<%=com_seq%>">
 						<input type="hidden" name="job_seq" value="<%=com_seq%>">
 						<input type="hidden" name="sale_seq" value="<%=com_seq%>">
 						<input type="hidden" name="notice_seq" value="<%=com_seq%>">
-						<input type="hidden" name="page" value="<%=page%>">
 						<input type="hidden" name="com_seq">
-						<select id="sch_term" name="sch_term" class="sel w_auto" onChange="setTerm(this)">
+						<select id="sch_term" name="sch_term" class="sel w100p" onChange="setTerm(this)">
 							<option value="">전체기간</option>
 							<%=makeComboCD("sch_term", sch_term)%>
 						</select>
 						<input type="text" id="sch_st_date" name="sch_st_date" value="<%=sch_st_date%>" class="inp w100p" readonly />
 						<input type="text" id="sch_ed_date" name="sch_ed_date" value="<%=sch_ed_date%>" class="inp w100p" readonly />
-						<select id="sch_board" name="sch_board" class="sel w_auto">
+						<select id="sch_board" name="sch_board" class="sel w100p">
 							<option value="">전체게시판</option>
 <%
 	Set leftRs = Server.CreateObject ("ADODB.Recordset")
@@ -305,7 +306,7 @@
 							<option value="agency" <%=if3(sch_type="agency","selected","")%>>글쓴이</option>
 							<option value="contents" <%=if3(sch_type="contents","selected","")%>>내용</option>
 						</select>
-						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w150p">
+						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w100p">
 						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
 						<select id="pagesize" name="pagesize" class="sel w50p" onchange="goSearch('<%=session("ctTarget")%>')">
 							<option value=""></option>

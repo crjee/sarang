@@ -267,8 +267,13 @@
 						window.print();
 					}
 
-					function goList() {
-						document.search_form.action = "/cafe/skin/album_list.asp";
+					function goList(sch) {
+						if (sch == 'Y') {
+							document.search_form.action = "/cafe/skin/cafe_search_list.asp";
+						}
+						else {
+							document.search_form.action = "/cafe/skin/album_list.asp";
+						}
 						document.search_form.target = gvTarget;
 						document.search_form.submit();
 					}

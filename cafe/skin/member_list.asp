@@ -43,7 +43,7 @@
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
 	If sch_word <> "" then
-		If sch_type = "l" Then
+		If sch_type = "" Then
 			kword = " and (mi.agency like '%" & sch_word & "%' or mi.kname like '%" & sch_word & "%' or mi.phone like '%" & sch_word & "%' or mi.mobile like '%" & sch_word & "%' or mi.addr1 like '%" & sch_word & "%' or mi.addr2 like '%" & sch_word & "%') "
 		ElseIf sch_type = "agency" Then
 			kword = " and " & sch_type & " like '%" & sch_word & "%' "

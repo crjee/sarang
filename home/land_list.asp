@@ -35,7 +35,7 @@
 	If page = "" Then page = 1
 
 	If sch_word <> "" Then
-		If sch_type = "l" Then
+		If sch_type = "" Then
 			kword = " and (cb.subject like '%" & sch_word & "%' or cb.agency like '%" & sch_word & "%' or cb.contents like '%" & sch_word & "%') "
 		Else
 			kword = " and " & sch_type & " like '%" & sch_word & "%' "
