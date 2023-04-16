@@ -6,11 +6,13 @@
 	sch_word  = Request("sch_word")
 
 	If menu_seq <> "" then
+		Set rs = Server.CreateObject ("ADODB.Recordset")
+
 		sql = ""
-		sql = sql & " select * "
-		sql = sql & "   from cf_menu "
-		sql = sql & "  where menu_seq = '"& menu_seq &"' "
-		sql = sql & "    and cafe_id = '"& cafe_id &"' "
+		sql = sql & " select *                             "
+		sql = sql & "   from cf_menu                       "
+		sql = sql & "  where menu_seq = '" & menu_seq & "' "
+		sql = sql & "    and cafe_id  = '" & cafe_id  & "' "
 		rs.Open Sql, conn, 3, 1
 
 		If rs.EOF Then

@@ -11,7 +11,7 @@
 	file_path = Replace(file_path, "sarang", "dev")
 
 	Response.AddHeader "Content-Disposition","attachment;filename=" & file_name
-	Response.write file_path
+	'Response.write file_path
 
 	Set objFS =Server.CreateObject("scripting.FileSystemObject")
 	Set objF = objFS.GetFile(file_path)

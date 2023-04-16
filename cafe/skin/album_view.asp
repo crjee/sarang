@@ -19,7 +19,6 @@
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
 	<script src="/common/js/cafe.js"></script>
-	<script src="/common/js/album.js"></script>
 </head>
 <body class="skin_type_1">
 <%
@@ -148,7 +147,7 @@
 	End If
 %>
 <%
-	uploadUrl = ConfigAttachedFileURL & "album/"
+	displayUrl = ConfigAttachedFileURL & "display/album/"
 
 	Set rs2 = Server.CreateObject ("ADODB.Recordset")
 
@@ -161,12 +160,12 @@
 
 	Do Until rs2.eof
 		If arr_image = "" Then
-			arr_image = rs2("file_name")
+			arr_image = rs2("dsply_file_nm")
 		Else
-			arr_image =  arr_image & ":" & rs2("file_name")
+			arr_image =  arr_image & ":" & rs2("dsply_file_nm")
 		End If
 %>
-						<img src="<%=uploadUrl & rs2("file_name")%>" border="0" onLoad="RsizeView(this, 600, 450, 1)" style="cursor:hand" /><br /><br />
+						<img src="<%=displayUrl & rs2("dsply_file_nm")%>" border="0" style="cursor:hand" /><br /><br />
 <%
 		rs2.MoveNext
 	loop
@@ -223,6 +222,118 @@
 				</div>
 		</div>
 	</div>
+<script>
+					function Rsize(img, ww, hh, aL) {
+						var tt = imgRsize(img, ww, hh);
+						if (img.width > ww || img.height > hh) {
+
+							// 가로나 세로크기가 제한크기보다 크면
+							img.width = tt[0];
+							// 크기조정
+							img.height = tt[1];
+							img.alt = "클릭하시면 원본이미지를 보실수있습니다.";
+
+							if (aL) {
+								// 자동링크 on
+								img.onclick = function() {
+									wT = Math.ceil((screen.width - tt[2])/2.6);
+									// 클라이언트 중앙에 이미지위치.
+									wL = Math.ceil((screen.height - tt[3])/2.6);
+									var mm = window.open(img.src, "mm", 'width='+tt[2]+',height='+tt[3]+',top='+wT+',left='+wL);
+									var doc = mm.document;
+									try{
+										doc.body.style.margin = 0;
+										// 마진제거
+										doc.body.style.cursor = "hand";
+										doc.title = "원본이미지";
+									}
+									catch(err) {
+									}
+									finally {
+									}
+
+								}
+								img.style.cursor = "hand";
+							}
+						}
+						else {
+								img.onclick = function() {
+									alert("현재이미지가 원본 이미지입니다.");
+								}
+						}
+					}
+
+					function goPrint() {
+						var initBody;
+						window.onbeforeprint = function() {
+							initBody = document.body.innerHTML;
+							document.body.innerHTML =  document.getElementById('CenterContents').innerHTML;
+						};
+						window.onafterprint = function() {
+							document.body.innerHTML = initBody;
+						};
+						window.print();
+					}
+
+					function goList(sch, gvTarget) {
+						if (sch == 'Y') {
+							document.search_form.action = "/cafe/skin/cafe_search_list.asp";
+						}
+						else {
+							document.search_form.action = "/cafe/skin/album_list.asp";
+						}
+						document.search_form.target = gvTarget;
+						document.search_form.submit();
+					}
+
+					function goReply(gvTarget) {
+						document.search_form.action = "/cafe/skin/album_reply.asp";
+						document.search_form.target = gvTarget;
+						document.search_form.submit();
+					}
+
+					function goModify(gvTarget) {
+						try{
+							document.search_form.action = "/cafe/skin/album_modify.asp";
+							document.search_form.target = gvTarget;
+							document.search_form.submit();
+						} catch(e) {
+							alert(e)
+						}
+					}
+
+					function goDelete() {
+						document.search_form.action = "/cafe/skin/com_waste_exec.asp";
+						document.search_form.target = "hiddenfrm";
+						document.search_form.submit();
+					}
+
+					function goSuggest() {
+						document.search_form.action = "/cafe/skin/com_suggest_exec.asp";
+						document.search_form.target = "hiddenfrm";
+						document.search_form.submit();
+					}
+
+					function copyUrl() {
+						try{
+							if (window.clipboardData) {
+									window.clipboardData.setData("Text", "<%=pageUrl%>")
+									alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+							}
+							else if (window.navigator.clipboard) {
+									window.navigator.clipboard.writeText("<%=pageUrl%>").then(() => {
+										alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+									});
+							}
+							else {
+								temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
+							}
+						} catch(e) {
+							alert(e)
+						}
+					}
+
+</script>
 <Script Language="JavaScript1.2">
 	g_fPlayMode = 0;
 	g_iimg = 0;
@@ -296,7 +407,7 @@
 	sl_list = "<%=arr_image%>";
 	sl_arr = sl_list.split(":");
 	for (var i = 0; i < sl_arr.length; i++) {
-		g_ImageTable[g_mimg++] = new Array("<%=uploadUrl%>" + sl_arr[i], "");
+		g_ImageTable[g_mimg++] = new Array("<%=displayUrl%>" + sl_arr[i], "");
 	}//for
 	g_imax = g_mimg--;
 

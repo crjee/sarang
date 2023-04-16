@@ -1,9 +1,9 @@
 		<footer id="footer">
 			<div class="foot_inner foot_inner_ext">
 				<ul class="foot_btn">
-					<li><a href="#n">회사소개</a></li>
-					<li><a href="#n">이용약관</a></li>
-					<li><a href="#n">개인정보처리방침</a></li>
+					<li><a href="/cafe/skin/company.asp">회사소개</a></li>
+					<li><a href="/cafe/skin/guide.asp">이용약관</a></li>
+					<li><a href="/cafe/skin/privacy.asp">개인정보처리방침</a></li>
 					<li><a href="#n">광고/제휴문의</a></li>
 					<li><a href="#n">게시중단요청</a></li>
 				</ul>

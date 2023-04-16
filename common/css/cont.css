@@ -5,7 +5,7 @@
 .main_frm:after { display:block; content:""; clear:both; }
 .main_frm .main_frm_l { position:relative; float:left; }
 .main_frm .main_frm_r { position:relative; float:right; }
-.main_frm + .main_frm { margin-top:50px; }
+.main_frm + .main_frm { margin-top:30px; }
 .main_frm .latest_box .slide_2 { border:0; }
 
 .mf_block_1 { }
@@ -21,7 +21,7 @@
 .mf_block_2 .main_frm_l { width:48%; }
 .mf_block_2 .main_frm_r { width:48%; }
 
-.main_frm_flex { display:flex; flex-flow:row wrap; justify-content:space-between; align-items:stretch; margin-top:50px; }
+.main_frm_flex { display:flex; flex-flow:row wrap; justify-content:space-between; align-items:stretch; margin-top:30px; }
 .main_frm_flex > div { width:48%; margin-bottom:30px; }
 .main_frm_flex .main_frm_a { flex:0 100%; padding-left:0 !important; padding-right:0 !important; }
 
@@ -29,7 +29,7 @@
 .mff_block_1 .head { position:absolute; left:0; top:0; }
 .mff_block_1 .tab_btns { padding-left:150px; }
 
-.main_banner { height:150px; background:#ddd; overflow:hidden; }
+.main_banner { display:flex; justify-content:center; align-items:center; height:150px; background:#f0f0f0; overflow:hidden; }
 .main_quick_box { display:flex; flex-direction:row; flex-wrap:nowrap; justify-content:space-between; margin-bottom:30px; }
 .main_quick_box li { flex:1 1 auto; }
 .main_quick_box li a { display:block; width:100%; height:100%; text-align:center; }
@@ -38,6 +38,8 @@
 .main_quick_box li:nth-of-type(1) a .tit:before { content:"\f0ad"; }
 .main_quick_box li:nth-of-type(2) a .tit:before { content:"\e4e5"; }
 .main_quick_box li:nth-of-type(3) a .tit:before { content:"\f02d"; }
+
+.latest_box .tab_cont .tb { border-top:0; }
 
 /* 서브 */
 .visual_box { position:relative; min-height:100px; margin-bottom:30px; background:#f4f4f4; overflow:hidden; }

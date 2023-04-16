@@ -186,6 +186,8 @@
 			sql = sql & "       ,step_num "
 			If menu_type = "land" Then
 			sql = sql & "       ,land_url "
+			Else
+			sql = sql & "       ,null land_url "
 			End If
 			If menu_type = "nsale" Then
 			sql = sql & "       ,frst_receipt_acpt_date  "
@@ -222,6 +224,8 @@
 			sql = sql & "       ,step_num "
 			If menu_type = "land" Then
 			sql = sql & "       ,land_url "
+			Else
+			sql = sql & "       ,null land_url "
 			End If
 			If menu_type = "nsale" Then
 			sql = sql & "       ,frst_receipt_acpt_date  "
@@ -307,8 +311,19 @@
 					If list_type = "T1" Or list_type = "T2" Then
 %>
 									<li class="t_nowrap">
+<%
+						If menu_type = "land" Then
+							view_url = "http://land.naver.com/" & land_url
+%>
+										<a href="<%=view_url%>" target="_blank"><span class="text" style="width:1000px;"><%=subject%></span></a>
+<%
+						Else
+%>
 										<a href="<%=view_url%>" target="<%=session("ctTarget")%>"><span class="text"><%=subject%><%=comment_txt%></span></a>
 										<span class="posr"><%=credt_txt%></span>
+<%
+						End If
+%>
 									</li>
 <%
 					ElseIf list_type = "C1" Or list_type = "C2" Then
@@ -430,7 +445,9 @@
 <%
 				ElseIf list_type = "A1" Or list_type = "A2" Then
 %>
-								<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>"><%=arrRgn(li)%> 데이터가 없습니다.</div>
+									<div class="nodata">
+										<span class="txt"><%=arrRgn(li)%> 데이터가 없습니다.</span>
+									</div>
 <%
 				Else
 %>
@@ -499,4 +516,3 @@
 						}
 					});
 				</script>
-

@@ -114,7 +114,7 @@
 
 .tb .gallery { }
 .tb .gallery:after { display:block; content:""; clear:both; }
-.tb .gallery .gallery_inner_box { position:relative; display:flex; flex-flow:row wrap; align-items:stretch; justify-content:space-between;  line-height:1.4; margin-top:10px; }
+.tb .gallery .gallery_inner_box { position:relative; display:flex; flex-flow:row wrap; align-items:stretch; justify-content:stretch;  line-height:1.4; margin-top:10px; }
 .tb .gallery .gallery_inner_box .c_wrap { flex:1 0 0; }
 .tb .gallery .gallery_inner_box .photos { position:relative; display:block; min-height:200px; background:#f4f4f4; border:1px solid #ddd; overflow:hidden; }
 .tb .gallery .gallery_inner_box .photos img { position:absolute; left:50%; top:50%; width:100%; height:auto; transform:translate(-50%, -50%); }

@@ -7,7 +7,7 @@
 	sch_type  = request("sch_type")
 	sch_word  = request("sch_word")
 
-	com_seq = Request("com_seq")
+	com_seq = Request(menu_type & "_seq")
 
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 

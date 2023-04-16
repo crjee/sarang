@@ -4,15 +4,21 @@
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & "album\"
 	uploadform.DefaultPath = uploadFolder
+	dsplyFolder  = ConfigAttachedFileFolder & "display\album\"
+	thmbnlFolder = ConfigAttachedFileFolder & "thumbnail\album\"
+
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set objImage = server.CreateObject("DEXT.ImageProc")
+	Set fso = CreateObject("Scripting.FileSystemObject")
 
 	menu_seq  = uploadform("menu_seq")
 	page      = uploadform("page")
 	pagesize  = uploadform("pagesize")
 	sch_type  = uploadform("sch_type")
 	sch_word  = uploadform("sch_word")
-	self_yn   = Request("self_yn")
+	self_yn   = uploadform("self_yn")
 
-	step_num = uploadform("step_num")
+	step_num  = uploadform("step_num")
 	level_num = uploadform("level_num")
 	album_seq = uploadform("album_seq")
 	kname = uploadform("kname")
@@ -31,92 +37,153 @@
 			End If
 		End If
 	Next
-msgonly "sfsdfsdf"
+
 	On Error Resume Next
 	Conn.BeginTrans
 	Set BeginTrans = Conn
 	CntError = 0
 
-	thumbnail = getonevalue("thumbnail","cf_album","where album_seq = '" & album_seq & "'")
+	Dim atch_rt_nm()
+	Dim orgnl_file_nm()
+	Dim file_name()
+	Dim file_extn_cd()
+	Dim rprs_file_yn()
+	Dim file_sz()
+	Dim dwnld_cnt()
+	Dim file_mimetype_cd()
+	Dim orgnl_img_wdth_sz()
+	Dim orgnl_img_hght_sz()
+	Dim orgnl_file_sz()
+	Dim img_frm_cd()
+	Dim dsply_img_wdth_sz()
+	Dim dsply_img_hght_sz()
+	Dim dsply_file_nm()
+	Dim dsply_file_sz()
+	Dim thmbnl_img_wdth_sz()
+	Dim thmbnl_img_hght_sz()
+	Dim thmbnl_file_nm()
+	Dim thmbnl_file_sz()
+
+	i = 0
+	attach_num = getonevalue("max(attach_num)", "cf_album_attach", "where album_seq = ' " & album_seq & "'")
 
 	For Each item In uploadform("file_name")
 		If item <> "" Then
-			MimeType = item.MimeType
+			'MimeType이 image/jpeg ,image/gif이 아닌경우 업로드 중단
+			IF instr("image/jpeg/image/jpg,image/gif,image/png,image/bmp", MimeType) Then
+				i = i + 1
 
-			'MimeType이 image/jpeg ,image/gIf이 아닌경우 업로드 중단
-			If instr("image/jpeg/image/jpg,image/gIf,image/png,image/bmp", MimeType) Then
-'				If thumbnail = "" And i = 1 Then
+				ReDim Preserve file_name(i)
+				ReDim Preserve atch_rt_nm(i)
+				ReDim Preserve orgnl_file_nm(i)
+				ReDim Preserve file_extn_cd(i)
+				ReDim Preserve rprs_file_yn(i)
+				ReDim Preserve file_sz(i)
+				ReDim Preserve dwnld_cnt(i)
+				ReDim Preserve file_mimetype_cd(i)
+				ReDim Preserve orgnl_img_wdth_sz(i)
+				ReDim Preserve orgnl_img_hght_sz(i)
+				ReDim Preserve orgnl_file_sz(i)
+				ReDim Preserve img_frm_cd(i)
+				ReDim Preserve dsply_img_wdth_sz(i)
+				ReDim Preserve dsply_img_hght_sz(i)
+				ReDim Preserve dsply_file_nm(i)
+				ReDim Preserve dsply_file_sz(i)
+				ReDim Preserve thmbnl_img_wdth_sz(i)
+				ReDim Preserve thmbnl_img_hght_sz(i)
+				ReDim Preserve thmbnl_file_nm(i)
+				ReDim Preserve thmbnl_file_sz(i)
+
+				MimeType  = item.MimeType
+				atch_rt_nm(i) = uploadFolder
+				orgnl_file_nm(i) = item.FileName
+
+				file_extn_cd(i) = right(orgnl_file_nm(i),len(orgnl_file_nm(i))-instr(orgnl_file_nm(i),"."))
+				file_extn_cd(i) = right(orgnl_file_nm(i),len(orgnl_file_nm(i))-instr(orgnl_file_nm(i),"."))
+
 				If i = 1 Then
-					Set objImage = server.CreateObject("DEXT.ImageProc")
-					If true = objImage.SetSourceFile(uploadform.TempFilePath) Then
-						width  = objImage.ImageWidth
-						height = objImage.ImageHeight
-
-						If width > 140 Then
-							wrate = width / 140
-						End If
-
-						If height > 140 Then
-							hrate = height / 140
-						End If
-
-						If wrate > hrate Then
-							rate = wrate
-						Else
-							rate = hrate
-						End If
-
-						uploadFolder = ConfigAttachedFileFolder & "thumbnail\"
-						uploadform.DefaultPath = uploadFolder
-						'JPG 포맷으로 저장해야 함
-						thumbnail = "thumbnail_" & album_seq & "_" & uploadform.FileNameWithoutExt & ".jpg"
-
-						Call objImage.SaveasThumbnail(uploadFolder & thumbnail, objImage.ImageWidth/rate, objImage.ImageHeight/rate, false, true)
-					End If
+					rprs_file_yn(i) = "Y" ' 대표파일여부
+				Else
+					rprs_file_yn(i) = "N" ' 대표파일여부
 				End If
 
-				uploadFolder = ConfigAttachedFileFolder & "album\"
-				uploadform.DefaultPath = uploadFolder
+				Call item.Save(,False)
+				file_name(i) = item.LastSavedFileName
 
-				FilePath = item.Save(,False)
+				Set F = fso.GetFile(uploadFolder & file_name(i))
+				Size = F.size              '// PRE 파일 사이즈 추출
+				Set F = Nothing
+
+				file_sz(i)            = Size ' 파일크기
+				dwnld_cnt(i)          = 0 ' 다운로드수
+				atch_file_se_cd       = "" ' 첨부파일구분코드
+				file_mimetype_cd(i)   = item.MimeType ' 파일마임타입코드
+				orgnl_file_sz(i)      = Size' 원본파일크기
+
+				If True = objImage.SetSourceFile(uploadFolder & file_name(i)) Then
+					orgnl_img_wdth_sz(i)  = objImage.ImageWidth ' 원본이미지가로크기
+					orgnl_img_hght_sz(i)  = objImage.ImageHeight ' 원본이미지세로크기
+					dsply_file_nm(i)      =  "DSPLY"  & numc(Year(date), 4) & numc(Month(date), 2) & numc(Day(date), 2) & numc(Hour(Now), 2) & numc(Minute(Now), 2) & numc(Second(Now), 2) & numc(attach_num + i, 3) & ".jpg"
+					thmbnl_file_nm(i)     =  "THMBNL" & numc(Year(date), 4) & numc(Month(date), 2) & numc(Day(date), 2) & numc(Hour(Now), 2) & numc(Minute(Now), 2) & numc(Second(Now), 2) & numc(attach_num + i, 3) & ".jpg"
+
+					If orgnl_img_wdth_sz(i) > orgnl_img_hght_sz(i) Then ' 가로형
+						img_frm_cd(i)         = "HRZ" ' 이미지형태코드 가로형
+					ElseIf orgnl_img_wdth_sz(i) > orgnl_img_hght_sz(i) Then ' 세로형
+						img_frm_cd(i)         = "VTC" ' 이미지형태코드 세로형
+					Else ' 정사각형
+						img_frm_cd(i)         = "SQR" ' 이미지형태코드 정사각형
+					End If
+
+					If orgnl_img_wdth_sz(i) <= 600 Then
+						dsply_img_wdth_sz(i) = orgnl_img_wdth_sz(i)
+						dsply_img_hght_sz(i) = orgnl_img_hght_sz(i)
+					Else
+						dsply_img_wdth_sz(i) = 600
+						dsply_img_hght_sz(i) = CInt(orgnl_img_hght_sz(i) / (orgnl_img_wdth_sz(i) / 600))
+					End If
+
+					Call objImage.SaveasThumbnail(dsplyFolder & dsply_file_nm(i), dsply_img_wdth_sz(i), dsply_img_hght_sz(i), false, true)
+					Call objImage.SetSourceFile(dsplyFolder & dsply_file_nm(i))
+					Set F = fso.GetFile(dsplyFolder & dsply_file_nm(i))
+					Size = F.size              '// PRE 파일 사이즈 추출
+					Set F = Nothing
+
+					dsply_img_wdth_sz(i)  = objImage.ImageWidth ' 전시이미지가로크기
+					dsply_img_hght_sz(i)  = objImage.ImageHeight ' 전시이미지세로크기
+					dsply_file_nm(i)      = dsply_file_nm(i) ' 전시파일명
+					dsply_file_sz(i)      = Size ' 전시파일크기
+
+					If orgnl_img_wdth_sz(i) <= 300 Then
+						thmbnl_img_wdth_sz(i) = orgnl_img_wdth_sz(i)
+						thmbnl_img_hght_sz(i) = orgnl_img_hght_sz(i)
+					Else
+						thmbnl_img_wdth_sz(i) = 300
+						thmbnl_img_hght_sz(i) = CInt(orgnl_img_hght_sz(i) / (orgnl_img_wdth_sz(i) / 300))
+					End If
+
+					Call objImage.SaveasThumbnail(thmbnlFolder & thmbnl_file_nm(i), thmbnl_img_wdth_sz(i), thmbnl_img_hght_sz(i), false, true)
+					Call objImage.SetSourceFile(thmbnlFolder & thmbnl_file_nm(i))
+					Set F = fso.GetFile(thmbnlFolder & thmbnl_file_nm(i))
+					Size = F.size              '// PRE 파일 사이즈 추출
+					Set F = Nothing
+
+					thmbnl_img_wdth_sz(i) = objImage.ImageWidth ' 썸네일이미지가로크기
+					thmbnl_img_hght_sz(i) = objImage.ImageHeight ' 썸네일이미지세로크기
+					thmbnl_file_nm(i)     = thmbnl_file_nm(i) ' 썸네일파일명
+					thmbnl_file_sz(i)     = Size ' 썸네일파일크기
+				End If
 			Else
 				msgonly uploadform.FileName & " 은 이미지파일이 아닙니다."
 			End If
 		End If
 	Next
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
-Response.write "sdfsdfsdfssdf"
+
 	sql = ""
 	sql = sql & " update cf_album "
 	sql = sql & "    set subject = '" & subject & "' "
 	sql = sql & "       ,contents = '" & ir1 & "' "
 	sql = sql & "       ,top_yn = '" & top_yn & "' "
 	sql = sql & "       ,link = '" & link & "' "
-	If thumbnail <> "" Then
-	sql = sql & "       ,thumbnail = '" & thumbnail & "' "
-	End If
 	sql = sql & "       ,modid = '" & Session("user_id") & "' "
 	sql = sql & "       ,moddt = getdate() "
 	sql = sql & "  where album_seq = '" & album_seq & " '"
@@ -130,25 +197,67 @@ Response.write "sdfsdfsdfssdf"
 	sql = sql & "  where menu_seq = '" & menu_seq & "' "
 	Conn.Execute(sql)
 
-	For Each item In uploadform("file_name")
-		If item <> "" Then
-			new_seq = getSeq("cf_album_attach")
+	For i = 1 To UBound(file_name)
+		new_seq = getSeq("cf_album_attach")
 
-			sql = ""
-			sql = sql & " insert into cf_album_attach( "
-			sql = sql & "        attach_seq "
-			sql = sql & "       ,album_seq "
-			sql = sql & "       ,file_name "
-			sql = sql & "       ,creid "
-			sql = sql & "       ,credt "
-			sql = sql & "      ) values( "
-			sql = sql & "        '" & new_seq & "' "
-			sql = sql & "       ,'" & album_seq & "' "
-			sql = sql & "       ,'" & item.LastSavedFileName & "' "
-			sql = sql & "       ,'" & Session("user_id") & "' "
-			sql = sql & "       ,getdate())"
-			Conn.Execute(sql)
-		End If
+		sql = ""
+		sql = sql & " insert into cf_album_attach( "
+		sql = sql & "        attach_seq  "
+		sql = sql & "       ,album_seq   "
+		sql = sql & "       ,attach_num  "
+		sql = sql & "       ,file_name   "
+
+		sql = sql & "       ,atch_rt_nm         "
+		sql = sql & "       ,orgnl_file_nm      "
+		sql = sql & "       ,file_extn_cd       "
+		sql = sql & "       ,rprs_file_yn       "
+		sql = sql & "       ,file_sz            "
+		sql = sql & "       ,dwnld_cnt          "
+		sql = sql & "       ,file_mimetype_cd   "
+		sql = sql & "       ,orgnl_img_wdth_sz  "
+		sql = sql & "       ,orgnl_img_hght_sz  "
+		sql = sql & "       ,orgnl_file_sz      "
+		sql = sql & "       ,img_frm_cd         "
+		sql = sql & "       ,dsply_img_wdth_sz  "
+		sql = sql & "       ,dsply_img_hght_sz  "
+		sql = sql & "       ,dsply_file_nm      "
+		sql = sql & "       ,dsply_file_sz      "
+		sql = sql & "       ,thmbnl_img_wdth_sz "
+		sql = sql & "       ,thmbnl_img_hght_sz "
+		sql = sql & "       ,thmbnl_file_nm     "
+		sql = sql & "       ,thmbnl_file_sz     "
+
+		sql = sql & "       ,creid "
+		sql = sql & "       ,credt "
+		sql = sql & "      ) values( "
+		sql = sql & "        '" & new_seq        & "' "
+		sql = sql & "       ,'" & album_seq      & "' "
+		sql = sql & "       ,'" & attach_num + i & "' "
+		sql = sql & "       ,'" & file_name(i)   & "' "
+
+		sql = sql & "       ,'" & atch_rt_nm(i)         & "' "
+		sql = sql & "       ,'" & orgnl_file_nm(i)      & "' "
+		sql = sql & "       ,'" & file_extn_cd(i)       & "' "
+		sql = sql & "       ,'" & rprs_file_yn(i)       & "' "
+		sql = sql & "       ,'" & file_sz(i)            & "' "
+		sql = sql & "       ,'" & dwnld_cnt(i)          & "' "
+		sql = sql & "       ,'" & file_mimetype_cd(i)   & "' "
+		sql = sql & "       ,'" & orgnl_img_wdth_sz(i)  & "' "
+		sql = sql & "       ,'" & orgnl_img_hght_sz(i)  & "' "
+		sql = sql & "       ,'" & orgnl_file_sz(i)      & "' "
+		sql = sql & "       ,'" & img_frm_cd(i)         & "' "
+		sql = sql & "       ,'" & dsply_img_wdth_sz(i)  & "' "
+		sql = sql & "       ,'" & dsply_img_hght_sz(i)  & "' "
+		sql = sql & "       ,'" & dsply_file_nm(i)      & "' "
+		sql = sql & "       ,'" & dsply_file_sz(i)      & "' "
+		sql = sql & "       ,'" & thmbnl_img_wdth_sz(i) & "' "
+		sql = sql & "       ,'" & thmbnl_img_hght_sz(i) & "' "
+		sql = sql & "       ,'" & thmbnl_file_nm(i)     & "' "
+		sql = sql & "       ,'" & thmbnl_file_sz(i)     & "' "
+
+		sql = sql & "       ,'" & Session("user_id") & "' "
+		sql = sql & "       ,getdate()) "
+		Conn.Execute(sql)
 	Next
 
 	Set UploadForm = Nothing

@@ -1,9 +1,9 @@
 		<footer id="footer">
 			<div class="foot_inner foot_inner_ext">
 				<ul class="foot_btn">
-					<li><a href="#n">회사소개</a></li>
-					<li><a href="#n">이용약관</a></li>
-					<li><a href="#n">개인정보처리방침</a></li>
+					<li><a href="/home/company.asp">회사소개</a></li>
+					<li><a href="/home/guide.asp">이용약관</a></li>
+					<li><a href="/home/privacy.asp">개인정보처리방침</a></li>
 					<li><a href="/home/inquiry_write.asp">광고/제휴문의</a></li>
 					<li><a href="/home/dmnddel_write.asp">게시중단요청</a></li>
 				</ul>

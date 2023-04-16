@@ -179,6 +179,7 @@
 		var temp;
 		try {
 			temp = document.getElementById('menu_handle1').innerHTML
+alert(temp)
 		}
 		catch (e) {
 			alert(e);
@@ -188,6 +189,7 @@
 			connectWith : ".menu_handle",
 			start : function (event, ui) {
 				try {
+alert(temp)
 					this.innerHTML = temp;
 				}
 				catch (e) {

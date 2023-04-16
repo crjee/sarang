@@ -278,6 +278,8 @@
 						comment_txt = ""
 					End If
 
+					view_url = "/cafe/skin/" & menu_type & "_view.asp?" & menu_type & "_seq=" & rs2(menu_type & "_seq") & "&menu_seq=" & menu_seq
+
 					If list_type = "T1" Or list_type = "T2" Then
 %>
 									<li class="t_nowrap">
@@ -288,7 +290,6 @@
 										<a href="<%=view_url%>" target="_blank"><span class="text" style="width:1000px;"><%=subject%></span></a>
 <%
 						Else
-							view_url = "/cafe/skin/" & menu_type & "_view.asp?" & menu_type & "_seq=" & rs2(menu_type & "_seq") & "&menu_seq=" & menu_seq
 %>
 										<a href="<%=view_url%>"><span class="text"><%=subject%><%=comment_txt%></span></a>
 										<span class="posr"><%=credt_txt%></span>

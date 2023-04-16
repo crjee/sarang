@@ -17,7 +17,6 @@
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
 	<script src="/common/js/cafe.js"></script>
-	<script src="/common/js/album.js"></script>
 </head>
 <body class="skin_type_1">
 <%
@@ -168,21 +167,33 @@
 %>
 								<div class="c_wrap">
 <%
-			' 썸네일로 표시
-			uploadUrl = ConfigAttachedFileURL & "thumbnail/"
-			fileUrl = uploadUrl & thumbnail
-			uploadPath = ConfigAttachedFileFolder & "thumbnail\"
-			filePath = uploadPath & thumbnail
+			sql = ""
+			sql = sql & " select * "
+			sql = sql & "   from cf_album_attach "
+			sql = sql & "  where album_seq = '" & album_seq & "' "
+			sql = sql & "    and rprs_file_yn = 'Y' "
+			rs2.Open Sql, conn, 3, 1
 
-			If (fso.FileExists(filePath)) Then
+			If Not rs2.eof Then
+				thmbnl_file_nm = rs2("thmbnl_file_nm")
+
+				' 썸네일로 표시
+				uploadUrl = ConfigAttachedFileURL & "thumbnail/album/"
+				fileUrl = uploadUrl & thmbnl_file_nm
+				uploadPath = ConfigAttachedFileFolder & "thumbnail\album\"
+				filePath = uploadPath & thmbnl_file_nm
+
+				If (fso.FileExists(filePath)) Then
 %>
-									<span class="photos"><a href="javascript: goView('<%=album_seq%>','<%=session("ctTarget")%>')"><img src="<%=fileUrl%>" border="0" /></a></span>
+									<span class="photos"><a href="javascript: goView('<%=album_seq%>','<%=session("ctTarget")%>')"><img src="<%=fileUrl%>" width="150" border="0" /></a></span>
 <%
-			Else
+				Else
 %>
 									<span class="photos"></span>
 <%
+				End If
 			End If
+			rs2.close
 %>
 									<a href="javascript: goView('<%=album_seq%>','<%=session("ctTarget")%>')"><span class="text"><%=subject%>(<%=comment_cnt%>)
 <%
@@ -203,6 +214,7 @@
 	End if
 	rs.close
 	Set rs = nothing
+	Set rs2 = nothing
 
 	Set fso = nothing
 %>
@@ -233,3 +245,76 @@
 %>
 </body>
 </html>
+<script>
+				function MovePage(page, gvTarget) {
+					var f = document.search_form;
+					f.page.value = page;
+					f.target = gvTarget;
+					f.action = "/cafe/skin/album_list.asp";
+					f.submit();
+				}
+
+				function goView(album_seq, gvTarget) {
+					var f = document.search_form;
+					f.album_seq.value = album_seq;
+					f.target = gvTarget;
+					f.action = "/cafe/skin/album_view.asp";
+					f.submit();
+				}
+
+				function goSearch(gvTarget) {
+					var f = document.search_form;
+					f.page.value = 1;
+					f.target = gvTarget;
+					f.action = "/cafe/skin/album_list.asp";
+					f.submit();
+				}
+
+				function RsizeList(img, ww, hh, aL) {
+					var tt = imgRsize(img, ww, hh);
+					if (img.width > ww || img.height > hh) {
+
+						// 가로나 세로크기가 제한크기보다 크면
+						img.width = tt[0];
+						// 크기조정
+						img.height = tt[1];
+					}
+				}
+
+				function imgRsize(img, rW, rH) {
+					var iW = img.width;
+					var iH = img.height;
+					var g = new Array;
+					if (iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
+						g[0] = iW;
+						g[1] = iH;
+					}
+					else {
+						if (img.width > img.height) { // 원크기 가로가 세로보다 크면
+							g[0] = rW;
+							g[1] = Math.ceil(img.height * rW / img.width);
+						}
+						else if (img.width < img.height) { //원크기의 세로가 가로보다 크면
+							g[0] = Math.ceil(img.width * rH / img.height);
+							g[1] = rH;
+						}
+						else {
+							g[0] = rW;
+							g[1] = rH;
+						}
+						if (g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
+							g[0] = rW;
+							g[1] = Math.ceil(img.height * rW / img.width);
+						}
+						if (g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
+							g[0] = Math.ceil(img.width * rH / img.height);
+							g[1] = rH;
+						}
+					}
+
+					g[2] = img.width; // 원사이즈 가로
+					g[3] = img.height; // 원사이즈 세로
+
+					return g;
+				}
+</script>
