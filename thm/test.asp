@@ -1,6 +1,7 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	ScriptTimeOut = 5000
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	Set objImage = server.CreateObject("DEXT.ImageProc")
@@ -9,9 +10,11 @@
 	uploadFolder = ConfigAttachedFileFolder & "album\"
 
 	sql = ""
-	sql = sql & " select 'update cf_album_attach set attach_num = ''' + convert(varchar(10), ROW_NUMBER() over(partition by album_seq order by attach_num),1) + ''' where attach_seq = ' + convert(varchar(10), attach_seq,1) as updSql "
-	sql = sql & "   from cf_album_attach
-	sql = sql & "  where attach_num is null
+	sql = sql & " select 'update ' + table_name + ' set credt = reg_date where (credt is null or credt = '''') and not (reg_date is null or reg_date = '''')' as updSql "
+	sql = sql & "       ,'select * from ' + table_name + ' where (credt is null or credt = '''') and not (reg_date is null or reg_date = '''')' as selSql "
+	sql = sql & "   from INFORMATION_SCHEMA.COLUMNS IC "
+	sql = sql & "  where table_name like 'cf_%' "
+	sql = sql & "    and COLUMN_NAME = 'reg_date' "
 	rs.Open Sql, conn, 3, 1
 
 	If Not rs.eof Then
@@ -22,12 +25,31 @@
 			rs.MoveNext
 		Loop
 	End If
+	rs.close
+	extime("등록일시처리 실행시간")
 
 	sql = ""
-	sql = sql & " select ca.* "
+	sql = sql & " select 'update cf_album_attach set attach_num = ''' + convert(varchar(10), ROW_NUMBER() over(partition by album_seq order by attach_num),1) + ''' where attach_seq = ' + convert(varchar(10), attach_seq,1) as updSql "
+	sql = sql & "   from cf_album_attach                                                                                                                                                                                                "
+	sql = sql & "  where attach_num is null                                                                                                                                                                                             "
+	rs.Open Sql, conn, 3, 1
+
+	If Not rs.eof Then
+		Do Until rs.eof
+			updSql = rs("updSql")
+			Conn.Execute(updSql)
+
+			rs.MoveNext
+		Loop
+	End If
+	rs.close
+	extime("첨부순번처리 실행시간")
+
+	sql = ""
+	sql = sql & " select ca.*                                                        "
 	sql = sql & "       ,FORMAT(cast(credt as datetime), 'yyyyMMddHHmmss') credt_txt "
-	sql = sql & "   from cf_album_attach ca "
-	sql = sql & "  where file_sz is null "
+	sql = sql & "   from cf_album_attach ca                                          "
+	sql = sql & "  where file_sz is null                                             "
 	rs.Open Sql, conn, 3, 1
 
 	If Not rs.eof Then
@@ -96,5 +118,8 @@
 			rs.MoveNext
 		Loop
 	End If
-	extime("test 실행시간")
+	rs.close
+	Set rs = Nothing
+
+	extime("첨부정보처리 실행시간")
 %>

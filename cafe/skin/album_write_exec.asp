@@ -2,32 +2,32 @@
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
+
 	uploadFolder = ConfigAttachedFileFolder & "album\"
 	uploadform.DefaultPath = uploadFolder
 	dsplyFolder  = ConfigAttachedFileFolder & "display\album\"
 	thmbnlFolder = ConfigAttachedFileFolder & "thumbnail\album\"
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
 	Set objImage = server.CreateObject("DEXT.ImageProc")
 	Set fso = CreateObject("Scripting.FileSystemObject")
+	Set rs = Server.CreateObject ("ADODB.Recordset")
 
-	menu_seq  = uploadform("menu_seq")
-	page_type = uploadform("page_type")
 	page      = uploadform("page")
+	pagesize  = uploadform("pagesize")
 	sch_type  = uploadform("sch_type")
 	sch_word  = uploadform("sch_word")
+	menu_seq  = uploadform("menu_seq")
 
 	album_seq = uploadform("album_seq")
 	group_num = uploadform("group_num") ' 답글에 대한 원본 글
 	level_num = uploadform("level_num")
 	step_num  = uploadform("step_num")
-	menu_seq  = uploadform("menu_seq")
-	page_type = uploadform("page_type")
-	subject = Replace(uploadform("subject"),"'"," & #39;")
-	ir1 = Replace(uploadform("ir1"),"'"," & #39;")
-	link = uploadform("link")
-	If link = "http://" Then link = ""
-	top_yn = uploadform("top_yn")
+
+	subject   = Replace(uploadform("subject"),"'"," & #39;")
+	ir1       = Replace(uploadform("ir1"),"'"," & #39;")
+	link      = uploadform("link")
+	If link   = "http://" Then link = ""
+	top_yn    = uploadform("top_yn")
 
 	For Each item In uploadform("file_name")
 		If item <> "" Then
@@ -124,8 +124,8 @@
 				If True = objImage.SetSourceFile(uploadFolder & file_name(i)) Then
 					orgnl_img_wdth_sz(i)  = objImage.ImageWidth ' 원본이미지가로크기
 					orgnl_img_hght_sz(i)  = objImage.ImageHeight ' 원본이미지세로크기
-					dsply_file_nm(i)      =  "DSPLY"  & numc(Year(date), 4) & numc(Month(date), 2) & numc(Day(date), 2) & numc(Hour(Time), 2) & numc(Minute(date), 2) & numc(Second(date), 2) & numc(i, 3) & ".jpg"
-					thmbnl_file_nm(i)     =  "THMBNL" & numc(Year(date), 4) & numc(Month(date), 2) & numc(Day(date), 2) & numc(Hour(Time), 2) & numc(Minute(date), 2) & numc(Second(date), 2) & numc(i, 3) & ".jpg"
+					dsply_file_nm(i)      =  "DSPLY"  & numc(Year(date), 4) & numc(Month(date), 2) & numc(Day(date), 2) & numc(Hour(Time), 2) & numc(Minute(date), 2) & numc(Second(date), 2) & numc(new_seq, 8) & numc(i, 3) & ".jpg"
+					thmbnl_file_nm(i)     =  "THMBNL" & numc(Year(date), 4) & numc(Month(date), 2) & numc(Day(date), 2) & numc(Hour(Time), 2) & numc(Minute(date), 2) & numc(Second(date), 2) & numc(new_seq, 8) & numc(i, 3) & ".jpg"
 
 					If orgnl_img_wdth_sz(i) > orgnl_img_hght_sz(i) Then ' 가로형
 						img_frm_cd(i)         = "HRZ" ' 이미지형태코드 가로형
@@ -325,11 +325,13 @@
 
 		sql = sql & "       ,'" & Session("user_id") & "' "
 		sql = sql & "       ,getdate()) "
-Response.write sql & "<br><br><br>"
 		Conn.Execute(sql)
 	Next
 
-	Set UploadForm = Nothing
+	Set uploadform = Nothing
+	Set objImage = Nothing
+	Set fso = Nothing
+	Set rs = Nothing
 
 	If Err.Number = 0 Then
 		conn.CommitTrans

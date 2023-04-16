@@ -1,6 +1,7 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	ScriptTimeOut = 5000
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	Set objImage = server.CreateObject("DEXT.ImageProc")
@@ -12,8 +13,8 @@
 
 	sql = ""
 	sql = sql & " select ca.*                                                                                                                "
-	sql = sql & "       ,'DSPLY'  + FORMAT(cast(credt as datetime), 'yyyyMMddHHmmss') + FORMAT(attach_num, '000') + '.jpg' as dsply_file_nm  "
-	sql = sql & "       ,'THMBNL' + FORMAT(cast(credt as datetime), 'yyyyMMddHHmmss') + FORMAT(attach_num, '000') + '.jpg' as thmbnl_file_nm "
+	sql = sql & "       ,'DSPLY'  + FORMAT(cast(credt as datetime), 'yyyyMMddHHmmss') + FORMAT(album_seq, '00000000') + FORMAT(attach_num, '000') + '.jpg' as dsply_file_nm  "
+	sql = sql & "       ,'THMBNL' + FORMAT(cast(credt as datetime), 'yyyyMMddHHmmss') + FORMAT(album_seq, '00000000') + FORMAT(attach_num, '000') + '.jpg' as thmbnl_file_nm "
 	sql = sql & "   from cf_album_attach ca                                                                                                  "
 	sql = sql & "  where attach_num > 1                                                                                                      "
 	sql = sql & "    and (dsply_img_wdth_sz is null or dsply_img_wdth_sz = '')                                                               "
