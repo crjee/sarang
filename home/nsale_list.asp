@@ -96,7 +96,6 @@
 						<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 						<input type="hidden" name="page" value="<%=page%>">
 						<input type="hidden" name="nsale_seq">
-						<input type="hidden" name="notice_seq">
 <%
 	If cafe_ad_level = 10 Then
 %>
@@ -150,7 +149,7 @@
 
 			If Not rs2.EOF Then
 %>
-									<span class="photos"><a href="javascript: goView('<%=nsale_seq%>','<%=session("ctTarget")%>')"><img src="<%=uploadUrl & rs2("file_name")%>" border="0" /></a></span>
+									<span class="photos"><a href="javascript: goView('<%=nsale_seq%>')"><img src="<%=uploadUrl & rs2("file_name")%>" border="0" /></a></span>
 <%
 			Else
 %>
@@ -159,7 +158,7 @@
 			End If
 			rs2.close
 %>
-									<a href="javascript: goView('<%=nsale_seq%>','<%=session("ctTarget")%>')"><span class="text"><%=subject%>(<%=comment_cnt%>)
+									<a href="javascript: goView('<%=nsale_seq%>')"><span class="text"><%=subject%>(<%=comment_cnt%>)
 <%
 			If CDate(DateAdd("d", 2, credt_txt)) >= Date Then
 %>

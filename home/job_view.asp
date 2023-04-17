@@ -106,24 +106,24 @@
 					window.print();
 				}
 
-				function goList(gvTarget, sch) {
+				function goList(sch) {
 					if (sch == 'Y') {
 						document.search_form.action = "/home/home_search_list.asp";
 					}
 					else {
 						document.search_form.action = "/home/job_list.asp";
 					}
-					document.search_form.target = gvTarget;
+					document.search_form.target = "_self";
 					document.search_form.submit();
 				}
-				function goReply(gvTarget) {
+				function goReply() {
 					document.search_form.action = "/cafe/skin/job_reply.asp";
-					document.search_form.target = gvTarget;
+					document.search_form.target = "_self";
 					document.search_form.submit();
 				}
-				function goModify(gvTarget) {
+				function goModify() {
 					document.search_form.action = "/cafe/skin/job_modify.asp";
-					document.search_form.target = gvTarget;
+					document.search_form.target = "_self";
 					document.search_form.submit();
 				}
 				function goDelete() {
@@ -189,14 +189,14 @@
 <%
 	If group_num = "" And reply_auth <= cafe_mb_level Then
 %>
-					<!-- <button class="btn btn_c_n btn_n" type="button" onclick="goReply('<%=session("ctTarget")%>')">답글</button> -->
+					<!-- <button class="btn btn_c_n btn_n" type="button" onclick="goReply()">답글</button> -->
 <%
 	End If
 %>
 <%
 	If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
 %>
-					<!-- <button class="btn btn_c_n btn_n" type="button" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
+					<!-- <button class="btn btn_c_n btn_n" type="button" onclick="goModify()">수정</button>
 					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">삭제</button>
 					<button class="btn btn_c_n btn_n" type="button" onclick="goMove()">이동</button>
  --><%
@@ -220,7 +220,7 @@
 	End If
 %>
 					<button class="btn btn_c_n btn_n" type="button" onclick="copyUrl()">글주소복사</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goList('<%=session("ctTarget")%>')">목록</button>
+					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">목록</button>
 				</div>
 				<div class="view_head">
 					<h3 class="h3" id="subject"><%=subject%></h3>

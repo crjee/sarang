@@ -191,14 +191,14 @@
 	End If
 %>
 			<script>
-				function MovePage(page, gvTarget) {
+				function MovePage(page) {
 					var f = document.search_form;
 					f.page.value = page;
 					f.action = "home_search_list.asp";
-					f.target = gvTarget;
+					f.target = "_self";
 					f.submit();
 				}
-				function goView(com_type, com_seq, no, gvTarget) {
+				function goView(com_type, com_seq, no) {
 					var f = document.search_form;
 					f.album_seq.value  = com_seq;
 					f.board_seq.value  = com_seq;
@@ -208,20 +208,20 @@
 
 					if (no == 0) {
 						f.action = "notice_view.asp"
-						f.target = gvTarget;
+						f.target = "_self";
 					}
 					else {
 						f.action = com_type + "_view.asp";
-						f.target = gvTarget;
+						f.target = "_self";
 					}
 					f.submit()
 				}
 
-				function goSearch(gvTarget) {
+				function goSearch() {
 					var f = document.search_form;
 					f.page.value = 1;
 					f.action = "home_search_list.asp";
-					f.target = gvTarget;
+					f.target = "_self";
 					f.submit();
 				}
 
@@ -247,7 +247,7 @@
 						총 <strong><%=FormatNumber(RecordCount,0)%></strong>건의 글이 있습니다.
 					</div>
 					<div class="search_box_flex_item">
-						<form name="search_form" id="search_form" method="post" onsubmit="MovePage(1, '<%=session("ctTarget")%>')">
+						<form name="search_form" id="search_form" method="post" onsubmit="MovePage(1)">
 						<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 						<input type="hidden" name="album_seq" value="<%=com_seq%>">
 						<input type="hidden" name="board_seq" value="<%=com_seq%>">
@@ -301,8 +301,8 @@
 							<option value="contents" <%=if3(sch_type="contents","selected","")%>>내용</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w150p">
-						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
-						<select id="pagesize" name="pagesize" class="sel w50p" onchange="goSearch('<%=session("ctTarget")%>')">
+						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+						<select id="pagesize" name="pagesize" class="sel w50p" onchange="goSearch()">
 							<option value=""></option>
 							<option value="20" <%=if3(pagesize="20","selected","")%>>20</option>
 							<option value="30" <%=if3(pagesize="30","selected","")%>>30</option>
@@ -353,7 +353,7 @@
 								<tr>
 									<td class="algC"><%=rs("com_num")%></td>
 									<td>
-										<a href="javascript: goView('<%=rs("menu_type")%>', '<%=rs("com_seq")%>', '<%=rs("no")%>', '<%=session("ctTarget")%>')" title="<%=subject_s%>"><%=subject%>&nbsp;</a>
+										<a href="javascript: goView('<%=rs("menu_type")%>', '<%=rs("com_seq")%>', '<%=rs("no")%>')" title="<%=subject_s%>"><%=subject%>&nbsp;</a>
 <%
 			If comment_cnt > "0" Then
 %>

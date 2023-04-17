@@ -54,10 +54,10 @@
 	rs.close
 	Set rs = Nothing
 
-	auth_url = Server.MapPath(".")
+	auth_url = Server.MapPath("\")
 
 	Set fso = CreateObject("scripting.filesystemobject")
-
+Response.write auth_url & "\web_bak.config"
 	Set config = fso.OpenTextFile(auth_url & "\web_bak.config", 1, False, 0)
 	strText = config.readAll
 	config.close

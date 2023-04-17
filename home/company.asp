@@ -5,7 +5,7 @@
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
-    menu_name = "회사소개"
+	menu_name = "회사소개"
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -23,7 +23,7 @@
 </head>
 <body>
 	<div id="wrap">
-    <!--#include virtual="/home/home_header_inc.asp"-->
+<!--#include virtual="/home/home_header_inc.asp"-->
 		<main id="main" class="main">
 			<div class="container">
 				<div class="cont_tit">
@@ -31,9 +31,9 @@
 				</div>
 				
 			</div>
-            <!--#include virtual="/home/home_right_inc.asp"-->
+<!--#include virtual="/home/home_right_inc.asp"-->
 		</main>
-        <!--#include virtual="/home/home_footer_inc.asp"-->
+<!--#include virtual="/home/home_footer_inc.asp"-->
 	</div>
 </body>
 </html>

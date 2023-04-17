@@ -179,11 +179,11 @@
 	Sub checkCafePage(ByVal cafe_id)
 		Set funcRs = server.createobject("adodb.recordset")
 		funcSql = ""
-		funcSql = funcSql & " select * "
-		funcSql = funcSql & "       ,isnull(daily_cnt,9999) as daily_cnt "
-		funcSql = funcSql & "   from cf_menu "
-		funcSql = funcSql & "  where menu_seq = '" & menu_seq & "' "
-		funcSql = funcSql & "    and cafe_id  = '" & cafe_id  & "' "
+		funcSql = funcSql & " select *                                    "
+		funcSql = funcSql & "       ,isnull(daily_cnt, 9999) as daily_cnt "
+		funcSql = funcSql & "   from cf_menu                              "
+		funcSql = funcSql & "  where menu_seq = '" & menu_seq & "'        "
+		funcSql = funcSql & "    and cafe_id  = '" & cafe_id  & "'        "
 		funcRs.Open funcSql, Conn, 3, 1
 
 		If funcRs.Eof Then

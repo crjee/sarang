@@ -128,7 +128,7 @@
 		homeRs.close
 %>
 							</ul>
-							<span class="posR"><a href="/home/story_list.asp">more</a></span>
+							<span class="posR"><a href="/home/story_list.asp?menu_seq=<%=menu_seq%>">more</a></span>
 						</div>
 <%
 	Else
@@ -138,7 +138,7 @@
 						<div class="latest_box">
 							<header class="latest_box_head">
 								<h4 class="h4">부동산 이야기</h4>
-								<span class="posR"><a href="/home/land_list.asp?menu_seq=1953">more</a></span>
+								<span class="posR"><a href="/home/land_list.asp?menu_seq=<%=menu_seq%>">more</a></span>
 							</header>
 <%
 	End If
@@ -207,7 +207,7 @@
 				credt_txt = homeRs("credt_txt")
 				subject   = homeRs("subject")
 				story_seq = homeRs("story_seq")
-				view_url = "/home/story_view.asp?story_seq=" & story_seq & "&menu_seq=1951"
+				view_url = "/home/story_view.asp?menu_seq=" & menu_seq & "&story_seq=" & story_seq
 %>
 									<li>
 										<a href="<%=view_url%>"><span class="text"><%=subject%></span></a>

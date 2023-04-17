@@ -218,26 +218,26 @@
 </body>
 </html>
 <script>
-	function MovePage(page, gvTarget) {
+	function MovePage(page) {
 		var f = document.search_form;
 		f.page.value = page;
-		f.target = gvTarget;
+		f.target = "_self";
 		f.action = "job_list.asp";
 		f.submit();
 	}
 
-	function goView(job_seq, gvTarget) {
+	function goView(job_seq) {
 		var f = document.search_form;
 		f.job_seq.value = job_seq;
-		f.target = gvTarget;
+		f.target = "_self";
 		f.action = "job_view.asp";
 		f.submit()
 	}
 
-	function goSearch(gvTarget) {
+	function goSearch() {
 		var f = document.search_form;
 		f.page.value = 1;
-		f.target = gvTarget;
+		f.target = "_self";
 		f.submit();
 	}
 </script>

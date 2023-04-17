@@ -101,7 +101,7 @@
 	End If
 %>
 					<button class="btn btn_c_n btn_s" type="button" onclick="copyUrl()">글주소복사</button>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goList('<%=cafe_sch%>')">목록</button>
+					<button class="btn btn_c_n btn_s" type="button" onclick="goList('<%=cafe_sch%>', '<%=session("svHref")%>')">목록</button>
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
 					<div class="view_head">
