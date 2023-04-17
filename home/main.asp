@@ -54,6 +54,8 @@
 	sql = sql & "       ,wide_yn             "
 	sql = sql & "       ,list_type           "
 	sql = sql & "       ,tab_use_yn          "
+	sql = sql & "       ,all_tab_use_yn      "
+	sql = sql & "       ,etc_tab_use_yn      "
 	sql = sql & "   from cf_menu cm          "
 	sql = sql & "  where cafe_id = 'home'    "
 	sql = sql & "    and menu_type = 'story' "
@@ -63,16 +65,18 @@
 	i = 0
 	If Not homeRs.eof Then
 		i = i + 1
-		menu_type  = homeRs("menu_type")
-		menu_name  = homeRs("menu_name")
-		page_type  = homeRs("page_type")
-		menu_seq   = homeRs("menu_seq")
-		home_num   = homeRs("home_num")
-		home_cnt   = homeRs("home_cnt")
-		top_cnt    = homeRs("top_cnt")
-		wide_yn    = homeRs("wide_yn")
-		list_type  = homeRs("list_type")
-		tab_use_yn = homeRs("tab_use_yn")
+		menu_type      = homeRs("menu_type")
+		menu_name      = homeRs("menu_name")
+		page_type      = homeRs("page_type")
+		menu_seq       = homeRs("menu_seq")
+		home_num       = homeRs("home_num")
+		home_cnt       = homeRs("home_cnt")
+		top_cnt        = homeRs("top_cnt")
+		wide_yn        = homeRs("wide_yn")
+		list_type      = homeRs("list_type")
+		tab_use_yn     = homeRs("tab_use_yn")
+		all_tab_use_yn = homeRs("all_tab_use_yn")
+		etc_tab_use_yn = homeRs("etc_tab_use_yn")
 	End If
 	homeRs.close
 
@@ -84,25 +88,31 @@
 		sql = sql & "   from cf_menu_section               "
 		sql = sql & "  where menu_seq = '" & menu_seq & "' "
 		sql = sql & "    and use_yn = 'Y'                  "
+		If all_tab_use_yn = "Y" Then
 		sql = sql & "  union all                           "
-		sql = sql & " select null as section_seq           "
+		sql = sql & " select 0 as section_seq              "
+		sql = sql & "       ,'전체' as section_nm           "
+		sql = sql & "       ,0 as section_sn               "
+		End If
+		If etc_tab_use_yn = "Y" Then
+		sql = sql & "  union all                           "
+		sql = sql & " select 999999999 as section_seq      "
 		sql = sql & "       ,'기타' as section_nm           "
-		sql = sql & "       ,999999999 as section_nm       "
+		sql = sql & "       ,999999999 as section_sn       "
+		End If
 		sql = sql & "  order by section_sn                 "
 		homeRs.open Sql, conn, 3, 1
 
 		ReDim arrHomeLst(homeRs.recordCount+1)
 		ReDim arrHomeRgn(homeRs.recordCount+1)
 
-		home_i = 1
 %>
 						<div class="tab_box">
 							<h2 class="h2 head"><em>부동산 이야기</em></h2>
 							<ul class="tab_btns">
-								<li class="<%=if3(home_i=1,"on","")%>"><a href="#tab_cont<%=home_i%>"><em>전체</em></a></li>
 <%
 		If Not homeRs.eof Then
-			home_i = 2
+			home_i = 1
 			Do Until homeRs.eof
 				section_seq = homeRs("section_seq")
 				section_nm  = homeRs("section_nm")
@@ -157,7 +167,10 @@
 		sql = sql & "       ,step_num "
 		sql = sql & "   from cf_story "
 		sql = sql & "  where cafe_id  = 'home' "
-		If arrHomeLst(home_i) <> "" Then
+		If arrHomeLst(home_i) = 0 Then
+		ElseIf arrHomeLst(home_i) = 999999 Then
+		sql = sql & "    and (section_seq = null or section_seq = '') "
+		Else
 		sql = sql & "    and section_seq = '" & arrHomeLst(home_i) & "' "
 		End If
 		sql = sql & "    and step_num = 0 "
@@ -172,7 +185,10 @@
 		sql = sql & "       ,step_num "
 		sql = sql & "   from cf_story "
 		sql = sql & "  where cafe_id  = 'home' "
-		If arrHomeLst(home_i) <> "" Then
+		If arrHomeLst(home_i) = 0 Then
+		ElseIf arrHomeLst(home_i) = 999999 Then
+		sql = sql & "    and (section_seq = null or section_seq = '') "
+		Else
 		sql = sql & "    and section_seq = '" & arrHomeLst(home_i) & "' "
 		End If
 		sql = sql & "    and step_num = 0 "

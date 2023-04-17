@@ -99,8 +99,8 @@
 				atch_rt_nm(i) = uploadFolder
 				orgnl_file_nm(i) = item.FileName
 
-				file_extn_cd(i) = right(orgnl_file_nm(i),len(orgnl_file_nm(i))-instr(orgnl_file_nm(i),"."))
-				file_extn_cd(i) = right(orgnl_file_nm(i),len(orgnl_file_nm(i))-instr(orgnl_file_nm(i),"."))
+				file_extn_cd(i) = Right(orgnl_file_nm(i),Len(orgnl_file_nm(i))-InStrRev(orgnl_file_nm(i),"."))
+				file_extn_cd(i) = Right(orgnl_file_nm(i),Len(orgnl_file_nm(i))-InStrRev(orgnl_file_nm(i),"."))
 
 				If i = 1 Then
 					rprs_file_yn(i) = "Y" ' 대표파일여부

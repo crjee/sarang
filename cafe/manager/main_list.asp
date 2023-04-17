@@ -35,9 +35,9 @@
 			<div class="adm_guide_message">
 				<ul>
 					<li>사랑방 메인에 나타나는 컨텐츠를 셋팅하는 페이지 입니다.</li>
-					<li>먼저 좌측 전체메뉴에서 메인노출할 항목을 선택하여 저장버튼을 누릅니다.</li>
-					<li>중앙의 메인노출에 선택된 메뉴를 확인 후 클릭합니다.</li>
-					<li>우측의 해당 컨텐츠의 형태 및 크기에 대해 설정한 후 적용버튼을 눌러주세오.</li>
+					<li>먼저 좌측 메뉴 선택에서 메인 노출 할 항목을 메인 메뉴에 끌어 놓고 적용을 눌러주세오.</li>
+					<li>메인 메뉴에서 메인에 나타날 순서대로 끌어 놓고 적용을 눌러주세오.</li>
+					<li>우측의 해당 컨텐츠의 형태 및 크기에 대해 설정한 후 적용을 눌러주세오.</li>
 				</ul>
 			</div>
 			<div class="adm_menu_flex_manage">
@@ -45,7 +45,7 @@
 					<div class="adm_menu_item_tit">메뉴 선택</div>
 					<div class="adm_select_box">
 						<div class="adm_select_tree_nav">
-							<ul class="menu_handle1" id="menu_handle1">
+							<ul class="menu_handle" id="menu_handle1">
 <%
 	Set row = Server.CreateObject ("ADODB.Recordset")
 
@@ -83,7 +83,7 @@
 					<div class="adm_menu_item_tit">메인 메뉴</div>
 					<div class="adm_select_box">
 						<div class="adm_select_tree_nav">
-							<ul class="menu_handle">
+							<ul class="menu_handle" id="menu_handle2">
 <%
 	sql = ""
 	sql = sql & " select *                       "
@@ -140,6 +140,8 @@
 	<iframe id="hiddenfrm" name="hiddenfrm" style="display:none"></iframe>
 </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
 		var menu_seq = "<%=sel_menu_seq%>";
 		var home_num = "<%=sel_home_num%>";
@@ -161,8 +163,8 @@
 			}
 		});
 
-		$(".menu_handle1").sortable({
-			connectWith : ".menu_handle",
+		$("#menu_handle1").sortable({
+			connectWith : "#menu_handle2",
 			start : function (event, ui) {
 				try {
 				}
@@ -181,7 +183,7 @@
 			cancel : ''
 		}).disableSelection();
 
-		$(".menu_handle").sortable({
+		$("#menu_handle2").sortable({
 			stop : function (event, ui) {
 				try {
 					ifrm.location.href='page/main_edit.asp?menu_seq='+menu_seq+'&home_num='+home_num

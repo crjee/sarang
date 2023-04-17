@@ -189,17 +189,19 @@
 		If funcRs.Eof Then
 			msggo "정상적인 사용이 아닙니다.",""
 		Else
-			menu_type  = funcRs("menu_type")
-			menu_name  = funcRs("menu_name")
-			editor_yn  = funcRs("editor_yn")
-			write_auth = funcRs("write_auth")
-			reply_auth = funcRs("reply_auth")
-			read_auth  = funcRs("read_auth")
-			daily_cnt  = funcRs("daily_cnt")
-			inc_del_yn = funcRs("inc_del_yn")
-			list_info  = funcRs("list_info")
-			tab_use_yn = funcRs("tab_use_yn")
-			tab_nm     = funcRs("tab_nm")
+			menu_type      = funcRs("menu_type")
+			menu_name      = funcRs("menu_name")
+			editor_yn      = funcRs("editor_yn")
+			write_auth     = funcRs("write_auth")
+			reply_auth     = funcRs("reply_auth")
+			read_auth      = funcRs("read_auth")
+			daily_cnt      = funcRs("daily_cnt")
+			inc_del_yn     = funcRs("inc_del_yn")
+			list_info      = funcRs("list_info")
+			tab_use_yn     = funcRs("tab_use_yn")
+			tab_nm         = funcRs("tab_nm")
+			all_tab_use_yn = funcRs("all_tab_use_yn")
+			etc_tab_use_yn = funcRs("etc_tab_use_yn")
 		End If
 		funcRs.close
 		Set funcRs = Nothing

@@ -8,13 +8,13 @@
 
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 
-	checkCafePageUpload(cafe_id)
-	checkWriteAuth(cafe_id)
-
 	uploadFolder = ConfigAttachedFileFolder & "nsale\"
 	uploadform.DefaultPath = uploadFolder
 	dsplyFolder  = ConfigAttachedFileFolder & "display\nsale\"
 	thmbnlFolder = ConfigAttachedFileFolder & "thumbnail\nsale\"
+
+	checkCafePageUpload(cafe_id)
+	checkWriteAuth(cafe_id)
 
 	Set objImage = server.CreateObject("DEXT.ImageProc")
 	Set fso = CreateObject("Scripting.FileSystemObject")
@@ -47,7 +47,7 @@
 		End If
 	Next
 
-	On Error Resume Next
+	'On Error Resume Next
 	Conn.BeginTrans
 	Set BeginTrans = Conn
 	CntError = 0
@@ -107,8 +107,8 @@
 				atch_rt_nm(i) = uploadFolder
 				orgnl_file_nm(i) = item.FileName
 
-				file_extn_cd(i) = right(orgnl_file_nm(i),len(orgnl_file_nm(i))-instr(orgnl_file_nm(i),"."))
-				file_extn_cd(i) = right(orgnl_file_nm(i),len(orgnl_file_nm(i))-instr(orgnl_file_nm(i),"."))
+				file_extn_cd(i) = Right(orgnl_file_nm(i),Len(orgnl_file_nm(i))-InStrRev(orgnl_file_nm(i),"."))
+				file_extn_cd(i) = Right(orgnl_file_nm(i),Len(orgnl_file_nm(i))-InStrRev(orgnl_file_nm(i),"."))
 
 				If i = 1 Then
 					rprs_file_yn(i) = "Y" ' 대표파일여부
@@ -369,6 +369,7 @@
 
 		sql = sql & "       ,'" & Session("user_id") & "' "
 		sql = sql & "       ,getdate()) "
+Response.write sql
 		Conn.Execute(sql)
 	Next
 

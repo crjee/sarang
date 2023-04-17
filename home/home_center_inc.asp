@@ -3,7 +3,7 @@
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 	Set rs2 = Server.CreateObject ("ADODB.Recordset")
 	Set rs3 = Server.CreateObject ("ADODB.Recordset")
-	Dim arrLst(), arrRgn()
+	Dim arrSecSeq(), arrSecNm()
 
 	sql = ""
 	sql = sql & " select menu_type                                           "
@@ -16,6 +16,8 @@
 	sql = sql & "       ,wide_yn                                             "
 	sql = sql & "       ,list_type                                           "
 	sql = sql & "       ,tab_use_yn                                          "
+	sql = sql & "       ,all_tab_use_yn                                      "
+	sql = sql & "       ,etc_tab_use_yn                                      "
 	sql = sql & "   from cf_menu cm                                          "
 	sql = sql & "  where cafe_id = '" & cafe_id & "'                         "
 	sql = sql & "    and home_num != 0                                       "
@@ -26,16 +28,18 @@
 	i = 0
 	Do Until rs.eof
 		i = i + 1
-		menu_type  = rs("menu_type")
-		menu_name  = rs("menu_name")
-		page_type  = rs("page_type")
-		menu_seq   = rs("menu_seq")
-		home_num   = rs("home_num")
-		home_cnt   = rs("home_cnt")
-		top_cnt    = rs("top_cnt")
-		wide_yn    = rs("wide_yn")
-		list_type  = rs("list_type")
-		tab_use_yn = rs("tab_use_yn")
+		menu_type      = rs("menu_type")
+		menu_name      = rs("menu_name")
+		page_type      = rs("page_type")
+		menu_seq       = rs("menu_seq")
+		home_num       = rs("home_num")
+		home_cnt       = rs("home_cnt")
+		top_cnt        = rs("top_cnt")
+		wide_yn        = rs("wide_yn")
+		list_type      = rs("list_type")
+		tab_use_yn     = rs("tab_use_yn")
+		all_tab_use_yn = rs("all_tab_use_yn")
+		etc_tab_use_yn = rs("etc_tab_use_yn")
 
 		' 와이드형 여부 sf_col_1 : 와이드, sf_col_2 : 2단
 		' 홀수 짝수(왼쪽 오른쪽) main_frm_a : 와이드전체, main_frm_l : 2단
@@ -107,27 +111,34 @@
 			sql = sql & "   from cf_menu_section               "
 			sql = sql & "  where menu_seq = '" & menu_seq & "' "
 			sql = sql & "    and use_yn = 'Y'                  "
+			If all_tab_use_yn = "Y" Then
+			sql = sql & "  union all                           "
+			sql = sql & " select null as section_seq           "
+			sql = sql & "       ,'전체' as section_nm           "
+			sql = sql & "       ,0 as section_sn               "
+			End If
+			If etc_tab_use_yn = "Y" Then
 			sql = sql & "  union all                           "
 			sql = sql & " select null as section_seq           "
 			sql = sql & "       ,'기타' as section_nm           "
-			sql = sql & "       ,999999999 as section_nm       "
+			sql = sql & "       ,999999999 as section_sn       "
+			End If
 			sql = sql & "  order by section_sn                 "
 			rs2.open Sql, conn, 3, 1
 
 			j = 2
-			ReDim arrLst(rs2.recordCount+1)
-			ReDim arrRgn(rs2.recordCount+1)
+			ReDim arrSecSeq(rs2.recordCount+1)
+			ReDim arrSecNm(rs2.recordCount+1)
 
 			If Not rs2.eof Then
 %>
 								<div class="slide_cate">
-									<a href="#tab_n_cont1" class="on">전체</a>
 <%
 				Do Until rs2.eof
-					section_seq = rs2("section_seq")
-					section_nm  = rs2("section_nm")
-					arrLst(j) = section_seq
-					arrRgn(j) = section_nm
+					section_seq  = rs2("section_seq")
+					section_nm   = rs2("section_nm")
+					arrSecSeq(j) = section_seq
+					arrSecNm(j)  = section_nm
 %>
 									<a href="#tab_n_cont<%=j%>" class="<%=if3(j=1,"on","")%>"><%=section_nm%></a>
 <%
@@ -140,11 +151,11 @@
 			End If
 			rs2.close
 		Else
-			ReDim arrLst(1)
-			ReDim arrRgn(1)
+			ReDim arrSecSeq(1)
+			ReDim arrSecNm(1)
 		End If
 
-		For li = 1 To UBound(arrLst)
+		For li = 1 To UBound(arrSecSeq)
 			sql = ""
 			sql = sql & " select * "
 			sql = sql & " from ( "
@@ -177,10 +188,11 @@
 			If menu_type = "job" Then
 			sql = sql & "    and end_date >= '" & date  & "' "
 			End If
-			If menu_type = "nsale" And arrLst(li) <> "" Then
-			sql = sql & "    and section_seq = '" & arrLst(li) & "' "
-			ElseIf arrLst(li) <> "" Then
-			sql = sql & "    and section_seq = '" & arrLst(li) & "' "
+			If arrSecSeq(li) = 0 Then
+			ElseIf arrSecSeq(li) = 999999 Then
+			sql = sql & "    and (section_seq = null or section_seq = '') "
+			Else
+			sql = sql & "    and section_seq = '" & arrSecSeq(li) & "' "
 			End If
 			sql = sql & "    and step_num = 0 "
 			sql = sql & "    and top_yn = 'Y' "
@@ -215,10 +227,11 @@
 			If menu_type = "job" Then
 			sql = sql & "    and end_date >= '" & Date & "' "
 			End If
-			If menu_type = "nsale" And arrLst(li) <> "" Then
-			sql = sql & "    and section_seq = '" & arrLst(li) & "' "
-			ElseIf arrLst(li) <> "" Then
-			sql = sql & "    and section_seq = '" & arrLst(li) & "' "
+			If arrSecSeq(li) = 0 Then
+			ElseIf arrSecSeq(li) = 999999 Then
+			sql = sql & "    and (section_seq = null or section_seq = '') "
+			Else
+			sql = sql & "    and section_seq = '" & arrSecSeq(li) & "' "
 			End If
 			sql = sql & "    and step_num = 0 "
 			sql = sql & "    and isnull(top_yn,'') <> 'Y' "
@@ -268,9 +281,9 @@
 					subject      = rs2("subject")
 					comment_cnt  = rs2("comment_cnt")
 					frst_receipt_acpt_date = rs2("frst_receipt_acpt_date")
-					mvin_date  = rs2("mvin_date")
-					land_url  = rs2("land_url")
-					com_seq  = rs2(menu_type & "_seq")
+					mvin_date    = rs2("mvin_date")
+					land_url     = rs2("land_url")
+					com_seq      = rs2(menu_type & "_seq")
 
 					If comment_cnt > 0 Then
 						comment_txt = "(" & comment_cnt & ")"
@@ -278,7 +291,7 @@
 						comment_txt = ""
 					End If
 
-					view_url = "/cafe/skin/" & menu_type & "_view.asp?" & menu_type & "_seq=" & rs2(menu_type & "_seq") & "&menu_seq=" & menu_seq
+					view_url = "/home/" & menu_type & "_view.asp?" & menu_type & "_seq=" & rs2(menu_type & "_seq") & "&menu_seq=" & menu_seq
 
 					If list_type = "T1" Or list_type = "T2" Then
 %>
@@ -417,7 +430,7 @@
 				ElseIf list_type = "A1" Or list_type = "A2" Then
 %>
 									<div class="nodata">
-										<span class="txt"><%=arrRgn(li)%> 데이터가 없습니다.</span>
+										<span class="txt"><%=arrSecNm(li)%> 데이터가 없습니다.</span>
 									</div>
 <%
 				Else

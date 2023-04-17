@@ -37,7 +37,7 @@
 					<div class="adm_menu_item_tit">메뉴추가</div>
 					<div class="adm_select_box">
 						<div class="adm_select_tree_nav">
-							<ul class="menu_handle1" id="menu_handle1">
+							<ul class="menu_handle" id="menu_handle1">
 <%
 	page1  = getonevalue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='page' and page_type='1'")
 	page2  = getonevalue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='page' and page_type='2'")
@@ -72,7 +72,7 @@
 					<div class="adm_menu_item_tit">현재메뉴</div>
 					<div class="adm_select_box">
 						<div class="adm_select_tree_nav">
-							<ul class="menu_handle">
+							<ul class="menu_handle" id="menu_handle2">
 <%
 	Set row = Server.CreateObject ("ADODB.Recordset")
 
@@ -155,6 +155,8 @@
 	<iframe id="hiddenfrm" name="hiddenfrm" style="display:none"></iframe>
 </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
 		var menu_seq = "<%=sel_menu_seq%>";
 		var menu_type = "<%=sel_menu_type%>";
@@ -184,8 +186,8 @@
 			alert(e);
 		}
 
-		$(".menu_handle1").sortable({
-			connectWith : ".menu_handle",
+		$("#menu_handle1").sortable({
+			connectWith : "#menu_handle2",
 			start : function (event, ui) {
 				try {
 					this.innerHTML = temp;
@@ -211,7 +213,7 @@
 			cancel : ''
 		}).disableSelection();
 
-		$(".menu_handle").sortable({
+		$("#menu_handle2").sortable({
 			stop : function (event, ui) {
 				try {
 					if (menu_type == "division") {

@@ -1,38 +1,42 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	menu_seq   = Request("menu_seq")
-	menu_type  = Request("menu_type")
-	cafe_id    = Request("cafe_id")
-	menu_name  = Request("menu_name")
-	home_cnt   = Request("home_cnt")
-	hidden_yn  = Request("hidden_yn")
-	write_auth = Request("write_auth")
-	reply_auth = Request("reply_auth")
-	read_auth  = Request("read_auth")
-	editor_yn  = Request("editor_yn")
-	daily_cnt  = Request("daily_cnt")
-	inc_del_yn = Request("inc_del_yn")
-	list_info  = Request("list_info")
-	tab_use_yn = Request("tab_use_yn")
-	tab_nm     = Request("tab_nm")
+	menu_seq       = Request("menu_seq")
+	menu_type      = Request("menu_type")
+	cafe_id        = Request("cafe_id")
+	menu_name      = Request("menu_name")
+	home_cnt       = Request("home_cnt")
+	hidden_yn      = Request("hidden_yn")
+	write_auth     = Request("write_auth")
+	reply_auth     = Request("reply_auth")
+	read_auth      = Request("read_auth")
+	editor_yn      = Request("editor_yn")
+	daily_cnt      = Request("daily_cnt")
+	inc_del_yn     = Request("inc_del_yn")
+	list_info      = Request("list_info")
+	tab_use_yn     = Request("tab_use_yn")
+	tab_nm         = Request("tab_nm")
+	all_tab_use_yn = Request("all_tab_use_yn")
+	etc_tab_use_yn = Request("etc_tab_use_yn")
 
 	If hidden_yn = "" Then hidden_yn = "N"
 
 	sql = ""
 	sql = sql & " update cf_menu "
-	sql = sql & "    set menu_name  = '" & menu_name  & "' "
-	sql = sql & "       ,home_cnt   = '" & home_cnt   & "' "
-	sql = sql & "       ,hidden_yn  = '" & hidden_yn  & "' "
-	sql = sql & "       ,write_auth = '" & write_auth & "' "
-	sql = sql & "       ,reply_auth = '" & reply_auth & "' "
-	sql = sql & "       ,read_auth  = '" & read_auth  & "' "
-	sql = sql & "       ,editor_yn  = '" & editor_yn  & "' "
-	sql = sql & "       ,daily_cnt  = '" & daily_cnt  & "' "
-	sql = sql & "       ,inc_del_yn = '" & inc_del_yn & "' "
-	sql = sql & "       ,list_info  = '" & list_info  & "' "
-	sql = sql & "       ,tab_use_yn = '" & tab_use_yn & "' "
-	sql = sql & "       ,tab_nm     = '" & tab_nm     & "' "
+	sql = sql & "    set menu_name      = '" & menu_name      & "' "
+	sql = sql & "       ,home_cnt       = '" & home_cnt       & "' "
+	sql = sql & "       ,hidden_yn      = '" & hidden_yn      & "' "
+	sql = sql & "       ,write_auth     = '" & write_auth     & "' "
+	sql = sql & "       ,reply_auth     = '" & reply_auth     & "' "
+	sql = sql & "       ,read_auth      = '" & read_auth      & "' "
+	sql = sql & "       ,editor_yn      = '" & editor_yn      & "' "
+	sql = sql & "       ,daily_cnt      = '" & daily_cnt      & "' "
+	sql = sql & "       ,inc_del_yn     = '" & inc_del_yn     & "' "
+	sql = sql & "       ,list_info      = '" & list_info      & "' "
+	sql = sql & "       ,tab_use_yn     = '" & tab_use_yn     & "' "
+	sql = sql & "       ,tab_nm         = '" & tab_nm         & "' "
+	sql = sql & "       ,all_tab_use_yn = '" & all_tab_use_yn & "' "
+	sql = sql & "       ,etc_tab_use_yn = '" & etc_tab_use_yn & "' "
 	sql = sql & "       ,modid = '" & Session("user_id") & "' "
 	sql = sql & "       ,moddt = getdate() "
 	sql = sql & "  where menu_seq = '" & menu_seq & "' "

@@ -16,8 +16,7 @@
 	sql = sql & "       ,'DSPLY'  + FORMAT(cast(credt as datetime), 'yyyyMMddHHmmss') + FORMAT(album_seq, '00000000') + FORMAT(attach_num, '000') + '.jpg' as dsply_file_nm  "
 	sql = sql & "       ,'THMBNL' + FORMAT(cast(credt as datetime), 'yyyyMMddHHmmss') + FORMAT(album_seq, '00000000') + FORMAT(attach_num, '000') + '.jpg' as thmbnl_file_nm "
 	sql = sql & "   from cf_album_attach ca                                                                                                  "
-	sql = sql & "  where attach_num > 1                                                                                                      "
-	sql = sql & "    and (dsply_img_wdth_sz is null or dsply_img_wdth_sz = '')                                                               "
+	sql = sql & "  where (dsply_img_wdth_sz is null or dsply_img_wdth_sz = '')                                                               "
 	rs.Open Sql, conn, 3, 1
 
 	If Not rs.eof Then

@@ -175,7 +175,13 @@
 			i = i + 1
 			rs.MoveNext
 		Loop
-	End if
+	Else
+%>
+								<div class="c_wrap">
+									등록된 글이 없습니다.
+								</div>
+<%
+	End If
 	rs.close
 	Set rs = nothing
 

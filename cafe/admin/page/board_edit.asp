@@ -25,20 +25,22 @@
 
 	Set rs = Conn.Execute(sql)
 	If Not rs.eof Then
-		menu_name  = rs("menu_name")
-		page_type  = rs("page_type")
-		menu_type  = rs("menu_type")
-		home_cnt   = rs("home_cnt")
-		hidden_yn  = rs("hidden_yn")
-		write_auth = rs("write_auth")
-		reply_auth = rs("reply_auth")
-		read_auth  = rs("read_auth")
-		editor_yn  = rs("editor_yn")
-		daily_cnt  = rs("daily_cnt")
-		inc_del_yn = rs("inc_del_yn")
-		list_info  = rs("list_info")
-		tab_use_yn = rs("tab_use_yn")
-		tab_nm     = rs("tab_nm")
+		menu_name      = rs("menu_name")
+		page_type      = rs("page_type")
+		menu_type      = rs("menu_type")
+		home_cnt       = rs("home_cnt")
+		hidden_yn      = rs("hidden_yn")
+		write_auth     = rs("write_auth")
+		reply_auth     = rs("reply_auth")
+		read_auth      = rs("read_auth")
+		editor_yn      = rs("editor_yn")
+		daily_cnt      = rs("daily_cnt")
+		inc_del_yn     = rs("inc_del_yn")
+		list_info      = rs("list_info")
+		tab_use_yn     = rs("tab_use_yn")
+		tab_nm         = rs("tab_nm")
+		all_tab_use_yn = rs("all_tab_use_yn")
+		etc_tab_use_yn = rs("etc_tab_use_yn")
 	End If
 	rs.close
 %>
@@ -116,15 +118,21 @@
 									</tr>
 									<tr>
 										<th scope="row">탭메뉴</th>
-										<td>
+										<td colspan="3">
 											<input type="checkbox" id="tab_use_yn" name="tab_use_yn" value="Y" <%=if3(tab_use_yn = "Y","checked","") %> class="inp_check" />
 											<label for="tab_use_yn"><em>사용</em></label>
 											<span>
-											<input type="text" id="tab_nm" name="tab_nm" value="<%=tab_nm%>" class="inp w200p">
+											<input type="text" id="tab_nm" name="tab_nm" value="<%=tab_nm%>" alt="탭메뉴명" class="inp w200p">
 											</span>
+											<input type="checkbox" id="all_tab_use_yn" name="all_tab_use_yn" value="Y" <%=if3(all_tab_use_yn = "Y","checked","") %> class="inp_check" />
+											<label for="all_tab_use_yn" alt="전체탭사용여부"><em>전체</em></label>
+											<input type="checkbox" id="etc_tab_use_yn" name="etc_tab_use_yn" value="Y" <%=if3(etc_tab_use_yn = "Y","checked","") %> class="inp_check" />
+											<label for="etc_tab_use_yn" alt="기타탭사용여부"><em>기타</em></label>
 										</td>
+									</tr>
+									<tr>
 										<th scope="row">쓰기형식</th>
-										<td>
+										<td colspan="3">
 											<select id="editor_yn" name="editor_yn" class="sel w_auto">
 												<option value="Y" <%=if3(editor_yn = "Y","selected","") %>>에디터</option>
 												<option value="N" <%=if3(editor_yn <> "Y","selected","") %>>텍스트</option>
@@ -170,7 +178,6 @@
 												<div style="float:left;width:100px;">게시판 분류 추가 : </div>
 												<div style="clar:both;">
 													<input type="button" id="addItem" value="추가" onclick="createItem();" />
-													<!-- <input type="button" id="submitItem" value="제출" onclick="submitItem();" /> -->
 												</div>
 											</div>
 											<br />
@@ -192,17 +199,17 @@
 			section_nm  = row("section_nm")
 			use_yn      = row("use_yn")
 %>
-															<div class='itemBox'>
-																<div>
-																	<span class='itemNum'><%=i%></span>
-																	<input type="hidden" name="section_seq" value="<%=section_seq%>">
-																	<input type="text" name="section_nm" value="<%=section_nm%>" class="inp w_auto">
-																	<span class="ml10">
-																		<input type="checkbox" id="use_y<%=i%>" name="use_yn" value="Y" class="inp_check" <%=if3(use_yn="Y","checked","")%> />
-																		<label for="use_y<%=i%>"><em>사용</em></label>
-																	</span>
-																</div>
-															</div>
+												<div class='itemBox'>
+													<div>
+														<span class='itemNum'><%=i%></span>
+														<input type="hidden" name="section_seq" value="<%=section_seq%>">
+														<input type="text" name="section_nm" value="<%=section_nm%>" class="inp w_auto">
+														<span class="ml10">
+															<input type="checkbox" id="use_y<%=i%>" name="use_yn" value="Y" class="inp_check" <%=if3(use_yn="Y","checked","")%> />
+															<label for="use_y<%=i%>"><em>사용</em></label>
+														</span>
+													</div>
+												</div>
 <%
 			i = i + 1
 			row.MoveNext
@@ -211,9 +218,6 @@
 	row.close
 	Set row = Nothing
 %>
-														</ul>
-													</div>
-												</div>
 											</div>
 											<!-- 게시판 분류 추가 : e -->
 										</td>

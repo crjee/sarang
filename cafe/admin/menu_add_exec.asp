@@ -52,7 +52,8 @@
 				End If
 				
 				sql = ""
-				sql = sql & " insert into cf_menu(menu_seq "
+				sql = sql & " insert into cf_menu( "
+				sql = sql & "        menu_seq   "
 				sql = sql & "       ,cafe_id    "
 				sql = sql & "       ,menu_name  "
 				sql = sql & "       ,page_type  "
@@ -90,9 +91,9 @@
 				sql = sql & "       ,'Y'  "
 				sql = sql & "       ,null "
 				sql = sql & "       ,'" & Session("user_id") & "'"
-				sql = sql & "       ,getcate())"
+				sql = sql & "       ,getdate())"
+'				Response.write sql & "<br><br>"
 				Conn.Execute(sql)
-				Response.write sql & "<br><br>"
 			End If
 		Else
 			sql = ""
