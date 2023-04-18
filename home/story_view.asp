@@ -200,19 +200,19 @@
 					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">목록</button>
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
-				<div class="view_head">
-					<h3 class="h3" id="subject"><%=rs("subject")%></h3>
-					<div class="wrt_info_box">
-						<ul>
-							<li><span>작성자</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
-							<li><span>조회</span><strong><%=rs("view_cnt")%></strong></li>
-							<li><span>추천</span><strong><%=rs("suggest_cnt")%></strong></li>
-							<li><span>등록일시</span><strong><%=rs("credt")%></strong></li>
-							<li></li>
-						</ul>
+					<div class="view_head">
+						<h3 class="h3" id="subject"><%=rs("subject")%></h3>
+						<div class="wrt_info_box">
+							<ul>
+								<li><span>작성자</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
+								<li><span>조회</span><strong><%=rs("view_cnt")%></strong></li>
+								<li><span>추천</span><strong><%=rs("suggest_cnt")%></strong></li>
+								<li><span>등록일시</span><strong><%=rs("credt")%></strong></li>
+								<li></li>
+							</ul>
+						</div>
 					</div>
-				</div>
-				<div class="wrt_file_box"><!-- 첨부파일영역 추가 crjee -->
+					<div class="wrt_file_box"><!-- 첨부파일영역 추가 crjee -->
 <%
 	uploadUrl = ConfigAttachedFileURL & menu_type & "/"
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
@@ -231,19 +231,19 @@
 				fileExt = LCase(Mid(rs2("file_name"), InStrRev(rs2("file_name"), ".") + 1))
 				If fileExt = "pdf" Then
 %>
-					<%If i > 0 Then%><br><%End If%>
-					<a href="<%=uploadUrl & rs2("file_name")%>" class="file"><img src="/home/img/inc/file.png" /> <%=rs2("file_name")%></a>
+						<%If i > 0 Then%><br><%End If%>
+						<a href="<%=uploadUrl & rs2("file_name")%>" class="file"><img src="/home/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 				Else
 %>
-					<%If i > 0 Then%><br><%End If%>
-					<a href="/download_exec.asp?menu_type=<%=menu_type%>&file_name=<%=rs2("file_name")%>" class="file"><img src="/home/img/inc/file.png" /> <%=rs2("file_name")%></a>
+						<%If i > 0 Then%><br><%End If%>
+						<a href="/download_exec.asp?menu_type=<%=menu_type%>&file_name=<%=rs2("file_name")%>" class="file"><img src="/home/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 				End If
 			Else
 %>
-					<%If i > 0 Then%><br><%End If%>
-					<a href="javascript:alert('파일이 존재하지 않습니다,')" class="file"><img src="/home/img/inc/file.png" /> <%=rs2("file_name")%></a>
+						<%If i > 0 Then%><br><%End If%>
+						<a href="javascript:alert('파일이 존재하지 않습니다,')" class="file"><img src="/home/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 			End If
 
@@ -261,7 +261,7 @@
 
 	If link <> "" Then
 %>
-					<p class="file"><a href="<%=link%>" target="_blink" id="linkTxt"><%=link_txt%></a>&nbsp;<img src="/home/img/inc/copy.png" style="cursor:hand" id="linkBtn"/></p>
+						<p class="file"><a href="<%=link%>" target="_blink" id="linkTxt"><%=link_txt%></a>&nbsp;<img src="/home/img/inc/copy.png" style="cursor:hand" id="linkBtn"/></p>
 <script>
 	document.getElementById("linkBtn").onclick = function() {
 		try{
@@ -285,10 +285,10 @@
 <%
 	End If
 %>
-				</div>
-				<div class="bbs_cont">
-					<%=rs("contents")%>
-				</div>
+					</div>
+					<div class="bbs_cont">
+						<%=rs("contents")%>
+					</div>
 				</div>
 <%
 	rs.close

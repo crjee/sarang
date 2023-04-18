@@ -22,15 +22,16 @@
 
 		sql = ""
 		sql = sql & " insert into cf_poll_user( "
-		sql = sql & "       poll_seq "
-		sql = sql & "       ,user_id "
-		sql = sql & "       ,creid "
-		sql = sql & "      ) values( "
+		sql = sql & "        poll_seq           "
+		sql = sql & "       ,user_id            "
+		sql = sql & "       ,creid              "
+		sql = sql & "       ,credt              "
+		sql = sql & "      ) values(            "
 		sql = sql & "        '" & poll_seq & "' "
-		sql = sql & "       ,'" & user_id & "' "
+		sql = sql & "       ,'" & user_id  & "' "
 		sql = sql & "       ,'" & Session("user_id") & "' "
 		sql = sql & "       ,getdate())"
-		Conn.Execute("")
+		Conn.Execute(sql)
 
 		Response.Write "<script>alert('투표하였습니다')</script>"
 		Response.End

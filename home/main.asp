@@ -291,7 +291,7 @@
 
 	For home_j = home_i To 1
 %>
-							배너모집1
+							배너모집
 <%
 	Next
 %>
@@ -355,7 +355,7 @@
 %>
 					<div class="main_frm_<%=if3(home_j=1,"l","r")%>">
 						<div class="main_banner main_banner_2">
-							<a href="#">배너모집2</a>
+							<a href="#">배너모집</a>
 						</div>
 					</div>
 <!-- 

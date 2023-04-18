@@ -88,10 +88,12 @@
 												<input type="radio" id="NA1" name="list_type" value="NA1" <%=if3(wide_yn&list_type="NA1","checked","")%> class="inp_radio" />
 												<label for="NA1"><em>슬라이드형</em></label>
 											</span>
+<!-- 
 											<span class="">
 												<input type="radio" id="NA2" name="list_type" value="NA2" <%=if3(wide_yn&list_type="NA2","checked","")%> class="inp_radio" />
 												<label for="NA2"><em>탭 슬라이드형</em></label>
 											</span>
+ -->
 										</td>
 									</tr>
 									<tr>
@@ -101,10 +103,12 @@
 												<input type="radio" id="YA1" name="list_type" value="YA1" <%=if3(wide_yn&list_type="YA1","checked","")%> class="inp_radio" />
 												<label for="YA1"><em>슬라이드형</em></label>
 											</span>
+<!-- 
 											<span class="">
 												<input type="radio" id="YA2" name="list_type" value="YA2" <%=if3(wide_yn&list_type="YA2","checked","")%> class="inp_radio" />
 												<label for="YA2"><em>탭 슬라이드형</em></label>
 											</span>
+ -->
 										</td>
 									</tr>
 									<tr>

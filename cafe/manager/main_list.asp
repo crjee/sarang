@@ -34,10 +34,10 @@
 			</div>
 			<div class="adm_guide_message">
 				<ul>
-					<li>사랑방 메인에 나타나는 컨텐츠를 셋팅하는 페이지 입니다.</li>
-					<li>먼저 좌측 메뉴 선택에서 메인 노출 할 항목을 메인 메뉴에 끌어 놓고 적용을 눌러주세오.</li>
-					<li>메인 메뉴에서 메인에 나타날 순서대로 끌어 놓고 적용을 눌러주세오.</li>
-					<li>우측의 해당 컨텐츠의 형태 및 크기에 대해 설정한 후 적용을 눌러주세오.</li>
+					<li>사랑방 메인 화면에 나타나는 콘텐츠를 설정하는 페이지입니다.</li>
+					<li>메뉴 선택에서 메인 화면에 나타날 항목을 메인 메뉴에 끌어 놓고 적용을 클릭하세요.</li>
+					<li>메인 메뉴에서 메인 화면에 나타날 순서대로 끌어 놓고 적용 버튼을 클릭하세요.</li>
+					<li>해당 콘텐츠의 형태 및 크기에 대해 설정한 후 저장 버튼을 클릭하세요.</li>
 				</ul>
 			</div>
 			<div class="adm_menu_flex_manage">
@@ -203,7 +203,7 @@
 	})
 
 	$(function() {
-		$("iframe.iframe").load(function() { //iframe 컨텐츠가 로드 된 후에 호출됩니다.
+		$("iframe.iframe").load(function() { //iframe 콘텐츠가 로드 된 후에 호출됩니다.
 			var frame = $(this).get(0);
 			var doc = (frame.contentDocument) ? frame.contentDocument : frame.contentWindow.document;
 			$(this).height(doc.body.scrollHeight+ 100);

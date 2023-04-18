@@ -17,7 +17,7 @@
 	sql = sql & "       ,cf_poll_ans b "
 	sql = sql & "  where a.poll_seq = b.poll_seq "
 	sql = sql & "    and a.cafe_id = '" & cafe_id & "' "
-	sql = sql & "  order by a.credt desc "
+	sql = sql & "  order by a.poll_seq desc "
 
 	row.Open Sql, conn, 3, 1
 

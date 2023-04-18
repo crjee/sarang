@@ -114,7 +114,7 @@
 				<div class="tb tb_form_1">
 					<table>
 						<colgroup>
-							<col class="w5" />
+							<col class="w10" />
 							<col class="w10" />
 							<col class="w10" />
 							<col class="w10" />

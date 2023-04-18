@@ -154,12 +154,12 @@
 						<input type="hidden" name="smode">
 						<table class="tb_fixed">
 							<colgroup>
-								<col class="w5" />
+								<col class="w7" />
 								<col class="w_auto" />
-								<col class="w10" />
-								<col class="w10" />
-								<col class="w10" />
-								<col class="w10" />
+								<col class="w15" />
+								<col class="w15" />
+								<col class="w6" />
+								<col class="w6" />
 								<col class="w10" />
 							</colgroup>
 							<thead>

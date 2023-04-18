@@ -190,14 +190,14 @@
 			<script>
 				function goPrint() {
 					var initBody;
-					hiddenfrm.window.onbeforeprint = function() {
+					window.onbeforeprint = function() {
 						initBody = document.body.innerHTML;
-						hiddenfrm.body.innerHTML =  document.getElementById('print_area').innerHTML;
+						document.body.innerHTML =  document.getElementById('print_area').innerHTML;
 					};
-					hiddenfrm.window.onafterprint = function() {
-//						hiddenfrm.body.innerHTML = initBody;
+						window.onafterprint = function() {
+						document.body.innerHTML = initBody;
 					};
-					hiddenfrm.window.print();
+					window.print();
 				}
 
 				function goList(sch) {

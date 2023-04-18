@@ -267,7 +267,7 @@
 						var initBody;
 						window.onbeforeprint = function() {
 							initBody = document.body.innerHTML;
-							document.body.innerHTML =  document.getElementById('CenterContents').innerHTML;
+							document.body.innerHTML =  document.getElementById('print_area').innerHTML;
 						};
 						window.onafterprint = function() {
 							document.body.innerHTML = initBody;

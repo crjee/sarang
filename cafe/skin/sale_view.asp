@@ -90,7 +90,7 @@
 					var initBody;
 					window.onbeforeprint = function() {
 						initBody = document.body.innerHTML;
-						document.body.innerHTML =  document.getElementById('CenterContents').innerHTML;
+						document.body.innerHTML =  document.getElementById('print_area').innerHTML;
 					};
 						window.onafterprint = function() {
 						document.body.innerHTML = initBody;
@@ -220,17 +220,17 @@
 					<button class="btn btn_c_n btn_s" type="button" onclick="goList('<%=session("ctTarget")%>')">목록</button>
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
-				<div class="view_head">
-					<h3 class="h3" id="subject"><%=subject%></h3>
-					<div class="wrt_info_box">
-						<ul>
-							<li><span>작성자</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
-							<li><span>조회</span><strong><%=rs("view_cnt")%></strong></li>
-							<li><span>등록일시</span><strong><%=rs("credt")%></strong></li>
-						</ul>
+					<div class="view_head">
+						<h3 class="h3" id="subject"><%=subject%></h3>
+						<div class="wrt_info_box">
+							<ul>
+								<li><span>작성자</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
+								<li><span>조회</span><strong><%=rs("view_cnt")%></strong></li>
+								<li><span>등록일시</span><strong><%=rs("credt")%></strong></li>
+							</ul>
+						</div>
 					</div>
-				</div>
-				<div class="wrt_file_box"><!-- 첨부파일영역 추가 crjee -->
+					<div class="wrt_file_box"><!-- 첨부파일영역 추가 crjee -->
 <%
 	link_txt = rmid(link, 40, "..")
 	
@@ -260,53 +260,53 @@
 <%
 	End If
 %>
-				</div>
-				<div class="view_cont">
-					<div class="tb">
-						<table class="tb_input tb_fixed">
-							<colgroup>
-								<col class="w110p">
-								<col class="w_remainder">
-								<col class="w110p">
-								<col class="w_remainder">
-							</colgroup>
-							<tbody>
-								<tr>
-									<th scope="row">소재지</th>
-									<td><%=location%></td>
-									<th scope="row">계약상태</th>
-									<td><%=bargain%></td>
-								</tr>
-								<tr>
-									<th scope="row">면적(평)</th>
-									<td><%=area%></td>
-									<th scope="row">해당층/총층</th>
-									<td><%=floor%></td>
-								</tr>
-								<tr>
-									<th scope="row">방개수/욕실수</th>
-									<td><%=compose%></td>
-									<th scope="row">금액</th>
-									<td><%=price%></td>
-								</tr>
-								<tr>
-									<th scope="row">입주가능일</th>
-									<td><%=live_in%></td>
-									<th scope="row">주차여부</th>
-									<td><%=parking%></td>
-								</tr>
-								<tr>
-									<th scope="row">대중교통</th>
-									<td><%=traffic%></td>
-									<th scope="row">목적 및 용도</th>
-									<td><%=purpose%></td>
-								</tr>
-								<tr>
-									<th scope="row">연락처</th>
-									<td><%=tel_no%></td>
-									<th scope="row">팩스</th>
-									<td><%=fax_no%></td>
-								</tr>
+					</div>
+					<div class="view_cont">
+						<div class="tb">
+							<table class="tb_input tb_fixed">
+								<colgroup>
+									<col class="w110p">
+									<col class="w_remainder">
+									<col class="w110p">
+									<col class="w_remainder">
+								</colgroup>
+								<tbody>
+									<tr>
+										<th scope="row">소재지</th>
+										<td><%=location%></td>
+										<th scope="row">계약상태</th>
+										<td><%=bargain%></td>
+									</tr>
+									<tr>
+										<th scope="row">면적(평)</th>
+										<td><%=area%></td>
+										<th scope="row">해당층/총층</th>
+										<td><%=floor%></td>
+									</tr>
+									<tr>
+										<th scope="row">방개수/욕실수</th>
+										<td><%=compose%></td>
+										<th scope="row">금액</th>
+										<td><%=price%></td>
+									</tr>
+									<tr>
+										<th scope="row">입주가능일</th>
+										<td><%=live_in%></td>
+										<th scope="row">주차여부</th>
+										<td><%=parking%></td>
+									</tr>
+									<tr>
+										<th scope="row">대중교통</th>
+										<td><%=traffic%></td>
+										<th scope="row">목적 및 용도</th>
+										<td><%=purpose%></td>
+									</tr>
+									<tr>
+										<th scope="row">연락처</th>
+										<td><%=tel_no%></td>
+										<th scope="row">팩스</th>
+										<td><%=fax_no%></td>
+									</tr>
 <%
 	uploadUrl = ConfigAttachedFileURL & menu_type & "/"
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
@@ -322,28 +322,28 @@
 	i = 0
 	If Not rs2.eof Then
 %>
-								<tr>
-									<th scope="row">첨부파일</th>
-									<td colspan="3" style="text-align:left">
+									<tr>
+										<th scope="row">첨부파일</th>
+										<td colspan="3" style="text-align:left">
 <%
 		Do Until rs2.eof
 			If (fso.FileExists(uploadFolder & rs2("file_name"))) Then
 				fileExt = LCase(Mid(rs2("file_name"), InStrRev(rs2("file_name"), ".") + 1))
 				If fileExt = "pdf" Then
 %>
-										<%If i > 0 Then%><br><%End If%>
-										<a href="<%=uploadUrl & rs2("file_name")%>" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+											<%If i > 0 Then%><br><%End If%>
+											<a href="<%=uploadUrl & rs2("file_name")%>" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 				Else
 %>
-										<%If i > 0 Then%><br><%End If%>
-										<a href="/download_exec.asp?menu_type=<%=menu_type%>&file_name=<%=rs2("file_name")%>" target="hiddenfrm" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+											<%If i > 0 Then%><br><%End If%>
+											<a href="/download_exec.asp?menu_type=<%=menu_type%>&file_name=<%=rs2("file_name")%>" target="hiddenfrm" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 				End If
 			Else
 %>
-										<%If i > 0 Then%><br><%End If%>
-										<a href="javascript:alert('파일이 존재하지 않습니다,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+											<%If i > 0 Then%><br><%End If%>
+											<a href="javascript:alert('파일이 존재하지 않습니다,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
 <%
 			End If
 
@@ -351,20 +351,21 @@
 			rs2.MoveNext
 		Loop
 %>
-									</td>
-								</tr>
+										</td>
+									</tr>
 <%
 	End If
 	rs2.close
 	Set rs2 = Nothing
 	Set fso = Nothing
 %>
-							</tbody>
-						</table>
+								</tbody>
+							</table>
+						</div>
 					</div>
-				</div>
-				<div class="bbs_cont">
-					<%=rs("contents")%>
+					<div class="bbs_cont">
+						<%=rs("contents")%>
+					</div>
 				</div>
 <%
 	com_seq = sale_seq

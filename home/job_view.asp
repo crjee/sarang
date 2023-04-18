@@ -98,7 +98,7 @@
 					var initBody;
 					window.onbeforeprint = function() {
 						initBody = document.body.innerHTML;
-						document.body.innerHTML =  document.getElementById('CenterContents').innerHTML;
+						document.body.innerHTML =  document.getElementById('print_area').innerHTML;
 					};
 						window.onafterprint = function() {
 						document.body.innerHTML = initBody;
@@ -222,97 +222,99 @@
 					<button class="btn btn_c_n btn_n" type="button" onclick="copyUrl()">글주소복사</button>
 					<button class="btn btn_c_n btn_n" type="button" onclick="goList()">목록</button>
 				</div>
-				<div class="view_head">
-					<h3 class="h3" id="subject"><%=subject%></h3>
-					<div class="wrt_info_box">
-						<ul>
-							<li><span>작성자</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
-							<li><span>조회</span><strong><%=rs("view_cnt")%></strong></li>
-							<li><span>등록일시</span><strong><%=rs("credt")%></strong></li>
-						</ul>
+				<div id="print_area"><!-- 프린트영역 추가 crjee -->
+					<div class="view_head">
+						<h3 class="h3" id="subject"><%=subject%></h3>
+						<div class="wrt_info_box">
+							<ul>
+								<li><span>작성자</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
+								<li><span>조회</span><strong><%=rs("view_cnt")%></strong></li>
+								<li><span>등록일시</span><strong><%=rs("credt")%></strong></li>
+							</ul>
+						</div>
 					</div>
-				</div>
-				<div class="view_cont">
-					<h4 class="f_awesome h4">자격조건</h4>
-					<div class="tb">
-						<table class="tb_input tb_fixed">
-							<colgroup>
-								<col class="w110p">
-								<col class="w_remainder">
-								<col class="w110p">
-								<col class="w_remainder">
-							</colgroup>
-							<tbody>
-								<tr>
-									<th scope="row">담당업무</th>
-									<td><%=work%></td>
-									<th scope="row">연령</th>
-									<td><%=age%></td>
-								</tr>
-								<tr>
-									<th scope="row">성별</th>
-									<td><%=sex%></td>
-									<th scope="row">경력</th>
-									<td><%=work_year%></td>
-								</tr>
-								<tr>
-									<th scope="row">관력자격증</th>
-									<td><%=certify%></td>
-									<th scope="row">근무지역</th>
-									<td><%=work_place%></td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="view_cont">
+						<h4 class="f_awesome h4">자격조건</h4>
+						<div class="tb">
+							<table class="tb_input tb_fixed">
+								<colgroup>
+									<col class="w110p">
+									<col class="w_remainder">
+									<col class="w110p">
+									<col class="w_remainder">
+								</colgroup>
+								<tbody>
+									<tr>
+										<th scope="row">담당업무</th>
+										<td><%=work%></td>
+										<th scope="row">연령</th>
+										<td><%=age%></td>
+									</tr>
+									<tr>
+										<th scope="row">성별</th>
+										<td><%=sex%></td>
+										<th scope="row">경력</th>
+										<td><%=work_year%></td>
+									</tr>
+									<tr>
+										<th scope="row">관력자격증</th>
+										<td><%=certify%></td>
+										<th scope="row">근무지역</th>
+										<td><%=work_place%></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
-				</div>
-				<div class="view_cont">
-					<h4 class="f_awesome h4">문의및 접수방법</h4>
-					<div class="tb">
-						<table class="tb_input tb_fixed">
-							<colgroup>
-								<col class="w110p">
-								<col class="w_remainder">
-								<col class="w110p">
-								<col class="w_remainder">
-							</colgroup>
-							<tbody>
-								<tr>
-									<th scope="row">중개업소명</th>
-									<td><%=agency%></td>
-									<th scope="row">휴대전화번호</th>
-									<td><%=mbl_telno%></td>
-								</tr>
-								<tr>
-									<th scope="row">연락처</th>
-									<td><%=tel_no%></td>
-									<th scope="row">팩스</th>
-									<td><%=fax_no%></td>
-								</tr>
-								<tr>
-									<th scope="row">팩스</th>
-									<td><%=fax_no%></td>
-									<th scope="row">이메일</th>
-									<td><%=email%></td>
-								</tr>
-								<tr>
-									<th scope="row">홈페이지</th>
-									<td><%=homepage%></td>
-									<th scope="row">접수방법</th>
-									<td><%=method%></td>
-								</tr>
-								<tr>
-									<th scope="row">마감일</th>
-									<td colspan="3"><%=end_date%></td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="view_cont">
+						<h4 class="f_awesome h4">문의및 접수방법</h4>
+						<div class="tb">
+							<table class="tb_input tb_fixed">
+								<colgroup>
+									<col class="w110p">
+									<col class="w_remainder">
+									<col class="w110p">
+									<col class="w_remainder">
+								</colgroup>
+								<tbody>
+									<tr>
+										<th scope="row">중개업소명</th>
+										<td><%=agency%></td>
+										<th scope="row">담당자</th>
+										<td><%=person%></td>
+									</tr>
+									<tr>
+										<th scope="row">전화번호</th>
+										<td><%=tel_no%></td>
+										<th scope="row">휴대전화번호</th>
+										<td><%=mbl_telno%></td>
+									</tr>
+									<tr>
+										<th scope="row">팩스</th>
+										<td><%=fax_no%></td>
+										<th scope="row">이메일</th>
+										<td><%=email%></td>
+									</tr>
+									<tr>
+										<th scope="row">홈페이지</th>
+										<td><%=homepage%></td>
+										<th scope="row">접수방법</th>
+										<td><%=method%></td>
+									</tr>
+									<tr>
+										<th scope="row">마감일</th>
+										<td colspan="3"><%=end_date%></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
-				</div>
-				<div class="view_cont">
-					<h4 class="f_awesome h4">모집요강</h4>
-				</div>
-				<div class="bbs_cont">
-					<%=rs("contents")%>
+					<div class="view_cont">
+						<h4 class="f_awesome h4">모집요강</h4>
+					</div>
+					<div class="bbs_cont">
+						<%=rs("contents")%>
+					</div>
 				</div>
 <%
 	rs.close

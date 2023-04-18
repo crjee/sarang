@@ -67,7 +67,7 @@
 					<div class="tb">
 						<table>
 							<colgroup>
-								<col class="w5" />
+								<col class="w7" />
 								<col class="w_auto" />
 								<col class="w10" />
 							</colgroup>
