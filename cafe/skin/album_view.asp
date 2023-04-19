@@ -58,11 +58,6 @@
 	If Not rs.eof Then
 	End If
 %>
-				<form name="open_form" method="post">
-				<input type="hidden" name="open_url" value="/cafe/skin/album_slide_view_p.asp?album_seq=<%=album_seq%>">
-				<input type="hidden" name="open_name" value="album_slide">
-				<input type="hidden" name="open_specs" value="width=660, height=530, left=150, top=20">
-				</form>
 				<form name="search_form" method="post">
 				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 				<input type="hidden" name="page" value="<%=page%>">
@@ -83,25 +78,25 @@
 	If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
 		If rs("step_num") = "0" Then
 %>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goDelete()">삭제</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="goDelete()">삭제</button>
 <%
 		End If
 	End If
 %>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goSuggest()">추천</button>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goPrint()">프린터</button>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goSlide()">슬라이드</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="goSuggest()">추천</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="goPrint()">프린터</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="goSlide()">슬라이드</button>
 <%
 	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
 	If toInt(write_auth) <= toInt(cafe_mb_level) Then
 %>
-					<button class="btn btn_c_n btn_s" type="button" onclick="<%=session("svHref")%>location.href='/cafe/skin/album_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="<%=session("svHref")%>location.href='/cafe/skin/album_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 <%
 	End If
 %>
-					<button class="btn btn_c_n btn_s" type="button" onclick="copyUrl()">글주소복사</button>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goList('<%=cafe_sch%>', '<%=session("svHref")%>')">목록</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="copyUrl()">글주소복사</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="goList('<%=cafe_sch%>', '<%=session("ctTarget")%>')">목록</button>
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
 					<div class="view_head">
@@ -185,7 +180,6 @@
 	com_seq = album_seq
 %>
 <!--#include virtual="/cafe/skin/com_comment_list_inc.asp"-->
-	<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;width:1000;"></iframe>
 			</div>
 <%
 	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
@@ -197,6 +191,7 @@
 <%
 	End IF
 %>
+	<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;width:1000;"></iframe>
 </body>
 </html>
 <%

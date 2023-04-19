@@ -108,11 +108,11 @@
 	If Not form.eof then
 %>
 											<label><input type="checkbox" class="inp_check">질문양식사용</label>
-											<button class="btn_4txt_sel" type="submit" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식수정</button>
+											<button type="submit" class="btn_4txt_sel" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식수정</button>
 <%
 	Else
 %>
-											<button class="btn_4txt_sel" type="submit" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식등록</button>
+											<button type="submit" class="btn_4txt_sel" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식등록</button>
 <%
 	End If
 %>

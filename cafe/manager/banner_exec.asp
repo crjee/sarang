@@ -87,7 +87,9 @@
 	ElseIf task = "del" Then
 		msg = "삭제"
 
-		sql = "delete from cf_banner where banner_seq='" & banner_seq & "'"
+		sql = ""
+		sql = sql & " delete from cf_banner "
+		sql = sql & "  where banner_seq = '" & banner_seq & "' "
 		Conn.Execute(sql)
 
 		Response.write "<script>alert('" & msg & " 되었습니다.');parent.location = 'banner_list.asp';</script>"

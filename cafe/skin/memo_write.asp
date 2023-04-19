@@ -58,17 +58,16 @@
 						</colgroup>
 						<tbody>
 							<tr>
-								<th scope="row">제목</th>
+								<th scope="row">제목<em class="required">필수입력</em></th>
 								<td>
 									<input type="text" class="inp" id="subject" name="subject" value="<%=subject%>" maxlength="200" onKeyup="fc_chk_byte(this, 200, 'req_attnView');setCookie('subject',this.value,1)" required style="" />
 									<span id="req_attnView" name="req_attnView">0</span>/200
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">받는 사람</th>
+								<th scope="row">받는 사람<em class="required">필수입력</em></th>
 								<td>
 									<span class="mr10">
-										<!-- <button type="button" class="btn btn_c_n btn_s btn_long" onclick="goUser()">받는사람 선택</button> -->
 										<button type="button" class="btn btn_c_n btn_s btn_long" onclick="lyp('lypp_member')">받는사람 선택</button>
 									</span>
 									<span class="mr10">
@@ -87,7 +86,6 @@
 					<p class="txt_guide_1 mt10">새로고침시 에디터 내용은 유지되지 않습니다.</p>
 				</div>
 				<div class="btn_box">
-					<!-- <button type="submit" class="btn btn_c_a btn_n btn_2txt_sel">확인</button> -->
 					<button type="submit" class="btn btn_c_a btn_n">등록</button>
 					<button type="button" class="btn btn_c_n btn_n" onclick="<%=session("svHref")%>location.href='/cafe/skin/job_list.asp?menu_seq=<%=menu_seq%>'"><em>취소</em></button>
 				</div>

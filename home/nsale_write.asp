@@ -77,13 +77,13 @@
 						</colgroup>
 						<tbody>
 							<tr>
-								<th scope="row">노출</th>
+								<th scope="row">공개<em class="required">필수입력</em></th>
 								<td colspan="3">
-									<%=makeRadioCD("open_yn", "", "reuqired")%>
+									<%=makeRadioCD("open_yn", "", "required")%>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">단지명/제목</th>
+								<th scope="row">단지명/제목<em class="required">필수입력</em></th>
 								<td colspan="3">
 									<input type="text" id="subject" name="subject" class="inp" required >
 								</td>
@@ -92,7 +92,7 @@
 	If tab_use_yn = "Y" Then
 %>
 							<tr>
-								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th></th>
+								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th>
 								<td>
 									<%=makeSection("R", "section_seq", section_seq, "required")%>
 								</td>
@@ -107,13 +107,13 @@
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">단지종류</th>
+								<th scope="row">단지종류<em class="required">필수입력</em></th>
 								<td>
-									<%=makeRadioCD("cmpl_se_cd", "", "reuqired")%>
+									<%=makeRadioCD("cmpl_se_cd", "", "required")%>
 								</td>
-								<th scope="row">분양단계</th>
+								<th scope="row">분양단계<em class="required">필수입력</em></th>
 								<td>
-									<%=makeRadioCD("nsale_stts_cd", "", "reuqired")%>
+									<%=makeRadioCD("nsale_stts_cd", "", "required")%>
 								</td>
 							</tr>
 							<tr>
@@ -192,6 +192,7 @@
 <%
 	End If
 %>
+						<p class="txt_point mt10">새로고침시 에디터 내용은 유지되지 않습니다.</p>
 					</div>
 					<table class="tb_input tb_fixed mt10">
 						<colgroup>

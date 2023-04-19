@@ -24,7 +24,7 @@
 					<div class="bbs_add_cont_head">
 						<h4>댓글</h4><span class="count"><%=comment_cnt%></span>
 						<div class="posR">
-							<a href="#n" class="btn btn_s btn_c_a" onclick="javascript:goCommentWrite('');">댓글쓰기</a>
+							<button type="button" class="btn btn_s btn_c_a" onclick="javascript:goCommentWrite('');">댓글쓰기</button>
 							<script>
 								function goCommentWrite(comment_seq) {
 									if (comment_seq != '') {
@@ -72,7 +72,7 @@
 %>
 									<%=rs("agency")%>
 								</strong>
-								<span class=""><%=rs("credt")%><%If CStr(rs("reg_date_txt")) = CStr(Date) then%>&nbsp;<img src="/home/img/btn/new.png" /><%End if%></span>
+								<span class=""><%=rs("credt")%><%If CStr(rs("reg_date_txt")) = CStr(Date) then%>&nbsp;<img src="/cafe/skin/img/btn/new.png" /><%End if%></span>
 								<span class="posR">
 <%
 			If session("user_id") = rs("user_id") Or cafe_ad_level = 10 Then

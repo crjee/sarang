@@ -61,6 +61,13 @@
 	End If
 	rs.close
 
+	' 전체 페이지 수 얻기
+	If RecordCount/pagesize = Int(RecordCount/pagesize) Then
+		PageCount = Int(RecordCount / pagesize)
+	Else
+		PageCount = Int(RecordCount / pagesize) + 1
+	End If
+
 	sql = ""
 	sql = sql & " select convert(varchar(10), credt, 120) as credt_txt                               "
 	sql = sql & "       ,*                                                                           "
@@ -74,13 +81,6 @@
 	sql = sql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & "          "
 	sql = sql & "  order by group_num desc, step_num asc                                             "
 	rs.Open sql, conn, 3, 1
-
-	' 전체 페이지 수 얻기
-	If RecordCount/pagesize = Int(RecordCount/pagesize) Then
-		PageCount = Int(RecordCount / pagesize)
-	Else
-		PageCount = Int(RecordCount / pagesize) + 1
-	End If
 
 	If Not (rs.EOF And rs.BOF) Then
 	End If
@@ -104,7 +104,7 @@
 
 	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
-						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/home/nsale_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="location.href='/home/nsale_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 <%
 	End If
 %>

@@ -32,7 +32,7 @@
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
-	cafe_sch  = Request("cafe_sch")
+	home_sch  = Request("home_sch")
 
 	nsale_seq = Request("nsale_seq")
 
@@ -41,7 +41,7 @@
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 	Set rs2 = Server.CreateObject ("ADODB.Recordset")
 
-	' Response.write "nsale_seq : " & nsale_seq & "<br>"
+	Response.write "nsale_seq : " & nsale_seq & "<br>"
 
 	If page_move = "prev" Then
 		sql = ""
@@ -276,7 +276,7 @@
 	If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
 		If rs("step_num") = "0" Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goModify()">수정</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goModify()">수정</button>
 <%
 		End If
 	End If
@@ -286,14 +286,14 @@
 
 	If toInt(write_auth) <= toInt(cafe_mb_level) Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="location.href='/home/nsale_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='/home/nsale_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 <%
 	End If
 %>
-					<a href="#n" class="btn btn_c_n btn_n" onclick="<%=if3(prev_seq="","alert('처음 입니다.')","goPrev()")%>">이전글</a>
-					<a href="#n" class="btn btn_c_n btn_n" onclick="<%=if3(next_seq="","alert('마지막 입니다')","goNext()")%>">다음글</a>
-					<a href="#n" class="btn btn_c_n btn_n" onclick="goList()">목록</a>
-					<a href="#n" class="btn btn_c_a btn_n" onclick="goPrint()">인쇄</a>
+					<button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(prev_seq="","alert('처음 입니다.')","goPrev()")%>">이전글</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(next_seq="","alert('마지막 입니다')","goNext()")%>">다음글</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=home_sch%>')">목록</button>
+					<button type="button" class="btn btn_c_a btn_n" onclick="goPrint()">인쇄</button>
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
 					<div class="view_head">
@@ -399,10 +399,10 @@
 					</div>
 				</div>
 				<div class="btn_box">
-					<a href="#n" class="btn btn_c_n btn_n" onclick="<%=if3(prev_seq="","alert('처음 입니다.')","goPrev()")%>">이전글</a>
-					<a href="#n" class="btn btn_c_n btn_n" onclick="<%=if3(next_seq="","alert('마지막 입니다')","goNext()")%>">다음글</a>
-					<a href="#n" class="btn btn_c_n btn_n">목록</a>
-					<a href="#n" class="btn btn_c_a btn_n">인쇄</a>
+					<button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(prev_seq="","alert('처음 입니다.')","goPrev()")%>">이전글</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(next_seq="","alert('마지막 입니다')","goNext()")%>">다음글</button>
+					<button type="button" class="btn btn_c_n btn_n">목록</button>
+					<button type="button" class="btn btn_c_a btn_n">인쇄</button>
 				</div>
 			</div>
 <!--#include virtual="/home/home_right_inc.asp"-->

@@ -128,7 +128,7 @@
 
 	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
-						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='story_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="location.href='story_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 <%
 	End If
 %>

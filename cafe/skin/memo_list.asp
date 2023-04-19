@@ -136,10 +136,10 @@
 					<div class="search_box algR">
 						<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 						<input type="hidden" name="page" value="<%=page%>">
-						<button class="btn btn_c_a btn_s" type="button" onclick="goAll()">전체선택</button>
-						<button class="btn btn_c_a btn_s" type="button" onclick="goDel()">선택삭제</button>
-						<button class="btn btn_c_a btn_s" type="button" onclick="<%=session("svHref")%>location.href='/cafe/skin/memo_list.asp?menu_seq=<%=menu_seq%>&stype=<%=stype%>&memo_receive_yn=<%=if3(memo_receive_yn="N","Y","N")%>'"><%=if3(memo_receive_yn="N","수신허용","수신거부")%></button>
-						<button class="btn btn_c_a btn_s" type="button" onclick="<%=session("svHref")%>location.href='/cafe/skin/memo_write.asp?menu_seq=<%=menu_seq%>'">쪽지보내기</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="goAll()">전체선택</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="goDel()">선택삭제</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="<%=session("svHref")%>location.href='/cafe/skin/memo_list.asp?menu_seq=<%=menu_seq%>&stype=<%=stype%>&memo_receive_yn=<%=if3(memo_receive_yn="N","Y","N")%>'"><%=if3(memo_receive_yn="N","수신허용","수신거부")%></button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="<%=session("svHref")%>location.href='/cafe/skin/memo_write.asp?menu_seq=<%=menu_seq%>'">쪽지보내기</button>
 					</div>
 					<div class="tb">
 						<form name="list_form" method="post">

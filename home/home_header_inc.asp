@@ -8,11 +8,32 @@
 '	Dim conn
 '	Set Conn = Server.CreateObject("ADODB.Connection")
 '	Conn.Open Application("db")
+	uploadUrl = ConfigAttachedFileURL & "banner/"
+
+	Set headerRs = Server.CreateObject ("ADODB.Recordset")
+
+	sql = ""
+	sql = sql & " select top 1 *            "
+	sql = sql & "       ,file_name          "
+	sql = sql & "       ,link               "
+	sql = sql & "   from cf_banner          "
+	sql = sql & "  where cafe_id='root'     "
+	sql = sql & "    and banner_type = 'LG' "
+	sql = sql & "    and open_yn = 'Y'      "
+	sql = sql & "  order by banner_num asc  "
+	headerRs.open Sql, conn, 3, 1
+
+	header_i = 1
+	If Not headerRs.eof Then
+		header_file_name = headerRs("file_name")
+		header_link      = headerRs("link")
+	End If
+	headerRs.close
 %>
 		<header id="header">
 			<div class="header_inner">
 				<div class="header_cont">
-					<h1><a href="/home/main.asp"><img src="/common/img/common/logo.svg" alt="" /></a></h1>
+					<h1><a href="/home"><img src="<%=uploadUrl & header_file_name%>" alt="" /></a></h1>
 					<form name="cafe_search_form" id="cafe_search_form" method="post" action="/home/home_search_list.asp">
 					<div class="search_box">
 						<label for="">전체검색</label>
@@ -52,8 +73,6 @@
 
 	uploadUrl = ConfigAttachedFileURL & "banner/"
 
-	Set headerRs = Server.CreateObject ("ADODB.Recordset")
-
 	sql = ""
 	sql = sql & " select top 7 *           "
 	sql = sql & "       ,file_name         "
@@ -62,7 +81,7 @@
 	sql = sql & "  where cafe_id='root'    "
 	sql = sql & "    and banner_type = 'T' "
 	sql = sql & "    and open_yn = 'Y'     "
-	sql = sql & "  order by banner_seq asc "
+	sql = sql & "  order by banner_num asc "
 	headerRs.open Sql, conn, 3, 1
 
 	header_i = 1

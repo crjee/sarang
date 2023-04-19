@@ -50,9 +50,9 @@
 %>
 		<main id="main" class="main">
 			<div class="container">
-			<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
-			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-			<input type="hidden" name="temp" value="Y">
+				<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
+				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
+				<input type="hidden" name="temp" value="Y">
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%> 등록</h2>
 				</div>
@@ -77,7 +77,7 @@
 	End If
 %>
 							<tr>
-								<th scope="row">제목</th>
+								<th scope="row">제목<em class="required">필수입력</em></th>
 								<td>
 									<input type="text" id="subject" name="subject" class="inp" value="<%=subject%>" maxlength="200" onKeyup="fc_chk_byte(this, 200, 'req_attnView')" required>
 									<span id="req_attnView" name="req_attnView">0</span>/200
@@ -112,6 +112,7 @@
 <%
 	End if
 %>
+						<p class="txt_point mt10">새로고침시 에디터 내용은 유지되지 않습니다.</p>
 					</div>
 					<table class="tb_input tb_fixed mt10">
 						<colgroup>
@@ -136,7 +137,7 @@
 					<button type="submit" class="btn btn_c_a btn_n">등록</button>
 					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='board_list.asp?menu_seq=<%=menu_seq%>'"><em>취소</em></button>
 				</div>
-			</form>
+				</form>
 			</div>
 <!--#include virtual="/home/home_right_inc.asp"-->
 		</main>

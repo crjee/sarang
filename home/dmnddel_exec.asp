@@ -112,7 +112,7 @@
 %>
 <script>
 	alert("입력 되었습니다.");
-	parent.location.href='/home/main.asp';
+	parent.location.href='/home';
 </script>
 <%
 	Else

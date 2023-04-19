@@ -52,8 +52,8 @@
 		End If
 	End If
 %>
-					<button class="btn btn_c_s btn_n" type="button" onclick="javascripit:document.location.href='/cafe/manager/cafe_info_edit.asp'"><%=left_cafe_type_nm%> 관리</button>
-					<a href="#n" class="btn btn_c_a btn_n ux_btn_wrt">카페글쓰기</a>
+					<button type="button" class="btn btn_c_s btn_n" onclick="javascripit:document.location.href='/cafe/manager/cafe_info_edit.asp'"><%=left_cafe_type_nm%> 관리</button>
+					<button type="button" class="btn btn_c_a btn_n ux_btn_wrt">카페글쓰기</button>
 					<div class="wrt_group_box">
 						<div class="btn_box">
 <%

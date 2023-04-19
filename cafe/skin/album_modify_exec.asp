@@ -283,9 +283,6 @@ try
 <%
 	Else
 %>
-<%
-	End if
-%>
 	alert($('#cafe_main', parent.parent.document).attr('src'));
 	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/album_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&self_yn=<%=self_yn%>&album_seq=<%=album_seq%>') ;
 }
@@ -293,6 +290,9 @@ catch (e)
 {
 	alert(e)
 }
+<%
+	End if
+%>
 </script>
 <%
 	Else

@@ -6,17 +6,17 @@
 
 	If bus <> "" Then
 		sql = ""
-		sql = sql & " update cf_menu                     "
-		sql = sql & "    set page_type = '" & page_type & "' "
+		sql = sql & " update cf_menu                              "
+		sql = sql & "    set page_type = '" & page_type & "'      "
 		sql = sql & "       ,modid = '" & Session("user_id") & "' "
-		sql = sql & "       ,moddt = getdate() "
-		sql = sql & "  where menu_seq = '" & menu_seq & "'   "
+		sql = sql & "       ,moddt = getdate()                    "
+		sql = sql & "  where menu_seq = '" & menu_seq & "'        "
 		Conn.Execute(sql)
 	End if
 
 	sql = ""
-	sql = sql & " select *                         "
-	sql = sql & "   from cf_menu                   "
+	sql = sql & " select *                             "
+	sql = sql & "   from cf_menu                       "
 	sql = sql & "  where menu_seq = '" & menu_seq & "' "
 	Set rs = Conn.Execute(sql)
 

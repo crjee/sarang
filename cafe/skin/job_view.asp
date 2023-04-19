@@ -109,7 +109,7 @@
 					window.print();
 				}
 
-				function goList(gvTarget, sch) {
+				function goList(sch, gvTarget) {
 					if (sch == 'Y') {
 						document.search_form.action = "/cafe/skin/cafe_search_list.asp";
 					}
@@ -192,38 +192,37 @@
 <%
 	If group_num = "" And reply_auth <= cafe_mb_level Then
 %>
-					<!-- <button class="btn btn_c_n btn_n" type="button" onclick="goReply('<%=session("ctTarget")%>')">답글</button> -->
 <%
 	End If
 %>
 <%
 	If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">삭제</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goMove()">이동</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goMove()">이동</button>
 <%
 	End If
 %>
 <%
 	If cafe_mb_level > 6 Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goNotice()"><%=if3(rs("top_yn")="Y","공지해제","공지지정")%></button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goNotice()"><%=if3(rs("top_yn")="Y","공지해제","공지지정")%></button>
 <%
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goSuggest()">추천</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goPrint()">인쇄</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goSuggest()">추천</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goPrint()">인쇄</button>
 <%
 	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
 	If toInt(write_auth) <= toInt(cafe_mb_level) Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/job_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="<%=session("ctHref")%>location.href='/cafe/skin/job_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 <%
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="copyUrl()">글주소복사</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goList('<%=session("ctTarget")%>')">목록</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="copyUrl()">글주소복사</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="goList('<%=cafe_sch%>', '<%=session("ctTarget")%>')">목록</button>
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
 					<div class="view_head">

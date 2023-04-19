@@ -103,7 +103,7 @@
 					</table>
 				</div>
 				<div class="btn_box algR">
-					<button class="btn btn_c_a btn_n" type="submit">확인</button>
+					<button type="submit" class="btn btn_c_a btn_n">확인</button>
 				</div>
 				</form>
 			</div>

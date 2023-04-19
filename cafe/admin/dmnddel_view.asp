@@ -118,8 +118,8 @@
 					<option value="">선택</option>
 					<%=makeComboCD("dmnd_prcs_cd", dmnd_prcs_cd)%>
 				</select>
-				<button class="btn btn_c_n btn_n" type="button" onclick="goProcess()">처리</button>
-				<button class="btn btn_c_n btn_n" type="button" onclick="goList()">목록</button>
+				<button type="button" class="btn btn_c_n btn_n" onclick="goProcess()">처리</button>
+				<button type="button" class="btn btn_c_n btn_n" onclick="goList()">목록</button>
 				</form>
 			</div>
 			<div class="adm_cont">

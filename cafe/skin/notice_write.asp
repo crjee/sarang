@@ -95,7 +95,7 @@
 	End If
 %>
 							<tr>
-								<th scope="row">사랑방</th>
+								<th scope="row">사랑방<em class="required">필수입력</em></th>
 								<td>
 									<button type="button" class="btn_long" onclick="goCafe()">사랑방 선택</button>
 									<input type="checkbox" class="inp_check" name="allcafe" value="all" onclick="goAll(this)" <%=if3(cafe_id="","checked","")%>> 전체사랑방
@@ -103,7 +103,7 @@
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">제목<em class="required">필수입력</em></th></th>
+								<th scope="row">제목<em class="required">필수입력</em></th>
 								<td>
 									<input type="text" id="subject" name="subject" class="inp" value="<%=subject%>" maxlength="200" onKeyup="fc_chk_byte(this, 200, 'req_attnView')" required>
 									<span id="req_attnView" name="req_attnView">0</span>/200
@@ -138,6 +138,7 @@
 <%
 	End if
 %>
+						<p class="txt_point mt10">새로고침시 에디터 내용은 유지되지 않습니다.</p>
 					</div>
 					<table class="tb_input tb_fixed mt10">
 						<colgroup>

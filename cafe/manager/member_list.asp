@@ -174,7 +174,7 @@
 							<option value="phone" <%=if3(sch_type="phone","selected","")%>>전화번호</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w150p">
-						<button class="btn btn_c_a btn_s" type="button" onclick="goSearch()">검색</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
 						<span class="ml20 mr5">출력수</span>
 						<select class="sel w100p" id="pagesize" name="pagesize" onchange="goSearch()">
 							<option value=""></option>

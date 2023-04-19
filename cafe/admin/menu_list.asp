@@ -52,28 +52,14 @@
 	nsale  = getonevalue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='nsale'")
 	story  = getonevalue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='story'")
 %>
-<!-- 
-	<%If page1  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">회칙</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="1"><input type="hidden" name="menu_name" value="회칙"></li><%End if%>
-	<%If page2  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">소개</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="2"><input type="hidden" name="menu_name" value="소개"></li><%End if%>
-	<%If page4  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">명단</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="4"><input type="hidden" name="menu_name" value="명단"></li><%End if%>
-	<%If page5  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">조직도</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="5"><input type="hidden" name="menu_name" value="조직도"></li><%End if%>
-	<%If memo   = "0" then%>	<li><button type="button" menuSeq="0" value="memo" class="btn_adm">쪽지</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="memo"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="쪽지"></li><%End if%>
- -->
 	<%If land   = "0" then%>	<li><button type="button" menuSeq="0" value="land" class="btn_adm">부동산뉴스</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="land"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="부동산뉴스"></li><%End if%>
 								<li><button type="button" menuSeq="0" value="album" class="btn_adm">앨범</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="album"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="앨범"></li>
 								<li><button type="button" menuSeq="0" value="board" class="btn_adm">게시판</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="board"><input type="hidden" name="page_type" value="board"><input type="hidden" name="menu_name" value="게시판"></li>
 								<li><button type="button" menuSeq="0" value="sale" class="btn_adm">매물</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="sale"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="매물"></li>
 	<%If job    = "0" then%>	<li><button type="button" menuSeq="0" value="job" class="btn_adm">채용</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="job"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="채용"></li><%End if%>
 	<%If poll   = "0" then%>	<li><button type="button" menuSeq="0" value="poll" class="btn_adm">설문</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="poll"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="설문"></li><%End if%>
-<!-- 
-	<%If member = "0" then%>	<li><button type="button" menuSeq="0" value="member" class="btn_adm">회원</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="member"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="회원"></li><%End if%>
- -->
 	<%If nsale  = "0" then%>	<li><button type="button" menuSeq="0" value="member" class="btn_adm">분양소식</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="nsale"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="분양소식"></li><%End if%>
 	<%If story  = "0" then%>	<li><button type="button" menuSeq="0" value="member" class="btn_adm">부동산이야기</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="story"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="부동산이야기"></li><%End if%>
-<!-- 
-								<li class="tit"><button type="button" menuSeq="0" value="group" class="btn_adm">메뉴그룹</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="group"><input type="hidden" name="page_type" value="gr"><input type="hidden" name="menu_name" value="메뉴그룹"></li>
-								<li><button type="button" menuSeq="0" value="division" class="btn_adm">-----------<input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="division"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="구분선"></li>
- -->
 							</ul>
 						</div>
 					</div>

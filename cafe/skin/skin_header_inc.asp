@@ -192,7 +192,7 @@
 <%
 	End If
 %>
-						<li><a href="/home/main.asp">경인홈</a></li>
+						<li><a href="/home">경인홈</a></li>
 					</ul>
 				</div>
 				<div class="header_banner">
@@ -206,7 +206,7 @@
 	sql = sql & "  where cafe_id = 'root'  "
 	sql = sql & "    and banner_type = 'T' "
 	sql = sql & "    and open_yn = 'Y'     "
-	sql = sql & "  order by banner_seq asc "
+	sql = sql & "  order by banner_num asc "
 	head_rs.open Sql, conn, 3, 1
 	i = 1
 	Do Until head_rs.eof

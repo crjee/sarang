@@ -87,9 +87,9 @@
 					<h2 class="h2"><font color="red">휴지통 경인네트웍스 전체공지 내용보기</font></h2>
 				</div>
 				<div class="btn_box view_btn">
-					<button class="btn btn_c_n btn_n" type="button" onclick="goRestore()">복원</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">삭제</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goList('<%=session("ctTarget")%>')">목록</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goRestore()">복원</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">목록</button>
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
 					<div class="view_head">

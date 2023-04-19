@@ -28,7 +28,7 @@
 #adm_nav .side_menu_on > li:after { position:absolute; right:0; top:10px; font-family:"Font Awesome 6 Free"; font-weight:900; transition:all .2s; content:"\f107"; }
 #adm_nav .side_menu_on > li.on:after { transform:rotate(180deg); }
 
-#adm_nav .adm_tree_s_menu { display:none; margin:0 0 10px; background:#f9f9f9; border-radius:5px; overflow:hidden; }
+#adm_nav .adm_tree_s_menu { margin:0 0 10px; background:#f9f9f9; border-radius:5px; overflow:hidden; }
 #adm_nav .adm_tree_s_menu li { position:relative; }
 #adm_nav .adm_tree_s_menu li > a { position:relative; display:block; padding:10px 10px; color:#999; text-decoration:none; }
 #adm_nav .adm_tree_s_menu > li:after { position:absolute; right:0; top:0; font-family:"Font Awesome 6 Free"; font-weight:900; content:""; }

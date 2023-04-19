@@ -87,6 +87,7 @@
 					</table>
 					<div class="mt10">
 						<textarea name="ir1" id="ir1" style="width:100%;display:none;"><%=contents%></textarea>
+						<p class="txt_point mt10">새로고침시 에디터 내용은 유지되지 않습니다.</p>
 					</div>
 					<div class="agree_box mt30">
 						<h3 class="h3">개인정보 수집이용에 대한 동의</h3>

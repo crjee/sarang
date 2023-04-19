@@ -38,21 +38,42 @@
 									<form name="poll_form" method="post" action="/cafe/skin/poll_exec.asp" target="hiddenfrm">
 									<input type="hidden" name="poll_seq">
 									<input type="hidden" name="ans">
-									<li class=""><font class="orange4"><%=rs("subject")%></font><li>
-									
+									<li class=""><font class="orange4"><%=subject%></font><li>
+									<li class="">조사기간 : 
 <%
-			If rs("sdate") <> "" And rs("edate") <> "" Then
+			If sdate = "" And edate = "" Then
 %>
-									<li class="">조사기간 : <%=rs("sdate")%> ~ <%=rs("edate")%><li>
+										마감시까지
 <%
+			Else
+			If sdate <> "" Then
+%>
+										<%=sdate%>
+<%
+				End If
+
+				If edate <> "" Then
+%>
+										 ~ <%=edate%>
+<%
+				End If
 			End If
-%>
-									
-<%
+
 			For i = 1 To 10
 				If rs("ques"&i) <> "" Then
 %>
-									<li class=""><input type="radio" name="ans<%=rs("poll_seq")%>" value="ans<%=i%>" onclick="setPoll(<%=rs("poll_seq")%>,this.value)"> <%=rs("ques"&i)%></li>
+									<li class="">
+<%
+					If edate = "" Then edate = Date()
+
+					If datediff("d", Date(), edate) >= 0 Then
+%>
+										<input type="radio" name="ans<%=rs("poll_seq")%>" value="ans<%=i%>" onclick="setPoll(<%=rs("poll_seq")%>,this.value)">
+<%
+					End If
+%>
+										<%=rs("ques"&i)%>
+									</li>
 <%
 				End If
 			Next

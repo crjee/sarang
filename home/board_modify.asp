@@ -14,7 +14,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>부동산이야기 : GI</title>
+	<title><%=sarangTitel%></title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -100,7 +100,7 @@
 	If tab_use_yn = "Y" Then
 %>
 							<tr>
-								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th></th>
+								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th>
 								<td>
 									<%=makeSection("R", "section_seq", section_seq, "required")%>
 								</td>
@@ -109,7 +109,7 @@
 	End If
 %>
 							<tr>
-								<th scope="row">제목<em class="required">필수입력</em></th></th>
+								<th scope="row">제목<em class="required">필수입력</em></th>
 								<td>
 									<input type="text" id="subject" name="subject" class="inp" value="<%=subject%>" maxlength="200" onKeyup="fc_chk_byte(this, 200, 'req_attnView')" required>
 									<span id="req_attnView" name="req_attnView">0</span>/200
@@ -147,6 +147,7 @@
 <%
 	End if
 %>
+						<p class="txt_point mt10">새로고침시 에디터 내용은 유지되지 않습니다.</p>
 					</div>
 					<table class="tb_input tb_fixed mt10">
 						<colgroup>

@@ -18,7 +18,7 @@
 					<div class="bbs_add_cont_head">
 						<h4>댓글</h4><span class="count"><%=comment_cnt%></span>
 						<div class="posR">
-							<a href="#n" class="btn btn_s btn_c_a" onclick="javascript:goCommentWrite('');">댓글쓰기</a>
+							<button type="button" class="btn btn_s btn_c_a" onclick="javascript:goCommentWrite('');">댓글쓰기</button>
 							<script>
 								function goCommentWrite(comment_seq) {
 									if (comment_seq != '') {
@@ -71,8 +71,7 @@
 <%
 			If session("user_id") = rs("user_id") Or cafe_ad_level = 10 Then
 %>
-									<!-- <a href="javascript:goCommentEdit('<%=rs("comment_seq")%>')" class="btn btn_s btn_c_a">수정</a> -->
-									<a href="#n" class="btn btn_s btn_c_a" onclick="onEdit('<%=rs("comment_seq")%>')">수정</a>
+									<button type="button" class="btn btn_s btn_c_a" onclick="onEdit('<%=rs("comment_seq")%>')">수정</button>
 <%
 			End If
 

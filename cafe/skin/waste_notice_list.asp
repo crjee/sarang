@@ -266,7 +266,7 @@
 	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
 					<div class="btn_box algR">
-						<button class="btn btn_c_a btn_n" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/notice_write.asp'">글쓰기</button>
+						<button type="button" class="btn btn_c_a btn_n" onclick="<%=session("ctHref")%>location.href='/cafe/skin/notice_write.asp'">글쓰기</button>
 					</div>
 <%
 	End If

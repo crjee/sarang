@@ -286,7 +286,7 @@
 							<option value="cc.cafe_name" <%=if3(sch_type="cc.cafe_name","selected","")%>>사랑방</option>
 						</select>
 						<input class="inp w300p" type="text" name="sch_word" value="<%=sch_word%>" onkeyDown='javascript:{if (event.keyCode==13) goSearch();}'>
-						<button class="btn btn_c_a btn_s" type="button" onclick="goSearch()">검색</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
 					</div>
 					<div class="floatR">
 						<span class="mr5">출력수</span>
@@ -385,10 +385,8 @@
 									</select>
 									&nbsp;
 									<select name="cafe_mb_level_<%=user_id%>" class="sel w_auto" onchange="setColor('<%=i%>')">
-										<option value="">등급선택</option>
-										<option value="1" <%=if3(cafe_mb_level=1,"selected","") %>>준회원</option>
-										<option value="2" <%=if3(cafe_mb_level=2,"selected","") %>>정회원</option>
-										<option value="10" <%=if3(cafe_mb_level=10,"selected","") %>>사랑방지기</option>
+										<option value=""></option>
+										<%=makeComboCD("cafe_mb_level", cafe_mb_level)%>
 									</select>
 									<span id="sp_<%=i%>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</td>
@@ -465,8 +463,7 @@
 					</table>
 				</div>
 				<div class="btn_box algR">
-					<a href="#n" class="btn btn_c_a btn_n" onclick="lyp('lypp_adm_member')">회원등록</a>
-					<a href="#n" class="btn btn_c_n btn_n">삭제</a>
+					<button type="button" class="btn btn_c_a btn_n" onclick="lyp('lypp_adm_member')">회원등록</button>
 				</div>
 				</form>
 <!--#include virtual="/cafe/skin/skin_page_inc.asp"-->

@@ -171,16 +171,16 @@
 	rs.close
 
 	sql = ""
-	sql = sql & " select convert(varchar(10), bb.credt, 120) as credt_txt "
-	sql = sql & "       ,bb.*                              "
+	sql = sql & " select convert(varchar(10), bb.credt, 120) as credt_txt                                     "
+	sql = sql & "       ,bb.*                                                                                 "
 	sql = sql & "   from (select row_number() over( order by credt desc, menu_seq asc, com_seq asc) as rownum "
-	sql = sql & "               ,aa.*                              "
-	sql = sql & "           from ( "
+	sql = sql & "               ,aa.*                                                                         "
+	sql = sql & "           from (                                                                            "
 	sql = sql & sqlSub
-	sql = sql & "                ) aa "
-	sql = sql & "        ) bb "
-	sql = sql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & " "
-	sql = sql & "  order by credt desc, menu_seq asc, com_seq asc "
+	sql = sql & "                ) aa                                                                         "
+	sql = sql & "        ) bb                                                                                 "
+	sql = sql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & "                   "
+	sql = sql & "  order by credt desc, menu_seq asc, com_seq asc                                             "
 	rs.Open sql, conn, 3, 1
 
 	' 전체 페이지 수 얻기
@@ -190,55 +190,6 @@
 		PageCount = Int(RecordCount / pagesize) + 1
 	End If
 %>
-			<script>
-				function MovePage(page) {
-					var f = document.search_form;
-					f.page.value = page;
-					f.action = "home_search_list.asp";
-					f.target = "_self";
-					f.submit();
-				}
-				function goView(com_type, com_seq, no) {
-					var f = document.search_form;
-					f.album_seq.value  = com_seq;
-					f.board_seq.value  = com_seq;
-					f.job_seq.value    = com_seq;
-					f.sale_seq.value   = com_seq;
-					f.notice_seq.value = com_seq;
-
-					if (no == 0) {
-						f.action = "notice_view.asp"
-						f.target = "_self";
-					}
-					else {
-						f.action = com_type + "_view.asp";
-						f.target = "_self";
-					}
-					f.submit()
-				}
-
-				function goSearch() {
-					var f = document.search_form;
-					f.page.value = 1;
-					f.action = "home_search_list.asp";
-					f.target = "_self";
-					f.submit();
-				}
-
-				function setTerm(obj) {
-					if (obj.value == "DIN")
-					{
-						$('#sch_st_date').css("display","block");
-						$('#sch_ed_date').css("display","block");
-					}
-					else {
-						$('#sch_st_date').attr("value","");
-						$('#sch_ed_date').attr("value","");
-						$('#sch_st_date').css("display","none");
-						$('#sch_ed_date').css("display","none");
-					}
-				}
-			</script>
 				<div class="cont_tit">
 					<h2 class="h2">통합검색 결과</h2>
 				</div>
@@ -248,13 +199,16 @@
 					</div>
 					<div class="search_box_flex_item">
 						<form name="search_form" id="search_form" method="post" onsubmit="MovePage(1)">
+						<input type="hidden" name="page" value="<%=page%>">
+						<input type="hidden" name="home_sch" value="Y">
 						<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
+
 						<input type="hidden" name="album_seq" value="<%=com_seq%>">
 						<input type="hidden" name="board_seq" value="<%=com_seq%>">
-						<input type="hidden" name="job_seq" value="<%=com_seq%>">
-						<input type="hidden" name="sale_seq" value="<%=com_seq%>">
-						<input type="hidden" name="notice_seq" value="<%=com_seq%>">
-						<input type="hidden" name="page" value="<%=page%>">
+						<input type="hidden" name="job_seq"   value="<%=com_seq%>">
+						<input type="hidden" name="nsale_seq" value="<%=com_seq%>">
+						<input type="hidden" name="story_seq" value="<%=com_seq%>">
+
 						<input type="hidden" name="com_seq">
 						<select id="sch_term" name="sch_term" class="sel w_auto" onChange="setTerm(this)">
 							<option value="">전체기간</option>
@@ -400,3 +354,52 @@
 	</div>
 </body>
 </html>
+			<script>
+				function MovePage(page) {
+					var f = document.search_form;
+					f.page.value = page;
+					f.action = "home_search_list.asp";
+					f.target = "_self";
+					f.submit();
+				}
+				function goView(com_type, com_seq, no) {
+					var f = document.search_form;
+					f.album_seq.value  = com_seq;
+					f.board_seq.value  = com_seq;
+					f.job_seq.value    = com_seq;
+					f.nsale_seq.value  = com_seq;
+					f.story_seq.value  = com_seq;
+
+					if (no == 0) {
+						f.action = "notice_view.asp"
+						f.target = "_self";
+					}
+					else {
+						f.action = com_type + "_view.asp";
+						f.target = "_self";
+					}
+					f.submit()
+				}
+
+				function goSearch() {
+					var f = document.search_form;
+					f.page.value = 1;
+					f.action = "home_search_list.asp";
+					f.target = "_self";
+					f.submit();
+				}
+
+				function setTerm(obj) {
+					if (obj.value == "DIN")
+					{
+						$('#sch_st_date').css("display","block");
+						$('#sch_ed_date').css("display","block");
+					}
+					else {
+						$('#sch_st_date').attr("value","");
+						$('#sch_ed_date').attr("value","");
+						$('#sch_st_date').css("display","none");
+						$('#sch_ed_date').css("display","none");
+					}
+				}
+			</script>

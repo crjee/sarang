@@ -55,120 +55,20 @@
 	sql = sql & "  where board_seq = '" & board_seq & "' "
 	rs.Open Sql, conn, 3, 1
 %>
-			<script type="text/javascript">
-				function goPrint() {
-					var initBody;
-					window.onbeforeprint = function() {
-						initBody = document.body.innerHTML;
-						document.body.innerHTML =  document.getElementById('print_area').innerHTML;
-					};
-						window.onafterprint = function() {
-						document.body.innerHTML = initBody;
-					};
-					window.print();
-				}
-
-				function goList(gvTarget, sch) {
-					if (sch == 'Y') {
-						document.search_form.action = "/cafe/skin/cafe_search_list.asp";
-					}
-					else {
-						document.search_form.action = "/cafe/skin/board_list.asp";
-					}
-					document.search_form.target = gvTarget;
-					document.search_form.submit();
-				}
-				function goReply(gvTarget) {
-					document.search_form.action = "/cafe/skin/board_reply.asp";
-					document.search_form.target = gvTarget;
-					document.search_form.submit();
-				}
-				function goModify(gvTarget) {
-					try{
-						document.search_form.action = "/cafe/skin/board_modify.asp";
-						document.search_form.target = gvTarget;
-						document.search_form.submit();
-					} catch(e) {
-						alert(e)
-					}
-				}
-				function goDelete() {
-					document.search_form.action = "/cafe/skin/com_waste_exec.asp";
-					document.search_form.target = "hiddenfrm";
-					document.search_form.submit();
-				}
-				function goNotice() {
-					document.search_form.action = "/cafe/skin/com_top_exec.asp";
-					document.search_form.target = "hiddenfrm";
-					document.search_form.submit();
-				}
-				function goSuggest() {
-					document.search_form.action = "/cafe/skin/com_suggest_exec.asp"
-					document.search_form.target = "hiddenfrm";
-					document.search_form.submit();
-				}
-				function goMove() {
-					document.open_form.action = "/win_open_exec.asp";
-					document.open_form.target = "hiddenfrm";
-					document.open_form.submit();
-				}
-				function copySubject() {
-					try{
-						str = document.getElementById("subject").innerText;
-						if (window.clipboardData) {
-								window.clipboardData.setData("Text", str)
-								alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-						}
-						else if (window.navigator.clipboard) {
-								window.navigator.clipboard.writeText(str).Then(() => {
-									alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-								});
-						}
-						else {
-							temp = prompt("해당 제목을 복사하십시오.", str);
-						}
-					} catch(e) {
-						alert(e)
-					}
-				}
-				function copyUrl() {
-					try{
-						if (window.clipboardData) {
-								window.clipboardData.setData("Text", "<%=pageUrl%>")
-								alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-						}
-						else if (window.navigator.clipboard) {
-								window.navigator.clipboard.writeText("<%=pageUrl%>").Then(() => {
-									alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-								});
-						}
-						else {
-							temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
-						}
-					} catch(e) {
-						alert(e)
-					}
-				}
-			</script>
-			<form name="open_form" method="post">
-			<input type="hidden" name="open_url" value="/cafe/skin/com_move_edit_p.asp?com_seq=<%=board_seq%>&menu_seq=<%=menu_seq%>&cafe_id=<%=cafe_id%>">
-			<input type="hidden" name="open_name" value="com_move">
-			<input type="hidden" name="open_specs" value="width=340, height=310, left=150, top=150">
-			</form>
-			<form name="search_form" method="post">
-			<input type="hidden" name="page" value="<%=page%>">
-			<input type="hidden" name="pagesize" value="<%=pagesize%>">
-			<input type="hidden" name="sch_type" value="<%=sch_type%>">
-			<input type="hidden" name="sch_word" value="<%=sch_word%>">
-			<input type="hidden" name="task">
-			<input type="hidden" name="self_yn" value="<%=self_yn%>">
-			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-			<input type="hidden" name="board_seq" value="<%=board_seq%>">
-			<input type="hidden" name="com_seq" value="<%=board_seq%>">
-			<input type="hidden" name="group_num" value="<%=rs("group_num")%>">
-			<input type="hidden" name="level_num" value="<%=rs("level_num")%>">
-			<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
-			</form>
+				<form name="search_form" method="post">
+				<input type="hidden" name="page" value="<%=page%>">
+				<input type="hidden" name="pagesize" value="<%=pagesize%>">
+				<input type="hidden" name="sch_type" value="<%=sch_type%>">
+				<input type="hidden" name="sch_word" value="<%=sch_word%>">
+				<input type="hidden" name="task">
+				<input type="hidden" name="self_yn" value="<%=self_yn%>">
+				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
+				<input type="hidden" name="board_seq" value="<%=board_seq%>">
+				<input type="hidden" name="com_seq" value="<%=board_seq%>">
+				<input type="hidden" name="group_num" value="<%=rs("group_num")%>">
+				<input type="hidden" name="level_num" value="<%=rs("level_num")%>">
+				<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
+				</form>
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%> 내용보기</h2>
 				</div>
@@ -176,20 +76,19 @@
 <%
 	If group_num = "" And reply_auth <= cafe_mb_level Then
 %>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goReply('<%=session("ctTarget")%>')">답글</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="goReply('<%=session("ctTarget")%>')">답글</button>
 <%
 	End If
 %>
 <%
 	If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
 %>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goDelete()">삭제</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="goDelete()">삭제</button>
 <%
 		If rs("step_num") = "0" Then
 %>
-					<!-- <button class="btn btn_c_n btn_s" type="button" onclick="goMove()">이동</button> -->
-					<button class="btn btn_c_n btn_s" type="button" onclick="lyp('lypp_move')">이동</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="lyp('lypp_move')">이동</button>
 <%
 		End If
 	End If
@@ -198,24 +97,24 @@
 	If cafe_mb_level > 6 Then
 		If rs("step_num") = "0" Then
 %>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goNotice()"><%=if3(rs("top_yn")="Y","공지해제","공지지정")%></button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="goNotice()"><%=if3(rs("top_yn")="Y","공지해제","공지지정")%></button>
 <%
 		End If
 	End If
 %>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goSuggest()">추천</button>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goPrint()">인쇄</button>
-					<button class="btn btn_c_n btn_s" type="button" onclick="copyUrl()">글주소복사</button>
-					<button class="btn btn_c_n btn_s" type="button" onclick="copySubject()">제목복사</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="goSuggest()">추천</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="goPrint()">인쇄</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="copyUrl()">글주소복사</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="copySubject()">제목복사</button>
 <%
 	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
 	If toInt(write_auth) <= toInt(cafe_mb_level) Then
 %>
-					<button class="btn btn_c_a btn_s" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/board_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+					<button type="button" class="btn btn_c_a btn_s" onclick="<%=session("ctHref")%>location.href='/cafe/skin/board_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 <%
 	End If
 %>
-					<button class="btn btn_c_n btn_s" type="button" onclick="goList('<%=session("ctTarget")%>', '<%=cafe_sch%>')">목록</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="goList('<%=cafe_sch%>', '<%=session("ctTarget")%>')">목록</button>
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
 					<div class="view_head">
@@ -391,3 +290,93 @@
 			</form>
 		</div>
 	</div>
+			<script type="text/javascript">
+				function goPrint() {
+					var initBody;
+					window.onbeforeprint = function() {
+						initBody = document.body.innerHTML;
+						document.body.innerHTML =  document.getElementById('print_area').innerHTML;
+					};
+						window.onafterprint = function() {
+						document.body.innerHTML = initBody;
+					};
+					window.print();
+				}
+
+				function goList(sch, gvTarget) {
+					if (sch == 'Y') {
+						document.search_form.action = "/cafe/skin/cafe_search_list.asp";
+					}
+					else {
+						document.search_form.action = "/cafe/skin/board_list.asp";
+					}
+					document.search_form.target = gvTarget;
+					document.search_form.submit();
+				}
+				function goReply(gvTarget) {
+					document.search_form.action = "/cafe/skin/board_reply.asp";
+					document.search_form.target = gvTarget;
+					document.search_form.submit();
+				}
+				function goModify(gvTarget) {
+					try{
+						document.search_form.action = "/cafe/skin/board_modify.asp";
+						document.search_form.target = gvTarget;
+						document.search_form.submit();
+					} catch(e) {
+						alert(e)
+					}
+				}
+				function goDelete() {
+					document.search_form.action = "/cafe/skin/com_waste_exec.asp";
+					document.search_form.target = "hiddenfrm";
+					document.search_form.submit();
+				}
+				function goNotice() {
+					document.search_form.action = "/cafe/skin/com_top_exec.asp";
+					document.search_form.target = "hiddenfrm";
+					document.search_form.submit();
+				}
+				function goSuggest() {
+					document.search_form.action = "/cafe/skin/com_suggest_exec.asp"
+					document.search_form.target = "hiddenfrm";
+					document.search_form.submit();
+				}
+				function copySubject() {
+					try{
+						str = document.getElementById("subject").innerText;
+						if (window.clipboardData) {
+								window.clipboardData.setData("Text", str)
+								alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+						}
+						else if (window.navigator.clipboard) {
+								window.navigator.clipboard.writeText(str).Then(() => {
+									alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+								});
+						}
+						else {
+							temp = prompt("해당 제목을 복사하십시오.", str);
+						}
+					} catch(e) {
+						alert(e)
+					}
+				}
+				function copyUrl() {
+					try{
+						if (window.clipboardData) {
+								window.clipboardData.setData("Text", "<%=pageUrl%>")
+								alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+						}
+						else if (window.navigator.clipboard) {
+								window.navigator.clipboard.writeText("<%=pageUrl%>").Then(() => {
+									alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+								});
+						}
+						else {
+							temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
+						}
+					} catch(e) {
+						alert(e)
+					}
+				}
+			</script>

@@ -103,7 +103,7 @@
 	End If
 %>
 							<tr>
-								<th scope="row">제목 *</th>
+								<th scope="row">제목<em class="required">필수입력</em></th>
 								<td>
 									<input type="text" id="subject" name="subject" class="inp" value="<%=subject%>" maxlength="200" onKeyup="fc_chk_byte(this, 200, 'req_attnView')" required>
 									<span id="req_attnView" name="req_attnView">0</span>/200
@@ -150,9 +150,7 @@
 					<button type="button" class="btn btn_c_n btn_n" onclick="<%=session("svHref")%>location.href='/cafe/skin/album_list.asp?menu_seq=<%=menu_seq%>'"><em>취소</em></button>
 				</div>
 				</form>
-				<div>
-	<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;height:100px;width:1000px;">sss</iframe>
-	</div>
+	<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;height:100px;width:1000px;"></iframe>
 			</div>
 <%
 	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then

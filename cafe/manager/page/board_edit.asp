@@ -206,8 +206,8 @@
 														<input type="hidden" name="section_seq" value="<%=section_seq%>">
 														<input type="text" name="section_nm" value="<%=section_nm%>" class="inp w_auto">
 														<span class="ml10">
-															<input type="checkbox" id="use_y<%=i%>" name="use_yn" value="Y" class="inp_check" <%=if3(use_yn="Y","checked","")%> onclick="onCheck(<%=i%>)" />
-															<label for="use_y<%=i%>"><em>사용</em></label>
+															<input type="checkbox" id="use_yn<%=i%>" name="use_yn<%=i%>" value="Y" class="inp_check" <%=if3(use_yn="Y","checked","")%> onclick="onCheck(<%=i%>)" />
+															<label for="use_yn<%=i%>"><em>사용</em></label>
 														</span>
 													</div>
 												</div>
@@ -365,7 +365,6 @@ function createBox() {
                  + "<span class='itemNum'></span>"
                  + "<input type='hidden' name='section_seq'>"
                  + "<input type='text' name='section_nm'>"
-                 + "<input type='hidden' name='use_yn' value='Y'>"
                  + "</div>"
                  + "</div>";
     return contents;

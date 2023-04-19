@@ -54,7 +54,8 @@
 				cafe_id = mem("cafe_id")
 			End If
 
-			Response.Write "<script>document.location.href = '/?cafe_id=" & cafe_id & "';</script>"
+'			Response.Write "<script>document.location.href = '/?cafe_id=" & cafe_id & "';</script>"
+			Response.Write "<script>document.location.href = '/" & cafe_id & "';</script>"
 			Response.End
 		Else
 			stat = "N"

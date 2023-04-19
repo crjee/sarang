@@ -29,28 +29,7 @@
 	sch_word = Request("sch_word")
 	menu_seq = Request("menu_seq")
 
-'If session("user_id") = "crjee" Then extime("cf_menu ?ㅽ뻾?쒓컙")
 	Set rs = Server.CreateObject ("ADODB.Recordset")
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_menu "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	rs.Open Sql, conn, 3, 1
-'If session("user_id") = "crjee" Then extime("cf_menu ?ㅽ뻾?쒓컙")
-
-	If rs.EOF Then
-		msggo "?뺤긽?곸씤 ?ъ슜???꾨떃?덈떎.",""
-	Else
-		menu_type = rs("menu_type")
-		menu_name = rs("menu_name")
-		page_type = rs("page_type")
-		editor_yn = rs("editor_yn")
-		write_auth = rs("write_auth")
-		reply_auth = rs("reply_auth")
-		read_auth = rs("read_auth")
-	End If
-	rs.close
 
 	pagesize = Request("pagesize")
 	If pagesize = "" Then pagesize = 20
@@ -76,11 +55,19 @@
 	sql = sql & kword
 	rs.Open sql, conn, 3, 1
 
-	RecordCount = 0 ' ?먮즺媛 ?놁쓣??
+	rs.PageSize = PageSize
+	RecordCount = 0 ' 자료가 없을때
 	If Not rs.EOF Then
-		RecordCount = rs("cnt")
+		RecordCount = rs.recordcount
 	End If
 	rs.close
+
+	' 전체 페이지 수 얻기
+	If RecordCount/pagesize = Int(RecordCount/pagesize) Then
+		PageCount = Int(RecordCount / pagesize)
+	Else
+		PageCount = Int(RecordCount / pagesize) + 1
+	End If
 
 	sql = ""
 	sql = sql & " select convert(varchar(10), credt, 120) as credt_txt"
@@ -120,13 +107,6 @@
 	sql = sql & "  order by group_num desc, step_num asc "
 	rs.Open sql, conn, 3, 1
 
-	' 전체 페이지 수 얻기
-	If RecordCount/pagesize = Int(RecordCount/pagesize) Then
-		PageCount = Int(RecordCount / pagesize)
-	Else
-		PageCount = Int(RecordCount / pagesize) + 1
-	End If
-
 	If Not (rs.EOF And rs.BOF) Then
 	End If
 %>
@@ -150,7 +130,7 @@
 
 	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
-						<button class="btn btn_c_a btn_s" type="button" onclick="location.href='/home/board_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="location.href='/home/board_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 <%
 	End If
 %>
@@ -222,7 +202,7 @@
 <%
 			If CDate(DateAdd("d",2,rs("credt_txt"))) >= Date Then
 %>
-										<img src="/home/img/btn/new.png" />
+										<img src="/cafe/skin/img/btn/new.png" />
 <%
 			End if
 %>

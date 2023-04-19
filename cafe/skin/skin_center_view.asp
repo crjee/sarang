@@ -32,7 +32,7 @@
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 	Set rs2 = Server.CreateObject ("ADODB.Recordset")
 	Set rs3 = Server.CreateObject ("ADODB.Recordset")
-	Dim arrLst(), arrRgn()
+	Dim arrSecSeq(), arrSecNm()
 
 	sql = ""
 	sql = sql & " select menu_type                                           "
@@ -45,6 +45,8 @@
 	sql = sql & "       ,wide_yn                                             "
 	sql = sql & "       ,list_type                                           "
 	sql = sql & "       ,tab_use_yn                                          "
+	sql = sql & "       ,all_tab_use_yn                                      "
+	sql = sql & "       ,etc_tab_use_yn                                      "
 	sql = sql & "   from cf_menu cm                                          "
 	sql = sql & "  where cafe_id = '" & cafe_id & "'                         "
 	sql = sql & "    and home_num != 0                                       "
@@ -65,6 +67,8 @@
 		wide_yn    = rs("wide_yn")
 		list_type  = rs("list_type")
 		tab_use_yn = rs("tab_use_yn")
+		all_tab_use_yn = rs("all_tab_use_yn")
+		etc_tab_use_yn = rs("etc_tab_use_yn")
 
 		' 와이드형 여부 sf_col_1 : 와이드, sf_col_2 : 2단
 		' 홀수 짝수(왼쪽 오른쪽) sub_frm_a : 와이드전체, sub_frm_l : 2단
@@ -136,16 +140,23 @@
 			sql = sql & "   from cf_menu_section               "
 			sql = sql & "  where menu_seq = '" & menu_seq & "' "
 			sql = sql & "    and use_yn = 'Y'                  "
+			If all_tab_use_yn = "Y" Then
+			sql = sql & "  union all                           "
+			sql = sql & " select null as section_seq           "
+			sql = sql & "       ,'전체' as section_nm           "
+			sql = sql & "       ,0 as section_sn               "
+			End If
+			If etc_tab_use_yn = "Y" Then
 			sql = sql & "  union all                           "
 			sql = sql & " select null as section_seq           "
 			sql = sql & "       ,'기타' as section_nm           "
-			sql = sql & "       ,999999999 as section_nm       "
-			sql = sql & "  order by section_sn                 "
+			sql = sql & "       ,999999999 as section_sn       "
+			End If
 			rs2.open Sql, conn, 3, 1
 
 			j = 2
-			ReDim arrLst(rs2.recordCount+1)
-			ReDim arrRgn(rs2.recordCount+1)
+			ReDim arrSecSeq(rs2.recordCount+1)
+			ReDim arrSecNm(rs2.recordCount+1)
 
 			If Not rs2.eof Then
 %>
@@ -155,8 +166,8 @@
 				Do Until rs2.eof
 					section_seq = rs2("section_seq")
 					section_nm  = rs2("section_nm")
-					arrLst(j) = section_seq
-					arrRgn(j) = section_nm
+					arrSecSeq(j) = section_seq
+					arrSecNm(j) = section_nm
 %>
 									<a href="#tab_n_cont<%=j%>" class="<%=if3(j=1,"on","")%>"><%=section_nm%></a>
 <%
@@ -169,11 +180,11 @@
 			End If
 			rs2.close
 		Else
-			ReDim arrLst(1)
-			ReDim arrRgn(1)
+			ReDim arrSecSeq(1)
+			ReDim arrSecNm(1)
 		End If
 
-		For li = 1 To UBound(arrLst)
+		For li = 1 To UBound(arrSecSeq)
 			sql = ""
 			sql = sql & " select * "
 			sql = sql & " from ( "
@@ -206,11 +217,13 @@
 			If menu_type = "job" Then
 			sql = sql & "    and end_date >= '" & date  & "' "
 			End If
-			If menu_type = "nsale" And arrLst(li) <> "" Then
-			sql = sql & "    and section_seq = '" & arrLst(li) & "' "
-			ElseIf arrLst(li) <> "" Then
-			sql = sql & "    and section_seq = '" & arrLst(li) & "' "
+			If arrSecSeq(li) = 0 Then
+			ElseIf arrSecSeq(li) = 999999 Then
+			sql = sql & "    and (section_seq = null or section_seq = '') "
+			Else
+			sql = sql & "    and section_seq = '" & arrSecSeq(li) & "' "
 			End If
+			sql = sql & "    and step_num = 0 "
 			sql = sql & "    and step_num = 0 "
 			sql = sql & "    and top_yn = 'Y' "
 			sql = sql & "  union all "
@@ -244,11 +257,13 @@
 			If menu_type = "job" Then
 			sql = sql & "    and end_date >= '" & Date & "' "
 			End If
-			If menu_type = "nsale" And arrLst(li) <> "" Then
-			sql = sql & "    and section_seq = '" & arrLst(li) & "' "
-			ElseIf arrLst(li) <> "" Then
-			sql = sql & "    and section_seq = '" & arrLst(li) & "' "
+			If arrSecSeq(li) = 0 Then
+			ElseIf arrSecSeq(li) = 999999 Then
+			sql = sql & "    and (section_seq = null or section_seq = '') "
+			Else
+			sql = sql & "    and section_seq = '" & arrSecSeq(li) & "' "
 			End If
+			sql = sql & "    and step_num = 0 "
 			sql = sql & "    and step_num = 0 "
 			sql = sql & "    and isnull(top_yn,'') <> 'Y' "
 			If menu_type = "board" Then
@@ -297,8 +312,9 @@
 					subject      = rs2("subject")
 					comment_cnt  = rs2("comment_cnt")
 					frst_receipt_acpt_date = rs2("frst_receipt_acpt_date")
-					mvin_date  = rs2("mvin_date")
-					com_seq  = rs2(menu_type & "_seq")
+					mvin_date    = rs2("mvin_date")
+					land_url     = rs2("land_url")
+					com_seq      = rs2(menu_type & "_seq")
 
 					If comment_cnt > 0 Then
 						comment_txt = "(" & comment_cnt & ")"
@@ -446,7 +462,7 @@
 				ElseIf list_type = "A1" Or list_type = "A2" Then
 %>
 									<div class="nodata">
-										<span class="txt"><%=arrRgn(li)%> 데이터가 없습니다.</span>
+										<span class="txt"><%=arrSecNm(li)%> 데이터가 없습니다.</span>
 									</div>
 <%
 				Else
@@ -474,6 +490,51 @@
 <%
 		rs.MoveNext
 	Loop
+	rs.close
+
+	sql = ""
+	sql = sql & " select * "
+	sql = sql & "   from cf_poll qp "
+	sql = sql & "  where qp.cafe_id = '"&cafe_id&"' "
+	sql = sql & "    and qp.ddln_yn = 'N' "
+	sql = sql & "  order by poll_seq desc "
+	rs.Open Sql, conn, 3, 1
+
+	If Not rs.eof Then
+		Do Until rs.eof
+			poll_seq = rs("poll_seq")
+			subject  = rs("subject")
+			sdate    = rs("sdate")
+			edate    = rs("edate")
+%>
+					<div class="sub_frm_l"><!-- sub_frm_a : 와이드전체, sub_frm_l : 2단 -->
+						<div class="latest_box">
+							<header class="latest_box_head">
+								<h4 class="h4">설문조사</h4>
+								<span class="posR">
+<%
+					If rs("edate") = "" Then edate = Date()
+
+					If datediff("d", Date(), edate) >= 0 Then
+%>
+									<button type="button" class="btn btn_c_a btn_s" onclick="goPoll(<%=rs("poll_seq")%>)">투표하기</button>
+<%
+					End If
+%>
+									<button type="button" class="btn btn_c_a btn_s" onclick="window.open('/cafe/skin/poll_result.asp?cafe_id=<%=cafe_id%>&poll_seq=<%=rs("poll_seq")%>&user_id=<%=session("user_id")%>&ipin=<%=ipin%>','result','width=500,height=500')">결과보기</button>
+								</span>
+							</header>
+							<div class="tb main_rolling">
+								<ul class="latest_1"><!-- latest_1 : 텍스트, latest_2 : 카드좌, latest_2 latest_2_re : 카드우, latest_3 : 앨범일반, latest_3 latest_3_ori : 앨범와이드 -->
+<!--#include virtual="/cafe/skin/poll_view.asp"-->
+								</ul>
+							</div>
+						</div>
+					</div>
+<%
+			rs.MoveNext
+		Loop
+	End If
 	rs.close
 	Set rs = Nothing
 %>

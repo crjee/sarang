@@ -17,6 +17,7 @@
 	sql = sql & "    and open_yn = 'Y' "
 	sql = sql & "    and banner_type like 'C%' "
 	sql = sql & "  order by banner_type asc "
+	sql = sql & "          ,banner_num asc "
 	rs.Open Sql, conn, 3, 1
 
 	If Not rs.eof Then

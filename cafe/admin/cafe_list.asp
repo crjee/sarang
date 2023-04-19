@@ -181,8 +181,8 @@
 							<option value="cf.cafe_name" <%=if3(sch_type="cf.cafe_name","selected","")%>>사랑방명</option>
 							<option value="cf.cafe_id" <%=if3(sch_type="cf.cafe_id","selected","")%>>경로</option>
 						</select>
-						<input class="inp w300p" type="text" name="sch_word" value="<%=sch_word%>" onkeyDown='javascript:{if (event.keyCode==13) goSearch();}'>
-						<button class="btn btn_c_a btn_s" type="button" onclick="goSearch()">검색</button>
+						<input type="text" name="sch_word" value="<%=sch_word%>" onkeyDown='javascript:{if (event.keyCode==13) goSearch();}'>
+						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
 					</div>
 					<div class="floatR">
 						<span class="mr5">출력수</span>
@@ -345,8 +345,7 @@
 					</table>
 				</div>
 				<div class="btn_box algR">
-					<a href="#n" class="btn btn_c_a btn_n" onclick="lyp('lypp_adm_group')">사랑방개설</a>
-					<a href="#n" class="btn btn_c_n btn_n">삭제</a>
+					<button type="button" class="btn btn_c_a btn_n" onclick="lyp('lypp_adm_group')">사랑방개설</button>
 				</div>
 				</form>
 <!--#include virtual="/cafe/skin/skin_page_inc.asp"-->

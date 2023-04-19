@@ -2,39 +2,6 @@
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Call checkAdmin()
-
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-
-	sql = ""
-	sql = sql & " select count(*) cnt "
-	sql = sql & "   from cf_banner "
-	sql = sql & "  where cafe_id = 'root' "
-	sql = sql & "    and banner_type = 'T' "
-	rs.open Sql, conn, 3, 1
-
-	If rs("cnt") = 0 Then
-		new_seq = getSeq("cf_banner")
-
-		sql = ""
-		sql = sql & " insert into cf_banner( "
-		sql = sql & "        banner_seq "
-		sql = sql & "       ,cafe_id "
-		sql = sql & "       ,banner_type "
-		sql = sql & "       ,open_yn "
-		sql = sql & "       ,subject "
-		sql = sql & "       ,file_name "
-		sql = sql & "       ,creid "
-		sql = sql & "       ,credt "
-		sql = sql & "      ) values "
-		sql = sql & "      ('" & new_seq & "'  ,'root', 'top', 'Y', '', '','" & Session("user_id") & "', getdate()),"
-		sql = sql & "      ('" & new_seq+1 & "','root', 'top', 'Y', '', '','" & Session("user_id") & "', getdate()),"
-		sql = sql & "      ('" & new_seq+2 & "','root', 'top', 'Y', '', '','" & Session("user_id") & "', getdate()),"
-		sql = sql & "      ('" & new_seq+3 & "','root', 'top', 'Y', '', '','" & Session("user_id") & "', getdate()),"
-		sql = sql & "      ('" & new_seq+4 & "','root', 'top', 'Y', '', '','" & Session("user_id") & "', getdate()),"
-		sql = sql & "      ('" & new_seq+5 & "','root', 'top', 'Y', '', '','" & Session("user_id") & "', getdate());"
-		Conn.Execute(sql)
-	End If
-	rs.close
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -306,7 +273,7 @@
 						</table>
 					</div>
 					<div class="btn_box algR">
-						<a href="#n" class="btn btn_c_a btn_n" onclick="onRegi('<%=banner_type%>')">배너등록</a>
+						<button type="button" class="btn btn_c_a btn_n" onclick="onRegi('<%=banner_type%>')"><%=if3(banner_type="LG","로고등록","배너등록")%></button>
 					</div>
 				</form>
 <%
@@ -338,7 +305,7 @@
 					</colgroup>
 					<tbody>
 						<tr>
-							<th scope="row">위치</th>
+							<th scope="row">위치<em class="required">필수입력</em></th>
 							<td>
 								<select id="banner_type" name="banner_type" required class="sel w_auto">
 									<option></option>
@@ -347,7 +314,7 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">파일종류</th>
+							<th scope="row">파일종류<em class="required">필수입력</em></th>
 							<td>
 								<select id="file_type" name="file_type" required class="sel w_auto">
 									<option value="I">이미지</option>
@@ -355,7 +322,7 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">제목</th>
+							<th scope="row">제목<em class="required">필수입력</em></th>
 							<td>
 								<input type="text" id="subject" name="subject" maxlength="100" required class="inp" />
 							</td>
@@ -367,13 +334,13 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">배너선택</th>
+							<th scope="row">배너선택<em class="required">필수입력</em></th>
 							<td>
 								<input type="file" id="file_name" name="file_name" class="inp" required />
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">배너크기</th>
+							<th scope="row">배너크기<em class="required">필수입력</em></th>
 							<td>
 								<label for="">가로</label>
 								<input type="text" id="banner_width" name="banner_width" value="0" required class="inp w100p" />
@@ -389,17 +356,17 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">공개여부</th>
+							<th scope="row">공개여부<em class="required">필수입력</em></th>
 							<td>
-								<%=makeRadioCD("open_yn", "", "required")%>
+								<%=makeRadioCD("open_yn", "Y", "required")%>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div class="btn_box algC">
-				<button id="submitBtn" type="submit" class="btn btn_n">확인</button>
-				<button id="resetBtn" type="reset" class="btn btn_n">취소</button>
+				<button type="submit" id="submitBtn" class="btn btn_n">확인</button>
+				<button type="reset" id="resetBtn" class="btn btn_n">취소</button>
 			</div>
 			</form>
 		</div>

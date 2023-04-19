@@ -88,14 +88,6 @@
 <script>
 	alert("삭제 되었습니다.");
 	str = '<input type="file" class="input" name="file_name" style="width:70%;">';
-<%
-	if ag = "1" Then
-%>
-	str = str + '<button class="btn_plus" type="button" onclick="addAttach()">&nbsp;</button>';
-	str = str + '<button class="btn_minus" type="button" onclick="delAttach()">&nbsp;</button>';
-<%
-	End If
-%>
 	parent.document.all.attachDiv<%=ag%>.innerHTML = str;
 </script>
 <%

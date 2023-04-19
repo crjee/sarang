@@ -81,33 +81,33 @@
 <%
 	If group_num = "" And reply_auth <= cafe_ad_level Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goReply('<%=session("ctTarget")%>')">답글</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goReply('<%=session("ctTarget")%>')">답글</button>
 <%
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">삭제</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
 <%
 	If cafe_ad_level > 6 Then
 		If rs("step_num") = "0" Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goPopup()"><%=if3(rs("pop_yn")="Y","팝업해제","팝업지정")%></button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goNotice()"><%=if3(rs("top_yn")="Y","공지해제","공지지정")%></button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goPopup()"><%=if3(rs("pop_yn")="Y","팝업해제","팝업지정")%></button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goNotice()"><%=if3(rs("top_yn")="Y","공지해제","공지지정")%></button>
 <%
 		End If
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goSuggest()">추천</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goPrint()">인쇄</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goSuggest()">추천</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goPrint()">인쇄</button>
 <%
 	If cafe_ad_level = "10" Then ' 글쓰기 권한
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/notice_write.asp'">글쓰기</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="<%=session("ctHref")%>location.href='/cafe/skin/notice_write.asp'">글쓰기</button>
 <%
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="copyUrl()">글주소복사</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goList('<%=session("ctTarget")%>')">목록</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="copyUrl()">글주소복사</button>
+					<button type="button" class="btn btn_c_n btn_s" onclick="goList('<%=cafe_sch%>', '<%=session("ctTarget")%>')">목록</button>
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
 					<div class="view_head">

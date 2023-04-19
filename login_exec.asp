@@ -53,13 +53,19 @@
 			End If
 
 			If cafe_id <> "" Then
-				Response.Write "<script>parent.location.href='/cafe/main.asp?cafe_id=" & cafe_id & "';</script>"
+'				Response.Write "<script>parent.location.href='/cafe/main.asp?cafe_id=" & cafe_id & "';</script>"
+				Response.Write "<script>parent.location.href='/" & cafe_id & "';</script>"
 				Response.End
 			ElseIf Session("cafe_id") <> "" Then
-				Response.Write "<script>parent.location.href='/cafe/main.asp?cafe_id=" & Session("cafe_id") & "';</script>"
+'				Response.Write "<script>parent.location.href='/cafe/main.asp?cafe_id=" & Session("cafe_id") & "';</script>"
+				Response.Write "<script>parent.location.href='/" & Session("cafe_id") & "';</script>"
 				Response.End
 			ElseIf Session("cafe_ad_level") = "10" Then
-				Response.Write "<script>parent.location.href='/cafe/main.asp?cafe_id=hanwul';</script>"
+'				Response.Write "<script>parent.location.href='/cafe/main.asp?cafe_id=hanwul';</script>"
+				Response.Write "<script>parent.location.href='/hanwul';</script>"
+				Response.End
+			ElseIf Session("cafe_mb_level") = "0" Then
+				Response.Write "<script>parent.location.href='/home/';</script>"
 				Response.End
 			Else
 				session.Abandon

@@ -467,7 +467,6 @@
 	Loop
 	rs.close
 
-
 	sql = ""
 	sql = sql & " select * "
 	sql = sql & "   from cf_poll qp "
@@ -484,8 +483,16 @@
 							<header class="latest_box_head">
 								<h4 class="h4">설문조사</h4>
 								<span class="posR">
-									<button class="btn btn_c_a btn_s" type="button" onclick="goPoll(<%=rs("poll_seq")%>)">투표하기</button>
-									<button class="btn btn_c_a btn_s" type="button" onclick="window.open('/cafe/skin/poll_result.asp?cafe_id=<%=cafe_id%>&poll_seq=<%=rs("poll_seq")%>&user_id=<%=session("user_id")%>&ipin=<%=ipin%>','result','width=500,height=500')">결과보기</button>
+<%
+					If rs("edate") = "" Then edate = Date()
+
+					If datediff("d", Date(), edate) >= 0 Then
+%>
+									<button type="button" class="btn btn_c_a btn_s" onclick="goPoll(<%=rs("poll_seq")%>)">투표하기</button>
+<%
+					End If
+%>
+									<button type="button" class="btn btn_c_a btn_s" onclick="window.open('/cafe/skin/poll_result.asp?cafe_id=<%=cafe_id%>&poll_seq=<%=rs("poll_seq")%>&user_id=<%=session("user_id")%>&ipin=<%=ipin%>','result','width=500,height=500')">결과보기</button>
 								</span>
 							</header>
 							<div class="tb main_rolling">
@@ -500,8 +507,6 @@
 		Loop
 	End If
 	rs.close
-
-
 	Set rs = Nothing
 %>
 				</div>
@@ -530,4 +535,4 @@
 						}
 					});
 				</script>
-		<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;width:1000;"></iframe>
+			<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;width:1000;"></iframe>

@@ -62,7 +62,7 @@
 	<%If poll   = "0" then%>	<li><button type="button" menuSeq="0" value="poll" class="btn_adm">설문</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="poll"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="설문"></li><%End if%>
 	<%If member = "0" then%>	<li><button type="button" menuSeq="0" value="member" class="btn_adm">회원</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="member"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="회원"></li><%End if%>
 								<li class="tit"><button type="button" menuSeq="0" value="group" class="btn_adm">메뉴그룹</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="group"><input type="hidden" name="page_type" value="gr"><input type="hidden" name="menu_name" value="메뉴그룹"></li>
-								<li><button type="button" menuSeq="0" value="division" class="btn_adm">-----------<input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="division"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="구분선"></li>
+								<li><button type="button" menuSeq="0" value="division" class="btn_adm">-----------</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="division"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="구분선"></li>
 							</ul>
 						</div>
 					</div>

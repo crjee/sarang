@@ -175,17 +175,17 @@
 					<h2 class="h2"><font color="red">휴지통 <%=menu_name%> 내용보기</font></h2>
 				</div>
 				<div class="btn_box view_btn">
-					<button class="btn btn_c_n btn_n" type="button" onclick="goRestore()">복원</button>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goDelete()">삭제</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goRestore()">복원</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
 <%
 	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
 	If toInt(write_auth) <= toInt(cafe_mb_level) Then
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/album_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="<%=session("ctHref")%>location.href='/cafe/skin/album_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 <%
 	End If
 %>
-					<button class="btn btn_c_n btn_n" type="button" onclick="goList('<%=session("ctTarget")%>')">목록</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">목록</button>
 				</div>
 				<div class="view_head">
 					<h3 class="h3" id="subject"><%=rs("subject")%></h3>

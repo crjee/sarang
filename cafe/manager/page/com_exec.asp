@@ -65,51 +65,51 @@
 			If Request("section_seq")(i) = "" Then
 				new_seq    = getSeq("cf_menu_section")
 				section_nm = Request("section_nm")(i)
-				use_yn     = Request("use_yn")(i)
-				If use_yn = "" Then use_yn = "N"
+
+				use_yn = "Y"
 				ip_addr = request.ServerVariables("remote_addr")
 
 				sql = ""
-				sql = sql & " insert into cf_menu_section( "
-				sql = sql & "        section_seq  "
-				sql = sql & "       ,menu_seq     "
-				sql = sql & "       ,section_nm   "
-				sql = sql & "       ,section_expl "
-				sql = sql & "       ,section_sn   "
-				sql = sql & "       ,use_yn       "
-				sql = sql & "       ,del_yn       "
-				sql = sql & "       ,rgtr_id      "
-				sql = sql & "       ,reg_dt       "
-				sql = sql & "       ,reg_ip_addr  "
-				sql = sql & "      ) values( "
-				sql = sql & "        '" & new_seq & "' "
-				sql = sql & "       ,'" & menu_seq & "' "
-				sql = sql & "       ,'" & section_nm & "' "
-				sql = sql & "       ,null "
-				sql = sql & "       ,'" & i & "' "
-				sql = sql & "       ,'Y' "
-				sql = sql & "       ,'N' "
+				sql = sql & " insert into cf_menu_section(        "
+				sql = sql & "        section_seq                  "
+				sql = sql & "       ,menu_seq                     "
+				sql = sql & "       ,section_nm                   "
+				sql = sql & "       ,section_expl                 "
+				sql = sql & "       ,section_sn                   "
+				sql = sql & "       ,use_yn                       "
+				sql = sql & "       ,del_yn                       "
+				sql = sql & "       ,rgtr_id                      "
+				sql = sql & "       ,reg_dt                       "
+				sql = sql & "       ,reg_ip_addr                  "
+				sql = sql & "      ) values(                      "
+				sql = sql & "        '" & new_seq & "'            "
+				sql = sql & "       ,'" & menu_seq & "'           "
+				sql = sql & "       ,'" & section_nm & "'         "
+				sql = sql & "       ,null                         "
+				sql = sql & "       ,'" & i & "'                  "
+				sql = sql & "       ,'Y'                          "
+				sql = sql & "       ,'N'                          "
 				sql = sql & "       ,'" & Session("user_id") & "' "
-				sql = sql & "       ,getdate() "
-				sql = sql & "       ,'" & ip_addr & "' "
-				sql = sql & "      ) "
+				sql = sql & "       ,getdate()                    "
+				sql = sql & "       ,'" & ip_addr & "'            "
+				sql = sql & "      )                              "
 				Conn.Execute(sql)
 			Else
 				section_seq = Request("section_seq")(i)
 				section_nm  = Request("section_nm")(i)
-				use_yn      = Request("use_yn")(i)
+				use_yn      = Request("use_yn"&(i))
 				If use_yn = "" Then use_yn = "N"
 				ip_addr = request.ServerVariables("remote_addr")
 
 				sql = ""
-				sql = sql & " update cf_menu_section "
-				sql = sql & "    set section_nm    = '" & section_nm & "' "
-				sql = sql & "       ,section_sn    = '" & i & "' "
-				sql = sql & "       ,use_yn        = '" & use_yn & "' "
+				sql = sql & " update cf_menu_section                              "
+				sql = sql & "    set section_nm    = '" & section_nm & "'         "
+				sql = sql & "       ,section_sn    = '" & i & "'                  "
+				sql = sql & "       ,use_yn        = '" & use_yn & "'             "
 				sql = sql & "       ,mdfr_id       = '" & Session("user_id") & "' "
-				sql = sql & "       ,mdfcn_dt      = getdate() "
-				sql = sql & "       ,mdfcn_ip_addr = '" & ip_addr & "' "
-				sql = sql & " where section_seq = '" & section_seq & "' "
+				sql = sql & "       ,mdfcn_dt      = getdate()                    "
+				sql = sql & "       ,mdfcn_ip_addr = '" & ip_addr & "'            "
+				sql = sql & " where section_seq = '" & section_seq & "'           "
 				Conn.Execute(sql)
 			End If
 		End If

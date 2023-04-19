@@ -250,14 +250,15 @@
 	uploadUrl = ConfigAttachedFileURL & "banner/"
 
 	sql = ""
-	sql = sql & " select banner_type           "
+	sql = sql & " select top 1                 "
+	sql = sql & "        banner_type           "
 	sql = sql & "       ,file_name             "
 	sql = sql & "       ,link                  "
 	sql = sql & "   from cf_banner             "
 	sql = sql & "  where cafe_id='root'        "
 	sql = sql & "    and banner_type in ('H1') "
 	sql = sql & "    and open_yn = 'Y'         "
-	sql = sql & "  order by banner_seq asc     "
+	sql = sql & "  order by banner_num asc     "
 	homeRs.open Sql, conn, 3, 1
 
 	home_i = 1
@@ -302,14 +303,15 @@
 				<div class="main_frm mf_block_2">
 <%
 	sql = ""
-	sql = sql & " select banner_type                       "
-	sql = sql & "       ,file_name                         "
-	sql = sql & "       ,link                              "
-	sql = sql & "   from cf_banner                         "
-	sql = sql & "  where cafe_id='root'                    "
-	sql = sql & "    and banner_type in ('H2', 'H2')       "
-	sql = sql & "    and open_yn = 'Y'                     "
-	sql = sql & "  order by banner_seq asc                 "
+	sql = sql & " select top 2                 "
+	sql = sql & "        banner_type           "
+	sql = sql & "       ,file_name             "
+	sql = sql & "       ,link                  "
+	sql = sql & "   from cf_banner             "
+	sql = sql & "  where cafe_id='root'        "
+	sql = sql & "    and banner_type in ('H2') "
+	sql = sql & "    and open_yn = 'Y'         "
+	sql = sql & "  order by banner_num asc     "
 	homeRs.open Sql, conn, 3, 1
 
 	home_i = 1

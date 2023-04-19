@@ -251,7 +251,7 @@
 						<input type="hidden" name="user_id" value="<%=request("user_id")%>">
 						<input type="hidden" name="ipin" value="<%=request("ipin")%>">
 						<input type="text" name="sch_user" value="<%=sch_user%>" class="input3" />
-						<button class="btn_search" type="button" onclick="go_search()">&nbsp;</button>
+						<button type="button" class="btn_search" onclick="go_search()">&nbsp;</button>
 					</p>
 				</div>
 				</form>
@@ -275,8 +275,8 @@
 				</div>
 			</div>
 			<div class="btncen">
-				<button class="btn_plus" type="button" onClick="select_add()">&nbsp;</button><br /><br />
-				<button class="btn_minus" type="button" onClick="select_remove()">&nbsp;</button>
+				<button type="button" class="btn_plus" onclick="select_add()">추가</button><br /><br />
+				<button type="button" class="btn_minus" onclick="select_remove()">삭제</button>
 			</div>
 			<div id="Contents_PopupContRight">
 				<div id="Contents_PopupContRighttitle">
@@ -290,8 +290,8 @@
 		</div>
 
 		<p class="btn_center">
-			<button class="btn_2txt_sel" type="button" onclick="mem_submit()">확인</button>
-			<button class="btn_2txt" type="button" onclick="window.close()">닫기</button>
+			<button type="button" class="btn_2txt_sel" onclick="mem_submit()">확인</button>
+			<button type="button" class="btn_2txt" onclick="window.close()">닫기</button>
 		</p>
 
 	</div>

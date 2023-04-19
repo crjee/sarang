@@ -184,14 +184,14 @@
 <%
 	If cafe_ad_level = 10 Then
 %>
-						<button class="btn btn_c_a btn_s" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/notice_list.asp'" target="<%=session("ctTarget")%>">전체공지</button>
-						<button class="btn btn_c_a btn_s" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/waste_board_list.asp?menu_seq=<%=menu_seq%>'" target="<%=session("ctTarget")%>">휴지통</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="<%=session("ctHref")%>location.href='/cafe/skin/notice_list.asp'" target="<%=session("ctTarget")%>">전체공지</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="<%=session("ctHref")%>location.href='/cafe/skin/waste_board_list.asp?menu_seq=<%=menu_seq%>'" target="<%=session("ctTarget")%>">휴지통</button>
 <%
 	End If
 
 	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
-						<button class="btn btn_c_a btn_s" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/board_write.asp?menu_seq=<%=menu_seq%>'" target="<%=session("ctTarget")%>">글쓰기</button>
+						<button type="button" class="btn btn_c_a btn_s" onclick="<%=session("ctHref")%>location.href='/cafe/skin/board_write.asp?menu_seq=<%=menu_seq%>'" target="<%=session("ctTarget")%>">글쓰기</button>
 <%
 	End If
 %>
@@ -375,7 +375,7 @@
 	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
 					<div class="btn_box algR">
-						<button class="btn btn_c_a btn_n" type="button" onclick="<%=session("ctHref")%>location.href='/cafe/skin/board_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+						<button type="button" class="btn btn_c_a btn_n" onclick="<%=session("ctHref")%>location.href='/cafe/skin/board_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 					</div>
 <%
 	End If

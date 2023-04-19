@@ -187,7 +187,7 @@
 						</table>
 					</div>
 					<div class="btn_box algR">
-						<a href="#n" class="btn btn_c_a btn_n" onclick="onRegi()">설문등록</a>
+						<button type="button" class="btn btn_c_a btn_n" onclick="onRegi()">설문등록</button>
 					</div>
 				</form>
 				</div>
@@ -213,19 +213,19 @@
 					</colgroup>
 					<tbody>
 						<tr>
-							<th scope="row">대표자인증</th>
+							<th scope="row">대표자인증<em class="required">필수입력</em></th>
 							<td>
 								<input type="radio" class="inp_radio" id="rprsv_cert_use_y" name="rprsv_cert_use_yn" value="Y" required />
 								<label for="rprsv_cert_use_y"><em>사용</em></label>
 
-								<input type="radio" class="inp_radio" id="rprsv_cert_use_n" name="rprsv_cert_use_yn" value="N" required />
+								<input type="radio" class="inp_radio" id="rprsv_cert_use_n" name="rprsv_cert_use_yn" value="N" checked required />
 								<label for="rprsv_cert_use_n"><em>미사용</em></label>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">마감</th>
+							<th scope="row">마감<em class="required">필수입력</em></th>
 							<td>
-								<input type="radio" class="inp_radio" id="ddln_yn_y" name="ddln_yn" value="Y" required />
+								<input type="radio" class="inp_radio" id="ddln_yn_y" name="ddln_yn" value="Y" checked required />
 								<label for="ddln_yn_y"><em>마감</em></label>
 
 								<input type="radio" class="inp_radio" id="ddln_yn_n" name="ddln_yn" value="N" required />
@@ -233,7 +233,7 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">제목</th>
+							<th scope="row">제목<em class="required">필수입력</em></th>
 							<td>
 								<input type="text" id="subject" name="subject" required class="inp" />
 							</td>
@@ -245,7 +245,7 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">문항</th>
+							<th scope="row">문항<em class="required">필수입력</em></th>
 							<td>
 								<select id="count" name="count" required class="sel w_auto" onchange="ques_cnt(this.value)">
 									<option value="">갯수선택</option>
@@ -278,8 +278,8 @@
 				</table>
 			</div>
 			<div class="btn_box algC">
-				<button id="submitBtn" type="submit" class="btn btn_n">확인</button>
-				<button id="resetBtn" type="reset" class="btn btn_n">취소</button>
+				<button type="submit" id="submitBtn" class="btn btn_n">확인</button>
+				<button type="reset" id="resetBtn" class="btn btn_n">취소</button>
 			</div>
 			</form>
 		</div>
