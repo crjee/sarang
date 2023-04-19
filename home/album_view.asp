@@ -6,6 +6,8 @@
 <%
 	cafe_id = "home"
 	checkCafePage(cafe_id)
+
+	pageUrl = "http://" & request.servervariables("HTTP_HOST") & request.servervariables("HTTP_URL") & "?menu_seq=" & Request("menu_seq") & "&album_seq=" & Request("album_seq")
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -24,6 +26,8 @@
 <body>
 	<div id="wrap">
 <!--#include virtual="/home/home_header_inc.asp"-->
+		<main id="main" class="main">
+			<div class="container">
 <%
 	page      = Request("page")
 	pagesize  = Request("pagesize")
@@ -56,13 +60,16 @@
 				<input type="hidden" name="open_specs" value="width=660, height=530, left=150, top=20">
 				</form>
 				<form name="search_form" method="post">
-				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 				<input type="hidden" name="page" value="<%=page%>">
 				<input type="hidden" name="pagesize" value="<%=pagesize%>">
 				<input type="hidden" name="sch_type" value="<%=sch_type%>">
 				<input type="hidden" name="sch_word" value="<%=sch_word%>">
 				<input type="hidden" name="self_yn" value="<%=self_yn%>">
+
+				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 				<input type="hidden" name="album_seq" value="<%=album_seq%>">
+				<input type="hidden" name="com_seq" value="<%=album_seq%>">
+
 				<input type="hidden" name="group_num" value="<%=rs("group_num")%>">
 				<input type="hidden" name="level_num" value="<%=rs("level_num")%>">
 				<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
@@ -73,26 +80,26 @@
 				<div class="btn_box view_btn">
 <%
 	If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
-		If rs("step_num") = "0" Then
 %>
-					<button type="button" class="btn btn_c_n btn_n" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goModify()">수정</button>
 					<button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
 <%
+		If rs("step_num") = "0" Then
 		End If
 	End If
 %>
 					<button type="button" class="btn btn_c_n btn_n" onclick="goSuggest()">추천</button>
-					<button type="button" class="btn btn_c_n btn_n" onclick="goPrint()">프린터</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goPrint()">인쇄</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="copyUrl()">글주소복사</button>
 					<button type="button" class="btn btn_c_n btn_n" onclick="goSlide()">슬라이드</button>
 <%
 	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
 	If toInt(write_auth) <= toInt(cafe_mb_level) Then
 %>
-					<button type="button" class="btn btn_c_n btn_n" onclick="<%=session("svHref")%>location.href='/home/album_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='/home/album_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
 <%
 	End If
 %>
-					<button type="button" class="btn btn_c_n btn_n" onclick="copyUrl()">글주소복사</button>
 					<button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=home_sch%>')">목록</button>
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
@@ -111,15 +118,15 @@
 <%
 	link = rs("link")
 	link_txt = rmid(link, 40, "..")
-	
-	If link_txt <> "" Then
+
+	If link <> "" Then
 %>
 						<p class="file"><a href="<%=link%>" target="_blink" id="linkTxt"><%=link_txt%></a>&nbsp;<img src="/home/img/inc/copy.png" style="cursor:hand" id="linkBtn"/></p>
 <script>
 	document.getElementById("linkBtn").onclick = function() {
 		try{
 			if (window.clipboardData) {
-					window.clipboardData.setData("Text", "<%=link%>")
+					window.clipboardData.setData("text", "<%=link%>")
 					alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 			}
 			else if (window.navigator.clipboard) {
@@ -177,18 +184,11 @@
 	com_seq = album_seq
 %>
 <!--#include virtual="/home/com_comment_list_inc.asp"-->
-	<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;width:1000;"></iframe>
 			</div>
-<%
-	If session("noFrame") = "Y" Or request("noFrame") = "Y" Then
-%>
-<!--#include virtual="/home/skin_right_inc.asp"-->
+<!--#include virtual="/home/home_right_inc.asp"-->
 		</main>
-<!--#include virtual="/home/skin_footer_inc.asp"-->
+<!--#include virtual="/home/home_footer_inc.asp"-->
 	</div>
-<%
-	End IF
-%>
 </body>
 </html>
 <%
@@ -215,118 +215,117 @@
 		</div>
 	</div>
 <script>
-					function Rsize(img, ww, hh, aL) {
-						var tt = imgRsize(img, ww, hh);
-						if (img.width > ww || img.height > hh) {
+	function Rsize(img, ww, hh, aL) {
+		var tt = imgRsize(img, ww, hh);
+		if (img.width > ww || img.height > hh) {
 
-							// 가로나 세로크기가 제한크기보다 크면
-							img.width = tt[0];
-							// 크기조정
-							img.height = tt[1];
-							img.alt = "클릭하시면 원본이미지를 보실수있습니다.";
+			// 가로나 세로크기가 제한크기보다 크면
+			img.width = tt[0];
+			// 크기조정
+			img.height = tt[1];
+			img.alt = "클릭하시면 원본이미지를 보실수있습니다.";
 
-							if (aL) {
-								// 자동링크 on
-								img.onclick = function() {
-									wT = Math.ceil((screen.width - tt[2])/2.6);
-									// 클라이언트 중앙에 이미지위치.
-									wL = Math.ceil((screen.height - tt[3])/2.6);
-									var mm = window.open(img.src, "mm", 'width='+tt[2]+',height='+tt[3]+',top='+wT+',left='+wL);
-									var doc = mm.document;
-									try{
-										doc.body.style.margin = 0;
-										// 마진제거
-										doc.body.style.cursor = "hand";
-										doc.title = "원본이미지";
-									}
-									catch(err) {
-									}
-									finally {
-									}
-
-								}
-								img.style.cursor = "hand";
-							}
-						}
-						else {
-								img.onclick = function() {
-									alert("현재이미지가 원본 이미지입니다.");
-								}
-						}
+			if (aL) {
+				// 자동링크 on
+				img.onclick = function() {
+					wT = Math.ceil((screen.width - tt[2])/2.6);
+					// 클라이언트 중앙에 이미지위치.
+					wL = Math.ceil((screen.height - tt[3])/2.6);
+					var mm = window.open(img.src, "mm", 'width='+tt[2]+',height='+tt[3]+',top='+wT+',left='+wL);
+					var doc = mm.document;
+					try{
+						doc.body.style.margin = 0;
+						// 마진제거
+						doc.body.style.cursor = "hand";
+						doc.title = "원본이미지";
+					}
+					catch(err) {
+					}
+					finally {
 					}
 
-					function goPrint() {
-						var initBody;
-						window.onbeforeprint = function() {
-							initBody = document.body.innerHTML;
-							document.body.innerHTML =  document.getElementById('print_area').innerHTML;
-						};
-						window.onafterprint = function() {
-							document.body.innerHTML = initBody;
-						};
-						window.print();
-					}
+				}
+				img.style.cursor = "hand";
+			}
+		}
+		else {
+				img.onclick = function() {
+					alert("현재이미지가 원본 이미지입니다.");
+				}
+		}
+	}
 
-					function goList(sch, gvTarget) {
-						if (sch == 'Y') {
-							document.search_form.action = "/home/cafe_search_list.asp";
-						}
-						else {
-							document.search_form.action = "/home/album_list.asp";
-						}
-						document.search_form.target = gvTarget;
-						document.search_form.submit();
-					}
+	function goPrint() {
+		var initBody;
+		window.onbeforeprint = function() {
+			initBody = document.body.innerHTML;
+			document.body.innerHTML =  document.getElementById('print_area').innerHTML;
+		};
+		window.onafterprint = function() {
+			document.body.innerHTML = initBody;
+		};
+		window.print();
+	}
 
-					function goReply(gvTarget) {
-						document.search_form.action = "/home/album_reply.asp";
-						document.search_form.target = gvTarget;
-						document.search_form.submit();
-					}
+	function goList(sch, gvTarget) {
+		if (sch == 'Y') {
+			document.search_form.action = "/home/cafe_search_list.asp";
+		}
+		else {
+			document.search_form.action = "/home/album_list.asp";
+		}
+		document.search_form.target = gvTarget;
+		document.search_form.submit();
+	}
 
-					function goModify(gvTarget) {
-						try{
-							document.search_form.action = "/home/album_modify.asp";
-							document.search_form.target = gvTarget;
-							document.search_form.submit();
-						} catch(e) {
-							alert(e)
-						}
-					}
+	function goReply(gvTarget) {
+		document.search_form.action = "/home/album_reply.asp";
+		document.search_form.target = gvTarget;
+		document.search_form.submit();
+	}
 
-					function goDelete() {
-						document.search_form.action = "/home/com_waste_exec.asp";
-						document.search_form.target = "hiddenfrm";
-						document.search_form.submit();
-					}
+	function goModify(gvTarget) {
+		try{
+			document.search_form.action = "/home/album_modify.asp";
+			document.search_form.target = gvTarget;
+			document.search_form.submit();
+		} catch(e) {
+			alert(e)
+		}
+	}
 
-					function goSuggest() {
-						document.search_form.action = "/home/com_suggest_exec.asp";
-						document.search_form.target = "hiddenfrm";
-						document.search_form.submit();
-					}
+	function goDelete() {
+		document.search_form.action = "/home/com_waste_exec.asp";
+		document.search_form.target = "hiddenfrm";
+		document.search_form.submit();
+	}
 
-					function copyUrl() {
-						try{
-							if (window.clipboardData) {
-									window.clipboardData.setData("Text", "<%=pageUrl%>")
-									alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-							}
-							else if (window.navigator.clipboard) {
-									window.navigator.clipboard.writeText("<%=pageUrl%>").then(() => {
-										alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-									});
-							}
-							else {
-								temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
-							}
-						} catch(e) {
-							alert(e)
-						}
-					}
+	function goSuggest() {
+		document.search_form.action = "/home/com_suggest_exec.asp";
+		document.search_form.target = "hiddenfrm";
+		document.search_form.submit();
+	}
 
+	function copyUrl() {
+		try{
+			if (window.clipboardData) {
+					window.clipboardData.setData("text", "<%=pageUrl%>")
+					alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+			}
+			else if (window.navigator.clipboard) {
+					window.navigator.clipboard.writeText("<%=pageUrl%>").then(() => {
+						alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+					});
+			}
+			else {
+				temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
+			}
+		} catch(e) {
+			alert(e)
+		}
+	}
 </script>
-<Script Language="JavaScript1.2">
+<Script>
 	g_fPlayMode = 0;
 	g_iimg = 0;
 	g_imax = 0;

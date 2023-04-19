@@ -60,25 +60,6 @@
 	End If
  ' crjee 임시
 
-	If session("skin_id") = "" Then ' crjee 임시
-	sql = ""
-	sql = sql & " select skin_id                 "
-	sql = sql & "   from cf_skin                 "
-	sql = sql & "  where cafe_id = '" & cafe_id & "' "
-	rs.Open sql, Conn, 1
-	If Not rs.eof Then
-		session("skin_id") = rs("skin_id")
-	Else
-		session("skin_id") = "skin_01"
-	End if
-	rs.close
-	Set rs = Nothing
-	End If ' crjee 임시
-
-	If session("user_id") = "crjee" Then
-'		skin_id = "s01"
-	End If
-
 '	Server.Execute("/cafe/skin/" & session("skin_id") & ".asp")
 '	Response.write "/cafe/skin/" & session("skin_id") & ".asp"
 %>
@@ -88,7 +69,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>스킨-3 : GI</title>
+	<title>사랑방</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>

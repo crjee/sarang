@@ -51,21 +51,24 @@
 						</colgroup>
 						<tbody>
 <%
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+
 	For i = 1 To 4
 		sql = ""
 		sql = sql & " select * "
 		sql = sql & "   from cf_popup"
 		sql = sql & "  where cafe_id = '" & cafe_id & "' "
 		sql = sql & "    and popup_order = '" & i & "' "
+		rs.open Sql, conn, 3, 1
 
-		Set rs = Conn.Execute(sql)
 		If Not rs.eof Then
 			menu_seq = rs("menu_seq")
 			popup_num = rs("popup_num")
-		else
+		Else
 			menu_seq = ""
 			popup_num = ""
-		End if
+		End If
+		rs.close
 %>
 							<tr>
 								<th scope="row"><%=i%> 번째</th>
@@ -79,15 +82,15 @@
 		sql = sql & "  where cafe_id = '" & cafe_id & "' "
 		sql = sql & "   and menu_type in ('board') "
 '		sql = sql & "   and menu_type in ('board','sale','job') "
-
-		Set row = Conn.Execute(sql)
+		rs.open Sql, conn, 3, 1
 
 		Do Until row.eof
 %>
 										<option value="<%=row("menu_seq")%>" <%=if3(row("menu_seq") = menu_seq,"selected","") %>><%=row("menu_name")%></option>
 <%
 			row.MoveNext
-		loop
+		Loop
+		rs.close
 %>
 									</select>
 								</td>
@@ -98,6 +101,7 @@
 							</tr>
 <%
 	Next
+	Set rs = Nothing
 %>
 						</tbody>
 					</table>

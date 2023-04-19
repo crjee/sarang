@@ -139,7 +139,6 @@
 				</div>
 				</form>
 			</div>
-			<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;width:1000;"></iframe>
 <!--#include virtual="/home/home_right_inc.asp"-->
 		</main>
 <!--#include virtual="/home/home_footer_inc.asp"-->

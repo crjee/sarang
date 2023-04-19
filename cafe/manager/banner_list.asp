@@ -356,7 +356,7 @@
 						<tr>
 							<th scope="row">공개여부<em class="required">필수입력</em></th>
 							<td>
-								<%=makeRadioCD("open_yn", "Y", "required")%>
+								<%=makeRadioCD("open_yn", "Y", "")%>
 							</td>
 						</tr>
 					</tbody>

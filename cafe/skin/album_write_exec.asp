@@ -2,9 +2,11 @@
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
-
 	uploadFolder = ConfigAttachedFileFolder & "album\"
 	uploadform.DefaultPath = uploadFolder
+
+	checkCafePageUpload(cafe_id)
+	checkWriteAuth(cafe_id)
 	dsplyFolder  = ConfigAttachedFileFolder & "display\album\"
 	thmbnlFolder = ConfigAttachedFileFolder & "thumbnail\album\"
 
@@ -16,6 +18,7 @@
 	pagesize  = uploadform("pagesize")
 	sch_type  = uploadform("sch_type")
 	sch_word  = uploadform("sch_word")
+	self_yn   = uploadform("self_yn")
 	menu_seq  = uploadform("menu_seq")
 
 	album_seq = uploadform("album_seq")
@@ -31,8 +34,8 @@
 
 	For Each item In uploadform("file_name")
 		If item <> "" Then
-			IF item.FileLen > UploadForm.MaxFileLen Then
-				call msggo("파일의 크기는 " & CInt(uploadform.MaxFileLen/1024/1014) & "MB가 넘어서는 안됩니다","")
+			If item.FileLen > UploadForm.MaxFileLen Then
+				Call msggo("파일의 크기는 " & CInt(uploadform.MaxFileLen/1024/1014) & "MB가 넘어서는 안됩니다","")
 				Set UploadForm = Nothing
 				Response.End
 			End If
@@ -69,9 +72,9 @@
 
 	i = 0
 	For Each item In uploadform("file_name")
-		If item <> "" Then
+		If item.MimeType <> "" Then
 			'MimeType이 image/jpeg ,image/gif이 아닌경우 업로드 중단
-			IF instr("image/jpeg/image/jpg,image/gif,image/png,image/bmp", MimeType) Then
+			If instr("image/jpeg,image/jpg,image/gif,image/png,image/bmp", item.MimeType) > 0 Then
 				i = i + 1
 
 				ReDim Preserve file_name(i)
@@ -124,8 +127,8 @@
 				If True = objImage.SetSourceFile(uploadFolder & file_name(i)) Then
 					orgnl_img_wdth_sz(i)  = objImage.ImageWidth ' 원본이미지가로크기
 					orgnl_img_hght_sz(i)  = objImage.ImageHeight ' 원본이미지세로크기
-					dsply_file_nm(i)      =  "DSPLY"  & numc(Year(date), 4) & numc(Month(date), 2) & numc(Day(date), 2) & numc(Hour(Time), 2) & numc(Minute(date), 2) & numc(Second(date), 2) & numc(new_seq, 8) & numc(i, 3) & ".jpg"
-					thmbnl_file_nm(i)     =  "THMBNL" & numc(Year(date), 4) & numc(Month(date), 2) & numc(Day(date), 2) & numc(Hour(Time), 2) & numc(Minute(date), 2) & numc(Second(date), 2) & numc(new_seq, 8) & numc(i, 3) & ".jpg"
+					dsply_file_nm(i)      =  "DSPLY"  & numc(Year(date), 4) & numc(Month(date), 2) & numc(Day(date), 2) & numc(Hour(Now), 2) & numc(Minute(Now), 2) & numc(Second(Now), 2) & numc(new_seq, 8) & numc(i, 3) & ".jpg"
+					thmbnl_file_nm(i)     =  "THMBNL" & numc(Year(date), 4) & numc(Month(date), 2) & numc(Day(date), 2) & numc(Hour(Now), 2) & numc(Minute(Now), 2) & numc(Second(Now), 2) & numc(new_seq, 8) & numc(i, 3) & ".jpg"
 
 					If orgnl_img_wdth_sz(i) > orgnl_img_hght_sz(i) Then ' 가로형
 						img_frm_cd(i)         = "HRZ" ' 이미지형태코드 가로형
@@ -174,7 +177,7 @@
 					thmbnl_file_sz(i)     = Size ' 썸네일파일크기
 				End If
 			Else
-				msgonly uploadform.FileName & " 은 이미지파일이 아닙니다."
+				msgonly item.FileName & " 은 이미지파일이 아닙니다."
 			End If
 		End If
 	Next
@@ -265,67 +268,69 @@
 
 	album_seq = new_seq
 
-	For i = 1 To UBound(file_name)
-		new_seq = getSeq("cf_album_attach")
+	For j = 1 To i
+		If file_name(j) <> "" Then
+			new_seq = getSeq("cf_album_attach")
 
-		sql = ""
-		sql = sql & " insert into cf_album_attach( "
-		sql = sql & "        attach_seq  "
-		sql = sql & "       ,album_seq   "
-		sql = sql & "       ,attach_num  "
-		sql = sql & "       ,file_name   "
+			sql = ""
+			sql = sql & " insert into cf_album_attach( "
+			sql = sql & "        attach_seq  "
+			sql = sql & "       ,album_seq   "
+			sql = sql & "       ,attach_num  "
+			sql = sql & "       ,file_name   "
 
-		sql = sql & "       ,atch_rt_nm         "
-		sql = sql & "       ,orgnl_file_nm      "
-		sql = sql & "       ,file_extn_cd       "
-		sql = sql & "       ,rprs_file_yn       "
-		sql = sql & "       ,file_sz            "
-		sql = sql & "       ,dwnld_cnt          "
-		sql = sql & "       ,file_mimetype_cd   "
-		sql = sql & "       ,orgnl_img_wdth_sz  "
-		sql = sql & "       ,orgnl_img_hght_sz  "
-		sql = sql & "       ,orgnl_file_sz      "
-		sql = sql & "       ,img_frm_cd         "
-		sql = sql & "       ,dsply_img_wdth_sz  "
-		sql = sql & "       ,dsply_img_hght_sz  "
-		sql = sql & "       ,dsply_file_nm      "
-		sql = sql & "       ,dsply_file_sz      "
-		sql = sql & "       ,thmbnl_img_wdth_sz "
-		sql = sql & "       ,thmbnl_img_hght_sz "
-		sql = sql & "       ,thmbnl_file_nm     "
-		sql = sql & "       ,thmbnl_file_sz     "
+			sql = sql & "       ,atch_rt_nm         "
+			sql = sql & "       ,orgnl_file_nm      "
+			sql = sql & "       ,file_extn_cd       "
+			sql = sql & "       ,rprs_file_yn       "
+			sql = sql & "       ,file_sz            "
+			sql = sql & "       ,dwnld_cnt          "
+			sql = sql & "       ,file_mimetype_cd   "
+			sql = sql & "       ,orgnl_img_wdth_sz  "
+			sql = sql & "       ,orgnl_img_hght_sz  "
+			sql = sql & "       ,orgnl_file_sz      "
+			sql = sql & "       ,img_frm_cd         "
+			sql = sql & "       ,dsply_img_wdth_sz  "
+			sql = sql & "       ,dsply_img_hght_sz  "
+			sql = sql & "       ,dsply_file_nm      "
+			sql = sql & "       ,dsply_file_sz      "
+			sql = sql & "       ,thmbnl_img_wdth_sz "
+			sql = sql & "       ,thmbnl_img_hght_sz "
+			sql = sql & "       ,thmbnl_file_nm     "
+			sql = sql & "       ,thmbnl_file_sz     "
 
-		sql = sql & "       ,creid "
-		sql = sql & "       ,credt "
-		sql = sql & "      ) values( "
-		sql = sql & "        '" & new_seq      & "' "
-		sql = sql & "       ,'" & album_seq    & "' "
-		sql = sql & "       ,'" & i            & "' "
-		sql = sql & "       ,'" & file_name(i) & "' "
+			sql = sql & "       ,creid "
+			sql = sql & "       ,credt "
+			sql = sql & "      ) values( "
+			sql = sql & "        '" & new_seq      & "' "
+			sql = sql & "       ,'" & album_seq    & "' "
+			sql = sql & "       ,'" & j            & "' "
+			sql = sql & "       ,'" & file_name(j) & "' "
 
-		sql = sql & "       ,'" & atch_rt_nm(i)         & "' "
-		sql = sql & "       ,'" & orgnl_file_nm(i)      & "' "
-		sql = sql & "       ,'" & file_extn_cd(i)       & "' "
-		sql = sql & "       ,'" & rprs_file_yn(i)       & "' "
-		sql = sql & "       ,'" & file_sz(i)            & "' "
-		sql = sql & "       ,'" & dwnld_cnt(i)          & "' "
-		sql = sql & "       ,'" & file_mimetype_cd(i)   & "' "
-		sql = sql & "       ,'" & orgnl_img_wdth_sz(i)  & "' "
-		sql = sql & "       ,'" & orgnl_img_hght_sz(i)  & "' "
-		sql = sql & "       ,'" & orgnl_file_sz(i)      & "' "
-		sql = sql & "       ,'" & img_frm_cd(i)         & "' "
-		sql = sql & "       ,'" & dsply_img_wdth_sz(i)  & "' "
-		sql = sql & "       ,'" & dsply_img_hght_sz(i)  & "' "
-		sql = sql & "       ,'" & dsply_file_nm(i)      & "' "
-		sql = sql & "       ,'" & dsply_file_sz(i)      & "' "
-		sql = sql & "       ,'" & thmbnl_img_wdth_sz(i) & "' "
-		sql = sql & "       ,'" & thmbnl_img_hght_sz(i) & "' "
-		sql = sql & "       ,'" & thmbnl_file_nm(i)     & "' "
-		sql = sql & "       ,'" & thmbnl_file_sz(i)     & "' "
+			sql = sql & "       ,'" & atch_rt_nm(j)         & "' "
+			sql = sql & "       ,'" & orgnl_file_nm(j)      & "' "
+			sql = sql & "       ,'" & file_extn_cd(j)       & "' "
+			sql = sql & "       ,'" & rprs_file_yn(j)       & "' "
+			sql = sql & "       ,'" & file_sz(j)            & "' "
+			sql = sql & "       ,'" & dwnld_cnt(j)          & "' "
+			sql = sql & "       ,'" & file_mimetype_cd(j)   & "' "
+			sql = sql & "       ,'" & orgnl_img_wdth_sz(j)  & "' "
+			sql = sql & "       ,'" & orgnl_img_hght_sz(j)  & "' "
+			sql = sql & "       ,'" & orgnl_file_sz(j)      & "' "
+			sql = sql & "       ,'" & img_frm_cd(j)         & "' "
+			sql = sql & "       ,'" & dsply_img_wdth_sz(j)  & "' "
+			sql = sql & "       ,'" & dsply_img_hght_sz(j)  & "' "
+			sql = sql & "       ,'" & dsply_file_nm(j)      & "' "
+			sql = sql & "       ,'" & dsply_file_sz(j)      & "' "
+			sql = sql & "       ,'" & thmbnl_img_wdth_sz(j) & "' "
+			sql = sql & "       ,'" & thmbnl_img_hght_sz(j) & "' "
+			sql = sql & "       ,'" & thmbnl_file_nm(j)     & "' "
+			sql = sql & "       ,'" & thmbnl_file_sz(j)     & "' "
 
-		sql = sql & "       ,'" & Session("user_id") & "' "
-		sql = sql & "       ,getdate()) "
-		Conn.Execute(sql)
+			sql = sql & "       ,'" & Session("user_id") & "' "
+			sql = sql & "       ,getdate()) "
+			Conn.Execute(sql)
+		End If
 	Next
 
 	Set uploadform = Nothing

@@ -18,12 +18,14 @@
 <%
 	menu_seq = Request("menu_seq")
 
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
 	sql = sql & " select * "
 	sql = sql & "   from cf_menu "
 	sql = sql & "  where menu_seq = '" & menu_seq & "' "
+	rs.open Sql, conn, 3, 1
 
-	Set rs = Conn.Execute(sql)
 	If Not rs.eof Then
 		menu_name      = rs("menu_name")
 		page_type      = rs("page_type")
@@ -43,6 +45,7 @@
 		etc_tab_use_yn = rs("etc_tab_use_yn")
 	End If
 	rs.close
+	Set rs = Nothing
 %>
 					<div class="adm_cont_tit">
 						<h3 class="h3 mt20 mb10"><%=menu_name%> 설정</h3>

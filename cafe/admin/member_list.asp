@@ -546,7 +546,7 @@
 						<tr>
 							<th scope="row">성별</th>
 							<td>
-								<%=makeRadioCD("sex", sex, "required")%>
+								<%=makeRadioCD("sex", sex, "")%>
 							</td>
 							<th scope="row">이메일</th>
 							<td>
@@ -627,10 +627,8 @@
 								</span>
 								<span class="dp_inline">
 									<select id="cafe_mb_level" name="cafe_mb_level" class="sel w_remainder">
-										<option value="">등급선택</option>
-										<option value="1" <%=if3(cafe_mb_level=1,"selected","") %>>준회원</option>
-										<option value="2" <%=if3(cafe_mb_level=2,"selected","") %>>정회원</option>
-										<option value="10" <%=if3(cafe_mb_level=10,"selected","") %>>사랑방지기</option>
+										<option value=""></option>
+										<%=makeComboCD("cafe_mb_level", read_auth)%>
 									</select>
 								</span>
 							</td>

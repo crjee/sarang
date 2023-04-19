@@ -46,7 +46,7 @@
 							<tr>
 								<th scope="row">요청구분<em class="required">필수입력</em></th>
 								<td colspan="3">
-									<%=makeRadioCD("dmnd_se_cd", "", "required")%>
+									<%=makeRadioCD("dmnd_se_cd", "", "")%>
 								</td>
 							</tr>
 							<tr>

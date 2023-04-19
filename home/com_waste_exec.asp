@@ -13,7 +13,7 @@
 
 	com_seq = Request(menu_type & "_seq")
 
-	On Error Resume Next
+'	On Error Resume Next
 	Conn.BeginTrans
 	Set BeginTrans = Conn
 	CntError = 0
@@ -33,14 +33,13 @@
 		rs.Open Sql, conn, 3, 1
 
 		If Not rs.eof Then ' 글작성자 이면 삭제
-			call waste_content(menu_type, com_seq)
+			Call waste_content(menu_type, com_seq)
 		Else ' 글작성자 아니면
 			Response.Write "<script>alert('권한이없습니다');history.back();</script>"
 			Response.End
 		End If
 		rs.Close
 		Set rs = Nothing
-
 	End If
 
 	If Err.Number = 0 Then

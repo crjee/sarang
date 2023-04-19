@@ -2,7 +2,7 @@
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	attach_seq = Request("attach_seq")
-	ag = Request("ag")
+	delSeq = Request("delSeq")
 
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 
@@ -87,8 +87,8 @@
 %>
 <script>
 	alert("삭제 되었습니다.");
-	str = '<input type="file" class="input" name="file_name" style="width:70%;">';
-	parent.document.all.attachDiv<%=ag%>.innerHTML = str;
+	str = '<input type="file" class="inp" name="file_name">';
+	parent.document.all.attachFile<%=delSeq%>.innerHTML = str;
 </script>
 <%
 	Else

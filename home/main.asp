@@ -303,7 +303,7 @@
 				<div class="main_frm mf_block_2">
 <%
 	sql = ""
-	sql = sql & " select top 2                 "
+	sql = sql & " select top 10                "
 	sql = sql & "        banner_type           "
 	sql = sql & "       ,file_name             "
 	sql = sql & "       ,link                  "
@@ -323,7 +323,7 @@
 
 			If home_file_name <> "" then
 %>
-					<div class="main_frm_<%=if3(home_i=1,"l","r")%>">
+					<div class="main_frm_<%=if3(home_i Mod 2 = 1,"l","r")%>">
 						<div class="main_banner main_banner_2">
 <%
 				If home_link <> "" Then
@@ -353,9 +353,9 @@
 	Set homeRs = Nothing
 	Set homeRs = Nothing
 
-	For home_j = home_i To 2
+	For home_j = home_i To 10
 %>
-					<div class="main_frm_<%=if3(home_j=1,"l","r")%>">
+					<div class="main_frm_<%=if3(home_j Mod 2 = 1,"l","r")%>">
 						<div class="main_banner main_banner_2">
 							<a href="#">배너모집</a>
 						</div>

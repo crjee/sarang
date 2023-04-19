@@ -35,14 +35,14 @@
 	Set UploadForm = Nothing
 
 	sql = ""
-	sql = sql & " update cf_cafe set "
+	sql = sql & " update cf_cafe                         "
 	sql = sql & "    set cafe_name = '" & cafe_name & "' "
 	If file_name <> "" Then
 	sql = sql & "       ,cafe_img  = '" & file_name & "' "
-	end if
-	sql = sql & "       ,open_yn   = '" & open_yn & "' "
+	End If
+	sql = sql & "       ,open_yn   = '" & open_yn   & "' "
 	sql = sql & "       ,open_type = '" & open_type & "' "
-	sql = sql & "       ,cate_id   = '" & cate_id & "' "
+	sql = sql & "       ,cate_id   = '" & cate_id   & "' "
 	sql = sql & "       ,modid = '" & Session("user_id") & "' "
 	sql = sql & "       ,moddt = getdate() "
 	sql = sql & "  where cafe_id = '" & cafe_id & "' "

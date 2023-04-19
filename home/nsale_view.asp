@@ -6,6 +6,8 @@
 <%
 	cafe_id = "home"
 	checkCafePage(cafe_id)
+
+	pageUrl = "http://" & request.servervariables("HTTP_HOST") & request.servervariables("HTTP_URL") & "?menu_seq=" & Request("menu_seq") & "&sale_seq=" & Request("sale_seq")
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -40,8 +42,6 @@
 
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 	Set rs2 = Server.CreateObject ("ADODB.Recordset")
-
-	Response.write "nsale_seq : " & nsale_seq & "<br>"
 
 	If page_move = "prev" Then
 		sql = ""
@@ -185,98 +185,50 @@
 		nsale_num              = rs("nsale_num")
 		section_nm             = rs("section_nm")
 		cmpl_se_cd_txt         = rs("cmpl_se_cd_txt")
+		suggest_cnt            = rs("suggest_cnt")
+
 	End If
 %>
-			<script>
-				function goPrint() {
-					var initBody;
-					window.onbeforeprint = function() {
-						initBody = document.body.innerHTML;
-						document.body.innerHTML =  document.getElementById('print_area').innerHTML;
-					};
-						window.onafterprint = function() {
-						document.body.innerHTML = initBody;
-					};
-					window.print();
-				}
+				<form name="open_form" method="post">
+				<input type="hidden" name="open_url" value="/cafe/skin/com_move_edit_p.asp?com_seq=<%=nsale_seq%>&menu_seq=<%=menu_seq%>&cafe_id=<%=cafe_id%>">
+				<input type="hidden" name="open_name" value="com_move">
+				<input type="hidden" name="open_specs" value="width=340, height=310, left=150, top=150">
+				</form>
+				<form name="search_form" method="post">
+				<input type="hidden" name="page" value="<%=page%>">
+				<input type="hidden" name="pagesize" value="<%=pagesize%>">
+				<input type="hidden" name="sch_type" value="<%=sch_type%>">
+				<input type="hidden" name="sch_word" value="<%=sch_word%>">
+				<input type="hidden" name="self_yn" value="<%=self_yn%>">
+				<input type="hidden" name="page_move" value="<%=page_move%>">
 
-				function goList(sch) {
-					if (sch == 'Y') {
-						document.search_form.action = "/home/home_search_list.asp";
-					}
-					else {
-						document.search_form.action = "/home/nsale_list.asp";
-					}
-					document.search_form.submit();
-				}
-				function goReply() {
-					document.search_form.action = "/home/nsale_reply.asp"
-					document.search_form.submit();
-				}
-				function goModify() {
-					try{
-						document.search_form.action = "/home/nsale_modify.asp"
-						document.search_form.submit();
-					} catch(e) {
-						alert(e)
-					}
-				}
-				function goDelete() {
-					document.search_form.action = "/home/com_waste_exec.asp"
-					document.search_form.submit();
-				}
-				function goNotice() {
-					document.search_form.action = "/home/com_top_exec.asp"
-					document.search_form.submit();
-				}
-				function goSuggest() {
-					document.search_form.action = "/home/com_suggest_exec.asp"
-					document.search_form.submit();
-				}
-				function goMove() {
-					document.open_form.action = "/win_open_exec.asp"
-					document.open_form.target = "hiddenfrm";
-					document.open_form.submit();
-				}
-				function goPrev() {
-					document.search_form.page_move.value = "prev"
-					document.search_form.action = "/home/nsale_view.asp"
-					document.search_form.submit();
-				}
-				function goNext() {
-					document.search_form.page_move.value = "next"
-					document.search_form.action = "/home/nsale_view.asp"
-					document.search_form.submit();
-				}
-			</script>
-			<form name="open_form" method="post">
-			<input type="hidden" name="open_url" value="/cafe/skin/com_move_edit_p.asp?com_seq=<%=nsale_seq%>&menu_seq=<%=menu_seq%>&cafe_id=<%=cafe_id%>">
-			<input type="hidden" name="open_name" value="com_move">
-			<input type="hidden" name="open_specs" value="width=340, height=310, left=150, top=150">
-			</form>
-			<form name="search_form" method="post">
-			<input type="hidden" name="page" value="<%=page%>">
-			<input type="hidden" name="pagesize" value="<%=pagesize%>">
-			<input type="hidden" name="sch_type" value="<%=sch_type%>">
-			<input type="hidden" name="sch_word" value="<%=sch_word%>">
-			<input type="hidden" name="page_move" value="<%=page_move%>">
-			<input type="hidden" name="task">
-			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-			<input type="hidden" name="nsale_seq" value="<%=nsale_seq%>">
-			<input type="hidden" name="com_seq" value="<%=nsale_seq%>">
-			<input type="hidden" name="group_num" value="<%=rs("group_num")%>">
-			<input type="hidden" name="level_num" value="<%=rs("level_num")%>">
-			<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
-			</form>
+				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
+				<input type="hidden" name="nsale_seq" value="<%=nsale_seq%>">
+				<input type="hidden" name="com_seq" value="<%=nsale_seq%>">
+
+				<input type="hidden" name="group_num" value="<%=rs("group_num")%>">
+				<input type="hidden" name="level_num" value="<%=rs("level_num")%>">
+				<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
+				</form>
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%> 내용보기</h2>
 				</div>
-				<div class="btn_box view_btn">
+수정, 삭제, 공지지정, 글쓰기 				<div class="btn_box view_btn">
 <%
 	If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
 		If rs("step_num") = "0" Then
 %>
 					<button type="button" class="btn btn_c_n btn_n" onclick="goModify()">수정</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+<%
+		End If
+	End If
+%>
+<%
+	If cafe_mb_level > 6 Then
+		If rs("step_num") = "0" Then
+%>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goNotice()"><%=if3(rs("top_yn")="Y","공지해제","공지지정")%></button>
 <%
 		End If
 	End If
@@ -293,6 +245,7 @@
 					<button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(prev_seq="","alert('처음 입니다.')","goPrev()")%>">이전글</button>
 					<button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(next_seq="","alert('마지막 입니다')","goNext()")%>">다음글</button>
 					<button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=home_sch%>')">목록</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goSuggest()">추천</button>
 					<button type="button" class="btn btn_c_a btn_n" onclick="goPrint()">인쇄</button>
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
@@ -302,7 +255,7 @@
 							<ul>
 								<li><span>작성자</span><strong><%=subject%></strong></li>
 								<li><span>조회</span><strong><%=view_cnt%></strong></li>
-								<li><span>추천</span><strong><%=view_cnt%></strong></li>
+								<li><span>추천</span><strong><%=suggest_cnt%></strong></li>
 								<li><span>등록일시</span><strong><%=credt%></strong></li>
 							</ul>
 						</div>
@@ -410,4 +363,66 @@
 <!--#include virtual="/home/home_footer_inc.asp"-->
 	</div>
 </body>
+<script>
+	function goPrint() {
+		var initBody;
+		window.onbeforeprint = function() {
+			initBody = document.body.innerHTML;
+			document.body.innerHTML =  document.getElementById('print_area').innerHTML;
+		};
+			window.onafterprint = function() {
+			document.body.innerHTML = initBody;
+		};
+		window.print();
+	}
+
+	function goList(sch) {
+		if (sch == 'Y') {
+			document.search_form.action = "/home/home_search_list.asp";
+		}
+		else {
+			document.search_form.action = "/home/nsale_list.asp";
+		}
+		document.search_form.submit();
+	}
+	function goReply() {
+		document.search_form.action = "/home/nsale_reply.asp"
+		document.search_form.submit();
+	}
+	function goModify() {
+		try{
+			document.search_form.action = "/home/nsale_modify.asp"
+			document.search_form.submit();
+		} catch(e) {
+			alert(e)
+		}
+	}
+	function goDelete() {
+		document.search_form.action = "/home/com_waste_exec.asp"
+		document.search_form.submit();
+	}
+	function goNotice() {
+		document.search_form.action = "/home/com_top_exec.asp"
+		document.search_form.submit();
+	}
+	function goSuggest() {
+		document.search_form.action = "/home/com_suggest_exec.asp"
+		document.search_form.submit();
+	}
+	function goMove() {
+		document.open_form.action = "/win_open_exec.asp"
+		document.open_form.target = "hiddenfrm";
+		document.open_form.submit();
+	}
+	function goPrev() {
+		document.search_form.page_move.value = "prev"
+		document.search_form.action = "/home/nsale_view.asp"
+		document.search_form.submit();
+	}
+	function goNext() {
+		document.search_form.page_move.value = "next"
+		document.search_form.action = "/home/nsale_view.asp"
+		document.search_form.submit();
+	}
+</script>
 </html>

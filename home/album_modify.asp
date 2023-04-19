@@ -6,7 +6,7 @@
 <%
 	cafe_id = "home"
 	checkCafePage(cafe_id)
-	checkWriteAuth(cafe_id)
+	checkModifyAuth(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -27,6 +27,8 @@
 <body>
 	<div id="wrap">
 <!--#include virtual="/home/home_header_inc.asp"-->
+		<main id="main" class="main">
+			<div class="container">
 <%
 	page      = Request("page")
 	pagesize  = Request("pagesize")
@@ -45,40 +47,49 @@
 	sql = sql & "  where album_seq = '" & album_seq & "' "
 	rs.Open Sql, conn, 3, 1
 
+	link = "http://"
 	If Not rs.eof Then
-		If toInt(cafe_mb_level) < 6 And session("user_id") <> rs("user_id") then
+		If toInt(cafe_mb_level) < 6 And session("user_id") <> rs("user_id") Then
 			Response.Write "<script>alert('수정 권한이없습니다');history.back();</script>"
 			Response.End
 		End If
 
 		step_num = rs("step_num")
-		top_yn = rs("top_yn")
-		user_id = rs("user_id")
-		subject = rs("subject")
+		top_yn   = rs("top_yn")
+		user_id  = rs("user_id")
+		subject  = rs("subject")
 		contents = rs("contents")
-
-		If rs("link") = "" Then
-			link = "http://"
-		Else
-			link = rs("link")
-		End If
+		link     = rs("link")
+		subject  = Replace(subject, """", " & quot;")
 	End if
 	rs.close
+
+	If contents = "" Then
+		sql = ""
+		sql = sql & " select form "
+		sql = sql & "   from cf_com_form "
+		sql = sql & "  where menu_seq = '" & menu_seq & "' "
+		rs.Open Sql, conn, 3, 1
+		If Not rs.eof Then
+			contents = rs("form")
+		End If
+		rs.close
+	End If
 %>
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%> 수정</h2>
 				</div>
-				<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this, '/home/album_modify_exec.asp', 'N')">
-				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
+				<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
 				<input type="hidden" name="page" value="<%=page%>">
 				<input type="hidden" name="pagesize" value="<%=pagesize%>">
 				<input type="hidden" name="sch_type" value="<%=sch_type%>">
 				<input type="hidden" name="sch_word" value="<%=sch_word%>">
 				<input type="hidden" name="self_yn" value="<%=self_yn%>">
-				<input type="hidden" name="album_seq" value="<%=album_seq%>">
-				<input type="hidden" name="temp" value="N">
-				<div class="tb">
 
+				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
+				<input type="hidden" name="album_seq" value="<%=album_seq%>">
+				<div class="tb">
+					<table class="tb_input tb_fixed">
 						<colgroup>
 							<col class="w200p">
 							<col class="w_remainder">
@@ -99,6 +110,18 @@
 		End If
 	End If
 %>
+<%
+	If tab_use_yn = "Y" Then
+%>
+							<tr>
+								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th>
+								<td>
+									<%=makeSection("R", "section_seq", section_seq, "")%>
+								</td>
+							</tr>
+<%
+	End If
+%>
 							<tr>
 								<th scope="row">제목<em class="required">필수입력</em></th>
 								<td>
@@ -110,7 +133,7 @@
 					</table>
 					<div class="mt10">
 <%
-	If edit = "edit" Then
+	If editor_yn = "Y" Then
 %>
 						<textarea name="ir1" id="ir1" style="width:100%;display:none;" onkeyup="setCookie('ir1',this.value,1)"><%=contents%></textarea>
 <%
@@ -140,11 +163,11 @@
 <!--#include virtual="/include/attach_inc.asp"-->
 						</tbody>
 					</table>
-							<li class="orange">jpg, png, gif, bmp 파일만 첨부 가능합니다.</li>
+					<p class="txt_point mt10">jpg, png, gif, bmp 파일만 첨부 가능합니다.</p>
 				</div>
 				<div class="btn_box">
 					<button type="submit" class="btn btn_c_a btn_n"><em>등록</em></button>
-					<button type="button" class="btn btn_c_n btn_n" onclick="<%=session("svHref")%>location.href='/home/album_list.asp?menu_seq=<%=menu_seq%>'"><em>취소</em></button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='/home/album_list.asp?menu_seq=<%=menu_seq%>'"><em>취소</em></button>
 				</div>
 				</form>
 			</div>
@@ -153,46 +176,36 @@
 <!--#include virtual="/home/home_footer_inc.asp"-->
 	</div>
 </body>
-</html>
 <script>
-				var oEditors = [];
+	var oEditors = [];
 
-				nhn.husky.EZCreator.createInIFrame({
-					oAppRef: oEditors,
-					elPlaceHolder: "ir1",
-					sSkinURI: "/smart/SmartEditor2Skin.html",
-					htParams : {
-						bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-						bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-						bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-						//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
-						fOnBeforeUnload : function() {
-							var f = document.form;
-							if (f.temp.value == "Y" && f.subject.value != "")
-							{
-								oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
-								f.action = "album_temp_exec.asp";
-								f.temp.value = "N";
-								f.target = "hiddenfrm";
-								f.submit();
-								alert("작성중인 내용이 임시로 저장되었습니다.");
-							}
-						}
-					}, //boolean
-					fOnAppLoad : function() {
-						//예제 코드
-						//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
-					},
-					fCreator: "createSEditor2"
-				})
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: oEditors,
+		elPlaceHolder: "ir1",
+		sSkinURI: "/smart/SmartEditor2Skin.html",
+		htParams : {
+			bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+			//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
+			fOnBeforeUnload : function() {
+			}
+		}, //boolean
+		fOnAppLoad : function() {
+			//예제 코드
+			//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
+		},
+		fCreator: "createSEditor2"
+	})
 
-				function submitContents(elClickedObj, url, tmp) {
-					oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
-					try {
-						elClickedObj.action = url;
-//						elClickedObj.temp.value = tmp;
-						elClickedObj.submit()
-					} catch(e) {alert(e)}
-				}
+	function submitContents(elClickedObj) {
+		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
+		try {
+			elClickedObj.action = "album_modify_exec.asp";
+//			elClickedObj.target = "hiddenfrm";
+			elClickedObj.submit()
+		} catch(e) {alert(e)}
+	}
 </script>
+</html>
 

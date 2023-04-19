@@ -18,7 +18,7 @@
 	sql = ""
 	sql = sql & " select * "
 	sql = sql & "   from cf_" & menu_type & " "
-	sql = sql & "  where " & menu_type & "_seq = '" & com_seq & "'' "
+	sql = sql & "  where " & menu_type & "_seq = '" & com_seq & "' "
 	rs.Open Sql, conn, 3, 1
 
 	If Not rs.eof Then
@@ -30,8 +30,8 @@
 
 			sql = ""
 			sql = sql & " update cf_" & menu_type & " "
-			sql = sql & "    set suggest_cnt = suggest_cnt + 1 "
-			sql = sql & "       ,suggest_info = suggest_info + CAST('" & remote_addr & "' + '" & user_id & ",' as VARCHAR(MAX)) "
+			sql = sql & "    set suggest_cnt = isnull(suggest_cnt, 0) + 1 "
+			sql = sql & "       ,suggest_info = isnull(suggest_info, '') + CAST('" & remote_addr & "' + '" & user_id & ",' as VARCHAR(MAX)) "
 			sql = sql & "       ,modid = '" & Session("user_id") & "' "
 			sql = sql & "       ,moddt = getdate() "
 			sql = sql & "  where " & menu_type & "_seq = '" & com_seq & "' "
@@ -50,5 +50,5 @@
 %>
 <script>
 	alert("추천 되었습니다.");
-	location.href='<%=pgm%>_view.asp?<%=menu_type%>_seq=<%=com_seq%>&menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
+	parent.location.href='<%=pgm%>_view.asp?<%=menu_type%>_seq=<%=com_seq%>&menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
 </script>

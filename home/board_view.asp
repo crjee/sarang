@@ -26,7 +26,7 @@
 <body>
 	<div id="wrap">
 <!--#include virtual="/home/home_header_inc.asp"-->
-		<main id="main" class="sub">
+		<main id="main" class="main">
 			<div class="container">
 <%
 	page      = Request("page")
@@ -34,6 +34,8 @@
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
 	home_sch  = Request("home_sch")
+
+	self_yn   = Request("self_yn")
 
 	board_seq = Request("board_seq")
 
@@ -49,91 +51,6 @@
 	sql = sql & "  where board_seq = '" & board_seq & "' "
 	rs.Open Sql, conn, 3, 1
 %>
-			<script type="text/javascript">
-				function goPrint() {
-					var initBody;
-					window.onbeforeprint = function() {
-						initBody = document.body.innerHTML;
-						document.body.innerHTML =  document.getElementById('print_area').innerHTML;
-					};
-						window.onafterprint = function() {
-						document.body.innerHTML = initBody;
-					};
-					window.print();
-				}
-
-				function goList(sch) {
-					if (sch == 'Y') {
-						document.search_form.action = "/home/home_search_list.asp";
-					}
-					else {
-						document.search_form.action = "/home/board_list.asp";
-					}
-					document.search_form.submit();
-				}
-				function goReply() {
-					document.search_form.action = "/home/board_reply.asp"
-					document.search_form.submit();
-				}
-				function goModify() {
-					document.search_form.action = "/home/board_modify.asp"
-					document.search_form.submit();
-				}
-				function goDelete() {
-					document.search_form.action = "/home/com_waste_exec.asp"
-					document.search_form.submit();
-				}
-				function goNotice() {
-					document.search_form.action = "/home/com_top_exec.asp"
-					document.search_form.submit();
-				}
-				function goSuggest() {
-					document.search_form.action = "/home/com_suggest_exec.asp"
-					document.search_form.submit();
-				}
-				function goMove() {
-					document.open_form.action = "/win_open_exec.asp"
-					document.open_form.target = "hiddenfrm";
-					document.open_form.submit();
-				}
-				function copySubject() {
-					try{
-						str = document.getElementById("subject").innerText;
-						if (window.clipboardData) {
-								window.clipboardData.setData("Text", str)
-								alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-						}
-						else if (window.navigator.clipboard) {
-								window.navigator.clipboard.writeText(str).Then(() => {
-									alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-								});
-						}
-						else {
-							temp = prompt("해당 제목을 복사하십시오.", str);
-						}
-					} catch(e) {
-						alert(e)
-					}
-				}
-				function copyUrl() {
-					try{
-						if (window.clipboardData) {
-								window.clipboardData.setData("Text", "<%=pageUrl%>")
-								alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-						}
-						else if (window.navigator.clipboard) {
-								window.navigator.clipboard.writeText("<%=pageUrl%>").Then(() => {
-									alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-								});
-						}
-						else {
-							temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
-						}
-					} catch(e) {
-						alert(e)
-					}
-				}
-			</script>
 			<form name="open_form" method="post">
 			<input type="hidden" name="open_url" value="/home/com_move_edit_p.asp?com_seq=<%=board_seq%>&menu_seq=<%=menu_seq%>&cafe_id=<%=cafe_id%>">
 			<input type="hidden" name="open_name" value="com_move">
@@ -144,10 +61,12 @@
 			<input type="hidden" name="pagesize" value="<%=pagesize%>">
 			<input type="hidden" name="sch_type" value="<%=sch_type%>">
 			<input type="hidden" name="sch_word" value="<%=sch_word%>">
-			<input type="hidden" name="task">
+			<input type="hidden" name="self_yn" value="<%=self_yn%>">
+
 			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 			<input type="hidden" name="board_seq" value="<%=board_seq%>">
 			<input type="hidden" name="com_seq" value="<%=board_seq%>">
+
 			<input type="hidden" name="group_num" value="<%=rs("group_num")%>">
 			<input type="hidden" name="level_num" value="<%=rs("level_num")%>">
 			<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
@@ -265,7 +184,7 @@
 	document.getElementById("linkBtn").onclick = function() {
 		try{
 			if (window.clipboardData) {
-					window.clipboardData.setData("Text", "<%=link%>")
+					window.clipboardData.setData("text", "<%=link%>")
 					alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 			}
 			else if (window.navigator.clipboard) {
@@ -291,7 +210,7 @@
 				</div>
 <%
 	rs.close
-	Set rs = nothing
+	Set rs = Nothing
 %>
 <%
 	com_seq = board_seq
@@ -303,4 +222,89 @@
 <!--#include virtual="/home/home_footer_inc.asp"-->
 	</div>
 </body>
+<script type="text/javascript">
+	function goPrint() {
+		var initBody;
+		window.onbeforeprint = function() {
+			initBody = document.body.innerHTML;
+			document.body.innerHTML =  document.getElementById('print_area').innerHTML;
+		};
+			window.onafterprint = function() {
+			document.body.innerHTML = initBody;
+		};
+		window.print();
+	}
+
+	function goList(sch) {
+		if (sch == 'Y') {
+			document.search_form.action = "/home/home_search_list.asp";
+		}
+		else {
+			document.search_form.action = "/home/board_list.asp";
+		}
+		document.search_form.submit();
+	}
+	function goReply() {
+		document.search_form.action = "/home/board_reply.asp"
+		document.search_form.submit();
+	}
+	function goModify() {
+		document.search_form.action = "/home/board_modify.asp"
+		document.search_form.submit();
+	}
+	function goDelete() {
+		document.search_form.action = "/home/com_waste_exec.asp"
+		document.search_form.submit();
+	}
+	function goNotice() {
+		document.search_form.action = "/home/com_top_exec.asp"
+		document.search_form.submit();
+	}
+	function goSuggest() {
+		document.search_form.action = "/home/com_suggest_exec.asp"
+		document.search_form.submit();
+	}
+	function goMove() {
+		document.open_form.action = "/win_open_exec.asp"
+		document.open_form.target = "hiddenfrm";
+		document.open_form.submit();
+	}
+	function copySubject() {
+		try{
+			str = document.getElementById("subject").innerText;
+			if (window.clipboardData) {
+					window.clipboardData.setData("text", str)
+					alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+			}
+			else if (window.navigator.clipboard) {
+					window.navigator.clipboard.writeText(str).Then(() => {
+						alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+					});
+			}
+			else {
+				temp = prompt("해당 제목을 복사하십시오.", str);
+			}
+		} catch(e) {
+			alert(e)
+		}
+	}
+	function copyUrl() {
+		try{
+			if (window.clipboardData) {
+					window.clipboardData.setData("text", "<%=pageUrl%>")
+					alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+			}
+			else if (window.navigator.clipboard) {
+					window.navigator.clipboard.writeText("<%=pageUrl%>").then(() => {
+						alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+					});
+			}
+			else {
+				temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
+			}
+		} catch(e) {
+			alert(e)
+		}
+	}
+</script>
 </html>

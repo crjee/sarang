@@ -79,7 +79,7 @@
 							<tr>
 								<th scope="row">공개<em class="required">필수입력</em></th>
 								<td colspan="3">
-									<%=makeRadioCD("open_yn", "", "required")%>
+									<%=makeRadioCD("open_yn", "", "")%>
 								</td>
 							</tr>
 							<tr>
@@ -94,7 +94,7 @@
 							<tr>
 								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th>
 								<td>
-									<%=makeSection("R", "section_seq", section_seq, "required")%>
+									<%=makeSection("R", "section_seq", section_seq, "")%>
 								</td>
 							</tr>
 <%
@@ -109,11 +109,11 @@
 							<tr>
 								<th scope="row">단지종류<em class="required">필수입력</em></th>
 								<td>
-									<%=makeRadioCD("cmpl_se_cd", "", "required")%>
+									<%=makeRadioCD("cmpl_se_cd", "", "")%>
 								</td>
 								<th scope="row">분양단계<em class="required">필수입력</em></th>
 								<td>
-									<%=makeRadioCD("nsale_stts_cd", "", "required")%>
+									<%=makeRadioCD("nsale_stts_cd", "", "")%>
 								</td>
 							</tr>
 							<tr>
@@ -220,45 +220,55 @@
 	</div>
 </body>
 </html>
-				<script>
-					var oEditors = [];
+<script>
+	var oEditors = [];
 
-					nhn.husky.EZCreator.createInIFrame({
-						oAppRef: oEditors,
-						elPlaceHolder: "ir1",
-						sSkinURI: "/smart/SmartEditor2Skin.html",
-						htParams : {
-							bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-							bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-							bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-							//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
-							fOnBeforeUnload : function() {
-								var f = document.form;
-								if (f.temp.value == "Y" && f.subject.value != "")
-								{
-									oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
-									f.action = "nsale_temp_exec.asp";
-									f.temp.value = "N";
-									f.target = "hiddenfrm";
-									f.submit();
-									alert("작성중인 내용이 임시로 저장되었습니다.");
-								}
-							}
-						}, //boolean
-						fOnAppLoad : function() {
-							//예제 코드
-							//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
-						},
-						fCreator: "createSEditor2"
-					})
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: oEditors,
+		elPlaceHolder: "ir1",
+		sSkinURI: "/smart/SmartEditor2Skin.html",
+		htParams : {
+			bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+			//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
+			fOnBeforeUnload : function() {
+				var f = document.form;
+				if (f.temp.value == "Y" && f.subject.value != "")
+				{
+					oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
+					f.action = "nsale_temp_exec.asp";
+					f.temp.value = "N";
+					f.target = "hiddenfrm";
+					f.submit();
+					alert("작성중인 내용이 임시로 저장되었습니다.");
+				}
+			}
+		}, //boolean
+		fOnAppLoad : function() {
+			//예제 코드
+			//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
+		},
+		fCreator: "createSEditor2"
+	})
 
-					function submitContents(elClickedObj) {
-						oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
-						try {
-							elClickedObj.action = "nsale_write_exec.asp";
-							elClickedObj.temp.value = "N";
-							elClickedObj.target = "hiddenfrm";
-							elClickedObj.submit()
-						} catch(e) {alert(e)}
-					}
-				</script>
+	function submitContents(elClickedObj) {
+		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
+		try {
+<%
+	If tab_use_yn = "Y" Then
+%>
+			if ( ! $('input[name=section_seq]:checked').val()) {
+				alert('<%=tab_nm%>을 선택해주세요.');
+				return false;
+			}
+<%
+	End If
+%>
+			elClickedObj.action = "nsale_write_exec.asp";
+			elClickedObj.temp.value = "N";
+			elClickedObj.target = "hiddenfrm";
+			elClickedObj.submit()
+		} catch(e) {alert(e)}
+	}
+</script>

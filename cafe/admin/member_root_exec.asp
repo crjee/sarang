@@ -4,19 +4,19 @@
 	Call checkAdmin()
 
 	If Request("user_id") <> ""  Then
+		Set rs = Server.CreateObject ("ADODB.Recordset")
+
 		sql = ""
 		sql = sql & " select * "
 		sql = sql & "   from cf_admin "
 		sql = sql & "  where user_id = '" & Request("user_id") & "' "
-
-		Set rs = Conn.Execute(sql)
+		rs.open Sql, conn, 3, 1
 
 		If Not rs.eof And Request("user_id") <> user_id Then
 			sql = ""
 			sql = sql & " delete "
 			sql = sql & "   from cf_admin "
 			sql = sql & "  where user_id = '" & Request("user_id") & "' "
-
 			Conn.Execute(sql)
 		ElseIf Not rs.eof And Request("user_id")=user_id Then
 			Response.WRite "<script>alert('자신을 설정 또는 삭제할수없습니다');</script>"
@@ -35,6 +35,8 @@
 			sql = sql & "       ,getdate())                   "
 			Conn.Execute(sql)
 		End If
+		rs.close
+		Set rs = Nothing
 	End If
 %>
 <script>

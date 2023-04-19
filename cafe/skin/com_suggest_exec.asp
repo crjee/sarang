@@ -27,8 +27,8 @@
 
 			sql = ""
 			sql = sql & " update cf_" & menu_type & " "
-			sql = sql & "    set suggest_cnt = suggest_cnt + 1 "
-			sql = sql & "       ,suggest_info = suggest_info + CAST('" & remote_addr & "' + '" & user_id & ",' as VARCHAR(MAX)) "
+			sql = sql & "    set suggest_cnt = isnull(suggest_cnt, 0) + 1 "
+			sql = sql & "       ,suggest_info = isnull(suggest_info, '') + CAST('" & remote_addr & "' + '" & user_id & ",' as VARCHAR(MAX)) "
 			sql = sql & "       ,modid = '" & Session("user_id") & "' "
 			sql = sql & "       ,moddt = getdate() "
 			sql = sql & "  where " & menu_type & "_seq = '" & com_seq & "' "

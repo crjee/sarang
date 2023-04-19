@@ -123,7 +123,7 @@
 <%
 	End if
 %>
-							<li class="orange">새로고침시 에디터 내용은 유지되지 않습니다.</li>
+						<p class="txt_point mt10">새로고침시 에디터 내용은 유지되지 않습니다.</p>
 					</div>
 					<table class="tb_input tb_fixed mt10">
 						<colgroup>
@@ -200,7 +200,8 @@
 					oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
 					try {
 						elClickedObj.action = url;
-//						elClickedObj.temp.value = tmp;
+						elClickedObj.temp.value = tmp;
+						elClickedObj.target = "hiddenfrm";
 						elClickedObj.submit()
 					} catch(e) {alert(e)}
 				}

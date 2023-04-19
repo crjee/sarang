@@ -18,12 +18,14 @@
 <%
 	menu_seq = Request("menu_seq")
 
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
 	sql = sql & " select * "
 	sql = sql & "   from cf_menu "
 	sql = sql & "  where menu_seq = '" & menu_seq & "' "
+	rs.open Sql, conn, 3, 1
 
-	Set rs = Conn.Execute(sql)
 	If Not rs.eof Then
 		menu_name  = rs("menu_name")
 		page_type  = rs("page_type")
@@ -39,6 +41,7 @@
 		list_info  = rs("list_info")
 	End If
 	rs.close
+	Set rs = Nothing
 %>
 					<div class="adm_cont_tit">
 						<h4 class="h3 mt20 mb10"><%=menu_name%> 설정</h4>
@@ -68,25 +71,19 @@
 												<li class="">
 													<span class="head">쓰기</span>
 													<select id="write_auth" name="write_auth" class="sel w_auto">
-														<option value="1" <%=if3(write_auth = "1","selected","") %>>준회원</option>
-														<option value="2" <%=if3(write_auth = "2","selected","") %>>정회원</option>
-														<option value="10" <%=if3(write_auth = "10","selected","") %>>사랑방지기</option>
+														<%=makeComboCD("cafe_mb_level", read_auth)%>
 													</select>
 												</li>
 												<li class="">
 													<span class="head">댓글쓰기</span>
 													<select id="reply_auth" name="reply_auth" class="sel w_auto">
-														<option value="1" <%=if3(reply_auth = 1,"selected","") %>>준회원</option>
-														<option value="2" <%=if3(reply_auth = 2,"selected","") %>>정회원</option>
-														<option value="10" <%=if3(reply_auth = 10,"selected","") %>>사랑방지기</option>
+														<%=makeComboCD("cafe_mb_level", read_auth)%>
 													</select>
 												</li>
 												<li class="">
 													<span class="head">읽기</span>
 													<select id="read_auth" name="read_auth" class="sel w_auto">
-														<option value="1" <%=if3(read_auth = 1,"selected","") %>>준회원</option>
-														<option value="2" <%=if3(read_auth = 2,"selected","") %>>정회원</option>
-														<option value="10" <%=if3(read_auth = 10,"selected","") %>>사랑방지기</option>
+														<%=makeComboCD("cafe_mb_level", read_auth)%>
 													</select>
 												</li>
 											</ul>
@@ -100,11 +97,11 @@
 	If Not form.eof then
 %>
 											<label><input type="checkbox" class="inp_check">질문양식사용</label>
-											<button type="submit" class="btn_4txt_sel" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식수정</button>
+											<button type="button" class="btn btn_s btn_c_a" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식수정</button>
 <%
 	Else
 %>
-											<button type="submit" class="btn_4txt_sel" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식등록</button>
+											<button type="button" class="btn btn_s btn_c_a" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식등록</button>
 <%
 	End If
 %>
@@ -114,7 +111,7 @@
 										<th scope="row">메뉴감추기</th>
 										<td>
 											<input type="checkbox" id="hidden_yn" name="hidden_yn" value="Y" <%=if3(hidden_yn = "Y","checked","") %> class="inp_check" />
-											<label for=""><em>감추기</em></label>
+											<label for="hidden_yn"><em>감추기</em></label>
 										</td>
 									</tr>
 									<tr>

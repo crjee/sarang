@@ -1,20 +1,22 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	freePage = True
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	ScriptTimeOut = 5000
+	cafe_id = "home"
+
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
 	uploadform.DefaultPath = uploadFolder
+
+	checkCafePageUpload(cafe_id)
+	checkModifyAuth(cafe_id)
 
 	page      = uploadform("page")
 	pagesize  = uploadform("pagesize")
 	sch_type  = uploadform("sch_type")
 	sch_word  = uploadform("sch_word")
-
-	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
-	uploadform.DefaultPath = uploadFolder
-
-	checkCafePageUpload(cafe_id)
 
 	board_seq = uploadform("board_seq")
 	kname = uploadform("kname")

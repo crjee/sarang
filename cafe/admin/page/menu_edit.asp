@@ -14,16 +14,20 @@
 		Conn.Execute(sql)
 	End if
 
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
 	sql = sql & " select *                             "
 	sql = sql & "   from cf_menu                       "
 	sql = sql & "  where menu_seq = '" & menu_seq & "' "
-	Set rs = Conn.Execute(sql)
+	rs.open Sql, conn, 3, 1
 
 	If Not rs.eof then
 		menu_name = menu_name
 		menu_type = rs("menu_type")
 	End If
+	rs.close
+	Set rs = Nothing
 
 	If menu_name <> "-" Then
 		If menu_type = "land" Then

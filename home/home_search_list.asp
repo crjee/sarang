@@ -95,48 +95,51 @@
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
-	sql = sql & " select menu_type                                            "
-	sql = sql & "       ,menu_name                                            "
-	sql = sql & "       ,menu_seq                                             "
-	sql = sql & "       ,hidden_yn                                            "
-	sql = sql & "   from cf_menu                                              "
-	sql = sql & "  where cafe_id = 'home'                          "
-	sql = sql & "    and hidden_yn = 'N'                                      "
-	sql = sql & "    and read_auth is not null                                "
-	sql = sql & "    and read_auth <= '" & cafe_mb_level & "'                 "
-	sql = sql & "    and menu_type in ('album','board','job','sale','notice','nsale','story') "
+	sql = sql & " select menu_type                                                   "
+	sql = sql & "       ,menu_name                                                   "
+	sql = sql & "       ,menu_seq                                                    "
+	sql = sql & "       ,hidden_yn                                                   "
+	sql = sql & "   from cf_menu                                                     "
+	sql = sql & "  where cafe_id = 'home'                                            "
+	sql = sql & "    and hidden_yn = 'N'                                             "
+	sql = sql & "    and read_auth is not null                                       "
+	sql = sql & "    and read_auth <= '" & cafe_mb_level & "'                        "
+	sql = sql & "    and menu_type in ('album','board','job','sale','nsale','story') "
 	If sch_board <> "" Then
-	sql = sql & "    and menu_seq = '" & sch_board & "'                       "
+	sql = sql & "    and menu_seq = '" & sch_board & "'                              "
 	End If
 	Rs.Open sql, conn, 3, 1
 
 	sqlSub = ""
-	sqlSub = sqlSub & "         select 'notice' as menu_type "
-	sqlSub = sqlSub & "               ,0 as no               "
-	sqlSub = sqlSub & "               ,notice_seq as com_seq "
-	sqlSub = sqlSub & "               ,notice_num as com_num "
-	sqlSub = sqlSub & "               ,subject               "
-	sqlSub = sqlSub & "               ,agency                "
-	sqlSub = sqlSub & "               ,view_cnt              "
-	sqlSub = sqlSub & "               ,comment_cnt           "
-	sqlSub = sqlSub & "               ,suggest_cnt           "
-	sqlSub = sqlSub & "               ,credt                 "
-	sqlSub = sqlSub & "               ,menu_seq              "
-	sqlSub = sqlSub & "           from cf_notice             "
-	If cafe_ad_level = "10" Then ' 글쓰기 권한
-	sqlSub = sqlSub & "          where 1 = 1                 "
-	Else
-	sqlSub = sqlSub & "          where (cafe_id = null or cafe_id = '' or ', ' + cafe_id + ', ' like '%, " & cafe_id & ", %') "
-	End If
-	sqlSub = sqlSub & kword
+'	sqlSub = sqlSub & "         select 'notice' as menu_type "
+'	sqlSub = sqlSub & "               ,0 as no               "
+'	sqlSub = sqlSub & "               ,notice_seq as com_seq "
+'	sqlSub = sqlSub & "               ,notice_num as com_num "
+'	sqlSub = sqlSub & "               ,subject               "
+'	sqlSub = sqlSub & "               ,agency                "
+'	sqlSub = sqlSub & "               ,view_cnt              "
+'	sqlSub = sqlSub & "               ,comment_cnt           "
+'	sqlSub = sqlSub & "               ,suggest_cnt           "
+'	sqlSub = sqlSub & "               ,credt                 "
+'	sqlSub = sqlSub & "               ,menu_seq              "
+'	sqlSub = sqlSub & "           from cf_notice             "
+'	If cafe_ad_level = "10" Then ' 글쓰기 권한
+'	sqlSub = sqlSub & "          where 1 = 1                 "
+'	Else
+'	sqlSub = sqlSub & "          where (cafe_id = null or cafe_id = '' or ', ' + cafe_id + ', ' like '%, " & cafe_id & ", %') "
+'	End If
+'	sqlSub = sqlSub & kword
 
+	i = 1
 	Do Until Rs.eof
 		menu_type = Rs("menu_type")
 		menu_name = Rs("menu_name")
 		menu_seq  = Rs("menu_seq")
 		hidden_yn = Rs("hidden_yn")
 
+		If i > 1 Then
 		sqlSub = sqlSub & "          union all                                                "
+		End If
 		sqlSub = sqlSub & "         select '" & menu_type & "' as menu_type                   "
 		sqlSub = sqlSub & "               ,1 as no                                            "
 		sqlSub = sqlSub & "               ,b" & menu_seq & "." & menu_type & "_seq as com_seq "
@@ -153,15 +156,16 @@
 		sqlSub = sqlSub & "            and menu_seq = '" & menu_seq & "'                      "
 		sqlSub = sqlSub & kword
 
+		i = 1 + 1
 		Rs.MoveNext
 	Loop
 	Rs.close
 
 	sql = ""
-	sql = sql & " select count(com_seq) cnt        "
-	sql = sql & "           from ( "
+	sql = sql & " select count(com_seq) cnt "
+	sql = sql & "   from ( "
 	sql = sql & sqlSub
-	sql = sql & "                ) aa "
+	sql = sql & "        ) aa "
 	rs.Open sql, conn, 3, 1
 	RecordCount = 0 ' 자료가 없을때
 
@@ -222,16 +226,16 @@
 	Set leftRs = Server.CreateObject ("ADODB.Recordset")
 
 	sql = ""
-	sql = sql & " select menu_type                                            "
-	sql = sql & "       ,menu_name                                            "
-	sql = sql & "       ,menu_seq                                             "
-	sql = sql & "       ,hidden_yn                                            "
-	sql = sql & "   from cf_menu                                              "
-	sql = sql & "  where cafe_id = '" & cafe_id & "'                          "
-	sql = sql & "    and hidden_yn = 'N'                                      "
-	sql = sql & "    and write_auth is not null                               "
-	sql = sql & "    and write_auth <= '" & cafe_mb_level & "'                "
-	sql = sql & "    and menu_type in ('album','board','job','sale','notice') "
+	sql = sql & " select menu_type                                                   "
+	sql = sql & "       ,menu_name                                                   "
+	sql = sql & "       ,menu_seq                                                    "
+	sql = sql & "       ,hidden_yn                                                   "
+	sql = sql & "   from cf_menu                                                     "
+	sql = sql & "  where cafe_id = '" & cafe_id & "'                                 "
+	sql = sql & "    and hidden_yn = 'N'                                             "
+	sql = sql & "    and write_auth is not null                                      "
+	sql = sql & "    and write_auth <= '" & cafe_mb_level & "'                       "
+	sql = sql & "    and menu_type in ('album','board','job','sale','nsale','story') "
 	leftRs.Open sql, conn, 3, 1
 
 	Do Until leftRs.eof

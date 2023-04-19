@@ -26,7 +26,7 @@
 <body>
 	<div id="wrap">
 <!--#include virtual="/home/home_header_inc.asp"-->
-		<main id="main" class="sub">
+		<main id="main" class="main">
 			<div class="container">
 			<div class="container">
 <%
@@ -93,95 +93,23 @@
 	credt      = rs("credt")
 	user_id    = rs("user_id")
 %>
-			<script type="text/javascript">
-				function goPrint() {
-					var initBody;
-					window.onbeforeprint = function() {
-						initBody = document.body.innerHTML;
-						document.body.innerHTML =  document.getElementById('print_area').innerHTML;
-					};
-						window.onafterprint = function() {
-						document.body.innerHTML = initBody;
-					};
-					window.print();
-				}
+				<form name="open_form" method="post">
+				<input type="hidden" name="open_url" value="/cafe/skin/com_move_edit_p.asp?com_seq=<%=job_seq%>&menu_seq=<%=menu_seq%>&cafe_id=<%=cafe_id%>">
+				<input type="hidden" name="open_name" value="com_move">
+				<input type="hidden" name="open_specs" value="width=340, height=310, left=150, top=150">
+				</form>
+				<form name="search_form" method="post">
+				<input type="hidden" name="page" value="<%=page%>">
+				<input type="hidden" name="pagesize" value="<%=pagesize%>">
+				<input type="hidden" name="sch_type" value="<%=sch_type%>">
+				<input type="hidden" name="sch_word" value="<%=sch_word%>">
+				<input type="hidden" name="self_yn" value="<%=self_yn%>">
+				<input type="hidden" name="all_yn" value="<%=all_yn%>">
 
-				function goList(sch) {
-					if (sch == 'Y') {
-						document.search_form.action = "/home/home_search_list.asp";
-					}
-					else {
-						document.search_form.action = "/home/job_list.asp";
-					}
-					document.search_form.target = "_self";
-					document.search_form.submit();
-				}
-				function goReply() {
-					document.search_form.action = "/cafe/skin/job_reply.asp";
-					document.search_form.target = "_self";
-					document.search_form.submit();
-				}
-				function goModify() {
-					document.search_form.action = "/cafe/skin/job_modify.asp";
-					document.search_form.target = "_self";
-					document.search_form.submit();
-				}
-				function goDelete() {
-					document.search_form.action = "/cafe/skin/com_waste_exec.asp";
-					document.search_form.target = "hiddenfrm";
-					document.search_form.submit();
-				}
-				function goNotice() {
-					document.search_form.action = "/cafe/skin/com_top_exec.asp";
-					document.search_form.target = "hiddenfrm";
-					document.search_form.submit();
-				}
-				function goSuggest() {
-					document.search_form.action = "/cafe/skin/com_suggest_exec.asp";
-					document.search_form.target = "hiddenfrm";
-					document.search_form.submit();
-				}
-				function goMove() {
-					document.open_form.action = "/win_open_exec.asp";
-					document.open_form.target = "hiddenfrm";
-					document.open_form.submit();
-				}
-				function copyUrl() {
-					try{
-						if (window.clipboardData) {
-								window.clipboardData.setData("Text", "<%=pageUrl%>");
-								alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-						}
-						else if (window.navigator.clipboard) {
-								window.navigator.clipboard.writeText("<%=pageUrl%>").then(() => {
-									alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-								});
-						}
-						else {
-							temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
-						}
-					} catch(e) {
-						alert(e)
-					}
-				}
-			</script>
-			<form name="open_form" method="post">
-			<input type="hidden" name="open_url" value="/cafe/skin/com_move_edit_p.asp?com_seq=<%=job_seq%>&menu_seq=<%=menu_seq%>&cafe_id=<%=cafe_id%>">
-			<input type="hidden" name="open_name" value="com_move">
-			<input type="hidden" name="open_specs" value="width=340, height=310, left=150, top=150">
-			</form>
-			<form name="search_form" method="post">
-			<input type="hidden" name="page" value="<%=page%>">
-			<input type="hidden" name="pagesize" value="<%=pagesize%>">
-			<input type="hidden" name="sch_type" value="<%=sch_type%>">
-			<input type="hidden" name="sch_word" value="<%=sch_word%>">
-			<input type="hidden" name="self_yn" value="<%=self_yn%>">
-			<input type="hidden" name="all_yn" value="<%=all_yn%>">
-			<input type="hidden" name="task">
-			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-			<input type="hidden" name="job_seq" value="<%=job_seq%>">
-			<input type="hidden" name="com_seq" value="<%=job_seq%>">
-			</form>
+				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
+				<input type="hidden" name="job_seq" value="<%=job_seq%>">
+				<input type="hidden" name="com_seq" value="<%=job_seq%>">
+				</form>
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%> 내용보기</h2>
 				</div>
@@ -330,4 +258,76 @@
 <!--#include virtual="/home/home_footer_inc.asp"-->
 	</div>
 </body>
+<script>
+	function goPrint() {
+		var initBody;
+		window.onbeforeprint = function() {
+			initBody = document.body.innerHTML;
+			document.body.innerHTML =  document.getElementById('print_area').innerHTML;
+		};
+			window.onafterprint = function() {
+			document.body.innerHTML = initBody;
+		};
+		window.print();
+	}
+
+	function goList(sch) {
+		if (sch == 'Y') {
+			document.search_form.action = "/home/home_search_list.asp";
+		}
+		else {
+			document.search_form.action = "/home/job_list.asp";
+		}
+		document.search_form.target = "_self";
+		document.search_form.submit();
+	}
+	function goReply() {
+		document.search_form.action = "/cafe/skin/job_reply.asp";
+		document.search_form.target = "_self";
+		document.search_form.submit();
+	}
+	function goModify() {
+		document.search_form.action = "/cafe/skin/job_modify.asp";
+		document.search_form.target = "_self";
+		document.search_form.submit();
+	}
+	function goDelete() {
+		document.search_form.action = "/cafe/skin/com_waste_exec.asp";
+		document.search_form.target = "hiddenfrm";
+		document.search_form.submit();
+	}
+	function goNotice() {
+		document.search_form.action = "/cafe/skin/com_top_exec.asp";
+		document.search_form.target = "hiddenfrm";
+		document.search_form.submit();
+	}
+	function goSuggest() {
+		document.search_form.action = "/cafe/skin/com_suggest_exec.asp";
+		document.search_form.target = "hiddenfrm";
+		document.search_form.submit();
+	}
+	function goMove() {
+		document.open_form.action = "/win_open_exec.asp";
+		document.open_form.target = "hiddenfrm";
+		document.open_form.submit();
+	}
+	function copyUrl() {
+		try{
+			if (window.clipboardData) {
+					window.clipboardData.setData("text", "<%=pageUrl%>");
+					alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+			}
+			else if (window.navigator.clipboard) {
+					window.navigator.clipboard.writeText("<%=pageUrl%>").then(() => {
+						alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+					});
+			}
+			else {
+				temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
+			}
+		} catch(e) {
+			alert(e)
+		}
+	}
+</script>
 </html>

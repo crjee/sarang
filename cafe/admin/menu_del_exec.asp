@@ -43,8 +43,8 @@
 
 	'메뉴 삭제
 	sql = ""
-	sql = sql & " delete                           "
-	sql = sql & "   from cf_menu                   "
+	sql = sql & " delete                               "
+	sql = sql & "   from cf_menu                       "
 	sql = sql & "  where menu_seq = '" & menu_seq & "' "
 	Conn.Execute(sql)
 

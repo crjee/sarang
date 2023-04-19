@@ -18,12 +18,14 @@
 <%
 	menu_seq = Request("menu_seq")
 
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
 	sql = sql & " select * "
 	sql = sql & "   from cf_menu "
 	sql = sql & "  where menu_seq = '" & menu_seq & "' "
+	rs.open Sql, conn, 3, 1
 
-	Set rs = Conn.Execute(sql)
 	If Not rs.eof Then
 		menu_name  = rs("menu_name")
 		page_type  = rs("page_type")
@@ -42,6 +44,7 @@
 		list_info  = rs("list_info")
 	End If
 	rs.close
+	Set rs = Nothing
 %>
 					<div class="adm_cont_tit">
 						<h4 class="h3 mt20 mb10"><%=menu_name%> 설정</h4>
@@ -62,7 +65,7 @@
 								<tbody>
 									<tr>
 										<th scope="row" rowspan="2">텍스트</th>
-										<th scope="row">2단</th>
+										<th scope="row">2열</th>
 										<td>
 											<span class="">
 												<input type="radio" id="NT1" name="list_type" value="NT1" <%=if3(wide_yn&list_type="NT1","checked","")%> class="inp_radio" />
@@ -82,7 +85,7 @@
 									</tr>
 									<tr>
 										<th scope="row" rowspan="2">앨범</th>
-										<th>2단</th>
+										<th>2열</th>
 										<td>
 											<span class="">
 												<input type="radio" id="NA1" name="list_type" value="NA1" <%=if3(wide_yn&list_type="NA1","checked","")%> class="inp_radio" />
@@ -113,7 +116,7 @@
 									</tr>
 									<tr>
 										<th scope="row" rowspan="2">카드</th>
-										<th scope="row">2단</th>
+										<th scope="row">2열</th>
 										<td>
 											<span class="">
 												<input type="radio" id="NC1" name="list_type" value="NC1" <%=if3(wide_yn&list_type="NC1","checked","")%> class="inp_radio" />

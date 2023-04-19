@@ -25,6 +25,7 @@
 	<div id="wrap">
 <!--#include virtual="/home/home_header_inc.asp"-->
 <%
+	section_seq = Request("section_seq")
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
 
@@ -51,6 +52,9 @@
 	sql = sql & "   from cf_story cb "
 	sql = sql & "  where cafe_id = '" & cafe_id & "' "
 	sql = sql & "    and menu_seq = '" & menu_seq & "' "
+	If section_seq <> "" Then
+	sql = sql & "    and section_seq = '" & section_seq & "' "
+	End If
 	sql = sql & kword
 	rs.Open sql, conn, 3, 1
 
@@ -92,6 +96,9 @@
 	sql = sql & "           from cf_story cb"
 	sql = sql & "          where cafe_id = '" & cafe_id & "' "
 	sql = sql & "            and menu_seq = '" & menu_seq & "' "
+	If section_seq <> "" Then
+	sql = sql & "            and section_seq = '" & section_seq & "' "
+	End If
 	sql = sql & kword
 	sql = sql & "        ) a "
 	sql = sql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & " "
@@ -116,6 +123,7 @@
 				<div class="">
 					<div class="search_box algR">
 						<form name="search_form" id="search_form" method="post" onsubmit="MovePage(1)">
+						<input type="hidden" name="section_seq" value="<%=section_seq%>">
 						<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 						<input type="hidden" name="page" value="<%=page%>">
 						<input type="hidden" name="story_seq">
@@ -142,6 +150,7 @@
 						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
 						</form>
 					</div>
+<!--#include virtual="/home/home_tab_inc.asp"-->
 					<div class="tb">
 						<table>
 							<colgroup>
@@ -260,6 +269,13 @@
 
 	function goSearch() {
 		var f = document.search_form;
+		f.page.value = 1;
+		f.submit();
+	}
+
+	function goTab(section_seq) {
+		var f = document.search_form;
+		f.section_seq.value = section_seq;
 		f.page.value = 1;
 		f.submit();
 	}

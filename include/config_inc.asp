@@ -27,6 +27,8 @@
 	Dim tab_use_yn
 	Dim tab_nm
 
+	Dim uploadform
+
 	'################ Database설정 #################
 	Function DBOpen()
 		Set Conn = Server.CreateObject("ADODB.Connection")
@@ -947,7 +949,6 @@
 	Dim arr_comment_seq()
 	Dim arr_seq()
 	Sub del_comment(menu_type, com_seq)
-
 		Set funcRs = server.createobject("adodb.recordset")
 
 		' 모든 댓글 조회
@@ -1013,11 +1014,9 @@
 			funcSql = funcSql & "  where " & menu_type & "_seq = " & arr_seq(i) & " "
 			Conn.Execute(funcSql)
 		Next
-
 	End Sub
 
 	Sub waste_content(menu_type, com_seq)
-
 		' 모든 첨부 삭제
 		funcSql = ""
 		funcSql = funcSql & " update cf_" & menu_type & "_attach "
@@ -1098,16 +1097,14 @@ Response.write funcSql
 		funcSql = ""
 		funcSql = funcSql & " update cf_menu "
 		funcSql = funcSql & "    Set top_cnt = (select count(*) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
-		funcSql = funcSql & "       ,last_date = (select max(credt) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "') "
+		funcSql = funcSql & "       ,last_date = (select isnull(max(credt), getdate()) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "') "
 		funcSql = funcSql & "       ,modid = '" & Session("user_id") & "' "
 		funcSql = funcSql & "       ,moddt = getdate() "
 		funcSql = funcSql & "  where menu_seq = '" & menu_seq & "' "
 		Conn.Execute(funcSql)
-
 	End Sub
 
 	Sub restore_content(menu_type, com_seq)
-
 		' 모든 첨부 복원
 		funcSql = ""
 		funcSql = funcSql & " update cf_waste_" & menu_type & "_attach "
@@ -1181,18 +1178,16 @@ Response.write funcSql
 		funcSql = ""
 		funcSql = funcSql & " update cf_menu "
 		funcSql = funcSql & "    Set top_cnt = (select count(*) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
-		funcSql = funcSql & "       ,last_date = (select max(credt) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "') "
+		funcSql = funcSql & "       ,last_date = (select isnull(max(credt), getdate()) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "') "
 		funcSql = funcSql & "       ,modid = '" & Session("user_id") & "' "
 		funcSql = funcSql & "       ,moddt = getdate() "
 		funcSql = funcSql & "  where menu_seq = '" & menu_seq & "' "
 		Conn.Execute(funcSql)
-
 	End Sub
 
 	Dim attach_file()
 	ReDim attach_file(1)
 	Sub delete_content(menu_type, com_seq)
-
 		Set funcRs = server.createobject("adodb.recordset")
 
 		funcSql = ""
@@ -1229,7 +1224,6 @@ Response.write funcSql
 		funcSql = funcSql & " delete cf_waste_" & menu_type & " "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
-
 	End Sub
 
 	Sub delete_attach(file)

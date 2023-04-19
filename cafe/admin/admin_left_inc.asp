@@ -4,7 +4,7 @@
 				</div>
 			</div>
 			<ul class="adm_tree_menu side_menu_alone">
-				<li><a href="/?" class="adm_tree_link">메인으로</a></li>
+				<li><a href="/home" class="adm_tree_link">메인으로</a></li>
 				<li><a href="member_list.asp" class="adm_tree_link">회원 관리</a></li>
 				<li><a href="cafe_list.asp" class="adm_tree_link">사랑방 관리</a></li>
 				<li><a href="banner_list.asp" class="adm_tree_link">배너 관리</a></li>

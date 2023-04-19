@@ -6,6 +6,8 @@
 		Set Conn = Server.CreateObject("ADODB.Connection")
 		Conn.open Application("db")
 
+		Set rs = Server.CreateObject ("ADODB.Recordset")
+
 		sql = ""
 		sql = sql & " select mi.user_id                                        "
 		sql = sql & "       ,mi.agency                                         "
@@ -22,8 +24,8 @@
 		sql = sql & "   left outer join cf_skin cs on cs.cafe_id = cf.cafe_id  "
 		sql = sql & "  where mi.user_id = '" & user_id & "'                    "
 		sql = sql & "    and mi.ipin = '" & ipin & "'                          "
+		rs.open Sql, conn, 3, 1
 
-		Set rs = Conn.Execute(sql)
 		If Not rs.eof Then
 			If Trim(rs("stat")) = "Y" Then
 				set_log()
@@ -53,7 +55,8 @@
 			Response.end
 		End If
 		
-		rs.Close()
+		rs.Close
+		Set rs = Nothing
 		Conn.Close()
 		Set Conn = Nothing
 

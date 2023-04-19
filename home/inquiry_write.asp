@@ -46,7 +46,7 @@
 							<tr>
 								<th scope="row">문의구분<em class="required">필수입력</em></th>
 								<td colspan="3">
-									<%=makeRadioCD("inq_se_cd", "", "required")%>
+									<%=makeRadioCD("inq_se_cd", "", "")%>
 								</td>
 							</tr>
 							<tr>

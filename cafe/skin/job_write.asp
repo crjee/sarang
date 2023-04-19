@@ -200,7 +200,7 @@
 											<input type="radio" tabindex=7 id="sex" name="sex" value="" class="inp_radio" required>
 											<label for='sex'><em>무관</em></label>
 										</span>
-										<%=makeRadioCD("sex", "", "required")%>
+										<%=makeRadioCD("sex", "", "")%>
 									</td>
 									<th scope="row">경력<em class="required">필수입력</em></th>
 									<td>

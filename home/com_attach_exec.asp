@@ -7,7 +7,7 @@
 	cafe_id = "home"
 
 	attach_seq = Request("attach_seq")
-	ag = Request("ag")
+	delSeq = Request("delSeq")
 
 	If menu_seq <> "" Then
 		checkCafePage(cafe_id)
@@ -149,7 +149,7 @@
 <script>
 	alert("삭제 되었습니다.");
 	str = '<input type="file" class="inp" name="file_name">';
-	parent.document.all.attachDiv<%=ag%>.innerHTML = str;
+	parent.document.all.attachFile<%=delSeq%>.innerHTML = str;
 </script>
 <%
 	Else

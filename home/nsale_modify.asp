@@ -78,7 +78,7 @@
 	rs.Open Sql, conn, 3, 1
 
 	If Not rs.eof Then
-		If toInt(cafe_mb_level) < 6 And UCase(session("user_id")) <> UCase(rs("user_id")) then
+		If toInt(cafe_mb_level) < 6 And session("user_id") <> rs("user_id") then
 			Response.Write "<script>alert('수정 권한이없습니다');history.back();</script>"
 			Response.End
 		End If
@@ -119,19 +119,33 @@
 		level_num              = rs("level_num")
 		nsale_num              = rs("nsale_num")
 		section_seq            = rs("section_seq")
-		subject = Replace(subject, """", " & quot;")
+		link     = rs("link")
+		subject  = Replace(subject, """", " & quot;")
 	End if
 	rs.close
+
+	If contents = "" Then
+		sql = ""
+		sql = sql & " select form "
+		sql = sql & "   from cf_com_form "
+		sql = sql & "  where menu_seq = '" & menu_seq & "' "
+		rs.Open Sql, conn, 3, 1
+		If Not rs.eof Then
+			contents = rs("form")
+		End If
+		rs.close
+	End If
 %>
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%> 수정</h2>
 				</div>
 				<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
-					<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 					<input type="hidden" name="page" value="<%=page%>">
 					<input type="hidden" name="pagesize" value="<%=pagesize%>">
 					<input type="hidden" name="sch_type" value="<%=sch_type%>">
 					<input type="hidden" name="sch_word" value="<%=sch_word%>">
+
+					<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 					<input type="hidden" name="nsale_seq" value="<%=nsale_seq%>">
 				<div class="tb">
 					<table class="tb_input tb_fixed">
@@ -145,7 +159,7 @@
 							<tr>
 								<th scope="row">공개<em class="required">필수입력</em></th>
 								<td colspan="3">
-									<%=makeRadioCD("open_yn", open_yn, "required")%>
+									<%=makeRadioCD("open_yn", open_yn, "")%>
 								</td>
 							</tr>
 							<tr>
@@ -160,7 +174,7 @@
 							<tr>
 								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th>
 								<td>
-									<%=makeSection("R", "section_seq", section_seq, "required")%>
+									<%=makeSection("R", "section_seq", section_seq, "")%>
 								</td>
 							</tr>
 <%
@@ -175,11 +189,11 @@
 							<tr>
 								<th scope="row">단지종류<em class="required">필수입력</em></th>
 								<td>
-									<%=makeRadioCD("cmpl_se_cd", cmpl_se_cd, "required")%>
+									<%=makeRadioCD("cmpl_se_cd", cmpl_se_cd, "")%>
 								</td>
 								<th scope="row">분양단계<em class="required">필수입력</em></th>
 								<td>
-									<%=makeRadioCD("nsale_stts_cd", nsale_stts_cd, "required")%>
+									<%=makeRadioCD("nsale_stts_cd", nsale_stts_cd, "")%>
 								</td>
 							</tr>
 							<tr>
@@ -233,20 +247,6 @@
 					</table>
 					<div class="mt10">
 <%
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_com_form "
-	sql = sql & "  where menu_seq = '" & menu_seq & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If Not rs.eof Then
-		form = rs("form")
-	End If
-
-	If contents = "" Then
-		contents = form
-	End If
-
 	If editor_yn = "Y" Then
 %>
 						<textarea name="ir1" id="ir1" style="width:100%;display:none;"><%=contents%></textarea>
@@ -285,47 +285,48 @@
 <!--#include virtual="/home/home_footer_inc.asp"-->
 	</div>
 </body>
+<script>
+	var oEditors = [];
+
+	// 추가 글꼴 목록
+	//var aAdditionalFontSet = [["MS UI Gothic", "MS UI Gothic"], ["Comic Sans MS", "Comic Sans MS"],["TEST","TEST"]];
+
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: oEditors,
+		elPlaceHolder: "ir1",
+		sSkinURI: "/smart/SmartEditor2Skin.html",
+		htParams : {
+			bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+			//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
+			fOnBeforeUnload : function() {
+			}
+		}, //boolean
+		fOnAppLoad : function() {
+			//예제 코드
+			//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
+		},
+		fCreator: "createSEditor2"
+	})
+
+	function submitContents(elClickedObj) {
+		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
+		try {
+<%
+	If tab_use_yn = "Y" Then
+%>
+			if ( ! $('input[name=section_seq]:checked').val()) {
+				alert('<%=tab_nm%>을 선택해주세요.');
+				return false;
+			}
+<%
+	End If
+%>
+			elClickedObj.action = "nsale_modify_exec.asp";
+			elClickedObj.target = "hiddenfrm";
+			elClickedObj.submit()
+		} catch(e) {alert(e)}
+	}
+</script>
 </html>
-				<script>
-					var oEditors = [];
-
-					// 추가 글꼴 목록
-					//var aAdditionalFontSet = [["MS UI Gothic", "MS UI Gothic"], ["Comic Sans MS", "Comic Sans MS"],["TEST","TEST"]];
-
-					nhn.husky.EZCreator.createInIFrame({
-						oAppRef: oEditors,
-						elPlaceHolder: "ir1",
-						sSkinURI: "/smart/SmartEditor2Skin.html",
-						htParams : {
-							bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-							bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-							bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-							//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
-							fOnBeforeUnload : function() {
-								var f = document.form;
-								if (f.temp.value == "Y" && f.subject.value != "")
-								{
-									oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
-									f.action = "nsale_temp_exec.asp";
-									f.target = "hiddenfrm";
-									f.submit();
-									alert("작성중인 내용이 임시로 저장되었습니다.");
-								}
-							}
-						}, //boolean
-						fOnAppLoad : function() {
-							//예제 코드
-							//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
-						},
-						fCreator: "createSEditor2"
-					})
-
-					function submitContents(elClickedObj) {
-						oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
-						try {
-							elClickedObj.action = "nsale_modify_exec.asp";
-							elClickedObj.target = "hiddenfrm";
-							elClickedObj.submit()
-						} catch(e) {alert(e)}
-					}
-				</script>

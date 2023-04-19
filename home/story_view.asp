@@ -26,7 +26,7 @@
 <body>
 	<div id="wrap">
 <!--#include virtual="/home/home_header_inc.asp"-->
-		<main id="main" class="sub">
+		<main id="main" class="main">
 			<div class="container">
 <%
 	page      = Request("page")
@@ -49,109 +49,26 @@
 	sql = sql & "  where story_seq = '" & story_seq & "' "
 	rs.Open Sql, conn, 3, 1
 %>
-			<script type="text/javascript">
-				function goPrint() {
-					var initBody;
-					window.onbeforeprint = function() {
-						initBody = document.body.innerHTML;
-						document.body.innerHTML =  document.getElementById('print_area').innerHTML;
-					};
-						window.onafterprint = function() {
-						document.body.innerHTML = initBody;
-					};
-					window.print();
-				}
+				<form name="open_form" method="post">
+				<input type="hidden" name="open_url" value="/home/com_move_edit_p.asp?com_seq=<%=story_seq%>&menu_seq=<%=menu_seq%>&cafe_id=<%=cafe_id%>">
+				<input type="hidden" name="open_name" value="com_move">
+				<input type="hidden" name="open_specs" value="width=340, height=310, left=150, top=150">
+				</form>
+				<form name="search_form" method="post">
+				<input type="hidden" name="page" value="<%=page%>">
+				<input type="hidden" name="pagesize" value="<%=pagesize%>">
+				<input type="hidden" name="sch_type" value="<%=sch_type%>">
+				<input type="hidden" name="sch_word" value="<%=sch_word%>">
+				<input type="hidden" name="self_yn" value="<%=self_yn%>">
 
-				function goList(sch) {
-					if (sch == 'Y') {
-						document.search_form.action = "/home/home_search_list.asp";
-					}
-					else {
-						document.search_form.action = "/home/story_list.asp";
-					}
-					document.search_form.submit();
-				}
-				function goReply() {
-					document.search_form.action = "/home/story_reply.asp"
-					document.search_form.submit();
-				}
-				function goModify() {
-					document.search_form.action = "/home/story_modify.asp"
-					document.search_form.submit();
-				}
-				function goDelete() {
-					document.search_form.action = "/home/com_waste_exec.asp"
-					document.search_form.submit();
-				}
-				function goNotice() {
-					document.search_form.action = "/home/com_top_exec.asp"
-					document.search_form.submit();
-				}
-				function goSuggest() {
-					document.search_form.action = "/home/com_suggest_exec.asp"
-					document.search_form.submit();
-				}
-				function goMove() {
-					document.open_form.action = "/win_open_exec.asp"
-					document.open_form.target = "hiddenfrm";
-					document.open_form.submit();
-				}
-				function copySubject() {
-					try{
-						str = document.getElementById("subject").innerText;
-						if (window.clipboardData) {
-								window.clipboardData.setData("Text", str)
-								alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-						}
-						else if (window.navigator.clipboard) {
-								window.navigator.clipboard.writeText(str).Then(() => {
-									alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-								});
-						}
-						else {
-							temp = prompt("해당 제목을 복사하십시오.", str);
-						}
-					} catch(e) {
-						alert(e)
-					}
-				}
-				function copyUrl() {
-					try{
-						if (window.clipboardData) {
-								window.clipboardData.setData("Text", "<%=pageUrl%>")
-								alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-						}
-						else if (window.navigator.clipboard) {
-								window.navigator.clipboard.writeText("<%=pageUrl%>").Then(() => {
-									alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-								});
-						}
-						else {
-							temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
-						}
-					} catch(e) {
-						alert(e)
-					}
-				}
-			</script>
-			<form name="open_form" method="post">
-			<input type="hidden" name="open_url" value="/home/com_move_edit_p.asp?com_seq=<%=story_seq%>&menu_seq=<%=menu_seq%>&cafe_id=<%=cafe_id%>">
-			<input type="hidden" name="open_name" value="com_move">
-			<input type="hidden" name="open_specs" value="width=340, height=310, left=150, top=150">
-			</form>
-			<form name="search_form" method="post">
-			<input type="hidden" name="page" value="<%=page%>">
-			<input type="hidden" name="pagesize" value="<%=pagesize%>">
-			<input type="hidden" name="sch_type" value="<%=sch_type%>">
-			<input type="hidden" name="sch_word" value="<%=sch_word%>">
-			<input type="hidden" name="task">
-			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-			<input type="hidden" name="story_seq" value="<%=story_seq%>">
-			<input type="hidden" name="com_seq" value="<%=story_seq%>">
-			<input type="hidden" name="group_num" value="<%=rs("group_num")%>">
-			<input type="hidden" name="level_num" value="<%=rs("level_num")%>">
-			<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
-			</form>
+				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
+				<input type="hidden" name="story_seq" value="<%=story_seq%>">
+				<input type="hidden" name="com_seq" value="<%=story_seq%>">
+
+				<input type="hidden" name="group_num" value="<%=rs("group_num")%>">
+				<input type="hidden" name="level_num" value="<%=rs("level_num")%>">
+				<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
+				</form>
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%> 내용보기</h2>
 				</div>
@@ -208,7 +125,6 @@
 								<li><span>조회</span><strong><%=rs("view_cnt")%></strong></li>
 								<li><span>추천</span><strong><%=rs("suggest_cnt")%></strong></li>
 								<li><span>등록일시</span><strong><%=rs("credt")%></strong></li>
-								<li></li>
 							</ul>
 						</div>
 					</div>
@@ -266,11 +182,11 @@
 	document.getElementById("linkBtn").onclick = function() {
 		try{
 			if (window.clipboardData) {
-					window.clipboardData.setData("Text", "<%=link%>")
+					window.clipboardData.setData("text", "<%=link%>")
 					alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 			}
 			else if (window.navigator.clipboard) {
-					window.navigator.clipboard.writeText("<%=link%>").Then(() => {
+					window.navigator.clipboard.writeText("<%=link%>").then(() => {
 						alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 					});
 			}
@@ -292,7 +208,7 @@
 				</div>
 <%
 	rs.close
-	Set rs = nothing
+	Set rs = Nothing
 %>
 <%
 	com_seq = story_seq
@@ -304,4 +220,89 @@
 <!--#include virtual="/home/home_footer_inc.asp"-->
 	</div>
 </body>
+<script type="text/javascript">
+	function goPrint() {
+		var initBody;
+		window.onbeforeprint = function() {
+			initBody = document.body.innerHTML;
+			document.body.innerHTML =  document.getElementById('print_area').innerHTML;
+		};
+			window.onafterprint = function() {
+			document.body.innerHTML = initBody;
+		};
+		window.print();
+	}
+
+	function goList(sch) {
+		if (sch == 'Y') {
+			document.search_form.action = "/home/home_search_list.asp";
+		}
+		else {
+			document.search_form.action = "/home/story_list.asp";
+		}
+		document.search_form.submit();
+	}
+	function goReply() {
+		document.search_form.action = "/home/story_reply.asp"
+		document.search_form.submit();
+	}
+	function goModify() {
+		document.search_form.action = "/home/story_modify.asp"
+		document.search_form.submit();
+	}
+	function goDelete() {
+		document.search_form.action = "/home/com_waste_exec.asp"
+		document.search_form.submit();
+	}
+	function goNotice() {
+		document.search_form.action = "/home/com_top_exec.asp"
+		document.search_form.submit();
+	}
+	function goSuggest() {
+		document.search_form.action = "/home/com_suggest_exec.asp"
+		document.search_form.submit();
+	}
+	function goMove() {
+		document.open_form.action = "/win_open_exec.asp"
+		document.open_form.target = "hiddenfrm";
+		document.open_form.submit();
+	}
+	function copySubject() {
+		try{
+			str = document.getElementById("subject").innerText;
+			if (window.clipboardData) {
+					window.clipboardData.setData("text", str)
+					alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+			}
+			else if (window.navigator.clipboard) {
+					window.navigator.clipboard.writeText(str).Then(() => {
+						alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+					});
+			}
+			else {
+				temp = prompt("해당 제목을 복사하십시오.", str);
+			}
+		} catch(e) {
+			alert(e)
+		}
+	}
+	function copyUrl() {
+		try{
+			if (window.clipboardData) {
+					window.clipboardData.setData("text", "<%=pageUrl%>")
+					alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+			}
+			else if (window.navigator.clipboard) {
+					window.navigator.clipboard.writeText("<%=pageUrl%>").Then(() => {
+						alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+					});
+			}
+			else {
+				temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
+			}
+		} catch(e) {
+			alert(e)
+		}
+	}
+</script>
 </html>

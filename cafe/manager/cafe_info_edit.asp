@@ -2,8 +2,6 @@
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	checkManager(cafe_id)
-
-	Set row = Conn.Execute("select * from cf_cafe where cafe_id='" & cafe_id & "'")
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -47,9 +45,28 @@
 										<div class="logo">
 <%
 	uploadUrl = ConfigAttachedFileURL & "cafeimg/"
-	If row("cafe_img") <> "" Then
+
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+
+	sql = ""
+	sql = sql & " select *                           "
+	sql = sql & "   from cf_cafe                     "
+	sql = sql & "  where cafe_id = '" & cafe_id & "' "
+	rs.open Sql, conn, 3, 1
+
+	If Not rs.eof Then
+		cafe_img  = rs("cafe_img")
+		cafe_name = rs("cafe_name")
+		open_yn   = rs("open_yn")
+		open_type = rs("open_type")
+		union_id  = rs("union_id")
+	End If
+	rs.close
+	Set rs = Nothing
+
+	If cafe_img <> "" Then
 %>
-											<img src="<%=uploadUrl & row("cafe_img")%>" id="profile" name="profile" style="width:168px;height:54px">
+											<img src="<%=uploadUrl & cafe_img%>" id="profile" name="profile" style="width:168px;height:54px">
 <%
 	Else
 %>
@@ -73,25 +90,25 @@
 									<th scope="row">사랑방 이름</th>
 									<td>
 										<input type="hidden" name="cafe_id" value="<%=cafe_id%>">
-										<input type="text" id="cafe_name" name="cafe_name" size="50" class="inp" required value="<%=row("cafe_name")%>">
+										<input type="text" id="cafe_name" name="cafe_name" size="50" class="inp" required value="<%=cafe_name%>">
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">공개 여부</th>
 									<td>
-										<%=makeRadioCD("open_yn", open_yn, "required")%>
+										<%=makeRadioCD("open_yn", open_yn, "")%>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">바로가기 설정</th>
 									<td>
 										<span class="">
-											<input type="radio" class="inp_radio" id="open_type" name="open_type" value="C" <%=if3(row("open_type")="C","checked","")%> />
+											<input type="radio" class="inp_radio" id="open_type" name="open_type" value="C" <%=if3(open_type="C","checked","")%> />
 											<label for=""><em>사랑방</em></label>
 <%
-	If row("union_id") <> "" Then
+	If union_id <> "" Then
 %>
-											<input type="radio" class="inp_radio" id="open_type" name="open_type" value="U" <%=if3(row("open_type")="U","checked","")%> />
+											<input type="radio" class="inp_radio" id="open_type" name="open_type" value="U" <%=if3(open_type="U","checked","")%> />
 											<label for=""><em>연합회</em></label>
 <%
 	End If

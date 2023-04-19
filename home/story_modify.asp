@@ -6,7 +6,7 @@
 <%
 	cafe_id = "home"
 	checkCafePage(cafe_id)
-	checkWriteAuth(cafe_id)
+	checkModifyAuth(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -27,7 +27,7 @@
 <body>
 	<div id="wrap">
 <!--#include virtual="/home/home_header_inc.asp"-->
-		<main id="main" class="sub">
+		<main id="main" class="main">
 			<div class="container">
 <%
 	page      = Request("page")
@@ -46,7 +46,7 @@
 	rs.Open Sql, conn, 3, 1
 
 	If Not rs.eof Then
-		If toInt(cafe_mb_level) < 6 And UCase(session("user_id")) <> UCase(rs("user_id")) then
+		If toInt(cafe_mb_level) < 6 And session("user_id") <> rs("user_id") then
 			Response.Write "<script>alert('수정 권한이없습니다');history.back();</script>"
 			Response.End
 		End If
@@ -102,7 +102,7 @@
 							<tr>
 								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th>
 								<td>
-									<%=makeSection("R", "section_seq", section_seq, "required")%>
+									<%=makeSection("R", "section_seq", section_seq, "")%>
 								</td>
 							</tr>
 <%
@@ -175,34 +175,45 @@
 <!--#include virtual="/home/home_footer_inc.asp"-->
 	</div>
 </body>
+<script>
+	var oEditors = [];
+
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: oEditors,
+		elPlaceHolder: "ir1",
+		sSkinURI: "/smart/SmartEditor2Skin.html",
+		htParams : {
+			bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+			//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
+			fOnBeforeUnload : function() {
+			}
+		}, //boolean
+		fOnAppLoad : function() {
+			//예제 코드
+			//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
+		},
+		fCreator: "createSEditor2"
+	})
+
+	function submitContents(elClickedObj) {
+		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
+		try {
+<%
+	If tab_use_yn = "Y" Then
+%>
+			if ( ! $('input[name=section_seq]:checked').val()) {
+				alert('<%=tab_nm%>을 선택해주세요.');
+				return false;
+			}
+<%
+	End If
+%>
+			elClickedObj.action = "story_modify_exec.asp";
+			elClickedObj.target = "hiddenfrm";
+			elClickedObj.submit()
+		} catch(e) {alert(e)}
+	}
+</script>
 </html>
-				<script>
-					var oEditors = [];
-
-					nhn.husky.EZCreator.createInIFrame({
-						oAppRef: oEditors,
-						elPlaceHolder: "ir1",
-						sSkinURI: "/smart/SmartEditor2Skin.html",
-						htParams : {
-							bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-							bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-							bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-							//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
-							fOnBeforeUnload : function() {
-							}
-						}, //boolean
-						fOnAppLoad : function() {
-							//예제 코드
-							//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
-						},
-						fCreator: "createSEditor2"
-					})
-
-					function submitContents(elClickedObj) {
-						oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
-						try {
-							elClickedObj.action = "story_modify_exec.asp";
-							elClickedObj.submit()
-						} catch(e) {alert(e)}
-					}
-				</script>

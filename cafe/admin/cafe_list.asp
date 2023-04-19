@@ -404,11 +404,11 @@
 						<tr>
 							<th scope="row">사랑방 분류</th>
 							<td>
-								<%=makeRadioCD("cafe_type", "", "required")%>
+								<%=makeRadioCD("cafe_type", "", "")%>
 							</td>
 							<th scope="row">공개여부</th>
 							<td>
-								<%=makeRadioCD("open_yn", "", "required")%>
+								<%=makeRadioCD("open_yn", "", "")%>
 							</td>
 						</tr>
 						<tr>

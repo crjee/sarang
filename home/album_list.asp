@@ -25,6 +25,7 @@
 	<div id="wrap">
 <!--#include virtual="/home/home_header_inc.asp"-->
 <%
+	section_seq = Request("section_seq")
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
 	self_yn  = Request("self_yn")
@@ -54,6 +55,9 @@
 	sql = sql & "   from cf_album ca "
 	sql = sql & "  where cafe_id = '" & cafe_id & "' "
 	sql = sql & "    and menu_seq = '" & menu_seq & "' "
+	If section_seq <> "" Then
+	sql = sql & "    and section_seq = '" & section_seq & "' "
+	End If
 	sql = sql & "    and level_num = 0 "
 	If self_yn = "Y" then
 	sql = sql & "    and user_id = '" & session("user_id") & "' "
@@ -88,6 +92,7 @@
 				<div class="">
 					<div class="search_box algR">
 						<form name="search_form" id="search_form" method="post">
+						<input type="hidden" name="section_seq" value="<%=section_seq%>">
 						<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 						<input type="hidden" name="page" value="<%=page%>">
 						<input type="hidden" name="album_seq">
@@ -138,6 +143,7 @@
 						</select>
 						</form>
 					</div>
+<!--#include virtual="/home/home_tab_inc.asp"-->
 					<div class="tb">
 						<div class="gallery gallery_t_1">
 							<div class="gallery_inner_box">
@@ -174,7 +180,7 @@
 
 				If (fso.FileExists(filePath)) Then
 %>
-									<span class="photos"><a href="javascript: goView('<%=album_seq%>','<%=session("ctTarget")%>')"><img src="<%=fileUrl%>" width="150" border="0" /></a></span>
+									<span class="photos"><a href="javascript: goView('<%=album_seq%>')"><img src="<%=fileUrl%>" width="150" border="0" /></a></span>
 <%
 				Else
 %>
@@ -184,7 +190,7 @@
 			End If
 			rs2.close
 %>
-									<a href="javascript: goView('<%=album_seq%>','<%=session("ctTarget")%>')"><span class="text"><%=subject%>(<%=comment_cnt%>)
+									<a href="javascript: goView('<%=album_seq%>')"><span class="text"><%=subject%>(<%=comment_cnt%>)
 <%
 			If CDate(DateAdd("d", 2, credt_txt)) >= Date Then
 %>
@@ -229,27 +235,31 @@
 </body>
 </html>
 <script>
-				function MovePage(page, gvTarget) {
+				function MovePage(page) {
 					var f = document.search_form;
 					f.page.value = page;
-					f.target = gvTarget;
 					f.action = "/home/album_list.asp";
 					f.submit();
 				}
 
-				function goView(album_seq, gvTarget) {
+				function goView(album_seq) {
 					var f = document.search_form;
 					f.album_seq.value = album_seq;
-					f.target = gvTarget;
 					f.action = "/home/album_view.asp";
 					f.submit();
 				}
 
-				function goSearch(gvTarget) {
+				function goSearch() {
 					var f = document.search_form;
 					f.page.value = 1;
-					f.target = gvTarget;
 					f.action = "/home/album_list.asp";
+					f.submit();
+				}
+
+				function goTab(section_seq) {
+					var f = document.search_form;
+					f.section_seq.value = section_seq;
+					f.page.value = 1;
 					f.submit();
 				}
 

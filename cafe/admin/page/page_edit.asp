@@ -42,14 +42,16 @@
 		sql = sql & "       ,getdate())"
 		Conn.Execute(sql)
 	End If
-	
+
+	Set rs = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
 	sql = sql & " select * "
 	sql = sql & "   from cf_menu cm "
 	sql = sql & "  inner join cf_page cs on cs.cafe_id = cm.cafe_id "
 	sql = sql & "  where menu_seq = '" & menu_seq & "' "
+	rs.open Sql, conn, 3, 1
 
-	Set rs = Conn.Execute(sql)
 	If Not rs.eof Then
 		menu_name = rs("menu_name")
 		page_type = rs("page_type")
@@ -66,6 +68,7 @@
 		picture      = rs("picture")
 	End If
 	rs.close
+	Set rs = Nothing
 
 	If isnull(page_type) Then page_type = ""
 %>

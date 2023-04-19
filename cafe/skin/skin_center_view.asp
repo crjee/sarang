@@ -70,8 +70,8 @@
 		all_tab_use_yn = rs("all_tab_use_yn")
 		etc_tab_use_yn = rs("etc_tab_use_yn")
 
-		' 와이드형 여부 sf_col_1 : 와이드, sf_col_2 : 2단
-		' 홀수 짝수(왼쪽 오른쪽) sub_frm_a : 와이드전체, sub_frm_l : 2단
+		' 와이드형 여부 sf_col_1 : 와이드, sf_col_2 : 2열
+		' 홀수 짝수(왼쪽 오른쪽) sub_frm_a : 와이드, sub_frm_l : 2열
 		If wide_yn = "Y" Then
 			wide_class = "sf_col_1"
 			odd_even_class = "sub_frm_a"
@@ -114,7 +114,7 @@
 			home_cnt = "5"
 		End If
 %>
-					<div class="<%=odd_even_class%>"><!-- sub_frm_a : 와이드전체, sub_frm_l : 2단 -->
+					<div class="<%=odd_even_class%>"><!-- sub_frm_a : 와이드, sub_frm_l : 2열 -->
 						<div class="latest_box">
 							<header class="latest_box_head">
 								<h4 class="h4"><%=menu_name%></h4>
@@ -507,7 +507,7 @@
 			sdate    = rs("sdate")
 			edate    = rs("edate")
 %>
-					<div class="sub_frm_l"><!-- sub_frm_a : 와이드전체, sub_frm_l : 2단 -->
+					<div class="sub_frm_l"><!-- sub_frm_a : 와이드, sub_frm_l : 2열 -->
 						<div class="latest_box">
 							<header class="latest_box_head">
 								<h4 class="h4">설문조사</h4>
