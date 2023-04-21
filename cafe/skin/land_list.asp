@@ -36,6 +36,7 @@
 			<div class="container">
 <%
 	Set rs = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
 	sql = sql & " select land_seq        "
 	sql = sql & "       ,land_url        "
@@ -45,8 +46,6 @@
 	sql = sql & "   from cf_land         "
 	sql = sql & "  order by land_seq asc "
 	rs.Open Sql, conn, 3, 1
-
-	RecordCount = rs.recordcount
 %>
 				<div class="cont_tit">
 					<h2 class="h2">부동산뉴스</h2>

@@ -8,27 +8,7 @@
 	checkCafePage(cafe_id)
 
 	pageUrl = "http://" & request.servervariables("HTTP_HOST") & request.servervariables("HTTP_URL") & "?menu_seq=" & Request("menu_seq") & "&album_seq=" & Request("album_seq")
-%>
-<!DOCTYPE html>
-<html lang="kr">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>GI</title>
-	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
-	<script src="/common/js/jquery-3.6.0.min.js"></script>
-	<script src="/common/js/jquery-ui.min.js"></script>
-	<script src="/common/js/slick.min.js"></script>
-	<script src="/common/js/common.js"></script>
-	<script src="/common/js/cafe.js"></script>
-</head>
-<body>
-	<div id="wrap">
-<!--#include virtual="/home/home_header_inc.asp"-->
-		<main id="main" class="main">
-			<div class="container">
-<%
+
 	page      = Request("page")
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
@@ -52,39 +32,91 @@
 	rs.Open Sql, conn, 3, 1
 
 	If Not rs.eof Then
+		group_num      = rs("group_num")
+		step_num       = rs("step_num")
+		level_num      = rs("level_num")
+		album_num      = rs("album_num")
+		cafe_id        = rs("cafe_id")
+		menu_seq       = rs("menu_seq")
+		agency         = rs("agency")
+		subject        = rs("subject")
+		contents       = rs("contents")
+		view_cnt       = rs("view_cnt")
+		suggest_cnt    = rs("suggest_cnt")
+		link           = rs("link")
+		top_yn         = rs("top_yn")
+		reg_date       = rs("reg_date")
+		creid          = rs("creid")
+		credt          = rs("credt")
+		modid          = rs("modid")
+		moddt          = rs("moddt")
+		album_seq      = rs("album_seq")
+		suggest_info   = rs("suggest_info")
+		user_id        = rs("user_id")
+		parent_seq     = rs("parent_seq")
+		move_album_num = rs("move_album_num")
+		parent_del_yn  = rs("parent_del_yn")
+		move_menu_seq  = rs("move_menu_seq")
+		move_user_id   = rs("move_user_id")
+		move_date      = rs("move_date")
+		restoreid      = rs("restoreid")
+		restoredt      = rs("restoredt")
+		comment_cnt    = rs("comment_cnt")
+		section_seq    = rs("section_seq")
+		pop_yn         = rs("pop_yn")
+
+		tel_no         = rs("tel_no")
+	Else
+		msggo "정상적인 사용이 아닙니다.",""
 	End If
+	rs.close
 %>
-				<form name="open_form" method="post">
-				<input type="hidden" name="open_url" value="/home/album_slide_view_p.asp?album_seq=<%=album_seq%>">
-				<input type="hidden" name="open_name" value="album_slide">
-				<input type="hidden" name="open_specs" value="width=660, height=530, left=150, top=20">
-				</form>
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>GI</title>
+	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
+	<script src="/common/js/jquery-3.6.0.min.js"></script>
+	<script src="/common/js/jquery-ui.min.js"></script>
+	<script src="/common/js/slick.min.js"></script>
+	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
+</head>
+<body>
+	<div id="wrap">
+<!--#include virtual="/home/home_header_inc.asp"-->
+		<main id="main" class="main">
+			<div class="container">
 				<form name="search_form" method="post">
 				<input type="hidden" name="page" value="<%=page%>">
 				<input type="hidden" name="pagesize" value="<%=pagesize%>">
 				<input type="hidden" name="sch_type" value="<%=sch_type%>">
 				<input type="hidden" name="sch_word" value="<%=sch_word%>">
 				<input type="hidden" name="self_yn" value="<%=self_yn%>">
+				<input type="hidden" name="task">
 
 				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 				<input type="hidden" name="album_seq" value="<%=album_seq%>">
 				<input type="hidden" name="com_seq" value="<%=album_seq%>">
 
-				<input type="hidden" name="group_num" value="<%=rs("group_num")%>">
-				<input type="hidden" name="level_num" value="<%=rs("level_num")%>">
-				<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
+				<input type="hidden" name="group_num" value="<%=group_num%>">
+				<input type="hidden" name="level_num" value="<%=level_num%>">
+				<input type="hidden" name="step_num" value="<%=step_num%>">
 				</form>
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%> 내용보기</h2>
 				</div>
 				<div class="btn_box view_btn">
 <%
-	If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
+	If cafe_mb_level > 6 Or user_id = session("user_id") Then
 %>
 					<button type="button" class="btn btn_c_n btn_n" onclick="goModify()">수정</button>
 					<button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
 <%
-		If rs("step_num") = "0" Then
+		If step_num = "0" Then
 		End If
 	End If
 %>
@@ -104,82 +136,74 @@
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
 					<div class="view_head">
-						<h3 class="h3" id="subject"><%=rs("subject")%></h3>
+						<h3 class="h3" id="subject"><%=subject%></h3>
 						<div class="wrt_info_box">
 							<ul>
-								<li><span>작성자</span><strong><a title="<%=rs("tel_no")%>"><%=rs("agency")%></a></strong></li>
-								<li><span>조회</span><strong><%=rs("view_cnt")%></strong></li>
-								<li><span>추천</span><strong><%=rs("suggest_cnt")%></strong></li>
-								<li><span>등록일시</span><strong><%=rs("credt")%></strong></li>
+								<li><span>작성자</span><strong><a title="<%=tel_no%>"><%=agency%></a></strong></li>
+								<li><span>조회</span><strong><%=view_cnt%></strong></li>
+								<li><span>추천</span><strong><%=suggest_cnt%></strong></li>
+								<li><span>등록일시</span><strong><%=credt%></strong></li>
 							</ul>
 						</div>
 					</div>
 					<div class="wrt_file_box"><!-- 첨부파일영역 추가 crjee -->
 <%
-	link = rs("link")
-	link_txt = rmid(link, 40, "..")
-
 	If link <> "" Then
+		link_txt = rmid(link, 40, "..")
 %>
 						<p class="file"><a href="<%=link%>" target="_blink" id="linkTxt"><%=link_txt%></a>&nbsp;<img src="/home/img/inc/copy.png" style="cursor:hand" id="linkBtn"/></p>
-<script>
-	document.getElementById("linkBtn").onclick = function() {
-		try{
-			if (window.clipboardData) {
-					window.clipboardData.setData("text", "<%=link%>")
-					alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-			}
-			else if (window.navigator.clipboard) {
-					window.navigator.clipboard.writeText("<%=link%>").then(() => {
-						alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-					});
-			}
-			else {
-				temp = prompt("해당 URL을 복사하십시오.", "<%=link%>");
-			}
-		} catch(e) {
-			alert(e)
-		}
-	};
-</script>
+						<script>
+							document.getElementById("linkBtn").onclick = function() {
+								try{
+									if (window.clipboardData) {
+											window.clipboardData.setData("text", "<%=link%>")
+											alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+									}
+									else if (window.navigator.clipboard) {
+											window.navigator.clipboard.writeText("<%=link%>").then(() => {
+												alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+											});
+									}
+									else {
+										temp = prompt("해당 URL을 복사하십시오.", "<%=link%>");
+									}
+								} catch(e) {
+									alert(e)
+								}
+							};
+						</script>
 <%
 	End If
 %>
 <%
 	displayUrl = ConfigAttachedFileURL & "display/album/"
 
-	Set rs2 = Server.CreateObject ("ADODB.Recordset")
-
 	sql = ""
 	sql = sql & " select * "
 	sql = sql & "   from cf_album_attach "
 	sql = sql & "  where album_seq = '" & album_seq & "' "
 	sql = sql & "  order by attach_num "
-	rs2.Open Sql, conn, 3, 1
+	rs.Open Sql, conn, 3, 1
 
-	Do Until rs2.eof
+	Do Until rs.eof
 		If arr_image = "" Then
-			arr_image = rs2("dsply_file_nm")
+			arr_image = rs("dsply_file_nm")
 		Else
-			arr_image =  arr_image & ":" & rs2("dsply_file_nm")
+			arr_image =  arr_image & ":" & rs("dsply_file_nm")
 		End If
 %>
-						<img src="<%=displayUrl & rs2("dsply_file_nm")%>" border="0" style="cursor:hand" /><br /><br />
+						<img src="<%=displayUrl & rs("dsply_file_nm")%>" border="0" style="cursor:hand" /><br /><br />
 <%
-		rs2.MoveNext
-	loop
-	rs2.close
-	Set rs2 = Nothing
-%>
-					</div>
-					<div class="bbs_cont">
-						<%=rs("contents")%>
-					</div>
-				</div>
-<%
+		rs.MoveNext
+	Loop
 	rs.close
 	Set rs = Nothing
 %>
+					</div>
+					<div class="bbs_cont">
+						<%=contents%>
+					</div>
+				</div>
 <%
 	com_seq = album_seq
 %>
@@ -191,9 +215,6 @@
 	</div>
 </body>
 </html>
-<%
-	uploadUrl = ConfigAttachedFileURL & "album/"
-%>
 	<!-- 레이어 팝업 -->
 	<div class="lypp lypp_sarang lypp_slide">
 		<header class="lypp_head">
@@ -203,15 +224,15 @@
 			</span>
 		</header>
 		<div class="adm_cont">
-				<div class="">
-					<img name="_Ath_Slide" onload="OnImgLoad(); Rsize(this, 600, 450,1)" style="cursor:hand">
-				</div>
-				<div class="btn_box algC">
-					<img src="/home/img/btn/pic_bu11.gif" width="42" height="26" border="0" alt="이전 사진" onClick="Prev()" style="cursor:hand" name="btnPrev">
-					<img src="/home/img/btn/pic_bu12.gif" width="42" height="26" border="0" alt="자동슬라이드" onClick="Play()" style="cursor:hand" name="btnPlay">
-					<img src="/home/img/btn/pic_bu13.gif" width="42" height="26" alt="중지" border="0" onClick="Stop()" style="cursor:hand" name="btnStop">
-					<img src="/home/img/btn/pic_bu14.gif" width="42" height="26" border="0" alt="다음사진" onClick="Next()" style="cursor:hand" name="btnNext">
-				</div>
+			<div class="">
+				<img name="_Ath_Slide" onload="OnImgLoad(); Rsize(this, 600, 450,1)" style="cursor:hand">
+			</div>
+			<div class="btn_box algC">
+				<img src="/cafe/skin/img/btn/pic_bu11.gif" width="42" height="26" border="0" alt="이전 사진" onClick="Prev()" style="cursor:hand" name="btnPrev">
+				<img src="/cafe/skin/img/btn/pic_bu12.gif" width="42" height="26" border="0" alt="자동슬라이드" onClick="Play()" style="cursor:hand" name="btnPlay">
+				<img src="/cafe/skin/img/btn/pic_bu13.gif" width="42" height="26" alt="중지" border="0" onClick="Stop()" style="cursor:hand" name="btnStop">
+				<img src="/cafe/skin/img/btn/pic_bu14.gif" width="42" height="26" border="0" alt="다음사진" onClick="Next()" style="cursor:hand" name="btnNext">
+			</div>
 		</div>
 	</div>
 <script>
@@ -267,27 +288,27 @@
 		window.print();
 	}
 
-	function goList(sch, gvTarget) {
+	function goList(sch) {
 		if (sch == 'Y') {
 			document.search_form.action = "/home/cafe_search_list.asp";
 		}
 		else {
 			document.search_form.action = "/home/album_list.asp";
 		}
-		document.search_form.target = gvTarget;
+		document.search_form.target = "_self";
 		document.search_form.submit();
 	}
 
-	function goReply(gvTarget) {
+	function goReply() {
 		document.search_form.action = "/home/album_reply.asp";
-		document.search_form.target = gvTarget;
+		document.search_form.target = "_self";
 		document.search_form.submit();
 	}
 
-	function goModify(gvTarget) {
+	function goModify() {
 		try{
 			document.search_form.action = "/home/album_modify.asp";
-			document.search_form.target = gvTarget;
+			document.search_form.target = "_self";
 			document.search_form.submit();
 		} catch(e) {
 			alert(e)

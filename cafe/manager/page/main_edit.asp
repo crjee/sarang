@@ -83,6 +83,9 @@
 											</span>
 										</td>
 									</tr>
+<%
+	If menu_type = "album" Or menu_type = "nsale" Then
+%>
 									<tr>
 										<th scope="row" rowspan="2">앨범</th>
 										<th>2열</th>
@@ -141,6 +144,9 @@
 											</span>
 										</td>
 									</tr>
+<%
+	End If
+%>
 								</tbody>
 							</table>
 						</div>

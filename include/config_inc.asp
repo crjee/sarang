@@ -19,6 +19,8 @@
 	Dim read_auth
 	Dim cafe_mb_level
 	Dim cafe_ad_level
+	Dim all_tab_use_yn
+	Dim etc_tab_use_yn
 
 	Dim daily_cnt
 	Dim write_cnt
@@ -82,7 +84,6 @@
 	cafe_ad_level = Session("cafe_ad_level")
 
 	Function getUserLevel(cafe_id)
-
 		cafe_mb_level = "0"
 
 		If Session("cafe_ad_level") = "10" Then
@@ -157,7 +158,7 @@
 
 	End Function
 
-	Function getNum(menu_type, cafe_id, menu_seq)
+	Function getNum(ByVal menu_type, ByVal cafe_id, ByVal menu_seq)
 
 		getNum = getonevalue("isnull(max(" & menu_type & "_num)+1,1)","cf_" & menu_type,"where cafe_id = '" & cafe_id & "' and menu_seq = '" & menu_seq & "'")
 
@@ -189,6 +190,7 @@
 		funcRs.Open funcSql, Conn, 3, 1
 
 		If funcRs.Eof Then
+Response.write "checkCafePage<br>" & funcSql
 			msggo "정상적인 사용이 아닙니다.",""
 		Else
 			menu_type      = funcRs("menu_type")
@@ -222,6 +224,7 @@
 		funcRs.Open funcSql, Conn, 3, 1
 
 		If funcRs.Eof Then
+Response.write "checkCafePageUpload<br>" & funcSql
 			msggo "정상적인 사용이 아닙니다.",""
 		Else
 			menu_type  = funcRs("menu_type")
@@ -584,19 +587,19 @@
 				strSection = strSection & "									"
 				strSection = strSection & "<span class=''>" & vbCrLf
 				strSection = strSection & "										"
-				strSection = strSection & "<input type='radio' id='section_sn_" & section_sn & "' name='" & snm & "' value='" & section_seq & "' class='inp_radio' " & if3(section_seq=cstr(sel), "checked ", "") & if3(req="", "", " required") & "/>" & vbCrLf
+				strSection = strSection & "<input type='radio' id='section_sn_" & section_sn & "' name='" & snm & "' value='" & section_seq & "' class='inp_radio' " & if3(CStr(section_seq)=CStr(sel), "checked ", "") & if3(req="", "", " required") & "/>" & vbCrLf
 				strSection = strSection & "										"
 				strSection = strSection & "<label for='section_sn_" & section_sn & "'><em>" & section_nm & "</em></label>" & vbCrLf
 				strSection = strSection & "									"
 				strSection = strSection & "</span>" & vbCrLf
 			Case "S"
 				strSection = strSection & "									"
-				strSection = strSection & "<option value='" & section_seq & "' " & if3(section_seq=cstr(sel), "selected", "") & ">" & section_nm & "</option>" & vbCrLf
+				strSection = strSection & "<option value='" & section_seq & "' " & if3(CStr(section_seq)=CStr(sel), "selected", "") & ">" & section_nm & "</option>" & vbCrLf
 			Case "C"
 				strSection = strSection & "									"
 				strSection = strSection & "<span class=''>" & vbCrLf
 				strSection = strSection & "										"
-				strSection = strSection & "<input type='checkbox' id='section_sn_" & section_sn & "' name='" & snm & "' value='" & section_seq & "' class='inp_check' " & if3(instr(cstr(sel), section_seq) > 0, " checked", "") & if3(req="", "", " required") & if3(tIdx="", "", " tabidex='" & tIdx & "'") & "/>" & vbCrLf
+				strSection = strSection & "<input type='checkbox' id='section_sn_" & section_sn & "' name='" & snm & "' value='" & section_seq & "' class='inp_check' " & if3(InStr(CStr(sel), CStr(section_seq)) > 0, " checked", "") & if3(req="", "", " required") & if3(tIdx="", "", " tabidex='" & tIdx & "'") & "/>" & vbCrLf
 				strSection = strSection & "										"
 				strSection = strSection & "<label for='section_sn_" & section_sn & "'><em>" & section_nm & "</em></label>" & vbCrLf
 				strSection = strSection & "									"
@@ -983,7 +986,6 @@
 		funcSql = funcSql & "         ,comment                   "
 		funcSql = funcSql & "     from cf_" & menu_type & "_comment  "
 		funcSql = funcSql & "    where comment_seq = " & com_seq & " "
-		Response.write funcSql
 		funcRs.Open funcSql, conn, 1
 
 		i = 0
@@ -1032,7 +1034,6 @@
 		funcSql = funcSql & " select * "
 		funcSql = funcSql & "   from cf_" & menu_type & "_attach "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-Response.write funcSql
 		Conn.Execute(funcSql)
 
 		funcSql = ""
@@ -1186,12 +1187,15 @@ Response.write funcSql
 	End Sub
 
 	Dim attach_file()
-	ReDim attach_file(1)
+	Dim dsply_file()
+	Dim thmbnl_file()
 	Sub delete_content(menu_type, com_seq)
 		Set funcRs = server.createobject("adodb.recordset")
 
 		funcSql = ""
-		funcSql = funcSql & " select file_name "
+		funcSql = funcSql & " select file_name     "
+		funcSql = funcSql & "       ,dsply_file_nm  "
+		funcSql = funcSql & "       ,thmbnl_file_nm "
 		funcSql = funcSql & "   from cf_waste_" & menu_type & "_attach "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		funcRs.Open funcSql, conn, 1
@@ -1201,7 +1205,11 @@ Response.write funcSql
 			Do Until funcRs.eof
 				i = i + 1
 				ReDim Preserve attach_file(i)
+				ReDim Preserve dsply_file(i)
+				ReDim Preserve thmbnl_file(i)
 				attach_file(i) = funcRs("file_name")
+				dsply_file(i)  = funcRs("dsply_file_nm")
+				thmbnl_file(i) = funcRs("thmbnl_file_nm")
 				funcRs.MoveNext
 			Loop
 		End If
@@ -1242,7 +1250,6 @@ Response.write funcSql
 		date_str = Replace(date_str,"-",".")
 
 		to_date_dot = date_str
-
 	End Function
 	
 	Function getImgYN(path)

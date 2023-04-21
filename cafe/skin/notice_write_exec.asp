@@ -5,7 +5,6 @@
 
 	menu_type = "notice"
 
-	ScriptTimeOut = 5000
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & "notice\"
 	uploadform.DefaultPath = uploadFolder

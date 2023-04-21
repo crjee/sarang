@@ -1,7 +1,4 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
-<%
-	freePage = True
-%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
@@ -105,11 +102,11 @@
 					call objImage.SaveasThumbnail(ConfigAttachedFileFolder & "thumbnail\" & thumbnail, objImage.ImageWidth/rate, objImage.ImageHeight/rate, false, true)
 
 					sql = ""
-					sql = sql & " update cf_album "
-					sql = sql & "    set thumbnail = '" & thumbnail & "' "
-					sql = sql & "       ,modid = '" & Session("user_id") & "' "
-					sql = sql & "       ,moddt = getdate() "
-					sql = sql & "  where album_seq = '" & album_seq  & " '"
+					sql = sql & " update cf_album                                 "
+					sql = sql & "    set thumbnail = '" & thumbnail          & "' "
+					sql = sql & "       ,modid     = '" & Session("user_id") & "' "
+					sql = sql & "       ,moddt     = getdate()                    "
+					sql = sql & "  where album_seq = '" & album_seq & "'          "
 					Conn.Execute(sql)
 				End If
 			End If

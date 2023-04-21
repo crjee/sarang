@@ -8,11 +8,11 @@
 	
 	set rs = server.createobject("adodb.recordset")
 	sql = ""
-	sql = sql & " select menu_type                   "
-	sql = sql & "       ,page_type                   "
-	sql = sql & "   from cf_menu                     "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "'   "
+	sql = sql & " select menu_type                     "
+	sql = sql & "       ,page_type                     "
+	sql = sql & "   from cf_menu                       "
+	sql = sql & "  where menu_seq = '" & menu_seq & "' "
+	sql = sql & "    and cafe_id  = '" & cafe_id  & "' "
 	rs.Open Sql, conn, 3, 1
 	menu_type = rs("menu_type")
 	page_type = rs("page_type")
@@ -31,14 +31,18 @@
 		Case "album"   : cnt = getonevalue("count(*)","cf_album","where menu_seq='" & menu_seq & "'")
 		Case "board"   : cnt = getonevalue("count(*)","cf_board","where menu_seq='" & menu_seq & "'")
 		Case "sale"    : cnt = getonevalue("count(*)","cf_sale","where menu_seq='" & menu_seq & "'")
-		Case "job"     : cnt = 0
+		Case "nsale"   : cnt = getonevalue("count(*)","cf_nsale","where menu_seq='" & menu_seq & "'")
+		Case "story"   : cnt = getonevalue("count(*)","cf_story","where menu_seq='" & menu_seq & "'")
+		Case "job"     : cnt = getonevalue("count(*)","cf_story","where menu_seq='" & menu_seq & "'")
 		Case "poll"    : cnt = 0 ' getonevalue("count(*)","cf_poll","where menu_seq='" & menu_seq & "'")
 		Case "member"  : cnt = 0
 		Case "group"   : cnt = 0
+		Case Else msgonly "dd"
 	End Select
-
+msgonly getonevalue("count(*)","cf_album","where menu_seq='" & menu_seq & "'")
 	If cnt > 0 Then
 		msggo "해당 메뉴에 등록된 정보가 있어 삭제할 수 없습니다.\n\n메뉴감추기 기능을 이용하세요.", "preload"
+		Response.end
 	End if
 
 	'메뉴 삭제
@@ -60,7 +64,7 @@
 	sql = sql & "   from (select row_number() over (order by home_num asc) as rownum  "
 	sql = sql & "               ,*                                                    "
 	sql = sql & "          from cf_menu cm                                            "
-	sql = sql & "         where cafe_id = '" & cafe_id & "'                               "
+	sql = sql & "         where cafe_id = '" & cafe_id & "'                           "
 	sql = sql & "           and menu_type not in ('page','group','division')          "
 	sql = sql & "           and home_num != 0                                         "
 	sql = sql & "        ) t1                                                         "

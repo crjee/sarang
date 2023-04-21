@@ -165,7 +165,7 @@
 										</ul>
 									</td>
 									<td class="algC"><%=total%> 명</td>
-									<td class="algC"><%=row("sdate") & " ~ " & row("edate")%></td>
+									<td class="algC"><%=row("sdate")%> <%=if3(row("sdate")<>"" Or row("edate")<>""," ~ ","")%> <%=row("edate")%></td>
 									<td class="algC"><%=if3(row("rprsv_cert_use_yn")="Y","Y","")%></td>
 									<td class="algC"><%=if3(row("ddln_yn")="Y","Y","")%></td>
 									<td class="algC">
@@ -291,7 +291,7 @@
 	function ques_cnt(v) {
 		for (var i=1;i<=v;i++) {
 			obj = "quess"+i;
-			eval(obj+".style").display='block';
+			eval(obj+".style").display='table-row';
 		}
 
 		for (j=i;j<=10;j++) {

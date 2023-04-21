@@ -3,6 +3,12 @@
 <%
 	Call checkAdmin()
 
+	cafe_cnt = Request("cafe_id").count
+
+	If cafe_cnt = 0 Then
+		msgend("선택한 사랑방이 없습니다.")
+	End If
+
 	For i = 1 To Request("cafe_id").count
 		cafe_id = Request("cafe_id")(i)
 		union_id = Request("union_id_" & cafe_id)

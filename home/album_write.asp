@@ -135,7 +135,7 @@
 				</div>
 				<div class="btn_box">
 					<button type="submit" class="btn btn_c_a btn_n">등록</button>
-					<button type="button" class="btn btn_c_n btn_n" onclick="<%=session("svHref")%>location.href='/home/album_list.asp?menu_seq=<%=menu_seq%>'"><em>취소</em></button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='/home/album_list.asp?menu_seq=<%=menu_seq%>'"><em>취소</em></button>
 				</div>
 				</form>
 			</div>

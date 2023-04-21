@@ -54,19 +54,19 @@
 			Response.End
 		End If
 
-		step_num = rs("step_num")
-		top_yn   = rs("top_yn")
-		pop_yn   = rs("pop_yn")
-		cafe_id  = rs("cafe_id")
-		user_id  = rs("user_id")
-		subject  = rs("subject")
-		contents = rs("contents")
-		subject  = Replace(subject, """", " & quot;")
+		step_num    = rs("step_num")
+		top_yn      = rs("top_yn")
+		pop_yn      = rs("pop_yn")
+		cafe_id     = rs("cafe_id")
+		user_id     = rs("user_id")
+		subject     = rs("subject")
+		contents    = rs("contents")
+		section_seq = rs("section_seq")
+		link        = rs("link")
+		subject     = Replace(subject, """", " & quot;")
 
-		If rs("link")="" Then
+		If link = "" Then
 			link = "http://"
-		Else
-			link = rs("link")
 		End If
 
 		If cafe_id = "" Then
@@ -134,6 +134,18 @@
 							</tr>
 <%
 		End If
+	End If
+%>
+<%
+	If tab_use_yn = "Y" Then
+%>
+							<tr>
+								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th>
+								<td>
+									<%=makeSection("R", "section_seq", section_seq, "")%>
+								</td>
+							</tr>
+<%
 	End If
 %>
 							<tr>
@@ -259,10 +271,21 @@
 	function submitContents(elClickedObj) {
 		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
 		try {
+<%
+	If tab_use_yn = "Y" Then
+%>
+							<tr>
+								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th>
+								<td>
+									<%=makeSection("R", "section_seq", section_seq, "")%>
+								</td>
+							</tr>
+<%
+	End If
+%>
 			elClickedObj.action = "notice_modify_exec.asp";
 			elClickedObj.target = "hiddenfrm";
 			elClickedObj.form.submit()
-
 		} catch(e) {}
 	}
 	</script>

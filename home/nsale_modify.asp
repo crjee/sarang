@@ -26,21 +26,26 @@
 </head>
 <!-- 달력 시작 -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 	$.datepicker.setDefaults({
-		dateFormat: 'yy-mm-dd',
-		prevText: '이전 달',
-		nextText: '다음 달',
-		monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-		monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-		dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-		dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-		dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-		showMonthAfterYear: true,
-		yearSuffix: '년'
+		dateFormat: 'yy-mm-dd' //달력 날짜 형태
+		,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+		,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+		,changeYear: true //option값 년 선택 가능
+		,changeMonth: true //option값  월 선택 가능                
+		,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+		,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+		,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
+		,buttonText: "선택" //버튼 호버 텍스트              
+		,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
+		,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
+		,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
+		,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
+		,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
+		,minDate: "-5Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+		,maxDate: "+5y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
 	});
 
 	$( function() {
@@ -121,6 +126,10 @@
 		section_seq            = rs("section_seq")
 		link     = rs("link")
 		subject  = Replace(subject, """", " & quot;")
+
+		If link = "" Then
+			link = "http://"
+		End If
 	End if
 	rs.close
 
@@ -200,41 +209,41 @@
 								<th scope="row">모집공고일</th>
 								<td>
 									<span class="">
-									<input type="text" id="rect_notice_date" name="rect_notice_date" value="<%=rect_notice_date%>" class="inp w120" readonly />
+									<input type="text" id="rect_notice_date" name="rect_notice_date" value="<%=rect_notice_date%>" class="inp w120p" />
 									</span>
 								</td>
 								<th scope="row">청약접수일</th>
 								<td>
 									<span class="">
 										<em class="mr5">1순위</em>
-										<input type="text" id="frst_receipt_acpt_date" name="frst_receipt_acpt_date" value="<%=frst_receipt_acpt_date%>" class="inp w120p" readonly />
+										<input type="text" id="frst_receipt_acpt_date" name="frst_receipt_acpt_date" value="<%=frst_receipt_acpt_date%>" class="inp w120p" />
 									</span>
 									<span class="ml20">
 										<em class="mr5">2순위</em>
-										<input type="text" id="scnd_receipt_acpt_date" name="scnd_receipt_acpt_date" value="<%=scnd_receipt_acpt_date%>" class="inp w120p" readonly />
+										<input type="text" id="scnd_receipt_acpt_date" name="scnd_receipt_acpt_date" value="<%=scnd_receipt_acpt_date%>" class="inp w120p" />
 									</span>
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">당첨발표일</th>
 								<td>
-									<input type="text" id="prize_anc_date" name="prize_anc_date" value="<%=prize_anc_date%>" class="inp w120" readonly />
+									<input type="text" id="prize_anc_date" name="prize_anc_date" value="<%=prize_anc_date%>" class="inp w120p" />
 								</td>
 								<th scope="row">계약기간</th>
 								<td>
-									<input type="text" id="cnt_st_date" name="cnt_st_date" value="<%=cnt_st_date%>" class="inp w120" readonly /><br>
-									<input type="text" id="cnt_ed_date" name="cnt_ed_date" value="<%=cnt_ed_date%>" class="inp w120" readonly />
+									<input type="text" id="cnt_st_date" name="cnt_st_date" value="<%=cnt_st_date%>" class="inp w120p" />  ~ 
+									<input type="text" id="cnt_ed_date" name="cnt_ed_date" value="<%=cnt_ed_date%>" class="inp w120p" />
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">전매기간</th>
 								<td>
-									<input type="text" id="resale_st_date" name="resale_st_date" value="<%=resale_st_date%>" class="inp w120" readonly /><br>
-									<input type="text" id="resale_ed_date" name="resale_ed_date" value="<%=resale_ed_date%>" class="inp w120" readonly />
+									<input type="text" id="resale_st_date" name="resale_st_date" value="<%=resale_st_date%>" class="inp w120p" />  ~ 
+									<input type="text" id="resale_ed_date" name="resale_ed_date" value="<%=resale_ed_date%>" class="inp w120p" />
 								</td>
 								<th scope="row">입주일</th>
 								<td>
-									<input type="text" id="mvin_date" name="mvin_date" value="<%=mvin_date%>" class="inp w120" readonly />
+									<input type="text" id="mvin_date" name="mvin_date" value="<%=mvin_date%>" class="inp w120p" />
 								</td>
 							</tr>
 							<tr>
@@ -256,7 +265,6 @@
 						<textarea name="ir1" id="ir1" style="width:100%;display:none;"><%=contents%></textarea>
 <%
 	End If
-	rs.close
 %>
 						<p class="txt_point mt10">새로고침시 에디터 내용은 유지되지 않습니다.</p>
 					</div>

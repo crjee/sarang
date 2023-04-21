@@ -178,10 +178,10 @@
 			sql = sql & "       ,null land_url "
 			End If
 			If menu_type = "nsale" Then
-			sql = sql & "       ,frst_receipt_acpt_date  "
+			sql = sql & "       ,rect_notice_date  "
 			sql = sql & "       ,mvin_date  "
 			Else
-			sql = sql & "       ,null frst_receipt_acpt_date  "
+			sql = sql & "       ,null rect_notice_date  "
 			sql = sql & "       ,null mvin_date  "
 			End If
 			sql = sql & "   from cf_" & menu_type  & " "
@@ -217,10 +217,10 @@
 			sql = sql & "       ,null land_url "
 			End If
 			If menu_type = "nsale" Then
-			sql = sql & "       ,frst_receipt_acpt_date  "
+			sql = sql & "       ,rect_notice_date  "
 			sql = sql & "       ,mvin_date  "
 			Else
-			sql = sql & "       ,convert(varchar(10), credt, 120) as frst_receipt_acpt_date  "
+			sql = sql & "       ,convert(varchar(10), credt, 120) as rect_notice_date  "
 			sql = sql & "       ,null mvin_date  "
 			End If
 			sql = sql & "   from cf_" & menu_type  & " "
@@ -286,7 +286,7 @@
 					credt_txt    = rs2("credt_txt")
 					subject      = rs2("subject")
 					comment_cnt  = rs2("comment_cnt")
-					frst_receipt_acpt_date = rs2("frst_receipt_acpt_date")
+					rect_notice_date = rs2("rect_notice_date")
 					mvin_date    = rs2("mvin_date")
 					land_url     = rs2("land_url")
 					com_seq      = rs2(menu_type & "_seq")
@@ -374,11 +374,11 @@
 <%
 						If menu_type = "nsale" Then
 %>
-													<span title="분양일"><%=frst_receipt_acpt_date%></span> / <span title="입주일"><%=mvin_date%></span>
+													<span title="모집공고일"><%=rect_notice_date%></span> | <span title="입주일"><%=mvin_date%></span>
 <%
 						Else
 %>
-													<span title="작성일"><%=frst_receipt_acpt_date%></span></span>
+													<span title="작성일"><%=rect_notice_date%></span></span>
 <%
 						End If
 %>

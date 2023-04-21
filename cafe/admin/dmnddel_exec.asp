@@ -3,6 +3,10 @@
 <%
 	Call checkAdmin()
 
+	If cafe_id = "" Then
+		msgend("선택한 요청이 없습니다.")
+	End If
+
 	dmnd_id = request("dmnd_id")
 	dmnd_prcs_cd = request("dmnd_prcs_cd")
 

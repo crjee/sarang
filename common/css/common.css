@@ -278,7 +278,7 @@
 
 
 /* Sticky Box */
-.sticky_box { position:absolute; right:50%; width:130px; height:auto; margin-right:-750px; }
+.sticky_box { position:absolute; right:0; width:130px; height:auto; margin-right:-150px; }
 .sticky_box li + li { margin-top:3px; }
 .sticky_box a { position:relative; display:block; background:#f9f9f9; }
 .sticky_box a img { display:block; max-width:100%; }

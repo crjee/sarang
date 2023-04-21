@@ -78,24 +78,25 @@
 			Response.End
 		End If
 
-		top_yn     = rs("top_yn")
-		subject    = rs("subject")
-		work       = rs("work")
-		age        = rs("age")
-		sex        = rs("sex")
-		work_year  = rs("work_year")
-		certify    = rs("certify")
-		work_place = rs("work_place")
-		agency     = rs("agency")
-		person     = rs("person")
-		tel_no     = rs("tel_no")
-		mbl_telno  = rs("mbl_telno")
-		fax_no     = rs("fax_no")
-		email      = rs("email")
-		homepage   = rs("homepage")
-		method     = rs("method")
-		end_date   = rs("end_date")
-		contents  = rs("contents")
+		top_yn      = rs("top_yn")
+		subject     = rs("subject")
+		work        = rs("work")
+		age         = rs("age")
+		sex         = rs("sex")
+		work_year   = rs("work_year")
+		certify     = rs("certify")
+		work_place  = rs("work_place")
+		agency      = rs("agency")
+		person      = rs("person")
+		tel_no      = rs("tel_no")
+		mbl_telno   = rs("mbl_telno")
+		fax_no      = rs("fax_no")
+		email       = rs("email")
+		homepage    = rs("homepage")
+		method      = rs("method")
+		end_date    = rs("end_date")
+		contents    = rs("contents")
+		section_seq = rs("section_seq")
 
 		arr_age   = split(age, "~")
 		If ubound(arr_age) = 1 Then
@@ -132,6 +133,18 @@
 								<td>
 									<input type="checkbox" id="top_yn" name="top_yn" class="inp_check" value="Y" <%=if3(top_yn="Y","checked","")%> />
 									<label for="top_yn"><em>공지로 지정</em></label>
+								</td>
+							</tr>
+<%
+	End If
+%>
+<%
+	If tab_use_yn = "Y" Then
+%>
+							<tr>
+								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th>
+								<td>
+									<%=makeSection("R", "section_seq", section_seq, "")%>
 								</td>
 							</tr>
 <%
@@ -323,38 +336,46 @@
 	<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;width:1000;"></iframe>
 </body>
 </html>
+<script>
+	var oEditors = [];
 
-
-			<script>
-			var oEditors = [];
-
-			nhn.husky.EZCreator.createInIFrame({
-				oAppRef: oEditors,
-				elPlaceHolder: "ir1",
-				sSkinURI: "/smart/SmartEditor2Skin.html",
-				htParams : {
-					bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-					bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-					bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-					//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
-					fOnBeforeUnload : function() {
-						//alert("완료!")
-					}
-				}, //boolean
-				fOnAppLoad : function() {
-					//예제 코드
-					//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
-				},
-				fCreator: "createSEditor2"
-			})
-
-			function submitContents(elClickedObj) {
-				oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
-				try {
-					elClickedObj.action = "job_modify_exec.asp";
-					elClickedObj.target = "hiddenfrm";
-					elClickedObj.form.submit()
-
-				} catch(e) {}
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: oEditors,
+		elPlaceHolder: "ir1",
+		sSkinURI: "/smart/SmartEditor2Skin.html",
+		htParams : {
+			bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+			//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
+			fOnBeforeUnload : function() {
+				//alert("완료!")
 			}
-			</script>
+		}, //boolean
+		fOnAppLoad : function() {
+			//예제 코드
+			//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
+		},
+		fCreator: "createSEditor2"
+	})
+
+	function submitContents(elClickedObj) {
+		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
+		try {
+<%
+	If tab_use_yn = "Y" Then
+%>
+			if ( ! $('input[name=section_seq]:checked').val()) {
+				alert('<%=tab_nm%>을 선택해주세요.');
+				return false;
+			}
+<%
+	End If
+%>
+			elClickedObj.action = "job_modify_exec.asp";
+			elClickedObj.target = "hiddenfrm";
+			elClickedObj.form.submit()
+
+		} catch(e) {}
+	}
+</script>

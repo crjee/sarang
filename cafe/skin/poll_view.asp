@@ -46,15 +46,17 @@
 										마감시까지
 <%
 			Else
-			If sdate <> "" Then
+				If sdate <> "" Then
 %>
 										<%=sdate%>
 <%
 				End If
-
+%>
+										<%=if3(sdate<>"" Or edate<>""," ~ ","")%>
+<%
 				If edate <> "" Then
 %>
-										 ~ <%=edate%>
+										<%=edate%>
 <%
 				End If
 			End If

@@ -77,7 +77,7 @@
 
 	i = 0
 	For Each item In uploadform("file_name")
-		If item.MimeType <> "" Then
+		If item <> "" Then
 			'MimeType이 image/jpeg ,image/gif이 아닌경우 업로드 중단
 			If instr("image/jpeg,image/jpg,image/gif,image/png,image/bmp", item.MimeType) > 0 Then
 				i = i + 1
@@ -314,39 +314,39 @@
 			new_seq = getSeq("cf_nsale_attach")
 
 			sql = ""
-			sql = sql & " insert into cf_nsale_attach( "
-			sql = sql & "        attach_seq  "
-			sql = sql & "       ,nsale_seq   "
-			sql = sql & "       ,attach_num  "
-			sql = sql & "       ,file_name   "
+			sql = sql & " insert into cf_nsale_attach(           "
+			sql = sql & "        attach_seq                      "
+			sql = sql & "       ,nsale_seq                       "
+			sql = sql & "       ,attach_num                      "
+			sql = sql & "       ,file_name                       "
 
-			sql = sql & "       ,atch_rt_nm         "
-			sql = sql & "       ,orgnl_file_nm      "
-			sql = sql & "       ,file_extn_cd       "
-			sql = sql & "       ,rprs_file_yn       "
-			sql = sql & "       ,file_sz            "
-			sql = sql & "       ,dwnld_cnt          "
-			sql = sql & "       ,file_mimetype_cd   "
-			sql = sql & "       ,orgnl_img_wdth_sz  "
-			sql = sql & "       ,orgnl_img_hght_sz  "
-			sql = sql & "       ,orgnl_file_sz      "
-			sql = sql & "       ,img_frm_cd         "
-			sql = sql & "       ,dsply_img_wdth_sz  "
-			sql = sql & "       ,dsply_img_hght_sz  "
-			sql = sql & "       ,dsply_file_nm      "
-			sql = sql & "       ,dsply_file_sz      "
-			sql = sql & "       ,thmbnl_img_wdth_sz "
-			sql = sql & "       ,thmbnl_img_hght_sz "
-			sql = sql & "       ,thmbnl_file_nm     "
-			sql = sql & "       ,thmbnl_file_sz     "
+			sql = sql & "       ,atch_rt_nm                      "
+			sql = sql & "       ,orgnl_file_nm                   "
+			sql = sql & "       ,file_extn_cd                    "
+			sql = sql & "       ,rprs_file_yn                    "
+			sql = sql & "       ,file_sz                         "
+			sql = sql & "       ,dwnld_cnt                       "
+			sql = sql & "       ,file_mimetype_cd                "
+			sql = sql & "       ,orgnl_img_wdth_sz               "
+			sql = sql & "       ,orgnl_img_hght_sz               "
+			sql = sql & "       ,orgnl_file_sz                   "
+			sql = sql & "       ,img_frm_cd                      "
+			sql = sql & "       ,dsply_img_wdth_sz               "
+			sql = sql & "       ,dsply_img_hght_sz               "
+			sql = sql & "       ,dsply_file_nm                   "
+			sql = sql & "       ,dsply_file_sz                   "
+			sql = sql & "       ,thmbnl_img_wdth_sz              "
+			sql = sql & "       ,thmbnl_img_hght_sz              "
+			sql = sql & "       ,thmbnl_file_nm                  "
+			sql = sql & "       ,thmbnl_file_sz                  "
 
-			sql = sql & "       ,creid "
-			sql = sql & "       ,credt "
-			sql = sql & "      ) values( "
-			sql = sql & "        '" & new_seq      & "' "
-			sql = sql & "       ,'" & nsale_seq    & "' "
-			sql = sql & "       ,'" & j            & "'          "
-			sql = sql & "       ,'" & file_name(j) & "'          "
+			sql = sql & "       ,creid                           "
+			sql = sql & "       ,credt                           "
+			sql = sql & "      ) values(                         "
+			sql = sql & "        '" & new_seq               & "' "
+			sql = sql & "       ,'" & nsale_seq             & "' "
+			sql = sql & "       ,'" & j                     & "' "
+			sql = sql & "       ,'" & file_name(j)          & "' "
 
 			sql = sql & "       ,'" & atch_rt_nm(j)         & "' "
 			sql = sql & "       ,'" & orgnl_file_nm(j)      & "' "
@@ -368,7 +368,7 @@
 			sql = sql & "       ,'" & thmbnl_file_nm(j)     & "' "
 			sql = sql & "       ,'" & thmbnl_file_sz(j)     & "' "
 
-			sql = sql & "       ,'" & Session("user_id") & "'    "
+			sql = sql & "       ,'" & Session("user_id")    & "' "
 			sql = sql & "       ,getdate())                      "
 			Conn.Execute(sql)
 		End If

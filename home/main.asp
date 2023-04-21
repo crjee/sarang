@@ -157,45 +157,45 @@
 		End If
 
 		sql = ""
-		sql = sql & " select top 5 * "
-		sql = sql & " from ( "
-		sql = sql & " select 1 as seq "
-		sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
-		sql = sql & "       ,subject "
-		sql = sql & "       ,story_seq "
-		sql = sql & "       ,group_num "
-		sql = sql & "       ,step_num "
-		sql = sql & "   from cf_story "
-		sql = sql & "  where cafe_id  = 'home' "
+		sql = sql & " select top " & home_cnt & " * "
+		sql = sql & "   from ( "
+		sql = sql & "         select 1 as seq "
+		sql = sql & "               ,convert(varchar(10), credt, 120) as credt_txt "
+		sql = sql & "               ,subject "
+		sql = sql & "               ,story_seq "
+		sql = sql & "               ,group_num "
+		sql = sql & "               ,step_num "
+		sql = sql & "           from cf_story "
+		sql = sql & "          where cafe_id  = 'home' "
 		If arrHomeLst(home_i) = 0 Then
 		ElseIf arrHomeLst(home_i) = 999999 Then
-		sql = sql & "    and (section_seq = null or section_seq = '') "
+		sql = sql & "            and (section_seq = null or section_seq = '') "
 		Else
-		sql = sql & "    and section_seq = '" & arrHomeLst(home_i) & "' "
+		sql = sql & "            and section_seq = '" & arrHomeLst(home_i) & "' "
 		End If
-		sql = sql & "    and step_num = 0 "
-		sql = sql & "    and top_yn = 'Y' "
-		sql = sql & "  union all "
-		sql = sql & " select top 5 "
-		sql = sql & "        2 as seq "
-		sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
-		sql = sql & "       ,subject "
-		sql = sql & "       ,story_seq "
-		sql = sql & "       ,group_num "
-		sql = sql & "       ,step_num "
-		sql = sql & "   from cf_story "
-		sql = sql & "  where cafe_id  = 'home' "
+		sql = sql & "            and step_num = 0 "
+		sql = sql & "            and top_yn = 'Y' "
+		sql = sql & "          union all "
+		sql = sql & "         select top " & home_cnt & " "
+		sql = sql & "                2 as seq "
+		sql = sql & "               ,convert(varchar(10), credt, 120) as credt_txt "
+		sql = sql & "               ,subject "
+		sql = sql & "               ,story_seq "
+		sql = sql & "               ,group_num "
+		sql = sql & "               ,step_num "
+		sql = sql & "           from cf_story "
+		sql = sql & "          where cafe_id  = 'home' "
 		If arrHomeLst(home_i) = 0 Then
 		ElseIf arrHomeLst(home_i) = 999999 Then
-		sql = sql & "    and (section_seq = null or section_seq = '') "
+		sql = sql & "            and (section_seq = null or section_seq = '') "
 		Else
-		sql = sql & "    and section_seq = '" & arrHomeLst(home_i) & "' "
+		sql = sql & "            and section_seq = '" & arrHomeLst(home_i) & "' "
 		End If
-		sql = sql & "    and step_num = 0 "
-		sql = sql & "    and isnull(top_yn,'') <> 'Y' "
+		sql = sql & "            and step_num = 0 "
+		sql = sql & "            and isnull(top_yn,'') <> 'Y' "
+		sql = sql & "          order by seq, group_num desc, step_num asc "
+		sql = sql & "        ) aa "
 		sql = sql & "  order by seq, group_num desc, step_num asc "
-		sql = sql & " ) aa "
-		sql = sql & " order by seq, group_num desc, step_num asc "
 		homeRs.Open Sql, conn, 3, 1
 
 		If Not homeRs.eof Then
@@ -353,7 +353,9 @@
 	Set homeRs = Nothing
 	Set homeRs = Nothing
 
-	For home_j = home_i To 10
+	home_j = home_i
+	'For home_j = home_i Mod 2 To 2
+	Do While home_j Mod 2 = 0
 %>
 					<div class="main_frm_<%=if3(home_j Mod 2 = 1,"l","r")%>">
 						<div class="main_banner main_banner_2">
@@ -365,12 +367,15 @@
 						<div class="nobanners"></div>
 					</div>
  --><%
-	Next
+		home_j = home_j + 1
+		If home_j > 10 Then Exit Do
+	Loop 
+	'Next
 %>
 				</div>
 <!--#include virtual="/home/home_center_inc.asp"-->
-			</div>
 <!--#include virtual="/home/home_right_inc.asp"-->
+			</div>
 		</main>
 <!--#include virtual="/home/home_footer_inc.asp"-->
 	</div>

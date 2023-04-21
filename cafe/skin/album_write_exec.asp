@@ -26,11 +26,12 @@
 	level_num = uploadform("level_num")
 	step_num  = uploadform("step_num")
 
-	subject   = Replace(uploadform("subject"),"'"," & #39;")
-	ir1       = Replace(uploadform("ir1"),"'"," & #39;")
-	link      = uploadform("link")
-	If link   = "http://" Then link = ""
-	top_yn    = uploadform("top_yn")
+	subject     = Replace(uploadform("subject"),"'"," & #39;")
+	ir1         = Replace(uploadform("ir1"),"'"," & #39;")
+	link        = uploadform("link")
+	top_yn      = uploadform("top_yn")
+	section_seq = uploadform("section_seq")
+	If link     = "http://" Then link = ""
 
 	For Each item In uploadform("file_name")
 		If item <> "" Then
@@ -72,7 +73,7 @@
 
 	i = 0
 	For Each item In uploadform("file_name")
-		If item.MimeType <> "" Then
+		If item <> "" Then
 			'MimeType이 image/jpeg ,image/gif이 아닌경우 업로드 중단
 			If instr("image/jpeg,image/jpg,image/gif,image/png,image/bmp", item.MimeType) > 0 Then
 				i = i + 1
@@ -102,7 +103,6 @@
 				atch_rt_nm(i) = uploadFolder
 				orgnl_file_nm(i) = item.FileName
 
-				file_extn_cd(i) = Right(orgnl_file_nm(i),Len(orgnl_file_nm(i))-InStrRev(orgnl_file_nm(i),"."))
 				file_extn_cd(i) = Right(orgnl_file_nm(i),Len(orgnl_file_nm(i))-InStrRev(orgnl_file_nm(i),"."))
 
 				If i = 1 Then
@@ -205,45 +205,45 @@
 	End If
 
 	sql = ""
-	sql = sql & " insert into cf_album( "
-	sql = sql & "        album_seq "
-	sql = sql & "       ,parent_seq "
-	sql = sql & "       ,group_num "
-	sql = sql & "       ,level_num "
-	sql = sql & "       ,step_num "
-	sql = sql & "       ,album_num "
-	sql = sql & "       ,cafe_id "
-	sql = sql & "       ,menu_seq "
-	sql = sql & "       ,agency "
-	sql = sql & "       ,subject "
-	sql = sql & "       ,contents "
-	sql = sql & "       ,thumbnail "
-	sql = sql & "       ,view_cnt "
-	sql = sql & "       ,suggest_cnt "
-	sql = sql & "       ,comment_cnt "
-	sql = sql & "       ,link "
-	sql = sql & "       ,top_yn "
-	sql = sql & "       ,user_id "
-	sql = sql & "       ,creid "
-	sql = sql & "       ,credt "
-	sql = sql & "      ) values ( "
-	sql = sql & "        '" & new_seq & "' "
-	sql = sql & "       ,'" & parent_seq & "' "
-	sql = sql & "       ,'" & group_num & "' "
-	sql = sql & "       ,'" & level_num & "' "
-	sql = sql & "       ,'" & step_num & "' "
-	sql = sql & "       ,'" & album_num & "' "
-	sql = sql & "       ,'" & cafe_id & "' "
-	sql = sql & "       ,'" & menu_seq & "' "
-	sql = sql & "       ,'" & Session("agency") & "' "
-	sql = sql & "       ,'" & subject & "' "
-	sql = sql & "       ,'" & ir1 & "' "
-	sql = sql & "       ,'" & thumbnail & "' "
-	sql = sql & "       ,'0' "
-	sql = sql & "       ,'0' "
-	sql = sql & "       ,'0' "
-	sql = sql & "       ,'" & link & "' "
-	sql = sql & "       ,'" & top_yn & "' "
+	sql = sql & " insert into cf_album(               "
+	sql = sql & "        album_seq                    "
+	sql = sql & "       ,parent_seq                   "
+	sql = sql & "       ,group_num                    "
+	sql = sql & "       ,level_num                    "
+	sql = sql & "       ,step_num                     "
+	sql = sql & "       ,album_num                    "
+	sql = sql & "       ,cafe_id                      "
+	sql = sql & "       ,menu_seq                     "
+	sql = sql & "       ,agency                       "
+	sql = sql & "       ,subject                      "
+	sql = sql & "       ,contents                     "
+	sql = sql & "       ,view_cnt                     "
+	sql = sql & "       ,suggest_cnt                  "
+	sql = sql & "       ,comment_cnt                  "
+	sql = sql & "       ,link                         "
+	sql = sql & "       ,top_yn                       "
+	sql = sql & "       ,section_seq                  "
+	sql = sql & "       ,user_id                      "
+	sql = sql & "       ,creid                        "
+	sql = sql & "       ,credt                        "
+	sql = sql & "      ) values (                     "
+	sql = sql & "        '" & new_seq            & "' "
+	sql = sql & "       ,'" & parent_seq         & "' "
+	sql = sql & "       ,'" & group_num          & "' "
+	sql = sql & "       ,'" & level_num          & "' "
+	sql = sql & "       ,'" & step_num           & "' "
+	sql = sql & "       ,'" & album_num          & "' "
+	sql = sql & "       ,'" & cafe_id            & "' "
+	sql = sql & "       ,'" & menu_seq           & "' "
+	sql = sql & "       ,'" & Session("agency")  & "' "
+	sql = sql & "       ,'" & subject            & "' "
+	sql = sql & "       ,'" & ir1                & "' "
+	sql = sql & "       ,'0'                          "
+	sql = sql & "       ,'0'                          "
+	sql = sql & "       ,'0'                          "
+	sql = sql & "       ,'" & link               & "' "
+	sql = sql & "       ,'" & top_yn             & "' "
+	sql = sql & "       ,'" & section_seq        & "' "
 	sql = sql & "       ,'" & Session("user_id") & "' "
 	sql = sql & "       ,'" & Session("user_id") & "' "
 	sql = sql & "       ,getdate())"
@@ -273,39 +273,39 @@
 			new_seq = getSeq("cf_album_attach")
 
 			sql = ""
-			sql = sql & " insert into cf_album_attach( "
-			sql = sql & "        attach_seq  "
-			sql = sql & "       ,album_seq   "
-			sql = sql & "       ,attach_num  "
-			sql = sql & "       ,file_name   "
+			sql = sql & " insert into cf_album_attach(           "
+			sql = sql & "        attach_seq                      "
+			sql = sql & "       ,album_seq                       "
+			sql = sql & "       ,attach_num                      "
+			sql = sql & "       ,file_name                       "
 
-			sql = sql & "       ,atch_rt_nm         "
-			sql = sql & "       ,orgnl_file_nm      "
-			sql = sql & "       ,file_extn_cd       "
-			sql = sql & "       ,rprs_file_yn       "
-			sql = sql & "       ,file_sz            "
-			sql = sql & "       ,dwnld_cnt          "
-			sql = sql & "       ,file_mimetype_cd   "
-			sql = sql & "       ,orgnl_img_wdth_sz  "
-			sql = sql & "       ,orgnl_img_hght_sz  "
-			sql = sql & "       ,orgnl_file_sz      "
-			sql = sql & "       ,img_frm_cd         "
-			sql = sql & "       ,dsply_img_wdth_sz  "
-			sql = sql & "       ,dsply_img_hght_sz  "
-			sql = sql & "       ,dsply_file_nm      "
-			sql = sql & "       ,dsply_file_sz      "
-			sql = sql & "       ,thmbnl_img_wdth_sz "
-			sql = sql & "       ,thmbnl_img_hght_sz "
-			sql = sql & "       ,thmbnl_file_nm     "
-			sql = sql & "       ,thmbnl_file_sz     "
+			sql = sql & "       ,atch_rt_nm                      "
+			sql = sql & "       ,orgnl_file_nm                   "
+			sql = sql & "       ,file_extn_cd                    "
+			sql = sql & "       ,rprs_file_yn                    "
+			sql = sql & "       ,file_sz                         "
+			sql = sql & "       ,dwnld_cnt                       "
+			sql = sql & "       ,file_mimetype_cd                "
+			sql = sql & "       ,orgnl_img_wdth_sz               "
+			sql = sql & "       ,orgnl_img_hght_sz               "
+			sql = sql & "       ,orgnl_file_sz                   "
+			sql = sql & "       ,img_frm_cd                      "
+			sql = sql & "       ,dsply_img_wdth_sz               "
+			sql = sql & "       ,dsply_img_hght_sz               "
+			sql = sql & "       ,dsply_file_nm                   "
+			sql = sql & "       ,dsply_file_sz                   "
+			sql = sql & "       ,thmbnl_img_wdth_sz              "
+			sql = sql & "       ,thmbnl_img_hght_sz              "
+			sql = sql & "       ,thmbnl_file_nm                  "
+			sql = sql & "       ,thmbnl_file_sz                  "
 
-			sql = sql & "       ,creid "
-			sql = sql & "       ,credt "
-			sql = sql & "      ) values( "
-			sql = sql & "        '" & new_seq      & "' "
-			sql = sql & "       ,'" & album_seq    & "' "
-			sql = sql & "       ,'" & j            & "' "
-			sql = sql & "       ,'" & file_name(j) & "' "
+			sql = sql & "       ,creid                           "
+			sql = sql & "       ,credt                           "
+			sql = sql & "      ) values(                         "
+			sql = sql & "        '" & new_seq               & "' "
+			sql = sql & "       ,'" & album_seq             & "' "
+			sql = sql & "       ,'" & j                     & "' "
+			sql = sql & "       ,'" & file_name(j)          & "' "
 
 			sql = sql & "       ,'" & atch_rt_nm(j)         & "' "
 			sql = sql & "       ,'" & orgnl_file_nm(j)      & "' "
@@ -327,8 +327,8 @@
 			sql = sql & "       ,'" & thmbnl_file_nm(j)     & "' "
 			sql = sql & "       ,'" & thmbnl_file_sz(j)     & "' "
 
-			sql = sql & "       ,'" & Session("user_id") & "' "
-			sql = sql & "       ,getdate()) "
+			sql = sql & "       ,'" & Session("user_id")    & "' "
+			sql = sql & "       ,getdate())                      "
 			Conn.Execute(sql)
 		End If
 	Next

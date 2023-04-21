@@ -10,30 +10,31 @@
 	pagesize  = uploadform("pagesize")
 	sch_type  = uploadform("sch_type")
 	sch_word  = uploadform("sch_word")
-	self_yn   = Request("self_yn")
+	self_yn   = uploadform("self_yn")
 
-	step_num = uploadform("step_num")
-	level_num = uploadform("level_num")
-	sale_seq = uploadform("sale_seq")
-	page_type = uploadform("page_type")
-	kname = uploadform("kname")
-	location = uploadform("location")
-	bargain = uploadform("bargain")
-	area = uploadform("area")
-	floor = uploadform("floor")
-	compose = uploadform("compose")
-	price = uploadform("price")
-	live_in = uploadform("live_in")
-	parking = uploadform("parking")
-	traffic = uploadform("traffic")
-	purpose = uploadform("purpose")
-	subject = uploadform("subject")
-	ir1 = Replace(uploadform("ir1"),"'"," & #39;")
-	link = uploadform("link")
+	step_num    = uploadform("step_num")
+	level_num   = uploadform("level_num")
+	sale_seq    = uploadform("sale_seq")
+	page_type   = uploadform("page_type")
+	kname       = uploadform("kname")
+	location    = uploadform("location")
+	bargain     = uploadform("bargain")
+	area        = uploadform("area")
+	floor       = uploadform("floor")
+	compose     = uploadform("compose")
+	price       = uploadform("price")
+	live_in     = uploadform("live_in")
+	parking     = uploadform("parking")
+	traffic     = uploadform("traffic")
+	purpose     = uploadform("purpose")
+	subject     = uploadform("subject")
+	ir1         = Replace(uploadform("ir1"),"'"," & #39;")
+	link        = uploadform("link")
+	tel_no      = uploadform("tel_no")
+	fax_no      = uploadform("fax_no")
+	top_yn      = uploadform("top_yn")
+	section_seq = uploadform("section_seq")
 	If link = "http://" Then link = ""
-	tel_no = uploadform("tel_no")
-	fax_no = uploadform("fax_no")
-	top_yn = uploadform("top_yn")
 
 	For Each item In uploadform("file_name")
 		If item <> "" Then
@@ -52,25 +53,26 @@
 	Next
 
 	sql = ""
-	sql = sql & " update cf_sale "
-	sql = sql & "    set subject = '" & subject  & "' "
-	sql = sql & "       ,contents= '" & ir1      & "' "
-	sql = sql & "       ,top_yn  = '" & top_yn   & "'  "
-	sql = sql & "       ,location= '" & location & "' "
-	sql = sql & "       ,bargain = '" & bargain  & "' "
-	sql = sql & "       ,area    = '" & area     & "' "
-	sql = sql & "       ,floor   = '" & floor    & "' "
-	sql = sql & "       ,compose = '" & compose  & "' "
-	sql = sql & "       ,price   = '" & price    & "' "
-	sql = sql & "       ,live_in = '" & live_in  & "' "
-	sql = sql & "       ,parking = '" & parking  & "' "
-	sql = sql & "       ,traffic = '" & traffic  & "' "
-	sql = sql & "       ,purpose = '" & purpose  & "'  "
-	sql = sql & "       ,tel_no  = '" & tel_no   & "'  "
-	sql = sql & "       ,fax_no  = '" & fax_no   & "' "
-	sql = sql & "       ,modid   = '" & Session("user_id") & "' "
-	sql = sql & "       ,moddt   = getdate() "
-	sql = sql & " where sale_seq='" & sale_seq & "'"
+	sql = sql & " update cf_sale                                    "
+	sql = sql & "    set subject     = '" & subject            & "' "
+	sql = sql & "       ,contents    = '" & ir1                & "' "
+	sql = sql & "       ,top_yn      = '" & top_yn             & "' "
+	sql = sql & "       ,section_seq = '" & section_seq        & "' "
+	sql = sql & "       ,location    = '" & location           & "' "
+	sql = sql & "       ,bargain     = '" & bargain            & "' "
+	sql = sql & "       ,area        = '" & area               & "' "
+	sql = sql & "       ,floor       = '" & floor              & "' "
+	sql = sql & "       ,compose     = '" & compose            & "' "
+	sql = sql & "       ,price       = '" & price              & "' "
+	sql = sql & "       ,live_in     = '" & live_in            & "' "
+	sql = sql & "       ,parking     = '" & parking            & "' "
+	sql = sql & "       ,traffic     = '" & traffic            & "' "
+	sql = sql & "       ,purpose     = '" & purpose            & "' "
+	sql = sql & "       ,tel_no      = '" & tel_no             & "' "
+	sql = sql & "       ,fax_no      = '" & fax_no             & "' "
+	sql = sql & "       ,modid       = '" & Session("user_id") & "' "
+	sql = sql & "       ,moddt       = getdate()                    "
+	sql = sql & " where sale_seq='" & sale_seq & "'                 "
 	Conn.Execute(sql)
 
 	sql = ""

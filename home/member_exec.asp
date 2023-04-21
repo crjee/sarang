@@ -1,5 +1,10 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	freePage = True
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
+<%
+	cafe_id = "home"
 <%
 	member_seq    = Request.Form("member_seq")
 	user_id       = Request.Form("user_id")
@@ -21,7 +26,7 @@
 	addr1         = Request.Form("addr1")
 	addr2         = Request.Form("addr2")
 	stat          = Request.Form("stat")
-	cafe_id       = ""
+	cafe_id       = cafe_id
 	cafe_mb_level = 0
 	email         = Request.Form("email1") & "@" & Request.Form("email2")
 	mobile        = Request.Form("mobile1") & "-" & Request.Form("mobile2") & "-" & Request.Form("mobile3")

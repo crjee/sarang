@@ -163,7 +163,6 @@
 			agency      = rs("agency")
 			comment_cnt = rs("comment_cnt")
 			credt_txt   = rs("credt_txt")
-			thumbnail   = rs("thumbnail")
 %>
 								<div class="c_wrap">
 <%

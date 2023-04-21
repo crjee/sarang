@@ -115,78 +115,80 @@
 	End If
 	Rs.Open sql, conn, 3, 1
 
-	sqlSub = ""
-	sqlSub = sqlSub & "         select 'notice' as menu_type "
-	sqlSub = sqlSub & "               ,0 as no               "
-	sqlSub = sqlSub & "               ,notice_seq as com_seq "
-	sqlSub = sqlSub & "               ,notice_num as com_num "
-	sqlSub = sqlSub & "               ,subject               "
-	sqlSub = sqlSub & "               ,agency                "
-	sqlSub = sqlSub & "               ,view_cnt              "
-	sqlSub = sqlSub & "               ,comment_cnt           "
-	sqlSub = sqlSub & "               ,suggest_cnt           "
-	sqlSub = sqlSub & "               ,credt                 "
-	sqlSub = sqlSub & "               ,menu_seq              "
-	sqlSub = sqlSub & "           from cf_notice             "
-	If cafe_ad_level = "10" Then ' 글쓰기 권한
-	sqlSub = sqlSub & "          where 1 = 1                 "
-	Else
-	sqlSub = sqlSub & "          where (cafe_id = null or cafe_id = '' or ', ' + cafe_id + ', ' like '%, " & cafe_id & ", %') "
-	End If
-	sqlSub = sqlSub & kword
+	subSql = ""
+'	subSql = subSql & "         select 'notice' as menu_type "
+'	subSql = subSql & "               ,0 as no               "
+'	subSql = subSql & "               ,notice_seq as com_seq "
+'	subSql = subSql & "               ,notice_num as com_num "
+'	subSql = subSql & "               ,subject               "
+'	subSql = subSql & "               ,agency                "
+'	subSql = subSql & "               ,view_cnt              "
+'	subSql = subSql & "               ,comment_cnt           "
+'	subSql = subSql & "               ,suggest_cnt           "
+'	subSql = subSql & "               ,credt                 "
+'	subSql = subSql & "               ,menu_seq              "
+'	subSql = subSql & "           from cf_notice             "
+'	If cafe_ad_level = "10" Then ' 글쓰기 권한
+'	subSql = subSql & "          where 1 = 1                 "
+'	Else
+'	subSql = subSql & "          where (cafe_id = null or cafe_id = '' or ', ' + cafe_id + ', ' like '%, " & cafe_id & ", %') "
+'	End If
+'	subSql = subSql & kword
 
-	Do Until Rs.eof
-		menu_type = Rs("menu_type")
-		menu_name = Rs("menu_name")
-		menu_seq  = Rs("menu_seq")
-		hidden_yn = Rs("hidden_yn")
+	If Not rs.eof Then
+		i = 1
+		Do Until Rs.eof
+			menu_type = Rs("menu_type")
+			menu_name = Rs("menu_name")
+			menu_seq  = Rs("menu_seq")
+			hidden_yn = Rs("hidden_yn")
 
-		sqlSub = sqlSub & "          union all                                                "
-		sqlSub = sqlSub & "         select '" & menu_type & "' as menu_type                   "
-		sqlSub = sqlSub & "               ,1 as no                                            "
-		sqlSub = sqlSub & "               ,b" & menu_seq & "." & menu_type & "_seq as com_seq "
-		sqlSub = sqlSub & "               ,b" & menu_seq & "." & menu_type & "_num as com_num "
-		sqlSub = sqlSub & "               ,b" & menu_seq & ".subject                          "
-		sqlSub = sqlSub & "               ,b" & menu_seq & ".agency                           "
-		sqlSub = sqlSub & "               ,b" & menu_seq & ".view_cnt                         "
-		sqlSub = sqlSub & "               ,b" & menu_seq & ".comment_cnt                      "
-		sqlSub = sqlSub & "               ,b" & menu_seq & ".suggest_cnt                      "
-		sqlSub = sqlSub & "               ,b" & menu_seq & ".credt                            "
-		sqlSub = sqlSub & "               ,b" & menu_seq & ".menu_seq                         "
-		sqlSub = sqlSub & "           from cf_" & menu_type & " b" & menu_seq & "             "
-		sqlSub = sqlSub & "          where cafe_id = '" & cafe_id & "'                        "
-		sqlSub = sqlSub & "            and menu_seq = '" & menu_seq & "'                      "
-		sqlSub = sqlSub & kword
+			subSql = subSql & "          union all                                                "
+			subSql = subSql & "         select '" & menu_type & "' as menu_type                   "
+			subSql = subSql & "               ,1 as no                                            "
+			subSql = subSql & "               ,b" & menu_seq & "." & menu_type & "_seq as com_seq "
+			subSql = subSql & "               ,b" & menu_seq & "." & menu_type & "_num as com_num "
+			subSql = subSql & "               ,b" & menu_seq & ".subject                          "
+			subSql = subSql & "               ,b" & menu_seq & ".agency                           "
+			subSql = subSql & "               ,b" & menu_seq & ".view_cnt                         "
+			subSql = subSql & "               ,b" & menu_seq & ".comment_cnt                      "
+			subSql = subSql & "               ,b" & menu_seq & ".suggest_cnt                      "
+			subSql = subSql & "               ,b" & menu_seq & ".credt                            "
+			subSql = subSql & "               ,b" & menu_seq & ".menu_seq                         "
+			subSql = subSql & "           from cf_" & menu_type & " b" & menu_seq & "             "
+			subSql = subSql & "          where cafe_id = '" & cafe_id & "'                        "
+			subSql = subSql & "            and menu_seq = '" & menu_seq & "'                      "
+			subSql = subSql & kword
+			i = 1 + 1
+			Rs.MoveNext
+		Loop
 
-		Rs.MoveNext
-	Loop
-	Rs.close
+		sql = ""
+		sql = sql & " select count(com_seq) cnt "
+		sql = sql & "   from ( "
+		sql = sql & subSql
+		sql = sql & "        ) aa "
+		rs2.Open sql, conn, 3, 1
+		RecordCount = 0 ' 자료가 없을때
 
-	sql = ""
-	sql = sql & " select count(com_seq) cnt        "
-	sql = sql & "           from ( "
-	sql = sql & sqlSub
-	sql = sql & "                ) aa "
-	rs.Open sql, conn, 3, 1
-	RecordCount = 0 ' 자료가 없을때
+		If Not rs2.EOF Then
+			RecordCount = rs2("cnt")
+		End If
+		rs2.close
 
-	If Not rs.EOF Then
-		RecordCount = rs("cnt")
+		schSql = ""
+		schSql = schSql & " select convert(varchar(10), bb.credt, 120) as credt_txt "
+		schSql = schSql & "       ,bb.*                              "
+		schSql = schSql & "   from (select row_number() over( order by credt desc, menu_seq asc, com_seq asc) as rownum "
+		schSql = schSql & "               ,aa.*                              "
+		schSql = schSql & "           from ( "
+		schSql = schSql & subSql
+		schSql = schSql & "                ) aa "
+		schSql = schSql & "        ) bb "
+		schSql = schSql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & " "
+		schSql = schSql & "  order by credt desc, menu_seq asc, com_seq asc "
 	End If
 	rs.close
-
-	sql = ""
-	sql = sql & " select convert(varchar(10), bb.credt, 120) as credt_txt "
-	sql = sql & "       ,bb.*                              "
-	sql = sql & "   from (select row_number() over( order by credt desc, menu_seq asc, com_seq asc) as rownum "
-	sql = sql & "               ,aa.*                              "
-	sql = sql & "           from ( "
-	sql = sql & sqlSub
-	sql = sql & "                ) aa "
-	sql = sql & "        ) bb "
-	sql = sql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & " "
-	sql = sql & "  order by credt desc, menu_seq asc, com_seq asc "
-	rs.Open sql, conn, 3, 1
 
 	' 전체 페이지 수 얻기
 	If RecordCount/pagesize = Int(RecordCount/pagesize) Then
@@ -195,55 +197,6 @@
 		PageCount = Int(RecordCount / pagesize) + 1
 	End If
 %>
-			<script>
-				function MovePage(page, gvTarget) {
-					var f = document.search_form;
-					f.page.value = page;
-					f.action = "cafe_search_list.asp";
-					f.target = gvTarget;
-					f.submit();
-				}
-				function goView(com_type, com_seq, no, gvTarget) {
-					var f = document.search_form;
-					f.album_seq.value  = com_seq;
-					f.board_seq.value  = com_seq;
-					f.job_seq.value    = com_seq;
-					f.sale_seq.value   = com_seq;
-					f.notice_seq.value = com_seq;
-
-					if (no == 0) {
-						f.action = "notice_view.asp"
-						f.target = gvTarget;
-					}
-					else {
-						f.action = com_type + "_view.asp";
-						f.target = gvTarget;
-					}
-					f.submit()
-				}
-
-				function goSearch(gvTarget) {
-					var f = document.search_form;
-					f.page.value = 1;
-					f.action = "cafe_search_list.asp";
-					f.target = gvTarget;
-					f.submit();
-				}
-
-				function setTerm(obj) {
-					if (obj.value == "DIN")
-					{
-						$('#sch_st_date').css("display","block");
-						$('#sch_ed_date').css("display","block");
-					}
-					else {
-						$('#sch_st_date').attr("value","");
-						$('#sch_ed_date').attr("value","");
-						$('#sch_st_date').css("display","none");
-						$('#sch_ed_date').css("display","none");
-					}
-				}
-			</script>
 				<div class="cont_tit">
 					<h2 class="h2">통합검색 결과</h2>
 				</div>
@@ -346,33 +299,35 @@
 							</thead>
 							<tbody>
 <%
-	If Not rs.EOF Then
-		Do Until rs.EOF
-			comment_cnt = rs("comment_cnt")
-			subject = rs("subject")
-			If isnull(subject) Or isempty(subject) Or Len(subject) = 0 Then
-				subject = "제목없음"
-			End if
+		If RecordCount > 0 Then
+			rs2.Open schSql, conn, 3, 1
+		If Not rs.EOF Then
+			Do Until rs.EOF
+				comment_cnt = rs("comment_cnt")
+				subject = rs("subject")
+				If isnull(subject) Or isempty(subject) Or Len(subject) = 0 Then
+					subject = "제목없음"
+				End if
 
-			subject_s = rmid(subject, 40, "..")
+				subject_s = rmid(subject, 40, "..")
 %>
 								<tr>
 									<td class="algC"><%=rs("com_num")%></td>
 									<td>
 										<a href="javascript: goView('<%=rs("menu_type")%>', '<%=rs("com_seq")%>', '<%=rs("no")%>', '<%=session("ctTarget")%>')" title="<%=subject_s%>"><%=subject%>&nbsp;</a>
 <%
-			If comment_cnt > "0" Then
+				If comment_cnt > "0" Then
 %>
 										(<%=comment_cnt%>)
 <%
-			End If
+				End If
 %>
 <%
-			If CDate(DateAdd("d",2,rs("credt_txt"))) >= Date Then
+				If CDate(DateAdd("d",2,rs("credt_txt"))) >= Date Then
 %>
 										<img src="/cafe/skin/img/btn/new.png" />
 <%
-			End if
+				End if
 %>
 									</td>
 									<td class="algC"><%=rs("agency")%></td>
@@ -381,17 +336,26 @@
 									<td class="algC"><%=rs("credt_txt")%></td>
 								</tr>
 <%
-			rs.MoveNext
-		Loop
+				rs2.MoveNext
+			Loop
+		Else
 	Else
 %>
 								<tr>
 									<td colspan="6" class="td_nodata">검색된 글이 없습니다.</td>
 								</tr>
 <%
+		End If
+		rs2.close
+		Set rs2 = Nothing
+	Else
+%>
+%>
+								<tr>
+									<td colspan="6" class="td_nodata">검색된 글이 없습니다.</td>
+								</tr>
+<%
 	End If
-	rs.close
-	Set rs = Nothing
 %>
 							</tbody>
 						</table>
@@ -421,4 +385,53 @@
 %>
 
 </body>
+<script>
+	function MovePage(page, gvTarget) {
+		var f = document.search_form;
+		f.page.value = page;
+		f.action = "cafe_search_list.asp";
+		f.target = gvTarget;
+		f.submit();
+	}
+	function goView(com_type, com_seq, no, gvTarget) {
+		var f = document.search_form;
+		f.album_seq.value  = com_seq;
+		f.board_seq.value  = com_seq;
+		f.job_seq.value    = com_seq;
+		f.sale_seq.value   = com_seq;
+		f.notice_seq.value = com_seq;
+
+		if (no == 0) {
+			f.action = "notice_view.asp"
+			f.target = gvTarget;
+		}
+		else {
+			f.action = com_type + "_view.asp";
+			f.target = gvTarget;
+		}
+		f.submit()
+	}
+
+	function goSearch(gvTarget) {
+		var f = document.search_form;
+		f.page.value = 1;
+		f.action = "cafe_search_list.asp";
+		f.target = gvTarget;
+		f.submit();
+	}
+
+	function setTerm(obj) {
+		if (obj.value == "DIN")
+		{
+			$('#sch_st_date').css("display","block");
+			$('#sch_ed_date').css("display","block");
+		}
+		else {
+			$('#sch_st_date').attr("value","");
+			$('#sch_ed_date').attr("value","");
+			$('#sch_st_date').css("display","none");
+			$('#sch_ed_date').css("display","none");
+		}
+	}
+</script>
 </html>

@@ -1,7 +1,8 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
+	cafe_id = "home"
+	checkAdmin()
 
 	page     = request("page")
 	sch_type = request("sch_type")
@@ -82,17 +83,7 @@
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 	alert("<%=msg%> 되었습니다.");
-<%
-	If session("noFrame") = "Y" Then
-%>
 	parent.location.href='waste_<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
-<%
-	Else
-%>
-	$('#cafe_main', parent.parent.document).attr('src', '/cafe/skin/waste_<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>') ;
-<%
-	End if
-%>
 </script>
 <%
 	Else

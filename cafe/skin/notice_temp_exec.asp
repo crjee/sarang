@@ -5,9 +5,8 @@
 
 	menu_type = "notice"
 
-	ScriptTimeOut = 5000
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
-	uploadFolder = ConfigAttachedFileFolder "notice\"
+	uploadFolder = ConfigAttachedFileFolder & "notice\"
 	uploadform.DefaultPath = uploadFolder
 	' 하나의 파일 크기를 10MB이하로 제한.
 	uploadform.MaxFileLen = 10*1024*1024

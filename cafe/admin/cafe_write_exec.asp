@@ -14,6 +14,10 @@
 	cate_id   = Request.Form("cate_id")
 	cafe_type = Request.Form("cafe_type")
 
+	If cafe_id = "" Then
+		msgend("선택한 사랑방이 없습니다.")
+	End If
+
 	On Error Resume Next
 	Conn.BeginTrans
 	Set BeginTrans = Conn

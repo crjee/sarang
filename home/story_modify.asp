@@ -30,12 +30,12 @@
 		<main id="main" class="main">
 			<div class="container">
 <%
-	page      = Request("page")
-	pagesize  = Request("pagesize")
-	sch_type  = Request("sch_type")
-	sch_word  = Request("sch_word")
+	page      = request("page")
+	pagesize  = request("pagesize")
+	sch_type  = request("sch_type")
+	sch_word  = request("sch_word")
 
-	story_seq = Request("story_seq")
+	story_seq = request("story_seq")
 
 	Set rs = Server.CreateObject ("ADODB.Recordset")
 
@@ -51,17 +51,17 @@
 			Response.End
 		End If
 
-		step_num = rs("step_num")
-		top_yn   = rs("top_yn")
-		user_id  = rs("user_id")
-		subject  = rs("subject")
-		contents = rs("contents")
-		subject  = Replace(subject, """", " & quot;")
+		step_num    = rs("step_num")
+		top_yn      = rs("top_yn")
+		user_id     = rs("user_id")
+		subject     = rs("subject")
+		contents    = rs("contents")
+		link        = rs("link")
+		section_seq = rs("section_seq")
+		subject     = Replace(subject, """", " & quot;")
 
-		If rs("link")="" Then
+		If link = "" Then
 			link = "http://"
-		Else
-			link = rs("link")
 		End If
 	End if
 	rs.close

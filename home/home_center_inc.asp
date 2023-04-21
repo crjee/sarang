@@ -113,9 +113,9 @@
 			sql = sql & "    and use_yn = 'Y'                  "
 			If all_tab_use_yn = "Y" Then
 			sql = sql & "  union all                           "
-			sql = sql & " select null as section_seq           "
+			sql = sql & " select 0     as section_seq          "
 			sql = sql & "       ,'전체' as section_nm           "
-			sql = sql & "       ,0 as section_sn               "
+			sql = sql & "       ,0     as section_sn           "
 			End If
 			If etc_tab_use_yn = "Y" Then
 			sql = sql & "  union all                           "
@@ -124,16 +124,17 @@
 			sql = sql & "       ,999999999 as section_sn       "
 			End If
 			sql = sql & "  order by section_sn                 "
+
 			rs2.open Sql, conn, 3, 1
 
-			j = 2
-			ReDim arrSecSeq(rs2.recordCount+1)
-			ReDim arrSecNm(rs2.recordCount+1)
+			ReDim arrSecSeq(rs2.recordCount)
+			ReDim arrSecNm(rs2.recordCount)
 
 			If Not rs2.eof Then
 %>
 								<div class="slide_cate">
 <%
+				j = 1
 				Do Until rs2.eof
 					section_seq  = rs2("section_seq")
 					section_nm   = rs2("section_nm")
@@ -172,10 +173,10 @@
 			sql = sql & "       ,null land_url "
 			End If
 			If menu_type = "nsale" Then
-			sql = sql & "       ,frst_receipt_acpt_date  "
+			sql = sql & "       ,rect_notice_date  "
 			sql = sql & "       ,mvin_date  "
 			Else
-			sql = sql & "       ,null frst_receipt_acpt_date  "
+			sql = sql & "       ,null rect_notice_date  "
 			sql = sql & "       ,null mvin_date  "
 			End If
 			sql = sql & "   from cf_" & menu_type  & " "
@@ -188,8 +189,9 @@
 			If menu_type = "job" Then
 			sql = sql & "    and end_date >= '" & date  & "' "
 			End If
-			If arrSecSeq(li) = 0 Then
-			ElseIf arrSecSeq(li) = 999999 Then
+
+			If arrSecSeq(li) = "0" Then
+			ElseIf arrSecSeq(li) = "999999" Then
 			sql = sql & "    and (section_seq = null or section_seq = '') "
 			Else
 			sql = sql & "    and section_seq = '" & arrSecSeq(li) & "' "
@@ -211,10 +213,10 @@
 			sql = sql & "       ,null land_url "
 			End If
 			If menu_type = "nsale" Then
-			sql = sql & "       ,frst_receipt_acpt_date  "
+			sql = sql & "       ,rect_notice_date  "
 			sql = sql & "       ,mvin_date  "
 			Else
-			sql = sql & "       ,convert(varchar(10), credt, 120) as frst_receipt_acpt_date  "
+			sql = sql & "       ,convert(varchar(10), credt, 120) as rect_notice_date  "
 			sql = sql & "       ,null mvin_date  "
 			End If
 			sql = sql & "   from cf_" & menu_type  & " "
@@ -227,8 +229,8 @@
 			If menu_type = "job" Then
 			sql = sql & "    and end_date >= '" & Date & "' "
 			End If
-			If arrSecSeq(li) = 0 Then
-			ElseIf arrSecSeq(li) = 999999 Then
+			If arrSecSeq(li) = "0" Then
+			ElseIf arrSecSeq(li) = "999999" Then
 			sql = sql & "    and (section_seq = null or section_seq = '') "
 			Else
 			sql = sql & "    and section_seq = '" & arrSecSeq(li) & "' "
@@ -246,6 +248,7 @@
 			Else
 			sql = sql & " order by seq, " & menu_type  & "_seq desc "
 			End If
+
 			rs2.Open Sql, conn, 3, 1
 
 			If tab_use_yn = "Y" Then ' 탭정보 확인
@@ -280,7 +283,7 @@
 					credt_txt    = rs2("credt_txt")
 					subject      = rs2("subject")
 					comment_cnt  = rs2("comment_cnt")
-					frst_receipt_acpt_date = rs2("frst_receipt_acpt_date")
+					rect_notice_date = rs2("rect_notice_date")
 					mvin_date    = rs2("mvin_date")
 					land_url     = rs2("land_url")
 					com_seq      = rs2(menu_type & "_seq")
@@ -368,11 +371,11 @@
 <%
 						If menu_type = "nsale" Then
 %>
-													<span title="분양일"><%=frst_receipt_acpt_date%></span> / <span title="입주일"><%=mvin_date%></span>
+													<span title="모집공고일"><%=rect_notice_date%></span> | <span title="입주일"><%=mvin_date%></span>
 <%
 						Else
 %>
-													<span title="작성일"><%=frst_receipt_acpt_date%></span></span>
+													<span title="작성일"><%=rect_notice_date%></span></span>
 <%
 						End If
 %>

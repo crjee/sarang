@@ -1,11 +1,9 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
-<%
-	freePage = True
-%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
 	checkCafePage(cafe_id)
+	checkAdmin()
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -13,7 +11,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>GI</title>
+	<title>스킨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -25,10 +23,8 @@
 	<div id="wrap">
 <!--#include virtual="/home/home_header_inc.asp"-->
 <%
-	section_seq = Request("section_seq")
 	sch_type = Request("sch_type")
 	sch_word = Request("sch_word")
-	self_yn  = Request("self_yn")
 
 	pagesize = Request("pagesize")
 	If pagesize = "" Then pagesize = 20
@@ -52,16 +48,10 @@
 	sql = ""
 	sql = sql & " select * "
 	sql = sql & "       ,convert(varchar(10), credt, 120) credt_txt "
-	sql = sql & "   from cf_album ca "
+	sql = sql & "   from cf_waste_album ca "
 	sql = sql & "  where cafe_id = '" & cafe_id & "' "
 	sql = sql & "    and menu_seq = '" & menu_seq & "' "
-	If section_seq <> "" Then
-	sql = sql & "    and section_seq = '" & section_seq & "' "
-	End If
 	sql = sql & "    and level_num = 0 "
-	If self_yn = "Y" then
-	sql = sql & "    and user_id = '" & session("user_id") & "' "
-	End If
 	sql = sql & kword
 	sql = sql & "  order by group_num desc,step_num asc "
 	rs.Open sql, conn, 3, 1
@@ -88,44 +78,14 @@
 		<main id="main" class="main">
 			<div class="container">
 				<div class="cont_tit">
-					<h2 class="h2"><%=menu_name%></h2>
+					<h2 class="h2"><font color="red">휴지통 <%=menu_name%></font></h2>
 				</div>
 				<div class="">
 					<div class="search_box algR">
 						<form name="search_form" id="search_form" method="post">
-						<input type="hidden" name="section_seq" value="<%=section_seq%>">
 						<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 						<input type="hidden" name="page" value="<%=page%>">
 						<input type="hidden" name="album_seq">
-<%
-	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
-%>
-						<input type="checkbox" id="self_yn" name="self_yn" class="inp_check" value="Y" <%=if3(self_yn="Y","checked","")%> onclick="goAll()" />
-						<label for="self_yn"><em>본인등록</em></label>
-						<script>
-							function goAll() {
-								var f = document.search_form;
-								f.action = "album_list.asp"
-								f.page.value = 1;
-								f.submit()
-							}
-						</script>
-<%
-	End If
-%>
-<%
-	If cafe_ad_level = 10 Then
-%>
-						<button type="button" class="btn btn_c_a btn_s" onclick="location.href='/home/waste_album_list.asp?menu_seq=<%=menu_seq%>'">휴지통</button>
-<%
-	End If
-
-	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
-%>
-						<button type="button" class="btn btn_c_a btn_s" onclick="location.href='/home/album_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
-<%
-	End If
-%>
 						<select id="sch_type" name="sch_type" class="sel w_auto">
 							<option value="">전체</option>
 							<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>제목</option>
@@ -144,7 +104,6 @@
 						</select>
 						</form>
 					</div>
-<!--#include virtual="/home/home_tab_inc.asp"-->
 					<div class="tb">
 						<div class="gallery gallery_t_1">
 							<div class="gallery_inner_box">
@@ -164,7 +123,7 @@
 <%
 			sql = ""
 			sql = sql & " select * "
-			sql = sql & "   from cf_album_attach "
+			sql = sql & "   from cf_waste_album_attach "
 			sql = sql & "  where album_seq = '" & album_seq & "' "
 			sql = sql & "    and rprs_file_yn = 'Y' "
 			rs2.Open Sql, conn, 3, 1
@@ -173,10 +132,10 @@
 				thmbnl_file_nm = rs2("thmbnl_file_nm")
 
 				' 썸네일로 표시
-				thmbnlUrl = ConfigAttachedFileURL & "thumbnail/album/"
-				fileUrl = thmbnlUrl & thmbnl_file_nm
-				thmbnlPath = ConfigAttachedFileFolder & "thumbnail\album\"
-				filePath = thmbnlPath & thmbnl_file_nm
+				uploadUrl = ConfigAttachedFileURL & "thumbnail/album/"
+				fileUrl = uploadUrl & thmbnl_file_nm
+				uploadPath = ConfigAttachedFileFolder & "thumbnail\album\"
+				filePath = uploadPath & thmbnl_file_nm
 
 				If (fso.FileExists(filePath)) Then
 %>
@@ -237,77 +196,23 @@
 	function MovePage(page) {
 		var f = document.search_form;
 		f.page.value = page;
-		f.action = "/home/album_list.asp";
+		f.action = "/home/waste_album_list.asp";
 		f.submit();
 	}
 
 	function goView(album_seq) {
 		var f = document.search_form;
 		f.album_seq.value = album_seq;
-		f.action = "/home/album_view.asp";
+		f.action = "/home/waste_album_view.asp";
 		f.submit();
 	}
 
 	function goSearch() {
 		var f = document.search_form;
 		f.page.value = 1;
-		f.action = "/home/album_list.asp";
+		f.action = "/home/waste_album_list.asp";
 		f.submit();
-	}
-
-	function goTab(section_seq) {
-		var f = document.search_form;
-		f.section_seq.value = section_seq;
-		f.page.value = 1;
-		f.submit();
-	}
-
-	function RsizeList(img, ww, hh, aL) {
-		var tt = imgRsize(img, ww, hh);
-		if (img.width > ww || img.height > hh) {
-
-			// 가로나 세로크기가 제한크기보다 크면
-			img.width = tt[0];
-			// 크기조정
-			img.height = tt[1];
-		}
-	}
-
-	function imgRsize(img, rW, rH) {
-		var iW = img.width;
-		var iH = img.height;
-		var g = new Array;
-		if (iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
-			g[0] = iW;
-			g[1] = iH;
-		}
-		else {
-			if (img.width > img.height) { // 원크기 가로가 세로보다 크면
-				g[0] = rW;
-				g[1] = Math.ceil(img.height * rW / img.width);
-			}
-			else if (img.width < img.height) { //원크기의 세로가 가로보다 크면
-				g[0] = Math.ceil(img.width * rH / img.height);
-				g[1] = rH;
-			}
-			else {
-				g[0] = rW;
-				g[1] = rH;
-			}
-			if (g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
-				g[0] = rW;
-				g[1] = Math.ceil(img.height * rW / img.width);
-			}
-			if (g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
-				g[0] = Math.ceil(img.width * rH / img.height);
-				g[1] = rH;
-			}
-		}
-
-		g[2] = img.width; // 원사이즈 가로
-		g[3] = img.height; // 원사이즈 세로
-
-		return g;
 	}
 </script>
 </html>
+

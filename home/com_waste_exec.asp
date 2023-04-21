@@ -13,14 +13,12 @@
 
 	com_seq = Request(menu_type & "_seq")
 
-'	On Error Resume Next
+	On Error Resume Next
 	Conn.BeginTrans
 	Set BeginTrans = Conn
 	CntError = 0
 
-	cafe_mb_level = getUserLevel(cafe_id)
-
-	If cafe_mb_level >= 6 Then ' 사랑방지기 이면 삭제
+	If cafe_ad_level = "10" Then ' 관리자 이면 삭제
 		call waste_content(menu_type, com_seq)
 	Else
 		Set rs = Server.CreateObject ("ADODB.Recordset")
@@ -29,7 +27,7 @@
 		sql = sql & " select * "
 		sql = sql & "   from cf_" & menu_type & " "
 		sql = sql & "  where " & menu_type & "_seq = '" & com_seq & "' "
-		sql = sql & "    and user_id = '" & user_id & "' "
+		sql = sql & "    and user_id = '" & session("user_id") & "' "
 		rs.Open Sql, conn, 3, 1
 
 		If Not rs.eof Then ' 글작성자 이면 삭제
@@ -49,7 +47,7 @@
 %>
 <script>
 	alert("삭제 되었습니다.");
-	location.href='<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
+	parent.location.href='<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
 </script>
 <%
 	Else
@@ -58,8 +56,8 @@
 		Set conn = Nothing
 %>
 <script>
-/	alert("오류가 뱔생했습니다.\n\n에러내용 : <%=Err.Description%>(<%=Err.Number%>)");
-/	location.href='<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
+	alert("오류가 뱔생했습니다.\n\n에러내용 : <%=Err.Description%>(<%=Err.Number%>)");
+	parent.location.href='<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>&page=1&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>';
 </script>
 <%
 	End if

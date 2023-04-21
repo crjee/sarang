@@ -1,21 +1,22 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	freePage = True
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	ScriptTimeOut = 5000
+	cafe_id = "home"
+
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
 	uploadform.DefaultPath = uploadFolder
+
+	checkCafePageUpload(cafe_id)
+	checkModifyAuth(cafe_id)
 
 	page      = uploadform("page")
 	pagesize  = uploadform("pagesize")
 	sch_type  = uploadform("sch_type")
 	sch_word  = uploadform("sch_word")
-
-	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
-	uploadform.DefaultPath = uploadFolder
-
-	cafe_id = "home"
-	checkCafePageUpload(cafe_id)
 
 	story_seq   = uploadform("story_seq")
 	subject     = uploadform("subject")
@@ -43,11 +44,11 @@
 
 	sql = ""
 	sql = sql & " update cf_story                                   "
-	sql = sql & "    set subject     = '" & subject     & "'        "
-	sql = sql & "       ,contents    = '" & ir1         & "'        "
-	sql = sql & "       ,section_seq = '" & section_seq & "'        "
-	sql = sql & "       ,top_yn      = '" & top_yn      & "'        "
-	sql = sql & "       ,link        = '" & link        & "'        "
+	sql = sql & "    set subject     = '" & subject            & "' "
+	sql = sql & "       ,contents    = '" & ir1                & "' "
+	sql = sql & "       ,top_yn      = '" & top_yn             & "' "
+	sql = sql & "       ,section_seq = '" & section_seq        & "' "
+	sql = sql & "       ,link        = '" & link               & "' "
 	sql = sql & "       ,modid       = '" & Session("user_id") & "' "
 	sql = sql & "       ,moddt       = getdate()                    "
 	sql = sql & " where story_seq = '" & story_seq & "'             "

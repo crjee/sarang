@@ -213,7 +213,7 @@
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%> 내용보기</h2>
 				</div>
-수정, 삭제, 공지지정, 글쓰기 				<div class="btn_box view_btn">
+ 				<div class="btn_box view_btn">
 <%
 	If cafe_mb_level > 6 Or rs("user_id") = session("user_id") Then
 		If rs("step_num") = "0" Then
@@ -263,7 +263,7 @@
 							<div class="view_head_photo">
 								<div class="photo_box">
 <%
-	uploadUrl = ConfigAttachedFileURL & "nsale/"
+	uploadUrl = ConfigAttachedFileURL & "display/nsale/"
 
 	sql = ""
 	sql = sql & " select * "
@@ -275,7 +275,7 @@
 	If Not rs2.EOF Then
 		Do Until rs2.EOF
 %>
-								<div><img src="<%=uploadUrl & rs2("file_name")%>" alt="" /></div>
+								<div><img src="<%=uploadUrl & rs2("dsply_file_nm")%>" alt="" /></div>
 <%
 			rs2.MoveNext
 		Loop
@@ -303,10 +303,16 @@
 											<col class="w30" />
 										</colgroup>
 										<tbody>
+<%
+	If tab_use_yn = "Y" Then
+%>
 											<tr>
 												<th scope="row"><%=tab_nm%></th>
 												<td colspan="3"><%=section_nm%></td>
 											</tr>
+<%
+	End If
+%>
 											<tr>
 												<th scope="row">분양주소</th>
 												<td colspan="3"><%=nsale_addr%></td>
@@ -324,15 +330,15 @@
 											</tr>
 											<tr>
 												<th scope="row">계약기간</th>
-												<td colspan="3"><%=cnt_st_date%> ~ <%=cnt_ed_date%></td>
+												<td colspan="3"><%=cnt_st_date%> <%=if3(cnt_st_date<>"" Or cnt_ed_date<>""," ~ ","")%> <%=cnt_ed_date%></td>
 											</tr>
 											<tr>
 												<th scope="row">전매기간</th>
-												<td colspan="3"><%=resale_st_date%> ~ <%=resale_ed_date%></td>
+												<td colspan="3"><%=resale_st_date%> <%=if3(resale_st_date<>"" Or resale_ed_date<>""," ~ ","")%> <%=resale_ed_date%></td>
 											</tr>
 											<tr>
 												<th scope="row">입주일</th>
-												<td colspan="3"><%=mvin_date%> ~</td>
+												<td colspan="3"><%=mvin_date%></td>
 											</tr>
 											<tr>
 												<th scope="row">모델하우스 위치</th>

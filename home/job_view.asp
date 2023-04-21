@@ -143,7 +143,7 @@
 	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
 	If toInt(write_auth) <= toInt(cafe_mb_level) Then
 %>
-					<!-- <button type="button" class="btn btn_c_n btn_n" onclick="<%=session("ctHref")%>location.href='/cafe/skin/job_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+					<!-- <button type="button" class="btn btn_c_n btn_n" onclick="location.href='/cafe/skin/job_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
  --><%
 	End If
 %>

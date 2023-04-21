@@ -1,21 +1,23 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
-<%
-	freePage = True
-%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
 	checkCafePage(cafe_id)
+	checkAdmin()
 
-	pageUrl = "http://" & request.servervariables("HTTP_HOST") & request.servervariables("HTTP_URL") & "?menu_seq=" & Request("menu_seq") & "&board_seq=" & Request("board_seq")
+	ipin = getRndStr(10)
+	sql = ""
+	sql = sql & " update cf_member "
+	sql = sql & "    set ipin = '" & ipin & "' "
+	sql = sql & "       ,modid = '" & Session("user_id") & "' "
+	sql = sql & "       ,moddt = getdate() "
+	sql = sql & "  where user_id = '" & session("user_id") & "' "
+	Conn.Execute(sql)
 
 	page      = Request("page")
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
-	home_sch  = Request("home_sch")
-
-	self_yn   = Request("self_yn")
 
 	board_seq = Request("board_seq")
 
@@ -26,7 +28,7 @@
 	sql = ""
 	sql = sql & " select cb.* "
 	sql = sql & "       ,cm.phone as tel_no "
-	sql = sql & "   from cf_board cb "
+	sql = sql & "   from cf_waste_board cb "
 	sql = sql & "   left join cf_member cm on cm.user_id = cb.user_id "
 	sql = sql & "  where board_seq = '" & board_seq & "' "
 	rs.Open Sql, conn, 3, 1
@@ -59,8 +61,8 @@
 		move_menu_seq  = rs("move_menu_seq")
 		move_user_id   = rs("move_user_id")
 		move_date      = rs("move_date")
-		restoreid      = rs("restoreid")
-		restoredt      = rs("restoredt")
+		delid          = rs("delid")
+		deldt          = rs("deldt")
 		comment_cnt    = rs("comment_cnt")
 		section_seq    = rs("section_seq")
 		pop_yn         = rs("pop_yn")
@@ -77,7 +79,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>GI</title>
+	<title>스킨-1 : GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -90,17 +92,12 @@
 <!--#include virtual="/home/home_header_inc.asp"-->
 		<main id="main" class="main">
 			<div class="container">
-			<form name="open_form" method="post">
-			<input type="hidden" name="open_url" value="/home/com_move_edit_p.asp?com_seq=<%=board_seq%>&menu_seq=<%=menu_seq%>&cafe_id=<%=cafe_id%>">
-			<input type="hidden" name="open_name" value="com_move">
-			<input type="hidden" name="open_specs" value="width=340, height=310, left=150, top=150">
-			</form>
 			<form name="search_form" method="post">
 			<input type="hidden" name="page" value="<%=page%>">
 			<input type="hidden" name="pagesize" value="<%=pagesize%>">
 			<input type="hidden" name="sch_type" value="<%=sch_type%>">
 			<input type="hidden" name="sch_word" value="<%=sch_word%>">
-			<input type="hidden" name="self_yn" value="<%=self_yn%>">
+			<input type="hidden" name="task">
 
 			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 			<input type="hidden" name="board_seq" value="<%=board_seq%>">
@@ -111,51 +108,12 @@
 			<input type="hidden" name="step_num" value="<%=step_num%>">
 			</form>
 				<div class="cont_tit">
-					<h2 class="h2"><%=menu_name%> 내용보기</h2>
+					<h2 class="h2"><font color="red">휴지통 <%=menu_name%> 내용보기</font></h2>
 				</div>
 				<div class="btn_box view_btn">
-<%
-	If group_num = "" And reply_auth <= cafe_mb_level Then
-%>
-					<button type="button" class="btn btn_c_n btn_n" onclick="goReply()">답글</button>
-<%
-	End If
-%>
-<%
-	If cafe_mb_level > 6 Or user_id = session("user_id") Then
-%>
-					<button type="button" class="btn btn_c_n btn_n" onclick="goModify()">수정</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goRestore()">복원</button>
 					<button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
-<%
-		If step_num = "0" Then
-%>
-					<button type="button" class="btn btn_c_n btn_n" onclick="goMove()">이동</button>
-<%
-		End If
-	End If
-%>
-<%
-	If cafe_mb_level > 6 Then
-		If step_num = "0" Then
-%>
-					<button type="button" class="btn btn_c_n btn_n" onclick="goNotice()"><%=if3(top_yn="Y","공지해제","공지지정")%></button>
-<%
-		End If
-	End If
-%>
-					<button type="button" class="btn btn_c_n btn_n" onclick="goSuggest()">추천</button>
-					<button type="button" class="btn btn_c_n btn_n" onclick="goPrint()">인쇄</button>
-					<button type="button" class="btn btn_c_n btn_n" onclick="copyUrl()">글주소복사</button>
-					<button type="button" class="btn btn_c_n btn_n" onclick="copySubject()">제목복사</button>
-<%
-	write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & Request("menu_seq")  & "'")
-	If toInt(write_auth) <= toInt(cafe_mb_level) Then
-%>
-					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='/home/board_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
-<%
-	End If
-%>
-					<button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=home_sch%>')">목록</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goList()">목록</button>
 				</div>
 				<div id="print_area"><!-- 프린트영역 추가 crjee -->
 					<div class="view_head">
@@ -254,94 +212,23 @@
 	</div>
 </body>
 <script type="text/javascript">
-	function goPrint() {
-		var initBody;
-		window.onbeforeprint = function() {
-			initBody = document.body.innerHTML;
-			document.body.innerHTML =  document.getElementById('print_area').innerHTML;
-		};
-			window.onafterprint = function() {
-			document.body.innerHTML = initBody;
-		};
-		window.print();
-	}
-
-	function goList(sch) {
-		if (sch == 'Y') {
-			document.search_form.action = "/home/home_search_list.asp";
-		}
-		else {
-			document.search_form.action = "/home/board_list.asp";
-		}
+	function goList() {
+		document.search_form.action = "/home/waste_board_list.asp";
 		document.search_form.target = "_self";
 		document.search_form.submit();
 	}
-	function goReply() {
-		document.search_form.action = "/home/board_reply.asp"
-		document.search_form.target = "_self";
-		document.search_form.submit();
-	}
-	function goModify() {
-		document.search_form.action = "/home/board_modify.asp"
-		document.search_form.target = "_self";
+	function goRestore() {
+		document.search_form.task.value = "restore";
+		document.search_form.action = "/home/waste_com_exec.asp";
+		document.search_form.target = "hiddenfrm";
 		document.search_form.submit();
 	}
 	function goDelete() {
-		document.search_form.action = "/home/com_waste_exec.asp"
+		document.search_form.task.value = "delete";
+		document.search_form.action = "/home/waste_com_exec.asp";
 		document.search_form.target = "hiddenfrm";
 		document.search_form.submit();
-	}
-	function goNotice() {
-		document.search_form.action = "/home/com_top_exec.asp"
-		document.search_form.target = "hiddenfrm";
-		document.search_form.submit();
-	}
-	function goSuggest() {
-		document.search_form.action = "/home/com_suggest_exec.asp"
-		document.search_form.target = "hiddenfrm";
-		document.search_form.submit();
-	}
-	function goMove() {
-		document.open_form.action = "/win_open_exec.asp"
-		document.open_form.target = "hiddenfrm";
-		document.open_form.submit();
-	}
-	function copySubject() {
-		try{
-			str = document.getElementById("subject").innerText;
-			if (window.clipboardData) {
-					window.clipboardData.setData("text", str)
-					alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-			}
-			else if (window.navigator.clipboard) {
-					window.navigator.clipboard.writeText(str).Then(() => {
-						alert("해당 제목이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-					});
-			}
-			else {
-				temp = prompt("해당 제목을 복사하십시오.", str);
-			}
-		} catch(e) {
-			alert(e)
-		}
-	}
-	function copyUrl() {
-		try{
-			if (window.clipboardData) {
-					window.clipboardData.setData("text", "<%=pageUrl%>")
-					alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-			}
-			else if (window.navigator.clipboard) {
-					window.navigator.clipboard.writeText("<%=pageUrl%>").then(() => {
-						alert("해당 글주소가 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-					});
-			}
-			else {
-				temp = prompt("해당 글주소를 복사하십시오.", "<%=pageUrl%>");
-			}
-		} catch(e) {
-			alert(e)
-		}
 	}
 </script>
 </html>
+

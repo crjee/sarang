@@ -5,7 +5,6 @@
 
 	menu_type = "notice"
 
-	ScriptTimeOut = 5000
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & "notice\"
 	uploadform.DefaultPath = uploadFolder
@@ -15,14 +14,15 @@
 	sch_type  = uploadform("sch_type")
 	sch_word  = uploadform("sch_word")
 
-	notice_seq = uploadform("notice_seq")
-	kname = uploadform("kname")
-	subject = uploadform("subject")
-	ir1 = Replace(uploadform("ir1"),"'"," & #39;")
-	link = uploadform("link")
-	If link = "http://" Then link = ""
-	top_yn = uploadform("top_yn")
-	pop_yn = uploadform("pop_yn")
+	notice_seq  = uploadform("notice_seq")
+	kname       = uploadform("kname")
+	subject     = uploadform("subject")
+	ir1         = Replace(uploadform("ir1"),"'"," & #39;")
+	link        = uploadform("link")
+	top_yn      = uploadform("top_yn")
+	pop_yn      = uploadform("pop_yn")
+	section_seq = uploadform("section_seq")
+	If link     = "http://" Then link = ""
 
 	allcafe = uploadform("allcafe")
 	opt_value = uploadform("opt_value")
@@ -50,16 +50,17 @@
 	End If
 
 	sql = ""
-	sql = sql & " update cf_notice "
-	sql = sql & "    set subject  = '" & subject & "' "
-	sql = sql & "       ,contents = '" & ir1 & "' "
-	sql = sql & "       ,top_yn   = '" & top_yn & "' "
-	sql = sql & "       ,pop_yn   = '" & pop_yn & "' "
-	sql = sql & "       ,cafe_id  = '" & cafe_id & "' "
-	sql = sql & "       ,link     = '" & link & "' "
-	sql = sql & "       ,modid = '" & Session("user_id") & "' "
-	sql = sql & "       ,moddt = getdate() "
-	sql = sql & " where notice_seq = '" & notice_seq & "' "
+	sql = sql & " update cf_notice                                  "
+	sql = sql & "    set subject     = '" & subject            & "' "
+	sql = sql & "       ,contents    = '" & ir1                & "' "
+	sql = sql & "       ,top_yn      = '" & top_yn             & "' "
+	sql = sql & "       ,section_seq = '" & section_seq        & "' "
+	sql = sql & "       ,pop_yn      = '" & pop_yn             & "' "
+	sql = sql & "       ,cafe_id     = '" & cafe_id            & "' "
+	sql = sql & "       ,link        = '" & link               & "' "
+	sql = sql & "       ,modid       = '" & Session("user_id") & "' "
+	sql = sql & "       ,moddt       = getdate()                    "
+	sql = sql & " where notice_seq = '" & notice_seq & "'           "
 	Conn.Execute(sql)
 
 	For Each item In uploadform("file_name")

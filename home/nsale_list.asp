@@ -178,7 +178,7 @@
 			End if
 %>
 									</span></a>
-									<span class="posr"><span class="text"><span title="분양일"><%=frst_receipt_acpt_date%></span> ㅣ<span title="입주일"><%=mvin_date%></span>
+									<span class="posr"><span class="text"><span title="모집공고일"><%=rect_notice_date%></span> ㅣ<span title="입주일"><%=mvin_date%></span>
 								</div>
 <%
 			i = i + 1

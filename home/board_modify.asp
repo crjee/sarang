@@ -53,13 +53,14 @@
 			Response.End
 		End If
 
-		step_num = rs("step_num")
-		top_yn   = rs("top_yn")
-		user_id  = rs("user_id")
-		subject  = rs("subject")
-		contents = rs("contents")
-		link     = rs("link")
-		subject  = Replace(subject, """", " & quot;")
+		step_num    = rs("step_num")
+		top_yn      = rs("top_yn")
+		user_id     = rs("user_id")
+		subject     = rs("subject")
+		contents    = rs("contents")
+		section_seq = rs("section_seq")
+		link        = rs("link")
+		subject     = Replace(subject, """", " & quot;")
 	End if
 	rs.close
 
@@ -194,6 +195,16 @@
 	function submitContents(elClickedObj) {
 		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
 		try {
+<%
+	If tab_use_yn = "Y" Then
+%>
+			if ( ! $('input[name=section_seq]:checked').val()) {
+				alert('<%=tab_nm%>을 선택해주세요.');
+				return false;
+			}
+<%
+	End If
+%>
 			elClickedObj.action = "board_modify_exec.asp";
 			elClickedObj.target = "hiddenfrm";
 			elClickedObj.submit()

@@ -3,7 +3,13 @@
 <%
 	Call checkAdmin()
 
-	for i = 1 to Request("cafe_id").count
+	cafe_cnt = Request("cafe_id").count
+
+	If cafe_cnt = 0 Then
+		msgend("선택한 사랑방이 없습니다.")
+	End If
+
+	For i = 1 To Request("cafe_id").count
 		cafe_id = Request("cafe_id")(i)
 
 		sql = ""
@@ -14,7 +20,6 @@
 		sql = sql & "  where cafe_id = '" & cafe_id & "' "
 		Conn.Execute(sql)
 	Next
-
 %>
 <script>
 	alert("변경되었습니다.");

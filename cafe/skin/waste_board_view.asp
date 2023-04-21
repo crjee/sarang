@@ -3,8 +3,6 @@
 <%
 	checkCafePage(cafe_id)
 	checkManager(cafe_id)
-
-	pageUrl = "http://" & request.servervariables("HTTP_HOST") & request.servervariables("HTTP_URL") & "?menu_seq=" & Request("menu_seq") & "&board_seq=" & Request("board_seq")
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -61,39 +59,62 @@
 	sql = sql & "   left join cf_member cm on cm.user_id = cb.user_id "
 	sql = sql & "  where board_seq = '" & board_seq & "' "
 	rs.Open Sql, conn, 3, 1
+
+	If Not rs.eof Then
+		group_num      = rs("group_num")
+		step_num       = rs("step_num")
+		level_num      = rs("level_num")
+		board_num      = rs("board_num")
+		cafe_id        = rs("cafe_id")
+		menu_seq       = rs("menu_seq")
+		agency         = rs("agency")
+		subject        = rs("subject")
+		contents       = rs("contents")
+		view_cnt       = rs("view_cnt")
+		suggest_cnt    = rs("suggest_cnt")
+		link           = rs("link")
+		top_yn         = rs("top_yn")
+		reg_date       = rs("reg_date")
+		creid          = rs("creid")
+		credt          = rs("credt")
+		modid          = rs("modid")
+		moddt          = rs("moddt")
+		board_seq      = rs("board_seq")
+		suggest_info   = rs("suggest_info")
+		user_id        = rs("user_id")
+		parent_seq     = rs("parent_seq")
+		move_board_num = rs("move_board_num")
+		parent_del_yn  = rs("parent_del_yn")
+		move_menu_seq  = rs("move_menu_seq")
+		move_user_id   = rs("move_user_id")
+		move_date      = rs("move_date")
+		delid          = rs("delid")
+		deldt          = rs("deldt")
+		comment_cnt    = rs("comment_cnt")
+		section_seq    = rs("section_seq")
+		pop_yn         = rs("pop_yn")
+
+		tel_no         = rs("tel_no")
+	Else
+		msggo "정상적인 사용이 아닙니다.",""
+	End If
+	rs.close
 %>
-			<script type="text/javascript">
-				function goList(gvTarget) {
-					document.search_form.action = "/cafe/skin/waste_board_list.asp";
-					document.search_form.target = gvTarget;
-					document.search_form.submit();
-				}
-				function goRestore() {
-					document.search_form.task.value = "restore";
-					document.search_form.action = "/cafe/skin/waste_com_exec.asp";
-					document.search_form.target = "hiddenfrm";
-					document.search_form.submit();
-				}
-				function goDelete() {
-					document.search_form.task.value = "delete";
-					document.search_form.action = "/cafe/skin/waste_com_exec.asp";
-					document.search_form.target = "hiddenfrm";
-					document.search_form.submit();
-				}
-			</script>
 			<form name="search_form" method="post">
-			<input type="hidden" name="sch_type" value="<%=sch_type%>">
-			<input type="hidden" name="sch_word" value="<%=sch_word%>">
-			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-			<input type="hidden" name="all_yn" value="<%=all_yn%>">
 			<input type="hidden" name="page" value="<%=page%>">
 			<input type="hidden" name="pagesize" value="<%=pagesize%>">
+			<input type="hidden" name="sch_type" value="<%=sch_type%>">
+			<input type="hidden" name="sch_word" value="<%=sch_word%>">
+			<input type="hidden" name="all_yn" value="<%=all_yn%>">
 			<input type="hidden" name="task">
+
+			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 			<input type="hidden" name="board_seq" value="<%=board_seq%>">
 			<input type="hidden" name="com_seq" value="<%=board_seq%>">
-			<input type="hidden" name="group_num" value="<%=rs("group_num")%>">
-			<input type="hidden" name="level_num" value="<%=rs("level_num")%>">
-			<input type="hidden" name="step_num" value="<%=rs("step_num")%>">
+
+			<input type="hidden" name="group_num" value="<%=group_num%>">
+			<input type="hidden" name="level_num" value="<%=level_num%>">
+			<input type="hidden" name="step_num" value="<%=step_num%>">
 			</form>
 				<div class="cont_tit">
 					<h2 class="h2"><font color="red">휴지통 <%=menu_name%> 내용보기</font></h2>
@@ -103,87 +124,93 @@
 					<button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
 					<button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">목록</button>
 				</div>
-				<div class="view_head">
-					<h3 class="h3" id="subject"><%=rs("subject")%></h3>
-				<div class="bbs_cont">
+				<div id="print_area"><!-- 프린트영역 추가 crjee -->
+					<div class="view_head">
+						<h3 class="h3" id="subject"><%=subject%></h3>
+						<div class="wrt_info_box">
+							<ul>
+								<li><span>작성자</span><strong><a title="<%=tel_no%>"><%=agency%></a></strong></li>
+								<li><span>조회</span><strong><%=view_cnt%></strong></li>
+								<li><span>추천</span><strong><%=suggest_cnt%></strong></li>
+								<li><span>등록일시</span><strong><%=credt%></strong></li>
+							</ul>
+						</div>
+					</div>
+					<div class="wrt_file_box"><!-- 첨부파일영역 추가 crjee -->
 <%
 	uploadUrl = ConfigAttachedFileURL & menu_type & "/"
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
 
 	Set fso = CreateObject("Scripting.FileSystemObject")
-	Set rs2 = Server.CreateObject ("ADODB.Recordset")
+
 	sql = ""
 	sql = sql & " select * "
 	sql = sql & "   from cf_board_attach "
 	sql = sql & "  where board_seq = '" & board_seq & "' "
-	rs2.Open Sql, conn, 3, 1
+	rs.Open Sql, conn, 3, 1
 	i = 0
-	If Not rs2.eof Then
-		Do Until rs2.eof
-			If (fso.FileExists(uploadFolder & rs2("file_name"))) Then
-				fileExt = LCase(Mid(rs2("file_name"), InStrRev(rs2("file_name"), ".") + 1))
+	If Not rs.eof Then
+		Do Until rs.eof
+			If (fso.FileExists(uploadFolder & rs("file_name"))) Then
+				fileExt = LCase(Mid(rs("file_name"), InStrRev(rs("file_name"), ".") + 1))
 				If fileExt = "pdf" Then
 %>
 					<%If i > 0 Then%><br><%End If%>
-					<a href="<%=uploadUrl & rs2("file_name")%>" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+					<a href="<%=uploadUrl & rs("file_name")%>" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs("file_name")%></a>
 <%
 				Else
 %>
 					<%If i > 0 Then%><br><%End If%>
-					<a href="/download_exec.asp?menu_type=<%=menu_type%>&file_name=<%=rs2("file_name")%>" target="hiddenfrm" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+					<a href="/download_exec.asp?menu_type=<%=menu_type%>&file_name=<%=rs("file_name")%>" target="hiddenfrm" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs("file_name")%></a>
 <%
 				End If
 			Else
 %>
 					<%If i > 0 Then%><br><%End If%>
-					<a href="javascript:alert('파일이 존재하지 않습니다,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs2("file_name")%></a>
+					<a href="javascript:alert('파일이 존재하지 않습니다,')" class="file"><img src="/cafe/skin/img/inc/file.png" /> <%=rs("file_name")%></a>
 <%
 			End If
 
 			i = i + 1
-			rs2.MoveNext
+			rs.MoveNext
 		Loop
 	End If
-	rs2.close
-	Set rs2 = Nothing
+	rs.close
+	Set rs = Nothing
 	Set fso = Nothing
-%>
-<%
-	link = rs("link")
-	link_txt = rmid(link, 40, "..")
 
 	If link <> "" Then
+		link_txt = rmid(link, 40, "..")
 %>
 						<p class="file"><a href="<%=link%>" target="_blink" id="linkTxt"><%=link_txt%></a>&nbsp;<img src="/cafe/skin/img/inc/copy.png" style="cursor:hand" id="linkBtn"/></p>
-<script>
-	document.getElementById("linkBtn").onclick = function() {
-		try{
-			if (window.clipboardData) {
-					window.clipboardData.setData("Text", "<%=link%>")
-					alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-			}
-			else if (window.navigator.clipboard) {
-					window.navigator.clipboard.writeText("<%=link%>").Then(() => {
-						alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
-					});
-			}
-			else {
-				temp = prompt("해당 URL을 복사하십시오.", "<%=link%>");
-			}
-		} catch(e) {
-			alert(e)
-		}
-	};
-</script>
+						<script>
+							document.getElementById("linkBtn").onclick = function() {
+								try{
+									if (window.clipboardData) {
+											window.clipboardData.setData("text", "<%=link%>")
+											alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+									}
+									else if (window.navigator.clipboard) {
+											window.navigator.clipboard.writeText("<%=link%>").then(() => {
+												alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
+											});
+									}
+									else {
+										temp = prompt("해당 URL을 복사하십시오.", "<%=link%>");
+									}
+								} catch(e) {
+									alert(e)
+								}
+							};
+						</script>
 <%
 	End If
 %>
-					<%=rs("contents")%>
+					</div>
+					<div class="bbs_cont">
+						<%=contents%>
+					</div>
 				</div>
-<%
-	rs.close
-	Set rs = nothing
-%>
 <%
 	com_seq = board_seq
 %>
@@ -201,5 +228,24 @@
 %>
 	<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;width:1000;"></iframe>
 </body>
+<script type="text/javascript">
+	function goList(gvTarget) {
+		document.search_form.action = "/cafe/skin/waste_board_list.asp";
+		document.search_form.target = gvTarget;
+		document.search_form.submit();
+	}
+	function goRestore() {
+		document.search_form.task.value = "restore";
+		document.search_form.action = "/cafe/skin/waste_com_exec.asp";
+		document.search_form.target = "hiddenfrm";
+		document.search_form.submit();
+	}
+	function goDelete() {
+		document.search_form.task.value = "delete";
+		document.search_form.action = "/cafe/skin/waste_com_exec.asp";
+		document.search_form.target = "hiddenfrm";
+		document.search_form.submit();
+	}
+</script>
 </html>
 

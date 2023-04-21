@@ -166,7 +166,7 @@
 										</ul>
 									</td>
 									<td class="algC"><%=total%> 명</td>
-									<td class="algC"><%=row("sdate") & " ~ " & row("edate")%></td>
+									<td class="algC"><%=row("sdate")%> <%=if3(row("sdate")<>"" Or row("edate")<>""," ~ ","")%> <%=row("edate")%></td>
 									<td class="algC"><%=if3(row("rprsv_cert_use_yn")="Y","Y","")%></td>
 									<td class="algC"><%=if3(row("ddln_yn")="Y","Y","")%></td>
 									<td class="algC">

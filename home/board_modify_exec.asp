@@ -18,13 +18,14 @@
 	sch_type  = uploadform("sch_type")
 	sch_word  = uploadform("sch_word")
 
-	board_seq = uploadform("board_seq")
-	kname = uploadform("kname")
-	subject = uploadform("subject")
-	ir1 = Replace(uploadform("ir1"),"'"," & #39;")
-	link = uploadform("link")
-	If link = "http://" Then link = ""
-	top_yn = uploadform("top_yn")
+	board_seq   = uploadform("board_seq")
+	kname       = uploadform("kname")
+	subject     = uploadform("subject")
+	ir1         = Replace(uploadform("ir1"),"'"," & #39;")
+	link        = uploadform("link")
+	top_yn      = uploadform("top_yn")
+	section_seq = uploadform("section_seq")
+	If link     = "http://" Then link = ""
 
 	For Each item In uploadform("file_name")
 		If item <> "" Then
@@ -43,14 +44,15 @@
 	Next
 
 	sql = ""
-	sql = sql & " update cf_board "
-	sql = sql & "    set subject = '" & subject & "' "
-	sql = sql & "       ,contents = '" & ir1 & "' "
-	sql = sql & "       ,top_yn = '" & top_yn & "' "
-	sql = sql & "       ,link = '" & link & "' "
-	sql = sql & "       ,modid = '" & Session("user_id") & "' "
-	sql = sql & "       ,moddt = getdate() "
-	sql = sql & " where board_seq = '" & board_seq & "' "
+	sql = sql & " update cf_board                                   "
+	sql = sql & "    set subject     = '" & subject            & "' "
+	sql = sql & "       ,contents    = '" & ir1                & "' "
+	sql = sql & "       ,top_yn      = '" & top_yn             & "' "
+	sql = sql & "       ,section_seq = '" & section_seq        & "' "
+	sql = sql & "       ,link        = '" & link               & "' "
+	sql = sql & "       ,modid       = '" & Session("user_id") & "' "
+	sql = sql & "       ,moddt       = getdate()                    "
+	sql = sql & " where board_seq = '" & board_seq & "'             "
 	Conn.Execute(sql)
 	
 	sql = ""

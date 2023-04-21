@@ -1,7 +1,6 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	ScriptTimeOut = 5000
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & "sale\"
 	uploadform.DefaultPath = uploadFolder

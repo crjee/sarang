@@ -54,27 +54,27 @@
 			Response.End
 		End If
 
-		step_num = rs("step_num")
-		top_yn   = rs("top_yn")
-		subject  = rs("subject")
-		location = rs("location")
-		bargain  = rs("bargain")
-		area     = rs("area")
-		floor    = rs("floor")
-		compose  = rs("compose")
-		price    = rs("price")
-		live_in  = rs("live_in")
-		parking  = rs("parking")
-		traffic  = rs("traffic")
-		purpose  = rs("purpose")
-		contents = rs("contents")
-		tel_no  = rs("tel_no")
-		fax_no = rs("fax_no")
+		step_num    = rs("step_num")
+		top_yn      = rs("top_yn")
+		subject     = rs("subject")
+		location    = rs("location")
+		bargain     = rs("bargain")
+		area        = rs("area")
+		floor       = rs("floor")
+		compose     = rs("compose")
+		price       = rs("price")
+		live_in     = rs("live_in")
+		parking     = rs("parking")
+		traffic     = rs("traffic")
+		purpose     = rs("purpose")
+		contents    = rs("contents")
+		tel_no      = rs("tel_no")
+		fax_no      = rs("fax_no")
+		section_seq = rs("section_seq")
+		link        = rs("link")
 
-		If rs("link") = "" Then
+		If link = "" Then
 			link = "http://"
-		Else
-			link = rs("link")
 		End If
 	End if
 	rs.close
@@ -112,6 +112,18 @@
 							</tr>
 <%
 		End If
+	End If
+%>
+<%
+	If tab_use_yn = "Y" Then
+%>
+							<tr>
+								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th>
+								<td>
+									<%=makeSection("R", "section_seq", section_seq, "")%>
+								</td>
+							</tr>
+<%
 	End If
 %>
 							<tr>
@@ -251,35 +263,45 @@
 </body>
 </html>
 
-			<script>
-			var oEditors = [];
+<script>
+	var oEditors = [];
 
-			nhn.husky.EZCreator.createInIFrame({
-				oAppRef: oEditors,
-				elPlaceHolder: "ir1",
-				sSkinURI: "/smart/SmartEditor2Skin.html",
-				htParams : {
-					bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-					bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-					bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-					//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
-					fOnBeforeUnload : function() {
-						//alert("완료!")
-					}
-				}, //boolean
-				fOnAppLoad : function() {
-					//예제 코드
-					//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
-				},
-				fCreator: "createSEditor2"
-			})
-
-			function submitContents(elClickedObj) {
-				oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
-				try {
-					elClickedObj.action = "sale_modify_exec.asp";
-					elClickedObj.target = "hiddenfrm";
-					elClickedObj.form.submit()
-				} catch(e) {}
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: oEditors,
+		elPlaceHolder: "ir1",
+		sSkinURI: "/smart/SmartEditor2Skin.html",
+		htParams : {
+			bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+			//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
+			fOnBeforeUnload : function() {
+				//alert("완료!")
 			}
-			</script>
+		}, //boolean
+		fOnAppLoad : function() {
+			//예제 코드
+			//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
+		},
+		fCreator: "createSEditor2"
+	})
+
+	function submitContents(elClickedObj) {
+		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
+		try {
+<%
+	If tab_use_yn = "Y" Then
+%>
+			if ( ! $('input[name=section_seq]:checked').val()) {
+				alert('<%=tab_nm%>을 선택해주세요.');
+				return false;
+			}
+<%
+	End If
+%>
+			elClickedObj.action = "sale_modify_exec.asp";
+			elClickedObj.target = "hiddenfrm";
+			elClickedObj.form.submit()
+		} catch(e) {}
+	}
+</script>

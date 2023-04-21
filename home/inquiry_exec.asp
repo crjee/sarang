@@ -6,9 +6,7 @@
 <%
 	cafe_id = "home"
 
-	ScriptTimeOut = 5000
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
-
 	uploadFolder = ConfigAttachedFileFolder & "home\"
 	uploadform.DefaultPath = uploadFolder
 	' 하나의 파일 크기를 1MB이하로 제한.

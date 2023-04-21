@@ -175,16 +175,18 @@
 	If Not rs.EOF Then
 		Do Until rs.EOF Or i > rs.pagesize
 			subject = rs("subject")
-			If isnull(subject) Or isempty(subject) Or Len(subject) = 0 Then
+
+			If isnull(subject) Or isempty(subject) Or Trim(Len(subject)) = 0 Then
 				subject = "제목없음"
-			End if
-			subject_s = rmid(subject, 40, "..")
+			End If
 
 			parent_del_yn = rs("parent_del_yn")
 
 			If parent_del_yn = "Y" Then
 				subject = "*원글이 삭제된 답글* " & subject
-			End if
+			End If
+
+			subject_s = rmid(subject, 40, "..")
 %>
 								<tr>
 									<td><a href="javascript: goView('<%=rs("job_seq")%>')" title="<%=subject_s%>"><%=subject%></a>
@@ -193,7 +195,7 @@
 %>
 										<img src="/cafe/skin/img/btn/new.png" />
 <%
-			End if
+			End If
 %>
 									</td>
 									<td class="algC"><%=rs("work_place")%></td>
@@ -212,7 +214,7 @@
 <%
 	End If
 	rs.close
-	Set rs = nothing
+	Set rs = Nothing
 %>
 							</tbody>
 						</table>
