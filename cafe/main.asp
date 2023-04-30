@@ -91,21 +91,37 @@
 %>
 <!--#include virtual="/cafe/cafe_center_inc.asp"-->
 <%
-	Else
+	ElseIf session("skin_id") = "skin_01" Then
 %>
-<%
-	End IF
-%>
-			</div>
-				<iframe id="cafe_main" name="cafe_main" title="카페 메인" src="about:blank"  width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+				<iframe name="cafe_main" id="cafe_main" title="카페 메인" src="about:blank" width="100%" height="100%" frameborder="0" scrolling="no" marginwidth="0" marginheight="0"></iframe>
 				<script>
 				try {
-					$('#cafe_main').attr('src', '/cafe/cafe_center_inc.asp?cafe_id=<%=cafe_id%>') ;
-alert()
+					$('#cafe_main').attr('src', '/cafe/skin_center_view.asp?cafe_id=<%=cafe_id%>') ;
+						$("#cafe_main").height($(window).height())
+				} catch(e) {aleret(e)}
+
+				$(document).ready(function() {
+					$('#cafe_main').on('load', function() {
+						if(this.contentDocument) {
+							$(this).height(this.contentDocument.documentElement.scrollHeight);
+						}
+						else {
+							$(this).height(this.contentWindow.document.body.scrollHeight);
+						}
+					});
+				});
+				</script>
+<%
+	Else
+%>
+			</div>
+				<iframe id="cafe_main" name="cafe_main" title="카페 메인" src="about:blank" style="display:none;" width="0" height="0" frameborder="0" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+				<script>
+				try {
+					$('#cafe_main').attr('src', '/cafe/cafe_center_view.asp?cafe_id=<%=cafe_id%>') ;
 				} catch(e) {aleret(e)}
 				var crjee = 0;
 				$(document).ready(function() {
-return;
 					$('#cafe_main').on('load', function() {
 //try
 //{if (this.contentDocument.getElementsByClassName("container")[0].id)
@@ -179,6 +195,9 @@ return;
 					});
 				});
 				</script>
+<%
+	End IF
+%>
 <!--#include virtual="/cafe/cafe_right_inc.asp"-->
 		</main>
 <!--#include virtual="/cafe/cafe_footer_inc.asp"-->
@@ -187,3 +206,6 @@ return;
 <!--#include virtual="/cafe/skin_edit_inc.asp"-->
 </body>
 </html>
+<%
+If session("cafe_ad_level") = "10" And session("skin_id") = "skin_01" Then extime("실행시간") 
+%>

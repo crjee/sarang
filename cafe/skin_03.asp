@@ -132,3 +132,6 @@
 <!--#include virtual="/cafe/skin_edit_inc.asp"-->
 </body>
 </html>
+<%
+If session("cafe_ad_level") = "10" And session("skin_id") = "skin_01" Then extime("실행시간") 
+%>

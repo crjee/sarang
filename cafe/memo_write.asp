@@ -188,6 +188,9 @@
 	}
 </script>
 </html>
+<%
+If session("cafe_ad_level") = "10" And session("skin_id") = "skin_01" Then extime("실행시간") 
+%>
 
 	<!-- 레이어 팝업 -->
 	<div class="lypp lypp_sarang lypp_member">
