@@ -2,16 +2,30 @@
 <%
 	freePage = True
 %>
+<%
+	Const tb_prefix = "gi"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckMultipart()
+
 	cafe_id = "home"
 
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
-	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
+	uploadFolder = ConfigAttachedFileFolder & "board\"
 	uploadform.DefaultPath = uploadFolder
 
-	checkCafePageUpload(cafe_id)
-	checkModifyAuth(cafe_id)
+	menu_seq = uploadform("menu_seq")
+	Call CheckMenuSeq(cafe_id, menu_seq)
+	com_seq = uploadform(menu_type & "_seq")
+	Call CheckDataExist(com_seq)
+	Call CheckModifyAuth(cafe_id)
+
+	dsplyFolder  = ConfigAttachedFileFolder & "display\board\"
+	thmbnlFolder = ConfigAttachedFileFolder & "thumbnail\board\"
+
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	page      = uploadform("page")
 	pagesize  = uploadform("pagesize")
@@ -19,82 +33,108 @@
 	sch_word  = uploadform("sch_word")
 
 	board_seq   = uploadform("board_seq")
-	kname       = uploadform("kname")
-	subject     = uploadform("subject")
-	ir1         = Replace(uploadform("ir1"),"'"," & #39;")
-	link        = uploadform("link")
+
 	top_yn      = uploadform("top_yn")
+	pop_yn      = uploadform("pop_yn")
 	section_seq = uploadform("section_seq")
+	subject     = Replace(uploadform("subject"),"'","&#39;")
+	contents    = Replace(uploadform("contents"),"'","&#39;")
+	link        = uploadform("link")
 	If link     = "http://" Then link = ""
 
-	For Each item In uploadform("file_name")
-		If item <> "" Then
-			IF item.FileLen > UploadForm.MaxFileLen Then
-				call msggo("파일의 크기는 " & CInt(uploadform.MaxFileLen/1024/1014) & "MB가 넘어서는 안됩니다","")
-				Set UploadForm = Nothing
-				Response.End
-			End If
-		End If
-	Next
-
-	For Each item In uploadform("file_name")
-		If item <> "" Then
-			FilePath = item.Save(,False)
-		End If
-	Next
+	'On Error Resume Next
+	Conn.BeginTrans
+	Set BeginTrans = Conn
+	CntError = 0
 
 	sql = ""
-	sql = sql & " update cf_board                                   "
-	sql = sql & "    set subject     = '" & subject            & "' "
-	sql = sql & "       ,contents    = '" & ir1                & "' "
-	sql = sql & "       ,top_yn      = '" & top_yn             & "' "
-	sql = sql & "       ,section_seq = '" & section_seq        & "' "
-	sql = sql & "       ,link        = '" & link               & "' "
-	sql = sql & "       ,modid       = '" & Session("user_id") & "' "
-	sql = sql & "       ,moddt       = getdate()                    "
-	sql = sql & " where board_seq = '" & board_seq & "'             "
+	sql = sql & " update gi_board "
+	sql = sql & "    set top_yn            = '" & top_yn             & "' "
+	sql = sql & "       ,pop_yn            = '" & pop_yn             & "' "
+	sql = sql & "       ,section_seq       = '" & section_seq        & "' "
+	sql = sql & "       ,subject           = '" & subject            & "' "
+	sql = sql & "       ,contents          = '" & contents           & "' "
+	sql = sql & "       ,link              = '" & link               & "' "
+
+	sql = sql & "       ,modid             = '" & Session("user_id") & "' "
+	sql = sql & "       ,moddt             = getdate()                    "
+	sql = sql & "  where board_seq         = '" & board_seq          & "' "
 	Conn.Execute(sql)
-	
+
 	sql = ""
-	sql = sql & " update cf_menu "
-	sql = sql & "    set top_cnt = (select count(*) from cf_board where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
-	sql = sql & "       ,modid = '" & Session("user_id") & "' "
-	sql = sql & "       ,moddt = getdate() "
-	sql = sql & "  where menu_seq = '" & menu_seq & "' "
+	sql = sql & " update cf_menu                                                                                         "
+	sql = sql & "    set top_cnt   = (select count(*) from gi_sale where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
+	sql = sql & "       ,last_date = getdate()                                                                           "
+	sql = sql & "       ,modid     = '" & Session("user_id") & "'                                                        "
+	sql = sql & "       ,moddt     = getdate()                                                                           "
+	sql = sql & "  where menu_seq  = '" & menu_seq & "'                                                                  "
 	Conn.Execute(sql)
 
-	For Each item In uploadform("file_name")
-		If item <> "" Then
-			new_seq = getSeq("cf_board_attach")
+	com_seq = board_seq
 
-			sql = ""
-			sql = sql & " insert into cf_board_attach(attach_seq "
-			sql = sql & "       ,board_seq "
-			sql = sql & "       ,file_name "
-			sql = sql & "       ,creid "
-			sql = sql & "       ,credt "
-			sql = sql & "      ) values( "
-			sql = sql & "        '" & new_seq & "' "
-			sql = sql & "       ,'" & board_seq & "' "
-			sql = sql & "       ,'" & item.LastSavedFileName & "' "
-			sql = sql & "       ,'" & Session("user_id") & "' "
-			sql = sql & "       ,getdate())"
-			Conn.Execute(sql)
-		End If
-	Next
+%>
+<!--#include  virtual="/include/attach_exec_inc.asp"-->
+<%
 
-	Set UploadForm = Nothing
+	Set rs = Nothing
+	Set fso = Nothing
+	Set uploadform = Nothing
+
+	If Err.Number = 0 Then
+		conn.CommitTrans
+		conn.Close
+		Set conn = Nothing
 %>
 <form name="form" action="board_view.asp" method="post">
-<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 <input type="hidden" name="page" value="<%=page%>">
 <input type="hidden" name="pagesize" value="<%=pagesize%>">
 <input type="hidden" name="sch_type" value="<%=sch_type%>">
 <input type="hidden" name="sch_word" value="<%=sch_word%>">
+<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 <input type="hidden" name="board_seq" value="<%=board_seq%>">
 </form>
 <script>
 	alert("수정 되었습니다.");
 	parent.location.href='board_view.asp?menu_seq=<%=menu_seq%>&page=<%=page%>&pagesize=<%=pagesize%>&sch_type=<%=sch_type%>&sch_word=<%=sch_word%>&board_seq=<%=board_seq%>';
 </script>
+<%
+	Else
+		conn.RollbackTrans
+		conn.Close
+		Set conn = Nothing
+%>
+<script>
+	alert("오류가 뱔생했습니다.\n\n에러내용 : <%=Err.Description%>(<%=Err.Number%>)");
+</script>
+<%
+		Set fso = CreateObject("Scripting.FileSystemObject")
 
+		uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
+		dsplyFolder  = ConfigAttachedFileFolder & "display\" & menu_type & "\"
+		thmbnlFolder = ConfigAttachedFileFolder & "thumbnail\" & menu_type & "\"
+
+		For j = 1 To img_i
+			If img_file_name(j) <> "" Then
+				If (fso.FileExists(uploadFolder & img_file_name(j))) Then
+					fso.DeleteFile(uploadFolder & img_file_name(j))
+				End If
+				If (fso.FileExists(dsplyFolder & dsply_file_nm(j))) Then
+					fso.DeleteFile(dsplyFolder & dsply_file_nm(j))
+				End If
+				If (fso.FileExists(thmbnlFolder & thmbnl_file_nm(j))) Then
+					fso.DeleteFile(thmbnlFolder & thmbnl_file_nm(j))
+				End If
+			End If
+		Next
+
+		For j = 1 To data_i
+			If data_file_name(j) <> "" Then
+				If (fso.FileExists(uploadFolder & data_file_name(j))) Then
+					fso.DeleteFile(uploadFolder & data_file_name(j))
+				End If
+			End If
+		Next
+
+		Set fso = Nothing
+	End If
+%>

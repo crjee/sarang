@@ -63,7 +63,7 @@
 '			Response.Write "<script>alert('활동중지 회원이십니다.')</script>"
 			Response.Write "<script>location.href='http://cafe.daum.net';</script>"
 			Response.End
-		End if
+		End If
 	Else
 		stat = "x"
 		set_log()
@@ -73,7 +73,7 @@
 		Response.Write "<script>location.href='http://cafe.daum.net';</script>"
 		Response.Write "<script>alert('올바르지 않은 접근입니다!!.');history.back();</script>"
 		Response.end
-	end If
+	End If
 	
 	mem.Close()
 	Conn.Close()

@@ -1,8 +1,14 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckManager(cafe_id)
+%>
+<%
 	menu_seq = Request.Form("menu_seq")
-	form = Request.form("ir1")
+	form = Request.form("contents")
 
 	sql = ""
 	sql = sql & " update cf_com_form "

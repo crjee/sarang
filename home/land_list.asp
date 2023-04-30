@@ -2,10 +2,15 @@
 <%
 	freePage = True
 %>
+<%
+	Const tb_prefix = "gi"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
-	checkCafePage(cafe_id)
+
+	menu_seq = Request("menu_seq")
+	Call CheckMenuSeq(cafe_id, menu_seq)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -13,7 +18,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>GI</title>
+	<title>경인 홈</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -36,24 +41,24 @@
 
 	If sch_word <> "" Then
 		If sch_type = "" Then
-			kword = " and (cb.subject like '%" & sch_word & "%' or cb.agency like '%" & sch_word & "%' or cb.contents like '%" & sch_word & "%') "
+			schStr = " and (subject like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
 		Else
-			kword = " and " & sch_type & " like '%" & sch_word & "%' "
+			schStr = " and " & sch_type & " like '%" & sch_word & "%' "
 		End If
 	Else
-		kword = ""
+		schStr = ""
 	End IF
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
-	sql = sql & " select land_seq        "
-	sql = sql & "       ,land_url        "
-	sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
-	sql = sql & "       ,subject         "
-	sql = sql & "       ,contents        "
-	sql = sql & "   from cf_land         "
-	sql = sql & "  order by land_seq asc "
+	sql = sql & " select land_seq                                      "
+	sql = sql & "       ,land_url                                      "
+	sql = sql & "       ,subject                                       "
+	sql = sql & "       ,contents                                      "
+	sql = sql & "       ,reg_date "
+	sql = sql & "   from cf_land                                       "
+	sql = sql & "  order by land_seq asc                               "
 	rs.Open Sql, conn, 3, 1
 %>
 		<main id="main" class="main">
@@ -86,7 +91,7 @@
 			i = i + 1
 			land_seq = rs("land_seq")
 			land_url = rs("land_url")
-			credt_txt = rs("credt_txt")
+			reg_date = rs("reg_date")
 			subject  = rs("subject")
 			contents = rs("contents")
 
@@ -95,7 +100,7 @@
 								<tr>
 									<td class="algC"><%=i%></td>
 									<td><%=land_list%></td>
-									<td class="algC"><%=credt_txt%></td>
+									<td class="algC"><%=Left(reg_date, 10)%></td>
 								</tr>
 <%
 			rs.MoveNext
@@ -108,7 +113,7 @@
 <%
 	End If
 	rs.close
-	Set rs = nothing
+	Set rs = Nothing
 %>
 							</tbody>
 						</table>

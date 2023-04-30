@@ -6,7 +6,7 @@
 		Set Conn = Server.CreateObject("ADODB.Connection")
 		Conn.open Application("db")
 
-		Set rs = Server.CreateObject ("ADODB.Recordset")
+		Set rs = Server.CreateObject("ADODB.Recordset")
 
 		sql = ""
 		sql = sql & " select mi.user_id                                        "
@@ -48,7 +48,7 @@
 				stat = "N"
 				Response.Write "<script>alert('활동중지 회원입니다!');window.close();</script>"
 				Response.End
-			End if
+			End If
 		Else
 			stat = "X"
 			Response.Write "<script>alert('일치하는 회원정보를 찾지못했습니다!1');window.close();</script>"
@@ -94,5 +94,5 @@
 			sql = sql & "       ,'C/S')"
 			Conn.execute sql 
 		End Sub
-	End if
+	End If
 %>

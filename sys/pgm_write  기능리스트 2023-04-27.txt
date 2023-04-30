@@ -1,0 +1,59 @@
+
+D:\경인네트웍스\sarang\cafe\album_write.asp
+button type="submit" class="btn btn_c_n btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">취소</button>
+
+D:\경인네트웍스\sarang\cafe\board_write.asp
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">취소</button>
+
+D:\경인네트웍스\sarang\cafe\job_write.asp
+button type="submit" class="btn btn_c_a btn_n" tabindex=26>등록</button>
+button type="button" class="btn btn_c_n btn_n" tabindex=27 onclick="goList('<%=session("ctTarget")%>')">취소</button>
+
+D:\경인네트웍스\sarang\cafe\memo_write.asp
+button type="button" class="btn btn_c_n btn_s btn_long" onclick="lyp('lypp_member')">받는사람 선택</button>
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">취소</button>
+button type="button" class="btn btn_close"><em>닫기</em></button>
+
+D:\경인네트웍스\sarang\cafe\notice_write.asp
+button type="button" class="btn_long" onclick="goCafe()">사랑방 선택</button>
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">취소</button>
+
+D:\경인네트웍스\sarang\cafe\sale_write.asp
+button type="submit" class="btn btn_c_a btn_n" tabindex=26>등록</button>
+button type="button" class="btn btn_c_n btn_n" tabindex=27 onclick="goList('<%=session("ctTarget")%>')">취소</button>
+
+D:\경인네트웍스\sarang\home\album_write.asp
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList()">취소</button>
+
+D:\경인네트웍스\sarang\home\board_write.asp
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList()">취소</button>
+
+D:\경인네트웍스\sarang\home\dmnddel_write.asp
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="reset" class="btn btn_c_n btn_n">취소</button>
+
+D:\경인네트웍스\sarang\home\inquiry_write.asp
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="reset" class="btn btn_c_n btn_n">취소</button>
+
+D:\경인네트웍스\sarang\home\job_write.asp
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList()">취소</button>
+
+D:\경인네트웍스\sarang\home\notice_write.asp
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList()">취소</button>
+
+D:\경인네트웍스\sarang\home\nsale_write.asp
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="reset" class="btn btn_c_n btn_n">취소</button>
+
+D:\경인네트웍스\sarang\home\sale_write.asp
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList()">취소</button>

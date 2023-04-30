@@ -1,8 +1,12 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
-
+	Call CheckManager(cafe_id)
+%>
+<%
 	If Request("user")<>"" Then
 		sql = ""
 		sql = sql & " update cf_cafe_member "
@@ -33,7 +37,7 @@
 		sql = ""
 		sql = sql & " update cf_cafe "
 		sql = sql & "    set reg_level = '" & reg_level & "' "
-		sql = sql & "       ,modid = '" & user_id & "' "
+		sql = sql & "       ,modid = '" & Session("user_id") & "' "
 		sql = sql & "       ,moddt = getdate() "
 		sql = sql & "  where cafe_id = '" & cafe_id & "'"
 		Conn.Execute(sql)
@@ -76,7 +80,7 @@
 						<span class="f_weight_b mr10">가입등급설정 :</span>
 						사랑방 회원가입 시
 						<select id="reg_level" name="reg_level" class="sel w100p">
-							<%=makeComboCD("reg_level", reg_level)%>
+							<%=GetMakeCDCombo("reg_level", reg_level)%>
 						</select>
 						으로 자동 등급 설정합니다.
 						<button type="submit" class="btn btn_c_s btn_s">확인</button>
@@ -85,7 +89,6 @@
 					</span>
 				</div>
 				</form>
-				
 				<div class="tb tb_form_1">
 					<table>
 						<colgroup>
@@ -104,6 +107,8 @@
 <%
 	i = 1
 
+	Set rs = Server.CreateObject("ADODB.Recordset")
+
 	sql = ""
 	sql = sql & " select * "
 	sql = sql & "   from cf_cafe_member cm "
@@ -111,21 +116,21 @@
 	sql = sql & "  where cm.cafe_id = '" & cafe_id & "' "
 	sql = sql & "    and cm.stat = 'Y' "
 	sql = sql & "    and cm.cafe_mb_level = '1' "
-	Set row = Conn.Execute(sql)
+	rs.Open sql, conn, 3, 1
 
-	If Not row.eof Then
-		Do Until row.eof
+	If Not rs.eof Then
+		Do Until rs.eof
 %>
 							<tr>
 								<td class="algC"><%=i%></td>
-								<td class="algC"><%=row("kname") & " (" & row("agency") & ")" %></td>
-								<td class="algC"><%=row("mobile")%></td>
-								<td class="algC"><%=row("addr1")%> <%=row("addr2")%></td>
-								<td class="algC"><input type="button" value="가입승인" onclick="ifrm.location.href='join_exec.asp?user_id=<%=row("user_id")%>'"></td>
+								<td class="algC"><%=rs("kname") & " (" & rs("agency") & ")" %></td>
+								<td class="algC"><%=rs("mobile")%></td>
+								<td class="algC"><%=rs("addr1")%> <%=rs("addr2")%></td>
+								<td class="algC"><input type="button" value="가입승인" onclick="ifrm.location.href='join_exec.asp?user_id=<%=rs("user_id")%>'"></td>
 							</tr>
 <%
 			i = i + 1
-			row.MoveNext
+			rs.MoveNext
 		Loop
 	Else
 %>
@@ -134,6 +139,8 @@
 							</tr>
 <%
 	End If
+	rs.close
+	Set rs = Nothing
 %>
 						</tbody>
 					</table>

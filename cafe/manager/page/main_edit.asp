@@ -1,5 +1,11 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
+<%
+	Call CheckManager(cafe_id)
+%>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -18,7 +24,7 @@
 <%
 	menu_seq = Request("menu_seq")
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select * "
@@ -156,18 +162,14 @@
 							<button type="button" class="btn btn_c_n btn_n" id="del">삭제</button>
 						</div>
 						</form>
-						<script>
-						</script>
 					</div>
 </body>
-</html>
-<script LANGUAGE="JavaScript">
-<!--
+<script>
 	$('#del').click(function() {
 		msg="삭제하시겠습니까?"
 		if (confirm(msg)) {
 			document.location.href='../main_del_exec.asp?menu_seq=<%=menu_seq%>';
 		}
 	})
-//-->
 </script>
+</html>

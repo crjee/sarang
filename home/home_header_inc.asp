@@ -1,4 +1,7 @@
 <%
+	If cafe_id <> "home" Then Response.End
+%>
+<%
 '	OPTION Explicit
 '	Dim cafe_id
 '	Dim cafe_mb_level
@@ -10,7 +13,7 @@
 '	Conn.Open Application("db")
 	uploadUrl = ConfigAttachedFileURL & "banner/"
 
-	Set headerRs = Server.CreateObject ("ADODB.Recordset")
+	Set headerRs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select top 1 *            "
@@ -51,6 +54,13 @@
 	Else
 %>
 						<li><a href="/logout_exec.asp">로그아웃</a></li>
+<%
+	End If
+%>
+<%
+	If Session("cafe_ad_level") = "10" Then
+%>
+						<li><a href="/home/admin/member_list.asp" target="<%=session("svTarget")%>">관리자</a></li>
 <%
 	End If
 %>
@@ -133,14 +143,14 @@
 	Dim header_menu_seq
 
 	sql = ""
-	sql = sql & " select menu_type "
-	sql = sql & "       ,menu_name "
-	sql = sql & "       ,menu_seq "
-	sql = sql & "   from cf_menu cm "
-	sql = sql & "  where cafe_id = '" & cafe_id & "'"
-	sql = sql & "    and menu_type <> 'poll' "
-	sql = sql & "    and hidden_yn <> 'Y'"
-	sql = sql & "  order by menu_num asc "
+	sql = sql & " select menu_type                   "
+	sql = sql & "       ,menu_name                   "
+	sql = sql & "       ,menu_seq                    "
+	sql = sql & "   from cf_menu cm                  "
+	sql = sql & "  where cafe_id = '" & cafe_id & "' "
+	sql = sql & "    and menu_type <> 'poll'         "
+	sql = sql & "    and hidden_yn <> 'Y'            "
+	sql = sql & "  order by menu_num asc             "
 	headerRs.Open sql, conn, 3, 1
 
 	Do Until headerRs.eof
@@ -151,7 +161,7 @@
 
 		header_menu_type = Trim(header_menu_type)
 
-		If instr("notice,board,news,pds,album,sale,job,nsale,story",header_menu_type) Then
+		If instr("notice,board,news,pds,album,sale,job,nsale",header_menu_type) Then
 			header_menu_name_str = "<a href='/home/" & header_menu_type & "_list.asp?menu_seq=" & header_menu_seq & "'>" & header_menu_name & "</a>"
 		ElseIf header_menu_type = "land" Then
 			header_menu_name_str = "<a href='/home/land_list.asp?menu_seq=" & header_menu_seq & "'>" & header_menu_name & " </a>"
@@ -161,7 +171,7 @@
 			header_menu_name_str = "<a href='/home/memo_write.asp?menu_seq=" & header_menu_seq & "'>" & header_menu_name & " </a>"
 		Else
 			header_menu_name_str = "<a href='/home/page_view.asp?menu_seq=" & header_menu_seq & "'>" & header_menu_name & " </a>"
-		End if
+		End If
 
 		If CStr(request("menu_seq")) = CStr(header_menu_seq) then
 %>

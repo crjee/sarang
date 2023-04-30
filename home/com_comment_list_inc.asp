@@ -1,13 +1,15 @@
 <%
-	cafe_mb_level = getUserLevel(cafe_id)
+	If com_seq = "" Then Response.End
 
-	If toInt(reply_auth) <= toInt(cafe_mb_level) Then
+	cafe_mb_level = GetUserLevel(cafe_id)
+
+	If GetToInt(reply_auth) <= GetToInt(cafe_mb_level) Then
 		Set rs = server.createobject("adodb.recordset")
 		sql = ""
 		sql = sql & " select cc.* "
 		sql = sql & "       ,convert(varchar(10), cc.credt, 120) reg_date_txt "
 		sql = sql & "       ,phone as tel_no "
-		sql = sql & "   from cf_" & menu_type & "_comment cc "
+		sql = sql & "   from gi_" & menu_type & "_comment cc "
 		sql = sql & "   left outer join cf_member cm on cm.user_id = cc.user_id "
 		sql = sql & "  where cc." & menu_type & "_seq = '" & com_seq & "' "
 		sql = sql & "  order by cc.group_num desc, cc.step_num asc "
@@ -24,7 +26,7 @@
 					<div class="bbs_add_cont_head">
 						<h4>댓글</h4><span class="count"><%=comment_cnt%></span>
 						<div class="posR">
-							<button type="button" class="btn btn_s btn_c_a" onclick="javascript:goCommentWrite('');">댓글쓰기</button>
+							<button type="button" class="btn btn_s btn_c_a" onclick="goCommentWrite('');">댓글쓰기</button>
 							<script>
 								function goCommentWrite(comment_seq) {
 									if (comment_seq != '') {
@@ -72,7 +74,7 @@
 %>
 									<%=rs("agency")%>
 								</strong>
-								<span class=""><%=rs("credt")%><%If CStr(rs("reg_date_txt")) = CStr(Date) then%>&nbsp;<img src="/cafe/skin/img/btn/new.png" /><%End if%></span>
+								<span class=""><%=rs("credt")%><%If CStr(rs("reg_date_txt")) = CStr(Date) then%>&nbsp;<img src="/cafe/img/btn/new.png" /><%End If%></span>
 								<span class="posR">
 <%
 			If session("user_id") = rs("user_id") Or cafe_ad_level = 10 Then
@@ -114,7 +116,7 @@
 			rs.MoveNext
 		Loop
 		rs.close
-		Set rs = nothing
+		Set rs = Nothing
 %>
 					</div>
 				</div>

@@ -1,16 +1,24 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "gi"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
-	checkCafePage(cafe_id)
-	checkAdmin()
+
+	Call CheckAdmin()
+
+	menu_seq = Request("menu_seq")
+	Call CheckMenuSeq(cafe_id, menu_seq)
+	com_seq = Request(menu_type & "_seq")
+	Call CheckWasteExist(com_seq)
 
 	ipin = getRndStr(10)
 	sql = ""
-	sql = sql & " update cf_member "
-	sql = sql & "    set ipin = '" & ipin & "' "
-	sql = sql & "       ,modid = '" & Session("user_id") & "' "
-	sql = sql & "       ,moddt = getdate() "
+	sql = sql & " update cf_member                              "
+	sql = sql & "    set ipin = '" & ipin & "'                  "
+	sql = sql & "       ,modid = '" & Session("user_id") & "'   "
+	sql = sql & "       ,moddt = getdate()                      "
 	sql = sql & "  where user_id = '" & session("user_id") & "' "
 	Conn.Execute(sql)
 
@@ -19,18 +27,19 @@
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
 
-	board_seq = Request("board_seq")
+	board_seq  = Request("board_seq")
+	waset_yn = "Y"
 
-	Call setViewCnt(menu_type, board_seq)
+	Call SetViewCnt(menu_type, com_seq)
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
-	sql = sql & " select cb.* "
-	sql = sql & "       ,cm.phone as tel_no "
-	sql = sql & "   from cf_waste_board cb "
+	sql = sql & " select cb.*                                         "
+	sql = sql & "       ,cm.phone as tel_no                           "
+	sql = sql & "   from gi_waste_board cb                            "
 	sql = sql & "   left join cf_member cm on cm.user_id = cb.user_id "
-	sql = sql & "  where board_seq = '" & board_seq & "' "
+	sql = sql & "  where board_seq = '" & board_seq & "'              "
 	rs.Open Sql, conn, 3, 1
 
 	If Not rs.eof Then
@@ -68,8 +77,6 @@
 		pop_yn         = rs("pop_yn")
 
 		tel_no         = rs("tel_no")
-	Else
-		msggo "정상적인 사용이 아닙니다.",""
 	End If
 	rs.close
 %>
@@ -79,7 +86,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>스킨-1 : GI</title>
+	<title>경인 홈</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -120,7 +127,7 @@
 						<h3 class="h3" id="subject"><%=subject%></h3>
 						<div class="wrt_info_box">
 							<ul>
-								<li><span>작성자</span><strong><a title="<%=tel_no%>"><%=agency%></a></strong></li>
+								<li><span>글쓴이</span><strong><a title="<%=tel_no%>"><%=agency%></a></strong></li>
 								<li><span>조회</span><strong><%=view_cnt%></strong></li>
 								<li><span>추천</span><strong><%=suggest_cnt%></strong></li>
 								<li><span>등록일시</span><strong><%=credt%></strong></li>
@@ -128,51 +135,12 @@
 						</div>
 					</div>
 					<div class="wrt_file_box"><!-- 첨부파일영역 추가 crjee -->
+<!--#include virtual="/include/attach_view_inc.asp"-->
 <%
-	uploadUrl = ConfigAttachedFileURL & menu_type & "/"
-	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
-
-	Set fso = CreateObject("Scripting.FileSystemObject")
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_board_attach "
-	sql = sql & "  where board_seq = '" & board_seq & "' "
-	rs.Open Sql, conn, 3, 1
-	i = 0
-	If Not rs.eof Then
-		Do Until rs.eof
-			If (fso.FileExists(uploadFolder & rs("file_name"))) Then
-				fileExt = LCase(Mid(rs("file_name"), InStrRev(rs("file_name"), ".") + 1))
-				If fileExt = "pdf" Then
-%>
-						<%If i > 0 Then%><br><%End If%>
-						<a href="<%=uploadUrl & rs("file_name")%>" class="file"><img src="/home/img/inc/file.png" /> <%=rs("file_name")%></a>
-<%
-				Else
-%>
-						<%If i > 0 Then%><br><%End If%>
-						<a href="/download_exec.asp?menu_type=<%=menu_type%>&file_name=<%=rs("file_name")%>" class="file"><img src="/home/img/inc/file.png" /> <%=rs("file_name")%></a>
-<%
-				End If
-			Else
-%>
-						<%If i > 0 Then%><br><%End If%>
-						<a href="javascript:alert('파일이 존재하지 않습니다,')" class="file"><img src="/home/img/inc/file.png" /> <%=rs("file_name")%></a>
-<%
-			End If
-
-			i = i + 1
-			rs.MoveNext
-		Loop
-	End If
-	rs.close
-	Set rs = Nothing
-	Set fso = Nothing
-
 	If link <> "" Then
 	link_txt = rmid(link, 40, "..")
 %>
-						<p class="file"><a href="<%=link%>" target="_blink" id="linkTxt"><%=link_txt%></a>&nbsp;<img src="/home/img/inc/copy.png" style="cursor:hand" id="linkBtn"/></p>
+						<p class="file"><a href="<%=link%>" target="_blink" id="linkTxt"><%=link_txt%></a>&nbsp;<img src="/cafe/img/inc/copy.png" style="cursor:hand" id="linkBtn"/></p>
 						<script>
 							document.getElementById("linkBtn").onclick = function() {
 								try{
@@ -181,7 +149,7 @@
 											alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 									}
 									else if (window.navigator.clipboard) {
-											window.navigator.clipboard.writeText("<%=link%>").Then(() => {
+											window.navigator.clipboard.writeText("<%=link%>").then(() => {
 												alert("해당 URL이 복사 되었습니다. Ctrl + v 하시면 붙여 넣기가 가능합니다.");
 											});
 									}
@@ -201,17 +169,14 @@
 						<%=contents%>
 					</div>
 				</div>
-<%
-	com_seq = board_seq
-%>
-<!--#include virtual="/home/com_comment_list_inc.asp"-->
+<!--#include virtual="/home/waste_comment_list_inc.asp"-->
 			</div>
 <!--#include virtual="/home/home_right_inc.asp"-->
 		</main>
 <!--#include virtual="/home/home_footer_inc.asp"-->
 	</div>
 </body>
-<script type="text/javascript">
+<script>
 	function goList() {
 		document.search_form.action = "/home/waste_board_list.asp";
 		document.search_form.target = "_self";
@@ -220,13 +185,13 @@
 	function goRestore() {
 		document.search_form.task.value = "restore";
 		document.search_form.action = "/home/waste_com_exec.asp";
-		document.search_form.target = "hiddenfrm";
+		//document.search_form.target = "hiddenfrm";
 		document.search_form.submit();
 	}
 	function goDelete() {
 		document.search_form.task.value = "delete";
 		document.search_form.action = "/home/waste_com_exec.asp";
-		document.search_form.target = "hiddenfrm";
+		//document.search_form.target = "hiddenfrm";
 		document.search_form.submit();
 	}
 </script>

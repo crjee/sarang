@@ -1,5 +1,11 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
+<%
+	Call CheckManager(cafe_id)
+%>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -13,13 +19,13 @@
 	<script src="/common/js/slick.min.js"></script>
 	<script src="/common/js/common.js"></script>
 	<script src="/common/js/cafe.js"></script>
-	<script type="text/javascript" src="/smart/js/HuskyEZCreator.js" charset="utf-8"></script>
+	<script src="/smart/js/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <body>
 <%
 	menu_seq = Request("menu_seq")
 
-	cnt = getonevalue("count(*)","cf_page","where cafe_id = '" & cafe_id & "'")
+	cnt = GetOneValue("count(*)","cf_page","where cafe_id = '" & cafe_id & "'")
 	If cnt = 0 Then
 		sql = ""
 		sql = sql & " insert into cf_page( "
@@ -43,7 +49,7 @@
 		Conn.Execute(sql)
 	End If
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select * "
@@ -76,6 +82,7 @@
 						<h4 class="h3 mt20 mb10"><%=menu_name%> 설정</h4>
 					</div>
 					<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
+					<input type="hidden" name="tb_prefix" value="cf">
 					<input type="hidden" name="cafe_id" value="<%=cafe_id%>">
 					<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 					<input type="hidden" name="menu_type" value="<%=menu_type%>">
@@ -107,7 +114,7 @@
 									<tr>
 										<th scope="row"><%=menu_name%></th>
 										<td>
-											<textarea name="ir1" id="ir1" style="width:630px;height:200px; display:none;"><%=regulation%></textarea>
+											<textarea name="contents" id="contents" style="width:630px;height:200px; display:none;"><%=regulation%></textarea>
 										</td>
 									</tr>
 <%
@@ -116,7 +123,7 @@
 									<tr>
 										<th scope="row">소개글</th>
 										<td>
-											<textarea name="ir1" id="ir1" style="width:630px;height:200px; display:none;"><%=introduction%></textarea>
+											<textarea name="contents" id="contents" style="width:630px;height:200px; display:none;"><%=introduction%></textarea>
 										</td>
 									</tr>
 									<tr>
@@ -125,20 +132,21 @@
 <%
 		If picture <> "" Then
 %>
-											<input type="button" onclick="javascript:hiddenfrm.location.href='picture_exec.asp'" value="삭제"> <%=picture%>
+											<!-- <input type="button" onclick="javascript:hiddenfrm.location.href='picture_exec.asp'" value="삭제"> <%=picture%> -->
+											<input type="button" onclick="javascript:location.href='picture_exec.asp'" value="삭제"> <%=picture%>
 <%
 		Else
 %>
 											<input type="file" id="picture" name="picture" class="inp" />
 <%
-		End if
+		End If
 %>
 										</td>
 									</tr>
 									<tr>
 										<th scope="row">회장인사말</th>
 										<td>
-											<textarea name="ir12" id="ir12" style="width:820px;height:500px; display:none;"><%=greetings%></textarea>
+											<textarea name="contents2" id="contents2" style="width:820px;height:500px; display:none;"><%=greetings%></textarea>
 										</td>
 									</tr>
 <%
@@ -147,7 +155,7 @@
 									<tr>
 										<th scope="row"><%=menu_name%></th>
 										<td>
-											<textarea name="ir1" id="ir1" style="width:630px;height:200px; display:none;"><%=roster%></textarea>
+											<textarea name="contents" id="contents" style="width:630px;height:200px; display:none;"><%=roster%></textarea>
 										</td>
 									</tr>
 <%
@@ -156,11 +164,11 @@
 									<tr>
 										<th scope="row"><%=menu_name%></th>
 										<td>
-											<textarea name="ir1" id="ir1" style="width:630px;height:200px; display:none;"><%=organogram%></textarea>
+											<textarea name="contents" id="contents" style="width:630px;height:200px; display:none;"><%=organogram%></textarea>
 										</td>
 									</tr>
 <%
-	End if
+	End If
 %>
 								</tbody>
 							</table>
@@ -171,23 +179,17 @@
 							<button type="button" class="btn btn_c_n btn_n" id="del">삭제</button>
 						</div>
 						</form>
-						<script>
-						</script>
 					</div>
 	<iframe id="hiddenfrm" name="hiddenfrm" style="display:none"></iframe>
-	</body>
-</html>
-<script LANGUAGE="JavaScript">
-<!--
+</body>
+<script>
 	$('#del').click(function() {
 		msg="삭제하시겠습니까?"
 		if (confirm(msg)) {
 			document.location.href='../menu_del_exec.asp?menu_seq=<%=menu_seq%>';
 		}
 	})
-//-->
-</script>
-<script>
+
 <%
 	If page_type = "" Then
 %>
@@ -204,7 +206,7 @@
 
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: oEditors,
-		elPlaceHolder: "ir1",
+		elPlaceHolder: "contents",
 		sSkinURI: "/smart/SmartEditor2Skin.html",
 		htParams : {
 			bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
@@ -217,7 +219,7 @@
 		}, //boolean
 		fOnAppLoad : function() {
 			//예제 코드
-			//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
+			//oEditors.getById["contents"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
 		},
 		fCreator: "createSEditor2"
 	})
@@ -227,7 +229,7 @@
 %>
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: oEditors,
-		elPlaceHolder: "ir12",
+		elPlaceHolder: "contents2",
 		sSkinURI: "/smart/SmartEditor2Skin.html",
 		htParams : {
 			bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
@@ -240,7 +242,7 @@
 		}, //boolean
 		fOnAppLoad : function() {
 			//예제 코드
-			//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
+			//oEditors.getById["contents"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
 		},
 		fCreator: "createSEditor2"
 	})
@@ -249,15 +251,15 @@
 %>
 
 	function submitContents(elClickedObj) {
-		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])	// 에디터의 내용이 textarea에 적용됩니다.
+		oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", [])	// 에디터의 내용이 textarea에 적용됩니다.
 <%
 		If page_type = 2 then
 %>
-		oEditors.getById["ir12"].exec("UPDATE_CONTENTS_FIELD", [])	// 에디터의 내용이 textarea에 적용됩니다.
+		oEditors.getById["contents2"].exec("UPDATE_CONTENTS_FIELD", [])	// 에디터의 내용이 textarea에 적용됩니다.
 <%
 		End If
 %>
-		// 에디터의 내용에 대한 값 검증은 이곳에서 document.getElementById("ir1").value를 이용해서 처리하면 됩니다.
+		// 에디터의 내용에 대한 값 검증은 이곳에서 document.getElementById("contents").value를 이용해서 처리하면 됩니다.
 
 		try {
 			elClickedObj.action = "page_exec.asp"
@@ -268,3 +270,4 @@
 	End If
 %>
 </script>
+</html>

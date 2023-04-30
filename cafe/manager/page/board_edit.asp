@@ -1,5 +1,11 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
+<%
+	Call CheckManager(cafe_id)
+%>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -18,7 +24,7 @@
 <%
 	menu_seq = Request("menu_seq")
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select * "
@@ -77,19 +83,19 @@
 												<li class="">
 													<span class="head">읽기</span>
 													<select id="read_auth" name="read_auth" class="sel w_auto">
-														<%=makeComboCD("cafe_mb_level", read_auth)%>
+														<%=GetMakeCDCombo("cafe_mb_level", read_auth)%>
 													</select>
 												</li>
 												<li class="">
 													<span class="head">쓰기</span>
 													<select id="write_auth" name="write_auth" class="sel w_auto">
-														<%=makeComboCD("cafe_mb_level", write_auth)%>
+														<%=GetMakeCDCombo("cafe_mb_level", write_auth)%>
 													</select>
 												</li>
 												<li class="">
 													<span class="head">답글쓰기</span>
 													<select id="reply_auth" name="reply_auth" class="sel w_auto">
-														<%=makeComboCD("cafe_mb_level", reply_auth)%>
+														<%=GetMakeCDCombo("cafe_mb_level", reply_auth)%>
 													</select>
 												</li>
 											</ul>
@@ -104,11 +110,11 @@
 %>
 											<input type="checkbox" id="frm" name="frm" class="inp_check" />
 											<label for="frm"><em>질문양식 사용</em></label>
-											<span class="ml10"><buton type="submit" class="btn btn_s btn_c_a" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식수정</buton></span>
+											<span class="ml10"><button type="button" class="btn btn_s btn_c_a" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식수정</button></span>
 <%
 	Else
 %>
-											<span class="ml10"><buton type="submit" class="btn btn_s btn_c_a" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식등록</buton></span>
+											<span class="ml10"><button type="button" class="btn btn_s btn_c_a" onclick="window.open('form_edit_p.asp?menu_seq=<%=Request("menu_seq")%>','form','width=700,height=700,scrollbars=yes');">양식등록</button></span>
 <%
 	End If
 %>
@@ -120,27 +126,12 @@
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">탭메뉴</th>
-										<td colspan="3">
-											<input type="checkbox" id="tab_use_yn" name="tab_use_yn" value="Y" <%=if3(tab_use_yn = "Y","checked","") %> class="inp_check" />
-											<label for="tab_use_yn"><em>사용</em></label>
-											<span>
-											<input type="text" id="tab_nm" name="tab_nm" value="<%=tab_nm%>" alt="탭메뉴명" class="inp w200p">
-											</span>
-											<input type="checkbox" id="all_tab_use_yn" name="all_tab_use_yn" value="Y" <%=if3(all_tab_use_yn = "Y","checked","") %> class="inp_check" />
-											<label for="all_tab_use_yn" alt="전체탭사용여부"><em>전체</em></label>
-											<input type="checkbox" id="etc_tab_use_yn" name="etc_tab_use_yn" value="Y" <%=if3(etc_tab_use_yn = "Y","checked","") %> class="inp_check" />
-											<label for="etc_tab_use_yn" alt="기타탭사용여부"><em>기타</em></label>
-										</td>
-									</tr>
-									<tr>
 										<th scope="row">쓰기형식</th>
 										<td colspan="3">
 											<select id="editor_yn" name="editor_yn" class="sel w_auto">
 												<option value="Y" <%=if3(editor_yn = "Y","selected","") %>>에디터</option>
 												<option value="N" <%=if3(editor_yn <> "Y","selected","") %>>텍스트</option>
 											</select>
-										</td>
 										</td>
 									</tr>
 									<tr>
@@ -175,19 +166,30 @@
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">분류 추가</th>
+										<th scope="row">탭메뉴</th>
+										<td colspan="3">
+											<input type="checkbox" id="tab_use_yn" name="tab_use_yn" value="Y" <%=if3(tab_use_yn = "Y","checked","") %> class="inp_check" />
+											<label for="tab_use_yn"><em>사용</em></label>
+											<span>
+											<input type="text" id="tab_nm" name="tab_nm" value="<%=tab_nm%>" alt="탭메뉴명" class="inp w200p">
+											</span>
+											<input type="checkbox" id="all_tab_use_yn" name="all_tab_use_yn" value="Y" <%=if3(all_tab_use_yn = "Y","checked","") %> class="inp_check" />
+											<label for="all_tab_use_yn" alt="전체탭사용여부"><em>전체</em></label>
+											<input type="checkbox" id="etc_tab_use_yn" name="etc_tab_use_yn" value="Y" <%=if3(etc_tab_use_yn = "Y","checked","") %> class="inp_check" />
+											<label for="etc_tab_use_yn" alt="기타탭사용여부"><em>기타</em></label>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row" class="add_files">탭메뉴 분류
+											<div class="dp_inline">
+												<button type="button" class="btn btn_inp_add" onclick="createItem()"><em>추가</em></button>
+											</div>
+										</th>
 										<td colspan="3">
 											<!-- 게시판 분류 추가 : s -->
-											<div>
-												<div style="float:left;width:100px;">게시판 분류 추가 : </div>
-												<div style="clar:both;">
-													<input type="button" id="addItem" value="추가" onclick="createItem();" />
-												</div>
-											</div>
-											<br />
 											<div id="itemBoxWrap">
 <%
-	Set row = Server.CreateObject ("ADODB.Recordset")
+	Set row = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select *                             "
@@ -209,7 +211,7 @@
 														<input type="hidden" name="section_seq" value="<%=section_seq%>">
 														<input type="text" name="section_nm" value="<%=section_nm%>" class="inp w_auto">
 														<span class="ml10">
-															<input type="checkbox" id="use_yn<%=i%>" name="use_yn<%=i%>" value="Y" class="inp_check" <%=if3(use_yn="Y","checked","")%> onclick="onCheck(<%=i%>)" />
+															<input type="checkbox" id="use_yn<%=i%>" name="use_yn<%=i%>" value="Y" class="inp_check" <%=if3(use_yn="Y","checked","")%> />
 															<label for="use_yn<%=i%>"><em>사용</em></label>
 														</span>
 													</div>
@@ -235,12 +237,8 @@
 							<button type="button" class="btn btn_c_n btn_n" id="del">삭제</button>
 						</div>
 						</form>
-						<script>
-						</script>
 					</div>
 </body>
-</html>
-
 <style>
 .itemBox {
     border:solid 1px black;
@@ -268,120 +266,115 @@
 #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
 #sortable li span { position: absolute; margin-left: -1.3em; }
 </style>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
-<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
-<script type="text/javascript">
-//<![CDATA[
-/** 아이템을 등록한다. */
-function submitItem() {
-    if(!validateItem()) {
-    	return;
-    }
-    alert("등록");
-}
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
+<script>
+	/** 아이템을 등록한다. */
+	function submitItem() {
+		if(!validateItem()) {
+			return;
+		}
+		alert("등록");
+	}
 
-/** 아이템 체크 */
-function validateItem() {
-    var items = $("input[type='text'][name='item']");
-    if(items.length == 0) {
-        alert("작성된 아이템이 없습니다.");
-        return false;
-    }
+	/** 아이템 체크 */
+	function validateItem() {
+		var items = $("input[type='text'][name='item']");
+		if(items.length == 0) {
+			alert("작성된 아이템이 없습니다.");
+			return false;
+		}
 
-    var flag = true;
-    for(var i = 0; i < items.length; i++) {
-        if($(items.get(i)).val().trim() == "") {
-            flag = false;
-            alert("내용을 입력하지 않은 항목이 있습니다.");
-            break;
-        }
-    }
+		var flag = true;
+		for(var i = 0; i < items.length; i++) {
+			if($(items.get(i)).val().trim() == "") {
+				flag = false;
+				alert("내용을 입력하지 않은 항목이 있습니다.");
+				break;
+			}
+		}
 
-    return flag;
-}
+		return flag;
+	}
 
-/** UI 설정 */
-$(function() {
-    $("#itemBoxWrap").sortable({
-        placeholder:"itemBoxHighlight",
-        start: function(event, ui) {
-            ui.item.data('start_pos', ui.item.index());
-        },
-        stop: function(event, ui) {
-            var spos = ui.item.data('start_pos');
-            var epos = ui.item.index();
-			      reorder();
-        }
-    });
-    //$("#itemBoxWrap").disableSelection();
-    
-    $( "#sortable" ).sortable();
-    $( "#sortable" ).disableSelection();
-});
+	/** UI 설정 */
+	$(function() {
+		$("#itemBoxWrap").sortable({
+			placeholder:"itemBoxHighlight",
+			start: function(event, ui) {
+				ui.item.data('start_pos', ui.item.index());
+			},
+			stop: function(event, ui) {
+				var spos = ui.item.data('start_pos');
+				var epos = ui.item.index();
+					  reorder();
+			}
+		});
+		//$("#itemBoxWrap").disableSelection();
+		
+		$( "#sortable" ).sortable();
+		$( "#sortable" ).disableSelection();
+	});
 
-/** 아이템 순서 조정 */
-function reorder() {
-    $(".itemBox").each(function(i, box) {
-        $(box).find(".itemNum").html(i + 1);
-    });
-}
+	/** 아이템 순서 조정 */
+	function reorder() {
+		$(".itemBox").each(function(i, box) {
+			$(box).find(".itemNum").html(i + 1);
+		});
+	}
 
-/** 아이템 추가 */
-function createItem() {
-    $(createBox())
-    .appendTo("#itemBoxWrap")
-    .hover(
-        function() {
-            $(this).css('backgroundColor', '#f9f9f5');
-            $(this).find('.deleteBox').show();
-        },
-        function() {
-            $(this).css('background', 'none');
-            $(this).find('.deleteBox').hide();
-        }
-    )
-		.append("<div class='deleteBox'>[삭제]</div>")
-		.find(".deleteBox").click(function() {
-        var valueCheck = false;
-        $(this).parent().find('input').each(function() {
-            if($(this).attr("name") != "type" && $(this).val() != '') {
-                valueCheck = true;
-            }
-        });
+	/** 아이템 추가 */
+	function createItem() {
+		$(createBox())
+		.appendTo("#itemBoxWrap")
+		.hover(
+			function() {
+				$(this).css('backgroundColor', '#f9f9f5');
+				$(this).find('.deleteBox').show();
+			},
+			function() {
+				$(this).css('background', 'none');
+				$(this).find('.deleteBox').hide();
+			}
+		)
+			.append("<div class='deleteBox'>[삭제]</div>")
+			.find(".deleteBox").click(function() {
+			var valueCheck = false;
+			$(this).parent().find('input').each(function() {
+				if($(this).attr("name") != "type" && $(this).val() != '') {
+					valueCheck = true;
+				}
+			});
 
-        if(valueCheck) {
-            var delCheck = confirm('입력하신 내용이 있습니다.\n삭제하시겠습니까?');
-        }
-        if(!valueCheck || delCheck == true) {
-            $(this).parent().remove();
-            reorder();
-        }
-    });
-    // 숫자를 다시 붙인다.
-    reorder();
-}
+			if(valueCheck) {
+				var delCheck = confirm('입력하신 내용이 있습니다.\n삭제하시겠습니까?');
+			}
+			if(!valueCheck || delCheck == true) {
+				$(this).parent().remove();
+				reorder();
+			}
+		});
+		// 숫자를 다시 붙인다.
+		reorder();
+	}
 
-/** 아이템 박스 작성 */
-function createBox() {
-    var contents = "<div class='itemBox'>"
-                 + "<div style='float:left;'>"
-                 + "<span class='itemNum'></span>"
-                 + "<input type='hidden' name='section_seq'>"
-                 + "<input type='text' name='section_nm'>"
-                 + "</div>"
-                 + "</div>";
-    return contents;
-}
-//]]>
-</script>
+	/** 아이템 박스 작성 */
+	function createBox() {
+		var contents = "<div class='itemBox'>"
+					 + "<div style='float:left;'>"
+					 + "<span class='itemNum'></span> "
+					 + "<input type='hidden' name='section_seq'>"
+					 + "<input type='text' name='section_nm' class='inp w_auto'>"
+					 + "</div>"
+					 + "</div>";
+		return contents;
+	}
 
-<script LANGUAGE="JavaScript">
-<!--
 	$('#del').click(function() {
 		msg="삭제하시겠습니까?"
 		if (confirm(msg)) {
 			document.location.href='../menu_del_exec.asp?menu_seq=<%=menu_seq%>';
 		}
 	})
-//-->
 </script>
+</html>

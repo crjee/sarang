@@ -1,5 +1,11 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
+<%
+	Call CheckManager(cafe_id)
+%>
 <%
 	menu_seq       = Request("menu_seq")
 	menu_type      = Request("menu_type")
@@ -63,7 +69,7 @@
 	For i = 1 To Request("section_seq").count
 		If Request("section_nm")(i) <> "" Then
 			If Request("section_seq")(i) = "" Then
-				new_seq    = getSeq("cf_menu_section")
+				new_seq    = GetComSeq("cf_menu_section")
 				section_nm = Request("section_nm")(i)
 
 				use_yn = "Y"

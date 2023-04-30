@@ -1,7 +1,10 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
+	Call CheckManager(cafe_id)
 
 	task = Request("task")
 	If task = "" Then task = "ins"
@@ -93,7 +96,7 @@
 
 	If task="ins" And ques01 <>"" And ques02 <>"" Then
 
-		new_seq = getSeq("cf_poll")
+		new_seq = GetComSeq("cf_poll")
 
 		sql = ""
 		sql = sql & " insert into cf_poll( "

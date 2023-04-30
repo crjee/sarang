@@ -2,6 +2,9 @@
 <%
 	freePage = True
 %>
+<%
+	Const tb_prefix = "gi"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
@@ -12,7 +15,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>부동산이야기 : GI</title>
+	<title>경인 홈</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -114,9 +117,12 @@ End Function
 					</span>
 				</div>
 				<div class="btn_box">
-					<button type="submit" class="btn btn_c_a btn_n"><em>확인</em></button>
-					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='/'"><em>취소</em></button>
+					<button type="submit" class="btn btn_c_a btn_n">확인</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goHome()">취소</button>
 				</div>
+				</form>
+				<form name="search_form" id="search_form" method="post">
+				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 				</form>
 			</div>
 <!--#include virtual="/home/home_right_inc.asp"-->
@@ -124,7 +130,6 @@ End Function
 <!--#include virtual="/home/home_footer_inc.asp"-->
 	</div>
 </body>
-</html>
 <script>
 	$("#agree_all").on("click", function() {
 		try{
@@ -151,4 +156,12 @@ End Function
 			elClickedObj.submit()
 		} catch(e) {alert(e)}
 	}
+
+	function goHome() {
+		var f = document.search_form;
+		f.action = "/";
+		f.target = gvTarget;
+		f.submit();
+	}
 </script>
+</html>

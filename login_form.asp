@@ -30,7 +30,7 @@
 						<label for="" class="hide">비밀번호</label>
 						<input type="password" id="user_pw" name="user_pw" value="" placeholder="비밀번호를 입력하세요" required class="inp" />
 					</div>
-					<button type="submit" class="btn"><em>로그인</em></button>
+					<button type="submit" class="btn">로그인</button>
 				</div>
 				<div class="login_cont">
 					<input type="checkbox" id="user_id_check" name="" class="inp_check" />

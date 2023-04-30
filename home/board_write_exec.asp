@@ -2,64 +2,57 @@
 <%
 	freePage = True
 %>
+<%
+	Const tb_prefix = "gi"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckMultipart()
+
 	cafe_id = "home"
 
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
-	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
+	uploadFolder = ConfigAttachedFileFolder & "board\"
 	uploadform.DefaultPath = uploadFolder
-	' 하나의 파일 크기를 10MB이하로 제한.
-	uploadform.MaxFileLen = 10*1024*1024
-	' 전체 파일의 크기를 50MB 이하로 제한.
-	uploadform.TotalLen = 50*1024*1024
 
-	checkCafePageUpload(cafe_id)
-	checkWriteAuth(cafe_id)
+	menu_seq = uploadform("menu_seq")
+	Call CheckMenuSeq(cafe_id, menu_seq)
+	Call CheckWriteAuth(cafe_id)
+
+	dsplyFolder  = ConfigAttachedFileFolder & "display\board\"
+	thmbnlFolder = ConfigAttachedFileFolder & "thumbnail\board\"
+
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	page      = uploadform("page")
+	pagesize  = uploadform("pagesize")
 	sch_type  = uploadform("sch_type")
 	sch_word  = uploadform("sch_word")
-
-	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
-	uploadform.DefaultPath = uploadFolder
 
 	board_seq = uploadform("board_seq")
 	group_num = uploadform("group_num")
 	level_num = uploadform("level_num")
-	step_num = uploadform("step_num")
-	subject = Replace(uploadform("subject"),"'"," & #39;")
-	ir1 = Replace(uploadform("ir1"),"'"," & #39;")
-	link = uploadform("link")
-	If link = "http://" Then link = ""
-	top_yn = uploadform("top_yn")
+	step_num  = uploadform("step_num")
 
-	For Each item In uploadform("file_name")
-		If item <> "" Then
-			IF item.FileLen > uploadform.MaxFileLen Then
-				call msggo("파일의 크기는 " & CInt(uploadform.MaxFileLen/1024/1014) & "MB가 넘어서는 안됩니다","")
-				Set uploadform = Nothing
-				Response.End
-			End If
-		End If
-	Next
+	top_yn      = uploadform("top_yn")
+	pop_yn      = uploadform("pop_yn")
+	section_seq = uploadform("section_seq")
+	subject     = Replace(uploadform("subject"),"'","&#39;")
+	contents    = Replace(uploadform("contents"),"'","&#39;")
+	link        = uploadform("link")
+	If link     = "http://" Then link = ""
 
-	For Each item In uploadform("file_name")
-		If item <> "" Then
-			FilePath = item.Save(,False)
-		End If
-	Next
-
-	On Error Resume Next
+	'On Error Resume Next
 	Conn.BeginTrans
 	Set BeginTrans = Conn
 	CntError = 0
 
-	new_seq = getSeq("cf_board")
+	new_seq = GetComSeq("gi_board")
 
 	If group_num = "" Then ' 새글
 		parent_seq = ""
-		board_num = getNum(menu_type, cafe_id, menu_seq)
+		board_num = GetComNum("board", cafe_id, menu_seq)
 		group_num = board_num
 		level_num = 0
 		step_num = 0
@@ -70,9 +63,10 @@
 		level_num = level_num + 1
 
 		sql = ""
-		sql = sql & " update cf_board "
+		sql = sql & " update gi_board "
 		sql = sql & "    set step_num = step_num + 1 "
-		sql = sql & "  where group_num = " & group_num  & " "
+		sql = sql & "  where menu_seq = " & menu_seq  & " "
+		sql = sql & "    and group_num = " & group_num  & " "
 		sql = sql & "    and step_num > " & step_num  & " "
 		Conn.execute sql
 
@@ -80,106 +74,101 @@
 	End If
 
 	sql = ""
-	sql = sql & " insert into cf_board( "
-	sql = sql & "        board_seq "
-	sql = sql & "       ,parent_seq "
-	sql = sql & "       ,group_num "
-	sql = sql & "       ,level_num "
-	sql = sql & "       ,step_num "
-	sql = sql & "       ,board_num "
-	sql = sql & "       ,cafe_id "
-	sql = sql & "       ,menu_seq "
-	sql = sql & "       ,agency "
-	sql = sql & "       ,subject "
-	sql = sql & "       ,contents "
-	sql = sql & "       ,view_cnt "
-	sql = sql & "       ,suggest_cnt "
-	sql = sql & "       ,link "
-	sql = sql & "       ,top_yn "
-	sql = sql & "       ,user_id "
-	sql = sql & "       ,creid "
-	sql = sql & "       ,credt "
-	sql = sql & "      ) values ("
-	sql = sql & "        '" & new_seq & "' "
-	sql = sql & "       ,'" & parent_seq & "' "
-	sql = sql & "       ,'" & group_num & "' "
-	sql = sql & "       ,'" & level_num & "' "
-	sql = sql & "       ,'" & step_num & "' "
-	sql = sql & "       ,'" & board_num & "' "
-	sql = sql & "       ,'" & cafe_id & "' "
-	sql = sql & "       ,'" & menu_seq & "' "
-	sql = sql & "       ,'" & Session("agency") & "' "
-	sql = sql & "       ,'" & subject & "' "
-	sql = sql & "       ,'" & ir1 & "' "
-	sql = sql & "       ,'0' "
-	sql = sql & "       ,'0' "
-	sql = sql & "       ,'" & link & "' "
-	sql = sql & "       ,'" & top_yn & "' "
+	sql = sql & " insert into gi_board(               "
+	sql = sql & "        board_seq                    "
+	sql = sql & "       ,board_num                    "
+	sql = sql & "       ,group_num                    "
+	sql = sql & "       ,step_num                     "
+	sql = sql & "       ,level_num                    "
+	sql = sql & "       ,menu_seq                     "
+	sql = sql & "       ,cafe_id                      "
+	sql = sql & "       ,agency                       "
+	sql = sql & "       ,top_yn                       "
+	sql = sql & "       ,pop_yn                       "
+	sql = sql & "       ,section_seq                  "
+	sql = sql & "       ,subject                      "
+	sql = sql & "       ,contents                     "
+	sql = sql & "       ,link                         "
+
+	sql = sql & "       ,user_id                      "
+	sql = sql & "       ,reg_date                     "
+	sql = sql & "       ,view_cnt                     "
+	sql = sql & "       ,comment_cnt                  "
+	sql = sql & "       ,suggest_cnt                  "
+	sql = sql & "       ,parent_seq                   "
+	sql = sql & "       ,creid                        "
+	sql = sql & "       ,credt                        "
+	sql = sql & "      ) values(                      "
+	sql = sql & "        '" & new_seq            & "' "
+	sql = sql & "       ,'" & board_num          & "' "
+	sql = sql & "       ,'" & group_num          & "' "
+	sql = sql & "       ,'" & step_num           & "' "
+	sql = sql & "       ,'" & level_num          & "' "
+	sql = sql & "       ,'" & menu_seq           & "' "
+	sql = sql & "       ,'" & cafe_id            & "' "
+	sql = sql & "       ,'" & Session("agency")  & "' "
+	sql = sql & "       ,'" & top_yn             & "' "
+	sql = sql & "       ,'" & pop_yn             & "' "
+	sql = sql & "       ,'" & section_seq        & "' "
+	sql = sql & "       ,'" & subject            & "' "
+	sql = sql & "       ,'" & contents           & "' "
+	sql = sql & "       ,'" & link               & "' "
+
 	sql = sql & "       ,'" & Session("user_id") & "' "
+	sql = sql & "       ,'" & Date()             & "' "
+	sql = sql & "       ,0 "
+	sql = sql & "       ,0 "
+	sql = sql & "       ,0 "
+	sql = sql & "       ,'" & parent_seq         & "' "
 	sql = sql & "       ,'" & Session("user_id") & "' "
-	sql = sql & "       ,getdate())"
+	sql = sql & "       ,getdate())                   "
 	Conn.Execute(sql)
 
 	If daily_cnt < 9999 Then
 		sql = ""
-		sql = sql & " insert into cf_write_log( "
-		sql = sql & "        write_seq "
-		sql = sql & "       ,cafe_id "
-		sql = sql & "       ,menu_seq "
-		sql = sql & "       ,creid "
-		sql = sql & "       ,credt "
-		sql = sql & "      ) values( "
-		sql = sql & "        '" & new_seq & "' "
-		sql = sql & "       ,'" & cafe_id & "' "
-		sql = sql & "       ,'" & menu_seq & "' "
+		sql = sql & " insert into cf_write_log(           "
+		sql = sql & "        write_seq                    "
+		sql = sql & "       ,cafe_id                      "
+		sql = sql & "       ,menu_seq                     "
+		sql = sql & "       ,user_id                      "
+		sql = sql & "       ,creid                        "
+		sql = sql & "       ,credt                        "
+		sql = sql & "      ) values(                      "
+		sql = sql & "        '" & new_seq            & "' "
+		sql = sql & "       ,'" & cafe_id            & "' "
+		sql = sql & "       ,'" & menu_seq           & "' "
+		sql = sql & "       ,'" & Session("user_id") & "' "
 		sql = sql & "       ,'" & Session("user_id") & "' "
 		sql = sql & "       ,getdate())"
 		Conn.Execute(sql)
 	End If
-	
+
 	sql = ""
-	sql = sql & " update cf_menu "
-	sql = sql & "    set top_cnt = (select count(*) from cf_board where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
-	sql = sql & "       ,last_date = getdate() "
-	sql = sql & "       ,modid = '" & Session("user_id") & "' "
-	sql = sql & "       ,moddt = getdate() "
-	sql = sql & "  where menu_seq = '" & menu_seq & "' "
+	sql = sql & " update cf_menu                                                                                         "
+	sql = sql & "    set top_cnt   = (select count(*) from gi_sale where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
+	sql = sql & "       ,last_date = getdate()                                                                           "
+	sql = sql & "       ,modid     = '" & Session("user_id") & "'                                                        "
+	sql = sql & "       ,moddt     = getdate()                                                                           "
+	sql = sql & "  where menu_seq  = '" & menu_seq & "'                                                                  "
 	Conn.Execute(sql)
-	
+
 	sql = ""
-	sql = sql & " delete "
-	sql = sql & "   from cf_temp_board "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	sql = sql & "    and user_id = '" & user_id  & "' "
+	sql = sql & " delete                                         "
+	sql = sql & "   from gi_temp_board                           "
+	sql = sql & "  where menu_seq = '" & menu_seq           & "' "
+	sql = sql & "    and cafe_id  = '" & cafe_id            & "' "
+	sql = sql & "    and user_id  = '" & Session("user_id") & "' "
 	Conn.Execute(sql)
 
 	board_seq = new_seq
+	com_seq = board_seq
 
-	j = 1
-	For Each item In uploadform("file_name")
-		If item <> "" Then
-			file_name = item.LastSavedFileName
+%>
+<!--#include  virtual="/include/attach_exec_inc.asp"-->
+<%
 
-			new_seq = getSeq("cf_board_attach")
-
-			sql = ""
-			sql = sql & " insert into cf_board_attach( "
-			sql = sql & "        attach_seq "
-			sql = sql & "       ,board_seq "
-			sql = sql & "       ,file_name "
-			sql = sql & "       ,creid "
-			sql = sql & "       ,credt "
-			sql = sql & "      ) values( "
-			sql = sql & "        '" & new_seq & "' "
-			sql = sql & "       ,'" & board_seq & "' "
-			sql = sql & "       ,'" & file_name & "' "
-			sql = sql & "       ,'" & Session("user_id") & "' "
-			sql = sql & "       ,getdate())"
-			Conn.Execute(sql)
-		End If
-	Next
-
+	Set rs = Nothing
+	Set fso = Nothing
 	Set uploadform = Nothing
 
 	If Err.Number = 0 Then
@@ -210,5 +199,34 @@
 	alert("오류가 뱔생했습니다.\n\n에러내용 : <%=Err.Description%>(<%=Err.Number%>)");
 </script>
 <%
-	End if
+		Set fso = CreateObject("Scripting.FileSystemObject")
+
+		uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
+		dsplyFolder  = ConfigAttachedFileFolder & "display\" & menu_type & "\"
+		thmbnlFolder = ConfigAttachedFileFolder & "thumbnail\" & menu_type & "\"
+
+		For j = 1 To img_i
+			If img_file_name(j) <> "" Then
+				If (fso.FileExists(uploadFolder & img_file_name(j))) Then
+					fso.DeleteFile(uploadFolder & img_file_name(j))
+				End If
+				If (fso.FileExists(dsplyFolder & dsply_file_nm(j))) Then
+					fso.DeleteFile(dsplyFolder & dsply_file_nm(j))
+				End If
+				If (fso.FileExists(thmbnlFolder & thmbnl_file_nm(j))) Then
+					fso.DeleteFile(thmbnlFolder & thmbnl_file_nm(j))
+				End If
+			End If
+		Next
+
+		For j = 1 To data_i
+			If data_file_name(j) <> "" Then
+				If (fso.FileExists(uploadFolder & data_file_name(j))) Then
+					fso.DeleteFile(uploadFolder & data_file_name(j))
+				End If
+			End If
+		Next
+
+		Set fso = Nothing
+	End If
 %>

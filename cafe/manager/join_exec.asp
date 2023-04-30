@@ -1,6 +1,9 @@
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
+	Call CheckManager(cafe_id)
 
 	user_id = Request("user_id")
 

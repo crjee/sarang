@@ -2,6 +2,9 @@
 <%
 	freePage = True
 %>
+<%
+	Const tb_prefix = "gi"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
@@ -12,7 +15,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>부동산이야기 : GI</title>
+	<title>경인 홈</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -79,7 +82,7 @@
 							<tr>
 								<th scope="row">성별</th>
 								<td>
-									<%=makeRadioCD("sex", "", "")%>
+									<%=GetMakeCDRadio("sex", "", "")%>
 								</td>
 								<th scope="row">이메일</th>
 								<td>
@@ -89,7 +92,7 @@
 									<span class="dp_inline">
 										<select id="n_hosts" name="n_hosts" class="sel w100p" onChange="setHost()">
 											<option value="">직접입력</option>
-											<%=makeComboCD("n_hosts", "")%>
+											<%=GetMakeCDCombo("n_hosts", "")%>
 										</select>
 									</span>
 								</td>

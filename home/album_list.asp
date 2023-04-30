@@ -2,10 +2,16 @@
 <%
 	freePage = True
 %>
+<%
+	Const tb_prefix = "gi"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
-	checkCafePage(cafe_id)
+
+	menu_seq = Request("menu_seq")
+	Call CheckMenuSeq(cafe_id, menu_seq)
+	Call CheckReadAuth(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -13,7 +19,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>GI</title>
+	<title>경인 홈</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -26,9 +32,10 @@
 <!--#include virtual="/home/home_header_inc.asp"-->
 <%
 	section_seq = Request("section_seq")
-	sch_type = Request("sch_type")
-	sch_word = Request("sch_word")
-	self_yn  = Request("self_yn")
+	sch_type    = Request("sch_type")
+	sch_word    = Request("sch_word")
+
+	self_yn     = Request("self_yn")
 
 	pagesize = Request("pagesize")
 	If pagesize = "" Then pagesize = 20
@@ -36,42 +43,44 @@
 	page = Request("page")
 	If page = "" Then page = 1
 
+	If section_seq = "0" Then
+	ElseIf section_seq = "999999" Then
+		secStr = "    and (section_seq = null or section_seq = '') "
+	ElseIf section_seq <> "" Then
+		secStr = "    and section_seq = '" & section_seq & "' "
+	End If
+
 	If sch_word <> "" Then
 		If sch_type = "" Then
-			kword = " and (subject like '%" & sch_word & "%' or creid like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
+			schStr = " and (subject like '%" & sch_word & "%' or creid like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
 		Else
-			kword = " and " & sch_type & " like '%" & sch_word & "%' "
+			schStr = " and " & sch_type & " like '%" & sch_word & "%' "
 		End If
 	Else
-		kword = ""
-	End IF
+		schStr = ""
+	End If
 
 	Set rs = Server.CreateObject("ADODB.Recordset")
 	Set rs2 = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
-	sql = sql & " select * "
-	sql = sql & "       ,convert(varchar(10), credt, 120) credt_txt "
-	sql = sql & "   from cf_album ca "
-	sql = sql & "  where cafe_id = '" & cafe_id & "' "
-	sql = sql & "    and menu_seq = '" & menu_seq & "' "
-	If section_seq <> "" Then
-	sql = sql & "    and section_seq = '" & section_seq & "' "
-	End If
-	sql = sql & "    and level_num = 0 "
-	If self_yn = "Y" then
+	sql = sql & " select count(album_seq) cnt                   "
+	sql = sql & "   from gi_album                               "
+	sql = sql & "  where cafe_id  = '" & cafe_id  & "'          "
+	sql = sql & "    and menu_seq = '" & menu_seq & "'          "
+	If self_yn = "Y" Then
 	sql = sql & "    and user_id = '" & session("user_id") & "' "
 	End If
-	sql = sql & kword
-	sql = sql & "  order by group_num desc,step_num asc "
+	sql = sql & secStr
+	sql = sql & schStr
 	rs.Open sql, conn, 3, 1
 
-	rs.PageSize = PageSize
 	RecordCount = 0 ' 자료가 없을때
 
 	If Not rs.EOF Then
-		RecordCount = rs.recordcount
+		RecordCount = rs("cnt")
 	End If
+	rs.close
 
 	' 전체 페이지 수 얻기
 	If RecordCount/PageSize = Int(RecordCount/PageSize) then
@@ -80,10 +89,22 @@
 		PageCount = Int(RecordCount / PageSize) + 1
 	End If
 
-	If Not (rs.EOF And rs.BOF) Then
-		rs.AbsolutePage = page
-		PageNum = rs.PageCount
+	sql = ""
+	sql = sql & " select *                                                                           "
+	sql = sql & "   from (select row_number() over( order by group_num desc, step_num asc) as rownum "
+	sql = sql & "               ,*                                                                   "
+	sql = sql & "           from gi_album ca "
+	sql = sql & "          where cafe_id  = '" & cafe_id                                        & "' "
+	sql = sql & "            and menu_seq = '" & menu_seq                                       & "' "
+	If self_yn = "Y" Then
+	sql = sql & "    and user_id = '" & session("user_id") & "' "
 	End If
+	sql = sql & secStr
+	sql = sql & schStr
+	sql = sql & "        ) a                                                                         "
+	sql = sql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & "          "
+	sql = sql & "  order by group_num desc, step_num asc                                             "
+	rs.Open sql, conn, 3, 1
 %>
 		<main id="main" class="main">
 			<div class="container">
@@ -113,24 +134,12 @@
 <%
 	End If
 %>
-<%
-	If cafe_ad_level = 10 Then
-%>
-						<button type="button" class="btn btn_c_a btn_s" onclick="location.href='/home/waste_album_list.asp?menu_seq=<%=menu_seq%>'">휴지통</button>
-<%
-	End If
-
-	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
-%>
-						<button type="button" class="btn btn_c_a btn_s" onclick="location.href='/home/album_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
-<%
-	End If
-%>
+<!--#include virtual="/home/home_up_list_btn_inc.asp"-->
 						<select id="sch_type" name="sch_type" class="sel w_auto">
 							<option value="">전체</option>
-							<option value="cb.subject" <%=if3(sch_type="cb.subject","selected","")%>>제목</option>
-							<option value="cb.agency" <%=if3(sch_type="cb.agency","selected","")%>>글쓴이</option>
-							<option value="cb.contents" <%=if3(sch_type="cb.contents","selected","")%>>내용</option>
+							<option value="subject" <%=if3(sch_type="subject","selected","")%>>제목</option>
+							<option value="agency" <%=if3(sch_type="agency","selected","")%>>글쓴이</option>
+							<option value="contents" <%=if3(sch_type="contents","selected","")%>>내용</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w150p">
 						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
@@ -152,76 +161,113 @@
 	Set fso = Server.CreateObject("Scripting.FileSystemObject")
 	i = 1
 	If Not rs.EOF Then
-		Do Until rs.EOF Or i > rs.PageSize
-			album_seq   = rs("album_seq")
-			subject     = rs("subject")
-			view_cnt    = rs("view_cnt")
-			agency      = rs("agency")
-			comment_cnt = rs("comment_cnt")
-			credt_txt   = rs("credt_txt")
+		Do Until rs.EOF
+			board_seq      = rs("board_seq")
+			board_num      = rs("board_num")
+			group_num      = rs("group_num")
+			step_num       = rs("step_num")
+			level_num      = rs("level_num")
+			menu_seq       = rs("menu_seq")
+			cafe_id        = rs("cafe_id")
+			agency         = rs("agency")
+			top_yn         = rs("top_yn")
+			pop_yn         = rs("pop_yn")
+			section_seq    = rs("section_seq")
+			subject        = rs("subject")
+			contents       = rs("contents")
+			link           = rs("link")
+			user_id        = rs("user_id")
+			reg_date       = rs("reg_date")
+			view_cnt       = rs("view_cnt")
+			comment_cnt    = rs("comment_cnt")
+			suggest_cnt    = rs("suggest_cnt")
+			suggest_info   = rs("suggest_info")
+			parent_seq     = rs("parent_seq")
+			parent_del_yn  = rs("parent_del_yn")
+			move_board_num = rs("move_board_num")
+			move_menu_seq  = rs("move_menu_seq")
+			move_user_id   = rs("move_user_id")
+			move_date      = rs("move_date")
+			restoreid      = rs("restoreid")
+			restoredt      = rs("restoredt")
+			creid          = rs("creid")
+			credt          = rs("credt")
+			modid          = rs("modid")
+			moddt          = rs("moddt")
 %>
 								<div class="c_wrap">
 <%
+			thumbnailUrl = ConfigAttachedFileURL & "thumbnail/" & menu_type & "/"
+			thumbnailPath = ConfigAttachedFileFolder & "thumbnail\" & menu_type & "\"
+
 			sql = ""
-			sql = sql & " select * "
-			sql = sql & "   from cf_album_attach "
+			sql = sql & " select *                               "
+			sql = sql & "   from gi_album_attach                 "
 			sql = sql & "  where album_seq = '" & album_seq & "' "
-			sql = sql & "    and rprs_file_yn = 'Y' "
+			sql = sql & "    and rprs_file_yn = 'Y'              "
 			rs2.Open Sql, conn, 3, 1
 
 			If Not rs2.eof Then
 				thmbnl_file_nm = rs2("thmbnl_file_nm")
 
 				' 썸네일로 표시
-				thmbnlUrl = ConfigAttachedFileURL & "thumbnail/album/"
-				fileUrl = thmbnlUrl & thmbnl_file_nm
-				thmbnlPath = ConfigAttachedFileFolder & "thumbnail\album\"
-				filePath = thmbnlPath & thmbnl_file_nm
+				fileUrl = thumbnailUrl & thmbnl_file_nm
+				filePath = thumbnailPath & thmbnl_file_nm
 
 				If (fso.FileExists(filePath)) Then
 %>
-									<span class="photos"><a href="javascript: goView('<%=album_seq%>')"><img src="<%=fileUrl%>" width="150" border="0" /></a></span>
+									<span class="photos"><a href="javascript:goView('<%=album_seq%>')"><img src="<%=fileUrl%>" width="150" border="0" /></a></span>
 <%
 				Else
 %>
 									<span class="photos"></span>
 <%
 				End If
+			Else
+%>
+									<span class="photos"></span>
+<%
 			End If
 			rs2.close
 %>
 									<a href="javascript: goView('<%=album_seq%>')"><span class="text"><%=subject%>(<%=comment_cnt%>)
 <%
-			If CDate(DateAdd("d", 2, credt_txt)) >= Date Then
+			If CDate(DateAdd("d", 2, reg_date)) >= Date Then
 %>
-										<img src="/cafe/skin/img/btn/new.png" />
+										<img src="/cafe/img/btn/new.png" />
 <%
-			End if
+			End If
 %>
 									</span></a>
-									<span class="posr"><span class="text">조회 <%=view_cnt%> ㅣ <%=credt_txt%></span></span>
+									<span class="posr"><span class="text">조회 <%=view_cnt%> ㅣ <%=Left(reg_date, 10)%></span></span>
 									<span class="posr"><span class="text"><%=agency%></span></span>
 								</div>
 <%
 			i = i + 1
 			rs.MoveNext
 		Loop
-	End if
+	Else
+%>
+								<div class="nodata">
+									<span class="txt">등록된 글이 없습니다.</span>
+								</div>
+<%
+	End If
 	rs.close
-	Set rs = nothing
-	Set rs2 = nothing
+	Set rs = Nothing
+	Set rs2 = Nothing
 
-	Set fso = nothing
+	Set fso = Nothing
 %>
 							</div>
 						</div>
 					</div>
-<!--#include virtual="/cafe/skin/skin_page_inc.asp"-->
+<!--#include virtual="/home/home_page_inc.asp"-->
 <%
 	If write_auth <= cafe_mb_level Then ' 글쓰기 권한
 %>
 					<div class="btn_box algR">
-						<button type="button" class="btn btn_c_a btn_n" onclick="location.href='/home/album_write.asp?menu_seq=<%=menu_seq%>'">글쓰기</button>
+						<button type="button" class="btn btn_c_a btn_n" onclick="goWrite()">글쓰기</button>
 					</div>
 <%
 	End If
@@ -237,21 +283,33 @@
 	function MovePage(page) {
 		var f = document.search_form;
 		f.page.value = page;
-		f.action = "/home/album_list.asp";
+		f.action = "album_list.asp";
+		f.submit();
+	}
+
+	function goWrite() {
+		var f = document.search_form;
+		f.action = "album_write.asp"
 		f.submit();
 	}
 
 	function goView(album_seq) {
 		var f = document.search_form;
 		f.album_seq.value = album_seq;
-		f.action = "/home/album_view.asp";
+		f.action = "album_view.asp";
+		f.submit();
+	}
+
+	function goWaste() {
+		var f = document.search_form;
+		f.action = "waste_album_list.asp";
 		f.submit();
 	}
 
 	function goSearch() {
 		var f = document.search_form;
 		f.page.value = 1;
-		f.action = "/home/album_list.asp";
+		f.action = "album_list.asp";
 		f.submit();
 	}
 

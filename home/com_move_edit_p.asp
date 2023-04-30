@@ -2,11 +2,18 @@
 <%
 	freePage = True
 %>
+<%
+	Const tb_prefix = "gi"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <!--#include virtual="/ipin_inc.asp"-->
 <%
 	cafe_id = "home"
-	checkCafePage(cafe_id)
+
+	Call CheckAdmin()
+
+	menu_seq = Request("menu_seq")
+	Call CheckMenuSeq(cafe_id, menu_seq)
 
 	com_seq = Request("com_seq")
 %>
@@ -34,7 +41,7 @@
 			<select name="menu_seq" class="sel w_auto" required>
 				<option value="">게시판선택</option>
 <%
-	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select * "
@@ -42,7 +49,7 @@
 	sql = sql & "  where cafe_id = '" & cafe_id & "' "
 	sql = sql & "    and menu_seq <> '" & menu_seq & "' "
 	sql = sql & "    and menu_type = '" & menu_type & "' "
-	sql = sql & "    and write_auth <= '" & toInt(cafe_mb_level) & "' "
+	sql = sql & "    and write_auth <= '" & GetToInt(cafe_mb_level) & "' "
 	sql = sql & "  order by menu_name "
 	rs.Open Sql, conn, 3, 1
 
@@ -53,7 +60,7 @@
 		rs.MoveNext
 	Loop
 	rs.close
-	Set rs = nothing
+	Set rs = Nothing
 %>
 			</select>
 			<input type="submit" value="이동">

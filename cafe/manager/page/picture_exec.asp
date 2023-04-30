@@ -1,5 +1,11 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
+<%
+	Call CheckManager(cafe_id)
+%>
 <%
 	Set rs = Conn.Execute("select picture from cf_page where cafe_id = '" & cafe_id & "' ")
 

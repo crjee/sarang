@@ -8,6 +8,7 @@
 	StartTime=Timer()
 	Dim Conn
 
+	Dim user_id
 	Dim cafe_id
 	Dim menu_seq
 	menu_seq = Request("menu_seq")
@@ -19,6 +20,8 @@
 	Dim read_auth
 	Dim cafe_mb_level
 	Dim cafe_ad_level
+	Dim tab_use_yn
+	Dim tab_nm
 	Dim all_tab_use_yn
 	Dim etc_tab_use_yn
 
@@ -26,9 +29,6 @@
 	Dim write_cnt
 	Dim inc_del_yn
 	Dim list_info
-	Dim tab_use_yn
-	Dim tab_nm
-
 	Dim uploadform
 
 	'################ Database설정 #################
@@ -79,119 +79,57 @@
 		cafe_id = Session("cafe_id")
 	End If
 
-	Dim user_id : user_id = Session("user_id")
+	If Not(s_pop = "Y" Or freePage) Then
+'		Call CheckLogin()
+	End If
+
+	If s_pop <> "Y" And cafe_id <> "" Then
+		Call CheckCafeMember(cafe_id)
+	End If
 
 	cafe_ad_level = Session("cafe_ad_level")
 
-	Function getUserLevel(cafe_id)
-		cafe_mb_level = "0"
+	Sub CheckCafeMember(cafe_id)
+		Call CheckLogin()
 
-		If Session("cafe_ad_level") = "10" Then
-			cafe_mb_level = "10"
-		Else
-			Set fn_rs = server.createobject("adodb.recordset")
-			funcSql = ""
-			funcSql = funcSql & " select cafe_mb_level "
-			funcSql = funcSql & "   from cf_cafe_member cm "
-			funcSql = funcSql & "  where cm.cafe_id = '" & cafe_id & "' "
-			funcSql = funcSql & "    and cm.user_id = '" & session("user_id") & "' "
-			fn_rs.Open funcSql, Conn, 1
-
-			If Not fn_rs.eof Then ' 내 사랑방
-				cafe_mb_level = fn_rs("cafe_mb_level")
-				fn_rs.close
+		If GetUserLevel(cafe_id) = 0 Then
+			If isnull(Session("mycafe")) Or Session("mycafe") <> cafe_id Then
+				Response.Write "<script>alert('비회원은 접근권한이 없습니다');history.back()</script>"
+				Response.End
 			Else
-				fn_rs.close
-
-				funcSql = ""
-				funcSql = funcSql & " select cm.cafe_mb_level "
-				funcSql = funcSql & "       ,um.union_mb_level "
-				funcSql = funcSql & "   from cf_cafe cf "
-				funcSql = funcSql & "  inner join cf_cafe_member cm on cm.cafe_id = cf.cafe_id "
-				funcSql = funcSql & "   left outer join cf_union_manager um on um.union_id = cf.union_id and um.user_id = cm.user_id "
-				funcSql = funcSql & "  where cf.union_id = '" & cafe_id & "' "
-				funcSql = funcSql & "    and cm.user_id = '" & session("user_id") & "' "
-				funcSql = funcSql & "    and cm.stat = 'Y' "
-				fn_rs.Open funcSql, Conn, 1
-
-				If Not fn_rs.eof Then ' 내 연합회
-					cafe_mb_level = fn_rs("cafe_mb_level")
-					union_mb_level = fn_rs("union_mb_level")
-
-					If isnull(union_mb_level) Then union_mb_level = ""
-					If toInt(cafe_mb_level) < toInt(union_mb_level) Then cafe_mb_level = union_mb_level
-				End If
-
-				fn_rs.close
+				Response.Write "<script>alert('활동정지 회원은 접근권한이 없습니다');history.back()</script>"
+				Response.End
 			End If
-			Set fn_rs = Nothing
 		End If
-		'msgonly toInt(cafe_mb_level)
-		getUserLevel = toInt(cafe_mb_level)
-	End Function
+	End Sub
 
-	Function getSeq(seq_name)
-
-		funcSql = ""
-		funcSql = funcSql & "  merge into cf_seq tbl "
-		funcSql = funcSql & "  using (select '" & seq_name & "' as col) src "
-		funcSql = funcSql & "     on (tbl.seq_name = src.col) "
-		funcSql = funcSql & "   when matched Then "
-		funcSql = funcSql & " update Set seq_value = isnull(seq_value,0) + 1 "
-		funcSql = funcSql & "           ,modid = '" & Session("user_id")  & "' "
-		funcSql = funcSql & "           ,moddt = getdate() "
-		funcSql = funcSql & "   when not matched Then "
-		funcSql = funcSql & " insert (seq_name "
-		funcSql = funcSql & "        ,seq_value "
-		funcSql = funcSql & "        ,creid "
-		funcSql = funcSql & "        ,credt "
-		funcSql = funcSql & "        )   "
-		funcSql = funcSql & " values ('" & seq_name  & "' "
-		funcSql = funcSql & "        ,1 "
-		funcSql = funcSql & "        ,'" & Session("user_id")  & "' "
-		funcSql = funcSql & "        ,getdate() "
-		funcSql = funcSql & "        ); "
-
-		Conn.execute funcSql
-
-		getSeq = getonevalue("seq_value","cf_seq","where seq_name = '" & seq_name & "'")
-
-	End Function
-
-	Function getNum(ByVal menu_type, ByVal cafe_id, ByVal menu_seq)
-
-		getNum = getonevalue("isnull(max(" & menu_type & "_num)+1,1)","cf_" & menu_type,"where cafe_id = '" & cafe_id & "' and menu_seq = '" & menu_seq & "'")
-
-	End Function
-
-	If Not(s_pop = "Y" Or freePage) Then
-		Call checkLogin()
-	End If
-	
-	Sub checkLogin()
+	Sub CheckLogin()
 		If s_pop <> "Y" And Session("user_id") = "" Then
-			Response.Write "<script>alert('로그인이 필요합니다.');top.location.href='/end_message_view.asp'</script>"
+			Response.Write "<script>"
+			Response.Write "	if (confirm('로그인 후 이용 가능합니다.\n로그인 페이지로 이동하시겠습니까?')) {"
+			Response.Write "		top.location.href = '/login_form.asp';"
+			Response.Write "	}"
+			Response.Write "	else {"
+			Response.Write "		top.location.href='/';"
+			Response.Write "	}"
+			Response.Write "</script>"
 			Response.End
 		End If
 	End Sub
 
-	If s_pop <> "Y" And cafe_id <> "" Then
-		Call checkMember(cafe_id)
-	End If
-
-	Sub checkCafePage(ByVal cafe_id)
+	Sub CheckMenuSeq(ByVal cafe_id, ByVal menu_seq)
 		Set funcRs = server.createobject("adodb.recordset")
 		funcSql = ""
-		funcSql = funcSql & " select *                                    "
-		funcSql = funcSql & "       ,isnull(daily_cnt, 9999) as daily_cnt "
-		funcSql = funcSql & "   from cf_menu                              "
-		funcSql = funcSql & "  where menu_seq = '" & menu_seq & "'        "
-		funcSql = funcSql & "    and cafe_id  = '" & cafe_id  & "'        "
+		funcSql = funcSql & " select * "
+		funcSql = funcSql & "       ,isnull(daily_cnt,9999) as daily_cnt "
+		funcSql = funcSql & "   from cf_menu "
+		funcSql = funcSql & "  where menu_seq = '" & menu_seq & "' "
+		funcSql = funcSql & "    and cafe_id  = '" & cafe_id  & "' "
 		funcRs.Open funcSql, Conn, 3, 1
 
 		If funcRs.Eof Then
-Response.write "checkCafePage<br>" & funcSql
-			msggo "정상적인 사용이 아닙니다.",""
+Response.write "CheckMenuSeq<br>" & funcSql
+			msggo "정상적인 사용이 아닙니다.(No seq)",""
 		Else
 			menu_type      = funcRs("menu_type")
 			menu_name      = funcRs("menu_name")
@@ -211,84 +149,102 @@ Response.write "checkCafePage<br>" & funcSql
 		Set funcRs = Nothing
 	End Sub
 
-	Sub checkCafePageUpload(ByVal cafe_id)
-		menu_seq = uploadform("menu_seq")
-
+	Sub CheckDataExist(ByVal com_seq)
 		Set funcRs = server.createobject("adodb.recordset")
+
 		funcSql = ""
 		funcSql = funcSql & " select * "
-		funcSql = funcSql & "       ,isnull(daily_cnt,9999) as daily_cnt "
-		funcSql = funcSql & "   from cf_menu "
-		funcSql = funcSql & "  where menu_seq = '" & menu_seq & "' "
-		funcSql = funcSql & "    and cafe_id  = '" & cafe_id  & "' "
-		funcRs.Open funcSql, Conn, 3, 1
+		funcSql = funcSql & "   from " & tb_prefix & "_" & menu_type & " "
+		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq & "' "
+		funcRs.Open funcSql, conn, 3, 1
 
-		If funcRs.Eof Then
-Response.write "checkCafePageUpload<br>" & funcSql
-			msggo "정상적인 사용이 아닙니다.",""
+		If funcRs.eof Then
+			msggo "정상적인 사용이 아닙니다.(No data)",""
 		Else
-			menu_type  = funcRs("menu_type")
-			menu_name  = funcRs("menu_name")
-			editor_yn  = funcRs("editor_yn")
-			write_auth = funcRs("write_auth")
-			reply_auth = funcRs("reply_auth")
-			read_auth  = funcRs("read_auth")
-			daily_cnt  = funcRs("daily_cnt")
-			inc_del_yn = funcRs("inc_del_yn")
-			list_info  = funcRs("list_info")
+			user_id = funcRs("user_id")
 		End If
 		funcRs.close
 		Set funcRs = Nothing
 	End Sub
-	
-	Sub checkReadAuth(ByVal cafe_id)
-		cafe_mb_level = getUserLevel(cafe_id)
-		read_auth = getonevalue("read_auth","cf_menu","where menu_seq = '" & menu_seq & "'")
 
-		If toInt(read_auth) > toInt(cafe_mb_level) Then
-			Response.Write "<script>alert('읽기 권한이없습니다');history.back()</script>"
-			Response.End
+	Sub CheckWasteExist(ByVal com_seq)
+		Set funcRs = server.createobject("adodb.recordset")
+
+		funcSql = ""
+		funcSql = funcSql & " select * "
+		funcSql = funcSql & "   from " & tb_prefix & "_waste_" & menu_type & " "
+		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq & "' "
+		funcRs.Open funcSql, conn, 3, 1
+
+		If funcRs.eof Then
+			msggo "정상적인 사용이 아닙니다.(No data)",""
+		Else
+			user_id = funcRs("user_id")
+		End If
+		funcRs.close
+		Set funcRs = Nothing
+	End Sub
+
+	Sub CheckReadAuth(ByVal cafe_id)
+		cafe_mb_level = GetUserLevel(cafe_id)
+		read_auth = GetOneValue("read_auth","cf_menu","where menu_seq = '" & menu_seq & "'")
+
+		If read_auth <> "-1" Then
+			Call CheckLogin()
+
+			If GetToInt(read_auth) > GetToInt(cafe_mb_level) Then
+				msggo "읽기 권한이 없습니다.(No authority)",""
+			End If
 		End If
 	End Sub
 	
-	Sub checkWriteAuth(ByVal cafe_id)
-		cafe_mb_level = getUserLevel(cafe_id)
-		write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & menu_seq & "'")
+	Sub CheckWriteAuth(ByVal cafe_id)
+		cafe_mb_level = GetUserLevel(cafe_id)
+		write_auth = GetOneValue("write_auth","cf_menu","where menu_seq = '" & menu_seq & "'")
 
-		If toInt(write_auth) > toInt(cafe_mb_level) Then
-			Response.Write "<script>alert('쓰기 권한이없습니다');history.back()</script>"
-			Response.End
+		If write_auth <> "-1" Then
+			Call CheckLogin()
+
+			If GetToInt(write_auth) > GetToInt(cafe_mb_level) Then
+				msggo "등록 권한이 없습니다.(No authority)",""
+			End If
 		End If
 	End Sub
 	
-	Sub checkModifyAuth(ByVal cafe_id)
-		cafe_mb_level = getUserLevel(cafe_id)
-		write_auth = getonevalue("write_auth","cf_menu","where menu_seq = '" & menu_seq & "'")
+	Sub CheckModifyAuth(ByVal cafe_id)
+		cafe_mb_level = GetUserLevel(cafe_id)
+		write_auth = GetOneValue("write_auth","cf_menu","where menu_seq = '" & menu_seq & "'")
 
-		If toInt(write_auth) > toInt(cafe_mb_level) Then
-			Response.Write "<script>alert('수정 권한이없습니다');history.back()</script>"
-			Response.End
+		If write_auth <> "-1" Then
+			Call CheckLogin()
+
+			If GetToInt(cafe_mb_level) < 10 And session("user_id") <> user_id then
+				msggo "수정 권한이 없습니다.(No authority)",""
+			End If
 		End If
 	End Sub
 	
-	Sub checkReplyAuth(ByVal cafe_id)
-		cafe_mb_level = getUserLevel(cafe_id)
-		reply_auth = getonevalue("reply_auth","cf_menu","where menu_seq = '" & menu_seq & "'")
+	Sub CheckReplyAuth(ByVal cafe_id)
+		cafe_mb_level = GetUserLevel(cafe_id)
+		reply_auth = GetOneValue("reply_auth","cf_menu","where menu_seq = '" & menu_seq & "'")
 
-		If toInt(reply_auth) > toInt(cafe_mb_level) Then
-			Response.Write "<script>alert('답변 권한이없습니다');history.back()</script>"
-			Response.End
+		If reply_auth <> "-1" Then
+			Call CheckLogin()
+
+			If GetToInt(reply_auth) > GetToInt(cafe_mb_level) Then
+				msggo "답글 권한이 없습니다.(No authority)",""
+			End If
 		End If
 	End Sub
 	
-	Sub checkDailyCount(ByVal cafe_id)
+	Sub CheckDailyCount(ByVal cafe_id)
 		Set funcRs = server.createobject("adodb.recordset")
 
 		If daily_cnt < "9999" Then
 			If inc_del_yn = "N" Then
 				funcSql = ""
 				funcSql = funcSql & " select count(menu_seq) as write_cnt "
-				funcSql = funcSql & "   from cf_board "
+				funcSql = funcSql & "   from " & tb_prefix & "_" & menu_type & " "
 				funcSql = funcSql & "  where menu_seq = '" & menu_seq  & "' "
 				funcSql = funcSql & "    and cafe_id = '" & cafe_id  & "' "
 				funcSql = funcSql & "    and agency = '" & session("agency")  & "' "
@@ -319,55 +275,54 @@ Response.write "checkCafePageUpload<br>" & funcSql
 		Set funcRs = Nothing
 	End Sub
 
-	Sub checkMemoSendAuth(ByVal cafe_id)
-		cafe_mb_level = getUserLevel(cafe_id)
-		If cafe_mb_level < 2 Then
-			Response.Write "<script>alert('쪽지를 보내려면 정회원부터 가능합니다');history.back();</script>"
-			Response.End
-		End If
-	End Sub
+	Sub CheckManager(cafe_id)
+		Call CheckLogin()
 
-	Sub checkMember(cafe_id)
-		If getUserLevel(cafe_id) = 0 Then
-			If isnull(Session("mycafe")) Or Session("mycafe") <> cafe_id Then
-				Response.Write "<script>alert('비회원은 접근권한이 없습니다');history.back()</script>"
-				Response.End
-			Else
-				Response.Write "<script>alert('활동정지 회원은 접근권한이 없습니다');history.back()</script>"
-				Response.End
-			End If
-		End If
-	End Sub
-
-	Sub checkManager(cafe_id)
-		cafe_mb_level = getUserLevel(cafe_id)
-		If isnull(cafe_mb_level) Or cafe_mb_level < 10 Then
+		cafe_mb_level = GetUserLevel(cafe_id)
+		If cafe_mb_level = "" Or cafe_mb_level < 10 Then
 			Response.Write "<script>alert('접근권한이 없습니다(" & cafe_mb_level & ").');history.back();</script>"
 			Response.End
 		End If
 	End Sub
 
 	Sub checkAdmin()
-		If isnull(Session("cafe_ad_level")) Or Session("cafe_ad_level") < "10" Then
+		Call CheckLogin()
+
+		If Session("cafe_ad_level") = "" Or Session("cafe_ad_level") < 10 Then
 			Response.Write "<script>alert('접근권한이 없습니다.');history.back();</script>"
 			Response.End
 		End If
 	End Sub
 
-	Sub setViewCnt(ByVal menu_type, ByVal com_seq)
-		If Session("view_seq") <> com_seq Then
+	Sub CheckMemoSendAuth(ByVal cafe_id)
+		Call CheckLogin()
+
+		cafe_mb_level = GetUserLevel(cafe_id)
+		If cafe_mb_level < 2 Then
+			Response.Write "<script>alert('쪽지를 보내려면 정회원부터 가능합니다');history.back();</script>"
+			Response.End
+		End If
+	End Sub
+
+	Sub SetViewCnt(ByVal menu_type, ByVal com_seq)
+		chkDup = GetComSeqCookieYN(menu_type, com_seq)
+		If chkDup = "N" Then
 			funcSql = ""
-			funcSql = funcSql & " update cf_" & menu_type & " "
-			funcSql = funcSql & "    Set view_cnt = isnull(view_cnt,0) + 1 "
+			funcSql = funcSql & " update " & tb_prefix & "_" & menu_type & " "
+			funcSql = funcSql & "    set view_cnt = isnull(view_cnt,0) + 1 "
 			funcSql = funcSql & "       ,modid = '" & Session("user_id") & "' "
 			funcSql = funcSql & "       ,moddt = getdate() "
 			funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq & "' "
-
 			Conn.Execute(funcSql)
-			Session("view_seq") = com_seq
 		End If
 	End Sub
-	
+
+	Sub CheckMultipart()
+		If InStr(1, Request.ServerVariables("HTTP_CONTENT_TYPE"), "multipart/form-data") = 0 then
+			msgend "정상적인 사용이 아닙니다.(No Multipart)"
+		End If
+	End Sub
+
 '/*----------------------------------------------------------------*/
 '/*----- 실행시간표시
 '/*----------------------------------------------------------------*/
@@ -375,18 +330,180 @@ Response.write "checkCafePageUpload<br>" & funcSql
 		response.write msg  & " : " & FormatNumber(Timer()-StartTime,5) & " (초)<br>"
 	End Sub
 
-	Function toInt(str)
-		If isnull(str) Or isempty(str) Or Trim(str) = "" Then
-			toInt = 0
+	Function GetUserLevel(cafe_id)
+		cafe_mb_level = -1
+
+		If Session("cafe_ad_level") = 10 Then
+			cafe_mb_level = 10
 		Else
-			toInt = CInt(str)
+			Set fn_rs = server.createobject("adodb.recordset")
+			funcSql = ""
+			funcSql = funcSql & " select cafe_mb_level                          "
+			funcSql = funcSql & "   from cf_cafe_member                         "
+			funcSql = funcSql & "  where cafe_id = '" & cafe_id & "'            "
+			funcSql = funcSql & "    and user_id = '" & session("user_id") & "' "
+			fn_rs.Open funcSql, Conn, 1
+
+			If Not fn_rs.eof Then ' 내 사랑방
+				cafe_mb_level = fn_rs("cafe_mb_level")
+				fn_rs.close
+			Else
+				fn_rs.close
+
+				funcSql = ""
+				funcSql = funcSql & " select cm.cafe_mb_level "
+				funcSql = funcSql & "       ,um.union_mb_level "
+				funcSql = funcSql & "   from cf_cafe cf "
+				funcSql = funcSql & "  inner join cf_cafe_member cm on cm.cafe_id = cf.cafe_id "
+				funcSql = funcSql & "   left outer join cf_union_manager um on um.union_id = cf.union_id and um.user_id = cm.user_id "
+				funcSql = funcSql & "  where cf.union_id = '" & cafe_id & "' "
+				funcSql = funcSql & "    and cm.user_id = '" & session("user_id") & "' "
+				funcSql = funcSql & "    and cm.stat = 'Y' "
+				fn_rs.Open funcSql, Conn, 1
+
+				If Not fn_rs.eof Then ' 내 연합회
+					cafe_mb_level = fn_rs("cafe_mb_level")
+					union_mb_level = fn_rs("union_mb_level")
+
+					If isnull(union_mb_level) Then union_mb_level = ""
+					If GetToInt(cafe_mb_level) < GetToInt(union_mb_level) Then cafe_mb_level = union_mb_level
+				End If
+
+				fn_rs.close
+			End If
+			Set fn_rs = Nothing
+		End If
+		GetUserLevel = GetToInt(cafe_mb_level)
+	End Function
+
+	Function GetComSeq(seq_name)
+		funcSql = ""
+		funcSql = funcSql & "  merge into cf_seq tbl "
+		funcSql = funcSql & "  using (select '" & seq_name & "' as col) src "
+		funcSql = funcSql & "     on (tbl.seq_name = src.col) "
+		funcSql = funcSql & "   when matched Then "
+		funcSql = funcSql & " update Set seq_value = isnull(seq_value,0) + 1 "
+		funcSql = funcSql & "           ,modid = '" & Session("user_id")  & "' "
+		funcSql = funcSql & "           ,moddt = getdate() "
+		funcSql = funcSql & "   when not matched Then "
+		funcSql = funcSql & " insert (seq_name "
+		funcSql = funcSql & "        ,seq_value "
+		funcSql = funcSql & "        ,creid "
+		funcSql = funcSql & "        ,credt "
+		funcSql = funcSql & "        )   "
+		funcSql = funcSql & " values ('" & seq_name  & "' "
+		funcSql = funcSql & "        ,1 "
+		funcSql = funcSql & "        ,'" & Session("user_id")  & "' "
+		funcSql = funcSql & "        ,getdate() "
+		funcSql = funcSql & "        ); "
+
+		Conn.execute funcSql
+
+		GetComSeq = GetOneValue("seq_value","cf_seq","where seq_name = '" & seq_name & "'")
+	End Function
+
+	Function GetComNum(ByVal menu_type, ByVal cafe_id, ByVal menu_seq)
+		GetComNum = GetOneValue("isnull(max(" & menu_type & "_num)+1,1)","" & tb_prefix & "_" & menu_type,"where cafe_id = '" & cafe_id & "' and menu_seq = '" & menu_seq & "'")
+	End Function
+
+	Function GetComSeqCookieYN(ByVal menu_type, ByVal com_seq)
+		dim dupChk
+		dim readCookies
+		dim i
+		dupChk = "N"
+
+		readCookies = Request.Cookies("menu_type")
+
+		Response.Cookies("menu_type") = menu_type
+		Response.Cookies("menu_type").Path = "/"
+		Response.Cookies("menu_type").Expires = Date + 1
+		arrRead = split(readCookies, ",")
+		For i = 1 To UBound(arrRead)
+			If Not (com_seq = "" Or Trim(arrRead(i)) = "") Then
+'msgonly com_seq & " = " & Trim(arrRead(i))
+				If (com_seq) = (Trim(arrRead(i))) Then
+					dupChk = "Y"
+				End If
+			End If
+		Next
+
+		If dupChk = True Then
+			Response.Cookies("menu_type") = readCookies
+		Else
+			Response.Cookies("menu_type") = readCookies & "," & com_seq
+		End If
+		GetComSeqCookieYN = dupChk
+	End Function
+
+	Function GetImgMimeTypeYN(MimeType)
+		Set funcRs = server.createobject("adodb.recordset")
+		funcSql = ""
+		funcSql = funcSql & " select cmn_cd                                          "
+		funcSql = funcSql & "       ,cd_nm                                           "
+		funcSql = funcSql & "   from cf_code                                         "
+		funcSql = funcSql & "  where up_cd_id = (select cd_id                        "
+		funcSql = funcSql & "                      from cf_code                      "
+		funcSql = funcSql & "                     where up_cd_id = 'CD0000000000'    "
+		funcSql = funcSql & "                       and cmn_cd = 'img_file_extn_cd'  "
+		funcSql = funcSql & "                   )                                    "
+		funcSql = funcSql & "    and cd_expl like '%" & MimeType & "%'               "
+		funcRs.Open funcSql, Conn, 1
+
+		ok = "Y"
+		If funcRs.eof Then
+			ok = "N"
+		End If
+		funcRs.close
+
+		GetImgMimeTypeYN = ok
+	End Function
+
+	Function GetDataMimeTypeYN(MimeType)
+		Set funcRs = server.createobject("adodb.recordset")
+		funcSql = ""
+		funcSql = funcSql & " select cmn_cd                                          "
+		funcSql = funcSql & "       ,cd_nm                                           "
+		funcSql = funcSql & "   from cf_code                                         "
+		funcSql = funcSql & "  where up_cd_id = (select cd_id                        "
+		funcSql = funcSql & "                      from cf_code                      "
+		funcSql = funcSql & "                     where up_cd_id = 'CD0000000000'    "
+		funcSql = funcSql & "                       and cmn_cd = 'data_file_extn_cd' "
+		funcSql = funcSql & "                   )                                    "
+		funcSql = funcSql & "    and cd_expl like '%" & MimeType & "%'               "
+		funcRs.Open funcSql, Conn, 1
+
+		ok = "Y"
+		If funcRs.eof Then
+			ok = "N"
+		End If
+		funcRs.close
+
+		GetDataMimeTypeYN = ok
+	End Function
+
+	Function GetPageUrl(ByVal menu_type, ByVal menu_seq, ByVal com_seq)
+		httpHost = request.servervariables("HTTP_HOST")
+		httpUrl  = request.servervariables("HTTP_URL")
+
+		If InStr(httpUrl, "?") Then
+			httpUrl = Left(httpUrl, InStr(httpUrl, "?") - 1)
+		End If
+
+		GetPageUrl = "http://" & httpHost & httpUrl & "?menu_seq=" & menu_seq & "&" & menu_type & "_seq=" & com_seq
+	End Function
+
+	Function GetToInt(str)
+		If isnull(str) Or isempty(str) Or Trim(str) = "" Then
+			GetToInt = 0
+		Else
+			GetToInt = CInt(str)
 		End If
 	End Function
 '/*----------------------------------------------------------------*/
 '/*----- 코드관리가 되는것들의 콤보박스 생성
 '/*----------------------------------------------------------------*/
 
-	Function getCodeName(ByVal cmn, ByVal cd)
+	Function GetCodeName(ByVal cmn, ByVal cd)
 		Set funcRs = server.createobject("adodb.recordset")
 
 		funcSql = ""
@@ -412,10 +529,10 @@ Response.write "checkCafePageUpload<br>" & funcSql
 		End If
 		funcRs.close
 
-		getCodeName =cd_nm
+		GetCodeName = cd_nm
 	End Function
 
-	Function makeComboCD(ByVal cmn, ByVal sel)
+	Function GetMakeCDCombo(ByVal cmn, ByVal sel)
 		Dim funcSql
 		Dim funcRs
 		Dim strCombo
@@ -454,10 +571,10 @@ Response.write "checkCafePageUpload<br>" & funcSql
 
 		funcRs.close
 
-		makeComboCD = strCombo
+		GetMakeCDCombo = strCombo
 	End Function
 
-	Function makeRadioCD(ByVal cmn, ByVal sel, ByVal req)
+	Function GetMakeCDRadio(ByVal cmn, ByVal sel, ByVal req)
 		Dim funcSql
 		Dim funcRs
 		Dim strRadio
@@ -504,10 +621,10 @@ Response.write "checkCafePageUpload<br>" & funcSql
 
 		funcRs.close
 
-		makeRadioCD = strRadio
+		GetMakeCDRadio = strRadio
 	End Function
 
-	Function makeCheckBoxCD(ByVal cmn, ByVal sel, ByVal req, ByVal tIdx)
+	Function GetMakeCDCheckBox(ByVal cmn, ByVal sel, ByVal req, ByVal tIdx)
 		Dim funcSql
 		Dim funcRs
 		Dim strCheckBox
@@ -552,10 +669,10 @@ Response.write "checkCafePageUpload<br>" & funcSql
 
 		funcRs.close
 
-		makeCheckBoxCD = strCheckBox
+		GetMakeCDCheckBox = strCheckBox
 	End Function
 
-	Function makeSection(ByVal tag, ByVal snm, ByVal sel, ByVal req)
+	Function GetMakeSectionTag(ByVal tag, ByVal snm, ByVal sel, ByVal req)
 		Dim funcSql
 		Dim funcRs
 		Dim strRadio
@@ -612,7 +729,7 @@ Response.write "checkCafePageUpload<br>" & funcSql
 
 		funcRs.close
 
-		makeSection = strSection
+		GetMakeSectionTag = strSection
 	End Function
 
 	Function makeCombo(field1,field2,opt,table,refstr,sovalue)
@@ -782,7 +899,7 @@ Response.write "checkCafePageUpload<br>" & funcSql
 '/*-------------------------------------------------------------*/
 '/*----- Request 값들
 '/*-------------------------------------------------------------*/
-	Sub Reval()
+	Sub GetRequest()
 		response.write "<hr>"
 		response.write "넘어온 쿼리 콜렉션 값"
 		response.write "<hr>"
@@ -832,20 +949,19 @@ Response.write "checkCafePageUpload<br>" & funcSql
 '/*-------------------------------------------------------------*/
 '/*-----	한 데이타 가져오기
 '/*-------------------------------------------------------------*/
-	Function getonevalue(field,table,refstr)
+	Function GetOneValue(field,table,refstr)
 		Dim funcSql
 		Dim funcRs
 
 		Set funcRs = server.createobject("adodb.recordset")
 		funcSql = "select " & field & " from " & table & " " & refstr
-
 		funcRs.open funcSql, conn, 1, 1
 
 		If funcRs.eof Then
-			getonevalue = ""
+			GetOneValue = ""
 		Else
-			getonevalue = Trim(funcRs(0))
-			If isnull(getonevalue) Then getonevalue = ""
+			GetOneValue = Trim(funcRs(0))
+			If isnull(GetOneValue) Then GetOneValue = ""
 		End If
 		funcRs.close
 	End Function
@@ -951,7 +1067,7 @@ Response.write "checkCafePageUpload<br>" & funcSql
 
 	Dim arr_comment_seq()
 	Dim arr_seq()
-	Sub del_comment(menu_type, com_seq)
+	Sub ExecDeleteComment(menu_type, com_seq)
 		Set funcRs = server.createobject("adodb.recordset")
 
 		' 모든 댓글 조회
@@ -963,7 +1079,7 @@ Response.write "checkCafePageUpload<br>" & funcSql
 		funcSql = funcSql & "        , comment                                                                                                                 "
 		funcSql = funcSql & "        , convert(varchar(255), comment_seq) sort                                                                                         "
 		funcSql = funcSql & "        , convert(varchar(2000), comment) depth_fullname                                                                          "
-		funcSql = funcSql & "     from cf_" & menu_type & "_comment                                                                                                        "
+		funcSql = funcSql & "     from " & tb_prefix & "_" & menu_type & "_comment                                                                                                        "
 		funcSql = funcSql & "     where comment_seq = " & com_seq & "                                                                                                          "
 		funcSql = funcSql & "     union all                                                                                                                    "
 		funcSql = funcSql & "     select                                                                                                                       "
@@ -972,11 +1088,11 @@ Response.write "checkCafePageUpload<br>" & funcSql
 		funcSql = funcSql & "         , b.comment                                                                                                              "
 		funcSql = funcSql & "         , convert(varchar(255), convert(nvarchar,c.sort) + ' > ' +  convert(varchar(255), b.comment_seq)) sort                           "
 		funcSql = funcSql & "         , convert(varchar(2000), convert(nvarchar,c.depth_fullname) + ' > ' +  convert(varchar(2000), b.comment)) depth_fullname "
-		funcSql = funcSql & "     from  cf_" & menu_type & "_comment b, tree_query c                                                                               "
+		funcSql = funcSql & "     from  " & tb_prefix & "_" & menu_type & "_comment b, tree_query c                                                                               "
 		funcSql = funcSql & "     where b.parent_seq = c.comment_seq                                                                                                   "
 		funcSql = funcSql & " )                                                                                                                                "
 		funcSql = funcSql & " select *                                                                                                                         "
-		funcSql = funcSql & "   from cf_" & menu_type & "_comment                                                                                                  "
+		funcSql = funcSql & "   from " & tb_prefix & "_" & menu_type & "_comment                                                                                                  "
 		funcSql = funcSql & "  where comment_seq In (                                                                                                    "
 		funcSql = funcSql & " select comment_seq from tree_query)                                                                                                      "
 
@@ -984,7 +1100,7 @@ Response.write "checkCafePageUpload<br>" & funcSql
 		funcSql = funcSql & "   select " & menu_type & "_seq         "
 		funcSql = funcSql & "         ,comment_seq               "
 		funcSql = funcSql & "         ,comment                   "
-		funcSql = funcSql & "     from cf_" & menu_type & "_comment  "
+		funcSql = funcSql & "     from " & tb_prefix & "_" & menu_type & "_comment  "
 		funcSql = funcSql & "    where comment_seq = " & com_seq & " "
 		funcRs.Open funcSql, conn, 1
 
@@ -1004,13 +1120,13 @@ Response.write "checkCafePageUpload<br>" & funcSql
 
 		For j = 1 To i
 			funcSql = ""
-			funcSql = funcSql & " delete cf_" & menu_type & "_comment "
+			funcSql = funcSql & " delete " & tb_prefix & "_" & menu_type & "_comment "
 			funcSql = funcSql & "  where comment_seq = '" & arr_comment_seq(j) & "' "
 			Conn.Execute(funcSql)
 
 			funcSql = ""
-			funcSql = funcSql & " update cf_" & menu_type & " "
-			funcSql = funcSql & "    Set comment_cnt = (select count(*) from cf_" & menu_type & "_comment where " & menu_type & "_seq = '" & arr_seq(i) & "') "
+			funcSql = funcSql & " update " & tb_prefix & "_" & menu_type & " "
+			funcSql = funcSql & "    Set comment_cnt = (select count(*) from " & tb_prefix & "_" & menu_type & "_comment where " & menu_type & "_seq = '" & arr_seq(i) & "') "
 			funcSql = funcSql & "       ,modid = '" & Session("user_id") & "' "
 			funcSql = funcSql & "       ,moddt = getdate() "
 			funcSql = funcSql & "  where " & menu_type & "_seq = " & arr_seq(i) & " "
@@ -1018,185 +1134,185 @@ Response.write "checkCafePageUpload<br>" & funcSql
 		Next
 	End Sub
 
-	Sub waste_content(menu_type, com_seq)
+	Sub ExecWasteContent(menu_type, com_seq)
 		' 모든 첨부 삭제
 		funcSql = ""
-		funcSql = funcSql & " update cf_" & menu_type & "_attach "
-		funcSql = funcSql & "    Set restoreid = '" & session("user_id") & "' "
-		funcSql = funcSql & "       ,restoredt = getdate() "
-		funcSql = funcSql & "       ,modid = '" & Session("user_id") & "' "
-		funcSql = funcSql & "       ,moddt = getdate() "
+		funcSql = funcSql & " update " & tb_prefix & "_" & menu_type & "_attach                "
+		funcSql = funcSql & "    Set restoreid = '" & session("user_id")   & "' "
+		funcSql = funcSql & "       ,restoredt = getdate()                      "
+		funcSql = funcSql & "       ,modid     = '" & Session("user_id")   & "' "
+		funcSql = funcSql & "       ,moddt     = getdate()                      "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 
 		funcSql = ""
-		funcSql = funcSql & " insert into cf_waste_" & menu_type & "_attach "
-		funcSql = funcSql & " select * "
-		funcSql = funcSql & "   from cf_" & menu_type & "_attach "
+		funcSql = funcSql & " insert into " & tb_prefix & "_waste_" & menu_type & "_attach     "
+		funcSql = funcSql & " select *                                          "
+		funcSql = funcSql & "   from " & tb_prefix & "_" & menu_type & "_attach                "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 
 		funcSql = ""
-		funcSql = funcSql & " delete cf_" & menu_type & "_attach "
+		funcSql = funcSql & " delete " & tb_prefix & "_" & menu_type & "_attach                "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 
 		' 모든 댓글 삭제
 		funcSql = ""
-		funcSql = funcSql & " update cf_" & menu_type & "_comment "
-		funcSql = funcSql & "    Set restoreid = '" & session("user_id") & "' "
-		funcSql = funcSql & "       ,restoredt = getdate() "
-		funcSql = funcSql & "       ,modid = '" & Session("user_id") & "' "
-		funcSql = funcSql & "       ,moddt = getdate() "
+		funcSql = funcSql & " update " & tb_prefix & "_" & menu_type & "_comment               "
+		funcSql = funcSql & "    Set restoreid = '" & session("user_id")   & "' "
+		funcSql = funcSql & "       ,restoredt = getdate()                      "
+		funcSql = funcSql & "       ,modid     = '" & Session("user_id")   & "' "
+		funcSql = funcSql & "       ,moddt     = getdate()                      "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 
 		funcSql = ""
-		funcSql = funcSql & " insert into cf_waste_" & menu_type & "_comment "
-		funcSql = funcSql & " select * "
-		funcSql = funcSql & "   from cf_" & menu_type & "_comment "
+		funcSql = funcSql & " insert into " & tb_prefix & "_waste_" & menu_type & "_comment    "
+		funcSql = funcSql & " select *                                          "
+		funcSql = funcSql & "   from " & tb_prefix & "_" & menu_type & "_comment               "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 
 		funcSql = ""
-		funcSql = funcSql & " delete cf_" & menu_type & "_comment "
+		funcSql = funcSql & " delete " & tb_prefix & "_" & menu_type & "_comment               "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 
 		' 부모글 삭제 업데이트
 		funcSql = ""
-		funcSql = funcSql & " update cf_" & menu_type & " "
-		funcSql = funcSql & "    Set parent_del_yn = 'Y' "
-		funcSql = funcSql & "       ,modid = '" & Session("user_id") & "' "
-		funcSql = funcSql & "       ,moddt = getdate() "
-		funcSql = funcSql & "  where parent_seq = '" & com_seq  & "' "
+		funcSql = funcSql & " update " & tb_prefix & "_" & menu_type & "                         "
+		funcSql = funcSql & "    Set parent_del_yn = 'Y'                          "
+		funcSql = funcSql & "       ,modid         = '" & Session("user_id") & "' "
+		funcSql = funcSql & "       ,moddt         = getdate()                    "
+		funcSql = funcSql & "  where parent_seq = '" & com_seq  & "'              "
 		Conn.Execute(funcSql)
 
 		' 본글 삭제
 		funcSql = ""
-		funcSql = funcSql & " update cf_" & menu_type & " "
-		funcSql = funcSql & "    Set restoreid = '" & session("user_id") & "' "
-		funcSql = funcSql & "       ,restoredt = getdate() "
-		funcSql = funcSql & "       ,modid = '" & Session("user_id") & "' "
-		funcSql = funcSql & "       ,moddt = getdate() "
+		funcSql = funcSql & " update " & tb_prefix & "_" & menu_type & "                       "
+		funcSql = funcSql & "    Set restoreid = '" & session("user_id")   & "' "
+		funcSql = funcSql & "       ,restoredt = getdate()                      "
+		funcSql = funcSql & "       ,modid     = '" & Session("user_id")   & "' "
+		funcSql = funcSql & "       ,moddt     = getdate()                      "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 
 		funcSql = ""
-		funcSql = funcSql & " insert into cf_waste_" & menu_type & "  "
-		funcSql = funcSql & " select *  "
-		funcSql = funcSql & "   from cf_" & menu_type & "  "
+		funcSql = funcSql & " insert into " & tb_prefix & "_waste_" & menu_type & "            "
+		funcSql = funcSql & " select *                                          "
+		funcSql = funcSql & "   from " & tb_prefix & "_" & menu_type & "                       "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 
 		funcSql = ""
-		funcSql = funcSql & " delete cf_" & menu_type & "  "
+		funcSql = funcSql & " delete " & tb_prefix & "_" & menu_type & "                       "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 
 		' 공지글 수 업데이트
 		funcSql = ""
-		funcSql = funcSql & " update cf_menu "
-		funcSql = funcSql & "    Set top_cnt = (select count(*) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
-		funcSql = funcSql & "       ,last_date = (select isnull(max(credt), getdate()) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "') "
-		funcSql = funcSql & "       ,modid = '" & Session("user_id") & "' "
-		funcSql = funcSql & "       ,moddt = getdate() "
-		funcSql = funcSql & "  where menu_seq = '" & menu_seq & "' "
+		funcSql = funcSql & " update cf_menu                                                                                                          "
+		funcSql = funcSql & "    Set top_cnt   = (select count(*) from " & tb_prefix & "_" & menu_type & " where menu_seq = '" & menu_seq & "' and top_yn = 'Y')     "
+		funcSql = funcSql & "       ,last_date = (select isnull(max(credt), getdate()) from " & tb_prefix & "_" & menu_type & " where menu_seq = '" & menu_seq & "') "
+		funcSql = funcSql & "       ,modid     = '" & Session("user_id") & "'                                                                         "
+		funcSql = funcSql & "       ,moddt     = getdate()                                                                                            "
+		funcSql = funcSql & "  where menu_seq  = '" & menu_seq & "'                                                                                   "
 		Conn.Execute(funcSql)
 	End Sub
 
-	Sub restore_content(menu_type, com_seq)
+	Sub ExecRestoreContent(menu_type, com_seq)
 		' 모든 첨부 복원
 		funcSql = ""
-		funcSql = funcSql & " update cf_waste_" & menu_type & "_attach "
-		funcSql = funcSql & "    Set delid = '" & session("user_id") & "' "
-		funcSql = funcSql & "       ,deldt = getdate() "
-		funcSql = funcSql & "       ,modid = '" & Session("user_id") & "' "
-		funcSql = funcSql & "       ,moddt = getdate() "
+		funcSql = funcSql & " update " & tb_prefix & "_waste_" & menu_type & "_attach          "
+		funcSql = funcSql & "    Set delid = '" & session("user_id")       & "' "
+		funcSql = funcSql & "       ,deldt = getdate()                          "
+		funcSql = funcSql & "       ,modid = '" & Session("user_id")       & "' "
+		funcSql = funcSql & "       ,moddt = getdate()                          "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 		funcSql = ""
-		funcSql = funcSql & " insert into cf_" & menu_type & "_attach "
-		funcSql = funcSql & " select * "
-		funcSql = funcSql & "   from cf_waste_" & menu_type & "_attach "
+		funcSql = funcSql & " insert into " & tb_prefix & "_" & menu_type & "_attach           "
+		funcSql = funcSql & " select *                                          "
+		funcSql = funcSql & "   from " & tb_prefix & "_waste_" & menu_type & "_attach          "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 		funcSql = ""
-		funcSql = funcSql & " delete cf_waste_" & menu_type & "_attach "
+		funcSql = funcSql & " delete " & tb_prefix & "_waste_" & menu_type & "_attach          "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 
 		' 부모글 삭제 업데이트
 		funcSql = ""
-		funcSql = funcSql & " update cf_" & menu_type & " "
-		funcSql = funcSql & "    Set parent_del_yn = 'N' "
-		funcSql = funcSql & "       ,modid = '" & Session("user_id") & "' "
-		funcSql = funcSql & "       ,moddt = getdate() "
-		funcSql = funcSql & "  where parent_seq = '" & com_seq  & "' "
+		funcSql = funcSql & " update " & tb_prefix & "_" & menu_type                        & "  "
+		funcSql = funcSql & "    Set parent_del_yn = 'N'                          "
+		funcSql = funcSql & "       ,modid         = '" & Session("user_id") & "' "
+		funcSql = funcSql & "       ,moddt         = getdate()                    "
+		funcSql = funcSql & "  where parent_seq    = '" & com_seq            & "' "
 		Conn.Execute(funcSql)
 
 		' 본글 복원
 		funcSql = ""
-		funcSql = funcSql & " update cf_waste_" & menu_type & " "
-		funcSql = funcSql & "    Set delid = '" & session("user_id") & "' "
-		funcSql = funcSql & "       ,deldt = getdate() "
-		funcSql = funcSql & "       ,modid = '" & Session("user_id") & "' "
-		funcSql = funcSql & "       ,moddt = getdate() "
+		funcSql = funcSql & " update " & tb_prefix & "_waste_" & menu_type                & "  "
+		funcSql = funcSql & "    Set delid = '" & session("user_id")       & "' "
+		funcSql = funcSql & "       ,deldt = getdate()                          "
+		funcSql = funcSql & "       ,modid = '" & Session("user_id")       & "' "
+		funcSql = funcSql & "       ,moddt = getdate()                          "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 		funcSql = ""
-		funcSql = funcSql & " insert into cf_" & menu_type & " "
-		funcSql = funcSql & " select * "
-		funcSql = funcSql & "   from cf_waste_" & menu_type & " "
+		funcSql = funcSql & " insert into " & tb_prefix & "_" & menu_type & "                  "
+		funcSql = funcSql & " select *                                          "
+		funcSql = funcSql & "   from " & tb_prefix & "_waste_" & menu_type & "                 "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 		funcSql = ""
-		funcSql = funcSql & " delete cf_waste_" & menu_type & " "
+		funcSql = funcSql & " delete " & tb_prefix & "_waste_" & menu_type & "                 "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 
 		' 모든 댓글 복원
 		funcSql = ""
-		funcSql = funcSql & " update cf_waste_" & menu_type & "_comment "
-		funcSql = funcSql & "    Set delid = '" & session("user_id") & "' "
-		funcSql = funcSql & "       ,deldt = getdate() "
-		funcSql = funcSql & "       ,modid = '" & Session("user_id") & "' "
-		funcSql = funcSql & "       ,moddt = getdate() "
+		funcSql = funcSql & " update " & tb_prefix & "_waste_" & menu_type & "_comment         "
+		funcSql = funcSql & "    Set delid = '" & session("user_id")       & "' "
+		funcSql = funcSql & "       ,deldt = getdate()                          "
+		funcSql = funcSql & "       ,modid = '" & Session("user_id")       & "' "
+		funcSql = funcSql & "       ,moddt = getdate()                          "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 		funcSql = ""
-		funcSql = funcSql & " insert into cf_" & menu_type & "_comment "
-		funcSql = funcSql & " select * "
-		funcSql = funcSql & "   from cf_waste_" & menu_type & "_comment "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		funcSql = funcSql & " insert into " & tb_prefix & "_" & menu_type & "_comment         "
+		funcSql = funcSql & " select *                                         "
+		funcSql = funcSql & "   from " & tb_prefix & "_waste_" & menu_type & "_comment        "
+		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq & "' "
 		Conn.Execute(funcSql)
 		funcSql = ""
-		funcSql = funcSql & " delete cf_waste_" & menu_type & "_comment "
+		funcSql = funcSql & " delete " & tb_prefix & "_waste_" & menu_type & "_comment         "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 
 		' 공지글 수 업데이트
 		funcSql = ""
-		funcSql = funcSql & " update cf_menu "
-		funcSql = funcSql & "    Set top_cnt = (select count(*) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
-		funcSql = funcSql & "       ,last_date = (select isnull(max(credt), getdate()) from cf_" & menu_type & " where menu_seq = '" & menu_seq & "') "
-		funcSql = funcSql & "       ,modid = '" & Session("user_id") & "' "
-		funcSql = funcSql & "       ,moddt = getdate() "
-		funcSql = funcSql & "  where menu_seq = '" & menu_seq & "' "
+		funcSql = funcSql & " update cf_menu                                                                                                          "
+		funcSql = funcSql & "    Set top_cnt   = (select count(*) from " & tb_prefix & "_" & menu_type & " where menu_seq = '" & menu_seq & "' and top_yn = 'Y')     "
+		funcSql = funcSql & "       ,last_date = (select isnull(max(credt), getdate()) from " & tb_prefix & "_" & menu_type & " where menu_seq = '" & menu_seq & "') "
+		funcSql = funcSql & "       ,modid     = '" & Session("user_id") & "'                                                                         "
+		funcSql = funcSql & "       ,moddt     = getdate()                                                                                            "
+		funcSql = funcSql & "  where menu_seq  = '" & menu_seq & "'                                                                                   "
 		Conn.Execute(funcSql)
 	End Sub
 
 	Dim attach_file()
 	Dim dsply_file()
 	Dim thmbnl_file()
-	Sub delete_content(menu_type, com_seq)
+	Sub ExecDeleteContent(menu_type, com_seq)
 		Set funcRs = server.createobject("adodb.recordset")
 
 		funcSql = ""
-		funcSql = funcSql & " select file_name     "
-		funcSql = funcSql & "       ,dsply_file_nm  "
-		funcSql = funcSql & "       ,thmbnl_file_nm "
-		funcSql = funcSql & "   from cf_waste_" & menu_type & "_attach "
+		funcSql = funcSql & " select file_name                                  "
+		funcSql = funcSql & "       ,dsply_file_nm                              "
+		funcSql = funcSql & "       ,thmbnl_file_nm                             "
+		funcSql = funcSql & "   from " & tb_prefix & "_waste_" & menu_type & "_attach          "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		funcRs.Open funcSql, conn, 1
 
@@ -1217,28 +1333,30 @@ Response.write "checkCafePageUpload<br>" & funcSql
 
 		' 모든 첨부 삭제
 		funcSql = ""
-		funcSql = funcSql & " delete cf_waste_" & menu_type & "_attach "
+		funcSql = funcSql & " delete " & tb_prefix & "_waste_" & menu_type & "_attach "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 
 		' 모든 댓글 삭제
 		funcSql = ""
-		funcSql = funcSql & " delete cf_waste_" & menu_type & "_comment "
+		funcSql = funcSql & " delete " & tb_prefix & "_waste_" & menu_type & "_comment "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 
 		' 본글 삭제
 		funcSql = ""
-		funcSql = funcSql & " delete cf_waste_" & menu_type & " "
+		funcSql = funcSql & " delete " & tb_prefix & "_waste_" & menu_type & " "
 		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
 		Conn.Execute(funcSql)
 	End Sub
 
 	Sub delete_attach(file)
 		Set fso = CreateObject("Scripting.FileSystemObject")
+
 		If (fso.FileExists(file)) Then
 			fso.DeleteFile(file)
 		End If
+
 		Set fso = Nothing
 	End Sub
 
@@ -1260,7 +1378,8 @@ Response.write "checkCafePageUpload<br>" & funcSql
 		Else
 			getImgYN = "N"
 		End If
-		Set objImage = nothing
+
+		Set objImage = Nothing
 	End Function
 %>
 

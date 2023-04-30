@@ -1,3 +1,6 @@
+<%
+	If cafe_id <> "home" Then Response.End
+%>
 		<footer id="footer">
 			<div class="foot_inner foot_inner_ext">
 				<ul class="foot_btn">

@@ -1,10 +1,13 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
+	Call CheckManager(cafe_id)
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	Set rs2 = Server.CreateObject ("ADODB.Recordset")
+	Set rs = Server.CreateObject("ADODB.Recordset")
+	Set rs2 = Server.CreateObject("ADODB.Recordset")
 
 	For i = 1 To 4
 		menu_seq = Request("menu_seq" & i)
@@ -39,7 +42,7 @@
 
 					Conn.Execute(sql)
 				Else
-					new_seq = getSeq("cf_popup")
+					new_seq = GetComSeq("cf_popup")
 
 					sql = ""
 					sql = sql & " insert into cf_popup( "

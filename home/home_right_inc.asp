@@ -1,3 +1,6 @@
+<%
+	If cafe_id <> "home" Then Response.End
+%>
 			<aside class="sticky_box">
 				<ul>
 					<li><a href="http://www.iros.go.kr/" target="_blank"><img src="/common/img/banner/aside_banner_1.gif" alt=""></a></li>

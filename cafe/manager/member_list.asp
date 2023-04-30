@@ -1,8 +1,34 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
-
+	Call CheckManager(cafe_id)
+%>
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>회원/운영진 관리 : 관리자</title>
+	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
+	<script src="/common/js/jquery-3.6.0.min.js"></script>
+	<script src="/common/js/jquery-ui.min.js"></script>
+	<script src="/common/js/slick.min.js"></script>
+	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<header id="adm_head">
+			<h1><a href="/">RETS 경인<sub>사랑방 관리</sub></a></h1>
+		</header>
+		<nav id="adm_nav">
+<!--#include virtual="/cafe/manager/manager_left_inc.asp"-->
+		</nav>
+<%
 	list_info = Request("list_info")
 	If list_info = "" Then
 		list_info = "agency,kname,phone,mobile,fax"
@@ -19,15 +45,15 @@
 
 	If sch_word <> "" Then
 		If sch_type = "" Then
-			kword = " and mi.agency like '%" & sch_word & "%' or mi.kname like '%" & sch_word & "%' or mi.phone like '%" & sch_word & "%' "
+			schStr = " and mi.agency like '%" & sch_word & "%' or mi.kname like '%" & sch_word & "%' or mi.phone like '%" & sch_word & "%' "
 		Else
-			kword = " and " & sch_type & " like '%" & sch_word & "%' "
+			schStr = " and " & sch_type & " like '%" & sch_word & "%' "
 		End If
 	Else
-		kword = ""
+		schStr = ""
 	End If
 
-	Set row = Server.CreateObject ("ADODB.Recordset")
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select cm.user_id "
@@ -60,15 +86,15 @@
 	sql = sql & "  inner join cf_member mi on mi.user_id = cm.user_id "
 '	sql = sql & "  inner join cf_member mi on mi.user_id = cm.user_id and mi.cafe_id = cm.cafe_id and mi.stat = 'Y' "
 	sql = sql & "  where (cf.cafe_id = '" & cafe_id & "' or cf.union_id = '" & cafe_id & "') "
-	sql = sql & kword
+	sql = sql & schStr
 	sql = sql & "  order by mi.agency "
+	rs.Open Sql, conn, 3, 1
 
-	row.Open Sql, conn, 3, 1
-
-	row.PageSize = PageSize
+	rs.PageSize = PageSize
 	RecordCount = 0 ' 자료가 없을때
-	If Not row.EOF Then
-		RecordCount = row.recordcount
+
+	If Not rs.EOF Then
+		RecordCount = rs.recordcount
 	End If
 
 	' 전체 페이지 수 얻기
@@ -78,33 +104,11 @@
 		PageCount = Int(RecordCount / PageSize) + 1
 	End If
 
-	If Not (row.EOF And row.BOF) Then
-		row.AbsolutePage = page
-		PageNum = row.PageCount
+	If Not (rs.EOF And rs.BOF) Then
+		rs.AbsolutePage = page
+		PageNum = rs.PageCount
 	End If
 %>
-<!DOCTYPE html>
-<html lang="kr">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>회원/운영진 관리 : 관리자</title>
-	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
-	<script src="/common/js/jquery-3.6.0.min.js"></script>
-	<script src="/common/js/jquery-ui.min.js"></script>
-	<script src="/common/js/slick.min.js"></script>
-	<script src="/common/js/common.js"></script>
-	<script src="/common/js/cafe.js"></script>
-</head>
-<body>
-	<div id="wrap">
-		<header id="adm_head">
-			<h1><a href="/">RETS 경인<sub>사랑방 관리</sub></a></h1>
-		</header>
-		<nav id="adm_nav">
-<!--#include virtual="/cafe/manager/manager_left_inc.asp"-->
-		</nav>
 		<main id="adm_body">
 			<div class="adm_page_tit">
 				<h2 class="h2">회원/운영진 관리</h2>
@@ -223,29 +227,29 @@
 <%
 	i = 1
 	uploadUrl = ConfigAttachedFileURL & "picture/"
-	If Not row.EOF Then
-		Do Until row.EOF OR i > row.PageSize
-			Set ml = Conn.Execute("select * from cf_cafe_member cm,cf_member mi where cm.cafe_id='" & cafe_id & "' and cm.user_id='" & row("user_id") & "' and cm.user_id=mi.user_id")
+	If Not rs.EOF Then
+		Do Until rs.EOF OR i > rs.PageSize
+			Set ml = Conn.Execute("select * from cf_cafe_member cm,cf_member mi where cm.cafe_id='" & cafe_id & "' and cm.user_id='" & rs("user_id") & "' and cm.user_id=mi.user_id")
 
-			user_id    = row("user_id")
-			kname      = row("kname")
-			email      = row("email")
-			agency     = row("agency")
-			mobile     = row("mobile")
-			phone      = row("phone")
-			fax        = row("fax")
-			interphone = row("interphone")
-			license    = row("license")
-			picture    = row("picture")
-			addr1      = row("addr1")
-			addr2      = row("addr2")
-			email      = row("email")
-			stat       = row("stat")
-			stdate     = row("stdate")
-			cafe_id    = row("cafe_id")
-			cafe_mb_level = row("cafe_mb_level")
-			ulevel_txt = row("ulevel_txt")
-			post_cnt   = row("post_cnt")
+			user_id       = rs("user_id")
+			kname         = rs("kname")
+			email         = rs("email")
+			agency        = rs("agency")
+			mobile        = rs("mobile")
+			phone         = rs("phone")
+			fax           = rs("fax")
+			interphone    = rs("interphone")
+			license       = rs("license")
+			picture       = rs("picture")
+			addr1         = rs("addr1")
+			addr2         = rs("addr2")
+			email         = rs("email")
+			stat          = rs("stat")
+			stdate        = rs("stdate")
+			cafe_id       = rs("cafe_id")
+			cafe_mb_level = rs("cafe_mb_level")
+			ulevel_txt    = rs("ulevel_txt")
+			post_cnt      = rs("post_cnt")
 
 			cols = 4
 %>
@@ -347,146 +351,145 @@
 %>
 <%
 			i = i + 1
-			row.MoveNext
+			rs.MoveNext
 		Loop
 	End If
-	row.close
-	Set row = Nothing
+	rs.close
+	Set rs = Nothing
 %>
 						</tbody>
 					</table>
 				</form>
 				</div>
-<!--#include virtual="/cafe/skin/skin_page_inc.asp"-->
+<!--#include virtual="/cafe/cafe_page_inc.asp"-->
 			</div>
 		</main>
 		<footer id="adm_foot"></footer>
 	</div>
 	<iframe id="hiddenfrm" name="hiddenfrm" style="display:none"></iframe>
 </body>
+<script>
+	function testCheck() {
+		var chckType = document.getElementsByName('user_id');
+		var j = 0;
+		for (i = 0; i < chckType.length; i++) {
+			if (chckType[i].checked == true) {
+				j++;
+			}
+		}
+
+		if (j == 0) {
+			alert("회원을 선택하세요!");
+			return false;
+		}
+		return true;
+	}
+	function goLevel() {
+		if (!testCheck()) return;
+		var f = document.form;
+		var f2 = document.form2;
+		f.cafe_mb_level.value = f2.cafe_mb_level.value
+		f.action="member_level_exec.asp"
+		f.submit()
+	}
+	function goActivity() {
+		if (!testCheck()) return;
+		var f = document.form;
+		f.action="member_activity_exec.asp"
+		f.submit()
+	}
+
+	function MovePage(page) {
+		document.search_form.page.value = page;
+		document.search_form.submit();
+	}
+
+	function goSearch() {
+		try {
+			var f = document.search_form;
+			f.page.value = 1;
+			f.submit();
+		}
+		catch (e) {
+			alert(e);
+		}
+	}
+
+	function Rsize(img, ww, hh, aL) {
+		var tt = imgRsize(img, ww, hh);
+		if (img.width > ww || img.height > hh) {
+
+			// 가로나 세로크기가 제한크기보다 크면
+			img.width = tt[0];
+			// 크기조정
+			img.height = tt[1];
+			img.alt = "클릭하시면 원본이미지를 보실수있습니다.";
+
+			if (aL) {
+				// 자동링크 on
+				img.onclick = function() {
+					wT = Math.ceil((screen.width - tt[2])/2.6);
+					// 클라이언트 중앙에 이미지위치.
+					wL = Math.ceil((screen.height - tt[3])/2.6);
+					var mm = window.open(img.src, "mm", 'width='+tt[2]+',height='+tt[3]+',top='+wT+',left='+wL);
+					var doc = mm.document;
+					try{
+						doc.body.style.margin = 0;
+						// 마진제거
+						doc.body.style.cursor = "hand";
+						doc.title = "원본이미지";
+					}
+					catch(err) {
+					}
+					finally {
+					}
+
+				}
+				img.style.cursor = "hand";
+			}
+		}
+		else {
+				img.onclick = function() {
+					alert("현재이미지가 원본 이미지입니다.");
+				}
+		}
+	}
+
+	function imgRsize(img, rW, rH) {
+		var iW = img.width;
+		var iH = img.height;
+		var g = new Array;
+		if (iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
+			g[0] = iW;
+			g[1] = iH;
+		}
+		else {
+			if (img.width > img.height) { // 원크기 가로가 세로보다 크면
+				g[0] = rW;
+				g[1] = Math.ceil(img.height * rW / img.width);
+			}
+			else if (img.width < img.height) { //원크기의 세로가 가로보다 크면
+				g[0] = Math.ceil(img.width * rH / img.height);
+				g[1] = rH;
+			}
+			else {
+				g[0] = rW;
+				g[1] = rH;
+			}
+			if (g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
+				g[0] = rW;
+				g[1] = Math.ceil(img.height * rW / img.width);
+			}
+			if (g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
+				g[0] = Math.ceil(img.width * rH / img.height);
+				g[1] = rH;
+			}
+		}
+
+		g[2] = img.width; // 원사이즈 가로
+		g[3] = img.height; // 원사이즈 세로
+
+		return g;
+	}
+</script>
 </html>
-
-	<script>
-		function testCheck() {
-			var chckType = document.getElementsByName('user_id');
-			var j = 0;
-			for (i = 0; i < chckType.length; i++) {
-				if (chckType[i].checked == true) {
-					j++;
-				}
-			}
-
-			if (j == 0) {
-				alert("회원을 선택하세요!");
-				return false;
-			}
-			return true;
-		}
-		function goLevel() {
-			if (!testCheck()) return;
-			var f = document.form;
-			var f2 = document.form2;
-			f.cafe_mb_level.value = f2.cafe_mb_level.value
-			f.action="member_level_exec.asp"
-			f.submit()
-		}
-		function goActivity() {
-			if (!testCheck()) return;
-			var f = document.form;
-			f.action="member_activity_exec.asp"
-			f.submit()
-		}
-
-		function MovePage(page) {
-			document.search_form.page.value = page;
-			document.search_form.submit();
-		}
-
-		function goSearch() {
-			try {
-				var f = document.search_form;
-				f.page.value = 1;
-				f.submit();
-			}
-			catch (e) {
-				alert(e);
-			}
-		}
-
-		function Rsize(img, ww, hh, aL) {
-			var tt = imgRsize(img, ww, hh);
-			if (img.width > ww || img.height > hh) {
-
-				// 가로나 세로크기가 제한크기보다 크면
-				img.width = tt[0];
-				// 크기조정
-				img.height = tt[1];
-				img.alt = "클릭하시면 원본이미지를 보실수있습니다.";
-
-				if (aL) {
-					// 자동링크 on
-					img.onclick = function() {
-						wT = Math.ceil((screen.width - tt[2])/2.6);
-						// 클라이언트 중앙에 이미지위치.
-						wL = Math.ceil((screen.height - tt[3])/2.6);
-						var mm = window.open(img.src, "mm", 'width='+tt[2]+',height='+tt[3]+',top='+wT+',left='+wL);
-						var doc = mm.document;
-						try{
-							doc.body.style.margin = 0;
-							// 마진제거
-							doc.body.style.cursor = "hand";
-							doc.title = "원본이미지";
-						}
-						catch(err) {
-						}
-						finally {
-						}
-
-					}
-					img.style.cursor = "hand";
-				}
-			}
-			else {
-					img.onclick = function() {
-						alert("현재이미지가 원본 이미지입니다.");
-					}
-			}
-		}
-
-		function imgRsize(img, rW, rH) {
-			var iW = img.width;
-			var iH = img.height;
-			var g = new Array;
-			if (iW < rW && iH < rH) { // 가로세로가 축소할 값보다 작을 경우
-				g[0] = iW;
-				g[1] = iH;
-			}
-			else {
-				if (img.width > img.height) { // 원크기 가로가 세로보다 크면
-					g[0] = rW;
-					g[1] = Math.ceil(img.height * rW / img.width);
-				}
-				else if (img.width < img.height) { //원크기의 세로가 가로보다 크면
-					g[0] = Math.ceil(img.width * rH / img.height);
-					g[1] = rH;
-				}
-				else {
-					g[0] = rW;
-					g[1] = rH;
-				}
-				if (g[0] > rW) { // 구해진 가로값이 축소 가로보다 크면
-					g[0] = rW;
-					g[1] = Math.ceil(img.height * rW / img.width);
-				}
-				if (g[1] > rH) { // 구해진 세로값이 축소 세로값가로보다 크면
-					g[0] = Math.ceil(img.width * rH / img.height);
-					g[1] = rH;
-				}
-			}
-
-			g[2] = img.width; // 원사이즈 가로
-			g[3] = img.height; // 원사이즈 세로
-
-			return g;
-		}
-	</script>

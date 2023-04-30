@@ -26,7 +26,7 @@ $(function(){
 		$("#"+tab_id).addClass("on");
 	});
 
-	$(document).on("click",".slide_cate a",function(e){
+	$(document).on("click",".main_rolling .slide_cate a",function(e){
 		e.preventDefault();
 		$(".slide_cate a").removeClass("on");
 		$(this).addClass("on");
@@ -52,12 +52,12 @@ $(function(){
 		SlidesToScroll : 1
 	});
 	$(".btn_gs2_prev").on("click",function(e){
-		e.preventDefault();
-		$(".slide_2").slick("slickPrev");
+//		e.preventDefault();
+//		$(".slide_2").slick("slickPrev");
 	});
 	$(".btn_gs2_next").on("click",function(e){
-		e.preventDefault();
-		$(".slide_2").slick("slickNext");
+//		e.preventDefault();
+//		$(".slide_2").slick("slickNext");
 	});
 });
 

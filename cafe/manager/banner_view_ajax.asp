@@ -1,12 +1,13 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
-
-	uploadUrl = ConfigAttachedFileURL & "banner/"
+	If Request("banner_seq") = "" Then Response.End
 
 	banner_seq = Request("banner_seq")
-	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select * "

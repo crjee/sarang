@@ -1,11 +1,14 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
+	Call CheckManager(cafe_id)
 
 	for i=1 to Request("user_id").count
 		user_id = Request("user_id")(i)
-		stat = getonevalue("stat","cf_cafe_member","where user_id = '" & user_id & "'")
+		stat = GetOneValue("stat","cf_cafe_member","where user_id = '" & user_id & "'")
 
 		If stat = "Y" Then
 			' 이전사랑방 히스토리 저장

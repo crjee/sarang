@@ -1,7 +1,10 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
+	Call CheckManager(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -31,6 +34,7 @@
 			</div>
 			<div class="adm_cont">
 				<form name="nomarForm" method="post" action="cafe_info_exec.asp" enctype="multipart/form-data">
+				<input type="hidden" name="tb_prefix" value="cf">
 				<div class="adm_menu_manage">
 					<div class="tb tb_form_1">
 						<table class="tb_input">
@@ -46,7 +50,7 @@
 <%
 	uploadUrl = ConfigAttachedFileURL & "cafeimg/"
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select *                           "
@@ -75,7 +79,7 @@
 	End If
 %>
 										</div>
-										<button type="button" id="deleteBtn" class="btn" onclick="javascript:cafe_img_del()">이미지 삭제</button>
+										<button type="button" id="deleteBtn" class="btn" onclick="cafe_img_del()">이미지 삭제</button>
 										<button type="button" id="enrollBtn" class="btn">이미지 등록</button>
 										<input type="file" name="cafe_img" id="cafe_img" style="display:none">
 										<ul class="list_txt">
@@ -96,7 +100,7 @@
 								<tr>
 									<th scope="row">공개 여부</th>
 									<td>
-										<%=makeRadioCD("open_yn", open_yn, "")%>
+										<%=GetMakeCDRadio("open_yn", open_yn, "")%>
 									</td>
 								</tr>
 								<tr>
@@ -133,33 +137,33 @@
 	</div>
 	<iframe id="hiddenfrm" name="hiddenfrm" style="display:none"></iframe>
 </body>
-</html>
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script>
-		$('#enrollBtn').bind('click', function(e) {
-			$('#cafe_img').click()
-		})
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	$('#enrollBtn').bind('click', function(e) {
+		$('#cafe_img').click()
+	})
 
-		$(window).load(function() {
-			function readURL(input,obj) {
-				if (input.files && input.files[0]) {
-					var reader = new FileReader()
+	$(window).load(function() {
+		function readURL(input,obj) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader()
 
-					reader.onload = function (e) {
-						$(obj).attr('src', e.target.result)
-					}
-
-					reader.readAsDataURL(input.files[0])
+				reader.onload = function (e) {
+					$(obj).attr('src', e.target.result)
 				}
+
+				reader.readAsDataURL(input.files[0])
 			}
-
-			$("#cafe_img").change(function() {
-				readURL(this,'#profile')
-			})
-		})
-
-		function cafe_img_del() {
-			document.all.profile.src='';
-			document.all.cafe_img.value = '';
 		}
-	</script>
+
+		$("#cafe_img").change(function() {
+			readURL(this,'#profile')
+		})
+	})
+
+	function cafe_img_del() {
+		document.all.profile.src='';
+		document.all.cafe_img.value = '';
+	}
+</script>
+</html>

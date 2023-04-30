@@ -1,7 +1,10 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
+	Call CheckManager(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -34,8 +37,8 @@
 <%
 	uploadUrl = ConfigAttachedFileURL & "banner/"
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	Set rs2 = Server.CreateObject ("ADODB.Recordset")
+	Set rs = Server.CreateObject("ADODB.Recordset")
+	Set rs2 = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select cmn_cd                                         "
@@ -214,7 +217,7 @@
 										</a>
 <%
 					End If
-				End if
+				End If
 %>
 									</td>
 									<td class="algC"><%=subject%><br><%=link%></td>
@@ -223,14 +226,14 @@
 									<td class="algC"><%=open_yn_txt%></td>
 									<td class="algC">
 										<button type="button" class="btn btn_c_a btn_s btn_modi" onclick="onEdit('<%=banner_seq%>')">수정</button>
-										<button type="button" class="btn btn_c_a btn_s" onclick="hiddenfrm.location.href='banner_del_exec.asp?task=del&banner_seq=<%=banner_seq%>'">삭제</button>
+										<button type="button" class="btn btn_c_a btn_s" onclick="goDelete('<%=banner_seq%>')">삭제</button>
 									</td>
 								</tr>
 <%
 				Rs2.MoveNext
 			Loop
 %>
-								<script type="text/javascript">
+								<script>
 									function checkeRowColorChange<%=cmn_cd%>(obj) {
 										var row = jQuery("#chkRadio<%=cmn_cd%>").index(obj);
 									}
@@ -292,7 +295,8 @@
 			<span class="posR"><button type="button" class="btn btn_close"><em>닫기</em></button></span>
 		</header>
 		<div class="adm_cont">
-			<form method="post" id="regi_form" name="regi_form" action="banner_exec.asp" enctype="multipart/form-data" target="hiddenfrm">
+			<form method="post" id="form" name="form" action="banner_exec.asp" enctype="multipart/form-data" target="hiddenfrm">
+			<input type="hidden" name="tb_prefix" value="cf">
 			<input type="hidden" id="task" name="task" value="ins">
 			<input type="hidden" id="banner_seq" name="banner_seq">
 			<div class="tb">
@@ -307,7 +311,7 @@
 							<td>
 								<select id="banner_type" name="banner_type" required class="sel w_auto">
 									<option></option>
-									<%=makeComboCD("cafe_banner_type", "")%>
+									<%=GetMakeCDCombo("cafe_banner_type", "")%>
 								</select>
 							</td>
 						</tr>
@@ -356,7 +360,7 @@
 						<tr>
 							<th scope="row">공개여부<em class="required">필수입력</em></th>
 							<td>
-								<%=makeRadioCD("open_yn", "Y", "")%>
+								<%=GetMakeCDRadio("open_yn", "Y", "")%>
 							</td>
 						</tr>
 					</tbody>
@@ -371,10 +375,7 @@
 	</aside>
 	<!-- //Banner 등록 : e -->
 </body>
-</html>
-
-<script type="text/javascript">
-
+<script>
 	function readURL(input,obj) {
 		if (input.files && input.files[0]) {
 			var reader = new FileReader()
@@ -396,7 +397,7 @@
 	})
 
 	function onRegi(banner_type) {
-		$("#regi_form")[0].reset();
+		$("#form")[0].reset();
 		$("#task").val("ins");
 		$("#file_img").attr('src', "")
 		$("#file_name").attr("required" , true);
@@ -406,7 +407,7 @@
 	}
 
 	function onEdit(banner_seq) {
-		$("#regi_form")[0].reset();
+		$("#form")[0].reset();
 		$("#task").val("upd")
 		$("#file_img").attr('src', "")
 		$("#file_name").attr("required" , false);
@@ -463,4 +464,10 @@
 			alert(e);
 		}
 	}
+
+	function goDelete(banner_seq) {
+		//hiddenfrm.location.href='banner_del_exec.asp?task=del&banner_seq=' + banner_seq;
+		location.href='banner_del_exec.asp?task=del&banner_seq=' + banner_seq;
+	}
 </script>
+</html>

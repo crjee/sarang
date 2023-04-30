@@ -1,7 +1,10 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
+	Call CheckManager(cafe_id)
 
 	menu_seq = Request("menu_seq")
 %>
@@ -51,7 +54,7 @@
 						</colgroup>
 						<tbody>
 <%
-	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	For i = 1 To 4
 		sql = ""
@@ -84,11 +87,11 @@
 '		sql = sql & "   and menu_type in ('board','sale','job') "
 		rs.open Sql, conn, 3, 1
 
-		Do Until row.eof
+		Do Until rs.eof
 %>
-										<option value="<%=row("menu_seq")%>" <%=if3(row("menu_seq") = menu_seq,"selected","") %>><%=row("menu_name")%></option>
+										<option value="<%=rs("menu_seq")%>" <%=if3(rs("menu_seq") = menu_seq,"selected","") %>><%=rs("menu_name")%></option>
 <%
-			row.MoveNext
+			rs.MoveNext
 		Loop
 		rs.close
 %>

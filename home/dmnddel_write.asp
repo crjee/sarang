@@ -2,6 +2,9 @@
 <%
 	freePage = True
 %>
+<%
+	Const tb_prefix = "gi"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
@@ -12,7 +15,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>게시글 중단 요청하기</title>
+	<title>경인 홈</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/styles.css">
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
@@ -27,9 +30,10 @@
 <!--#include virtual="/home/home_header_inc.asp"-->
 		<main id="main" class="main">
 			<div class="container">
-			<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
-			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-			<input type="hidden" name="temp" value="Y">
+				<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
+				<input type="hidden" name="tb_prefix" value="gi">
+				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
+				<input type="hidden" name="temp" value="Y">
 				<div class="cont_tit">
 					<h2 class="h2">게시글 중단 요청하기</h2>
 					<span class="posR"><em class="required">필수입력</em>는 필수 기재 항목입니다.</span>
@@ -46,7 +50,7 @@
 							<tr>
 								<th scope="row">요청구분<em class="required">필수입력</em></th>
 								<td colspan="3">
-									<%=makeRadioCD("dmnd_se_cd", "", "")%>
+									<%=GetMakeCDRadio("dmnd_se_cd", "", "")%>
 								</td>
 							</tr>
 							<tr>
@@ -73,7 +77,6 @@
 								<th scope="row">신분증 사본<em class="required">필수입력</em></th>
 								<td>
 									<input type="file" id="idcd_file_nm" name="idcd_file_nm" class="inp w300p" required>
-									<button type="button" class="btn btn_c_s btn_s">찾아보기</button>
 								</td>
 							</tr>
 							<tr>
@@ -90,13 +93,11 @@
 								<th scope="row">대리인 신분증 사본</th>
 								<td>
 									<input type="file" id="agt_idcd_file_nm" name="agt_idcd_file_nm" class="inp w300p">
-									<button type="button" class="btn btn_c_s btn_s">찾아보기</button>
 									<p class="txt_point mt10">대리인 경우 필수</p>
 								</td>
 								<th scope="row">위임장</th>
 								<td>
 									<input type="file" id="dlgt_file_nm" name="dlgt_file_nm" class="inp w300p">
-									<button type="button" class="btn btn_c_s btn_s">찾아보기</button>
 									<p class="txt_point mt10">대리인 경우 필수</p>
 								</td>
 							</tr>
@@ -110,14 +111,13 @@
 								<th scope="row">첨부파일</th>
 								<td colspan="3">
 									<input type="file" id="atch_data_file_nm" name="atch_data_file_nm" class="inp w300p">
-									<button type="button" class="btn btn_c_s btn_s">찾아보기</button>
 									<p class="txt_point mt10">파일형식은 hwp, doc(docx), ppt, pdf 파일만 등록 가능합니다.</p>
 								</td>
 							</tr>
 						</tbody>
 					</table>
 					<div class="mt10">
-						<textarea name="ir1" id="ir1" style="width:100%;display:none;"><%=contents%></textarea>
+						<textarea name="contents" id="contents" style="width:100%;display:none;"><%=contents%></textarea>
 						<p class="txt_point mt10">새로고침시 에디터 내용은 유지되지 않습니다.</p>
 					</div>
 					<div class="agree_box mt30">
@@ -132,8 +132,8 @@
 					</div>
 				</div>
 				<div class="btn_box">
-					<button type="submit" class="btn btn_c_a btn_n">요청하기</button>
-					<button type="reset" class="btn btn_c_n btn_n"><em>취소</em></button>
+					<button type="submit" class="btn btn_c_a btn_n">등록</button>
+					<button type="reset" class="btn btn_c_n btn_n">취소</button>
 				</div>
 			</form>
 			</div>
@@ -148,7 +148,7 @@
 
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: oEditors,
-		elPlaceHolder: "ir1",
+		elPlaceHolder: "contents",
 		sSkinURI: "/smart/SmartEditor2Skin.html",
 		htParams : {
 			bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
@@ -160,17 +160,17 @@
 		}, //boolean
 		fOnAppLoad : function() {
 			//예제 코드
-			//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
+			//oEditors.getById["contents"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
 		},
 		fCreator: "createSEditor2"
 	})
 
 	function submitContents(elClickedObj) {
-		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
+		oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", [])
 		try {
 			elClickedObj.action = "dmnddel_exec.asp";
 			elClickedObj.temp.value = "N";
-			elClickedObj.target = "hiddenfrm";
+			//elClickedObj.target = "hiddenfrm";
 			elClickedObj.submit()
 		} catch(e) {alert(e)}
 	}

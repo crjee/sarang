@@ -1,7 +1,10 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
+	Call CheckManager(cafe_id)
 
 	For i = 1 To Request("banner_seq").count
 		banner_seq = Request("banner_seq")(i)

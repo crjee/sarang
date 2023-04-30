@@ -1,8 +1,11 @@
+<%
+	If cafe_id <> "home" Then Response.End
+%>
 				<div class="main_frm_flex mff_block_1">
 <%
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-	Set rs2 = Server.CreateObject ("ADODB.Recordset")
-	Set rs3 = Server.CreateObject ("ADODB.Recordset")
+	Set centerRs  = Server.CreateObject("ADODB.Recordset")
+	Set centerRs2 = Server.CreateObject("ADODB.Recordset")
+	Set centerRs3 = Server.CreateObject("ADODB.Recordset")
 	Dim arrSecSeq(), arrSecNm()
 
 	sql = ""
@@ -20,26 +23,24 @@
 	sql = sql & "       ,etc_tab_use_yn                                      "
 	sql = sql & "   from cf_menu cm                                          "
 	sql = sql & "  where cafe_id = '" & cafe_id & "'                         "
-	sql = sql & "    and home_num != 0                                       "
+	sql = sql & "    and home_num > 1                                        "
 	sql = sql & "    and menu_type not in ('page','group','division','poll') " ' nsale, board, job, land, sale
 	sql = sql & "  order by home_num asc                                     "
-	rs.Open Sql, conn, 3, 1
+	centerRs.Open Sql, conn, 3, 1
 
-	i = 0
-	Do Until rs.eof
-		i = i + 1
-		menu_type      = rs("menu_type")
-		menu_name      = rs("menu_name")
-		page_type      = rs("page_type")
-		menu_seq       = rs("menu_seq")
-		home_num       = rs("home_num")
-		home_cnt       = rs("home_cnt")
-		top_cnt        = rs("top_cnt")
-		wide_yn        = rs("wide_yn")
-		list_type      = rs("list_type")
-		tab_use_yn     = rs("tab_use_yn")
-		all_tab_use_yn = rs("all_tab_use_yn")
-		etc_tab_use_yn = rs("etc_tab_use_yn")
+	Do Until centerRs.eof
+		menu_type      = centerRs("menu_type")
+		menu_name      = centerRs("menu_name")
+		page_type      = centerRs("page_type")
+		menu_seq       = centerRs("menu_seq")
+		home_num       = centerRs("home_num")
+		home_cnt       = centerRs("home_cnt")
+		top_cnt        = centerRs("top_cnt")
+		wide_yn        = centerRs("wide_yn")
+		list_type      = centerRs("list_type")
+		tab_use_yn     = centerRs("tab_use_yn")
+		all_tab_use_yn = centerRs("all_tab_use_yn")
+		etc_tab_use_yn = centerRs("etc_tab_use_yn")
 
 		' 와이드형 여부 sf_col_1 : 와이드, sf_col_2 : 2열
 		' 홀수 짝수(왼쪽 오른쪽) main_frm_a : 와이드, main_frm_l : 2열
@@ -56,15 +57,15 @@
 		End If
 
 		' 리스트 타입 latest_1 : 텍스트, latest_2 : 카드좌, latest_2 latest_2_re : 카드우, latest_3 : 앨범일반, latest_3 latest_3_ori : 앨범와이드
-		If list_type = "T1" Or list_type = "T2" Then
+		If list_type = "T1" Then
 			list_class = "latest_1"
-		ElseIf list_type = "C1" Or list_type = "C2" Then
+		ElseIf list_type = "C1" Then
 			If list_type = "C1" Then
 				list_class = "latest_2"
 			Else
 				list_class = "latest_2 latest_2_re"
 			End If
-		ElseIf list_type = "A1" Or list_type = "A2" Then
+		ElseIf list_type = "A1" Then
 			If wide_yn = "Y" Then
 				list_class = "latest_3 latest_3_ori"
 			Else
@@ -90,12 +91,26 @@
 							<header class="latest_box_head">
 								<h4 class="h4"><%=menu_name%></h4>
 <%
-		If list_type = "A2" Then
+		If list_type = "A1" Then
 %>
 								<span class="ctr_box">
-									<button type="button" class="btn_prev btn_gs2_prev"><em>이전</em></button>
-									<button type="button" class="btn_next btn_gs2_next"><em>다음</em></button>
+									<button type="button" id="btn_gs2_prev<%=menu_seq%>" class="btn_prev btn_gs2_prev"><em>이전</em></button>
+									<button type="button" id="btn_gs2_next<%=menu_seq%>" class="btn_next btn_gs2_next"><em>다음</em></button>
 								</span>
+								<script>
+									$(function(){
+										$("#btn_gs2_prev<%=menu_seq%>").on("click",function(e){
+try{
+											e.preventDefault();
+											$("#slide_2<%=menu_seq%>").slick("slickPrev");
+}catch(e){alert(e)}
+										});
+										$("#btn_gs2_next<%=menu_seq%>").on("click",function(e){
+											e.preventDefault();
+											$("#slide_2<%=menu_seq%>").slick("slickNext");
+										});
+									});
+								</script>
 <%
 		End If
 %>
@@ -119,49 +134,50 @@
 			End If
 			If etc_tab_use_yn = "Y" Then
 			sql = sql & "  union all                           "
-			sql = sql & " select null as section_seq           "
-			sql = sql & "       ,'기타' as section_nm           "
+			sql = sql & " select 999999999 as section_seq      "
+			sql = sql & "       ,'기타'     as section_nm       "
 			sql = sql & "       ,999999999 as section_sn       "
 			End If
 			sql = sql & "  order by section_sn                 "
+			centerRs2.open Sql, conn, 3, 1
 
-			rs2.open Sql, conn, 3, 1
+			ReDim arrSecSeq(centerRs2.recordCount)
+			ReDim arrSecNm(centerRs2.recordCount)
 
-			ReDim arrSecSeq(rs2.recordCount)
-			ReDim arrSecNm(rs2.recordCount)
-
-			If Not rs2.eof Then
+			If Not centerRs2.eof Then
 %>
 								<div class="slide_cate">
 <%
-				j = 1
-				Do Until rs2.eof
-					section_seq  = rs2("section_seq")
-					section_nm   = rs2("section_nm")
-					arrSecSeq(j) = section_seq
-					arrSecNm(j)  = section_nm
+				centerRs2_i = 1
+				Do Until centerRs2.eof
+					section_seq = centerRs2("section_seq")
+					section_nm  = centerRs2("section_nm")
+
+					arrSecSeq(centerRs2_i) = section_seq
+					arrSecNm(centerRs2_i)  = section_nm
 %>
-									<a href="#tab_n_cont<%=j%>" class="<%=if3(j=1,"on","")%>"><%=section_nm%></a>
+									<a href="#tab_n_cont<%=menu_seq%>_<%=centerRs2_i%>" class="<%=if3(centerRs2_i=1,"on","")%>"><%=section_nm%></a>
 <%
-					rs2.MoveNext
-					j = j + 1
+					centerRs2.MoveNext
+					centerRs2_i = centerRs2_i + 1
 				Loop
 %>
 								</div>
 <%
 			End If
-			rs2.close
+			centerRs2.close
 		Else
 			ReDim arrSecSeq(1)
 			ReDim arrSecNm(1)
 		End If
 
-		For li = 1 To UBound(arrSecSeq)
+		For for_i = 1 To UBound(arrSecSeq)
 			sql = ""
 			sql = sql & " select * "
 			sql = sql & " from ( "
 			sql = sql & " select 1 as seq "
-			sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
+			sql = sql & "       ,top_yn "
+			sql = sql & "       ,reg_date "
 			sql = sql & "       ,subject "
 			sql = sql & "       ,comment_cnt "
 			sql = sql & "       ," & menu_type & "_seq "
@@ -179,7 +195,11 @@
 			sql = sql & "       ,null rect_notice_date  "
 			sql = sql & "       ,null mvin_date  "
 			End If
+			If menu_type = "land" Then
 			sql = sql & "   from cf_" & menu_type  & " "
+			Else
+			sql = sql & "   from gi_" & menu_type  & " "
+			End If
 			If menu_type = "land" Or menu_type = "job" Then
 			sql = sql & "  where 1 = 1 "
 			Else
@@ -189,19 +209,19 @@
 			If menu_type = "job" Then
 			sql = sql & "    and end_date >= '" & date  & "' "
 			End If
-
-			If arrSecSeq(li) = "0" Then
-			ElseIf arrSecSeq(li) = "999999" Then
+			If arrSecSeq(for_i) = 0 Then
+			ElseIf arrSecSeq(for_i) = 999999 Then
 			sql = sql & "    and (section_seq = null or section_seq = '') "
 			Else
-			sql = sql & "    and section_seq = '" & arrSecSeq(li) & "' "
+			sql = sql & "    and section_seq = '" & arrSecSeq(for_i) & "' "
 			End If
 			sql = sql & "    and step_num = 0 "
 			sql = sql & "    and top_yn = 'Y' "
 			sql = sql & "  union all "
 			sql = sql & " select top " & home_cnt  & " "
 			sql = sql & "        2 as seq "
-			sql = sql & "       ,convert(varchar(10), credt, 120) as credt_txt "
+			sql = sql & "       ,top_yn "
+			sql = sql & "       ,reg_date "
 			sql = sql & "       ,subject "
 			sql = sql & "       ,comment_cnt "
 			sql = sql & "       ," & menu_type  & "_seq "
@@ -219,7 +239,11 @@
 			sql = sql & "       ,convert(varchar(10), credt, 120) as rect_notice_date  "
 			sql = sql & "       ,null mvin_date  "
 			End If
+			If menu_type = "land" Then
 			sql = sql & "   from cf_" & menu_type  & " "
+			Else
+			sql = sql & "   from gi_" & menu_type  & " "
+			End If
 			If menu_type = "land" Or menu_type = "job" Then
 			sql = sql & "  where 1 = 1 "
 			Else
@@ -229,11 +253,11 @@
 			If menu_type = "job" Then
 			sql = sql & "    and end_date >= '" & Date & "' "
 			End If
-			If arrSecSeq(li) = "0" Then
-			ElseIf arrSecSeq(li) = "999999" Then
+			If arrSecSeq(for_i) = 0 Then
+			ElseIf arrSecSeq(for_i) = 999999 Then
 			sql = sql & "    and (section_seq = null or section_seq = '') "
 			Else
-			sql = sql & "    and section_seq = '" & arrSecSeq(li) & "' "
+			sql = sql & "    and section_seq = '" & arrSecSeq(for_i) & "' "
 			End If
 			sql = sql & "    and step_num = 0 "
 			sql = sql & "    and isnull(top_yn,'') <> 'Y' "
@@ -248,29 +272,27 @@
 			Else
 			sql = sql & " order by seq, " & menu_type  & "_seq desc "
 			End If
-
-			rs2.Open Sql, conn, 3, 1
+			centerRs2.Open Sql, conn, 3, 1
 
 			If tab_use_yn = "Y" Then ' 탭정보 확인
 %>
-								<div id="tab_n_cont<%=li%>" class="tab_cont<%=if3(li=1," on","")%>"><!-- tab -->
+								<div id="tab_n_cont<%=menu_seq%>_<%=for_i%>" class="tab_cont<%=if3(for_i=1," on","")%>"><!-- tab -->
 <%
 			End If
 
-			If Not rs2.eof Then
-				If list_type = "T1" Or list_type = "T2" Then
+			If Not centerRs2.eof Then
+				If list_type = "T1" Then
 %>
 								<ul class="<%=list_class%>"><!-- latest_1 : 텍스트, latest_2 : 카드좌, latest_2 latest_2_re : 카드우, latest_3 : 앨범일반, latest_3 latest_3_ori : 앨범와이드 -->
 <%
-				ElseIf list_type = "C1" Or list_type = "C2" Then
+				ElseIf list_type = "C1" Then
 %>
 								<ul class="<%=list_class%>"><!-- latest_1 : 텍스트, latest_2 : 카드좌, latest_2 latest_2_re : 카드우, latest_3 : 앨범일반, latest_3 latest_3_ori : 앨범와이드 -->
 <%
-				ElseIf list_type = "A1" Or list_type = "A2" Then
+				ElseIf list_type = "A1" Then
 %>
 								<div class="tb">
-									<div class="slide_2">
-										<div class="slide_in">
+									<div id="slide_2<%=menu_seq%>" class="slide_2">
 <%
 				Else
 %>
@@ -278,15 +300,17 @@
 <%
 				End If
 
-				Do Until rs2.eof
-					seq          = rs2("seq")
-					credt_txt    = rs2("credt_txt")
-					subject      = rs2("subject")
-					comment_cnt  = rs2("comment_cnt")
-					rect_notice_date = rs2("rect_notice_date")
-					mvin_date    = rs2("mvin_date")
-					land_url     = rs2("land_url")
-					com_seq      = rs2(menu_type & "_seq")
+				centerRs2_i = 1
+				Do Until centerRs2.eof
+					seq              = centerRs2("seq")
+					top_yn           = centerRs2("top_yn")
+					reg_date         = centerRs2("reg_date")
+					subject          = centerRs2("subject")
+					comment_cnt      = centerRs2("comment_cnt")
+					rect_notice_date = centerRs2("rect_notice_date")
+					mvin_date        = centerRs2("mvin_date")
+					land_url         = centerRs2("land_url")
+					com_seq          = centerRs2(menu_type & "_seq")
 
 					If comment_cnt > 0 Then
 						comment_txt = "(" & comment_cnt & ")"
@@ -294,9 +318,9 @@
 						comment_txt = ""
 					End If
 
-					view_url = "/home/" & menu_type & "_view.asp?" & menu_type & "_seq=" & rs2(menu_type & "_seq") & "&menu_seq=" & menu_seq
+					view_url = "/home/" & menu_type & "_view.asp?" & menu_type & "_seq=" & centerRs2(menu_type & "_seq") & "&menu_seq=" & menu_seq
 
-					If list_type = "T1" Or list_type = "T2" Then
+					If list_type = "T1" Then
 %>
 									<li class="t_nowrap">
 <%
@@ -307,71 +331,104 @@
 <%
 						Else
 %>
-										<a href="<%=view_url%>"><span class="text"><%=subject%><%=comment_txt%></span></a>
-										<span class="posr"><%=credt_txt%></span>
+										<a href="<%=view_url%>">
+											<span class="text">
+<%
+							If top_yn = "Y" Then
+%>
+												<img src="/cafe/img/btn/btn_notice.png" />
+<%
+							End If
+%>
+												<%=subject%><%=comment_txt%>
+											</span>
+										</a>
+										<span class="posr"><%=Left(reg_date, 10)%></span>
 <%
 						End If
 %>
 									</li>
 <%
-					ElseIf list_type = "C1" Or list_type = "C2" Then
+					ElseIf list_type = "C1" Then
 %>
 									<li>
 <%
-						uploadUrl = ConfigAttachedFileURL & menu_type & "/"
+						thumbnailUrl = ConfigAttachedFileURL & "thumbnail/" & menu_type & "/"
+						thumbnailPath = ConfigAttachedFileFolder & "thumbnail\" & menu_type & "\"
 
 						sql = ""
-						sql = sql & " select top 1 * "
-						sql = sql & "   from cf_" & menu_type & "_attach "
+						sql = sql & " select *                                         "
+						sql = sql & "   from gi_" & menu_type & "_attach               "
 						sql = sql & "  where " & menu_type & "_seq = '" & com_seq & "' "
-						sql = sql & "  order by " & menu_type & "_seq "
-						rs3.Open Sql, conn, 3, 1
+						sql = sql & "    and rprs_file_yn = 'Y'                        "
+						centerRs3.Open Sql, conn, 3, 1
 
-						If Not rs3.EOF Then
+						If Not centerRs3.EOF Then
+							thmbnl_file_nm = centerRs3("thmbnl_file_nm")
+
+							' 썸네일로 표시
+							fileUrl = thumbnailUrl & thmbnl_file_nm
+							filePath = thumbnailPath & thmbnl_file_nm
 %>
-										<span class="photos"><a href="<%=view_url%>"><img src="<%=uploadUrl & rs3("file_name")%>" alt="" /></a></span>
+										<span class="photos"><a href="<%=view_url%>"><img src="<%=fileUrl%>" alt="" /></a></span>
 <%
 						Else
 %>
 										<span class="photos"></span>
 <%
 						End If
-						rs3.close
+						centerRs3.close
 %>
 										<a href="<%=view_url%>"><span class="text"><%=subject%></span></a>
-										<span class="posr"><%=credt_txt%></span>
+										<span class="posr"><%=Left(reg_date, 10)%></span>
 									</li>
 <%
-					ElseIf list_type = "A1" Or list_type = "A2" Then
+					ElseIf list_type = "A1" Then
+						If (wide_yn = "Y" And centerRs2_i Mod 12 = 1) Or (wide_yn <> "Y" And centerRs2_i Mod 6 = 1) Then
+							If centerRs2_i > 1 Then
+%>
+										</div>
+<%
+							End If
+%>
+										<div class="slide_in">
+<%
+						End If
 %>
 											<div class="c_wrap">
 <%
-						uploadUrl = ConfigAttachedFileURL & menu_type & "/"
+						thumbnailUrl = ConfigAttachedFileURL & "thumbnail/" & menu_type & "/"
+						thumbnailPath = ConfigAttachedFileFolder & "thumbnail\" & menu_type & "\"
 
 						sql = ""
-						sql = sql & " select top 1 * "
-						sql = sql & "   from cf_" & menu_type & "_attach "
+						sql = sql & " select *                                         "
+						sql = sql & "   from gi_" & menu_type & "_attach               "
 						sql = sql & "  where " & menu_type & "_seq = '" & com_seq & "' "
-						sql = sql & "  order by " & menu_type & "_seq "
-						rs3.Open Sql, conn, 3, 1
+						sql = sql & "    and rprs_file_yn = 'Y'                        "
+						centerRs3.Open Sql, conn, 3, 1
 
-						If Not rs3.EOF Then
+						If Not centerRs3.EOF Then
+							thmbnl_file_nm = centerRs3("thmbnl_file_nm")
+
+							' 썸네일로 표시
+							fileUrl = thumbnailUrl & thmbnl_file_nm
+							filePath = thumbnailPath & thmbnl_file_nm
 %>
-												<span class="photos"><a href="<%=view_url%>"><img src="<%=uploadUrl & rs3("file_name")%>" border="0" /></a></span>
+												<span class="photos"><a href="<%=view_url%>"><img src="<%=fileUrl%>" border="0" /></a></span>
 <%
 						Else
 %>
 												<span class="photos"></span>
 <%
 						End If
-						rs3.close
+						centerRs3.close
 %>
 												<a href="<%=view_url%>"><span class="text"><%=subject%></span></a>
 												<span class="posr">
 <%
 						If menu_type = "nsale" Then
 %>
-													<span title="모집공고일"><%=rect_notice_date%></span> | <span title="입주일"><%=mvin_date%></span>
+													<span title="모집공고일"><%=rect_notice_date%></span> <%=if3(rect_notice_date<>"" Or mvin_date<>""," ㅣ ","")%> <span title="입주일"><%=mvin_date%></span>
 <%
 						Else
 %>
@@ -386,23 +443,23 @@
 %>
 									<li class="t_nowrap">
 										<a href="<%=view_url%>"><span class="text"><%=subject%><%=comment_txt%></span></a>
-										<span class="posr"><%=credt_txt%></span>
+										<span class="posr"><%=Left(reg_date, 10)%></span>
 									</li>
 <%
 					End If
-					i = i + 1
-					rs2.MoveNext
+					centerRs2_i = centerRs2_i + 1
+					centerRs2.MoveNext
 				Loop
 
-				If list_type = "T1" Or list_type = "T2" Then
+				If list_type = "T1" Then
 %>
 								</ul>
 <%
-				ElseIf list_type = "C1" Or list_type = "C2" Then
+				ElseIf list_type = "C1" Then
 %>
 								</ul>
 <%
-				ElseIf list_type = "A1" Or list_type = "A2" Then
+				ElseIf list_type = "A1" Then
 %>
 										</div>
 									</div>
@@ -414,7 +471,7 @@
 <%
 				End If
 			Else
-				If list_type = "T1" Or list_type = "T2" Then
+				If list_type = "T1" Then
 %>
 								<ul>
 									<li class="t_nowrap no_data">
@@ -422,7 +479,7 @@
 									</li>
 								</ul>
 <%
-				ElseIf list_type = "C1" Or list_type = "C2" Then
+				ElseIf list_type = "C1" Then
 %>
 								<ul>
 									<li class="t_nowrap no_data">
@@ -430,7 +487,7 @@
 									</li>
 								</ul>
 <%
-				ElseIf list_type = "A1" Or list_type = "A2" Then
+				ElseIf list_type = "A1" Then
 %>
 									<div class="nodata">
 										<span class="txt"><%=arrSecNm(li)%> 데이터가 없습니다.</span>
@@ -452,21 +509,66 @@
 								</div><!-- tab -->
 <%
 			End If
-			rs2.close
+			centerRs2.close
 		Next
 %>
 							</div>
 						</div>
 					</div>
 <%
-		rs.MoveNext
+		centerRs.MoveNext
 	Loop
-	rs.close
-	Set rs = Nothing
+	centerRs.close
+
+	sql = ""
+	sql = sql & " select * "
+	sql = sql & "   from cf_poll qp "
+	sql = sql & "  where qp.cafe_id = '"&cafe_id&"' "
+	sql = sql & "    and qp.ddln_yn = 'N' "
+	sql = sql & "  order by poll_seq desc "
+	centerRs.Open Sql, conn, 3, 1
+
+	If Not centerRs.eof Then
+		Do Until centerRs.eof
+			poll_seq = centerRs("poll_seq")
+			subject  = centerRs("subject")
+			sdate    = centerRs("sdate")
+			edate    = centerRs("edate")
+%>
+					<div class="sub_frm_l"><!-- sub_frm_a : 와이드, sub_frm_l : 2열 -->
+						<div class="latest_box">
+							<header class="latest_box_head">
+								<h4 class="h4">설문조사</h4>
+								<span class="posR">
+<%
+					If centerRs("edate") = "" Then edate = Date()
+
+					If datediff("d", Date(), edate) >= 0 Then
+%>
+									<button type="button" class="btn btn_c_a btn_s" onclick="goPoll(<%=centerRs("poll_seq")%>)">투표하기</button>
+<%
+					End If
+%>
+									<button type="button" class="btn btn_c_a btn_s" onclick="window.open('/cafe/poll_result.asp?cafe_id=<%=cafe_id%>&poll_seq=<%=centerRs("poll_seq")%>&user_id=<%=session("user_id")%>&ipin=<%=ipin%>','result','width=500,height=500')">결과보기</button>
+								</span>
+							</header>
+							<div class="tb main_rolling">
+								<ul class="latest_1"><!-- latest_1 : 텍스트, latest_2 : 카드좌, latest_2 latest_2_re : 카드우, latest_3 : 앨범일반, latest_3 latest_3_ori : 앨범와이드 -->
+<!--#include virtual="/cafe/poll_view_inc.asp"-->
+								</ul>
+							</div>
+						</div>
+					</div>
+<%
+			centerRs.MoveNext
+		Loop
+	End If
+	centerRs.close
+	Set centerRs = Nothing
 %>
 				</div>
-				<script type="text/javascript" src="/common/js/jquery.vticker-min.js"></script>
-				<script type="text/javascript">
+				<script src="/common/js/jquery.vticker-min.js"></script>
+				<script>
 					$(function() {
 						try {
 							$('#dv_rolling').vTicker({

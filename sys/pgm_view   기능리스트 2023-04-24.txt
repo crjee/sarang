@@ -1,0 +1,235 @@
+
+D:\경인네트웍스\sarang\end_message_view.asp
+
+D:\경인네트웍스\sarang\cafe\admin\dmnddel_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goProcess()">처리</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList()">목록</button>
+
+D:\경인네트웍스\sarang\cafe\admin\inquiry_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goProcess()">처리</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList()">목록</button>
+
+D:\경인네트웍스\sarang\cafe\skin\album_view.asp
+button type="button" class="btn btn_c_n btn_s" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goSuggest()">추천</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goPrint()">프린터</button>
+button type="button" class="btn btn_c_n btn_s" onclick="onSlide()">슬라이드</button>
+button type="button" class="btn btn_c_n btn_s" onclick="onCopyUrl()">글주소복사</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goList('<%=cafe_sch%>', '<%=session("ctTarget")%>')">목록</button>
+button type="button" class="btn btn_close"><em>닫기</em></button>
+
+D:\경인네트웍스\sarang\cafe\skin\board_view.asp
+button type="button" class="btn btn_c_n btn_s" onclick="goReply('<%=session("ctTarget")%>')">답글</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_s" onclick="lyp('lypp_move')">이동</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goTopMove()"><%=if3(top_yn="Y","공지해제","공지지정")%></button>
+button type="button" class="btn btn_c_n btn_s" onclick="goSuggest()">추천</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goPrint()">인쇄</button>
+button type="button" class="btn btn_c_n btn_s" onclick="onCopyUrl()">글주소복사</button>
+button type="button" class="btn btn_c_n btn_s" onclick="onCopySubject()">제목복사</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goList('<%=cafe_sch%>', '<%=session("ctTarget")%>')">목록</button>
+button type="button" class="btn btn_close"><em>닫기</em></button>
+button type="submit" class="btn btn_c_a btn_n">이동</button>
+button type="reset" class="btn btn_c_n btn_n">취소</button>
+
+D:\경인네트웍스\sarang\cafe\skin\job_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goMove()">이동</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goTopMove()"><%=if3(rs("top_yn")="Y","공지해제","공지지정")%></button>
+button type="button" class="btn btn_c_n btn_n" onclick="goSuggest()">추천</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goPrint()">인쇄</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onCopyUrl()">글주소복사</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goList('<%=cafe_sch%>', '<%=session("ctTarget")%>')">목록</button>
+
+D:\경인네트웍스\sarang\cafe\skin\notice_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goReply('<%=session("ctTarget")%>')">답글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goPopup()"><%=if3(rs("pop_yn")="Y","팝업해제","팝업지정")%></button>
+button type="button" class="btn btn_c_n btn_n" onclick="goNotice()"><%=if3(rs("top_yn")="Y","공지해제","공지지정")%></button>
+button type="button" class="btn btn_c_n btn_n" onclick="goSuggest()">추천</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goPrint()">인쇄</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onCopyUrl()">글주소복사</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goList('<%=cafe_sch%>', '<%=session("ctTarget")%>')">목록</button>
+
+D:\경인네트웍스\sarang\cafe\skin\page_view.asp
+
+D:\경인네트웍스\sarang\cafe\skin\poll_view.asp
+
+D:\경인네트웍스\sarang\cafe\skin\sale_view.asp
+button type="button" class="btn btn_c_n btn_s" onclick="goModify('<%=session("ctTarget")%>')">수정</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goMove()">이동</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goTopMove()"><%=if3(rs("top_yn")="Y","공지해제","공지지정")%></button>
+button type="button" class="btn btn_c_n btn_s" onclick="goSuggest()">추천</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goPrint()">인쇄</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+button type="button" class="btn btn_c_n btn_s" onclick="onCopyUrl()">글주소복사</button>
+button type="button" class="btn btn_c_n btn_s" onclick="goList('<%=cafe_sch%>', '<%=session("ctTarget")%>')">목록</button>
+
+D:\경인네트웍스\sarang\cafe\skin\skin_center_view.asp
+button type="button" class="btn_prev btn_gs2_prev">이전</button>
+button type="button" class="btn_next btn_gs2_next">다음</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goPoll(<%=rs("poll_seq")%>)">투표하기</button>
+button type="button" class="btn btn_c_a btn_s" onclick="window.open('/cafe/skin/poll_result.asp?cafe_id=<%=cafe_id%>&poll_seq=<%=rs("poll_seq")%>&user_id=<%=session("user_id")%>&ipin=<%=ipin%>','result','width=500,height=500')">결과보기</button>
+
+D:\경인네트웍스\sarang\cafe\skin\waste_album_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goRestore()">복원</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">목록</button>
+
+D:\경인네트웍스\sarang\cafe\skin\waste_board_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goRestore()">복원</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">목록</button>
+
+D:\경인네트웍스\sarang\cafe\skin\waste_job_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goRestore()">복원</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">목록</button>
+
+D:\경인네트웍스\sarang\cafe\skin\waste_notice_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goRestore()">복원</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">목록</button>
+
+D:\경인네트웍스\sarang\cafe\skin\waste_sale_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goRestore()">복원</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">목록</button>
+
+D:\경인네트웍스\sarang\home\album_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goReply()">답글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goWrite()">글쓰기</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goModify()">수정</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goMove()">이동</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goTopMove()"><%=if3(top_yn="Y","상위글해제","상위글지정")%></button>
+button type="button" class="btn btn_c_n btn_n" onclick="goSuggest()">추천</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onSlide()">슬라이드</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goPrint()">인쇄</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onCopyUrl()">글주소복사</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onCopySubject()">제목복사</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(prev_seq="","alert('처음 입니다.')","goPrev()")%>">이전글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(next_seq="","alert('마지막 입니다')","goNext()")%>">다음글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=home_sch%>')">목록</button>
+button type="button" class="btn btn_close"><em>닫기</em></button>
+button type="button" class="btn btn_close"><em>닫기</em></button>
+button type="submit" class="btn btn_c_a btn_n">이동</button>
+button type="reset" class="btn btn_c_n btn_n">취소</button>
+
+D:\경인네트웍스\sarang\home\board_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goReply()">답글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goWrite()">글쓰기</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goModify()">수정</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goMove()">이동</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goTopMove()"><%=if3(top_yn="Y","상위글해제","상위글지정")%></button>
+button type="button" class="btn btn_c_n btn_n" onclick="goSuggest()">추천</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onSlide()">슬라이드</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goPrint()">인쇄</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onCopyUrl()">글주소복사</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onCopySubject()">제목복사</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(prev_seq="","alert('처음 입니다.')","goPrev()")%>">이전글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(next_seq="","alert('마지막 입니다')","goNext()")%>">다음글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=home_sch%>')">목록</button>
+button type="button" class="btn btn_close"><em>닫기</em></button>
+button type="submit" class="btn btn_c_a btn_n">이동</button>
+button type="reset" class="btn btn_c_n btn_n">취소</button>
+
+D:\경인네트웍스\sarang\home\job_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goReply()">답글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goWrite()">글쓰기</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goModify()">수정</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goMove()">이동</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goTopMove()"><%=if3(top_yn="Y","상위글해제","상위글지정")%></button>
+button type="button" class="btn btn_c_n btn_n" onclick="goSuggest()">추천</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onSlide()">슬라이드</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goPrint()">인쇄</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onCopyUrl()">글주소복사</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onCopySubject()">제목복사</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(prev_seq="","alert('처음 입니다.')","goPrev()")%>">이전글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(next_seq="","alert('마지막 입니다')","goNext()")%>">다음글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=home_sch%>')">목록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(prev_seq="","alert('처음 입니다.')","goPrev()")%>">이전글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(next_seq="","alert('마지막 입니다')","goNext()")%>">다음글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=home_sch%>')">목록</button>
+button type="button" class="btn btn_close"><em>닫기</em></button>
+button type="submit" class="btn btn_c_a btn_n">이동</button>
+button type="reset" class="btn btn_c_n btn_n">취소</button>
+
+D:\경인네트웍스\sarang\home\nsale_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goReply()">답글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goWrite()">글쓰기</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goModify()">수정</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goMove()">이동</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goTopMove()"><%=if3(top_yn="Y","상위글해제","상위글지정")%></button>
+button type="button" class="btn btn_c_n btn_n" onclick="goSuggest()">추천</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onSlide()">슬라이드</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goPrint()">인쇄</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onCopyUrl()">글주소복사</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onCopySubject()">제목복사</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(prev_seq="","alert('처음 입니다.')","goPrev()")%>">이전글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(next_seq="","alert('마지막 입니다')","goNext()")%>">다음글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=home_sch%>')">목록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(prev_seq="","alert('처음 입니다.')","goPrev()")%>">이전글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(next_seq="","alert('마지막 입니다')","goNext()")%>">다음글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=home_sch%>')">목록</button>
+button type="button" class="btn btn_close"><em>닫기</em></button>
+button type="submit" class="btn btn_c_a btn_n">이동</button>
+button type="reset" class="btn btn_c_n btn_n">취소</button>
+
+D:\경인네트웍스\sarang\home\story_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goReply()">답글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goWrite()">글쓰기</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goModify()">수정</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goMove()">이동</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goTopMove()"><%=if3(top_yn="Y","상위글해제","상위글지정")%></button>
+button type="button" class="btn btn_c_n btn_n" onclick="goSuggest()">추천</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onSlide()">슬라이드</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goPrint()">인쇄</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onCopyUrl()">글주소복사</button>
+button type="button" class="btn btn_c_n btn_n" onclick="onCopySubject()">제목복사</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(prev_seq="","alert('처음 입니다.')","goPrev()")%>">이전글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(next_seq="","alert('마지막 입니다')","goNext()")%>">다음글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=home_sch%>')">목록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(prev_seq="","alert('처음 입니다.')","goPrev()")%>">이전글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(next_seq="","alert('마지막 입니다')","goNext()")%>">다음글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=home_sch%>')">목록</button>
+button type="button" class="btn btn_close"><em>닫기</em></button>
+button type="submit" class="btn btn_c_a btn_n">이동</button>
+button type="reset" class="btn btn_c_n btn_n">취소</button>
+
+D:\경인네트웍스\sarang\home\waste_album_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goRestore()">복원</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList()">목록</button>
+
+D:\경인네트웍스\sarang\home\waste_board_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goRestore()">복원</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList()">목록</button>
+
+D:\경인네트웍스\sarang\home\waste_nsale_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goRestore()">복원</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=home_sch%>')">목록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(prev_seq="","alert('처음 입니다.')","goPrev()")%>">이전글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="<%=if3(next_seq="","alert('마지막 입니다')","goNext()")%>">다음글</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=home_sch%>')">목록</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goPrint()">인쇄</button>
+
+D:\경인네트웍스\sarang\home\waste_story_view.asp
+button type="button" class="btn btn_c_n btn_n" onclick="goRestore()">복원</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=home_sch%>')">목록</button>

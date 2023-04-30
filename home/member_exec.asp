@@ -2,10 +2,15 @@
 <%
 	freePage = True
 %>
+<%
+	Const tb_prefix = "gi"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
-<%
+
+	If Request.Form("user_id") = "" Then Response.End
+
 	member_seq    = Request.Form("member_seq")
 	user_id       = Request.Form("user_id")
 	user_pw       = Request.Form("user_pw")
@@ -33,7 +38,7 @@
 	stat = "Y"
 	memo_receive_yn = "Y"
 
-	On Error Resume Next
+	'On Error Resume Next
 	Conn.BeginTrans
 	Set BeginTrans = Conn
 

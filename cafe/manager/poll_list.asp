@@ -1,43 +1,10 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
-
-	pagesize = Request("pagesize")
-	If pagesize = "" Then pagesize = 20
-
-	page = Request("page")
-	If page = "" then page = 1
-
-	Set row = Server.CreateObject ("ADODB.Recordset")
-
-	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_poll a "
-	sql = sql & "       ,cf_poll_ans b "
-	sql = sql & "  where a.poll_seq = b.poll_seq "
-	sql = sql & "    and a.cafe_id = '" & cafe_id & "' "
-	sql = sql & "  order by a.poll_seq desc "
-
-	row.Open Sql, conn, 3, 1
-
-	row.PageSize = PageSize
-	RecordCount = 0 ' 자료가 없을때
-	If Not row.EOF Then
-		RecordCount = row.recordcount
-	End If
-
-	' 전체 페이지 수 얻기
-	If RecordCount/PageSize = Int(RecordCount/PageSize) then
-		PageCount = Int(RecordCount / PageSize)
-	Else
-		PageCount = Int(RecordCount / PageSize) + 1
-	End If
-
-	If Not (row.EOF And row.BOF) Then
-		row.AbsolutePage = page
-		PageNum = row.PageCount
-	End If
+	Call CheckManager(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -54,21 +21,26 @@
 	<script src="/common/js/cafe.js"></script>
 <!-- 달력 시작 -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 	$.datepicker.setDefaults({
-		dateFormat: 'yy-mm-dd',
-		prevText: '이전 달',
-		nextText: '다음 달',
-		monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-		monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-		dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-		dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-		dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-		showMonthAfterYear: true,
-		yearSuffix: '년'
+		dateFormat: 'yy-mm-dd' //달력 날짜 형태
+		,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+		,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+		,changeYear: true //option값 년 선택 가능
+		,changeMonth: true //option값  월 선택 가능                
+		,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+		,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+		,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
+		,buttonText: "선택" //버튼 호버 텍스트              
+		,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
+		,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
+		,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
+		,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
+		,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
+		,minDate: "-5Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+		,maxDate: "+5y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
 	});
 
 	$( function() {
@@ -86,6 +58,43 @@
 		<nav id="adm_nav">
 <!--#include virtual="/cafe/manager/manager_left_inc.asp"-->
 		</nav>
+<%
+	pagesize = Request("pagesize")
+	If pagesize = "" Then pagesize = 20
+
+	page = Request("page")
+	If page = "" then page = 1
+
+	Set rs = Server.CreateObject("ADODB.Recordset")
+
+	sql = ""
+	sql = sql & " select * "
+	sql = sql & "   from cf_poll a "
+	sql = sql & "       ,cf_poll_ans b "
+	sql = sql & "  where a.poll_seq = b.poll_seq "
+	sql = sql & "    and a.cafe_id = '" & cafe_id & "' "
+	sql = sql & "  order by a.poll_seq desc "
+	rs.Open Sql, conn, 3, 1
+
+	rs.PageSize = PageSize
+	RecordCount = 0 ' 자료가 없을때
+
+	If Not rs.EOF Then
+		RecordCount = rs.recordcount
+	End If
+
+	' 전체 페이지 수 얻기
+	If RecordCount/PageSize = Int(RecordCount/PageSize) then
+		PageCount = Int(RecordCount / PageSize)
+	Else
+		PageCount = Int(RecordCount / PageSize) + 1
+	End If
+
+	If Not (rs.EOF And rs.BOF) Then
+		rs.AbsolutePage = page
+		PageNum = rs.PageCount
+	End If
+%>
 		<main id="adm_body">
 			<div class="adm_page_tit">
 				<h2 class="h2">설문 관리</h2>
@@ -132,31 +141,31 @@
 							<tbody>
 <%
 	i = 1
-	If Not row.EOF Then
-		Do Until row.EOF Or i > row.PageSize
+	If Not rs.EOF Then
+		Do Until rs.EOF Or i > rs.PageSize
 %>
 								<tr>
-									<td class="algL"><%=row("subject")%></td>
+									<td class="algL"><%=rs("subject")%></td>
 									<td class="algL">
 										<ul class="list_option">
 <%
 			total = 0
 			For j = 1 To 10
-				If row("ques" & j) <> "" then
-					total = total + row("ans" & j)
+				If rs("ques" & j) <> "" then
+					total = total + rs("ans" & j)
 				End If
 			Next
 
 			For j = 1 To 10
-				If row("ques" & j) <> "" then
-					If row("ans" & j) <> 0 Then
-						ans = row("ans" & j) / total * 100
+				If rs("ques" & j) <> "" then
+					If rs("ans" & j) <> 0 Then
+						ans = rs("ans" & j) / total * 100
 %>
-											<li class="pl10">[ <%=FormatNumber(ans,0)%>% ]&nbsp;&nbsp;<%=row("ques" & j)%></li>
+											<li class="pl10">[ <%=FormatNumber(ans,0)%>% ]&nbsp;&nbsp;<%=rs("ques" & j)%></li>
 <%
 					Else
 %>
-											<li class="pl10">[ 0% ]&nbsp;&nbsp;<%=row("ques" & j)%></li>
+											<li class="pl10">[ 0% ]&nbsp;&nbsp;<%=rs("ques" & j)%></li>
 <%
 					End If
 				End If
@@ -165,22 +174,22 @@
 										</ul>
 									</td>
 									<td class="algC"><%=total%> 명</td>
-									<td class="algC"><%=row("sdate")%> <%=if3(row("sdate")<>"" Or row("edate")<>""," ~ ","")%> <%=row("edate")%></td>
-									<td class="algC"><%=if3(row("rprsv_cert_use_yn")="Y","Y","")%></td>
-									<td class="algC"><%=if3(row("ddln_yn")="Y","Y","")%></td>
+									<td class="algC"><%=rs("sdate")%> <%=if3(rs("sdate")<>"" Or rs("edate")<>""," ~ ","")%> <%=rs("edate")%></td>
+									<td class="algC"><%=if3(rs("rprsv_cert_use_yn")="Y","Y","")%></td>
+									<td class="algC"><%=if3(rs("ddln_yn")="Y","Y","")%></td>
 									<td class="algC">
-										<button type="button" class="btn btn_c_a btn_s btn_modi" onclick="onEdit('<%=row("poll_seq")%>')">수정</button>
-										<button type="button" class="btn btn_c_a btn_s" onclick="hiddenfrm.location.href='poll_exec.asp?task=ddln&poll_seq=<%=row("poll_seq")%>'">마감</button>
-										<button type="button" class="btn btn_c_a btn_s" onclick="hiddenfrm.location.href='poll_exec.asp?task=del&poll_seq=<%=row("poll_seq")%>'">삭제</button>
+										<button type="button" class="btn btn_c_a btn_s btn_modi" onclick="onEdit('<%=rs("poll_seq")%>')">수정</button>
+										<button type="button" class="btn btn_c_a btn_s" onclick="goDdln('<%=rs("poll_seq")%>')">마감</button>
+										<button type="button" class="btn btn_c_a btn_s" onclick="goDelete('<%=rs("poll_seq")%>')">삭제</button>
 									</td>
 								</tr>
 <%
 			i = i + 1
-			row.MoveNext
+			rs.MoveNext
 		Loop
 	End If
-	row.close
-	Set row = Nothing
+	rs.close
+	Set rs = Nothing
 %>
 							</tbody>
 						</table>
@@ -190,7 +199,7 @@
 					</div>
 				</form>
 				</div>
-<!--#include virtual="/cafe/skin/skin_page_inc.asp"-->
+<!--#include virtual="/cafe/cafe_page_inc.asp"-->
 			</div>
 		</main>
 		<footer id="adm_foot"></footer>
@@ -198,10 +207,10 @@
 	<aside class="lypp lypp_adm_default lypp_adm_vote">
 		<header class="lypp_head">
 			<h2 class="h2">설문조사 <span id="regTitle"></span></h2>
-			<span class="posR"><button type="button" class="btn btn_close"><em>닫기</em></button></span>
+			<span class="posR"><button type="button" class="btn btn_close">닫기</button></span>
 		</header>
 		<div class="adm_cont">
-			<form id="regi_form" name="regi_form" method="post" action="poll_exec.asp" target="hiddenfrm">
+			<form id="form" name="form" method="post" action="poll_exec.asp" target="hiddenfrm">
 			<input type="hidden" id="task" name="task">
 			<input type="hidden" id="poll_seq" name="poll_seq">
 			<div class="tb tb_form_1">
@@ -285,9 +294,7 @@
 	</aside>
 	<iframe id="hiddenfrm" name="hiddenfrm" style="display:"></iframe>
 </body>
-</html>
-	<script>
-
+<script>
 	function ques_cnt(v) {
 		for (var i=1;i<=v;i++) {
 			obj = "quess"+i;
@@ -301,14 +308,14 @@
 	}
 
 	function onRegi() {
-		$("#regi_form")[0].reset();
+		$("#form")[0].reset();
 		$("#task").val("ins");
 		document.getElementById("regTitle").innerText = "등록";
 		lyp('lypp_adm_vote');
 	}
 
 	function onEdit(poll_seq) {
-		$("#regi_form")[0].reset();
+		$("#form")[0].reset();
 		$("#task").val("upd")
 		document.getElementById("regTitle").innerText = "수정";
 		lyp('lypp_adm_vote');
@@ -381,4 +388,23 @@
 			alert(e);
 		}
 	}
-	</script>
+
+	function goDdln(poll_seq) {
+		var f = document.search_form;
+		f.task.value = "ddln";
+		f.poll_seq.value = poll_seq;
+		//f.target = "hiddenfrm";
+		f.action = "poll_exec";
+		f.submit();
+	}
+
+	function goDelete(banner_seq) {
+		var f = document.search_form;
+		f.task.value = "del";
+		f.poll_seq.value = poll_seq;
+		//f.target = "hiddenfrm";
+		f.action = "poll_exec";
+		f.submit();
+	}
+</script>
+</html>

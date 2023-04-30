@@ -1,7 +1,10 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
+	Call CheckManager(cafe_id)
 
 	sel_menu_seq = Request("menu_seq")
 	sel_home_num = Request("home_num")
@@ -47,7 +50,7 @@
 						<div class="adm_select_tree_nav">
 							<ul class="menu_handle" id="menu_handle1">
 <%
-	Set row = Server.CreateObject ("ADODB.Recordset")
+	Set row = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select * "
@@ -139,65 +142,62 @@
 	</div>
 	<iframe id="hiddenfrm" name="hiddenfrm" style="display:none"></iframe>
 </body>
-</html>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-	<script>
-		var menu_seq = "<%=sel_menu_seq%>";
-		var home_num = "<%=sel_home_num%>";
+<script>
+	var menu_seq = "<%=sel_menu_seq%>";
+	var home_num = "<%=sel_home_num%>";
 
-		if (menu_seq != "" && home_num != "")
+	if (menu_seq != "" && home_num != "")
+	{
+		ifrm.location.href='page/main_edit.asp?menu_seq='+menu_seq+'&home_num='+home_num
+	}
+
+	$(document).on("mousedown",".adm_select_tree_nav ul li button",function(e) {
+		menu_seq = $(this).attr("menuSeq");
+		home_num = $(this).attr("value");
+		if (home_num == "0") {
+			ifrm.location.href='about:blank';
+		}
+		else
 		{
 			ifrm.location.href='page/main_edit.asp?menu_seq='+menu_seq+'&home_num='+home_num
 		}
+	});
 
-		$(document).on("mousedown",".adm_select_tree_nav ul li button",function(e) {
-			menu_seq = $(this).attr("menuSeq");
-			home_num = $(this).attr("value");
-			if (home_num == "0") {
-				ifrm.location.href='about:blank';
+	$("#menu_handle1").sortable({
+		connectWith : "#menu_handle2",
+		start : function (event, ui) {
+			try {
 			}
-			else
-			{
+			catch (e) {
+				alert(e);
+			}
+		},
+		stop : function (event, ui) {
+			try {
+			}
+			catch (e) {
+				alert(e);
+			}
+		},
+		handle : 'button',
+		cancel : ''
+	}).disableSelection();
+
+	$("#menu_handle2").sortable({
+		stop : function (event, ui) {
+			try {
 				ifrm.location.href='page/main_edit.asp?menu_seq='+menu_seq+'&home_num='+home_num
 			}
-		});
+			catch (e) {
+				alert(e);
+			}
+		},
+		handle : 'button',
+		cancel : ''
+	});
 
-		$("#menu_handle1").sortable({
-			connectWith : "#menu_handle2",
-			start : function (event, ui) {
-				try {
-				}
-				catch (e) {
-					alert(e);
-				}
-			},
-			stop : function (event, ui) {
-				try {
-				}
-				catch (e) {
-					alert(e);
-				}
-			},
-			handle : 'button',
-			cancel : ''
-		}).disableSelection();
-
-		$("#menu_handle2").sortable({
-			stop : function (event, ui) {
-				try {
-					ifrm.location.href='page/main_edit.asp?menu_seq='+menu_seq+'&home_num='+home_num
-				}
-				catch (e) {
-					alert(e);
-				}
-			},
-			handle : 'button',
-			cancel : ''
-		});
-	</script>
-<script LANGUAGE="JavaScript">
-<!--
 	$(document).ready(function() {
 		$("#ifrm").height($(window).height())
 	})
@@ -210,5 +210,5 @@
 			$(this).width(doc.body.scrollWidth);
 		});
 	});
-//-->
 </script>
+</html>

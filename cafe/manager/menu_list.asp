@@ -1,7 +1,10 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
+	Call CheckManager(cafe_id)
 
 	sel_menu_seq  = Request("menu_seq")
 	sel_menu_type = Request("menu_type")
@@ -39,28 +42,28 @@
 						<div class="adm_select_tree_nav">
 							<ul class="menu_handle" id="menu_handle1">
 <%
-	page1  = getonevalue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='page' and page_type='1'")
-	page2  = getonevalue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='page' and page_type='2'")
-	page4  = getonevalue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='page' and page_type='4'")
-	page5  = getonevalue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='page' and page_type='5'")
-	memo   = getonevalue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='memo'")
-	land   = getonevalue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='land'")
-	job    = getonevalue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='job'")
-	poll   = getonevalue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='poll'")
-	member = getonevalue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='member'")
+	page1  = GetOneValue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='page' and page_type='1'")
+	page2  = GetOneValue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='page' and page_type='2'")
+	page4  = GetOneValue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='page' and page_type='4'")
+	page5  = GetOneValue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='page' and page_type='5'")
+	memo   = GetOneValue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='memo'")
+	land   = GetOneValue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='land'")
+	job    = GetOneValue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='job'")
+	poll   = GetOneValue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='poll'")
+	member = GetOneValue("count(*)","cf_menu","where cafe_id='" & cafe_id & "' and menu_type ='member'")
 %>
-	<%If page1  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">회칙</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="1"><input type="hidden" name="menu_name" value="회칙"></li><%End if%>
-	<%If page2  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">소개</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="2"><input type="hidden" name="menu_name" value="소개"></li><%End if%>
-	<%If page4  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">명단</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="4"><input type="hidden" name="menu_name" value="명단"></li><%End if%>
-	<%If page5  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">조직도</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="5"><input type="hidden" name="menu_name" value="조직도"></li><%End if%>
-	<%If memo   = "0" then%>	<li><button type="button" menuSeq="0" value="memo" class="btn_adm">쪽지</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="memo"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="쪽지"></li><%End if%>
-	<%If land   = "0" then%>	<li><button type="button" menuSeq="0" value="land" class="btn_adm">부동산뉴스</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="land"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="부동산뉴스"></li><%End if%>
+	<%If page1  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">회칙</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="1"><input type="hidden" name="menu_name" value="회칙"></li><%End If%>
+	<%If page2  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">소개</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="2"><input type="hidden" name="menu_name" value="소개"></li><%End If%>
+	<%If page4  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">명단</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="4"><input type="hidden" name="menu_name" value="명단"></li><%End If%>
+	<%If page5  = "0" then%>	<li><button type="button" menuSeq="0" value="page" class="btn_adm">조직도</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="page"><input type="hidden" name="page_type" value="5"><input type="hidden" name="menu_name" value="조직도"></li><%End If%>
+	<%If memo   = "0" then%>	<li><button type="button" menuSeq="0" value="memo" class="btn_adm">쪽지</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="memo"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="쪽지"></li><%End If%>
+	<%If land   = "0" then%>	<li><button type="button" menuSeq="0" value="land" class="btn_adm">부동산뉴스</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="land"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="부동산뉴스"></li><%End If%>
 								<li><button type="button" menuSeq="0" value="album" class="btn_adm">앨범</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="album"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="앨범"></li>
 								<li><button type="button" menuSeq="0" value="board" class="btn_adm">게시판</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="board"><input type="hidden" name="page_type" value="board"><input type="hidden" name="menu_name" value="게시판"></li>
 								<li><button type="button" menuSeq="0" value="sale" class="btn_adm">매물</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="sale"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="매물"></li>
-	<%If job    = "0" then%>	<li><button type="button" menuSeq="0" value="job" class="btn_adm">채용</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="job"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="채용"></li><%End if%>
-	<%If poll   = "0" then%>	<li><button type="button" menuSeq="0" value="poll" class="btn_adm">설문</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="poll"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="설문"></li><%End if%>
-	<%If member = "0" then%>	<li><button type="button" menuSeq="0" value="member" class="btn_adm">회원</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="member"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="회원"></li><%End if%>
+	<%If job    = "0" then%>	<li><button type="button" menuSeq="0" value="job" class="btn_adm">채용</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="job"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="채용"></li><%End If%>
+	<%If poll   = "0" then%>	<li><button type="button" menuSeq="0" value="poll" class="btn_adm">설문</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="poll"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="설문"></li><%End If%>
+	<%If member = "0" then%>	<li><button type="button" menuSeq="0" value="member" class="btn_adm">회원</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="member"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="회원"></li><%End If%>
 								<li class="tit"><button type="button" menuSeq="0" value="group" class="btn_adm">메뉴그룹</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="group"><input type="hidden" name="page_type" value="gr"><input type="hidden" name="menu_name" value="메뉴그룹"></li>
 								<li><button type="button" menuSeq="0" value="division" class="btn_adm">-----------</button><input type="hidden" name="menu_seq"><input type="hidden" name="menu_type" value="division"><input type="hidden" name="page_type" value=""><input type="hidden" name="menu_name" value="구분선"></li>
 							</ul>
@@ -74,7 +77,7 @@
 						<div class="adm_select_tree_nav">
 							<ul class="menu_handle" id="menu_handle2">
 <%
-	Set row = Server.CreateObject ("ADODB.Recordset")
+	Set row = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select *                           "
@@ -108,7 +111,6 @@
 				Case "member"  : txt = "회원"
 				Case "group"   : txt = "메뉴그룹"
 				Case "nsale"   : txt = "분양"
-				Case "story"   : txt = "부동산이야기"
 
 			End Select
 
@@ -154,85 +156,82 @@
 	</div>
 	<iframe id="hiddenfrm" name="hiddenfrm" style="display:none"></iframe>
 </body>
-</html>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-	<script>
-		var menu_seq = "<%=sel_menu_seq%>";
-		var menu_type = "<%=sel_menu_type%>";
+<script>
+	var menu_seq = "<%=sel_menu_seq%>";
+	var menu_type = "<%=sel_menu_type%>";
 
-		if (menu_seq != "" && menu_type != "")
-		{
+	if (menu_seq != "" && menu_type != "")
+	{
+		ifrm.location.href='page/menu_edit.asp?menu_seq='+menu_seq+'&menu_type='+menu_type
+	}
+
+	$(document).on("mousedown",".adm_select_tree_nav ul li button",function(e) {
+		menu_seq = $(this).attr("menuSeq");
+		menu_type = $(this).attr("value");
+
+		if (menu_seq == "0") {
+			ifrm.location.href='about:blank';
+		}
+		else {
 			ifrm.location.href='page/menu_edit.asp?menu_seq='+menu_seq+'&menu_type='+menu_type
 		}
+	});
 
-		$(document).on("mousedown",".adm_select_tree_nav ul li button",function(e) {
-			menu_seq = $(this).attr("menuSeq");
-			menu_type = $(this).attr("value");
+	var temp;
+	try {
+		temp = document.getElementById('menu_handle1').innerHTML
+	}
+	catch (e) {
+		alert(e);
+	}
 
-			if (menu_seq == "0") {
-				ifrm.location.href='about:blank';
+	$("#menu_handle1").sortable({
+		connectWith : "#menu_handle2",
+		start : function (event, ui) {
+			try {
+				this.innerHTML = temp;
 			}
-			else {
-				ifrm.location.href='page/menu_edit.asp?menu_seq='+menu_seq+'&menu_type='+menu_type
+			catch (e) {
+				alert(e);
 			}
-		});
+		},
+		stop : function (event, ui) {
+			try {
+				this.innerHTML = temp;
 
-		var temp;
-		try {
-			temp = document.getElementById('menu_handle1').innerHTML
-		}
-		catch (e) {
-			alert(e);
-		}
+				if (document.getElementById('emptyMenu'))
+				{
+					document.getElementById('emptyMenu').outerHTML = "";
+				}
+			}
+			catch (e) {
+				alert(e);
+			}
+		},
+		handle : 'button',
+		cancel : ''
+	}).disableSelection();
 
-		$("#menu_handle1").sortable({
-			connectWith : "#menu_handle2",
-			start : function (event, ui) {
-				try {
-					this.innerHTML = temp;
+	$("#menu_handle2").sortable({
+		stop : function (event, ui) {
+			try {
+				if (menu_type == "division") {
+					ifrm.location.href='about:blank';
 				}
-				catch (e) {
-					alert(e);
+				else {
+					ifrm.location.href='page/menu_edit.asp?menu_seq='+menu_seq+'&menu_type='+menu_type
 				}
-			},
-			stop : function (event, ui) {
-				try {
-					this.innerHTML = temp;
+			}
+			catch (e) {
+				alert(e);
+			}
+		},
+		handle : 'button',
+		cancel : ''
+	});
 
-					if (document.getElementById('emptyMenu'))
-					{
-						document.getElementById('emptyMenu').outerHTML = "";
-					}
-				}
-				catch (e) {
-					alert(e);
-				}
-			},
-			handle : 'button',
-			cancel : ''
-		}).disableSelection();
-
-		$("#menu_handle2").sortable({
-			stop : function (event, ui) {
-				try {
-					if (menu_type == "division") {
-						ifrm.location.href='about:blank';
-					}
-					else {
-						ifrm.location.href='page/menu_edit.asp?menu_seq='+menu_seq+'&menu_type='+menu_type
-					}
-				}
-				catch (e) {
-					alert(e);
-				}
-			},
-			handle : 'button',
-			cancel : ''
-		});
-	</script>
-<script LANGUAGE="JavaScript">
-<!--
 	$(document).ready(function() {
 		$("#ifrm").height($(window).height())
 	})
@@ -245,5 +244,5 @@
 			$(this).width(doc.body.scrollWidth);
 		});
 	});
-//-->
 </script>
+</html>

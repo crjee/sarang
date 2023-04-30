@@ -1,5 +1,11 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
+<%
+	Call CheckManager(cafe_id)
+%>
 <%
 	menu_seq = Request("menu_seq")
 	menu_type = Request("menu_type")
@@ -12,9 +18,9 @@
 		sql = sql & "       ,moddt = getdate() "
 		sql = sql & "  where menu_seq = '" & menu_seq & "'   "
 		Conn.Execute(sql)
-	End if
+	End If
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select *                             "
@@ -32,7 +38,7 @@
 	If menu_name <> "-" Then
 		If menu_type = "land" Then
 			menu_type = "group"
-		Elseif menu_type = "story" Or menu_type = "nsale" Then
+		Elseif menu_type = "album" Or menu_type = "board" Or menu_type = "sale" Or menu_type = "job" Or menu_type = "nsale" Then
 			menu_type = "board"
 		Elseif menu_type = "memo" Or menu_type = "poll" Then
 			menu_type = "page"

@@ -1,8 +1,15 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "gi"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
-	checkAdmin()
+
+	Call CheckAdmin()
+
+	menu_seq = Request("menu_seq")
+	Call CheckMenuSeq(cafe_id, menu_seq)
 
 	page     = request("page")
 	sch_type = request("sch_type")
@@ -10,7 +17,7 @@
 	task     = request("task")
 
 	If menu_seq <> "" then
-		Set rs = Server.CreateObject ("ADODB.Recordset")
+		Set rs = Server.CreateObject("ADODB.Recordset")
 
 		sql = ""
 		sql = sql & " select * "
@@ -19,9 +26,7 @@
 		sql = sql & "    and cafe_id = '"& cafe_id &"' "
 		rs.Open Sql, conn, 3, 1
 
-		If rs.EOF Then
-			msggo "정상적인 사용이 아닙니다.",""
-		Else
+		If Not rs.EOF Then
 			menu_type = rs("menu_type")
 			menu_name = rs("menu_name")
 		End If
@@ -33,17 +38,17 @@
 
 	com_seq = Request(menu_type & "_seq")
 
-	On Error Resume Next
+	'On Error Resume Next
 	Conn.BeginTrans
 	Set BeginTrans = Conn
 	CntError = 0
 
 	If task = "restore" Then ' 복원
 		msg = "복원"
-		call restore_content(menu_type, com_seq)
+		Call ExecRestoreContent(menu_type, com_seq)
 	ElseIf task = "delete" Then ' 삭제
 		msg = "삭제"
-		Call delete_content(menu_type, com_seq)
+		Call ExecDeleteContent(menu_type, com_seq)
 	End If
 
 	If Err.Number = 0 Then

@@ -2,11 +2,16 @@
 <%
 	freePage = True
 %>
+<%
+	Const tb_prefix = "gi"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
-	checkCafePage(cafe_id)
-	checkWriteAuth(cafe_id)
+
+	menu_seq = Request("menu_seq")
+	Call CheckMenuSeq(cafe_id, menu_seq)
+	Call CheckWriteAuth(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -14,7 +19,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>분양소식 : GI</title>
+	<title>경인 홈</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -49,7 +54,7 @@
 	});
 
 	$( function() {
-		$("#rect_notice_date").datepicker();
+		$("#rect_nsale_date").datepicker();
 		$("#frst_receipt_acpt_date").datepicker();
 		$("#scnd_receipt_acpt_date").datepicker();
 		$("#prize_anc_date").datepicker();
@@ -63,14 +68,92 @@
 <body>
 	<div id="wrap">
 <!--#include virtual="/home/home_header_inc.asp"-->
+<%
+	link = "http://"
+
+	Set rs = Server.CreateObject("ADODB.Recordset")
+
+	sql = ""
+	sql = sql & " select * "
+	sql = sql & "   from gi_temp_nsale "
+	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
+	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
+	sql = sql & "    and user_id = '" & Session("user_id")  & "' "
+	rs.Open Sql, conn, 3, 1
+
+	If Not rs.EOF Then
+		msgonly "임시 저장된 내용이 있습니다."
+
+		nsale_seq               = rs("nsale_seq")
+		nsale_num               = rs("nsale_num")
+		group_num               = rs("group_num")
+		step_num                = rs("step_num")
+		level_num               = rs("level_num")
+		menu_seq                = rs("menu_seq")
+		cafe_id                 = rs("cafe_id")
+		agency                  = rs("agency")
+		top_yn                  = rs("top_yn")
+		pop_yn                  = rs("pop_yn")
+		section_seq             = rs("section_seq")
+		subject                 = rs("subject")
+		contents                = rs("contents")
+		link                    = rs("link")
+		open_yn                 = rs("open_yn")
+		nsale_addr              = rs("nsale_addr")
+		cmpl_se_cd              = rs("cmpl_se_cd")
+		nsale_stts_cd           = rs("nsale_stts_cd")
+		rect_notice_date        = rs("rect_notice_date")
+		frst_receipt_acpt_date  = rs("frst_receipt_acpt_date")
+		scnd_receipt_acpt_date  = rs("scnd_receipt_acpt_date")
+		prize_anc_date          = rs("prize_anc_date")
+		cnt_st_date             = rs("cnt_st_date")
+		cnt_ed_date             = rs("cnt_ed_date")
+		resale_st_date          = rs("resale_st_date")
+		resale_ed_date          = rs("resale_ed_date")
+		mvin_date               = rs("mvin_date")
+		mdl_house_addr          = rs("mdl_house_addr")
+		user_id                 = rs("user_id")
+		reg_date                = rs("reg_date")
+		view_cnt                = rs("view_cnt")
+		comment_cnt             = rs("comment_cnt")
+		suggest_cnt             = rs("suggest_cnt")
+		suggest_info            = rs("suggest_info")
+		parent_seq              = rs("parent_seq")
+		parent_del_yn           = rs("parent_del_yn")
+		move_nsale_num          = rs("move_nsale_num")
+		move_menu_seq           = rs("move_menu_seq")
+		move_user_id            = rs("move_user_id")
+		move_date               = rs("move_date")
+		restoreid               = rs("restoreid")
+		restoredt               = rs("restoredt")
+		creid                   = rs("creid")
+		credt                   = rs("credt")
+		modid                   = rs("modid")
+		moddt                   = rs("moddt")
+	End If
+	rs.close
+
+	If contents = "" Then
+		sql = ""
+		sql = sql & " select form "
+		sql = sql & "   from cf_com_form "
+		sql = sql & "  where menu_seq = '" & menu_seq & "' "
+		rs.Open Sql, conn, 3, 1
+		If Not rs.eof Then
+			contents = rs("form")
+		End If
+		rs.close
+	End If
+%>
 		<main id="main" class="main">
 			<div class="container">
+				<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
+				<input type="hidden" name="tb_prefix" value="gi">
+				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
+				<input type="hidden" name="temp" value="Y">
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%> 등록</h2>
 				</div>
-				<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
-				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-				<input type="hidden" name="temp" value="Y">
 				<div class="tb">
 					<table class="tb_input tb_fixed">
 						<colgroup>
@@ -83,7 +166,7 @@
 							<tr>
 								<th scope="row">공개<em class="required">필수입력</em></th>
 								<td colspan="3">
-									<%=makeRadioCD("open_yn", "", "")%>
+									<%=GetMakeCDRadio("open_yn", "", "")%>
 								</td>
 							</tr>
 							<tr>
@@ -98,7 +181,7 @@
 							<tr>
 								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th>
 								<td>
-									<%=makeSection("R", "section_seq", section_seq, "")%>
+									<%=GetMakeSectionTag("R", "section_seq", section_seq, "")%>
 								</td>
 							</tr>
 <%
@@ -113,17 +196,17 @@
 							<tr>
 								<th scope="row">단지종류<em class="required">필수입력</em></th>
 								<td>
-									<%=makeRadioCD("cmpl_se_cd", "", "")%>
+									<%=GetMakeCDRadio("cmpl_se_cd", "", "")%>
 								</td>
 								<th scope="row">분양단계<em class="required">필수입력</em></th>
 								<td>
-									<%=makeRadioCD("nsale_stts_cd", "", "")%>
+									<%=GetMakeCDRadio("nsale_stts_cd", "", "")%>
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">모집공고일</th>
 								<td>
-									<input type="text" id="rect_notice_date" name="rect_notice_date" value="<%=rect_notice_date%>" class="inp w120p" />
+									<input type="text" id="rect_nsale_date" name="rect_nsale_date" value="<%=rect_nsale_date%>" class="inp w120p" />
 								</td>
 								<th scope="row">청약접수일</th>
 								<td>
@@ -169,53 +252,17 @@
 						</tbody>
 					</table>
 					<div class="mt10">
-<%
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-
-	sql = ""
-	sql = sql & " select *                             "
-	sql = sql & "   from cf_com_form                   "
-	sql = sql & "  where menu_seq = '" & menu_seq & "' "
-	rs.Open Sql, conn, 3, 1
-
-	If Not rs.eof Then
-		form = rs("form")
-	End If
-	rs.close
-
-	If contents = "" Then
-		contents = form
-	End If
-
-	If editor_yn = "Y" Then
-%>
-						<textarea name="ir1" id="ir1" style="width:100%;display:none;"><%=contents%></textarea>
-<%
-	Else
-%>
-						<textarea name="ir1" id="ir1" style="width:100%;display:none;"><%=contents%></textarea>
-<%
-	End If
-%>
+						<textarea name="contents" id="contents" style="width:100%;display:none;"><%=contents%></textarea>
 						<p class="txt_point mt10">새로고침시 에디터 내용은 유지되지 않습니다.</p>
 					</div>
-					<table class="tb_input tb_fixed mt10">
-						<colgroup>
-							<col class="w200p">
-							<col class="w_remainder">
-						</colgroup>
-						<tbody>
 <%
-	menu_type = "nsale"
-	com_seq = nsale_seq
+	com_seq = "" 
 %>
-<!--#include virtual="/include/attach_inc.asp"-->
-						</tbody>
-					</table>
+<!--#include virtual="/include/attach_form_inc.asp"-->
 				</div>
 				<div class="btn_box">
-					<button type="submit" class="btn btn_c_a btn_n"><em>등록</em></button>
-					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='nsale_list.asp?menu_seq=<%=menu_seq%>'"><em>취소</em></button>
+					<button type="submit" class="btn btn_c_a btn_n">등록</button>
+					<button type="reset" class="btn btn_c_n btn_n">취소</button>
 				</div>
 				</form>
 			</div>
@@ -224,13 +271,12 @@
 <!--#include virtual="/home/home_footer_inc.asp"-->
 	</div>
 </body>
-</html>
 <script>
 	var oEditors = [];
 
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: oEditors,
-		elPlaceHolder: "ir1",
+		elPlaceHolder: "contents",
 		sSkinURI: "/smart/SmartEditor2Skin.html",
 		htParams : {
 			bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
@@ -241,10 +287,10 @@
 				var f = document.form;
 				if (f.temp.value == "Y" && f.subject.value != "")
 				{
-					oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
+					oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", [])
 					f.action = "nsale_temp_exec.asp";
 					f.temp.value = "N";
-					f.target = "hiddenfrm";
+					//f.target = "hiddenfrm";
 					f.submit();
 					alert("작성중인 내용이 임시로 저장되었습니다.");
 				}
@@ -252,13 +298,13 @@
 		}, //boolean
 		fOnAppLoad : function() {
 			//예제 코드
-			//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
+			//oEditors.getById["contents"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
 		},
 		fCreator: "createSEditor2"
 	})
 
 	function submitContents(elClickedObj) {
-		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
+		oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", [])
 		try {
 <%
 	If tab_use_yn = "Y" Then
@@ -271,9 +317,9 @@
 	End If
 %>
 			elClickedObj.action = "nsale_write_exec.asp";
-			elClickedObj.temp.value = "N";
-			elClickedObj.target = "hiddenfrm";
+			//elClickedObj.target = "hiddenfrm";
 			elClickedObj.submit()
 		} catch(e) {alert(e)}
 	}
 </script>
+</html>

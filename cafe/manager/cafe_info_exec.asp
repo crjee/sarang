@@ -1,6 +1,11 @@
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
+	Call CheckMultipart()
+
+	Call CheckManager(cafe_id)
 
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & "cafeimg\"
@@ -15,13 +20,13 @@
 
 	If open_type = "" Then open_type = "C"
 
-	old_name = getonevalue("cafe_name","cf_cafe","where cafe_id = '" & cafe_id & "'")
+	old_name = GetOneValue("cafe_name","cf_cafe","where cafe_id = '" & cafe_id & "'")
 
 	cafe_img = UploadForm("cafe_img")
 
 	If uploadform("cafe_img") <> "" Then
 		IF uploadform("cafe_img").FileLen > uploadform.MaxFileLen Then
-			Call msggo("파일의 크기는 " & CInt(uploadform.MaxFileLen/1024/1014) & "MB가 넘어서는 안됩니다","")
+			msggo "파일의 크기는 " & CInt(uploadform.MaxFileLen/1024/1014) & "MB가 넘어서는 안됩니다",""
 			Set uploadform = Nothing
 			Response.End
 		End If
@@ -56,7 +61,7 @@
 		sql = sql & "       ,moddt = getdate() "
 		sql = sql & "  where cafe_id = '" & cafe_id & "' "
 		Conn.Execute(sql)
-	End if
+	End If
 %>
 <script>
 alert("수정되었습니다.")

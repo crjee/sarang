@@ -1,7 +1,10 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
+	Call CheckManager(cafe_id)
 
 	menu_seq = Request("menu_seq")
 
@@ -25,20 +28,20 @@
 				Case "4" : cnt = 0
 				Case "5" : cnt = 0
 			End Select
-		Case "memo"    : cnt = 0 ' getonevalue("count(*)","cf_memo","where menu_seq='" & menu_seq & "'")
+		Case "memo"    : cnt = 0 ' GetOneValue("count(*)","cf_memo","where menu_seq='" & menu_seq & "'")
 		Case "land"    : cnt = 0
-		Case "album"   : cnt = getonevalue("count(*)","cf_album","where menu_seq='" & menu_seq & "'")
-		Case "board"   : cnt = getonevalue("count(*)","cf_board","where menu_seq='" & menu_seq & "'")
-		Case "sale"    : cnt = getonevalue("count(*)","cf_sale","where menu_seq='" & menu_seq & "'")
+		Case "album"   : cnt = GetOneValue("count(*)","cf_album","where menu_seq='" & menu_seq & "'")
+		Case "board"   : cnt = GetOneValue("count(*)","cf_board","where menu_seq='" & menu_seq & "'")
+		Case "sale"    : cnt = GetOneValue("count(*)","cf_sale","where menu_seq='" & menu_seq & "'")
 		Case "job"     : cnt = 0
-		Case "poll"    : cnt = 0 ' getonevalue("count(*)","cf_poll","where menu_seq='" & menu_seq & "'")
+		Case "poll"    : cnt = 0 ' GetOneValue("count(*)","cf_poll","where menu_seq='" & menu_seq & "'")
 		Case "member"  : cnt = 0
 		Case "group"   : cnt = 0
 	End Select
 
 	If cnt > 0 Then
 		msggo "해당 메뉴에 등록된 정보가 있어 삭제할 수 없습니다.\n\n메뉴감추기 기능을 이용하세요.", "preload"
-	End if
+	End If
 
 	'메뉴 삭제
 	sql = ""

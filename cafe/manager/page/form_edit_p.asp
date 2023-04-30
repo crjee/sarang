@@ -1,5 +1,11 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
+<%
+	Call CheckManager(cafe_id)
+%>
 <%
 	menu_seq = Request("menu_seq")
 	Set rs = Conn.Execute("select * from cf_com_form where menu_seq='" & menu_seq & "'")
@@ -23,22 +29,22 @@
 <html>
 <head>
 <link href="/css/bootstrap.min.css" rel="stylesheet">
-<script type="text/javascript" src="/smart/js/HuskyEZCreator.js" charset="utf-8"></script>
+<script src="/smart/js/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <body>
 
 <script>
 function docInsert(num) {
-	oEditors.getById["ir1"].exec("SET_CONTENTS", [""]);
+	oEditors.getById["contents"].exec("SET_CONTENTS", [""]);
 	var sHTML = document.all("board_template_"+num).value;
-	oEditors.getById["ir1"].exec("PASTE_HTML", [sHTML]);
+	oEditors.getById["contents"].exec("PASTE_HTML", [sHTML]);
 }
 </script>
 
 <a href="javascript:" onclick="docInsert(1)">양식1</a> | <a href="javascript:" onclick="docInsert(2)">양식2</a> | <a href="javascript:" onclick="docInsert(3)">양식3</a>
 <form name="form" method="post" onsubmit="return submitContents(this)">
 <input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-<textarea name="ir1" id="ir1" style="width:100%;height:590px;display:none;" onkeyup="setCookie('ir1',this.value,1)">
+<textarea name="contents" id="contents" style="width:100%;height:590px;display:none;" onkeyup="setCookie('contents',this.value,1)">
 <%=form%>
 </textarea>
 <div style="text-align:center;padding:5px;">
@@ -364,7 +370,7 @@ var oEditors = [];
 
 nhn.husky.EZCreator.createInIFrame({
 	oAppRef: oEditors,
-	elPlaceHolder: "ir1",
+	elPlaceHolder: "contents",
 	sSkinURI: "/smart/SmartEditor2Skin.html",
 	htParams : {
 		bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
@@ -377,7 +383,7 @@ nhn.husky.EZCreator.createInIFrame({
 	}, //boolean
 	fOnAppLoad : function() {
 		//예제 코드
-		//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
+		//oEditors.getById["contents"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
 	},
 	fCreator: "createSEditor2"
 })
@@ -385,7 +391,7 @@ nhn.husky.EZCreator.createInIFrame({
 
 
 function submitContents(elClickedObj) {
-	oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
+	oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", [])
 	try {
 		elClickedObj.action = "form_exec.asp";
 		elClickedObj.form.submit()

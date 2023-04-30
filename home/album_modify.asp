@@ -2,11 +2,17 @@
 <%
 	freePage = True
 %>
+<%
+	Const tb_prefix = "gi"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
-	checkCafePage(cafe_id)
-	checkModifyAuth(cafe_id)
+	menu_seq = Request("menu_seq")
+	Call CheckMenuSeq(cafe_id, menu_seq)
+	com_seq = Request(menu_type & "_seq")
+	Call CheckDataExist(com_seq)
+	Call CheckModifyAuth(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -14,7 +20,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><%=sarangTitel%></title>
+	<title>경인 홈</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -27,8 +33,6 @@
 <body>
 	<div id="wrap">
 <!--#include virtual="/home/home_header_inc.asp"-->
-		<main id="main" class="main">
-			<div class="container">
 <%
 	page      = Request("page")
 	pagesize  = Request("pagesize")
@@ -39,30 +43,50 @@
 
 	album_seq = Request("album_seq")
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
+	link = "http://"
+
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select * "
-	sql = sql & "   from cf_" & menu_type & " "
+	sql = sql & "   from gi_" & menu_type & " "
 	sql = sql & "  where album_seq = '" & album_seq & "' "
 	rs.Open Sql, conn, 3, 1
 
-	link = "http://"
 	If Not rs.eof Then
-		If toInt(cafe_mb_level) < 6 And session("user_id") <> rs("user_id") Then
-			Response.Write "<script>alert('수정 권한이없습니다');history.back();</script>"
-			Response.End
-		End If
-
-		step_num    = rs("step_num")
-		top_yn      = rs("top_yn")
-		user_id     = rs("user_id")
-		subject     = rs("subject")
-		contents    = rs("contents")
-		section_seq = rs("section_seq")
-		link        = rs("link")
-		subject     = Replace(subject, """", " & quot;")
-	End if
+		album_seq      = rs("album_seq")
+		album_num      = rs("album_num")
+		group_num      = rs("group_num")
+		step_num       = rs("step_num")
+		level_num      = rs("level_num")
+		menu_seq       = rs("menu_seq")
+		cafe_id        = rs("cafe_id")
+		agency         = rs("agency")
+		top_yn         = rs("top_yn")
+		pop_yn         = rs("pop_yn")
+		section_seq    = rs("section_seq")
+		subject        = rs("subject")
+		contents       = rs("contents")
+		link           = rs("link")
+		user_id        = rs("user_id")
+		reg_date       = rs("reg_date")
+		view_cnt       = rs("view_cnt")
+		comment_cnt    = rs("comment_cnt")
+		suggest_cnt    = rs("suggest_cnt")
+		suggest_info   = rs("suggest_info")
+		parent_seq     = rs("parent_seq")
+		parent_del_yn  = rs("parent_del_yn")
+		move_album_num = rs("move_album_num")
+		move_menu_seq  = rs("move_menu_seq")
+		move_user_id   = rs("move_user_id")
+		move_date      = rs("move_date")
+		restoreid      = rs("restoreid")
+		restoredt      = rs("restoredt")
+		creid          = rs("creid")
+		credt          = rs("credt")
+		modid          = rs("modid")
+		moddt          = rs("moddt")
+	End If
 	rs.close
 
 	If contents = "" Then
@@ -77,10 +101,13 @@
 		rs.close
 	End If
 %>
+		<main id="main" class="main">
+			<div class="container">
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%> 수정</h2>
 				</div>
 				<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
+				<input type="hidden" name="tb_prefix" value="gi">
 				<input type="hidden" name="page" value="<%=page%>">
 				<input type="hidden" name="pagesize" value="<%=pagesize%>">
 				<input type="hidden" name="sch_type" value="<%=sch_type%>">
@@ -97,7 +124,7 @@
 						</colgroup>
 						<tbody>
 <%
-	If cafe_mb_level > 6 Then
+	If cafe_ad_level = 10 Then
 		If step_num = "0" Then
 %>
 							<tr>
@@ -117,7 +144,7 @@
 							<tr>
 								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th>
 								<td>
-									<%=makeSection("R", "section_seq", section_seq, "")%>
+									<%=GetMakeSectionTag("R", "section_seq", section_seq, "")%>
 								</td>
 							</tr>
 <%
@@ -133,17 +160,7 @@
 						</tbody>
 					</table>
 					<div class="mt10">
-<%
-	If editor_yn = "Y" Then
-%>
-						<textarea name="ir1" id="ir1" style="width:100%;display:none;" onkeyup="setCookie('ir1',this.value,1)"><%=contents%></textarea>
-<%
-	Else
-%>
-						<textarea name="ir1" id="ir1" style="width:100%;display:none;" onkeyup="setCookie('ir1',this.value,1)"><%=contents%></textarea>
-<%
-	End if
-%>
+						<textarea name="contents" id="contents" style="width:100%;display:none;" onkeyup="setCookie('contents',this.value,1)"><%=contents%></textarea>
 						<p class="txt_point mt10">새로고침시 에디터 내용은 유지되지 않습니다.</p>
 					</div>
 					<table class="tb_input tb_fixed mt10">
@@ -158,18 +175,20 @@
 									<input type="text" id="link" name="link" class="inp" value="<%=link%>">
 								</td>
 							</tr>
+						</tbody>
+					</table>
 <%
 	com_seq = album_seq
 %>
-<!--#include virtual="/include/attach_inc.asp"-->
-						</tbody>
-					</table>
-					<p class="txt_point mt10">jpg, png, gif, bmp 파일만 첨부 가능합니다.</p>
+<!--#include virtual="/include/attach_form_inc.asp"-->
 				</div>
 				<div class="btn_box">
-					<button type="submit" class="btn btn_c_a btn_n"><em>등록</em></button>
-					<button type="button" class="btn btn_c_n btn_n" onclick="location.href='/home/album_list.asp?menu_seq=<%=menu_seq%>'"><em>취소</em></button>
+					<button type="submit" class="btn btn_c_a btn_n">등록</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goList()">취소</button>
 				</div>
+				</form>
+				<form name="search_form" id="search_form" method="post">
+				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 				</form>
 			</div>
 <!--#include virtual="/home/home_right_inc.asp"-->
@@ -182,7 +201,7 @@
 
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: oEditors,
-		elPlaceHolder: "ir1",
+		elPlaceHolder: "contents",
 		sSkinURI: "/smart/SmartEditor2Skin.html",
 		htParams : {
 			bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
@@ -194,13 +213,13 @@
 		}, //boolean
 		fOnAppLoad : function() {
 			//예제 코드
-			//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
+			//oEditors.getById["contents"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
 		},
 		fCreator: "createSEditor2"
 	})
 
 	function submitContents(elClickedObj) {
-		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", [])
+		oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", [])
 		try {
 <%
 	If tab_use_yn = "Y" Then
@@ -213,9 +232,16 @@
 	End If
 %>
 			elClickedObj.action = "album_modify_exec.asp";
-			elClickedObj.target = "hiddenfrm";
+			//elClickedObj.target = "hiddenfrm";
 			elClickedObj.submit()
 		} catch(e) {alert(e)}
+	}
+
+	function goList() {
+		var f = document.search_form;
+		f.action = "album_list.asp";
+		f.target = gvTarget;
+		f.submit();
 	}
 </script>
 </html>

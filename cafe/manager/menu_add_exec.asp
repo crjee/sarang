@@ -1,7 +1,10 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
+	Call CheckManager(cafe_id)
 
 	For i = 1 To Request("menu_seq").count
 		menu_seq  = Request("menu_seq")(i)
@@ -13,7 +16,7 @@
 			menu_num = i
 
 			If menu_type = "group" Then
-				new_seq = getSeq("cf_menu")
+				new_seq = GetComSeq("cf_menu")
 				home_cnt = 0
 
 				sql = ""
@@ -43,7 +46,7 @@
 				sql = sql & "       ,getcate())                   "
 				Conn.Execute(sql)
 			Else
-				new_seq = getSeq("cf_menu")
+				new_seq = GetComSeq("cf_menu")
 				home_cnt = 5
 
 				If InStr("board,pds", page_type) > 0 Then

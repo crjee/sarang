@@ -1,19 +1,25 @@
 <%@Language="VBScript" CODEPAGE="65001" %>
+<%
+	Const tb_prefix = "cf"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
-	checkManager(cafe_id)
+	Call CheckMultipart()
+
+	Call CheckManager(cafe_id)
 
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & "banner\"
 	uploadform.DefaultPath = uploadFolder
-	banner_seq = uploadform("banner_seq")
-	task = uploadform("task")
-	banner_type = uploadform("banner_type")
-	file_type = uploadform("file_type")
-	subject = uploadform("subject")
-	open_yn = uploadform("open_yn")
-	link = uploadform("link")
-	banner_width = uploadform("banner_width")
+
+	banner_seq    = uploadform("banner_seq")
+	task          = uploadform("task")
+	banner_type   = uploadform("banner_type")
+	file_type     = uploadform("file_type")
+	subject       = Replace(uploadform("subject"),"'","&#39;")
+	open_yn       = uploadform("open_yn")
+	link          = uploadform("link")
+	banner_width  = uploadform("banner_width")
 	banner_height = uploadform("banner_height")
 
 	If UploadForm("file_name") <> "" Then
@@ -22,7 +28,7 @@
 		strFileName = uploadFolder & FileName
 
 		If uploadform("file_name").FileLen > uploadform.MaxFileLen Then
-			call msggo("파일의 크기는 " & CInt(uploadform.MaxFileLen/1024/1014) & "MB가 넘어서는 안됩니다","")
+			msggo "파일의 크기는 " & CInt(uploadform.MaxFileLen/1024/1014) & "MB가 넘어서는 안됩니다",""
 			Set uploadform = Nothing
 			Response.End
 		End If
@@ -51,34 +57,35 @@
 			banner_num = rs("banner_num")+1
 		End If
 
-		new_seq = getSeq("cf_banner")
+		new_seq = GetComSeq("cf_banner")
+
 		sql = ""
-		sql = sql & " insert into cf_banner( "
-		sql = sql & "        banner_seq "
-		sql = sql & "       ,cafe_id "
-		sql = sql & "       ,banner_type "
-		sql = sql & "       ,open_yn "
-		sql = sql & "       ,subject "
-		sql = sql & "       ,file_type "
-		sql = sql & "       ,file_name "
-		sql = sql & "       ,banner_num "
-		sql = sql & "       ,banner_width "
-		sql = sql & "       ,banner_height "
-		sql = sql & "       ,link "
-		sql = sql & "       ,creid "
-		sql = sql & "       ,credt "
-		sql = sql & "      ) values( "
-		sql = sql & "        '" & new_seq & "' "
-		sql = sql & "       ,'" & cafe_id & "' "
-		sql = sql & "       ,'" & banner_type & "' "
-		sql = sql & "       ,'" & open_yn & "' "
-		sql = sql & "       ,'" & subject & "' "
-		sql = sql & "       ,'" & file_type & "' "
-		sql = sql & "       ,'" & file_name & "' "
-		sql = sql & "       ,'" & banner_num & "' "
-		sql = sql & "       ,'" & banner_width & "' "
-		sql = sql & "       ,'" & banner_height & "' "
-		sql = sql & "       ,'" & link & "' "
+		sql = sql & " insert into cf_banner(              "
+		sql = sql & "        banner_seq                   "
+		sql = sql & "       ,cafe_id                      "
+		sql = sql & "       ,banner_type                  "
+		sql = sql & "       ,open_yn                      "
+		sql = sql & "       ,subject                      "
+		sql = sql & "       ,file_type                    "
+		sql = sql & "       ,file_name                    "
+		sql = sql & "       ,banner_num                   "
+		sql = sql & "       ,banner_width                 "
+		sql = sql & "       ,banner_height                "
+		sql = sql & "       ,link                         "
+		sql = sql & "       ,creid                        "
+		sql = sql & "       ,credt                        "
+		sql = sql & "      ) values(                      "
+		sql = sql & "        '" & new_seq            & "' "
+		sql = sql & "       ,'" & cafe_id            & "' "
+		sql = sql & "       ,'" & banner_type        & "' "
+		sql = sql & "       ,'" & open_yn            & "' "
+		sql = sql & "       ,'" & subject            & "' "
+		sql = sql & "       ,'" & file_type          & "' "
+		sql = sql & "       ,'" & file_name          & "' "
+		sql = sql & "       ,'" & banner_num         & "' "
+		sql = sql & "       ,'" & banner_width       & "' "
+		sql = sql & "       ,'" & banner_height      & "' "
+		sql = sql & "       ,'" & link               & "' "
 		sql = sql & "       ,'" & Session("user_id") & "' "
 		sql = sql & "       ,getdate())"
 		Conn.Execute(sql)
@@ -98,21 +105,20 @@
 
 		sql = ""
 		sql = sql & " update cf_banner "
-		sql = sql & "    set open_yn = '" & open_yn & "' "
-		sql = sql & "       ,subject = '" & subject & "' "
-		sql = sql & "       ,file_type = '" & file_type & "' "
+		sql = sql & "    set open_yn       = '" & open_yn            & "' "
+		sql = sql & "       ,subject       = '" & subject            & "' "
+		sql = sql & "       ,file_type     = '" & file_type          & "' "
 		If file_name <> "" Then
-		sql = sql & "       ,file_name = '" & file_name & "'"
+		sql = sql & "       ,file_name     = '" & file_name          & "' "
 		End If
-		sql = sql & "       ,banner_width = '" & banner_width & "' "
-		sql = sql & "       ,banner_height = '" & banner_height & "' "
-		sql = sql & "       ,link = '" & link & "' "
-		sql = sql & "       ,modid = '" & Session("user_id") & "' "
-		sql = sql & "       ,moddt = getdate() "
-		sql = sql & "  where banner_seq = '" & banner_seq & "'"
+		sql = sql & "       ,banner_width  = '" & banner_width       & "' "
+		sql = sql & "       ,banner_height = '" & banner_height      & "' "
+		sql = sql & "       ,link          = '" & link               & "' "
+		sql = sql & "       ,modid         = '" & Session("user_id") & "' "
+		sql = sql & "       ,moddt         = getdate()                    "
+		sql = sql & "  where banner_seq    = '" & banner_seq         & "' "
 		Conn.Execute(sql)
 
 		Response.write "<script>alert('" & msg & " 되었습니다.');parent.location = 'banner_list.asp';</script>"
-		'Response.write "<script>alert('" & msg & " 되었습니다.');parent.opener.location = 'banner_list.asp';parent.close();</script>"
 	End If
 %>

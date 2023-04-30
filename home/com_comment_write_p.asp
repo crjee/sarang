@@ -2,15 +2,21 @@
 <%
 	freePage = True
 %>
+<%
+	Const tb_prefix = "gi"
+%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <!--#include virtual="/ipin_inc.asp"-->
 <%
 	cafe_id = "home"
-	checkCafePage(cafe_id)
+
+	menu_seq = Request("menu_seq")
+	Call CheckMenuSeq(cafe_id, menu_seq)
+	Call CheckWriteAuth(cafe_id)
 
 	menu_seq = Request("menu_seq")
 
-	Set rs = Server.CreateObject ("ADODB.Recordset")
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select * "
@@ -19,9 +25,7 @@
 	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
 	rs.Open Sql, conn, 3, 1
 
-	If rs.EOF Then
-		msggo "정상적인 사용이 아닙니다.",""
-	Else
+	If Not rs.EOF Then
 		menu_type = rs("menu_type")
 		menu_name = rs("menu_name")
 		cafe_id = rs("cafe_id")
@@ -32,14 +36,14 @@
 
 	sql = ""
 	sql = sql & " select * "
-	sql = sql & "   from cf_" & menu_type & "_comment "
+	sql = sql & "   from gi_" & menu_type & "_comment "
 	sql = sql & "  where comment_seq = '" & comment_seq  & "' "
 	rs.Open Sql, conn, 3, 1
 
 	comment = rs("comment")
 
 	If Not(user_id = rs("user_id") Or cafe_ad_level = 10) Then
-		Response.Write "<script>alert('댓글 작성자가 아닙니다');window.close();</script>"
+		Response.Write "<script>alert('댓글 글쓴이가 아닙니다');window.close();</script>"
 		Response.end
 	End If
 	rs.close
@@ -48,7 +52,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
 <meta charset="utf-8"/>
 <title>경인네트웍스</title>
 <meta content="IE=edge" http-equiv="X-UA-Compatible">

@@ -1,0 +1,45 @@
+
+D:\경인네트웍스\sarang\cafe\album_modify.asp
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">취소</button>
+
+D:\경인네트웍스\sarang\cafe\board_modify.asp
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">취소</button>
+
+D:\경인네트웍스\sarang\cafe\job_modify.asp
+button type="submit" class="btn btn_c_a btn_n" tabindex=26>등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">취소</button>
+
+D:\경인네트웍스\sarang\cafe\notice_modify.asp
+button type="button" class="btn_long" onclick="onCafe()">사랑방 선택</button>
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">취소</button>
+
+D:\경인네트웍스\sarang\cafe\sale_modify.asp
+button type="submit" class="btn btn_c_a btn_n" tabindex=26>등록</button>
+button type="button" class="btn btn_c_n btn_n" tabindex=27 onclick="goList('<%=session("ctTarget")%>')">취소</button>
+
+D:\경인네트웍스\sarang\home\album_modify.asp
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList()">취소</button>
+
+D:\경인네트웍스\sarang\home\board_modify.asp
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList()">취소</button>
+
+D:\경인네트웍스\sarang\home\job_modify.asp
+button type="submit" class="btn btn_c_a btn_n" tabindex=26>등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">취소</button>
+
+D:\경인네트웍스\sarang\home\notice_modify.asp
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList()">취소</button>
+
+D:\경인네트웍스\sarang\home\nsale_modify.asp
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList()">취소</button>
+
+D:\경인네트웍스\sarang\home\sale_modify.asp
+button type="submit" class="btn btn_c_a btn_n">등록</button>
+button type="button" class="btn btn_c_n btn_n" onclick="goList()">취소</button>
