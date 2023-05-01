@@ -46,10 +46,20 @@
 					</script>
 <%
 	End If
+			sql = sql & " select count(*) as group_cnt "
+			sql = sql & "   from cf_" & menu_type & " "
+			sql = sql & "  where menu_seq = '" & menu_seq  & "' "
+			sql = sql & "    and group_num = '" & group_num  & "' "
 
 	If cafe_ad_level = 10 And step_num = "0" Then
+		group_cnt = GetOneValue("count(*)", "cf_" & menu_type, "where menu_seq = '" & menu_seq & "' and group_num = '" & group_num & "'")
+
+		If group_cnt = 1 Then
 %>
 					<button type="button" class="btn btn_c_n btn_n" onclick="goMove()">이동</button>
+<%
+		End If
+%>
 					<button type="button" class="btn btn_c_n btn_n" onclick="goTopMove()"><%=if3(top_yn="Y","상위글해제","상위글지정")%></button>
 					<script>
 						function goMove() {

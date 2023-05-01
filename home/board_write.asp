@@ -12,6 +12,7 @@
 	menu_seq = Request("menu_seq")
 	Call CheckMenuSeq(cafe_id, menu_seq)
 	Call CheckWriteAuth(cafe_id)
+	Call CheckDailyCount(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -135,7 +136,6 @@
 	End If
 %>
 							<tr>
-							<tr>
 								<th scope="row">제목<em class="required">필수입력</em></th>
 								<td>
 									<input type="text" id="subject" name="subject" class="inp" value="<%=subject%>" maxlength="200" onKeyup="fc_chk_byte(this, 200, 'req_attnView')" required>
@@ -202,9 +202,8 @@
 					oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", [])
 					f.action = "board_temp_exec.asp";
 					f.temp.value = "N";
-					//f.target = "hiddenfrm";
+					f.target = "hiddenfrm";
 					f.submit();
-					alert("작성중인 내용이 임시로 저장되었습니다.");
 				}
 			}
 		}, //boolean

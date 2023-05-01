@@ -48,7 +48,7 @@
 	CntError = 0
 
 	sql = ""
-	sql = sql & " update gi_board "
+	sql = sql & " update gi_board                                         "
 	sql = sql & "    set top_yn            = '" & top_yn             & "' "
 	sql = sql & "       ,pop_yn            = '" & pop_yn             & "' "
 	sql = sql & "       ,section_seq       = '" & section_seq        & "' "

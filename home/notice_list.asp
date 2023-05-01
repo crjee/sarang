@@ -64,6 +64,9 @@
 	sql = sql & "   from gi_notice cb "
 	sql = sql & "  where cafe_id = '" & cafe_id & "' "
 	sql = sql & "    and menu_seq = '" & menu_seq & "' "
+	If self_yn = "Y" Then
+	sql = sql & "    and user_id = '" & session("user_id") & "' "
+	End If
 	sql = sql & secStr
 	sql = sql & schStr
 	rs.Open sql, conn, 3, 1
@@ -135,7 +138,7 @@
 									<th scope="col">번호</th>
 									<th scope="col">제목</th>
 									<th scope="col">글쓴이</th>
-									<th scope="col">작성일</th>
+									<th scope="col">등록일</th>
 									<th scope="col">조회</th>
 								</tr>
 							</thead>

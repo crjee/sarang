@@ -4,6 +4,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	Call CheckMultipart()
 
 	Call CheckAdmin()

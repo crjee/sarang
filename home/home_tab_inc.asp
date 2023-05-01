@@ -1,5 +1,5 @@
 <%
-	If cafe_id <> "home" Then Response.End
+	If menu_seq = "" Then Response.End
 %>
 <%
 	If tab_use_yn = "Y" Then ' 탭정보 확인
@@ -33,17 +33,17 @@
 %>
 					<div class="slide_cate">
 <%
-				Do Until tabRs.eof
+			Do Until tabRs.eof
 %>
 						<a href="javascript: goTab('<%=tabRs("section_seq")%>')" class="<%=if3(CStr(section_seq)=CStr(tabRs("section_seq")),"on","")%>"><%=tabRs("section_nm")%></a>
 <%
-					tabRs.MoveNext
-				Loop
+				tabRs.MoveNext
+			Loop
 %>
 					</div>
 <%
-			End If
-			tabRs.close
-			Set tabRs = Nothing
 		End If
+		tabRs.close
+		Set tabRs = Nothing
+	End If
 %>

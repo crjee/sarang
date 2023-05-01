@@ -18,6 +18,7 @@
 	menu_seq = uploadform("menu_seq")
 	Call CheckMenuSeq(cafe_id, menu_seq)
 	Call CheckWriteAuth(cafe_id)
+	Call CheckDailyCount(cafe_id)
 
 	dsplyFolder  = ConfigAttachedFileFolder & "display\album\"
 	thmbnlFolder = ConfigAttachedFileFolder & "thumbnail\album\"
@@ -153,11 +154,11 @@
 	Conn.Execute(sql)
 
 	sql = ""
-	sql = sql & " delete "
-	sql = sql & "   from gi_temp_album "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	sql = sql & "    and user_id = '" & Session("user_id")  & "' "
+	sql = sql & " delete                                         "
+	sql = sql & "   from cf_temp_board                           "
+	sql = sql & "  where menu_seq = '" & menu_seq           & "' "
+	sql = sql & "    and cafe_id  = '" & cafe_id            & "' "
+	sql = sql & "    and user_id  = '" & Session("user_id") & "' "
 	Conn.Execute(sql)
 
 	album_seq = new_seq

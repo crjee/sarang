@@ -113,6 +113,9 @@
 
 .bbs_cont { position:relative; min-height:500px; line-height:2; padding:20px 0; border:1px solid #ddd; border-left:0; border-right:0; }
 .view_btn { position:relative; margin-bottom:10px; padding-bottom:10px; text-align:right; border-bottom:1px solid #ddd; }
+.view_btn .flex-box { justify-content:space-between; }
+.view_btn .item-box { white-space:nowrap; }
+
 
 .bbs_add_cont { position:relative; margin-top:20px; padding:20px; background:#f9f9f9; }
 .bbs_add_cont .bbs_add_cont_head { position:relative; padding:17px; background:#fff; }
@@ -141,3 +144,16 @@
 .section_box:before { position:absolute; display:block; left:50%; top:-63px; font-family:"Font Awesome 6 Free"; font-size:50px; color:#3dd1c0; font-weight:900; content:"\f1da"; transform:translateX(-50%); }
 .section_box p { font-size:20px; color:#333; }
 .section_box .btn { margin-top:20px; }
+
+/* 팝업 */
+#popup { overflow:hidden; }
+#popup img { max-width:100%; }
+form.popup { width:100%; height:100%; }
+#CenterPopup { display:flex; flex-flow:column nowrap; align-items:stretch; justify-content:stretch; width:100%; height:100%; }
+#Contents_Popuptitle { flex:0; width:100%; padding:10px; font-size:16px; border-bottom:1px solid #ddd; }
+#Contents_PopupContMain { flex:1; padding:10px; line-height:1.4; overflow-x:hidden; overflow-y:auto; }
+#Contents_Foot { flex:0; padding:10px; background:#f9f9f9; }
+#Contents_Foot .flex-box { justify-content:space-between; align-items:center; }
+#Contents_Foot .item-box { font-size:12px; white-space:nowrap; }
+#Contents_Foot .contents_foot_left { }
+#Contents_Foot .contents_foot_right {}

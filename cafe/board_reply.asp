@@ -4,6 +4,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	menu_seq = Request("menu_seq")
 	Call CheckMenuSeq(cafe_id, menu_seq)
 	com_seq = Request(menu_type & "_seq")
@@ -37,7 +38,6 @@
 	End If
 %>
 <%
-	menu_seq  = Request("menu_seq")
 	page      = Request("page")
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
@@ -47,9 +47,11 @@
 
 	link = "http://"
 
+	Set rs = Server.CreateObject("ADODB.Recordset")
+
 	sql = ""
-	sql = sql & " select * "
-	sql = sql & "  from cf_board "
+	sql = sql & " select *                              "
+	sql = sql & "  from cf_board                        "
 	sql = sql & " where board_seq = '" & board_seq & "' "
 	rs.Open Sql, conn, 3, 1
 
@@ -104,11 +106,13 @@
 			<div class="container">
 				<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
 				<input type="hidden" name="tb_prefix" value="cf">
-				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 				<input type="hidden" name="page" value="<%=page%>">
 				<input type="hidden" name="pagesize" value="<%=pagesize%>">
 				<input type="hidden" name="sch_type" value="<%=sch_type%>">
 				<input type="hidden" name="sch_word" value="<%=sch_word%>">
+				<input type="hidden" name="section_seq" value="<%=section_seq%>">
+
+				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 				<input type="hidden" name="board_seq" value="<%=board_seq%>">
 				<input type="hidden" name="group_num" value="<%=group_num%>">
 				<input type="hidden" name="level_num" value="<%=level_num%>">
@@ -147,7 +151,7 @@
 							<tr>
 								<th scope="row">링크주소</th>
 								<td>
-									<input type="text" id="link" name="link" class="inp" value="<%=link%>">
+									<input type="text" id="link" name="link" class="inp">
 								</td>
 							</tr>
 						</tbody>

@@ -299,9 +299,6 @@
 
 				<div class="mt10">
 					<div class="tb">
-						<form name="list_form" method="post">
-						<input type="hidden" name="menu_type" value="<%=menu_type%>">
-						<input type="hidden" name="smode">
 						<table class="tb_fixed">
 							<colgroup>
 								<col class="w7" />
@@ -381,7 +378,6 @@
 %>
 							</tbody>
 						</table>
-						</form>
 					</div>
 <!--#include virtual="/home/home_page_inc.asp"-->
 				</div>

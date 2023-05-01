@@ -48,7 +48,7 @@
 
 	If sch_word <> "" Then
 		If sch_type = "" Then
-			schStr = " and (subject like '%" & sch_word & "%' or creid like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
+			schStr = " and (subject like '%" & sch_word & "%' or user_id like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
 		Else
 			schStr = " and " & sch_type & " like '%" & sch_word & "%' "
 		End If
@@ -65,9 +65,10 @@
 	sql = sql & "    and menu_seq = '" & menu_seq & "' "
 	sql = sql & secStr
 	sql = sql & schStr
-
 	rs.Open sql, conn, 3, 1
+
 	RecordCount = 0 ' 자료가 없을때
+
 	If Not rs.EOF Then
 		RecordCount = rs("cnt")
 	End If
@@ -79,20 +80,6 @@
 	Else
 		PageCount = Int(RecordCount / pagesize) + 1
 	End If
-
-	sql = ""
-	sql = sql & " select *                                                                           "
-	sql = sql & "   from (select row_number() over( order by group_num desc, step_num asc) as rownum "
-	sql = sql & "               ,*                                                                   "
-	sql = sql & "           from gi_waste_board                                                      "
-	sql = sql & "          where cafe_id  = '" & cafe_id                                        & "' "
-	sql = sql & "            and menu_seq = '" & menu_seq                                       & "' "
-	sql = sql & secStr
-	sql = sql & schStr
-	sql = sql & "        ) a                                                                         "
-	sql = sql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & "          "
-	sql = sql & "  order by group_num desc, step_num asc                                             "
-	rs.Open sql, conn, 3, 1
 %>
 		<main id="main" class="main">
 			<div class="container">
@@ -129,9 +116,9 @@
 							<colgroup>
 								<col class="w7" />
 								<col class="w_auto" />
-								<col class="w10" />
-								<col class="w10" />
-								<col class="w10" />
+								<col class="w15" />
+								<col class="w7" />
+								<col class="w7" />
 								<col class="w10" />
 							</colgroup>
 							<thead>
@@ -146,41 +133,47 @@
 							</thead>
 							<tbody>
 <%
+	sql = ""
+	sql = sql & " select a.*                                                                         "
+	sql = sql & "       ,cm.phone as tel_no                                                          "
+	sql = sql & "   from (select row_number() over( order by group_num desc, step_num asc) as rownum "
+	sql = sql & "               ,board_seq                                                           "
+	sql = sql & "               ,board_num                                                           "
+	sql = sql & "               ,group_num                                                           "
+	sql = sql & "               ,level_num                                                           "
+	sql = sql & "               ,step_num                                                            "
+	sql = sql & "               ,agency                                                              "
+	sql = sql & "               ,subject                                                             "
+	sql = sql & "               ,user_id                                                             "
+	sql = sql & "               ,reg_date                                                            "
+	sql = sql & "               ,view_cnt                                                            "
+	sql = sql & "               ,comment_cnt                                                         "
+	sql = sql & "               ,suggest_cnt                                                         "
+	sql = sql & "               ,parent_del_yn                                                       "
+	sql = sql & "           from gi_waste_board                                                      "
+	sql = sql & "          where cafe_id  = '" & cafe_id                                        & "' "
+	sql = sql & "            and menu_seq = '" & menu_seq                                       & "' "
+	sql = sql & secStr
+	sql = sql & schStr
+	sql = sql & "        ) a                                                                         "
+	sql = sql & "   left join cf_member cm on cm.user_id = a.user_id                                 "
+	sql = sql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & "          "
+	sql = sql & "  order by group_num desc, step_num asc                                             "
+	rs.Open sql, conn, 3, 1
+
 	If Not rs.EOF Then
 		Do Until rs.EOF
-			board_seq      = rs("board_seq")
-			board_num      = rs("board_num")
-			group_num      = rs("group_num")
-			step_num       = rs("step_num")
-			level_num      = rs("level_num")
-			menu_seq       = rs("menu_seq")
-			cafe_id        = rs("cafe_id")
-			agency         = rs("agency")
-			top_yn         = rs("top_yn")
-			pop_yn         = rs("pop_yn")
-			section_seq    = rs("section_seq")
-			subject        = rs("subject")
-			contents       = rs("contents")
-			link           = rs("link")
-			user_id        = rs("user_id")
-			reg_date       = rs("reg_date")
-			view_cnt       = rs("view_cnt")
-			comment_cnt    = rs("comment_cnt")
-			suggest_cnt    = rs("suggest_cnt")
-			suggest_info   = rs("suggest_info")
-			parent_seq     = rs("parent_seq")
-			parent_del_yn  = rs("parent_del_yn")
-			move_board_num = rs("move_board_num")
-			move_menu_seq  = rs("move_menu_seq")
-			move_user_id   = rs("move_user_id")
-			move_date      = rs("move_date")
-			delid          = rs("delid")
-			deldt          = rs("deldt")
-			creid          = rs("creid")
-			credt          = rs("credt")
-			modid          = rs("modid")
-			moddt          = rs("moddt")
+			board_seq   = rs("board_seq")
+			board_num   = rs("board_num")
+			level_num   = rs("level_num")
+			agency      = rs("agency")
+			subject     = rs("subject")
+			reg_date    = rs("reg_date")
+			view_cnt    = rs("view_cnt")
+			comment_cnt = rs("comment_cnt")
+			suggest_cnt = rs("suggest_cnt")
 
+			tel_no      = rs("tel_no")
 			subject = Replace(subject, """", "&quot;")
 
 			If isnull(subject) Or isempty(subject) Or Len(Trim(subject)) = 0 Then
@@ -190,6 +183,7 @@
 			If parent_del_yn = "Y" Then
 				subject = "*원글이 삭제된 답글* " & subject
 			End If
+
 			subject_s = rmid(subject, 40, "..")
 %>
 								<tr>
@@ -203,7 +197,7 @@
 <%
 			End If
 %>
-										<a href="javascript: goView('<%=board_seq%>')" title="<%=subject_s%>"><%=subject%>&nbsp;</a>
+										<a href="#n" onclick="goView('<%=board_seq%>')" title="<%=subject_s%>"><%=subject%>&nbsp;</a>
 <%
 			If comment_cnt > "0" Then
 %>
@@ -212,14 +206,14 @@
 			End If
 %>
 <%
-			If CDate(DateAdd("d", 2, reg_date)) >= Date Then
+			If CDate(DateAdd("d",2,reg_date)) >= Date Then
 %>
 										<img src="/cafe/img/btn/new.png" />
 <%
 			End If
 %>
 									</td>
-									<td class="algC"><%=agency%></td>
+									<td class="algC"><a title="<%=tel_no%>"><%=agency%></a></td>
 									<td class="algC"><%=view_cnt%></td>
 									<td class="algC"><%=suggest_cnt%></td>
 									<td class="algC"><%=Left(reg_date, 10)%></td>
@@ -265,10 +259,9 @@
 		f.submit();
 	}
 
-	function goWrite(gvTarget) {
+	function goWrite() {
 		var f = document.search_form;
 		f.action = "board_write.asp"
-		f.target = gvTarget;
 		f.submit();
 	}
 

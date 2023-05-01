@@ -1,0 +1,224 @@
+
+D:\경인네트웍스\sarang\cafe\album_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goWaste('<%=session("ctTarget")%>')">휴지통</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+
+D:\경인네트웍스\sarang\cafe\board_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+
+D:\경인네트웍스\sarang\cafe\cafe_search_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
+
+D:\경인네트웍스\sarang\cafe\job_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goWaste('<%=session("ctTarget")%>')">휴지통</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+
+D:\경인네트웍스\sarang\cafe\land_list.asp
+
+D:\경인네트웍스\sarang\cafe\member_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
+
+D:\경인네트웍스\sarang\cafe\memo_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="onAll()">전체선택</button>
+button type="button" class="btn btn_c_a btn_s" onclick="onDel()">선택삭제</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goReceive('<%=session("ctTarget")%>')"><%=if3(memo_receive_yn="N","수신허용","수신거부")%></button><!-- js goReceive --><!-- /cafe/memo_list.asp?menu_seq=<%=menu_seq%>&stype=<%=stype%>&memo_receive_yn=<%=if3(memo_receive_yn="N","Y","N")%> -->
+button type="button" class="btn btn_c_a btn_s" onclick="goWrite('<%=session("ctTarget")%>')">쪽지보내기</button><!-- js goWrite --><!-- /cafe/memo_write.asp?menu_seq=<%=menu_seq%> -->
+button type="button" class="btn btn_close"><em>닫기</em></button>
+button type="submit" class="btn btn_c_a btn_n">이동</button>
+button type="reset" class="btn btn_c_n btn_n">취소</button>
+
+D:\경인네트웍스\sarang\cafe\notice_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goWaste('<%=session("ctTarget")%>')">휴지통</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+
+D:\경인네트웍스\sarang\cafe\sale_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goWaste('<%=session("ctTarget")%>')">휴지통</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+
+D:\경인네트웍스\sarang\cafe\waste_album_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+
+D:\경인네트웍스\sarang\cafe\waste_board_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+
+D:\경인네트웍스\sarang\cafe\waste_job_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+
+D:\경인네트웍스\sarang\cafe\waste_notice_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+
+D:\경인네트웍스\sarang\cafe\waste_sale_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite('<%=session("ctTarget")%>')">글쓰기</button>
+
+D:\경인네트웍스\sarang\cafe\manager\banner_list.asp
+button type="button" class="btn btn_c_a btn_s" onClick="rowMoveEvent<%=cmn_cd%>('up');" />▲</button>
+button type="button" class="btn btn_c_a btn_s" onClick="rowMoveEvent<%=cmn_cd%>('down');" />▼</button>
+button type="submit" class="btn btn_c_a btn_s">노출순서 저장</button>
+button type="button" class="btn btn_c_a btn_s btn_modi" onclick="onEdit('<%=banner_seq%>')">수정</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goDelete('<%=banner_seq%>')">삭제</button>
+button type="button" class="btn btn_c_a btn_n" onclick="onRegi('<%=banner_type%>')">배너등록</button>
+button type="button" class="btn btn_close"><em>닫기</em></button></span>
+button type="submit" id="submitBtn" class="btn btn_n">확인</button>
+button type="reset" id="resetBtn" class="btn btn_n">취소</button>
+
+D:\경인네트웍스\sarang\cafe\manager\join_list.asp
+button type="submit" class="btn btn_c_s btn_s">확인</button>
+
+D:\경인네트웍스\sarang\cafe\manager\main_list.asp
+button type="submit" class="btn btn_c_a btn_s">적용</button>
+
+D:\경인네트웍스\sarang\cafe\manager\member_list.asp
+button type="button" class="btn btn_c_s btn_s" onclick="goLevel()">등급설정 변경</button>
+button type="button" class="btn btn_c_s btn_s" onclick="goActivity()">활동정지 또는 활동</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+
+D:\경인네트웍스\sarang\cafe\manager\menu_list.asp
+button type="submit" class="btn btn_c_a btn_s">적용</button>
+
+D:\경인네트웍스\sarang\cafe\manager\poll_list.asp
+button type="button" class="btn btn_c_a btn_s btn_modi" onclick="onEdit('<%=rs("poll_seq")%>')">수정</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goDdln('<%=rs("poll_seq")%>')">마감</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goDelete('<%=rs("poll_seq")%>')">삭제</button>
+button type="button" class="btn btn_c_a btn_n" onclick="onRegi()">설문등록</button>
+button type="button" class="btn btn_close">닫기</button></span>
+button type="submit" id="submitBtn" class="btn btn_n">확인</button>
+button type="reset" id="resetBtn" class="btn btn_n">취소</button>
+
+D:\경인네트웍스\sarang\cafe\manager\popup_list.asp
+button type="submit" class="btn btn_c_a btn_n">확인</button>
+
+D:\경인네트웍스\sarang\home\album_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goNotice('<%=session("ctTarget")%>')">전체공지</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goWaste()">휴지통</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goWrite()">글쓰기</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite()">글쓰기</button>
+
+D:\경인네트웍스\sarang\home\board_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goNotice('<%=session("ctTarget")%>')">전체공지</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goWaste()">휴지통</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goWrite()">글쓰기</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite()">글쓰기</button>
+
+D:\경인네트웍스\sarang\home\home_search_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+
+D:\경인네트웍스\sarang\home\job_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goWrite()">글쓰기</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite()">글쓰기</button>
+
+D:\경인네트웍스\sarang\home\land_list.asp
+
+D:\경인네트웍스\sarang\home\notice_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goNotice('<%=session("ctTarget")%>')">전체공지</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goWaste()">휴지통</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goWrite()">글쓰기</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite()">글쓰기</button>
+
+D:\경인네트웍스\sarang\home\nsale_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goNotice('<%=session("ctTarget")%>')">전체공지</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goWaste()">휴지통</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goWrite()">글쓰기</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite()">글쓰기</button>
+
+D:\경인네트웍스\sarang\home\sale_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goNotice('<%=session("ctTarget")%>')">전체공지</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goWaste()">휴지통</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goWrite()">글쓰기</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite()">글쓰기</button>
+
+D:\경인네트웍스\sarang\home\waste_album_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite()">글쓰기</button>
+
+D:\경인네트웍스\sarang\home\waste_board_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite()">글쓰기</button>
+
+D:\경인네트웍스\sarang\home\waste_job_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite()">글쓰기</button>
+
+D:\경인네트웍스\sarang\home\waste_nsale_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite()">글쓰기</button>
+
+D:\경인네트웍스\sarang\home\waste_sale_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+button type="button" class="btn btn_c_a btn_n" onclick="goWrite()">글쓰기</button>
+
+D:\경인네트웍스\sarang\home\admin\banner_list.asp
+button type="button" class="btn btn_c_a btn_s" onClick="rowMoveEvent<%=cmn_cd%>('up');" />▲</button>
+button type="button" class="btn btn_c_a btn_s" onClick="rowMoveEvent<%=cmn_cd%>('down');" />▼</button>
+button type="submit" class="btn btn_c_a btn_s">노출순서 저장</button>
+button type="button" class="btn btn_c_a btn_s btn_modi" onclick="onEdit('<%=banner_seq%>')">수정</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goDelete('<%=banner_seq%>')">삭제</button>
+button type="button" class="btn btn_c_a btn_n" onclick="onRegi('<%=banner_type%>')"><%=if3(banner_type="LG","로고등록","배너등록")%></button>
+button type="button" class="btn btn_close"><em>닫기</em></button></span>
+button type="submit" id="submitBtn" class="btn btn_n">확인</button>
+button type="reset" id="resetBtn" class="btn btn_n">취소</button>
+
+D:\경인네트웍스\sarang\home\admin\cafe_list.asp
+button type="button" class="btn btn_c_s btn_s" onclick="goUnion()">연합회 변경</button>
+button type="button" class="btn btn_c_s btn_s" onclick="goActivity()">사랑방차단 또는 해제</button>합니다.
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+button type="button" class="btn btn_c_s btn_s">노출</button></td>
+button type="button" class="btn btn_c_a btn_n" onclick="lyp('lypp_adm_group')">사랑방개설</button>
+button type="button" class="btn btn_close"><em>닫기</em></button></span>
+button type="submit" class="btn btn_n">확인</button>
+button type="reset" class="btn btn_n">취소</button>
+
+D:\경인네트웍스\sarang\home\admin\dmnddel_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+button type="button" class="btn f_awesome btn_file">첨부파일</button></td>
+
+D:\경인네트웍스\sarang\home\admin\inquiry_list.asp
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+
+D:\경인네트웍스\sarang\home\admin\main_list.asp
+button type="submit" class="btn btn_c_a btn_s">적용</button>
+
+D:\경인네트웍스\sarang\home\admin\member_list.asp
+button type="button" class="btn btn_c_s btn_s" onclick="goLevel()">등급설정 변경</button>
+button type="button" class="btn btn_c_s btn_s" onclick="goActivity1()">전체 정지 또는 활동</button>
+button type="button" class="btn btn_c_s btn_s" onclick="goActivity2()">사랑방 정지 또는 활동</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
+button type="button" class="btn btn_c_s btn_s" onclick="goAuth('<%=user_id%>')">권한취소</button>
+button type="button" class="btn btn_c_s btn_s" onclick="goAuth('<%=user_id%>')">권한주기</button>
+button type="button" class="btn btn_c_a btn_n" onclick="lyp('lypp_adm_member')">회원등록</button>
+button type="button" class="btn btn_close"><em>닫기</em></button></span>
+button type="submit" class="btn btn_n">확인</button>
+button type="reset" class="btn btn_n">취소</button>
+
+D:\경인네트웍스\sarang\home\admin\menu_list.asp
+button type="submit" class="btn btn_c_a btn_s">적용</button>
+
+D:\경인네트웍스\sarang\home\admin\poll_list.asp
+button type="button" class="btn btn_c_a btn_s btn_modi" onclick="onEdit('<%=row("poll_seq")%>')">수정</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goDdln('<%=row("poll_seq")%>')">마감</button>
+button type="button" class="btn btn_c_a btn_s" onclick="goDelete('<%=row("poll_seq")%>')">삭제</button>
+button type="button" class="btn btn_c_a btn_n" onclick="onRegi()">설문등록</button>
+button type="button" class="btn btn_close"><em>닫기</em></button></span>
+button type="submit" id="submitBtn" class="btn btn_n">확인</button>
+button type="reset" id="resetBtn" class="btn btn_n">취소</button>
+
+D:\경인네트웍스\sarang\sys\pgm_list.asp

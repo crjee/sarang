@@ -2,19 +2,26 @@
 	If com_seq = "" Then Response.End
 %>
 <%
+	menu_seq = Request("menu_seq")
+	Call CheckMenuSeq(cafe_id, menu_seq)
+	com_seq = Request(menu_type & "_seq")
+	Call CheckWasteExist(com_seq)
+
+	Call CheckManager(cafe_id)
 	cafe_mb_level = GetUserLevel(cafe_id)
 	If GetToInt(reply_auth) <= GetToInt(cafe_mb_level) Then
 		set rs = server.createobject("adodb.recordset")
 		sql = ""
-		sql = sql & " select cc.* "
-		sql = sql & "   from cf_waste_" & menu_type & "_comment cc "
-		sql = sql & "   left outer join cf_member cm on cm.user_id = cc.user_id "
+		sql = sql & " select cc.*                                         "
+		sql = sql & "       ,phone as tel_no                              "
+		sql = sql & "   from cf_waste_"&menu_type&"_comment cc            "
+		sql = sql & "   left join cf_member cm on cm.user_id = cc.user_id "
 		sql = sql & "  where cc." & menu_type & "_seq = '" & com_seq & "' "
-		sql = sql & "  order by cc.group_num desc, cc.step_num asc "
+		sql = sql & "  order by cc.group_num desc, cc.step_num asc        "
 		rs.Open Sql, conn, 3, 1
 
 		If Not rs.eof Then
-		comment_cnt = rs.recordcount
+			comment_cnt = rs.recordcount
 %>
 				<div class="bbs_add_cont">
 					<div class="bbs_add_cont_head">

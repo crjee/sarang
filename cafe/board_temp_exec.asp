@@ -7,15 +7,14 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	Call CheckMultipart()
-
-	cafe_id = "home"
 
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
 	uploadform.DefaultPath = uploadFolder
-
 	menu_seq = uploadform("menu_seq")
+
 	Call CheckMenuSeq(cafe_id, menu_seq)
 	Call CheckWriteAuth(cafe_id)
 
@@ -27,15 +26,13 @@
 	uploadFolder = ConfigAttachedFileFolder & menu_type & "\"
 	uploadform.DefaultPath = uploadFolder
 
-	board_seq   = uploadform("board_seq")
-	level_num   = uploadform("level_num")
-	step_num    = uploadform("step_num")
+	top_yn      = uploadform("top_yn")
+	pop_yn      = uploadform("pop_yn")
+	section_seq = uploadform("section_seq")
 	subject     = Replace(uploadform("subject"),"'","&#39;")
 	contents    = Replace(uploadform("contents"),"'","&#39;")
 	link        = uploadform("link")
 	If link     = "http://" Then link = ""
-	top_yn      = uploadform("top_yn")
-	section_seq = uploadform("section_seq")
 
 	'On Error Resume Next
 	Conn.BeginTrans
@@ -43,11 +40,11 @@
 	CntError = 0
 
 	sql = ""
-	sql = sql & " delete "
-	sql = sql & "   from cf_temp_board "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	sql = sql & "    and user_id = '" & Session("user_id")  & "' "
+	sql = sql & " delete                                         "
+	sql = sql & "   from cf_temp_board                           "
+	sql = sql & "  where menu_seq = '" & menu_seq           & "' "
+	sql = sql & "    and cafe_id  = '" & cafe_id            & "' "
+	sql = sql & "    and user_id  = '" & Session("user_id") & "' "
 	Conn.Execute(sql)
 
 	new_seq = GetComSeq("cf_temp_board")
@@ -59,46 +56,54 @@
 	step_num = 0
 
 	sql = ""
-	sql = sql & " insert into cf_temp_board( "
-	sql = sql & "        board_seq "
-	sql = sql & "       ,parent_seq "
-	sql = sql & "       ,group_num "
-	sql = sql & "       ,level_num "
-	sql = sql & "       ,step_num "
-	sql = sql & "       ,board_num "
-	sql = sql & "       ,cafe_id "
-	sql = sql & "       ,menu_seq "
-	sql = sql & "       ,agency "
-	sql = sql & "       ,subject "
-	sql = sql & "       ,contents "
-	sql = sql & "       ,view_cnt "
-	sql = sql & "       ,suggest_cnt "
-	sql = sql & "       ,link "
-	sql = sql & "       ,top_yn "
-	sql = sql & "       ,section_seq "
-	sql = sql & "       ,user_id "
-	sql = sql & "       ,creid "
-	sql = sql & "       ,credt "
-	sql = sql & "      ) values( "
-	sql = sql & "        '" & new_seq & "' "
-	sql = sql & "       ,'" & parent_seq & "' "
-	sql = sql & "       ,'" & group_num & "' "
-	sql = sql & "       ,'" & level_num & "' "
-	sql = sql & "       ,'" & step_num & "' "
-	sql = sql & "       ,'" & board_num & "' "
-	sql = sql & "       ,'" & cafe_id & "' "
-	sql = sql & "       ,'" & menu_seq & "' "
-	sql = sql & "       ,'" & Session("agency") & "' "
-	sql = sql & "       ,'" & subject & "' "
-	sql = sql & "       ,'" & contents & "' "
-	sql = sql & "       ,'0' "
-	sql = sql & "       ,'0' "
-	sql = sql & "       ,'" & link & "' "
-	sql = sql & "       ,'" & top_yn & "' "
-	sql = sql & "       ,'" & section_seq & "' "
+	sql = sql & " insert into cf_temp_board(          "
+	sql = sql & "        board_seq                    "
+	sql = sql & "       ,board_num                    "
+	sql = sql & "       ,group_num                    "
+	sql = sql & "       ,step_num                     "
+	sql = sql & "       ,level_num                    "
+	sql = sql & "       ,menu_seq                     "
+	sql = sql & "       ,cafe_id                      "
+	sql = sql & "       ,agency                       "
+	sql = sql & "       ,top_yn                       "
+	sql = sql & "       ,pop_yn                       "
+	sql = sql & "       ,section_seq                  "
+	sql = sql & "       ,subject                      "
+	sql = sql & "       ,contents                     "
+	sql = sql & "       ,link                         "
+
+	sql = sql & "       ,user_id                      "
+	sql = sql & "       ,reg_date                     "
+	sql = sql & "       ,view_cnt                     "
+	sql = sql & "       ,comment_cnt                  "
+	sql = sql & "       ,suggest_cnt                  "
+	sql = sql & "       ,parent_seq                   "
+	sql = sql & "       ,creid                        "
+	sql = sql & "       ,credt                        "
+	sql = sql & "      ) values(                      "
+	sql = sql & "        '" & new_seq            & "' "
+	sql = sql & "       ,'" & board_num          & "' "
+	sql = sql & "       ,'" & group_num          & "' "
+	sql = sql & "       ,'" & step_num           & "' "
+	sql = sql & "       ,'" & level_num          & "' "
+	sql = sql & "       ,'" & menu_seq           & "' "
+	sql = sql & "       ,'" & cafe_id            & "' "
+	sql = sql & "       ,'" & Session("agency")  & "' "
+	sql = sql & "       ,'" & top_yn             & "' "
+	sql = sql & "       ,'" & pop_yn             & "' "
+	sql = sql & "       ,'" & section_seq        & "' "
+	sql = sql & "       ,'" & subject            & "' "
+	sql = sql & "       ,'" & contents           & "' "
+	sql = sql & "       ,'" & link               & "' "
+
 	sql = sql & "       ,'" & Session("user_id") & "' "
+	sql = sql & "       ,'" & Date()             & "' "
+	sql = sql & "       ,0 "
+	sql = sql & "       ,0 "
+	sql = sql & "       ,0 "
+	sql = sql & "       ,'" & parent_seq         & "' "
 	sql = sql & "       ,'" & Session("user_id") & "' "
-	sql = sql & "       ,getdate())"
+	sql = sql & "       ,getdate())                   "
 	Conn.Execute(sql)
 
 	board_seq = new_seq

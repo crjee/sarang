@@ -39,6 +39,8 @@
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
 
+	self_yn   = Request("self_yn")
+
 	board_seq = Request("board_seq")
 
 	link = "http://"
@@ -46,8 +48,8 @@
 	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from gi_board "
+	sql = sql & " select *                               "
+	sql = sql & "   from gi_board                        "
 	sql = sql & "  where board_seq = '" & board_seq & "' "
 	rs.Open Sql, conn, 3, 1
 
@@ -90,8 +92,8 @@
 
 	If contents = "" Then
 		sql = ""
-		sql = sql & " select form "
-		sql = sql & "   from cf_com_form "
+		sql = sql & " select form                          "
+		sql = sql & "   from cf_com_form                   "
 		sql = sql & "  where menu_seq = '" & menu_seq & "' "
 		rs.Open Sql, conn, 3, 1
 		If Not rs.eof Then
@@ -111,6 +113,7 @@
 				<input type="hidden" name="pagesize" value="<%=pagesize%>">
 				<input type="hidden" name="sch_type" value="<%=sch_type%>">
 				<input type="hidden" name="sch_word" value="<%=sch_word%>">
+				<input type="hidden" name="self_yn" value="<%=self_yn%>">
 
 				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 				<input type="hidden" name="board_seq" value="<%=board_seq%>">

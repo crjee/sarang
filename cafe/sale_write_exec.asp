@@ -4,6 +4,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	Call CheckMultipart()
 
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
@@ -183,16 +184,16 @@
 
 	sql = ""
 	sql = sql & " update cf_menu                                                                                         "
-	sql = sql & "    set top_cnt   = (select count(*) from cf_sale where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
+	sql = sql & "    set top_cnt   = (select count(*) from gi_sale where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
 	sql = sql & "       ,last_date = getdate()                                                                           "
-	sql = sql & "       ,modid     = '" & Session("user_id")                                                        & "' "
+	sql = sql & "       ,modid     = '" & Session("user_id") & "'                                                        "
 	sql = sql & "       ,moddt     = getdate()                                                                           "
-	sql = sql & "  where menu_seq  = '" & menu_seq                                                                  & "' "
+	sql = sql & "  where menu_seq  = '" & menu_seq & "'                                                                  "
 	Conn.Execute(sql)
 
 	sql = ""
 	sql = sql & " delete                                         "
-	sql = sql & "   from cf_temp_sale                            "
+	sql = sql & "   from cf_temp_board                           "
 	sql = sql & "  where menu_seq = '" & menu_seq           & "' "
 	sql = sql & "    and cafe_id  = '" & cafe_id            & "' "
 	sql = sql & "    and user_id  = '" & Session("user_id") & "' "

@@ -4,6 +4,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	menu_seq = Request("menu_seq")
 	Call CheckMenuSeq(cafe_id, menu_seq)
 	com_seq = Request(menu_type & "_seq")
@@ -36,7 +37,6 @@
 <%
 	End If
 %>
-			<div class="container">
 <%
 	page      = Request("page")
 	pagesize  = Request("pagesize")
@@ -52,8 +52,8 @@
 	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
-	sql = sql & " select * "
-	sql = sql & "   from cf_board "
+	sql = sql & " select *                               "
+	sql = sql & "   from cf_board                        "
 	sql = sql & "  where board_seq = '" & board_seq & "' "
 	rs.Open Sql, conn, 3, 1
 
@@ -90,13 +90,14 @@
 		credt          = rs("credt")
 		modid          = rs("modid")
 		moddt          = rs("moddt")
+		subject     = Replace(subject, """", "&quot;")
 	End If
 	rs.close
 
 	If contents = "" Then
 		sql = ""
-		sql = sql & " select form "
-		sql = sql & "   from cf_com_form "
+		sql = sql & " select form                          "
+		sql = sql & "   from cf_com_form                   "
 		sql = sql & "  where menu_seq = '" & menu_seq & "' "
 		rs.Open Sql, conn, 3, 1
 		If Not rs.eof Then
@@ -112,8 +113,9 @@
 				<input type="hidden" name="pagesize" value="<%=pagesize%>">
 				<input type="hidden" name="sch_type" value="<%=sch_type%>">
 				<input type="hidden" name="sch_word" value="<%=sch_word%>">
-				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 				<input type="hidden" name="self_yn" value="<%=self_yn%>">
+
+				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 				<input type="hidden" name="board_seq" value="<%=board_seq%>">
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%> 수정</h2>
@@ -162,7 +164,7 @@
 						</tbody>
 					</table>
 					<div class="mt10">
-						<textarea name="contents" id="contents" style="width:100%;display:none;" onkeyup="setCookie('contents',this.value,1)"><%=contents%></textarea>
+						<textarea name="contents" id="contents" style="width:100%;display:none;"><%=contents%></textarea>
 						<p class="txt_point mt10">새로고침시 에디터 내용은 유지되지 않습니다.</p>
 					</div>
 					<table class="tb_input tb_fixed mt10">
@@ -179,9 +181,6 @@
 							</tr>
 						</tbody>
 					</table>
-<%
-	com_seq = board_seq
-%>
 <!--#include virtual="/include/attach_form_inc.asp"-->
 				</div>
 				<div class="btn_box">

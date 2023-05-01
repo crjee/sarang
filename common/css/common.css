@@ -121,6 +121,8 @@
 .tb .gallery .gallery_inner_box a { display:block; }
 .tb .gallery .gallery_inner_box .text { display:block; padding:7px 0; }
 .tb .gallery .gallery_inner_box .posr { position:relative; }
+.tb .gallery .gallery_inner_box .nodata { display:flex; flex-flow:row nowrap; width:100%; height:300px; justify-content:center; align-items:center; border-bottom:1px solid #ddd; }
+
 /* .tb .gallery_t_1 .gallery_inner_box .c_wrap { flex:none; width:calc(25% - 16px); } */
 .tb .gallery_t_1 .gallery_inner_box .c_wrap { flex:0 24%; margin:0 0.5% 20px; }
 .ck.editor[role='textbox'] { min-height:400px !important; border:1px solid red; }
@@ -341,6 +343,8 @@
 .txt_guide_1 { position:relative; padding-left:10px; }
 .txt_guide_1:before { position:absolute; left:0; top:50%; width:3px; height:3px; background:#333; border-radius:50%; transform:translateY(-50%); content:""; }
 
-
 /* flex box */
 .flex_box { display:flex; flex-flow:row nowrap; align-items:center; justify-content:center; width:100%; height:100%; }
+
+/* 타이머 */
+.timer { position:fixed; left:50%; bottom:20px; }

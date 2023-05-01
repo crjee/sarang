@@ -66,6 +66,9 @@
 	sql = sql & "   from gi_nsale                            "
 	sql = sql & "  where cafe_id = '" & cafe_id & "'         "
 	sql = sql & "    and menu_seq = '" & menu_seq & "'       "
+	If self_yn = "Y" Then
+	sql = sql & "    and user_id = '" & session("user_id") & "' "
+	End If
 	sql = sql & secStr
 	sql = sql & schStr
 	rs.Open sql, conn, 3, 1
@@ -91,6 +94,9 @@
 	sql = sql & "           from gi_nsale                                                            "
 	sql = sql & "          where cafe_id  = '" & cafe_id                                        & "' "
 	sql = sql & "            and menu_seq = '" & menu_seq                                       & "' "
+	If self_yn = "Y" Then
+	sql = sql & "    and user_id = '" & session("user_id") & "' "
+	End If
 	sql = sql & secStr
 	sql = sql & schStr
 	sql = sql & "        ) a                                                                         "
@@ -293,6 +299,7 @@
 			alert(e)
 		}
 	}
+
 
 	function goWaste() {
 		var f = document.search_form;

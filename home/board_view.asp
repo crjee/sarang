@@ -138,38 +138,38 @@
 	rs.Open Sql, conn, 3, 1
 
 	If Not rs.eof Then
+		board_seq      = rs("board_seq")
+		board_num      = rs("board_num")
 		group_num      = rs("group_num")
 		step_num       = rs("step_num")
 		level_num      = rs("level_num")
-		board_num      = rs("board_num")
-		cafe_id        = rs("cafe_id")
 		menu_seq       = rs("menu_seq")
+		cafe_id        = rs("cafe_id")
 		agency         = rs("agency")
+		top_yn         = rs("top_yn")
+		pop_yn         = rs("pop_yn")
+		section_seq    = rs("section_seq")
 		subject        = rs("subject")
 		contents       = rs("contents")
-		view_cnt       = rs("view_cnt")
-		suggest_cnt    = rs("suggest_cnt")
 		link           = rs("link")
-		top_yn         = rs("top_yn")
-		reg_date       = rs("reg_date")
-		creid          = rs("creid")
-		credt          = rs("credt")
-		modid          = rs("modid")
-		moddt          = rs("moddt")
-		board_seq      = rs("board_seq")
-		suggest_info   = rs("suggest_info")
 		user_id        = rs("user_id")
+		reg_date       = rs("reg_date")
+		view_cnt       = rs("view_cnt")
+		comment_cnt    = rs("comment_cnt")
+		suggest_cnt    = rs("suggest_cnt")
+		suggest_info   = rs("suggest_info")
 		parent_seq     = rs("parent_seq")
-		move_board_num = rs("move_board_num")
 		parent_del_yn  = rs("parent_del_yn")
+		move_board_num = rs("move_board_num")
 		move_menu_seq  = rs("move_menu_seq")
 		move_user_id   = rs("move_user_id")
 		move_date      = rs("move_date")
 		restoreid      = rs("restoreid")
 		restoredt      = rs("restoredt")
-		comment_cnt    = rs("comment_cnt")
-		section_seq    = rs("section_seq")
-		pop_yn         = rs("pop_yn")
+		creid          = rs("creid")
+		credt          = rs("credt")
+		modid          = rs("modid")
+		moddt          = rs("moddt")
 
 		tel_no         = rs("tel_no")
 	End If
@@ -187,10 +187,6 @@
 				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 				<input type="hidden" name="board_seq" value="<%=board_seq%>">
 				<input type="hidden" name="com_seq" value="<%=board_seq%>">
-
-				<input type="hidden" name="group_num" value="<%=group_num%>">
-				<input type="hidden" name="level_num" value="<%=level_num%>">
-				<input type="hidden" name="step_num" value="<%=step_num%>">
 				</form>
 				<div class="cont_tit">
 					<h2 class="h2"><%=menu_name%> 내용보기</h2>
@@ -294,9 +290,8 @@
 									<select id="menu_seq" name="menu_seq" class="sel w_auto" required >
 										<option value=""></option>
 <%
-
 		Do Until rs.eof
-			menu_seq = rs("menu_seq")
+			menu_seq  = rs("menu_seq")
 			menu_name = rs("menu_name")
 %>
 										<option value="<%=menu_seq%>"><%=menu_name%></option>
@@ -325,10 +320,10 @@
 	If okSubmit = "Y" Then
 %>
 					<button type="submit" class="btn btn_c_a btn_n">이동</button>
+					<button type="reset" class="btn btn_c_n btn_n">취소</button>
 <%
 	End If
 %>
-					<button type="reset" class="btn btn_c_n btn_n">취소</button>
 				</div>
 			</form>
 		</div>

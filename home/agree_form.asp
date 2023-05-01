@@ -34,7 +34,6 @@
 				</div>
 				<form name="form" method="post" onsubmit="return submitContents(this)">
 				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-				<input type="hidden" name="temp" value="Y">
 				<div class="view_cont">
 					<h4 class="f_awesome h4">이용약관</h4>
 					<div class="tb">

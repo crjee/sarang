@@ -18,6 +18,7 @@
 	menu_seq = uploadform("menu_seq")
 	Call CheckMenuSeq(cafe_id, menu_seq)
 	Call CheckWriteAuth(cafe_id)
+	Call CheckDailyCount(cafe_id)
 
 	dsplyFolder  = ConfigAttachedFileFolder & "display\board\"
 	thmbnlFolder = ConfigAttachedFileFolder & "thumbnail\board\"
@@ -63,11 +64,11 @@
 		level_num = level_num + 1
 
 		sql = ""
-		sql = sql & " update gi_board "
-		sql = sql & "    set step_num = step_num + 1 "
-		sql = sql & "  where menu_seq = " & menu_seq  & " "
-		sql = sql & "    and group_num = " & group_num  & " "
-		sql = sql & "    and step_num > " & step_num  & " "
+		sql = sql & " update gi_board                      "
+		sql = sql & "    set step_num  = step_num + 1      "
+		sql = sql & "  where menu_seq  = " & menu_seq  & " "
+		sql = sql & "    and group_num = " & group_num & " "
+		sql = sql & "    and step_num  > " & step_num  & " "
 		Conn.execute sql
 
 		step_num = step_num + 1
@@ -154,7 +155,7 @@
 
 	sql = ""
 	sql = sql & " delete                                         "
-	sql = sql & "   from gi_temp_board                           "
+	sql = sql & "   from cf_temp_board                           "
 	sql = sql & "  where menu_seq = '" & menu_seq           & "' "
 	sql = sql & "    and cafe_id  = '" & cafe_id            & "' "
 	sql = sql & "    and user_id  = '" & Session("user_id") & "' "

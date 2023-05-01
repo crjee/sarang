@@ -4,6 +4,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	menu_seq = Request("menu_seq")
 	Call CheckMenuSeq(cafe_id, menu_seq)
 	Call CheckReadAuth(cafe_id)
@@ -297,6 +298,14 @@
 		f.page.value = 1;
 		f.target = gvTarget;
 		f.action = "/cafe/album_list.asp";
+		f.submit();
+	}
+
+	function goTab(section_seq, gvTarget) {
+		var f = document.search_form;
+		f.section_seq.value = section_seq;
+		f.page.value = 1;
+		f.target = gvTarget;
 		f.submit();
 	}
 

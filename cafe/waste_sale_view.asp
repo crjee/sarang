@@ -4,6 +4,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	menu_seq = Request("menu_seq")
 	Call CheckMenuSeq(cafe_id, menu_seq)
 	com_seq = Request(menu_type & "_seq")
@@ -43,7 +44,6 @@
 	sch_word  = Request("sch_word")
 
 	sale_seq = Request("sale_seq")
-	waset_yn = "Y"
 
 	Call SetViewCnt(menu_type, com_seq)
 

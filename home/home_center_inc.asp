@@ -432,7 +432,7 @@ try{
 <%
 						Else
 %>
-													<span title="작성일"><%=rect_notice_date%></span></span>
+													<span title="등록일"><%=rect_notice_date%></span></span>
 <%
 						End If
 %>

@@ -2,20 +2,17 @@
 <%
 	freePage = True
 %>
-<%
-	Const tb_prefix = "gi"
-%>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
 	cafe_id = "home"
 
-	If Session("homeCount") = "" then
+	If Session("count") = "" then
 		sql = ""
 		sql = sql & " update cf_cafe "
 		sql = sql & "    set visit_cnt = isnull(visit_cnt,0) + 1 "
 		sql = sql & "  where cafe_id = '" & cafe_id & "' "
 		Conn.Execute(sql)
-		Session("homeCount") = "Y"
+		Session("count") = "Y"
 	End If
 %>
 <!DOCTYPE html>
@@ -24,7 +21,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>경인 홈</title>
+	<title>GI</title>
 	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 	<script src="/common/js/jquery-3.6.0.min.js"></script>
 	<script src="/common/js/jquery-ui.min.js"></script>
@@ -41,7 +38,7 @@
 					<div class="main_frm_l">
 <%
 	Dim homeRs
-	Set homeRs = Server.CreateObject("ADODB.Recordset")
+	Set homeRs = Server.CreateObject ("ADODB.Recordset")
 
 	Dim home_i
 	Dim home_j
@@ -61,7 +58,7 @@
 	sql = sql & "       ,etc_tab_use_yn      "
 	sql = sql & "   from cf_menu cm          "
 	sql = sql & "  where cafe_id = 'home'    "
-	sql = sql & "    and home_num = '1'      "
+	sql = sql & "    and menu_type = 'story' "
 	sql = sql & "  order by home_num asc     "
 	homeRs.Open Sql, conn, 3, 1
 
@@ -106,11 +103,12 @@
 		sql = sql & "  order by section_sn                 "
 		homeRs.open Sql, conn, 3, 1
 
-		ReDim arrHomeLst(homeRs.recordCount)
-		ReDim arrHomeRgn(homeRs.recordCount)
+		ReDim arrHomeLst(homeRs.recordCount+1)
+		ReDim arrHomeRgn(homeRs.recordCount+1)
+
 %>
 						<div class="tab_box">
-							<h2 class="h2 head"><em><%=menu_name%></em></h2>
+							<h2 class="h2 head"><em>부동산 이야기</em></h2>
 							<ul class="tab_btns">
 <%
 		If Not homeRs.eof Then
@@ -130,7 +128,7 @@
 		homeRs.close
 %>
 							</ul>
-							<span class="posR"><a href="/home/<%=menu_type%>_list.asp?menu_seq=<%=menu_seq%>">more</a></span>
+							<span class="posR"><a href="/home/story_list.asp?menu_seq=<%=menu_seq%>">more</a></span>
 						</div>
 <%
 	Else
@@ -139,7 +137,7 @@
 %>
 						<div class="latest_box">
 							<header class="latest_box_head">
-								<h4 class="h4"><%=menu_name%></h4>
+								<h4 class="h4">부동산 이야기</h4>
 								<span class="posR"><a href="/home/land_list.asp?menu_seq=<%=menu_seq%>">more</a></span>
 							</header>
 <%
@@ -159,17 +157,16 @@
 		End If
 
 		sql = ""
-		sql = sql & " select top 6 * "
+		sql = sql & " select top " & home_cnt & " * "
 		sql = sql & "   from ( "
 		sql = sql & "         select 1 as seq "
-		sql = sql & "               ,reg_date "
+		sql = sql & "               ,convert(varchar(10), credt, 120) as credt_txt "
 		sql = sql & "               ,subject "
-		sql = sql & "               ," & menu_type & "_seq "
+		sql = sql & "               ,story_seq "
 		sql = sql & "               ,group_num "
 		sql = sql & "               ,step_num "
-		sql = sql & "           from gi_" & menu_type & " "
+		sql = sql & "           from cf_story "
 		sql = sql & "          where cafe_id  = 'home' "
-		sql = sql & "            and menu_seq = '" & menu_seq & "' "
 		If arrHomeLst(home_i) = 0 Then
 		ElseIf arrHomeLst(home_i) = 999999 Then
 		sql = sql & "            and (section_seq = null or section_seq = '') "
@@ -179,16 +176,15 @@
 		sql = sql & "            and step_num = 0 "
 		sql = sql & "            and top_yn = 'Y' "
 		sql = sql & "          union all "
-		sql = sql & "         select top 6 "
+		sql = sql & "         select top " & home_cnt & " "
 		sql = sql & "                2 as seq "
-		sql = sql & "               ,reg_date "
+		sql = sql & "               ,convert(varchar(10), credt, 120) as credt_txt "
 		sql = sql & "               ,subject "
-		sql = sql & "               ," & menu_type & "_seq "
+		sql = sql & "               ,story_seq "
 		sql = sql & "               ,group_num "
 		sql = sql & "               ,step_num "
-		sql = sql & "           from gi_" & menu_type & " "
+		sql = sql & "           from cf_story "
 		sql = sql & "          where cafe_id  = 'home' "
-		sql = sql & "            and menu_seq = '" & menu_seq & "' "
 		If arrHomeLst(home_i) = 0 Then
 		ElseIf arrHomeLst(home_i) = 999999 Then
 		sql = sql & "            and (section_seq = null or section_seq = '') "
@@ -207,15 +203,15 @@
 								<ul class="latest_1">
 <%
 			Do Until homeRs.eof
-				seq      = homeRs("seq")
-				reg_date = homeRs("reg_date")
-				subject  = homeRs("subject")
-				com_seq  = homeRs("" & menu_type & "_seq")
-				view_url = "/home/" & menu_type & "_view.asp?menu_seq=" & menu_seq & "&" & menu_type & "_seq=" & com_seq
+				seq       = homeRs("seq")
+				credt_txt = homeRs("credt_txt")
+				subject   = homeRs("subject")
+				story_seq = homeRs("story_seq")
+				view_url = "/home/story_view.asp?menu_seq=" & menu_seq & "&story_seq=" & story_seq
 %>
 									<li>
 										<a href="<%=view_url%>"><span class="text"><%=subject%></span></a>
-										<span class="posr"><%=Left(reg_date, 10)%></span>
+										<span class="posr"><%=credt_txt%></span>
 									</li>
 <%
 				homeRs.MoveNext
@@ -357,9 +353,7 @@
 	Set homeRs = Nothing
 	Set homeRs = Nothing
 
-	home_j = home_i
-	'For home_j = home_i Mod 2 To 2
-	Do While home_j Mod 2 = 0
+	For home_j = home_i To 10
 %>
 					<div class="main_frm_<%=if3(home_j Mod 2 = 1,"l","r")%>">
 						<div class="main_banner main_banner_2">
@@ -371,10 +365,7 @@
 						<div class="nobanners"></div>
 					</div>
  --><%
-		home_j = home_j + 1
-		If home_j > 10 Then Exit Do
-	Loop 
-	'Next
+	Next
 %>
 				</div>
 <!--#include virtual="/home/home_center_inc.asp"-->

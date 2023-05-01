@@ -119,16 +119,16 @@
 
 	Sub CheckMenuSeq(ByVal cafe_id, ByVal menu_seq)
 		Set funcRs = server.createobject("adodb.recordset")
-		funcSql = ""
-		funcSql = funcSql & " select * "
-		funcSql = funcSql & "       ,isnull(daily_cnt,9999) as daily_cnt "
-		funcSql = funcSql & "   from cf_menu "
-		funcSql = funcSql & "  where menu_seq = '" & menu_seq & "' "
-		funcSql = funcSql & "    and cafe_id  = '" & cafe_id  & "' "
-		funcRs.Open funcSql, Conn, 3, 1
+		fnSql = ""
+		fnSql = fnSql & " select * "
+		fnSql = fnSql & "       ,isnull(daily_cnt,9999) as daily_cnt "
+		fnSql = fnSql & "   from cf_menu "
+		fnSql = fnSql & "  where menu_seq = '" & menu_seq & "' "
+		fnSql = fnSql & "    and cafe_id  = '" & cafe_id  & "' "
+		funcRs.Open fnSql, Conn, 3, 1
 
 		If funcRs.Eof Then
-Response.write "CheckMenuSeq<br>" & funcSql
+			Response.write "CheckMenuSeq<br>" & fnSql
 			msggo "정상적인 사용이 아닙니다.(No seq)",""
 		Else
 			menu_type      = funcRs("menu_type")
@@ -152,11 +152,11 @@ Response.write "CheckMenuSeq<br>" & funcSql
 	Sub CheckDataExist(ByVal com_seq)
 		Set funcRs = server.createobject("adodb.recordset")
 
-		funcSql = ""
-		funcSql = funcSql & " select * "
-		funcSql = funcSql & "   from " & tb_prefix & "_" & menu_type & " "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq & "' "
-		funcRs.Open funcSql, conn, 3, 1
+		fnSql = ""
+		fnSql = fnSql & " select * "
+		fnSql = fnSql & "   from " & tb_prefix & "_" & menu_type & " "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq & "' "
+		funcRs.Open fnSql, conn, 3, 1
 
 		If funcRs.eof Then
 			msggo "정상적인 사용이 아닙니다.(No data)",""
@@ -170,11 +170,11 @@ Response.write "CheckMenuSeq<br>" & funcSql
 	Sub CheckWasteExist(ByVal com_seq)
 		Set funcRs = server.createobject("adodb.recordset")
 
-		funcSql = ""
-		funcSql = funcSql & " select * "
-		funcSql = funcSql & "   from " & tb_prefix & "_waste_" & menu_type & " "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq & "' "
-		funcRs.Open funcSql, conn, 3, 1
+		fnSql = ""
+		fnSql = fnSql & " select * "
+		fnSql = fnSql & "   from " & tb_prefix & "_waste_" & menu_type & " "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq & "' "
+		funcRs.Open fnSql, conn, 3, 1
 
 		If funcRs.eof Then
 			msggo "정상적인 사용이 아닙니다.(No data)",""
@@ -242,31 +242,31 @@ Response.write "CheckMenuSeq<br>" & funcSql
 
 		If daily_cnt < "9999" Then
 			If inc_del_yn = "N" Then
-				funcSql = ""
-				funcSql = funcSql & " select count(menu_seq) as write_cnt "
-				funcSql = funcSql & "   from " & tb_prefix & "_" & menu_type & " "
-				funcSql = funcSql & "  where menu_seq = '" & menu_seq  & "' "
-				funcSql = funcSql & "    and cafe_id = '" & cafe_id  & "' "
-				funcSql = funcSql & "    and agency = '" & session("agency")  & "' "
-				funcSql = funcSql & "    and convert(varchar(10), credt, 120) = '" & date & "' "
-				funcRs.Open funcSql, conn, 3, 1
-				write_cnt = funcRs("write_cnt")
-				funcRs.close
+				fnSql = ""
+				fnSql = fnSql & " select count(menu_seq) as write_cnt                      "
+				fnSql = fnSql & "   from " & tb_prefix & "_" & menu_type & "               "
+				fnSql = fnSql & "  where menu_seq = '"& Request("menu_seq")           & "' "
+				fnSql = fnSql & "    and cafe_id  = '"& cafe_id                       & "' "
+				fnSql = fnSql & "    and agency   = '"& session("agency")             & "' "
+				fnSql = fnSql & "    and convert(varchar(10), credt, 120) = '" & Date & "' "
+				fnRs.Open fnSql, conn, 3, 1
+				write_cnt = fnRs("write_cnt")
+				fnRs.close
 			Else
-				funcSql = ""
-				funcSql = funcSql & " select count(wl.menu_seq) as write_cnt "
-				funcSql = funcSql & "   from cf_write_log wl "
-				funcSql = funcSql & "   left join cf_member cm on cm.user_id = wl.user_id "
-				funcSql = funcSql & "  where wl.menu_seq = '" & menu_seq  & "' "
-				funcSql = funcSql & "    and wl.cafe_id = '" & cafe_id  & "' "
-				funcSql = funcSql & "    and cm.agency = '" & session("agency")  & "' "
-				funcSql = funcSql & "    and convert(varchar(10), wl.credt, 120) = '" & date & "' "
-				funcRs.Open funcSql, conn, 3, 1
-				write_cnt = funcRs("write_cnt")
-				funcRs.close
+				fnSql = ""
+				fnSql = fnSql & " select count(wl.menu_seq) as write_cnt                      "
+				fnSql = fnSql & "   from cf_write_log wl                                      "
+				fnSql = fnSql & "   left join cf_member cm on cm.user_id = wl.user_id         "
+				fnSql = fnSql & "  where wl.menu_seq = '"& Request("menu_seq")           & "' "
+				fnSql = fnSql & "    and wl.cafe_id  = '"& cafe_id                       & "' "
+				fnSql = fnSql & "    and cm.agency   = '"& session("agency")             & "' "
+				fnSql = fnSql & "    and convert(varchar(10), wl.credt, 120) = '" & Date & "' "
+				fnRs.Open fnSql, conn, 3, 1
+				write_cnt = fnRs("write_cnt")
+				fnRs.close
 			End If
 
-			If cint(write_cnt) >= cint(daily_cnt) Then
+			If CInt(write_cnt) >= CInt(daily_cnt) Then
 				Response.Write "<script>alert('1일 등록 갯수 " & daily_cnt & "개를 초과 하였습니다');history.back()</script>"
 				Response.End
 			End If
@@ -307,13 +307,13 @@ Response.write "CheckMenuSeq<br>" & funcSql
 	Sub SetViewCnt(ByVal menu_type, ByVal com_seq)
 		chkDup = GetComSeqCookieYN(menu_type, com_seq)
 		If chkDup = "N" Then
-			funcSql = ""
-			funcSql = funcSql & " update " & tb_prefix & "_" & menu_type & " "
-			funcSql = funcSql & "    set view_cnt = isnull(view_cnt,0) + 1 "
-			funcSql = funcSql & "       ,modid = '" & Session("user_id") & "' "
-			funcSql = funcSql & "       ,moddt = getdate() "
-			funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq & "' "
-			Conn.Execute(funcSql)
+			fnSql = ""
+			fnSql = fnSql & " update " & tb_prefix & "_" & menu_type & " "
+			fnSql = fnSql & "    set view_cnt = isnull(view_cnt,0) + 1 "
+			fnSql = fnSql & "       ,modid = '" & Session("user_id") & "' "
+			fnSql = fnSql & "       ,moddt = getdate() "
+			fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq & "' "
+			Conn.Execute(fnSql)
 		End If
 	End Sub
 
@@ -336,68 +336,68 @@ Response.write "CheckMenuSeq<br>" & funcSql
 		If Session("cafe_ad_level") = 10 Then
 			cafe_mb_level = 10
 		Else
-			Set fn_rs = server.createobject("adodb.recordset")
-			funcSql = ""
-			funcSql = funcSql & " select cafe_mb_level                          "
-			funcSql = funcSql & "   from cf_cafe_member                         "
-			funcSql = funcSql & "  where cafe_id = '" & cafe_id & "'            "
-			funcSql = funcSql & "    and user_id = '" & session("user_id") & "' "
-			fn_rs.Open funcSql, Conn, 1
+			Set fnRs = server.createobject("adodb.recordset")
+			fnSql = ""
+			fnSql = fnSql & " select cafe_mb_level                          "
+			fnSql = fnSql & "   from cf_cafe_member                         "
+			fnSql = fnSql & "  where cafe_id = '" & cafe_id & "'            "
+			fnSql = fnSql & "    and user_id = '" & session("user_id") & "' "
+			fnRs.Open fnSql, Conn, 1
 
-			If Not fn_rs.eof Then ' 내 사랑방
-				cafe_mb_level = fn_rs("cafe_mb_level")
-				fn_rs.close
+			If Not fnRs.eof Then ' 내 사랑방
+				cafe_mb_level = fnRs("cafe_mb_level")
+				fnRs.close
 			Else
-				fn_rs.close
+				fnRs.close
 
-				funcSql = ""
-				funcSql = funcSql & " select cm.cafe_mb_level "
-				funcSql = funcSql & "       ,um.union_mb_level "
-				funcSql = funcSql & "   from cf_cafe cf "
-				funcSql = funcSql & "  inner join cf_cafe_member cm on cm.cafe_id = cf.cafe_id "
-				funcSql = funcSql & "   left outer join cf_union_manager um on um.union_id = cf.union_id and um.user_id = cm.user_id "
-				funcSql = funcSql & "  where cf.union_id = '" & cafe_id & "' "
-				funcSql = funcSql & "    and cm.user_id = '" & session("user_id") & "' "
-				funcSql = funcSql & "    and cm.stat = 'Y' "
-				fn_rs.Open funcSql, Conn, 1
+				fnSql = ""
+				fnSql = fnSql & " select cm.cafe_mb_level "
+				fnSql = fnSql & "       ,um.union_mb_level "
+				fnSql = fnSql & "   from cf_cafe cf "
+				fnSql = fnSql & "  inner join cf_cafe_member cm on cm.cafe_id = cf.cafe_id "
+				fnSql = fnSql & "   left outer join cf_union_manager um on um.union_id = cf.union_id and um.user_id = cm.user_id "
+				fnSql = fnSql & "  where cf.union_id = '" & cafe_id & "' "
+				fnSql = fnSql & "    and cm.user_id = '" & session("user_id") & "' "
+				fnSql = fnSql & "    and cm.stat = 'Y' "
+				fnRs.Open fnSql, Conn, 1
 
-				If Not fn_rs.eof Then ' 내 연합회
-					cafe_mb_level = fn_rs("cafe_mb_level")
-					union_mb_level = fn_rs("union_mb_level")
+				If Not fnRs.eof Then ' 내 연합회
+					cafe_mb_level = fnRs("cafe_mb_level")
+					union_mb_level = fnRs("union_mb_level")
 
 					If isnull(union_mb_level) Then union_mb_level = ""
 					If GetToInt(cafe_mb_level) < GetToInt(union_mb_level) Then cafe_mb_level = union_mb_level
 				End If
 
-				fn_rs.close
+				fnRs.close
 			End If
-			Set fn_rs = Nothing
+			Set fnRs = Nothing
 		End If
 		GetUserLevel = GetToInt(cafe_mb_level)
 	End Function
 
 	Function GetComSeq(seq_name)
-		funcSql = ""
-		funcSql = funcSql & "  merge into cf_seq tbl "
-		funcSql = funcSql & "  using (select '" & seq_name & "' as col) src "
-		funcSql = funcSql & "     on (tbl.seq_name = src.col) "
-		funcSql = funcSql & "   when matched Then "
-		funcSql = funcSql & " update Set seq_value = isnull(seq_value,0) + 1 "
-		funcSql = funcSql & "           ,modid = '" & Session("user_id")  & "' "
-		funcSql = funcSql & "           ,moddt = getdate() "
-		funcSql = funcSql & "   when not matched Then "
-		funcSql = funcSql & " insert (seq_name "
-		funcSql = funcSql & "        ,seq_value "
-		funcSql = funcSql & "        ,creid "
-		funcSql = funcSql & "        ,credt "
-		funcSql = funcSql & "        )   "
-		funcSql = funcSql & " values ('" & seq_name  & "' "
-		funcSql = funcSql & "        ,1 "
-		funcSql = funcSql & "        ,'" & Session("user_id")  & "' "
-		funcSql = funcSql & "        ,getdate() "
-		funcSql = funcSql & "        ); "
+		fnSql = ""
+		fnSql = fnSql & "  merge into cf_seq tbl "
+		fnSql = fnSql & "  using (select '" & seq_name & "' as col) src "
+		fnSql = fnSql & "     on (tbl.seq_name = src.col) "
+		fnSql = fnSql & "   when matched Then "
+		fnSql = fnSql & " update Set seq_value = isnull(seq_value,0) + 1 "
+		fnSql = fnSql & "           ,modid = '" & Session("user_id")  & "' "
+		fnSql = fnSql & "           ,moddt = getdate() "
+		fnSql = fnSql & "   when not matched Then "
+		fnSql = fnSql & " insert (seq_name "
+		fnSql = fnSql & "        ,seq_value "
+		fnSql = fnSql & "        ,creid "
+		fnSql = fnSql & "        ,credt "
+		fnSql = fnSql & "        )   "
+		fnSql = fnSql & " values ('" & seq_name  & "' "
+		fnSql = fnSql & "        ,1 "
+		fnSql = fnSql & "        ,'" & Session("user_id")  & "' "
+		fnSql = fnSql & "        ,getdate() "
+		fnSql = fnSql & "        ); "
 
-		Conn.execute funcSql
+		Conn.execute fnSql
 
 		GetComSeq = GetOneValue("seq_value","cf_seq","where seq_name = '" & seq_name & "'")
 	End Function
@@ -437,17 +437,17 @@ Response.write "CheckMenuSeq<br>" & funcSql
 
 	Function GetImgMimeTypeYN(MimeType)
 		Set funcRs = server.createobject("adodb.recordset")
-		funcSql = ""
-		funcSql = funcSql & " select cmn_cd                                          "
-		funcSql = funcSql & "       ,cd_nm                                           "
-		funcSql = funcSql & "   from cf_code                                         "
-		funcSql = funcSql & "  where up_cd_id = (select cd_id                        "
-		funcSql = funcSql & "                      from cf_code                      "
-		funcSql = funcSql & "                     where up_cd_id = 'CD0000000000'    "
-		funcSql = funcSql & "                       and cmn_cd = 'img_file_extn_cd'  "
-		funcSql = funcSql & "                   )                                    "
-		funcSql = funcSql & "    and cd_expl like '%" & MimeType & "%'               "
-		funcRs.Open funcSql, Conn, 1
+		fnSql = ""
+		fnSql = fnSql & " select cmn_cd                                          "
+		fnSql = fnSql & "       ,cd_nm                                           "
+		fnSql = fnSql & "   from cf_code                                         "
+		fnSql = fnSql & "  where up_cd_id = (select cd_id                        "
+		fnSql = fnSql & "                      from cf_code                      "
+		fnSql = fnSql & "                     where up_cd_id = 'CD0000000000'    "
+		fnSql = fnSql & "                       and cmn_cd = 'img_file_extn_cd'  "
+		fnSql = fnSql & "                   )                                    "
+		fnSql = fnSql & "    and cd_expl like '%" & MimeType & "%'               "
+		funcRs.Open fnSql, Conn, 1
 
 		ok = "Y"
 		If funcRs.eof Then
@@ -460,17 +460,17 @@ Response.write "CheckMenuSeq<br>" & funcSql
 
 	Function GetDataMimeTypeYN(MimeType)
 		Set funcRs = server.createobject("adodb.recordset")
-		funcSql = ""
-		funcSql = funcSql & " select cmn_cd                                          "
-		funcSql = funcSql & "       ,cd_nm                                           "
-		funcSql = funcSql & "   from cf_code                                         "
-		funcSql = funcSql & "  where up_cd_id = (select cd_id                        "
-		funcSql = funcSql & "                      from cf_code                      "
-		funcSql = funcSql & "                     where up_cd_id = 'CD0000000000'    "
-		funcSql = funcSql & "                       and cmn_cd = 'data_file_extn_cd' "
-		funcSql = funcSql & "                   )                                    "
-		funcSql = funcSql & "    and cd_expl like '%" & MimeType & "%'               "
-		funcRs.Open funcSql, Conn, 1
+		fnSql = ""
+		fnSql = fnSql & " select cmn_cd                                          "
+		fnSql = fnSql & "       ,cd_nm                                           "
+		fnSql = fnSql & "   from cf_code                                         "
+		fnSql = fnSql & "  where up_cd_id = (select cd_id                        "
+		fnSql = fnSql & "                      from cf_code                      "
+		fnSql = fnSql & "                     where up_cd_id = 'CD0000000000'    "
+		fnSql = fnSql & "                       and cmn_cd = 'data_file_extn_cd' "
+		fnSql = fnSql & "                   )                                    "
+		fnSql = fnSql & "    and cd_expl like '%" & MimeType & "%'               "
+		funcRs.Open fnSql, Conn, 1
 
 		ok = "Y"
 		If funcRs.eof Then
@@ -506,22 +506,22 @@ Response.write "CheckMenuSeq<br>" & funcSql
 	Function GetCodeName(ByVal cmn, ByVal cd)
 		Set funcRs = server.createobject("adodb.recordset")
 
-		funcSql = ""
-		funcSql = funcSql & " select cmn_cd                                           "
-		funcSql = funcSql & "       ,cd_nm                                            "
-		funcSql = funcSql & "   from cf_code                                          "
-		funcSql = funcSql & "  where up_cd_id = (select cd_id                         "
-		funcSql = funcSql & "                          from cf_code                   "
-		funcSql = funcSql & "                         where up_cd_id = 'CD0000000000' "
-		funcSql = funcSql & "                           and cmn_cd = '" & cmn & "'    "
-		funcSql = funcSql & "                           and del_yn = 'N'              "
-		funcSql = funcSql & "                           and use_yn = 'Y'              "
-		funcSql = funcSql & "                       )                                 "
-		funcSql = funcSql & "    and cmn_cd = '" & cd & "'                            "
-		funcSql = funcSql & "    and del_yn = 'N'                                     "
-		funcSql = funcSql & "    and use_yn = 'Y'                                     "
-		funcSql = funcSql & "  order by cd_sn                                         "
-		funcRs.Open funcSql, Conn, 1
+		fnSql = ""
+		fnSql = fnSql & " select cmn_cd                                           "
+		fnSql = fnSql & "       ,cd_nm                                            "
+		fnSql = fnSql & "   from cf_code                                          "
+		fnSql = fnSql & "  where up_cd_id = (select cd_id                         "
+		fnSql = fnSql & "                          from cf_code                   "
+		fnSql = fnSql & "                         where up_cd_id = 'CD0000000000' "
+		fnSql = fnSql & "                           and cmn_cd = '" & cmn & "'    "
+		fnSql = fnSql & "                           and del_yn = 'N'              "
+		fnSql = fnSql & "                           and use_yn = 'Y'              "
+		fnSql = fnSql & "                       )                                 "
+		fnSql = fnSql & "    and cmn_cd = '" & cd & "'                            "
+		fnSql = fnSql & "    and del_yn = 'N'                                     "
+		fnSql = fnSql & "    and use_yn = 'Y'                                     "
+		fnSql = fnSql & "  order by cd_sn                                         "
+		funcRs.Open fnSql, Conn, 1
 
 		If Not funcRs.eof Then
 			cmn_cd = funcRs("cmn_cd")
@@ -533,7 +533,7 @@ Response.write "CheckMenuSeq<br>" & funcSql
 	End Function
 
 	Function GetMakeCDCombo(ByVal cmn, ByVal sel)
-		Dim funcSql
+		Dim fnSql
 		Dim funcRs
 		Dim strCombo
 		Dim a,b
@@ -541,21 +541,21 @@ Response.write "CheckMenuSeq<br>" & funcSql
 		If IsNull(sel) Then sel = ""
 		Set funcRs = server.createobject("adodb.recordset")
 
-		funcSql = ""
-		funcSql = funcSql & " select cmn_cd                                           "
-		funcSql = funcSql & "       ,cd_nm                                            "
-		funcSql = funcSql & "   from cf_code                                          "
-		funcSql = funcSql & "  where up_cd_id = (select cd_id                         "
-		funcSql = funcSql & "                          from cf_code                   "
-		funcSql = funcSql & "                         where up_cd_id = 'CD0000000000' "
-		funcSql = funcSql & "                           and cmn_cd = '" & cmn & "'    "
-		funcSql = funcSql & "                           and del_yn = 'N'              "
-		funcSql = funcSql & "                           and use_yn = 'Y'              "
-		funcSql = funcSql & "                       )                                 "
-		funcSql = funcSql & "    and del_yn = 'N'                                     "
-		funcSql = funcSql & "    and use_yn = 'Y'                                     "
-		funcSql = funcSql & "  order by cd_sn                                         "
-		funcRs.Open funcSql, Conn, 1
+		fnSql = ""
+		fnSql = fnSql & " select cmn_cd                                           "
+		fnSql = fnSql & "       ,cd_nm                                            "
+		fnSql = fnSql & "   from cf_code                                          "
+		fnSql = fnSql & "  where up_cd_id = (select cd_id                         "
+		fnSql = fnSql & "                          from cf_code                   "
+		fnSql = fnSql & "                         where up_cd_id = 'CD0000000000' "
+		fnSql = fnSql & "                           and cmn_cd = '" & cmn & "'    "
+		fnSql = fnSql & "                           and del_yn = 'N'              "
+		fnSql = fnSql & "                           and use_yn = 'Y'              "
+		fnSql = fnSql & "                       )                                 "
+		fnSql = fnSql & "    and del_yn = 'N'                                     "
+		fnSql = fnSql & "    and use_yn = 'Y'                                     "
+		fnSql = fnSql & "  order by cd_sn                                         "
+		funcRs.Open fnSql, Conn, 1
 
 		strCombo = vbCrLf
 
@@ -575,7 +575,7 @@ Response.write "CheckMenuSeq<br>" & funcSql
 	End Function
 
 	Function GetMakeCDRadio(ByVal cmn, ByVal sel, ByVal req)
-		Dim funcSql
+		Dim fnSql
 		Dim funcRs
 		Dim strRadio
 		Dim a,b
@@ -583,21 +583,21 @@ Response.write "CheckMenuSeq<br>" & funcSql
 		If IsNull(sel) Then sel = ""
 		Set funcRs = server.createobject("adodb.recordset")
 
-		funcSql = ""
-		funcSql = funcSql & " select cmn_cd                                           "
-		funcSql = funcSql & "       ,cd_nm                                            "
-		funcSql = funcSql & "   from cf_code                                          "
-		funcSql = funcSql & "  where up_cd_id = (select cd_id                         "
-		funcSql = funcSql & "                          from cf_code                   "
-		funcSql = funcSql & "                         where up_cd_id = 'CD0000000000' "
-		funcSql = funcSql & "                           and cmn_cd = '" & cmn & "'    "
-		funcSql = funcSql & "                           and del_yn = 'N'              "
-		funcSql = funcSql & "                           and use_yn = 'Y'              "
-		funcSql = funcSql & "                   )                                     "
-		funcSql = funcSql & "    and del_yn = 'N'                                     "
-		funcSql = funcSql & "    and use_yn = 'Y'                                     "
-		funcSql = funcSql & "  order by cd_sn                                         "
-		funcRs.Open funcSql, Conn, 1
+		fnSql = ""
+		fnSql = fnSql & " select cmn_cd                                           "
+		fnSql = fnSql & "       ,cd_nm                                            "
+		fnSql = fnSql & "   from cf_code                                          "
+		fnSql = fnSql & "  where up_cd_id = (select cd_id                         "
+		fnSql = fnSql & "                          from cf_code                   "
+		fnSql = fnSql & "                         where up_cd_id = 'CD0000000000' "
+		fnSql = fnSql & "                           and cmn_cd = '" & cmn & "'    "
+		fnSql = fnSql & "                           and del_yn = 'N'              "
+		fnSql = fnSql & "                           and use_yn = 'Y'              "
+		fnSql = fnSql & "                   )                                     "
+		fnSql = fnSql & "    and del_yn = 'N'                                     "
+		fnSql = fnSql & "    and use_yn = 'Y'                                     "
+		fnSql = fnSql & "  order by cd_sn                                         "
+		funcRs.Open fnSql, Conn, 1
 
 		strRadio = vbCrLf
 
@@ -625,7 +625,7 @@ Response.write "CheckMenuSeq<br>" & funcSql
 	End Function
 
 	Function GetMakeCDCheckBox(ByVal cmn, ByVal sel, ByVal req, ByVal tIdx)
-		Dim funcSql
+		Dim fnSql
 		Dim funcRs
 		Dim strCheckBox
 		Dim a,b
@@ -633,21 +633,21 @@ Response.write "CheckMenuSeq<br>" & funcSql
 		If IsNull(sel) Then sel = ""
 		Set funcRs = server.createobject("adodb.recordset")
 
-		funcSql = ""
-		funcSql = funcSql & " select cmn_cd                                           "
-		funcSql = funcSql & "       ,cd_nm                                            "
-		funcSql = funcSql & "   from cf_code                                          "
-		funcSql = funcSql & "  where up_cd_id = (select cd_id                         "
-		funcSql = funcSql & "                          from cf_code                   "
-		funcSql = funcSql & "                         where up_cd_id = 'CD0000000000' "
-		funcSql = funcSql & "                           and cmn_cd = '" & cmn & "'    "
-		funcSql = funcSql & "                           and del_yn = 'N'              "
-		funcSql = funcSql & "                           and use_yn = 'Y'              "
-		funcSql = funcSql & "                   )                                     "
-		funcSql = funcSql & "    and del_yn = 'N'                                     "
-		funcSql = funcSql & "    and use_yn = 'Y'                                     "
-		funcSql = funcSql & "  order by cd_sn                                         "
-		funcRs.Open funcSql, Conn, 1
+		fnSql = ""
+		fnSql = fnSql & " select cmn_cd                                           "
+		fnSql = fnSql & "       ,cd_nm                                            "
+		fnSql = fnSql & "   from cf_code                                          "
+		fnSql = fnSql & "  where up_cd_id = (select cd_id                         "
+		fnSql = fnSql & "                          from cf_code                   "
+		fnSql = fnSql & "                         where up_cd_id = 'CD0000000000' "
+		fnSql = fnSql & "                           and cmn_cd = '" & cmn & "'    "
+		fnSql = fnSql & "                           and del_yn = 'N'              "
+		fnSql = fnSql & "                           and use_yn = 'Y'              "
+		fnSql = fnSql & "                   )                                     "
+		fnSql = fnSql & "    and del_yn = 'N'                                     "
+		fnSql = fnSql & "    and use_yn = 'Y'                                     "
+		fnSql = fnSql & "  order by cd_sn                                         "
+		funcRs.Open fnSql, Conn, 1
 
 		strCheckBox = vbCrLf
 
@@ -673,7 +673,7 @@ Response.write "CheckMenuSeq<br>" & funcSql
 	End Function
 
 	Function GetMakeSectionTag(ByVal tag, ByVal snm, ByVal sel, ByVal req)
-		Dim funcSql
+		Dim fnSql
 		Dim funcRs
 		Dim strRadio
 		Dim a,b
@@ -681,16 +681,16 @@ Response.write "CheckMenuSeq<br>" & funcSql
 		If IsNull(sel) Then sel = ""
 		Set funcRs = server.createobject("adodb.recordset")
 
-		funcSql = ""
-		funcSql = ""
-		funcSql = funcSql & " select section_seq                   "
-		funcSql = funcSql & "       ,section_nm                    "
-		funcSql = funcSql & "       ,section_sn                    "
-		funcSql = funcSql & "   from cf_menu_section               "
-		funcSql = funcSql & "  where menu_seq = '" & menu_seq & "' "
-		funcSql = funcSql & "    and use_yn = 'Y'                  "
-		funcSql = funcSql & "  order by section_sn                 "
-		funcRs.open funcSql, conn, 3, 1
+		fnSql = ""
+		fnSql = ""
+		fnSql = fnSql & " select section_seq                   "
+		fnSql = fnSql & "       ,section_nm                    "
+		fnSql = fnSql & "       ,section_sn                    "
+		fnSql = fnSql & "   from cf_menu_section               "
+		fnSql = fnSql & "  where menu_seq = '" & menu_seq & "' "
+		fnSql = fnSql & "    and use_yn = 'Y'                  "
+		fnSql = fnSql & "  order by section_sn                 "
+		funcRs.open fnSql, conn, 3, 1
 
 		strSection = vbCrLf
 
@@ -733,14 +733,14 @@ Response.write "CheckMenuSeq<br>" & funcSql
 	End Function
 
 	Function makeCombo(field1,field2,opt,table,refstr,sovalue)
-		Dim funcSql
+		Dim fnSql
 		Dim funcRs
 		Dim strCombo
 		Dim a,b
 
 		Set funcRs = server.createobject("adodb.recordset")
-		funcSql = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
-		funcRs.Open funcSql, Conn, 1
+		fnSql = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
+		funcRs.Open fnSql, Conn, 1
 
 		strCombo = vbCrLf
 
@@ -784,14 +784,14 @@ Response.write "CheckMenuSeq<br>" & funcSql
 '/*----- 코드관리가 되는것들의 라디오버튼 생성
 '/*----------------------------------------------------------------*/
 	Function makeRadio(func,tagname,cndt,tagtitle,field1,field2,opt,table,refstr,sovalue,read)
-		Dim funcSql
+		Dim fnSql
 		Dim funcRs
 		Dim strRadio
 		Dim a,b
 
 		Set funcRs = server.createobject("adodb.recordset")
-		funcSql = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
-		funcRs.Open funcSql, Conn, 1
+		fnSql = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
+		funcRs.Open fnSql, Conn, 1
 		strRadio = vbCrLf
 
 		Do until funcRs.EOF
@@ -823,14 +823,14 @@ Response.write "CheckMenuSeq<br>" & funcSql
 '/*----- 코드관리가 되는것들의 체크박스 생성
 '/*----------------------------------------------------------------*/
 	Function makeCheckBox(width,func,tagname,cndt,tagtitle,field1,field2,opt,table,refstr,sovalue)
-		Dim funcSql
+		Dim fnSql
 		Dim funcRs
 		Dim strCheckBox
 		Dim a,b
 
 		Set funcRs = server.createobject("adodb.recordset")
-		funcSql = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
-		funcRs.Open funcSql, Conn, 1
+		fnSql = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
+		funcRs.Open fnSql, Conn, 1
 		strCheckBox = vbCrLf
 
 '		strCheckBox = strCheckBox & "<span style='width:" & width & "'><input type='CheckBox' value='checkbox' name='allchk' title='" & tagtitle & "' style='border-color:#F2F2F2;'  onclick=""allChk('" & tagname & "',this.checked)"">전체&nbsp;</span>" &vbCrLf
@@ -860,14 +860,14 @@ Response.write "CheckMenuSeq<br>" & funcSql
 		makeCheckBox = strCheckBox
 	End Function
 	Function makeCheckBox2(width,func,tagname,cndt,tagtitle,field1,field2,opt,table,refstr,sovalue)
-		Dim funcSql
+		Dim fnSql
 		Dim funcRs
 		Dim strCheckBox
 		Dim a,b
 
 		Set funcRs = server.createobject("adodb.recordset")
-		funcSql = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
-		funcRs.Open funcSql, Conn, 1
+		fnSql = "select " & field1 & " ," & field2 & " " & opt & " from " & table & " " & refstr
+		funcRs.Open fnSql, Conn, 1
 		strCheckBox = vbCrLf
 
 '		strCheckBox = strCheckBox & "<span style='width:" & width & "'><input type='CheckBox' value='checkbox' name='allchk' title='" & tagtitle & "' style='border-color:#F2F2F2;'  onclick=""allChk('" & tagname & "',this.checked)"">전체&nbsp;</span>" &vbCrLf
@@ -950,12 +950,12 @@ Response.write "CheckMenuSeq<br>" & funcSql
 '/*-----	한 데이타 가져오기
 '/*-------------------------------------------------------------*/
 	Function GetOneValue(field,table,refstr)
-		Dim funcSql
+		Dim fnSql
 		Dim funcRs
 
 		Set funcRs = server.createobject("adodb.recordset")
-		funcSql = "select " & field & " from " & table & " " & refstr
-		funcRs.open funcSql, conn, 1, 1
+		fnSql = "select " & field & " from " & table & " " & refstr
+		funcRs.open fnSql, conn, 1, 1
 
 		If funcRs.eof Then
 			GetOneValue = ""
@@ -1071,38 +1071,38 @@ Response.write "CheckMenuSeq<br>" & funcSql
 		Set funcRs = server.createobject("adodb.recordset")
 
 		' 모든 댓글 조회
-		funcSql = ""
-		funcSql = funcSql & " with tree_query  as (                                                                                                            "
-		funcSql = funcSql & "   select                                                                                                                         "
-		funcSql = funcSql & "          comment_seq                                                                                                                     "
-		funcSql = funcSql & "        , parent_seq                                                                                                              "
-		funcSql = funcSql & "        , comment                                                                                                                 "
-		funcSql = funcSql & "        , convert(varchar(255), comment_seq) sort                                                                                         "
-		funcSql = funcSql & "        , convert(varchar(2000), comment) depth_fullname                                                                          "
-		funcSql = funcSql & "     from " & tb_prefix & "_" & menu_type & "_comment                                                                                                        "
-		funcSql = funcSql & "     where comment_seq = " & com_seq & "                                                                                                          "
-		funcSql = funcSql & "     union all                                                                                                                    "
-		funcSql = funcSql & "     select                                                                                                                       "
-		funcSql = funcSql & "           b.comment_seq                                                                                                                  "
-		funcSql = funcSql & "         , b.parent_seq                                                                                                           "
-		funcSql = funcSql & "         , b.comment                                                                                                              "
-		funcSql = funcSql & "         , convert(varchar(255), convert(nvarchar,c.sort) + ' > ' +  convert(varchar(255), b.comment_seq)) sort                           "
-		funcSql = funcSql & "         , convert(varchar(2000), convert(nvarchar,c.depth_fullname) + ' > ' +  convert(varchar(2000), b.comment)) depth_fullname "
-		funcSql = funcSql & "     from  " & tb_prefix & "_" & menu_type & "_comment b, tree_query c                                                                               "
-		funcSql = funcSql & "     where b.parent_seq = c.comment_seq                                                                                                   "
-		funcSql = funcSql & " )                                                                                                                                "
-		funcSql = funcSql & " select *                                                                                                                         "
-		funcSql = funcSql & "   from " & tb_prefix & "_" & menu_type & "_comment                                                                                                  "
-		funcSql = funcSql & "  where comment_seq In (                                                                                                    "
-		funcSql = funcSql & " select comment_seq from tree_query)                                                                                                      "
+		fnSql = ""
+		fnSql = fnSql & " with tree_query  as (                                                                                                            "
+		fnSql = fnSql & "   select                                                                                                                         "
+		fnSql = fnSql & "          comment_seq                                                                                                                     "
+		fnSql = fnSql & "        , parent_seq                                                                                                              "
+		fnSql = fnSql & "        , comment                                                                                                                 "
+		fnSql = fnSql & "        , convert(varchar(255), comment_seq) sort                                                                                         "
+		fnSql = fnSql & "        , convert(varchar(2000), comment) depth_fullname                                                                          "
+		fnSql = fnSql & "     from " & tb_prefix & "_" & menu_type & "_comment                                                                                                        "
+		fnSql = fnSql & "     where comment_seq = " & com_seq & "                                                                                                          "
+		fnSql = fnSql & "     union all                                                                                                                    "
+		fnSql = fnSql & "     select                                                                                                                       "
+		fnSql = fnSql & "           b.comment_seq                                                                                                                  "
+		fnSql = fnSql & "         , b.parent_seq                                                                                                           "
+		fnSql = fnSql & "         , b.comment                                                                                                              "
+		fnSql = fnSql & "         , convert(varchar(255), convert(nvarchar,c.sort) + ' > ' +  convert(varchar(255), b.comment_seq)) sort                           "
+		fnSql = fnSql & "         , convert(varchar(2000), convert(nvarchar,c.depth_fullname) + ' > ' +  convert(varchar(2000), b.comment)) depth_fullname "
+		fnSql = fnSql & "     from  " & tb_prefix & "_" & menu_type & "_comment b, tree_query c                                                                               "
+		fnSql = fnSql & "     where b.parent_seq = c.comment_seq                                                                                                   "
+		fnSql = fnSql & " )                                                                                                                                "
+		fnSql = fnSql & " select *                                                                                                                         "
+		fnSql = fnSql & "   from " & tb_prefix & "_" & menu_type & "_comment                                                                                                  "
+		fnSql = fnSql & "  where comment_seq In (                                                                                                    "
+		fnSql = fnSql & " select comment_seq from tree_query)                                                                                                      "
 
-		funcSql = ""
-		funcSql = funcSql & "   select " & menu_type & "_seq         "
-		funcSql = funcSql & "         ,comment_seq               "
-		funcSql = funcSql & "         ,comment                   "
-		funcSql = funcSql & "     from " & tb_prefix & "_" & menu_type & "_comment  "
-		funcSql = funcSql & "    where comment_seq = " & com_seq & " "
-		funcRs.Open funcSql, conn, 1
+		fnSql = ""
+		fnSql = fnSql & "   select " & menu_type & "_seq         "
+		fnSql = fnSql & "         ,comment_seq               "
+		fnSql = fnSql & "         ,comment                   "
+		fnSql = fnSql & "     from " & tb_prefix & "_" & menu_type & "_comment  "
+		fnSql = fnSql & "    where comment_seq = " & com_seq & " "
+		funcRs.Open fnSql, conn, 1
 
 		i = 0
 		If Not funcRs.eof Then
@@ -1119,235 +1119,239 @@ Response.write "CheckMenuSeq<br>" & funcSql
 		funcRs.close
 
 		For j = 1 To i
-			funcSql = ""
-			funcSql = funcSql & " delete " & tb_prefix & "_" & menu_type & "_comment "
-			funcSql = funcSql & "  where comment_seq = '" & arr_comment_seq(j) & "' "
-			Conn.Execute(funcSql)
+			fnSql = ""
+			fnSql = fnSql & " delete " & tb_prefix & "_" & menu_type & "_comment "
+			fnSql = fnSql & "  where comment_seq = '" & arr_comment_seq(j) & "' "
+			Conn.Execute(fnSql)
 
-			funcSql = ""
-			funcSql = funcSql & " update " & tb_prefix & "_" & menu_type & " "
-			funcSql = funcSql & "    Set comment_cnt = (select count(*) from " & tb_prefix & "_" & menu_type & "_comment where " & menu_type & "_seq = '" & arr_seq(i) & "') "
-			funcSql = funcSql & "       ,modid = '" & Session("user_id") & "' "
-			funcSql = funcSql & "       ,moddt = getdate() "
-			funcSql = funcSql & "  where " & menu_type & "_seq = " & arr_seq(i) & " "
-			Conn.Execute(funcSql)
+			fnSql = ""
+			fnSql = fnSql & " update " & tb_prefix & "_" & menu_type & " "
+			fnSql = fnSql & "    Set comment_cnt = (select count(*) from " & tb_prefix & "_" & menu_type & "_comment where " & menu_type & "_seq = '" & arr_seq(i) & "') "
+			fnSql = fnSql & "       ,modid = '" & Session("user_id") & "' "
+			fnSql = fnSql & "       ,moddt = getdate() "
+			fnSql = fnSql & "  where " & menu_type & "_seq = " & arr_seq(i) & " "
+			Conn.Execute(fnSql)
 		Next
 	End Sub
 
 	Sub ExecWasteContent(menu_type, com_seq)
 		' 모든 첨부 삭제
-		funcSql = ""
-		funcSql = funcSql & " update " & tb_prefix & "_" & menu_type & "_attach                "
-		funcSql = funcSql & "    Set restoreid = '" & session("user_id")   & "' "
-		funcSql = funcSql & "       ,restoredt = getdate()                      "
-		funcSql = funcSql & "       ,modid     = '" & Session("user_id")   & "' "
-		funcSql = funcSql & "       ,moddt     = getdate()                      "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " update " & tb_prefix & "_" & menu_type & "_attach                "
+		fnSql = fnSql & "    Set restoreid = '" & session("user_id")   & "' "
+		fnSql = fnSql & "       ,restoredt = getdate()                      "
+		fnSql = fnSql & "       ,modid     = '" & Session("user_id")   & "' "
+		fnSql = fnSql & "       ,moddt     = getdate()                      "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
 
-		funcSql = ""
-		funcSql = funcSql & " insert into " & tb_prefix & "_waste_" & menu_type & "_attach     "
-		funcSql = funcSql & " select *                                          "
-		funcSql = funcSql & "   from " & tb_prefix & "_" & menu_type & "_attach                "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " insert into " & tb_prefix & "_waste_" & menu_type & "_attach     "
+		fnSql = fnSql & " select *                                          "
+		fnSql = fnSql & "   from " & tb_prefix & "_" & menu_type & "_attach                "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
 
-		funcSql = ""
-		funcSql = funcSql & " delete " & tb_prefix & "_" & menu_type & "_attach                "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " delete " & tb_prefix & "_" & menu_type & "_attach                "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
 
 		' 모든 댓글 삭제
-		funcSql = ""
-		funcSql = funcSql & " update " & tb_prefix & "_" & menu_type & "_comment               "
-		funcSql = funcSql & "    Set restoreid = '" & session("user_id")   & "' "
-		funcSql = funcSql & "       ,restoredt = getdate()                      "
-		funcSql = funcSql & "       ,modid     = '" & Session("user_id")   & "' "
-		funcSql = funcSql & "       ,moddt     = getdate()                      "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " update " & tb_prefix & "_" & menu_type & "_comment               "
+		fnSql = fnSql & "    Set restoreid = '" & session("user_id")   & "' "
+		fnSql = fnSql & "       ,restoredt = getdate()                      "
+		fnSql = fnSql & "       ,modid     = '" & Session("user_id")   & "' "
+		fnSql = fnSql & "       ,moddt     = getdate()                      "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
 
-		funcSql = ""
-		funcSql = funcSql & " insert into " & tb_prefix & "_waste_" & menu_type & "_comment    "
-		funcSql = funcSql & " select *                                          "
-		funcSql = funcSql & "   from " & tb_prefix & "_" & menu_type & "_comment               "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " insert into " & tb_prefix & "_waste_" & menu_type & "_comment    "
+		fnSql = fnSql & " select *                                          "
+		fnSql = fnSql & "   from " & tb_prefix & "_" & menu_type & "_comment               "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
 
-		funcSql = ""
-		funcSql = funcSql & " delete " & tb_prefix & "_" & menu_type & "_comment               "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " delete " & tb_prefix & "_" & menu_type & "_comment               "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
 
 		' 부모글 삭제 업데이트
-		funcSql = ""
-		funcSql = funcSql & " update " & tb_prefix & "_" & menu_type & "                         "
-		funcSql = funcSql & "    Set parent_del_yn = 'Y'                          "
-		funcSql = funcSql & "       ,modid         = '" & Session("user_id") & "' "
-		funcSql = funcSql & "       ,moddt         = getdate()                    "
-		funcSql = funcSql & "  where parent_seq = '" & com_seq  & "'              "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " update " & tb_prefix & "_" & menu_type & "                         "
+		fnSql = fnSql & "    Set parent_del_yn = 'Y'                          "
+		fnSql = fnSql & "       ,modid         = '" & Session("user_id") & "' "
+		fnSql = fnSql & "       ,moddt         = getdate()                    "
+		fnSql = fnSql & "  where parent_seq = '" & com_seq  & "'              "
+		Conn.Execute(fnSql)
 
 		' 본글 삭제
-		funcSql = ""
-		funcSql = funcSql & " update " & tb_prefix & "_" & menu_type & "                       "
-		funcSql = funcSql & "    Set restoreid = '" & session("user_id")   & "' "
-		funcSql = funcSql & "       ,restoredt = getdate()                      "
-		funcSql = funcSql & "       ,modid     = '" & Session("user_id")   & "' "
-		funcSql = funcSql & "       ,moddt     = getdate()                      "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " update " & tb_prefix & "_" & menu_type & "                       "
+		fnSql = fnSql & "    Set restoreid = '" & session("user_id")   & "' "
+		fnSql = fnSql & "       ,restoredt = getdate()                      "
+		fnSql = fnSql & "       ,modid     = '" & Session("user_id")   & "' "
+		fnSql = fnSql & "       ,moddt     = getdate()                      "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
 
-		funcSql = ""
-		funcSql = funcSql & " insert into " & tb_prefix & "_waste_" & menu_type & "            "
-		funcSql = funcSql & " select *                                          "
-		funcSql = funcSql & "   from " & tb_prefix & "_" & menu_type & "                       "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " insert into " & tb_prefix & "_waste_" & menu_type & "            "
+		fnSql = fnSql & " select *                                          "
+		fnSql = fnSql & "   from " & tb_prefix & "_" & menu_type & "                       "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
 
-		funcSql = ""
-		funcSql = funcSql & " delete " & tb_prefix & "_" & menu_type & "                       "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " delete " & tb_prefix & "_" & menu_type & "                       "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
 
 		' 공지글 수 업데이트
-		funcSql = ""
-		funcSql = funcSql & " update cf_menu                                                                                                          "
-		funcSql = funcSql & "    Set top_cnt   = (select count(*) from " & tb_prefix & "_" & menu_type & " where menu_seq = '" & menu_seq & "' and top_yn = 'Y')     "
-		funcSql = funcSql & "       ,last_date = (select isnull(max(credt), getdate()) from " & tb_prefix & "_" & menu_type & " where menu_seq = '" & menu_seq & "') "
-		funcSql = funcSql & "       ,modid     = '" & Session("user_id") & "'                                                                         "
-		funcSql = funcSql & "       ,moddt     = getdate()                                                                                            "
-		funcSql = funcSql & "  where menu_seq  = '" & menu_seq & "'                                                                                   "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " update cf_menu                                                                                                          "
+		fnSql = fnSql & "    Set top_cnt   = (select count(*) from " & tb_prefix & "_" & menu_type & " where menu_seq = '" & menu_seq & "' and top_yn = 'Y')     "
+		fnSql = fnSql & "       ,last_date = (select isnull(max(credt), getdate()) from " & tb_prefix & "_" & menu_type & " where menu_seq = '" & menu_seq & "') "
+		fnSql = fnSql & "       ,modid     = '" & Session("user_id") & "'                                                                         "
+		fnSql = fnSql & "       ,moddt     = getdate()                                                                                            "
+		fnSql = fnSql & "  where menu_seq  = '" & menu_seq & "'                                                                                   "
+		Conn.Execute(fnSql)
 	End Sub
 
 	Sub ExecRestoreContent(menu_type, com_seq)
 		' 모든 첨부 복원
-		funcSql = ""
-		funcSql = funcSql & " update " & tb_prefix & "_waste_" & menu_type & "_attach          "
-		funcSql = funcSql & "    Set delid = '" & session("user_id")       & "' "
-		funcSql = funcSql & "       ,deldt = getdate()                          "
-		funcSql = funcSql & "       ,modid = '" & Session("user_id")       & "' "
-		funcSql = funcSql & "       ,moddt = getdate()                          "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
-		funcSql = ""
-		funcSql = funcSql & " insert into " & tb_prefix & "_" & menu_type & "_attach           "
-		funcSql = funcSql & " select *                                          "
-		funcSql = funcSql & "   from " & tb_prefix & "_waste_" & menu_type & "_attach          "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
-		funcSql = ""
-		funcSql = funcSql & " delete " & tb_prefix & "_waste_" & menu_type & "_attach          "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " update " & tb_prefix & "_waste_" & menu_type & "_attach          "
+		fnSql = fnSql & "    Set delid = '" & session("user_id")       & "' "
+		fnSql = fnSql & "       ,deldt = getdate()                          "
+		fnSql = fnSql & "       ,modid = '" & Session("user_id")       & "' "
+		fnSql = fnSql & "       ,moddt = getdate()                          "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
+		fnSql = ""
+		fnSql = fnSql & " insert into " & tb_prefix & "_" & menu_type & "_attach           "
+		fnSql = fnSql & " select *                                          "
+		fnSql = fnSql & "   from " & tb_prefix & "_waste_" & menu_type & "_attach          "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
+		fnSql = ""
+		fnSql = fnSql & " delete " & tb_prefix & "_waste_" & menu_type & "_attach          "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
 
 		' 부모글 삭제 업데이트
-		funcSql = ""
-		funcSql = funcSql & " update " & tb_prefix & "_" & menu_type                        & "  "
-		funcSql = funcSql & "    Set parent_del_yn = 'N'                          "
-		funcSql = funcSql & "       ,modid         = '" & Session("user_id") & "' "
-		funcSql = funcSql & "       ,moddt         = getdate()                    "
-		funcSql = funcSql & "  where parent_seq    = '" & com_seq            & "' "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " update " & tb_prefix & "_" & menu_type                        & "  "
+		fnSql = fnSql & "    Set parent_del_yn = 'N'                          "
+		fnSql = fnSql & "       ,modid         = '" & Session("user_id") & "' "
+		fnSql = fnSql & "       ,moddt         = getdate()                    "
+		fnSql = fnSql & "  where parent_seq    = '" & com_seq            & "' "
+		Conn.Execute(fnSql)
 
 		' 본글 복원
-		funcSql = ""
-		funcSql = funcSql & " update " & tb_prefix & "_waste_" & menu_type                & "  "
-		funcSql = funcSql & "    Set delid = '" & session("user_id")       & "' "
-		funcSql = funcSql & "       ,deldt = getdate()                          "
-		funcSql = funcSql & "       ,modid = '" & Session("user_id")       & "' "
-		funcSql = funcSql & "       ,moddt = getdate()                          "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
-		funcSql = ""
-		funcSql = funcSql & " insert into " & tb_prefix & "_" & menu_type & "                  "
-		funcSql = funcSql & " select *                                          "
-		funcSql = funcSql & "   from " & tb_prefix & "_waste_" & menu_type & "                 "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
-		funcSql = ""
-		funcSql = funcSql & " delete " & tb_prefix & "_waste_" & menu_type & "                 "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " update " & tb_prefix & "_waste_" & menu_type                & "  "
+		fnSql = fnSql & "    Set delid = '" & session("user_id")       & "' "
+		fnSql = fnSql & "       ,deldt = getdate()                          "
+		fnSql = fnSql & "       ,modid = '" & Session("user_id")       & "' "
+		fnSql = fnSql & "       ,moddt = getdate()                          "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
+		fnSql = ""
+		fnSql = fnSql & " insert into " & tb_prefix & "_" & menu_type & "                  "
+		fnSql = fnSql & " select *                                          "
+		fnSql = fnSql & "   from " & tb_prefix & "_waste_" & menu_type & "                 "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
+		fnSql = ""
+		fnSql = fnSql & " delete " & tb_prefix & "_waste_" & menu_type & "                 "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
 
 		' 모든 댓글 복원
-		funcSql = ""
-		funcSql = funcSql & " update " & tb_prefix & "_waste_" & menu_type & "_comment         "
-		funcSql = funcSql & "    Set delid = '" & session("user_id")       & "' "
-		funcSql = funcSql & "       ,deldt = getdate()                          "
-		funcSql = funcSql & "       ,modid = '" & Session("user_id")       & "' "
-		funcSql = funcSql & "       ,moddt = getdate()                          "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
-		funcSql = ""
-		funcSql = funcSql & " insert into " & tb_prefix & "_" & menu_type & "_comment         "
-		funcSql = funcSql & " select *                                         "
-		funcSql = funcSql & "   from " & tb_prefix & "_waste_" & menu_type & "_comment        "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq & "' "
-		Conn.Execute(funcSql)
-		funcSql = ""
-		funcSql = funcSql & " delete " & tb_prefix & "_waste_" & menu_type & "_comment         "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " update " & tb_prefix & "_waste_" & menu_type & "_comment         "
+		fnSql = fnSql & "    Set delid = '" & session("user_id")       & "' "
+		fnSql = fnSql & "       ,deldt = getdate()                          "
+		fnSql = fnSql & "       ,modid = '" & Session("user_id")       & "' "
+		fnSql = fnSql & "       ,moddt = getdate()                          "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
+		fnSql = ""
+		fnSql = fnSql & " insert into " & tb_prefix & "_" & menu_type & "_comment         "
+		fnSql = fnSql & " select *                                         "
+		fnSql = fnSql & "   from " & tb_prefix & "_waste_" & menu_type & "_comment        "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq & "' "
+		Conn.Execute(fnSql)
+		fnSql = ""
+		fnSql = fnSql & " delete " & tb_prefix & "_waste_" & menu_type & "_comment         "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
 
 		' 공지글 수 업데이트
-		funcSql = ""
-		funcSql = funcSql & " update cf_menu                                                                                                          "
-		funcSql = funcSql & "    Set top_cnt   = (select count(*) from " & tb_prefix & "_" & menu_type & " where menu_seq = '" & menu_seq & "' and top_yn = 'Y')     "
-		funcSql = funcSql & "       ,last_date = (select isnull(max(credt), getdate()) from " & tb_prefix & "_" & menu_type & " where menu_seq = '" & menu_seq & "') "
-		funcSql = funcSql & "       ,modid     = '" & Session("user_id") & "'                                                                         "
-		funcSql = funcSql & "       ,moddt     = getdate()                                                                                            "
-		funcSql = funcSql & "  where menu_seq  = '" & menu_seq & "'                                                                                   "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " update cf_menu                                                                                                          "
+		fnSql = fnSql & "    Set top_cnt   = (select count(*) from " & tb_prefix & "_" & menu_type & " where menu_seq = '" & menu_seq & "' and top_yn = 'Y')     "
+		fnSql = fnSql & "       ,last_date = (select isnull(max(credt), getdate()) from " & tb_prefix & "_" & menu_type & " where menu_seq = '" & menu_seq & "') "
+		fnSql = fnSql & "       ,modid     = '" & Session("user_id") & "'                                                                         "
+		fnSql = fnSql & "       ,moddt     = getdate()                                                                                            "
+		fnSql = fnSql & "  where menu_seq  = '" & menu_seq & "'                                                                                   "
+		Conn.Execute(fnSql)
 	End Sub
 
-	Dim attach_file()
-	Dim dsply_file()
-	Dim thmbnl_file()
+	Dim arrAttachFile()
+	Dim arrDisplayFile()
+	Dim arrThmbnlFile()
 	Sub ExecDeleteContent(menu_type, com_seq)
+		ReDim Preserve arrAttachFile(0)
+		ReDim Preserve arrDisplayFile(0)
+		ReDim Preserve arrThmbnlFile(0)
+
 		Set funcRs = server.createobject("adodb.recordset")
 
-		funcSql = ""
-		funcSql = funcSql & " select file_name                                  "
-		funcSql = funcSql & "       ,dsply_file_nm                              "
-		funcSql = funcSql & "       ,thmbnl_file_nm                             "
-		funcSql = funcSql & "   from " & tb_prefix & "_waste_" & menu_type & "_attach          "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		funcRs.Open funcSql, conn, 1
+		fnSql = ""
+		fnSql = fnSql & " select file_name                                        "
+		fnSql = fnSql & "       ,dsply_file_nm                                    "
+		fnSql = fnSql & "       ,thmbnl_file_nm                                   "
+		fnSql = fnSql & "   from " & tb_prefix & "_waste_" & menu_type & "_attach "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "'       "
+		funcRs.Open fnSql, conn, 1
 
 		i = 0
 		If Not funcRs.eof Then
 			Do Until funcRs.eof
 				i = i + 1
-				ReDim Preserve attach_file(i)
-				ReDim Preserve dsply_file(i)
-				ReDim Preserve thmbnl_file(i)
-				attach_file(i) = funcRs("file_name")
-				dsply_file(i)  = funcRs("dsply_file_nm")
-				thmbnl_file(i) = funcRs("thmbnl_file_nm")
+				ReDim Preserve arrAttachFile(i)
+				ReDim Preserve arrDisplayFile(i)
+				ReDim Preserve arrThmbnlFile(i)
+				arrAttachFile(i)  = funcRs("file_name")
+				arrDisplayFile(i) = funcRs("dsply_file_nm")
+				arrThmbnlFile(i)  = funcRs("thmbnl_file_nm")
 				funcRs.MoveNext
 			Loop
 		End If
 		funcRs.close
 
 		' 모든 첨부 삭제
-		funcSql = ""
-		funcSql = funcSql & " delete " & tb_prefix & "_waste_" & menu_type & "_attach "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " delete " & tb_prefix & "_waste_" & menu_type & "_attach "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
 
 		' 모든 댓글 삭제
-		funcSql = ""
-		funcSql = funcSql & " delete " & tb_prefix & "_waste_" & menu_type & "_comment "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " delete " & tb_prefix & "_waste_" & menu_type & "_comment "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
 
 		' 본글 삭제
-		funcSql = ""
-		funcSql = funcSql & " delete " & tb_prefix & "_waste_" & menu_type & " "
-		funcSql = funcSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
-		Conn.Execute(funcSql)
+		fnSql = ""
+		fnSql = fnSql & " delete " & tb_prefix & "_waste_" & menu_type & " "
+		fnSql = fnSql & "  where " & menu_type & "_seq = '" & com_seq  & "' "
+		Conn.Execute(fnSql)
 	End Sub
 
 	Sub delete_attach(file)

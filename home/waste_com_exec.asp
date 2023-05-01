@@ -59,17 +59,17 @@
 		If task = "delete" Then ' 삭제
 			Set fso = CreateObject("Scripting.FileSystemObject")
 
-			If isarray(attach_file) Then
-				For i = 1 To ubound(attach_file)
+			If isarray(arrAttachFile) Then
+				For i = 1 To ubound(arrAttachFile)
 					uploadPath     = ConfigAttachedFileFolder & "" & menu_type & "\"
 					dsplyPath      = ConfigAttachedFileFolder & "display\" & menu_type & "\"
 					thmbnlPath     = ConfigAttachedFileFolder & "thumbnail\" & menu_type & "\"
-					attach_file_nm = uploadPath & attach_file(i)
-					dsply_file_nm  = dsplyPath & dsply_file(i)
-					thmbnl_file_nm = thmbnlPath & thmbnl_file(i)
+					arrAttachFile_nm = uploadPath & arrAttachFile(i)
+					dsply_file_nm  = dsplyPath & arrDisplayFile(i)
+					thmbnl_file_nm = thmbnlPath & arrThmbnlFile(i)
 
-					If (fso.FileExists(attach_file_nm)) Then
-						fso.DeleteFile(attach_file_nm)
+					If (fso.FileExists(arrAttachFile_nm)) Then
+						fso.DeleteFile(arrAttachFile_nm)
 					End If
 
 					If (fso.FileExists(dsply_file_nm)) Then

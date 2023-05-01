@@ -7,7 +7,7 @@
 	Call CheckAdmin()
 %>
 <%
-	menu_seq = Request("menu_seq")
+	menu_seq  = Request("menu_seq")
 	menu_type = Request("menu_type")
 
 	If bus <> "" Then
@@ -42,10 +42,14 @@
 			menu_type = "board"
 		Elseif menu_type = "memo" Or menu_type = "poll" Then
 			menu_type = "page"
+		ElseIf menu_type = "division" Then
+			menu_type = ""
 		Else
-			menu_type = menu_type
-		End If
+			menu_type = ""
+		End If 
 	End If
 
-	Server.Execute(menu_type & "_edit.asp")
+	If menu_type <> "" Then
+		Server.Execute(menu_type & "_edit.asp")
+	End If
 %>

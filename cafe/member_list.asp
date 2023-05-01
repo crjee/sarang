@@ -4,6 +4,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	menu_seq = Request("menu_seq")
 	Call CheckMenuSeq(cafe_id, menu_seq)
 	Call CheckReadAuth(cafe_id)
@@ -142,8 +143,8 @@
 								<option value="addr1" <%=if3(sch_type="addr1","selected","")%>>주소</option>
 						</select>
 						<input type="text" id="sch_word" name="sch_word" value="<%=sch_word%>" class="inp w150p">
-						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch()">검색</button>
-						<select id="pagesize" name="pagesize" class="sel w50p" onchange="goSearch()">
+						<button type="button" class="btn btn_c_a btn_s" onclick="goSearch('<%=session("ctTarget")%>')">검색</button>
+						<select id="pagesize" name="pagesize" class="sel w50p" onchange="goSearch('<%=session("ctTarget")%>')">
 							<option value=""></option>
 							<option value="20" <%=if3(pagesize="20","selected","")%>>20</option>
 							<option value="30" <%=if3(pagesize="30","selected","")%>>30</option>
@@ -154,9 +155,6 @@
 						</form>
 					</div>
 					<div class="tb">
-						<form name="list_form" method="post">
-						<input type="hidden" name="menu_type" value="<%=menu_type%>">
-						<input type="hidden" name="smode">
 						<table class="tb_fixed">
 							<colgroup>
 								<%If instr(list_info, "agency") then%>     <col class="w10" /><%End If%>
@@ -170,14 +168,14 @@
 							</colgroup>
 							<thead>
 								<tr>
-								<%If instr(list_info, "agency") then%>     <th scope="col"><a href="javascript:goSort('agency')">상호</a><%=if3(sort="agency",sort_chr,"")%></th><%End If%>
-								<%If instr(list_info, "kname") then%>      <th scope="col"><a href="javascript:goSort('kname')">대표자</a><%=if3(sort="kname",sort_chr,"")%></th><%End If%>
-								<%If instr(list_info, "license") then%>    <th scope="col"><a href="javascript:goSort('license')">허가번호</a><%=if3(sort="license",sort_chr,"")%></th><%End If%>
-								<%If instr(list_info, "phone") then%>      <th scope="col"><a href="javascript:goSort('phone')">전화번호</a><%=if3(sort="phone",sort_chr,"")%></th><%End If%>
-								<%If instr(list_info, "mobile") then%>     <th scope="col"><a href="javascript:goSort('mobile')">핸드폰번호</a><%=if3(sort="mobile",sort_chr,"")%></th><%End If%>
-								<%If instr(list_info, "fax") then%>        <th scope="col"><a href="javascript:goSort('fax')">팩스번호</a><%=if3(sort="fax",sort_chr,"")%></th><%End If%>
-								<%If instr(list_info, "interphone") then%> <th scope="col"><a href="javascript:goSort('interphone')">내선번호</a><%=if3(sort="interphone",sort_chr,"")%></th><%End If%>
-								<%If instr(list_info, "addr") then%>       <th><a href="javascript:goSort('addr1')">주소</a><%=if3(sort="addr1",sort_chr,"")%></th><%End If%>
+								<%If instr(list_info, "agency") then%>     <th scope="col"><a href="javascript:goSort('agency','<%=session("ctTarget")%>')">상호</a><%=if3(sort="agency",sort_chr,"")%></th><%End If%>
+								<%If instr(list_info, "kname") then%>      <th scope="col"><a href="javascript:goSort('kname','<%=session("ctTarget")%>')">대표자</a><%=if3(sort="kname",sort_chr,"")%></th><%End If%>
+								<%If instr(list_info, "license") then%>    <th scope="col"><a href="javascript:goSort('license,'<%=session("ctTarget")%>'')">허가번호</a><%=if3(sort="license",sort_chr,"")%></th><%End If%>
+								<%If instr(list_info, "phone") then%>      <th scope="col"><a href="javascript:goSort('phone','<%=session("ctTarget")%>')">전화번호</a><%=if3(sort="phone",sort_chr,"")%></th><%End If%>
+								<%If instr(list_info, "mobile") then%>     <th scope="col"><a href="javascript:goSort('mobile','<%=session("ctTarget")%>')">핸드폰번호</a><%=if3(sort="mobile",sort_chr,"")%></th><%End If%>
+								<%If instr(list_info, "fax") then%>        <th scope="col"><a href="javascript:goSort('fax','<%=session("ctTarget")%>')">팩스번호</a><%=if3(sort="fax",sort_chr,"")%></th><%End If%>
+								<%If instr(list_info, "interphone") then%> <th scope="col"><a href="javascript:goSort('interphone','<%=session("ctTarget")%>')">내선번호</a><%=if3(sort="interphone",sort_chr,"")%></th><%End If%>
+								<%If instr(list_info, "addr") then%>       <th scope="col"><a href="javascript:goSort('addr1','<%=session("ctTarget")%>')">주소</a><%=if3(sort="addr1",sort_chr,"")%></th><%End If%>
 								</tr>
 							</thead>
 							<tbody>
@@ -229,7 +227,6 @@
 %>
 							</tbody>
 						</table>
-						</form>
 					</div>
 <!--#include virtual="/cafe/cafe_page_inc.asp"-->
 				</div>
@@ -246,18 +243,22 @@
 %>
 </body>
 <script>
-	function MovePage(page) {
-		document.all.page.value = page;
-		document.search_form.submit();
+	function MovePage(page, gvTarget) {
+		var f = document.search_form;
+		f.page.value = page;
+		f.target = gvTarget;
+		f.action = "/cafe/member_list.asp";
+		f.submit();
 	}
 
-	function goSearch() {
-		document.all.page.value = 1;
-		document.search_form.submit();
+	function goSearch(gvTarget) {
+		var f = document.search_form;
+		f.page.value = 1;
+		f.target = gvTarget;
+		f.submit();
 	}
 
 	function goSort(field) {
-
 		if (document.all.sort.value == field) {
 			if (document.all.ascdesc.value == "asc")
 				document.all.ascdesc.value = "desc";
@@ -268,9 +269,12 @@
 			document.all.ascdesc.value = "asc";
 		}
 
-		document.all.sort.value = field;
-		search_form.submit();
+		var f = document.search_form;
+		f.sort.value = field;
+		f.target = gvTarget;
+		f.submit();
 	}
+
 	function Rsize(img, ww, hh, aL) {
 		var tt = imgRsize(img, ww, hh);
 		if (img.width > ww || img.height > hh) {

@@ -4,6 +4,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	menu_seq = Request("menu_seq")
 	Call CheckMenuSeq(cafe_id, menu_seq)
 	Call CheckManager(cafe_id)
@@ -127,9 +128,6 @@
 				</div>
 				<div class="mt10">
 					<div class="tb">
-						<form name="list_form" method="post">
-						<input type="hidden" name="menu_type" value="<%=menu_type%>">
-						<input type="hidden" name="smode">
 						<table class="tb_fixed">
 							<colgroup>
 								<col class="w7" />
@@ -256,7 +254,6 @@
 %>
 							</tbody>
 						</table>
-						</form>
 					</div>
 <!--#include virtual="/cafe/cafe_page_inc.asp"-->
 <%
@@ -311,6 +308,14 @@
 		f.target = gvTarget;
 		f.submit();
 
+	}
+
+	function goTab(section_seq, gvTarget) {
+		var f = document.search_form;
+		f.section_seq.value = section_seq;
+		f.page.value = 1;
+		f.target = gvTarget;
+		f.submit();
 	}
 </script>
 </html>

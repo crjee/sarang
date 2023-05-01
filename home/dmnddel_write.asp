@@ -33,7 +33,6 @@
 				<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
 				<input type="hidden" name="tb_prefix" value="gi">
 				<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
-				<input type="hidden" name="temp" value="Y">
 				<div class="cont_tit">
 					<h2 class="h2">게시글 중단 요청하기</h2>
 					<span class="posR"><em class="required">필수입력</em>는 필수 기재 항목입니다.</span>

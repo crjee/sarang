@@ -7,6 +7,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	menu_seq = Request("menu_seq")
 	Call CheckMenuSeq(cafe_id, menu_seq)
 
@@ -46,26 +47,38 @@
 <title>팝업공지</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<link href="/cafe/css/basic_layout.css" rel="stylesheet" type="text/css" />
+<!-- <link href="/cafe/css/basic_layout.css" rel="stylesheet" type="text/css" />
 <link href="/cafe/css/inc.css" rel="stylesheet" type="text/css" />
 <link href="/cafe/css/btn.css" rel="stylesheet" type="text/css" />
-<link href="/cafe/css/contents_page.css" rel="stylesheet" type="text/css" />
+<link href="/cafe/css/contents_page.css" rel="stylesheet" type="text/css" /> -->
+<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
 </head>
-<body>
-	<form name="form" method="post" action="popup_end_exec.asp">
-	<input type="hidden" name="popup_key" value="<%=popup_key%>">
-	<div id="CenterPopup">
-		<div id="Contents_Popuptitle"><%=menu_name%></div>
-		<div id="Contents_PopupContMain" style="width:100%;height:245px;border:1px;overflow:scroll;">
-			<%=rs("subject")%><br>
-			<%=rs("contents")%>
+<body id="popup">
+	<form name="form" method="post" action="popup_end_exec.asp" class="popup">
+		<input type="hidden" name="popup_key" value="<%=popup_key%>">
+		<div id="CenterPopup">
+			<div id="Contents_Popuptitle"><%=menu_name%></div>
+			<div id="Contents_PopupContMain">
+				<%=rs("subject")%><br>
+				<%=rs("contents")%>
+			</div>
+			<div id="Contents_Foot">
+				<div class="flex-box">
+					<div class="item-box contents_foot_left">
+						<input type="checkbox" class="inp_check" id="check1" name="check1" value="Y" onclick="document.form.submit()">
+						<label for="check1"><em>오늘하루 그만 보기</em></label>
+					</div>
+					<div class="item-box contents_foot_right">
+						<button type="button" class="btn btn_c_n" id="btn" onclick="document.form.submit()">닫기</button>
+					</div>
+				</div>
+			</div>
 		</div>
-		<input type="checkbox" class="inp_check" name="check1" value="Y" onclick="document.form.submit()"> 오늘하루 그만 보기
-		<p class="right"><button type="button" class="btn_basic2txt" id="btn" onclick="document.form.submit()">닫기</button></p>
-	</div>
 	</form>
+	<div class="timer">
+		<%
+			If session("cafe_ad_level") = "10" And session("skin_id") = "skin_01" Then extime("실행시간") 
+		%>
+	</div>
 </body>
 </html>
-<%
-If session("cafe_ad_level") = "10" And session("skin_id") = "skin_01" Then extime("실행시간") 
-%>

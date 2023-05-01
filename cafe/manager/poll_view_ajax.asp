@@ -4,6 +4,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	Call CheckManager(cafe_id)
 
 	menu_seq = Request("menu_seq")

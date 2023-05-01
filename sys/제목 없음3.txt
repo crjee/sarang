@@ -1,0 +1,701 @@
+
+
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>사랑방</title>
+	<link rel="stylesheet" type="text/css" href="/common/css/base.css" />
+	<script src="/common/js/jquery-3.6.0.min.js"></script>
+	<script src="/common/js/jquery-ui.min.js"></script>
+	<script src="/common/js/slick.min.js"></script>
+	<script src="/common/js/common.js"></script>
+	<script src="/common/js/cafe.js"></script>
+	<script src="/smart/js/HuskyEZCreator.js" charset="utf-8"></script>
+</head>
+<body class="skin_type_1">
+
+	<div id="wrap" class="group">
+
+<script>
+	// 쿠키 생성
+	function setCookie(name, value, d) {
+		document.cookie = name+'='+escape(value)+'; path=/'+(d?'; expires='+(function(t) {t.setDate(t.getDate()+d);return t})(new Date).toGMTString():'');
+	}
+
+	// 쿠키 가져오기
+	function getCookie(name) {
+		name = new RegExp(name + '=([^;]*)');
+		return name.test(document.cookie) ? unescape(RegExp.$1) : '';
+	}
+
+	var scale = 1;
+	var scale2 = getCookie("scale");
+
+	$(document).ready(function() {
+		$('#cafe_main').on('load', function() {
+			this.contentWindow.document.body.style.zoom = scale;
+		});
+	});
+
+	if (scale2 != "") {
+		scale = scale2;
+		document.body.style.zoom = scale;
+	}
+
+	function zoomIn() {
+		scale = parseFloat(scale) + 0.1;
+		zoom();
+	}
+
+	function zoomOut() {
+		scale = parseFloat(scale) - 0.1;
+		zoom();
+	}
+
+	function zoomDefault() {
+		scale = 1;
+		zoom();
+	}
+
+	function zoom() {
+		scale = scale * 10
+		scale = Math.round(scale)
+		scale = scale / 10
+		setCookie("scale", scale, 100);
+
+		document.location.href = document.location;
+	}
+</script>
+
+		<header id="header">
+			<div class="header_inner">
+				<div class="header_cont">
+					<h1>
+
+						<a href="/cafe/main.asp?cafe_id=hanwul"><img src="http://localhost/uploads/cafeimg/한울회로고.png" style="width:168px; height:54px" /></a>
+
+					</h1>
+					<ul class="top_btn_box">
+						<li class="button_zone">
+							<span id="zoom"></span>
+							<script>
+								var target = document.getElementById('zoom');
+								target.innerText = scale;
+							</script>
+							<button type="button" class="btn_enlar" onclick="zoomOut()"><em>축소</em></button>
+							<button type="button" class="btn_nor" onclick="zoomDefault()"><em>기본</em></button>
+							<button type="button" class="btn_reduc" onclick="zoomIn()"><em>확대</em></button>
+						</li>
+
+						<li>
+						<select id="skin_id" name="skin_id" class="sel w120p" onchange="javascript:document.location.href='/cafe/main.asp?skin_id='+this.value">
+							<option value="">전체</option>
+							<option value="noFrame" selected>프레임 미사용</option>
+							<option value="skin_01" >깜빡 프레임</option>
+							<option value="skin_03" >유지 프레임</option>
+						</select>
+						</li>
+
+						<li><a href="/home/admin/member_list.asp" target="_self">관리자</a></li>
+						<li><a href="/cafe/main.asp?cafe_id=">처음으로</a></li>
+						<li><a href="/cafe/my_info_edit.asp" target="_self">내정보</a></li>
+
+						<li><a href="/logout_exec.asp">로그아웃</a></li>
+
+						<li><a href="/home">경인홈</a></li>
+					</ul>
+				</div>
+				<div class="header_banner">
+
+					<div class="banners">
+
+						<a href="https://www.lguplus.com/" target="_blank">
+
+						<img src="http://localhost/uploads/banner/lg_banner(2).jpg"/>
+
+						</a>
+
+					</div>
+
+					<div class="banners">
+
+						<img src="http://localhost/uploads/banner/렛츠사랑방_170x80-.jpg"/>
+
+					</div>
+
+					<div class="banners">
+
+						<img src="http://localhost/uploads/banner/211021-쓰리엠파크.gif"/>
+
+					</div>
+
+					<div class="banners">
+
+						<img src="http://localhost/uploads/banner/banner_rego220616.jpg"/>
+
+					</div>
+
+					<div class="banners">
+
+						<a href="http://송도스마트스퀘어.com" target="_blank">
+
+						<img src="http://localhost/uploads/banner/smartsqare160x80_1_20211008.png"/>
+
+						</a>
+
+					</div>
+
+					<div class="banners">
+
+						<a href="http://www.gibds.co.kr" target="_blank">
+
+						<img src="http://localhost/uploads/banner/네비사랑방베너_20210825.jpg"/>
+
+						</a>
+
+					</div>
+
+					<div class="banners">
+
+						<img src="http://localhost/uploads/banner/3215375.gif"/>
+
+					</div>
+
+				</div>
+			</div>
+		</header>
+
+		<main id="main" class="sub">
+
+			<nav id="nav_gnb" class="group_nav dsc_">
+				<div class="group_area">
+					<div class="group_box">
+						<p><strong>경인정보</strong>님 안녕하세요</p>
+						<span class="icon">운영자</span>
+					</div>
+					<ul class="group_list">
+						<li><em>회원수</em> <strong>75</strong></li>
+						<li><em>방문수</em> <strong>334,803</strong></li>
+						<li><em>쪽지함</em> <strong><a href="/cafe/memo_list.asp" class="orange3" target="_self">0개</a></strong></li>
+					</ul>
+					<form name="cafe_search_form" id="cafe_search_form" method="post" action="/cafe/cafe_search_list.asp" target="_self">
+					<div class="search_box">
+						<label for="">전체검색</label>
+						<input type="text" id="sch_word" name="sch_word" placeholder="검색어를 입력하세요" class="" required />
+						<button type="submit" class="f_awesome"><em>검색</em></button>
+					</div>
+					</form>
+
+					<button type="button" class="btn btn_c_s btn_n" onclick="javascripit:document.location.href='/cafe/manager/cafe_info_edit.asp'">사랑방 관리</button>
+					<button type="button" class="btn btn_c_a btn_n ux_btn_wrt">카페글쓰기</button>
+					<div class="wrt_group_box">
+						<div class="btn_box">
+
+							<a href="/cafe/board_write.asp?menu_seq=70" target="_self">자유게시판</a>
+
+							<a href="/cafe/board_write.asp?menu_seq=68" target="_self">공지사항</a>
+
+							<a href="/cafe/sale_write.asp?menu_seq=328" target="_self">매물구합니다</a>
+
+							<a href="/cafe/board_write.asp?menu_seq=902" target="_self">자료실</a>
+
+							<a href="/cafe/job_write.asp?menu_seq=1335" target="_self">채용</a>
+
+							<a href="/cafe/album_write.asp?menu_seq=1360" target="_self">앨범</a>
+
+							<a href="/cafe/board_write.asp?menu_seq=770" target="_self">중개실무</a>
+
+							<a href="/cafe/board_write.asp?menu_seq=771" target="_self">애경사알림방</a>
+
+							<a href="/cafe/board_write.asp?menu_seq=874" target="_self">회원명단</a>
+
+							<a href="/cafe/board_write.asp?menu_seq=875" target="_self">구인란</a>
+
+							<a href="/cafe/board_write.asp?menu_seq=905" target="_self">급매물</a>
+
+							<a href="/cafe/board_write.asp?menu_seq=1528" target="_self">부동산네비 요청사항</a>
+
+							<a href="/cafe/board_write.asp?menu_seq=1883" target="_self">총무회계</a>
+
+						</div>
+					</div>
+				</div>
+				<ul class="nav">
+
+					<li></li>
+
+					<li class="menu_tit">커뮤니티</li>
+
+					<!-- <li style="background:url(/cafe/img/left/ico_01.png) left no-repeat #ebebeb;"><a href='/cafe/board_list.asp?menu_seq=68' target='_self'> 공지사항 <img src='/cafe/img/btn/new.png' align='absmiddle'></a></li> -->
+					<li class="current_link"><a href='/cafe/board_list.asp?menu_seq=68' target='_self'> 공지사항 <img src='/cafe/img/btn/new.png' align='absmiddle'></a></li>
+
+					<li style=""><a href='/cafe/board_list.asp?menu_seq=70' target='_self'> 자유게시판 </a></li>
+
+					<li style=""><a href='/cafe/board_list.asp?menu_seq=875' target='_self'> 구인란 </a></li>
+
+					<li style=""><a href='/cafe/land_list.asp?menu_seq=1964' target='_self'> 부동산뉴스 </a></li>
+
+					<li style=""><a href='/cafe/board_list.asp?menu_seq=771' target='_self'> 애경사알림방 </a></li>
+
+					<li style=""><a href='/cafe/board_list.asp?menu_seq=770' target='_self'> 중개실무 </a></li>
+
+					<li style=""><a href='/cafe/sale_list.asp?menu_seq=328' target='_self'> 매물구합니다 </a></li>
+
+					<li style=""><a href='/cafe/board_list.asp?menu_seq=874' target='_self'> 회원명단 </a></li>
+
+					<li style=""><a href='/cafe/board_list.asp?menu_seq=902' target='_self'> 자료실 </a></li>
+
+					<li style=""><a href='/cafe/album_list.asp?menu_seq=1360' target='_self'> 앨범 </a></li>
+
+					<li style=""><a href='/cafe/board_list.asp?menu_seq=905' target='_self'> 급매물 </a></li>
+
+					<li style=""><a href='/cafe/job_list.asp?menu_seq=1335' target='_self'> 채용 </a></li>
+
+					<li style=""><a href='/cafe/board_list.asp?menu_seq=1528' target='_self'> 부동산네비 요청사항 </a></li>
+
+					<li class="menu_tit">메뉴그룹</li>
+
+					<li style=""><a href='/cafe/page_view.asp?menu_seq=1880' target='_self'> 회칙 </a></li>
+
+					<li style=""><a href='/cafe/page_view.asp?menu_seq=1881' target='_self'> 소개 </a></li>
+
+					<li style=""><a href='/cafe/page_view.asp?menu_seq=1882' target='_self'> 명단 </a></li>
+
+					<li style=""><a href='/cafe/board_list.asp?menu_seq=1883' target='_self'> 총무회계 </a></li>
+
+					<li class="outline_zone">
+						<ul>
+							
+								<!--사랑방 바로가기-->
+								<li>
+									<select name="cafe_id" class="sel w100" title="사랑방" onchange="javascript:document.location.href='/cafe/main.asp?cafe_id='+this.value;">
+										<option value="">사랑방 선택</option>
+										
+						<option value=''></option>
+						<option value='ic_kagong'>가부회</option>
+						<option value='ic_galsan'>갈산회</option>
+						<option value='kp_geolpo'>걸포회</option>
+						<option value='ic_keumdanara'>검단신도시아라회</option>
+						<option value='ic_saebitkdwd'>검단신도시원당회</option>
+						<option value='ic_uwondang'>검단신도시회</option>
+						<option value='ic_keumdansa'>검단중앙회</option>
+						<option value='kimpo'>검단회</option>
+						<option value='ic_keumam'>검암회</option>
+						<option value='ic_bumbak'>경기기본</option>
+						<option value='ic_gyegong4u'>계공4U</option>
+						<option value='ic_gyeyang'>계양구</option>
+						<option value='ic_gojungyeon'>고중연</option>
+						<option value='ic_kochang'>고창회</option>
+						<option value='ic_gochon'>고촌회</option>
+						<option value='ic_gurae'>구래마산친목회</option>
+						<option value='ic_hangang'>구래지구회</option>
+						<option value='ic_kilju'>길주회</option>
+						<option value='u_kimpojihoi'>김포시지회</option>
+						<option value='ic_ggumyeonwha'>꿈.연화회</option>
+						<option value='ic_podoboram'>꿈사랑포람회</option>
+						<option value='ic_namgu'>남구</option>
+						<option value='ic_namdonggu'>남동구</option>
+						<option value='ic_nambu'>남부회</option>
+						<option value='ic_nongong'>논공모</option>
+						<option value='ic_neungkok'>능곡회</option>
+						<option value='dalalum'>달아름</option>
+						<option value='ic_dangbu'>당부회</option>
+						<option value='ic_dowool'>도울회</option>
+						<option value='ic_gajeonggigu'>루원시티공인중개사연합회</option>
+						<option value='ic_magokjigu'>마곡지구연합회</option>
+						<option value='gyesan'>마전지구회</option>
+						<option value='ic_mansa'>만사회</option>
+						<option value='ic_mansu3'>만수3지구회</option>
+						<option value='ic_mokgam'>목감회</option>
+						<option value='ic_mibu'>미부회-폐쇄(2020.8.28)</option>
+						<option value='ic_baegot'>배곧신도시회</option>
+						<option value='ic_backhyeon'>백현회</option>
+						<option value='rnavi'>부동산네비</option>
+						<option value='ic_busamo'>부사모</option>
+						<option value='ic_buwon'>부원회</option>
+						<option value='ic_bujung'>부중회</option>
+						<option value='bucheon_sw'>부천상우회</option>
+						<option value='bucheon'>부천시그룹</option>
+						<option value='u_bucheon'>부천연합회</option>
+						<option value='ic_bcops'>부천OP,s회</option>
+						<option value='ic_namsamo'>부쳔소사괴안동</option>
+						<option value='ic_sao'>부평 사오회</option>
+						<option value='hanwul' selected>부평한울회</option>
+						<option value='ic_bupyeong'>부평회</option>
+						<option value='ic_bukkam'>북변·감정회</option>
+						<option value='ic_bullo'>불로회</option>
+						<option value='ic_sawoou'>사우연합회</option>
+						<option value='sauoo'>사우풍년회</option>
+						<option value='ic_sannumeo'>산넘어은하회</option>
+						<option value='sambu'>삼산타운회</option>
+						<option value='ic_sangbu'>상부회</option>
+						<option value='ic_se2jungmo'>서2중모_-폐쇄</option>
+						<option value='ic_seojung'>서연회</option>
+						<option value='ic_magokjigusangga'>서울기본</option>
+						<option value='ic_seokjeong'>석정회</option>
+						<option value='ic_seongjusansw'>성주산상우회</option>
+						<option value='ic_senpuhils'>센푸랑힐스랑</option>
+						<option value='ic_sojung'>소중회</option>
+						<option value='songnae'>송내동상우회</option>
+						<option value='ic_songdo'>송도부동산연합회</option>
+						<option value='ic_sinnongong'>신논공회</option>
+						<option value='ic_simbu'>심부회</option>
+						<option value='ic_ara'>아라회</option>
+						<option value='ic_seonggok'>양촌회</option>
+						<option value='ic_yeuksamo'>역사모</option>
+						<option value='ic_yeongong'>연공회</option>
+						<option value='yeonsu'>연수회</option>
+						<option value='ic_openclimb'>열린산악회</option>
+						<option value='ic_sibjunggansuk'>열우물부동산연합회</option>
+						<option value='ic_yjkjds'>영종공인중개사연합회</option>
+						<option value='ic_oido'>오이도회</option>
+						<option value='ic_ojung'>오정회</option>
+						<option value='ic_wanjung'>완정회</option>
+						<option value='yonghak'>용학회</option>
+						<option value='ic_woojung'>우정회</option>
+						<option value='ic_unyang'>운양회</option>
+						<option value='ic_won1'>원1회</option>
+						<option value='ic_won2'>원2회</option>
+						<option value='ic_wonmidong'>원미동사람들</option>
+						<option value='ic_wonsamo'>원사모</option>
+						<option value='ic_wolgot'>월곶회</option>
+						<option value='ic_nowjungdong'>위브터스테이트</option>
+						<option value='ic_eo'>이오회</option>
+						<option value='incheon'>인천시그룹</option>
+						<option value='ic_incheonfree'>인천시그룹2</option>
+						<option value='ic_inhyang'>인향회</option>
+						<option value='ic_jangki'>장기회</option>
+						<option value='jangunit'>장안구연합회</option>
+						<option value='janghyeon'>장현신도시회</option>
+						<option value='ic_janghyeon'>장현지구회</option>
+						<option value='jungdong'>중동신도시부동산연합회</option>
+						<option value='ic_jsdh'>중상동상우회</option>
+						<option value='ic_jungang'>중앙회</option>
+						<option value='ic_chulma'>철마회</option>
+						<option value='ic_chungra'>청라국제도시 공인중개사 연합회 </option>
+						<option value='ic_chungsong'>청송회</option>
+						<option value='ic_taejang'>태장회</option>
+						<option value='test1'>테스트</option>
+						<option value='ic_pazu'>파주회</option>
+						<option value='ic_pungnyeon'>풍무공인중개사회</option>
+						<option value='ic_pungmojungang'>풍무중앙회</option>
+						<option value='ic_hana'>하나회</option>
+						<option value='ic_hakgongun'>학공운</option>
+						<option value='hankangnewcity'>한강신도시공인중개사연합회</option>
+						<option value='hansinjanggi'>한신장기회</option>
+						<option value='ic_hansin'>한신회</option>
+						<option value='ic_wheelcastle'>힐.캐슬동호회</option>
+
+									</select>
+								</li>
+								<!--사랑방 바로가기-->
+							
+							<li><a href="javascript:pop_win('/cafe/form/retsform.htm','retsform','670','820')"><img src="/cafe/form/images/leftm_contract.gif" alt="계약서 서식 다운받기" /></a></li>
+							<script>
+								function pop_win(url, winname, width, height, left, top)
+									if( left>=0 || top>=0 ){
+										window.open(url, winname, "left=" + left + ",top=" + top + ",fullscreen=no,titlebar=no,toolbar=no,directories=no,status=no,menubar=no,resizable=yes,width=" + width + ",height=" + height);
+									} else {
+										//window.open(url, winname, "left =" + (screen.availWidth-width)/2 + ",top=" + (screen.availHeight-height)/2 + ",fullscreen=no,titlebar=no,toolbar=no,directories=no,status=no,menubar=no,resizable=yes,width=" + width + ",height=" + height);
+										var w_left = window.screenLeft;
+										var w_width = document.body.clientWidth;
+										var w_top = window.screenTop;
+										var w_height = document.body.clientHeight;
+										left = (w_width-width)/2+w_left/2;
+										top = (w_height-height)/2+w_top/2;
+								
+										window.open(url, winname, "left =" + left + ",top=" + top + ",fullscreen=no,titlebar=no,toolbar=no,directories=no,status=no,menubar=no,resizable=yes,width=" + width + ",height=" + height);
+									}
+								}
+							</script>
+							<li class="leftbanner"><a href="http://www.iros.go.kr/" target="_blank"><img src="/uploads/banner/deongi.gif" style="width:135px;" /></a></li>
+							<li class="leftbanner"><a href="http://www.courtauction.go.kr/" target="_blank"><img src="/uploads/banner/useful_kyungmae.gif" style="width:135px;" /></a></li>
+							<li class="leftbanner"><a href="https://seereal.lh.or.kr/" target="_blank"><img src="/uploads/banner/onnara.gif" style="width:135px;" /></a></li>
+							<li class="leftbanner"><a href="http://www.realtyprice.kr/notice/town/searchPastYear.htm" target="_blank"><img src="/uploads/banner/siga.gif" style="width:135px;" /></a></li>
+							<li class="leftbanner"><a href="javascript:jiga_wind()"><img src="/uploads/banner/jiga.gif" style="width:135px;" /></a></li>
+							<li class="leftbanner"><a href="javascript:pop_ydsds()"><img src="/uploads/banner/useful_yangdo.gif" style="width:135px;" /></a></li>
+							<li class="leftbanner"><a href="https://hometax.go.kr/websquare/websquare.html?w2xPath=/ui/pp/index.xml" target="_blank"><img src="/uploads/banner/hometax.gif" style="width:135px;" /></a></li>
+							<li class="leftbanner"><a href="https://kras.go.kr:444" target="_blank"><img src="/uploads/banner/kras_go_kr.gif" style="width:135px;" /></a></li>
+							<li class="leftbanner"><a href="http://www.kar.or.kr/" target="_blank"><img src="/uploads/banner/kar_or_kr.gif" style="width:135px;" /></a></li>
+							<li class="leftbanner"><a href="http://www.lak.or.kr" target="_blank"><img src="/uploads/banner/lak_or_kr.gif" style="width:135px;" /></a></li>
+							<script>
+								function jiga_wind()
+								{
+									var jiga_wind = window.open("http://club.re4u.co.kr/jiga.htm","jiga_wind","width=800, height=550");
+									jiga_wind.focus();
+								}//function jiga_wind
+								
+								function pop_ydsds()
+								{
+									var yangdo_win = window.open('http://kar.serve.co.kr/agency/kar/calculators/pop_cal.asp?page_type=kar','yangdo_win','width=1000,height=600,left=20,top=10,scrollbars=yes');
+									yangdo_win.focus();
+								}//function pop_ydsds
+							</Script>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+
+			<div class="container">
+
+			<div class="container">
+				<form name="form" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this)">
+				<input type="hidden" name="tb_prefix" value="cf">
+				<input type="hidden" name="page" value="1">
+				<input type="hidden" name="pagesize" value="20">
+				<input type="hidden" name="sch_type" value="">
+				<input type="hidden" name="sch_word" value="">
+				<input type="hidden" name="self_yn" value="">
+
+				<input type="hidden" name="menu_seq" value="68">
+				<input type="hidden" name="board_seq" value="1222133">
+				<div class="cont_tit">
+					<h2 class="h2">공지사항 수정</h2>
+				</div>
+				<div class="tb">
+					<table class="tb_input tb_fixed">
+						<colgroup>
+							<col class="w200p">
+							<col class="w_remainder">
+						</colgroup>
+						<tbody>
+
+							<tr>
+								<th scope="row">공지</th>
+								<td>
+									<input type="checkbox" id="top_yn" name="top_yn" class="inp_check" value="Y"  />
+									<label for="top_yn"><em>공지로 지정</em></label>
+								</td>
+							</tr>
+
+							<tr>
+								<th scope="row">제목<em class="required">필수입력</em></th>
+								<td>
+									<input type="text" id="subject" name="subject" class="inp" value="ㅕㅓ헣" maxlength="200" onKeyup="fc_chk_byte(this, 200, 'req_attnView')" required>
+									<span id="req_attnView" name="req_attnView">0</span>/200
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="mt10">
+						<textarea name="contents" id="contents" style="width:100%;display:none;"><p>&nbsp;</p><p>ㅗㅓ호ㅓ호ㅓㅗㅎ</p></textarea>
+						<p class="txt_point mt10">새로고침시 에디터 내용은 유지되지 않습니다.</p>
+					</div>
+					<table class="tb_input tb_fixed mt10">
+						<colgroup>
+							<col class="w200p">
+							<col class="w_remainder">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">링크주소</th>
+								<td>
+									<input type="text" id="link" name="link" class="inp" value="">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<script>
+						function addDataFile() {
+							try{
+								var dataFileCnt = Number($("#dataFileCnt").val());
+								var dataFormCnt = Number($("#dataFormCnt").val());
+
+								if ((dataFileCnt + dataFormCnt) < 10) {
+									$("#dataFormCnt").val(++dataFormCnt) ;
+									for (i=1;i<=dataFormCnt;i++) {
+										eval("attcDataForm"+i+".style.display='block'")
+									}
+								}
+							} catch(e) {
+								alert(e)
+							}
+						}
+						function delDataFile() {
+							var dataFormCnt = Number($("#dataFormCnt").val());
+							eval("attcDataForm"+dataFormCnt+".style.display='none'");
+							$("#dataFormCnt").val(Number(dataFormCnt)-1);
+							$("input[name=data_file_name]").eq(dataFormCnt-1).val("");
+						}
+						function goFileDelete(attach_seq, delSeq) {
+							//hiddenfrm.location.href = 'com_attach_del_exec.asp?menu_seq=68&attach_seq=' + attach_seq + '&delSeq=' + delSeq;
+							location.href = 'com_attach_del_exec.asp?menu_seq=68&attach_seq=' + attach_seq + '&delSeq=' + delSeq;
+						}
+					</script>
+					<table class="tb_input tb_fixed mt10">
+						<colgroup>
+							<col class="w200p">
+							<col class="w_remainder">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row" class="add_files">
+									자료 파일&nbsp;&nbsp;&nbsp;&nbsp;
+									<div class="dp_inline">
+										<button type="button" class="btn btn_inp_add" onclick="addDataFile()"><em>추가</em></button>
+										<button type="button" class="btn btn_inp_del" onclick="delDataFile()"><em>삭제</em></button>
+									</div>
+									
+								</th>
+								<td>
+									<ul>
+
+										<li class="stxt" id="attcDataForm1" style="display:block">
+											<input type="file" class="inp" name="data_file_name">
+										</li>
+
+										<li class="stxt" id="attcDataForm2" style="display:none">
+											<input type="file" class="inp" name="data_file_name">
+										</li>
+
+										<li class="stxt" id="attcDataForm3" style="display:none">
+											<input type="file" class="inp" name="data_file_name">
+										</li>
+
+										<li class="stxt" id="attcDataForm4" style="display:none">
+											<input type="file" class="inp" name="data_file_name">
+										</li>
+
+										<li class="stxt" id="attcDataForm5" style="display:none">
+											<input type="file" class="inp" name="data_file_name">
+										</li>
+
+										<li class="stxt" id="attcDataForm6" style="display:none">
+											<input type="file" class="inp" name="data_file_name">
+										</li>
+
+										<li class="stxt" id="attcDataForm7" style="display:none">
+											<input type="file" class="inp" name="data_file_name">
+										</li>
+
+										<li class="stxt" id="attcDataForm8" style="display:none">
+											<input type="file" class="inp" name="data_file_name">
+										</li>
+
+										<li class="stxt" id="attcDataForm9" style="display:none">
+											<input type="file" class="inp" name="data_file_name">
+										</li>
+
+										<li class="stxt" id="attcDataForm10" style="display:none">
+											<input type="file" class="inp" name="data_file_name">
+										</li>
+
+									</ul>
+								</td>
+							</tr>
+							<input type="hidden" id="dataFileCnt" name="dataFileCnt" value="0">
+							<input type="hidden" id="dataFormCnt" name="dataFormCnt" value="1">
+						</tbody>
+					</table>
+					<p class="txt_point mt10">자료 파일 :  gif, jpg, jpeg, png, x-png,  hwp, pdf, xls, xlsx, doc, docx, ppt, pptx 파일만 등록 가능합니다.</p>
+
+				</div>
+				<div class="btn_box">
+					<button type="submit" class="btn btn_c_a btn_n">등록</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goList('_self')">취소</button>
+				</div>
+				</form>
+				<form name="search_form" id="search_form" method="post">
+				<input type="hidden" name="menu_seq" value="68">
+				</form>
+			</div>
+
+			<!-- 우측 배너 : s -->
+			<aside class="sticky_box">
+				<ul>
+
+					<li>
+
+						<a href="http://cafe.daum.net/rebrokers?t__nil_cafemy=item" target="_blank">
+
+							<img src="http://localhost/uploads/banner/그림2.jpg" style="width:150px;" />
+
+						</a>
+
+					<li>
+
+						<a href="https://cafe.daum.net/hwhohy" target="_blank">
+
+							<img src="http://localhost/uploads/banner/한울회.jpg" style="width:150px;" />
+
+						</a>
+
+				</ul>
+			</aside>
+			<!-- 우측 배너 : e -->
+
+		</main>
+실행시간 : 0.24219 (초)<br>
+		<footer id="footer">
+			<div class="foot_inner foot_inner_ext">
+				<ul class="foot_btn">
+					<li><a href="/cafe/company.asp">회사소개</a></li>
+					<li><a href="/cafe/guide.asp">이용약관</a></li>
+					<li><a href="/cafe/privacy.asp">개인정보처리방침</a></li>
+					<li><a href="#n">광고/제휴문의</a></li>
+					<li><a href="#n">게시중단요청</a></li>
+				</ul>
+			</div>
+			<div class="foot_inner">
+				<ul class="foot_info">
+					<li><em class="hide">회사명</em>(주)경인네트워크</li>
+					<li><em class="">대표자</em>윤종모</li>
+					<li><em class="">사업자번호</em>122-81-82524</li>
+					<li><em class="">통신판매업신고번호</em>제2010-인천계양-0223호</li>
+				</ul>
+				<p class="foot_address">
+					Copyright &copy; 2004~2023 경인네트워크. All rights reserved.
+				</p>
+			</div>
+		</footer>
+
+	</div>
+
+	<iframe name="hiddenfrm" id="hiddenfrm" style="border:1px;width:1000;"></iframe>
+</body>
+<script>
+	var oEditors = [];
+
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: oEditors,
+		elPlaceHolder: "contents",
+		sSkinURI: "/smart/SmartEditor2Skin.html",
+		htParams : {
+			bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+			bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+			//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
+			fOnBeforeUnload : function() {
+				alert("완료!")
+			}
+		}, //boolean
+		fOnAppLoad : function() {
+			//예제 코드
+			//oEditors.getById["contents"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."])
+		},
+		fCreator: "createSEditor2"
+	})
+
+	function submitContents(elClickedObj) {
+		oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", [])
+		try {
+
+			elClickedObj.action = "board_modify_exec.asp";
+			//elClickedObj.target = "hiddenfrm";
+			elClickedObj.submit()
+		} catch(e) {alert(e)}
+	}
+
+	function goList(gvTarget) {
+		var f = document.search_form;
+		f.action = "board_list.asp";
+		f.target = gvTarget;
+		f.submit();
+	}
+</script>
+</html>
+실행시간 : 0.24219 (초)<br>

@@ -88,23 +88,6 @@
 	Else
 		PageCount = Int(RecordCount / PageSize) + 1
 	End If
-
-	sql = ""
-	sql = sql & " select *                                                                           "
-	sql = sql & "   from (select row_number() over( order by group_num desc, step_num asc) as rownum "
-	sql = sql & "               ,*                                                                   "
-	sql = sql & "           from gi_album ca "
-	sql = sql & "          where cafe_id  = '" & cafe_id                                        & "' "
-	sql = sql & "            and menu_seq = '" & menu_seq                                       & "' "
-	If self_yn = "Y" Then
-	sql = sql & "    and user_id = '" & session("user_id") & "' "
-	End If
-	sql = sql & secStr
-	sql = sql & schStr
-	sql = sql & "        ) a                                                                         "
-	sql = sql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & "          "
-	sql = sql & "  order by group_num desc, step_num asc                                             "
-	rs.Open sql, conn, 3, 1
 %>
 		<main id="main" class="main">
 			<div class="container">
@@ -159,76 +142,51 @@
 							<div class="gallery_inner_box">
 <%
 	Set fso = Server.CreateObject("Scripting.FileSystemObject")
-	i = 1
+
+	sql = ""
+	sql = sql & " select a.*, b.thmbnl_file_nm                                                       "
+	sql = sql & "   from (select row_number() over( order by group_num desc, step_num asc) as rownum "
+	sql = sql & "               ,*                                                                   "
+	sql = sql & "           from cf_album ca "
+	sql = sql & "          where cafe_id  = '" & cafe_id                                        & "' "
+	sql = sql & "            and menu_seq = '" & menu_seq                                       & "' "
+	If self_yn = "Y" Then
+	sql = sql & "            and user_id  = '" & session("user_id")                             & "' "
+	End If
+	sql = sql & secStr
+	sql = sql & schStr
+	sql = sql & "        ) a                                                                         "
+	sql = sql & "   left join cf_album_attach b on a.album_seq = b.album_seq and rprs_file_yn = 'Y'  "
+	sql = sql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & "          "
+	sql = sql & "  order by group_num desc, step_num asc                                             "
+	rs.Open sql, conn, 3, 1
+
 	If Not rs.EOF Then
 		Do Until rs.EOF
-			board_seq      = rs("board_seq")
-			board_num      = rs("board_num")
-			group_num      = rs("group_num")
-			step_num       = rs("step_num")
-			level_num      = rs("level_num")
-			menu_seq       = rs("menu_seq")
-			cafe_id        = rs("cafe_id")
-			agency         = rs("agency")
-			top_yn         = rs("top_yn")
-			pop_yn         = rs("pop_yn")
-			section_seq    = rs("section_seq")
+			album_seq      = rs("album_seq")
 			subject        = rs("subject")
 			contents       = rs("contents")
-			link           = rs("link")
-			user_id        = rs("user_id")
-			reg_date       = rs("reg_date")
-			view_cnt       = rs("view_cnt")
-			comment_cnt    = rs("comment_cnt")
-			suggest_cnt    = rs("suggest_cnt")
-			suggest_info   = rs("suggest_info")
-			parent_seq     = rs("parent_seq")
-			parent_del_yn  = rs("parent_del_yn")
-			move_board_num = rs("move_board_num")
-			move_menu_seq  = rs("move_menu_seq")
-			move_user_id   = rs("move_user_id")
-			move_date      = rs("move_date")
-			restoreid      = rs("restoreid")
-			restoredt      = rs("restoredt")
-			creid          = rs("creid")
-			credt          = rs("credt")
-			modid          = rs("modid")
-			moddt          = rs("moddt")
+			thmbnl_file_nm = rs("thmbnl_file_nm")
 %>
 								<div class="c_wrap">
 <%
-			thumbnailUrl = ConfigAttachedFileURL & "thumbnail/" & menu_type & "/"
-			thumbnailPath = ConfigAttachedFileFolder & "thumbnail\" & menu_type & "\"
+			thumbnailUrl = ConfigAttachedFileURL & "thumbnail/album/"
+			thumbnailPath = ConfigAttachedFileFolder & "thumbnail\album\"
 
-			sql = ""
-			sql = sql & " select *                               "
-			sql = sql & "   from gi_album_attach                 "
-			sql = sql & "  where album_seq = '" & album_seq & "' "
-			sql = sql & "    and rprs_file_yn = 'Y'              "
-			rs2.Open Sql, conn, 3, 1
 
-			If Not rs2.eof Then
-				thmbnl_file_nm = rs2("thmbnl_file_nm")
+			' 썸네일로 표시
+			fileUrl = thumbnailUrl & thmbnl_file_nm
+			filePath = thumbnailPath & thmbnl_file_nm
 
-				' 썸네일로 표시
-				fileUrl = thumbnailUrl & thmbnl_file_nm
-				filePath = thumbnailPath & thmbnl_file_nm
-
-				If (fso.FileExists(filePath)) Then
+			If (fso.FileExists(filePath)) Then
 %>
-									<span class="photos"><a href="javascript:goView('<%=album_seq%>')"><img src="<%=fileUrl%>" width="150" border="0" /></a></span>
+									<span class="photos"><a href="javascript: goView('<%=album_seq%>','<%=session("ctTarget")%>')"><img src="<%=fileUrl%>" width="150" border="0" /></a></span>
 <%
-				Else
-%>
-									<span class="photos"></span>
-<%
-				End If
 			Else
 %>
 									<span class="photos"></span>
 <%
 			End If
-			rs2.close
 %>
 									<a href="javascript: goView('<%=album_seq%>')"><span class="text"><%=subject%>(<%=comment_cnt%>)
 <%
@@ -243,7 +201,6 @@
 									<span class="posr"><span class="text"><%=agency%></span></span>
 								</div>
 <%
-			i = i + 1
 			rs.MoveNext
 		Loop
 	Else
@@ -255,8 +212,6 @@
 	End If
 	rs.close
 	Set rs = Nothing
-	Set rs2 = Nothing
-
 	Set fso = Nothing
 %>
 							</div>

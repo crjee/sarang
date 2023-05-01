@@ -4,6 +4,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	menu_seq = Request("menu_seq")
 	Call CheckMenuSeq(cafe_id, menu_seq)
 	Call CheckManager(cafe_id)
@@ -34,18 +35,26 @@
 	End If
 %>
 <%
-	sch_type = Request("sch_type")
-	sch_word = Request("sch_word")
+	section_seq = Request("section_seq")
+	sch_type    = Request("sch_type")
+	sch_word    = Request("sch_word")
 
 	pagesize = Request("pagesize")
 	If pagesize = "" Then pagesize = 20
 
 	page = Request("page")
-	If page = "" then page = 1
+	If page = "" Then page = 1
 
-	If sch_word <> "" then
+	If section_seq = "0" Then
+	ElseIf section_seq = "999999" Then
+		secStr = "    and (section_seq = null or section_seq = '') "
+	ElseIf section_seq <> "" Then
+		secStr = "    and section_seq = '" & section_seq & "' "
+	End If
+
+	If sch_word <> "" Then
 		If sch_type = "" Then
-			schStr = " and (subject like '%" & sch_word & "%' or creid like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
+			schStr = " and (subject like '%" & sch_word & "%' or user_id like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
 		Else
 			schStr = " and " & sch_type & " like '%" & sch_word & "%' "
 		End If
@@ -56,10 +65,11 @@
 	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
-	sql = sql & " select count(board_seq) cnt "
-	sql = sql & "   from cf_waste_board "
-	sql = sql & "  where cafe_id = '" & cafe_id & "' "
+	sql = sql & " select count(board_seq) cnt          "
+	sql = sql & "   from cf_waste_board                "
+	sql = sql & "  where cafe_id  = '" & cafe_id  & "' "
 	sql = sql & "    and menu_seq = '" & menu_seq & "' "
+	sql = sql & secStr
 	sql = sql & schStr
 	rs.Open sql, conn, 3, 1
 
@@ -69,20 +79,6 @@
 		RecordCount = rs("cnt")
 	End If
 	rs.close
-
-	sql = ""
-	sql = sql & " select *                                                                          "
-	sql = sql & "       ,reg_date                              "
-	sql = sql & "   from (select row_number() over( order by group_num desc,step_num asc) as rownum "
-	sql = sql & "               ,*                                                                  "
-	sql = sql & "           from cf_waste_board                                                     "
-	sql = sql & "          where cafe_id = '" & cafe_id & "'                                        "
-	sql = sql & "            and menu_seq = '" & menu_seq & "'                                      "
-	sql = sql & schStr
-	sql = sql & "        ) a                                                                        "
-	sql = sql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & "         "
-	sql = sql & "  order by group_num desc, step_num asc                                            "
-	rs.Open sql, conn, 3, 1
 
 	' 전체 페이지 수 얻기
 	If RecordCount/pagesize = Int(RecordCount/pagesize) Then
@@ -121,16 +117,13 @@
 						</form>
 					</div>
 					<div class="tb">
-						<form name="list_form" method="post">
-						<input type="hidden" name="menu_type" value="<%=menu_type%>">
-						<input type="hidden" name="smode">
 						<table class="tb_fixed">
 							<colgroup>
 								<col class="w7" />
 								<col class="w_auto" />
-								<col class="w10" />
-								<col class="w10" />
-								<col class="w10" />
+								<col class="w15" />
+								<col class="w7" />
+								<col class="w7" />
 								<col class="w10" />
 							</colgroup>
 							<thead>
@@ -145,71 +138,71 @@
 							</thead>
 							<tbody>
 <%
-	Set rs2 = Server.CreateObject("ADODB.Recordset")
-
 	sql = ""
-	sql = sql & " select * "
-	sql = sql & "       ,reg_date "
-	sql = sql & "   from cf_waste_board cb "
-	sql = sql & "  where cafe_id = '" & cafe_id  & "' "
-	sql = sql & "    and menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and top_yn = 'Y' "
-	sql = sql & " order by board_seq desc "
-	rs2.Open Sql, conn, 3, 1
-
-	If Not rs2.eof Then
-		i = 1
-		Do Until rs2.eof
-			subject = rs2("subject")
-			If subject = "" Then
-				subject = "제목없음"
-			End If
-			subject_s = rmid(subject, 40, "..")
-%>
-								<tr>
-									<td class="algC"><img src="/cafe/img/btn/btn_notice.png" /></td>
-									<td><a href="javascript: goView('<%=rs2("board_seq")%>', '<%=session("ctTarget")%>')" title="<%=subject_s%>"><%=subject%></a></td>
-									<td class="algC"><%=rs2("agency")%></td>
-									<td class="algC"><%=rs2("view_cnt")%></td>
-									<td class="algC"><%=rs2("suggest_cnt")%></td>
-									<td class="algC"><%=rs2("reg_date")%></td>
-								</tr>
-<%
-			rs2.MoveNext
-		Loop
-	End If
-	rs2.close
-	Set rs2 = Nothing
+	sql = sql & " select a.*                                                                         "
+	sql = sql & "       ,cm.phone as tel_no                                                          "
+	sql = sql & "   from (select row_number() over( order by group_num desc, step_num asc) as rownum "
+	sql = sql & "               ,board_seq                                                           "
+	sql = sql & "               ,board_num                                                           "
+	sql = sql & "               ,group_num                                                           "
+	sql = sql & "               ,level_num                                                           "
+	sql = sql & "               ,step_num                                                            "
+	sql = sql & "               ,agency                                                              "
+	sql = sql & "               ,subject                                                             "
+	sql = sql & "               ,user_id                                                             "
+	sql = sql & "               ,reg_date                                                            "
+	sql = sql & "               ,view_cnt                                                            "
+	sql = sql & "               ,comment_cnt                                                         "
+	sql = sql & "               ,suggest_cnt                                                         "
+	sql = sql & "               ,parent_del_yn                                                       "
+	sql = sql & "           from cf_waste_board                                                      "
+	sql = sql & "          where cafe_id  = '" & cafe_id                                        & "' "
+	sql = sql & "            and menu_seq = '" & menu_seq                                       & "' "
+	sql = sql & secStr
+	sql = sql & schStr
+	sql = sql & "        ) a                                                                         "
+	sql = sql & "   left join cf_member cm on cm.user_id = a.user_id                                 "
+	sql = sql & "  where rownum between " &(page-1)*pagesize+1 & " and " &page*pagesize & "          "
+	sql = sql & "  order by group_num desc, step_num asc                                             "
+	rs.Open sql, conn, 3, 1
 
 	If Not rs.EOF Then
-		Do Until rs.EOF 
+		Do Until rs.EOF
+			board_seq   = rs("board_seq")
+			board_num   = rs("board_num")
+			level_num   = rs("level_num")
+			agency      = rs("agency")
+			subject     = rs("subject")
+			reg_date    = rs("reg_date")
+			view_cnt    = rs("view_cnt")
 			comment_cnt = rs("comment_cnt")
-			subject = rs("subject")
+			suggest_cnt = rs("suggest_cnt")
+
+			tel_no      = rs("tel_no")
 			subject = Replace(subject, """", "&quot;")
 
 			If isnull(subject) Or isempty(subject) Or Len(Trim(subject)) = 0 Then
 				subject = "제목없음"
 			End If
 
-			parent_del_yn = rs("parent_del_yn")
-
 			If parent_del_yn = "Y" Then
 				subject = "*원글이 삭제된 답글* " & subject
 			End If
+
 			subject_s = rmid(subject, 40, "..")
 %>
 								<tr>
-									<td class="algC"><%=if3(rs("level_num")="0",rs("board_num"),"")%></td>
+									<td class="algC"><%=if3(level_num="0",board_num,"")%></td>
 									<td>
 <%
-			If rs("level_num") > "0" Then
+			If level_num > "0" Then
 %>
-										<img src="/cafe/img/btn/re.gif" width="<%=rs("level_num")*10%>" height="0">
+										<img src="/cafe/img/btn/re.gif" width="<%=level_num*10%>" height="0">
 										<img src="/cafe/img/btn/re.png" />
 <%
 			End If
 %>
-										<a href="javascript: goView('<%=rs("board_seq")%>', '<%=session("ctTarget")%>')" title="<%=subject_s%>"><%=subject%>&nbsp;</a>
+										<a href="#n" onclick="goView('<%=board_seq%>', '<%=session("ctTarget")%>')" title="<%=subject_s%>"><%=subject%>&nbsp;</a>
 <%
 			If comment_cnt > "0" Then
 %>
@@ -218,17 +211,17 @@
 			End If
 %>
 <%
-			If CDate(DateAdd("d", 2, rs("reg_date"))) >= Date Then
+			If CDate(DateAdd("d",2,reg_date)) >= Date Then
 %>
 										<img src="/cafe/img/btn/new.png" />
 <%
 			End If
 %>
 									</td>
-									<td class="algC"><%=rs("agency")%></td>
-									<td class="algC"><%=rs("view_cnt")%></td>
-									<td class="algC"><%=rs("suggest_cnt")%></td>
-									<td class="algC"><%=rs("reg_date")%></td>
+									<td class="algC"><a title="<%=tel_no%>"><%=agency%></a></td>
+									<td class="algC"><%=view_cnt%></td>
+									<td class="algC"><%=suggest_cnt%></td>
+									<td class="algC"><%=Left(reg_date, 10)%></td>
 								</tr>
 <%
 			rs.MoveNext
@@ -236,7 +229,7 @@
 	Else
 %>
 								<tr>
-									<td colspan="6">등록된 글이 없습니다.</td>
+									<td colspan="6" class="td_nodata">등록된 글이 없습니다.</td>
 								</tr>
 <%
 	End If
@@ -245,7 +238,6 @@
 %>
 							</tbody>
 						</table>
-						</form>
 					</div>
 <!--#include virtual="/cafe/cafe_page_inc.asp"-->
 <%
@@ -300,6 +292,14 @@
 		f.target = gvTarget;
 		f.submit();
 
+	}
+
+	function goTab(section_seq, gvTarget) {
+		var f = document.search_form;
+		f.section_seq.value = section_seq;
+		f.page.value = 1;
+		f.target = gvTarget;
+		f.submit();
 	}
 </script>
 </html>

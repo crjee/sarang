@@ -4,10 +4,11 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	menu_seq = Request("menu_seq")
 	Call CheckMenuSeq(cafe_id, menu_seq)
 	com_seq = Request(menu_type & "_seq")
-	Call CheckDataExist(com_seq)
+	Call CheckWasteExist(com_seq)
 	Call CheckReadAuth(cafe_id)
 %>
 <!DOCTYPE html>
@@ -39,10 +40,10 @@
 <%
 	ipin = getRndStr(10)
 	sql = ""
-	sql = sql & " update cf_member "
-	sql = sql & "    set ipin = '" & ipin & "' "
-	sql = sql & "       ,modid = '" & Session("user_id") & "' "
-	sql = sql & "       ,moddt = getdate() "
+	sql = sql & " update cf_member                              "
+	sql = sql & "    set ipin    = '" & ipin               & "' "
+	sql = sql & "       ,modid   = '" & Session("user_id") & "' "
+	sql = sql & "       ,moddt   = getdate()                    "
 	sql = sql & "  where user_id = '" & session("user_id") & "' "
 	Conn.Execute(sql)
 
@@ -50,10 +51,8 @@
 	pagesize  = Request("pagesize")
 	sch_type  = Request("sch_type")
 	sch_word  = Request("sch_word")
-	all_yn    = Request("all_yn")
 
 	board_seq  = Request("board_seq")
-	waset_yn = "Y"
 
 	Call SetViewCnt(menu_type, com_seq)
 
@@ -110,7 +109,6 @@
 			<input type="hidden" name="pagesize" value="<%=pagesize%>">
 			<input type="hidden" name="sch_type" value="<%=sch_type%>">
 			<input type="hidden" name="sch_word" value="<%=sch_word%>">
-			<input type="hidden" name="all_yn" value="<%=all_yn%>">
 			<input type="hidden" name="task">
 
 			<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
@@ -125,7 +123,7 @@
 					<h2 class="h2"><font color="red">휴지통 <%=menu_name%> 내용보기</font></h2>
 				</div>
 				<div class="btn_box view_btn">
-					<button type="button" class="btn btn_c_n btn_n" onclick="godel()">복원</button>
+					<button type="button" class="btn btn_c_n btn_n" onclick="goRestore()">복원</button>
 					<button type="button" class="btn btn_c_n btn_n" onclick="goDelete()">삭제</button>
 					<button type="button" class="btn btn_c_n btn_n" onclick="goList('<%=session("ctTarget")%>')">목록</button>
 				</div>
@@ -196,8 +194,8 @@
 		document.search_form.target = gvTarget;
 		document.search_form.submit();
 	}
-	function godel() {
-		document.search_form.task.value = "del";
+	function goRestore() {
+		document.search_form.task.value = "restore";
 		document.search_form.action = "/cafe/waste_com_exec.asp";
 		//document.search_form.target = "hiddenfrm";
 		document.search_form.submit();

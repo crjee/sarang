@@ -4,6 +4,8 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
+
 	attach_seq = Request("attach_seq")
 	delSeq = Request("delSeq")
 
@@ -27,7 +29,7 @@
 	rs.Open Sql, conn, 3, 1
 
 	If Not rs.EOF Then
-		album_seq      = rs("album_seq")
+		com_seq        = rs(menu_type & "_seq")
 		rprs_file_yn   = rs("rprs_file_yn")
 		file_name      = rs("file_name")
 		dsply_file_nm  = rs("dsply_file_nm")
@@ -42,7 +44,7 @@
 	Conn.Execute(sql)
 
 	If rprs_file_yn = "Y" Then
-		attach_num = GetOneValue("min(attach_num)", "cf_album_attach", "where album_seq = '" & album_seq & "'")
+		attach_num = GetOneValue("min(attach_num)", "cf_" & menu_type & "_attach", "where " & menu_type & "_seq = '" & com_seq & "'")
 
 		sql = ""
 		sql = sql & " update cf_" & menu_type & "_attach       "

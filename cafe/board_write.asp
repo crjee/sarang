@@ -4,6 +4,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	menu_seq = Request("menu_seq")
 	Call CheckMenuSeq(cafe_id, menu_seq)
 	Call CheckWriteAuth(cafe_id)
@@ -36,9 +37,9 @@
 	End If
 %>
 <%
-	Set rs = Server.CreateObject("ADODB.Recordset")
-
 	link = "http://"
+
+	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
 	sql = sql & " select * "
@@ -125,6 +126,17 @@
 							</tr>
 <%
 	End If
+
+	If tab_use_yn = "Y" Then
+%>
+							<tr>
+								<th scope="row"><%=tab_nm%><em class="required">필수입력</em></th>
+								<td>
+									<%=GetMakeSectionTag("R", "section_seq", section_seq, "")%>
+								</td>
+							</tr>
+<%
+	End If
 %>
 							<tr>
 								<th scope="row">제목<em class="required">필수입력</em></th>
@@ -153,9 +165,6 @@
 							</tr>
 						</tbody>
 					</table>
-<%
-	com_seq = ""
-%>
 <!--#include virtual="/include/attach_form_inc.asp"-->
 				</div>
 				<div class="btn_box">
@@ -183,11 +192,7 @@
 <%
 If session("cafe_ad_level") = "10" And session("skin_id") = "skin_01" Then extime("실행시간") 
 %>
-
-
 <script>
-
-
 	var oEditors = [];
 
 	nhn.husky.EZCreator.createInIFrame({
@@ -206,9 +211,8 @@ If session("cafe_ad_level") = "10" And session("skin_id") = "skin_01" Then extim
 					oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", [])
 					f.action = "board_temp_exec.asp";
 					f.temp.value = "N";
-					//f.target = "hiddenfrm";
+					f.target = "hiddenfrm";
 					f.submit();
-					alert("작성중인 내용이 임시로 저장되었습니다.");
 				}
 			}
 		}, //boolean
@@ -222,8 +226,17 @@ If session("cafe_ad_level") = "10" And session("skin_id") = "skin_01" Then extim
 	function submitContents(elClickedObj) {
 		oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", [])
 		try {
+<%
+	If tab_use_yn = "Y" Then
+%>
+			if ( ! $('input[name=section_seq]:checked').val()) {
+				alert('<%=tab_nm%>을 선택해주세요.');
+				return false;
+			}
+<%
+	End If
+%>
 			elClickedObj.action = "board_write_exec.asp";
-			elClickedObj.temp.value = "N";
 			//elClickedObj.target = "hiddenfrm";
 			elClickedObj.submit()
 		} catch(e) {alert(e)}

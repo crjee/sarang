@@ -7,16 +7,16 @@
 	Call CheckManager(cafe_id)
 %>
 <%
-	menu_seq = Request("menu_seq")
+	menu_seq  = Request("menu_seq")
 	menu_type = Request("menu_type")
 
 	If bus <> "" Then
 		sql = ""
-		sql = sql & " update cf_menu                     "
-		sql = sql & "    set page_type = '" & page_type & "' "
+		sql = sql & " update cf_menu                              "
+		sql = sql & "    set page_type = '" & page_type & "'      "
 		sql = sql & "       ,modid = '" & Session("user_id") & "' "
-		sql = sql & "       ,moddt = getdate() "
-		sql = sql & "  where menu_seq = '" & menu_seq & "'   "
+		sql = sql & "       ,moddt = getdate()                    "
+		sql = sql & "  where menu_seq = '" & menu_seq & "'        "
 		Conn.Execute(sql)
 	End If
 
@@ -42,9 +42,11 @@
 			menu_type = "board"
 		Elseif menu_type = "memo" Or menu_type = "poll" Then
 			menu_type = "page"
+		ElseIf menu_type = "division" Then
+			menu_type = ""
 		Else
-			menu_type = menu_type
-		End If
+			menu_type = ""
+		End If 
 	End If
 
 	If menu_type <> "" Then

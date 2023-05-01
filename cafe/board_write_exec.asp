@@ -4,6 +4,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	Call CheckMultipart()
 
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
@@ -18,7 +19,6 @@
 	dsplyFolder  = ConfigAttachedFileFolder & "display\board\"
 	thmbnlFolder = ConfigAttachedFileFolder & "thumbnail\board\"
 
-
 	Set fso = CreateObject("Scripting.FileSystemObject")
 	Set rs = Server.CreateObject("ADODB.Recordset")
 
@@ -32,11 +32,12 @@
 	level_num = uploadform("level_num")
 	step_num  = uploadform("step_num")
 
+	top_yn      = uploadform("top_yn")
+	pop_yn      = uploadform("pop_yn")
+	section_seq = uploadform("section_seq")
 	subject     = Replace(uploadform("subject"),"'","&#39;")
 	contents    = Replace(uploadform("contents"),"'","&#39;")
 	link        = uploadform("link")
-	top_yn      = uploadform("top_yn")
-	section_seq = uploadform("section_seq")
 	If link     = "http://" Then link = ""
 
 	'On Error Resume Next
@@ -48,7 +49,7 @@
 
 	If group_num = "" Then ' 새글
 		parent_seq = ""
-		board_num = GetComNum(menu_type, cafe_id, menu_seq)
+		board_num = GetComNum("board", cafe_id, menu_seq)
 		group_num = board_num
 		level_num = 0
 		step_num = 0
@@ -59,54 +60,64 @@
 		level_num = level_num + 1
 
 		sql = ""
-		sql = sql & " update cf_board "
-		sql = sql & "    set step_num = step_num + 1 "
+		sql = sql & " update cf_board                       "
+		sql = sql & "    set step_num  = step_num + 1       "
 		sql = sql & "  where group_num = " & group_num  & " "
-		sql = sql & "    and step_num > " & step_num  & " "
+		sql = sql & "    and step_num  > " & step_num   & " "
 		Conn.execute sql
 
 		step_num = step_num + 1
 	End If
 
 	sql = ""
-	sql = sql & " insert into cf_board( "
-	sql = sql & "        board_seq "
-	sql = sql & "       ,parent_seq "
-	sql = sql & "       ,group_num "
-	sql = sql & "       ,level_num "
-	sql = sql & "       ,step_num "
-	sql = sql & "       ,board_num "
-	sql = sql & "       ,cafe_id "
-	sql = sql & "       ,menu_seq "
-	sql = sql & "       ,agency "
-	sql = sql & "       ,subject "
-	sql = sql & "       ,contents "
-	sql = sql & "       ,view_cnt "
-	sql = sql & "       ,suggest_cnt "
-	sql = sql & "       ,link "
-	sql = sql & "       ,top_yn "
-	sql = sql & "       ,user_id "
-	sql = sql & "       ,creid "
-	sql = sql & "       ,credt "
-	sql = sql & "      ) values ("
-	sql = sql & "        '" & new_seq & "' "
-	sql = sql & "       ,'" & parent_seq & "' "
-	sql = sql & "       ,'" & group_num & "' "
-	sql = sql & "       ,'" & level_num & "' "
-	sql = sql & "       ,'" & step_num & "' "
-	sql = sql & "       ,'" & board_num & "' "
-	sql = sql & "       ,'" & cafe_id & "' "
-	sql = sql & "       ,'" & menu_seq & "' "
-	sql = sql & "       ,'" & Session("agency") & "' "
-	sql = sql & "       ,'" & subject & "' "
-	sql = sql & "       ,'" & contents & "' "
-	sql = sql & "       ,'0' "
-	sql = sql & "       ,'0' "
-	sql = sql & "       ,'" & link & "' "
-	sql = sql & "       ,'" & top_yn & "' "
+	sql = sql & " insert into cf_board(               "
+	sql = sql & "        board_seq                    "
+	sql = sql & "       ,board_num                    "
+	sql = sql & "       ,group_num                    "
+	sql = sql & "       ,step_num                     "
+	sql = sql & "       ,level_num                    "
+	sql = sql & "       ,menu_seq                     "
+	sql = sql & "       ,cafe_id                      "
+	sql = sql & "       ,agency                       "
+	sql = sql & "       ,top_yn                       "
+	sql = sql & "       ,pop_yn                       "
+	sql = sql & "       ,section_seq                  "
+	sql = sql & "       ,subject                      "
+	sql = sql & "       ,contents                     "
+	sql = sql & "       ,link                         "
+
+	sql = sql & "       ,user_id                      "
+	sql = sql & "       ,reg_date                     "
+	sql = sql & "       ,view_cnt                     "
+	sql = sql & "       ,comment_cnt                  "
+	sql = sql & "       ,suggest_cnt                  "
+	sql = sql & "       ,parent_seq                   "
+	sql = sql & "       ,creid                        "
+	sql = sql & "       ,credt                        "
+	sql = sql & "      ) values(                      "
+	sql = sql & "        '" & new_seq            & "' "
+	sql = sql & "       ,'" & board_num          & "' "
+	sql = sql & "       ,'" & group_num          & "' "
+	sql = sql & "       ,'" & step_num           & "' "
+	sql = sql & "       ,'" & level_num          & "' "
+	sql = sql & "       ,'" & menu_seq           & "' "
+	sql = sql & "       ,'" & cafe_id            & "' "
+	sql = sql & "       ,'" & Session("agency")  & "' "
+	sql = sql & "       ,'" & top_yn             & "' "
+	sql = sql & "       ,'" & pop_yn             & "' "
+	sql = sql & "       ,'" & section_seq        & "' "
+	sql = sql & "       ,'" & subject            & "' "
+	sql = sql & "       ,'" & contents           & "' "
+	sql = sql & "       ,'" & link               & "' "
+
 	sql = sql & "       ,'" & Session("user_id") & "' "
+	sql = sql & "       ,'" & Date()             & "' "
+	sql = sql & "       ,0 "
+	sql = sql & "       ,0 "
+	sql = sql & "       ,0 "
+	sql = sql & "       ,'" & parent_seq         & "' "
 	sql = sql & "       ,'" & Session("user_id") & "' "
-	sql = sql & "       ,getdate())"
+	sql = sql & "       ,getdate())                   "
 	Conn.Execute(sql)
 
 	If daily_cnt < 9999 Then
@@ -127,22 +138,22 @@
 		sql = sql & "       ,getdate())"
 		Conn.Execute(sql)
 	End If
-	
+
 	sql = ""
-	sql = sql & " update cf_menu "
-	sql = sql & "    set top_cnt = (select count(*) from cf_board where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
-	sql = sql & "       ,last_date = getdate() "
-	sql = sql & "       ,modid = '" & Session("user_id") & "' "
-	sql = sql & "       ,moddt = getdate() "
-	sql = sql & "  where menu_seq = '" & menu_seq & "' "
+	sql = sql & " update cf_menu                                                                                         "
+	sql = sql & "    set top_cnt   = (select count(*) from cf_sale where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
+	sql = sql & "       ,last_date = getdate()                                                                           "
+	sql = sql & "       ,modid     = '" & Session("user_id") & "'                                                        "
+	sql = sql & "       ,moddt     = getdate()                                                                           "
+	sql = sql & "  where menu_seq  = '" & menu_seq & "'                                                                  "
 	Conn.Execute(sql)
-	
+
 	sql = ""
-	sql = sql & " delete "
-	sql = sql & "   from cf_temp_board "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	sql = sql & "    and user_id = '" & Session("user_id")  & "' "
+	sql = sql & " delete                                         "
+	sql = sql & "   from cf_temp_board                           "
+	sql = sql & "  where menu_seq = '" & menu_seq           & "' "
+	sql = sql & "    and cafe_id  = '" & cafe_id            & "' "
+	sql = sql & "    and user_id  = '" & Session("user_id") & "' "
 	Conn.Execute(sql)
 
 	board_seq = new_seq

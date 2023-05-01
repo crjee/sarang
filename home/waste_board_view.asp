@@ -16,9 +16,9 @@
 	ipin = getRndStr(10)
 	sql = ""
 	sql = sql & " update cf_member                              "
-	sql = sql & "    set ipin = '" & ipin & "'                  "
-	sql = sql & "       ,modid = '" & Session("user_id") & "'   "
-	sql = sql & "       ,moddt = getdate()                      "
+	sql = sql & "    set ipin    = '" & ipin               & "' "
+	sql = sql & "       ,modid   = '" & Session("user_id") & "' "
+	sql = sql & "       ,moddt   = getdate()                    "
 	sql = sql & "  where user_id = '" & session("user_id") & "' "
 	Conn.Execute(sql)
 
@@ -28,7 +28,6 @@
 	sch_word  = Request("sch_word")
 
 	board_seq  = Request("board_seq")
-	waset_yn = "Y"
 
 	Call SetViewCnt(menu_type, com_seq)
 
@@ -138,7 +137,7 @@
 <!--#include virtual="/include/attach_view_inc.asp"-->
 <%
 	If link <> "" Then
-	link_txt = rmid(link, 40, "..")
+		link_txt = rmid(link, 40, "..")
 %>
 						<p class="file"><a href="<%=link%>" target="_blink" id="linkTxt"><%=link_txt%></a>&nbsp;<img src="/cafe/img/inc/copy.png" style="cursor:hand" id="linkBtn"/></p>
 						<script>

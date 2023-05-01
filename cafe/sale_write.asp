@@ -4,6 +4,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	menu_seq = Request("menu_seq")
 	Call CheckMenuSeq(cafe_id, menu_seq)
 	Call CheckWriteAuth(cafe_id)
@@ -287,9 +288,8 @@
 					oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", [])
 					f.action = "sale_temp_exec.asp";
 					f.temp.value = "N";
-					//f.target = "hiddenfrm";
+					f.target = "hiddenfrm";
 					f.submit();
-					alert("작성중인 내용이 임시로 저장되었습니다.");
 				}
 			}
 		}, //boolean

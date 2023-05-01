@@ -4,6 +4,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	Call CheckMultipart()
 
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
@@ -19,7 +20,6 @@
 	dsplyFolder  = ConfigAttachedFileFolder & "display\board\"
 	thmbnlFolder = ConfigAttachedFileFolder & "thumbnail\board\"
 
-
 	Set fso = CreateObject("Scripting.FileSystemObject")
 	Set rs = Server.CreateObject("ADODB.Recordset")
 
@@ -30,11 +30,12 @@
 	menu_seq  = uploadform("menu_seq")
 
 	board_seq   = uploadform("board_seq")
+	top_yn      = uploadform("top_yn")
+	pop_yn      = uploadform("pop_yn")
+	section_seq = uploadform("section_seq")
 	subject     = Replace(uploadform("subject"),"'","&#39;")
 	contents    = Replace(uploadform("contents"),"'","&#39;")
 	link        = uploadform("link")
-	top_yn      = uploadform("top_yn")
-	section_seq = uploadform("section_seq")
 	If link     = "http://" Then link = ""
 
 	'On Error Resume Next
@@ -43,23 +44,25 @@
 	CntError = 0
 
 	sql = ""
-	sql = sql & " update cf_board                                   "
-	sql = sql & "    set subject     = '" & subject            & "' "
-	sql = sql & "       ,contents    = '" & contents                & "' "
-	sql = sql & "       ,top_yn      = '" & top_yn             & "' "
-	sql = sql & "       ,section_seq = '" & section_seq        & "' "
-	sql = sql & "       ,link        = '" & link               & "' "
-	sql = sql & "       ,modid       = '" & Session("user_id") & "' "
-	sql = sql & "       ,moddt       = getdate()                    "
-	sql = sql & " where board_seq = '" & board_seq & "'             "
+	sql = sql & " update cf_board                                         "
+	sql = sql & "    set top_yn            = '" & top_yn             & "' "
+	sql = sql & "       ,pop_yn            = '" & pop_yn             & "' "
+	sql = sql & "       ,section_seq       = '" & section_seq        & "' "
+	sql = sql & "       ,subject           = '" & subject            & "' "
+	sql = sql & "       ,contents          = '" & contents           & "' "
+	sql = sql & "       ,link              = '" & link               & "' "
+	sql = sql & "       ,modid             = '" & Session("user_id") & "' "
+	sql = sql & "       ,moddt             = getdate()                    "
+	sql = sql & "  where board_seq         = '" & board_seq          & "' "
 	Conn.Execute(sql)
 
 	sql = ""
-	sql = sql & " update cf_menu "
-	sql = sql & "    set top_cnt = (select count(*) from cf_board where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
-	sql = sql & "       ,modid = '" & Session("user_id") & "' "
-	sql = sql & "       ,moddt = getdate() "
-	sql = sql & "  where menu_seq = '" & menu_seq & "' "
+	sql = sql & " update cf_menu                                                                                         "
+	sql = sql & "    set top_cnt   = (select count(*) from gi_sale where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
+	sql = sql & "       ,last_date = getdate()                                                                           "
+	sql = sql & "       ,modid     = '" & Session("user_id") & "'                                                        "
+	sql = sql & "       ,moddt     = getdate()                                                                           "
+	sql = sql & "  where menu_seq  = '" & menu_seq & "'                                                                  "
 	Conn.Execute(sql)
 
 	com_seq = board_seq
@@ -78,11 +81,11 @@
 		Set conn = Nothing
 %>
 <form name="form" action="board_view.asp" method="post">
-<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 <input type="hidden" name="page" value="<%=page%>">
 <input type="hidden" name="pagesize" value="<%=pagesize%>">
 <input type="hidden" name="sch_type" value="<%=sch_type%>">
 <input type="hidden" name="sch_word" value="<%=sch_word%>">
+<input type="hidden" name="menu_seq" value="<%=menu_seq%>">
 <input type="hidden" name="board_seq" value="<%=board_seq%>">
 </form>
 <script src="//code.jquery.com/jquery.min.js"></script>

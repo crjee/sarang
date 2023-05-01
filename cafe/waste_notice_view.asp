@@ -4,6 +4,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	Call CheckAdmin()
 
 	menu_seq = Request("menu_seq")
@@ -48,7 +49,6 @@
 	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	notice_seq = Request("notice_seq")
-	waset_yn   = "Y"
 
 	Call SetViewCnt(menu_type, com_seq)
 

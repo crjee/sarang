@@ -11,6 +11,7 @@
 
 	menu_seq = Request("menu_seq")
 	Call CheckMenuSeq(cafe_id, menu_seq)
+	Call CheckReadAuth(cafe_id)
 %>
 <!DOCTYPE html>
 <html lang="kr">
@@ -34,6 +35,8 @@
 	sch_type    = Request("sch_type")
 	sch_word    = Request("sch_word")
 
+	self_yn     = Request("self_yn")
+
 	pagesize = Request("pagesize")
 	If pagesize = "" Then pagesize = 20
 
@@ -49,12 +52,40 @@
 
 	If sch_word <> "" Then
 		If sch_type = "" Then
-			schStr = " and (subject like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
+			schStr = " and (subject like '%" & sch_word & "%' or user_id like '%" & sch_word & "%' or agency like '%" & sch_word & "%' or contents like '%" & sch_word & "%') "
 		Else
 			schStr = " and " & sch_type & " like '%" & sch_word & "%' "
 		End If
 	Else
 		schStr = ""
+	End If
+
+	Set rs = Server.CreateObject("ADODB.Recordset")
+
+	sql = ""
+	sql = sql & " select count(board_seq) cnt          "
+	sql = sql & "   from gi_board cb                   "
+	sql = sql & "  where cafe_id  = '" & cafe_id  & "' "
+	sql = sql & "    and menu_seq = '" & menu_seq & "' "
+	If self_yn = "Y" Then
+	sql = sql & "    and user_id = '" & session("user_id") & "' "
+	End If
+	sql = sql & secStr
+	sql = sql & schStr
+	rs.Open sql, conn, 3, 1
+
+	RecordCount = 0 ' 자료가 없을때
+
+	If Not rs.EOF Then
+		RecordCount = rs("cnt")
+	End If
+	rs.close
+
+	' 전체 페이지 수 얻기
+	If RecordCount/pagesize = Int(RecordCount/pagesize) Then
+		PageCount = Int(RecordCount / pagesize)
+	Else
+		PageCount = Int(RecordCount / pagesize) + 1
 	End If
 %>
 		<main id="main" class="main">
@@ -87,9 +118,9 @@
 							<colgroup>
 								<col class="w7" />
 								<col class="w_auto" />
-								<col class="w10" />
-								<col class="w6" />
-								<col class="w6" />
+								<col class="w15" />
+								<col class="w7" />
+								<col class="w7" />
 								<col class="w10" />
 							</colgroup>
 							<thead>
@@ -99,59 +130,62 @@
 									<th scope="col">글쓴이</th>
 									<th scope="col">조회</th>
 									<th scope="col">추천</th>
-									<th scope="col">작성일</th>
+									<th scope="col">등록일</th>
 								</tr>
 							</thead>
 							<tbody>
 <%
-	Set rs = Server.CreateObject ("ADODB.Recordset")
-
 	sql = ""
 	If page_type = "notice" Then
-	sql = sql & " select cb.subject "
-	sql = sql & "       ,cm.phone as tel_no "
-	sql = sql & "       ,cb.agency "
-	sql = sql & "       ,cb.view_cnt "
-	sql = sql & "       ,cb.suggest_cnt "
-	sql = sql & "       ,cb.notice_seq as board_seq "
-	sql = sql & "       ,0 as no "
-	sql = sql & "       ,cb.user_id "
-	sql = sql & "       ,cb.reg_date "
-	sql = sql & "       ,convert(varchar(10), cb.reg_date, 120) as reg_date_txt "
-	sql = sql & "   from gi_notice cb "
-	sql = sql & "   left join cf_member cm on cm.user_id = cb.user_id "
-	sql = sql & "  where cb.top_yn = 'Y' "
-	sql = sql & "    and (cb.cafe_id = null or cb.cafe_id = '' or ', ' + cb.cafe_id + ', ' like '%, " & cafe_id & ", %') "
+	sql = sql & " select 0 as idx                                               "
+	sql = sql & "       ,cb.board_seq                                           "
+	sql = sql & "       ,cb.board_num                                           "
+	sql = sql & "       ,cb.level_num                                           "
+	sql = sql & "       ,cb.agency                                              "
+	sql = sql & "       ,cb.subject                                             "
+	sql = sql & "       ,cb.reg_date                                            "
+	sql = sql & "       ,cb.view_cnt                                            "
+	sql = sql & "       ,cb.comment_cnt                                         "
+	sql = sql & "       ,cb.suggest_cnt                                         "
+	sql = sql & "       ,cm.phone as tel_no                                     "
+	sql = sql & "   from gi_notice cb                                           "
+	sql = sql & "   left join cf_member cm on cm.user_id = cb.user_id           "
+	sql = sql & "  where cb.top_yn = 'Y'                                        "
+	sql = sql & "    and (cb.cafe_id = null or cb.cafe_id = ''                  "
+	sql = sql & "     or ', ' + cb.cafe_id + ', ' like '%, " & cafe_id & ", %') "
 	sql = sql & "  union all"
 	End if
-	sql = sql & " select cb.subject "
-	sql = sql & "       ,cm.phone as tel_no "
-	sql = sql & "       ,cb.agency "
-	sql = sql & "       ,cb.view_cnt "
-	sql = sql & "       ,cb.suggest_cnt "
-	sql = sql & "       ,cb.board_seq "
-	sql = sql & "       ,1 as no  "
-	sql = sql & "       ,cb.user_id "
-	sql = sql & "       ,cb.reg_date "
-	sql = sql & "       ,convert(varchar(10), cb.reg_date, 120) as reg_date_txt "
-	sql = sql & "   from gi_board cb "
-	sql = sql & "   left join cf_member cm on cm.user_id = cb.user_id "
-	sql = sql & "  where cb.cafe_id = '"& cafe_id &"' "
-	sql = sql & "    and cb.menu_seq = '"& menu_seq &"' "
-	sql = sql & "    and cb.top_yn = 'Y' "
-	sql = sql & " order by no, board_seq desc "
+	sql = sql & " select 1 as idx                                               "
+	sql = sql & "       ,cb.board_seq                                           "
+	sql = sql & "       ,cb.board_num                                           "
+	sql = sql & "       ,cb.level_num                                           "
+	sql = sql & "       ,cb.agency                                              "
+	sql = sql & "       ,cb.subject                                             "
+	sql = sql & "       ,cb.reg_date                                            "
+	sql = sql & "       ,cb.view_cnt                                            "
+	sql = sql & "       ,cb.comment_cnt                                         "
+	sql = sql & "       ,cb.suggest_cnt                                         "
+	sql = sql & "       ,cm.phone as tel_no                                     "
+	sql = sql & "   from gi_board cb                                            "
+	sql = sql & "   left join cf_member cm on cm.user_id = cb.user_id           "
+	sql = sql & "  where cb.cafe_id  = '"& cafe_id  &"'                         "
+	sql = sql & "    and cb.menu_seq = '"& menu_seq &"'                         "
+	sql = sql & "    and cb.top_yn   = 'Y'                                      "
+	sql = sql & " order by idx, board_seq desc                                  "
 	rs.Open Sql, conn, 3, 1
 
 	If Not rs.eof Then
 		Do Until rs.eof
-			no          = rs("no")
+			idx         = rs("idx")
 			board_seq   = rs("board_seq")
-			subject     = rs("subject")
-			tel_no      = rs("tel_no")
+			board_num   = rs("board_num")
+			level_num   = rs("level_num")
 			agency      = rs("agency")
-			view_cnt    = rs("view_cnt")
-			suggest_cnt = rs("suggest_cnt")
+			subject     = rs("subject")
 			reg_date    = rs("reg_date")
+			view_cnt    = rs("view_cnt")
+			comment_cnt = rs("comment_cnt")
+			suggest_cnt = rs("suggest_cnt")
 
 			If isnull(subject) Or isempty(subject) Or Len(Trim(subject)) = 0 Then
 				subject = "제목없음"
@@ -160,7 +194,7 @@
 %>
 								<tr>
 									<td class="algC"><img src="/cafe/img/btn/btn_notice.png" /></td>
-									<td><a href="#n" onclick="goView('<%=board_seq%>','<%=no%>')" title="<%=subject_s%>"><%=subject%>&nbsp;</a></td>
+									<td><a href="#n" onclick="goView('<%=board_seq%>','<%=idx%>')" title="<%=subject_s%>"><%=subject%>&nbsp;</a></td>
 									<td class="algC"><a title="<%=tel_no%>"><%=agency%></a></td>
 									<td class="algC"><%=view_cnt%></td>
 									<td class="algC"><%=suggest_cnt%></td>
@@ -173,36 +207,28 @@
 	rs.close
 
 	sql = ""
-	sql = sql & " select count(board_seq) cnt          "
-	sql = sql & "   from gi_board cb                   "
-	sql = sql & "  where cafe_id  = '" & cafe_id  & "' "
-	sql = sql & "    and menu_seq = '" & menu_seq & "' "
-	sql = sql & secStr
-	sql = sql & schStr
-	rs.Open sql, conn, 3, 1
-
-	RecordCount = 0 ' 자료가 없을때
-
-	If Not rs.EOF Then
-		RecordCount = rs("cnt")
-	End If
-	rs.close
-
-	' 전체 페이지 수 얻기
-	If RecordCount/pagesize = Int(RecordCount/pagesize) Then
-		PageCount = Int(RecordCount / pagesize)
-	Else
-		PageCount = Int(RecordCount / pagesize) + 1
-	End If
-
-	sql = ""
 	sql = sql & " select a.*                                                                         "
 	sql = sql & "       ,cm.phone as tel_no                                                          "
 	sql = sql & "   from (select row_number() over( order by group_num desc, step_num asc) as rownum "
-	sql = sql & "               ,*                                                                   "
+	sql = sql & "               ,board_seq                                                           "
+	sql = sql & "               ,board_num                                                           "
+	sql = sql & "               ,group_num                                                           "
+	sql = sql & "               ,level_num                                                           "
+	sql = sql & "               ,step_num                                                            "
+	sql = sql & "               ,agency                                                              "
+	sql = sql & "               ,subject                                                             "
+	sql = sql & "               ,user_id                                                             "
+	sql = sql & "               ,reg_date                                                            "
+	sql = sql & "               ,view_cnt                                                            "
+	sql = sql & "               ,comment_cnt                                                         "
+	sql = sql & "               ,suggest_cnt                                                         "
+	sql = sql & "               ,parent_del_yn                                                       "
 	sql = sql & "           from gi_board                                                            "
 	sql = sql & "          where cafe_id  = '" & cafe_id                                        & "' "
 	sql = sql & "            and menu_seq = '" & menu_seq                                       & "' "
+	If self_yn = "Y" then
+	sql = sql & "    and user_id = '" & session("user_id") & "' "
+	End If
 	sql = sql & secStr
 	sql = sql & schStr
 	sql = sql & "        ) a                                                                         "
@@ -213,40 +239,18 @@
 
 	If Not rs.EOF Then
 		Do Until rs.EOF
-			board_seq      = rs("board_seq")
-			board_num      = rs("board_num")
-			group_num      = rs("group_num")
-			step_num       = rs("step_num")
-			level_num      = rs("level_num")
-			menu_seq       = rs("menu_seq")
-			cafe_id        = rs("cafe_id")
-			agency         = rs("agency")
-			top_yn         = rs("top_yn")
-			pop_yn         = rs("pop_yn")
-			section_seq    = rs("section_seq")
-			subject        = rs("subject")
-			contents       = rs("contents")
-			link           = rs("link")
-			user_id        = rs("user_id")
-			reg_date       = rs("reg_date")
-			view_cnt       = rs("view_cnt")
-			comment_cnt    = rs("comment_cnt")
-			suggest_cnt    = rs("suggest_cnt")
-			suggest_info   = rs("suggest_info")
-			parent_seq     = rs("parent_seq")
-			parent_del_yn  = rs("parent_del_yn")
-			move_board_num = rs("move_board_num")
-			move_menu_seq  = rs("move_menu_seq")
-			move_user_id   = rs("move_user_id")
-			move_date      = rs("move_date")
-			restoreid      = rs("restoreid")
-			restoredt      = rs("restoredt")
-			creid          = rs("creid")
-			credt          = rs("credt")
-			modid          = rs("modid")
-			moddt          = rs("moddt")
+			board_seq     = rs("board_seq")
+			board_num     = rs("board_num")
+			level_num     = rs("level_num")
+			agency        = rs("agency")
+			subject       = rs("subject")
+			reg_date      = rs("reg_date")
+			view_cnt      = rs("view_cnt")
+			comment_cnt   = rs("comment_cnt")
+			suggest_cnt   = rs("suggest_cnt")
+			parent_del_yn = rs("parent_del_yn")
 
-			tel_no         = rs("tel_no")
+			tel_no        = rs("tel_no")
 
 			subject = Replace(subject, """", "&quot;")
 
@@ -298,7 +302,7 @@
 	Else
 %>
 								<tr>
-									<td colspan="5" class="td_nodata">등록된 글이 없습니다.</td>
+									<td colspan="6" class="td_nodata">등록된 글이 없습니다.</td>
 								</tr>
 <%
 	End If
@@ -340,10 +344,10 @@
 	}
 
 	function goView(board_seq) {
-			var f = document.search_form;
-			f.board_seq.value = board_seq;
-			f.action = "board_view.asp"
-			f.submit()
+		var f = document.search_form;
+		f.board_seq.value = board_seq;
+		f.action = "board_view.asp"
+		f.submit()
 	}
 
 	function goWaste() {

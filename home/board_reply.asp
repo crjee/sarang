@@ -46,12 +46,12 @@
 	Set rs = Server.CreateObject("ADODB.Recordset")
 
 	sql = ""
-	sql = sql & " select * "
-	sql = sql & "  from gi_board "
+	sql = sql & " select *                              "
+	sql = sql & "  from gi_board                        "
 	sql = sql & " where board_seq = '" & board_seq & "' "
 	rs.Open Sql, conn, 3, 1
 
-	If Not rs.eof then
+	If Not rs.eof Then
 		board_seq      = rs("board_seq")
 		board_num      = rs("board_num")
 		group_num      = rs("group_num")

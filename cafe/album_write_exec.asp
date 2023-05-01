@@ -4,6 +4,7 @@
 %>
 <!--#include  virtual="/include/config_inc.asp"-->
 <%
+	Call CheckLogin()
 	Call CheckMultipart()
 
 	Set uploadform = Server.CreateObject("DEXT.FileUpload")
@@ -13,10 +14,10 @@
 	menu_seq = uploadform("menu_seq")
 	Call CheckMenuSeq(cafe_id, menu_seq)
 	Call CheckWriteAuth(cafe_id)
+	Call CheckDailyCount(cafe_id)
 
 	dsplyFolder  = ConfigAttachedFileFolder & "display\album\"
 	thmbnlFolder = ConfigAttachedFileFolder & "thumbnail\album\"
-
 
 	Set fso = CreateObject("Scripting.FileSystemObject")
 	Set rs = Server.CreateObject("ADODB.Recordset")
@@ -111,22 +112,41 @@
 	sql = sql & "       ,'" & Session("user_id") & "' "
 	sql = sql & "       ,getdate())"
 	Conn.Execute(sql)
-	
+
+	If daily_cnt < 9999 Then
+		sql = ""
+		sql = sql & " insert into cf_write_log(           "
+		sql = sql & "        write_seq                    "
+		sql = sql & "       ,cafe_id                      "
+		sql = sql & "       ,menu_seq                     "
+		sql = sql & "       ,user_id                      "
+		sql = sql & "       ,creid                        "
+		sql = sql & "       ,credt                        "
+		sql = sql & "      ) values(                      "
+		sql = sql & "        '" & new_seq            & "' "
+		sql = sql & "       ,'" & cafe_id            & "' "
+		sql = sql & "       ,'" & menu_seq           & "' "
+		sql = sql & "       ,'" & Session("user_id") & "' "
+		sql = sql & "       ,'" & Session("user_id") & "' "
+		sql = sql & "       ,getdate())"
+		Conn.Execute(sql)
+	End If
+
 	sql = ""
-	sql = sql & " update cf_menu "
-	sql = sql & "    set top_cnt = (select count(*) from cf_album where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
-	sql = sql & "       ,last_date = getdate() "
-	sql = sql & "       ,modid = '" & Session("user_id") & "' "
-	sql = sql & "       ,moddt = getdate() "
-	sql = sql & "  where menu_seq = '" & menu_seq & "' "
+	sql = sql & " update cf_menu                                                                                         "
+	sql = sql & "    set top_cnt   = (select count(*) from gi_sale where menu_seq = '" & menu_seq & "' and top_yn = 'Y') "
+	sql = sql & "       ,last_date = getdate()                                                                           "
+	sql = sql & "       ,modid     = '" & Session("user_id") & "'                                                        "
+	sql = sql & "       ,moddt     = getdate()                                                                           "
+	sql = sql & "  where menu_seq  = '" & menu_seq & "'                                                                  "
 	Conn.Execute(sql)
 
 	sql = ""
-	sql = sql & " delete "
-	sql = sql & "   from cf_temp_album "
-	sql = sql & "  where menu_seq = '" & menu_seq  & "' "
-	sql = sql & "    and cafe_id = '" & cafe_id  & "' "
-	sql = sql & "    and user_id = '" & Session("user_id")  & "' "
+	sql = sql & " delete                                         "
+	sql = sql & "   from cf_temp_board                           "
+	sql = sql & "  where menu_seq = '" & menu_seq           & "' "
+	sql = sql & "    and cafe_id  = '" & cafe_id            & "' "
+	sql = sql & "    and user_id  = '" & Session("user_id") & "' "
 	Conn.Execute(sql)
 
 	album_seq = new_seq
